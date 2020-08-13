@@ -31,7 +31,7 @@ namespace tktk
 
 	private:
 
-		HeapArray<IndexBufferData> m_indexBufferDataArray;
+		tktkContainer::HeapArray<IndexBufferData> m_indexBufferDataArray;
 	};
 }
 #endif // !INDEX_BUFFER_H_

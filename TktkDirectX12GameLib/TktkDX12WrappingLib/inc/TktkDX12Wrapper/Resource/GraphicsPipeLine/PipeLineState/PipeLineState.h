@@ -28,7 +28,7 @@ namespace tktk
 
 	private:
 
-		HeapArray<PipeLineStateData> m_pipeLineStateDataArray;
+		tktkContainer::HeapArray<PipeLineStateData> m_pipeLineStateDataArray;
 	};
 }
 #endif // !GRAPHICS_PIPELINE_STATE_H_

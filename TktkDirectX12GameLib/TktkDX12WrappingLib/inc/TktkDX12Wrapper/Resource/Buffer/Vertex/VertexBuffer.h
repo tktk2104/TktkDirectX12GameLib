@@ -31,7 +31,7 @@ namespace tktk
 
 	private:
 
-		HeapArray<VertexBufferData> m_vertexBufferDataArray;
+		tktkContainer::HeapArray<VertexBufferData> m_vertexBufferDataArray;
 	};
 }
 #endif // !VERTEX_BUFFER_H_

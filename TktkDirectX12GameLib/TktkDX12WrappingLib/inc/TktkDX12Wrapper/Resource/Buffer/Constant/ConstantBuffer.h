@@ -31,7 +31,7 @@ namespace tktk
 
 	private:
 
-		HeapArray<ConstantBufferData> m_constantBufferDataArray;
+		tktkContainer::HeapArray<ConstantBufferData> m_constantBufferDataArray;
 	};
 }
 #endif // !CONSTANT_BUFFER_H_

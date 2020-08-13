@@ -31,7 +31,7 @@ namespace tktk
 
 	private:
 
-		HeapArray<BasicDescriptorHeapData> m_basicDescriptorHeapDataArray;
+		tktkContainer::HeapArray<BasicDescriptorHeapData> m_basicDescriptorHeapDataArray;
 	};
 }
 #endif // !BASIC_DESCRIPTOR_HEAP_H_

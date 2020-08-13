@@ -24,7 +24,7 @@ namespace tktk
 
 	private:
 
-		HeapArray<ScissorRectData> m_scissorRectDataArray;
+		tktkContainer::HeapArray<ScissorRectData> m_scissorRectDataArray;
 	};
 }
 #endif // !SCISSOR_RECT_H_

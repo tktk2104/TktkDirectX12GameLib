@@ -3,7 +3,7 @@
 
 #include <memory>
 
-namespace tktk
+namespace tktkContainer
 {
 	template <class NodeType, class Allocator = std::allocator<NodeType>>
 	class HeapArray

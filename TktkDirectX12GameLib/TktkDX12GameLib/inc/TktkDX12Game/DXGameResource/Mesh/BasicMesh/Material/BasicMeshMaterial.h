@@ -42,7 +42,7 @@ namespace tktk
 
 	private:
 
-		HeapArray<BasicMeshMaterialData> m_basicMeshMaterialArray;
+		tktkContainer::HeapArray<BasicMeshMaterialData> m_basicMeshMaterialArray;
 	};
 }
 #endif // !BASIC_MESH_MATERIAL_H_

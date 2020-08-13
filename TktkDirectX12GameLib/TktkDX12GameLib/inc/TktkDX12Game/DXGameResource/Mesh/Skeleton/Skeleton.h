@@ -29,7 +29,7 @@ namespace tktk
 
 	private:
 
-		HeapArray<SkeletonData> m_skeletonArray;
+		tktkContainer::HeapArray<SkeletonData> m_skeletonArray;
 	};
 }
 #endif // !SKELETON_H_

@@ -23,7 +23,7 @@ namespace tktk
 
 	private:
 
-		HeapArray<MotionData> m_motionArray;
+		tktkContainer::HeapArray<MotionData> m_motionArray;
 	};
 }
 #endif // !MOTION_H_

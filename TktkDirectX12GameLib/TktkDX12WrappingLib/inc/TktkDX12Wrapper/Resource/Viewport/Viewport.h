@@ -23,7 +23,7 @@ namespace tktk
 
 	private:
 
-		HeapArray<ViewportData> m_viewportDataArray;
+		tktkContainer::HeapArray<ViewportData> m_viewportDataArray;
 	};
 }
 #endif // !VIEWPORT_H_

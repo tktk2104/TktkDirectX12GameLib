@@ -42,7 +42,7 @@ namespace tktk
 
 	private:
 
-		HeapArray<LightData> m_lightArray;
+		tktkContainer::HeapArray<LightData> m_lightArray;
 	};
 }
 #endif // !LIGHT_H_

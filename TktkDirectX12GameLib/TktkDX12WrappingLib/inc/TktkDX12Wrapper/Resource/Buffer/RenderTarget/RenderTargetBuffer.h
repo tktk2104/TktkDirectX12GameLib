@@ -45,7 +45,7 @@ namespace tktk
 
 	private:
 
-		HeapArray<RenderTargetBufferData>	m_renderTargetBufferDataArray;
+		tktkContainer::HeapArray<RenderTargetBufferData>	m_renderTargetBufferDataArray;
 	};
 }
 #endif // !RENDER_TARGET_BUFFER_H_

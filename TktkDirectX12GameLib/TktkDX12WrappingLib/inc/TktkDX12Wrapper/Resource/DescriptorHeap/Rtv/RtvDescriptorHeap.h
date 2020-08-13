@@ -39,7 +39,7 @@ namespace tktk
 
 	private:
 
-		HeapArray<RtvDescriptorHeapData> m_rtvDescriptorHeapDataArray;
+		tktkContainer::HeapArray<RtvDescriptorHeapData> m_rtvDescriptorHeapDataArray;
 	};
 }
 #endif // !RTV_DESCRIPTOR_HEAP_H_
