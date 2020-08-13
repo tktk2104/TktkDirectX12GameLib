@@ -1,0 +1,15 @@
+Debug/
+Release/
+res/
+FbxSdk/
+.vs/
+.sass-cache/
+.DS_Store
+Thumbs.db
+Log.txt
+# Git‚ÌŠÇ—‰º‚©‚çŠO‚·Šg’£q
+*.exe
+*.suo
+*.cso
+*.css.map
+
