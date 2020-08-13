@@ -28,8 +28,8 @@ namespace tktk
 
 	private:
 
-		ID3D12Resource* m_constantBuffer{ nullptr };
-		std::forward_list<ID3D12Resource*> m_uploadBufferList{};
+		ID3D12Resource*						m_constantBuffer{ nullptr };
+		std::forward_list<ID3D12Resource*>	m_uploadBufferList{};
 	};
 }
 #endif // !CONSTANT_BUFFER_DATA_H_

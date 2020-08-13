@@ -93,9 +93,6 @@
     <ClInclude Include="inc\TktkDX12Wrapper\Resource\Buffer\BufferResource.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="inc\TktkDX12Wrapper\Resource\Buffer\BufferResourceInitParam.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="inc\TktkDX12Wrapper\Resource\Buffer\BufferType.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -124,9 +121,6 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="inc\TktkDX12Wrapper\Resource\Buffer\RenderTarget\RenderTargetBufferData.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\TktkDX12Wrapper\Resource\Buffer\Texture\ShaderResourceViewInitParam.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="inc\TktkDX12Wrapper\Resource\Buffer\Texture\TextureBuffer.h">
@@ -214,6 +208,12 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="inc\TktkDX12Wrapper\Includer\D3d12Includer.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\TktkDX12Wrapper\Resource\Buffer\BufferResourceNum.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\TktkDX12Wrapper\Resource\Buffer\BufferResourceInitParamIncluder.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

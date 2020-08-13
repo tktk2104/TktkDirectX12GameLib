@@ -1,7 +1,7 @@
 #ifndef BUFFER_RESOURCE_H_
 #define BUFFER_RESOURCE_H_
 
-#include "BufferResourceInitParam.h"
+#include "BufferResourceNum.h"
 #include "Vertex/VertexBuffer.h"
 #include "Index/IndexBuffer.h"
 #include "Constant/ConstantBuffer.h"
@@ -16,7 +16,7 @@ namespace tktk
 	{
 	public:
 
-		BufferResource(const BufferResourceInitParam& initParam);
+		BufferResource(const BufferResourceNum& initParam);
 		~BufferResource() = default;
 
 	public: /* バッファ共通の処理 */

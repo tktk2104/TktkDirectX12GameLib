@@ -29,9 +29,9 @@ namespace tktk
 
 	private:
 
-		ID3D12Resource*				m_indexBuffer{ nullptr };
-		D3D12_INDEX_BUFFER_VIEW		m_indexBufferView{};
-		std::forward_list<ID3D12Resource*> m_uploadBufferList{};
+		ID3D12Resource*						m_indexBuffer		{ nullptr };
+		D3D12_INDEX_BUFFER_VIEW				m_indexBufferView	{};
+		std::forward_list<ID3D12Resource*>	m_uploadBufferList	{};
 	};
 }
 #endif // !INDEX_BUFFER_DATA_H_

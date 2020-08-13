@@ -2,7 +2,7 @@
 #define DX_3D_RESOURCE_INIT_PARAM_H_
 
 #include "DescriptorHeap/DescriptorHeapInitParam.h"
-#include "Buffer/BufferResourceInitParam.h"
+#include "Buffer/BufferResourceNum.h"
 
 namespace tktk
 {
@@ -13,7 +13,7 @@ namespace tktk
 		unsigned int pipeLineStateNum;
 		unsigned int rootSignatureNum;
 		DescriptorHeapInitParam descriptorHeapInitParam;
-		BufferResourceInitParam bufferResourceInitParam;
+		BufferResourceNum bufferResourceInitParam;
 	};
 }
 #endif // !DX_3D_RESOURCE_INIT_PARAM_H_

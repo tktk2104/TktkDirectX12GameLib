@@ -154,7 +154,8 @@
   <ItemGroup>
     <ClInclude Include="inc\TktkDX12Wrapper\Includer\D3d12Includer.h" />
     <ClInclude Include="inc\TktkDX12Wrapper\Resource\Buffer\BufferResource.h" />
-    <ClInclude Include="inc\TktkDX12Wrapper\Resource\Buffer\BufferResourceInitParam.h" />
+    <ClInclude Include="inc\TktkDX12Wrapper\Resource\Buffer\BufferResourceInitParamIncluder.h" />
+    <ClInclude Include="inc\TktkDX12Wrapper\Resource\Buffer\BufferResourceNum.h" />
     <ClInclude Include="inc\TktkDX12Wrapper\Resource\Buffer\BufferType.h" />
     <ClInclude Include="inc\TktkDX12Wrapper\Resource\Buffer\DepthStencil\DepthStencilBufferInitParam.h" />
     <ClInclude Include="inc\TktkDX12Wrapper\Resource\DescriptorHeap\Basic\BasicDescriptorHeap.h" />
@@ -166,7 +167,6 @@
     <ClInclude Include="inc\TktkDX12Wrapper\Resource\Buffer\DepthStencil\DepthStencilBufferData.h" />
     <ClInclude Include="inc\TktkDX12Wrapper\Resource\Buffer\RenderTarget\RenderTargetBuffer.h" />
     <ClInclude Include="inc\TktkDX12Wrapper\Resource\Buffer\RenderTarget\RenderTargetBufferData.h" />
-    <ClInclude Include="inc\TktkDX12Wrapper\Resource\Buffer\Texture\ShaderResourceViewInitParam.h" />
     <ClInclude Include="inc\TktkDX12Wrapper\Resource\Buffer\Texture\TextureBuffer.h" />
     <ClInclude Include="inc\TktkDX12Wrapper\Resource\Buffer\Texture\TextureBufferData.h" />
     <ClInclude Include="inc\TktkDX12Wrapper\Resource\Buffer\Texture\TextureBufferInitParam.h" />

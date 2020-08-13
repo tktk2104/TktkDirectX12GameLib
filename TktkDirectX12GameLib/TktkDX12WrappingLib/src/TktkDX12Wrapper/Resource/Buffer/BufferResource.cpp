@@ -2,7 +2,7 @@
 
 namespace tktk
 {
-	BufferResource::BufferResource(const BufferResourceInitParam& initParam)
+	BufferResource::BufferResource(const BufferResourceNum& initParam)
 		: m_vertexBuffer(initParam.vertexBufferNum)
 		, m_indexBuffer(initParam.indexBufferNum)
 		, m_constantBuffer(initParam.constantBufferNum)

@@ -1,12 +1,10 @@
 #ifndef RENDER_TARGET_BUFFER_DATA_H_
 #define RENDER_TARGET_BUFFER_DATA_H_
 
-#include <d3d12.h>
 #include <dxgi1_6.h>
-#undef min
-#undef max
 #include <TktkMath/Structs/Color.h>
 #include <TktkMath/Structs/Vector2.h>
+#include "../../../Includer/D3d12Includer.h"
 
 namespace tktk
 {
@@ -48,8 +46,8 @@ namespace tktk
 	private:
 
 		tktkMath::Vector2	m_renderTargetSize;
-		ID3D12Resource*		m_renderTargetBuffer{ nullptr };
-		bool				m_mustRelease{ true };
+		ID3D12Resource*		m_renderTargetBuffer	{ nullptr };
+		bool				m_mustRelease			{ true };
 	};
 }
 #endif // !RENDER_TARGET_BUFFER_DATA_H_
