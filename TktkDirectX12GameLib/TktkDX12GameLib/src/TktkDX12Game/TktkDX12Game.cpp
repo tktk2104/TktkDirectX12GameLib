@@ -4,124 +4,131 @@ namespace tktk
 {
 	const tktkMath::Vector2& DX12Game::getWindowSize()
 	{
-		// TODO: return ステートメントをここに挿入します
-	}
-
-	void DX12Game::enableScene(unsigned int id)
-	{
-	}
-
-	void DX12Game::disableScene(unsigned int id)
-	{
-	}
-
-	void DX12Game::SendMessageAll(unsigned int messageId, const MessageAttachment& value)
-	{
+		return DX12GameManager::getWindowSize();
 	}
 
 	GameObjectPtr DX12Game::createGameObject()
 	{
-		return GameObjectPtr();
-	}
-
-	GameObjectPtr DX12Game::findGameObjectWithTagImpl(int tag)
-	{
-		return GameObjectPtr();
-	}
-
-	std::forward_list<GameObjectPtr> DX12Game::findGameObjectsWithTagImpl(int tag)
-	{
-		return std::forward_list<GameObjectPtr>();
+		return DX12GameManager::createGameObject();
 	}
 
 	bool DX12Game::isPush(MouseButtonType buttonType)
 	{
-		return false;
+		return DX12GameManager::isPush(buttonType);
 	}
 
 	bool DX12Game::isTrigger(MouseButtonType buttonType)
 	{
-		return false;
+		return DX12GameManager::isTrigger(buttonType);
 	}
 
 	tktkMath::Vector2 DX12Game::mousePos()
 	{
-		return tktkMath::Vector2();
+		return DX12GameManager::mousePos();
 	}
 
 	bool DX12Game::isPush(KeybordKeyType keyType)
 	{
-		return false;
+		return DX12GameManager::isPush(keyType);
 	}
 
 	bool DX12Game::isTrigger(KeybordKeyType keyType)
 	{
-		return false;
+		return DX12GameManager::isTrigger(keyType);
 	}
 
 	tktkMath::Vector2 DX12Game::getLstick()
 	{
-		return tktkMath::Vector2();
+		return DX12GameManager::getLstick();
 	}
 
 	tktkMath::Vector2 DX12Game::getRstick()
 	{
-		return tktkMath::Vector2();
+		return DX12GameManager::getRstick();
 	}
 
-	bool DX12Game::isPush(GamePadBtnType btnType)
+	bool DX12Game::isPush(GamePadBtnType buttonType)
 	{
-		return false;
+		return DX12GameManager::isPush(buttonType);
 	}
 
-	bool DX12Game::isTrigger(GamePadBtnType btnType)
+	bool DX12Game::isTrigger(GamePadBtnType buttonType)
 	{
-		return false;
+		return DX12GameManager::isTrigger(buttonType);
 	}
 
-	void DX12Game::reset()
+	void DX12Game::resetElapsedTime()
 	{
+		DX12GameManager::reset();
 	}
 
 	float DX12Game::deltaTime()
 	{
-		return 0.0f;
+		return DX12GameManager::deltaTime();
 	}
 
 	float DX12Game::noScaleDeltaTime()
 	{
-		return 0.0f;
+		return DX12GameManager::noScaleDeltaTime();
 	}
 
 	float DX12Game::getCurTimeSec()
 	{
-		return 0.0f;
+		return DX12GameManager::getCurTimeSec();
 	}
 
 	void DX12Game::setMaximumDeltaTime(float maximumDeltaTime)
 	{
+		DX12GameManager::setMaximumDeltaTime(maximumDeltaTime);
 	}
 
 	float DX12Game::getTimeScale()
 	{
-		return 0.0f;
+		return DX12GameManager::getTimeScale();
 	}
 
 	void DX12Game::setTimeScale(float timeScaleRate)
 	{
+		DX12GameManager::setTimeScale(timeScaleRate);
 	}
 
 	void DX12Game::setBaseFps(unsigned int baseFps)
 	{
+		DX12GameManager::setBaseFps(baseFps);
 	}
 
 	unsigned int DX12Game::getBaseFps()
 	{
-		return 0;
+		return DX12GameManager::getBaseFps();
 	}
 
 	float DX12Game::fps()
 	{
-		return 0.0f;
+		return DX12GameManager::fps();
+	}
+
+	void DX12Game::enableSceneImpl(unsigned int id)
+	{
+		DX12GameManager::enableScene(id);
+	}
+
+	void DX12Game::disableSceneImpl(unsigned int id)
+	{
+		DX12GameManager::disableScene(id);
+	}
+
+	void DX12Game::sendMessageAllImpl(unsigned int messageId, const MessageAttachment& value)
+	{
+		DX12GameManager::sendMessageAll(messageId, value);
+	}
+
+	GameObjectPtr DX12Game::findGameObjectWithTagImpl(int tag)
+	{
+		return DX12GameManager::findGameObjectWithTag(tag);
+	}
+
+	std::forward_list<GameObjectPtr> DX12Game::findGameObjectsWithTagImpl(int tag)
+	{
+		return DX12GameManager::findGameObjectsWithTag(tag);
 	}
 }

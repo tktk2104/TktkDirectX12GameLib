@@ -483,6 +483,9 @@
     <ClInclude Include="inc\TktkDX12BaseComponents\3D\ColliderWireFrameDrawer3D\ColliderWireFrameDrawer3DMaker.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="inc\TktkDX12Game\TktkDX12Game.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\TktkDX12Game\_MainManager\DX12GameManager.cpp">
@@ -816,6 +819,9 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="src\TktkDX12BaseComponents\3D\ColliderWireFrameDrawer3D\ColliderWireFrameDrawer3DMaker.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TktkDX12Game\TktkDX12Game.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>

@@ -10,23 +10,32 @@ namespace tktk
 	// ※細かい処理を呼びたい場合は「DX12GameManager」を使ってください
 	class DX12Game
 	{
-	public: /* ウィンドウの処理 */
+	//************************************************************
+	/* ウィンドウの処理 */
+	public:
 
 		// ウィンドウサイズを取得する
 		static const tktkMath::Vector2& getWindowSize();
 
-	public: /* シーンの処理 */
+	//************************************************************
+	/* シーンの処理 */
+	public:
 
 		// シーンを有効にする
-		static void enableScene(unsigned int id);
+		template <class SceneType>
+		static void enableScene(SceneType id);
 
 		// シーンを無効にする
-		static void disableScene(unsigned int id);
+		template <class SceneType>
+		static void disableScene(SceneType id);
 
-	public: /* ゲームオブジェクトの処理 */
+	//************************************************************
+	/* ゲームオブジェクトの処理 */
+	public:
 
 		// 全てのGameObjectにメッセージを送信する
-		static void SendMessageAll(unsigned int messageId, const MessageAttachment& value = {});
+		template <class MessageIdType>
+		static void sendMessageAll(MessageIdType messageId, const MessageAttachment& value = {});
 
 		// ゲームオブジェクトを作成し、そのポインタを返す
 		static GameObjectPtr createGameObject();
@@ -40,7 +49,9 @@ namespace tktk
 		template <class GameObjectTagType>
 		static std::forward_list<GameObjectPtr> findGameObjectsWithTag(GameObjectTagType tag);
 
-	public: /* マウス入力関係の処理 */
+	//************************************************************
+	/* マウス入力関係の処理 */
+	public:
 
 		// 指定のボタンが押されているか
 		static bool isPush(MouseButtonType buttonType);
@@ -51,7 +62,9 @@ namespace tktk
 		// マウスカーソルの座標を取得する
 		static tktkMath::Vector2 mousePos();
 
-	public: /* キーボード入力関係の処理 */
+	//************************************************************
+	/* キーボード入力関係の処理 */
+	public:
 
 		// 指定のキーが押されているかを判定
 		static bool isPush(KeybordKeyType keyType);
@@ -59,7 +72,9 @@ namespace tktk
 		// 指定のキーが押され始めたかを判定
 		static bool isTrigger(KeybordKeyType keyType);
 
-	public: /* ゲームパッド入力関係の処理 */
+	//************************************************************
+	/* ゲームパッド入力関係の処理 */
+	public:
 
 		// 左スティックの傾きを取得（-1.0～1.0の間）
 		static tktkMath::Vector2 getLstick();
@@ -68,15 +83,17 @@ namespace tktk
 		static tktkMath::Vector2 getRstick();
 
 		// 指定のボタンが押されているかを判定
-		static bool isPush(GamePadBtnType btnType);
+		static bool isPush(GamePadBtnType buttonType);
 
 		// 指定のボタンが押され始めたかを判定
-		static bool isTrigger(GamePadBtnType btnType);
+		static bool isTrigger(GamePadBtnType buttonType);
 
-	public: /* タイム関係の処理 */
+	//************************************************************
+	/* タイム関係の処理 */
+	public:
 
 		// 経過時間を初期化する
-		static void reset();
+		static void resetElapsedTime();
 
 		// 前フレームとの時間の差を求める
 		static float deltaTime();
@@ -105,9 +122,13 @@ namespace tktk
 		// 瞬間的なFPSを取得する
 		static float fps();
 
+	//************************************************************
+	/* 非テンプレート関数 */
 	private:
 
-		// 非テンプレート関数
+		static void enableSceneImpl(unsigned int id);
+		static void disableSceneImpl(unsigned int id);
+		static void sendMessageAllImpl(unsigned int messageId, const MessageAttachment& value);
 		static GameObjectPtr findGameObjectWithTagImpl(int tag);
 		static std::forward_list<GameObjectPtr> findGameObjectsWithTagImpl(int tag);
 	};
@@ -115,18 +136,40 @@ namespace tktk
 //┃ここから下は関数の実装
 //┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
+	// シーンを有効にする
+	template<class SceneType>
+	inline void DX12Game::enableScene(SceneType id)
+	{
+		enableSceneImpl(static_cast<unsigned int>(id));
+	}
 
+	// シーンを無効にする
+	template<class SceneType>
+	inline void DX12Game::disableScene(SceneType id)
+	{
+		disableSceneImpl(static_cast<unsigned int>(id));
+	}
+
+	// 全てのGameObjectにメッセージを送信する
+	template<class MessageIdType>
+	inline void DX12Game::sendMessageAll(MessageIdType messageId, const MessageAttachment& value)
+	{
+		sendMessageAllImpl(static_cast<unsigned int>(messageId), value);
+	}
+
+	// 引数のタグを持ったゲームオブジェクトを取得する
+	// ※複数該当オブジェクトがあった場合、最初に見つけた１つを取得する
 	template<class GameObjectTagType>
 	inline GameObjectPtr DX12Game::findGameObjectWithTag(GameObjectTagType tag)
 	{
-		return GameObjectPtr();
+		return findGameObjectWithTagImpl(static_cast<int>(tag));
 	}
 
+	// 引数のタグを持ったゲームオブジェクトを全て取得する
 	template<class GameObjectTagType>
 	inline std::forward_list<GameObjectPtr> DX12Game::findGameObjectsWithTag(GameObjectTagType tag)
 	{
-		return std::forward_list<GameObjectPtr>();
+		return findGameObjectsWithTagImpl(static_cast<int>(tag));
 	}
-
 }
 #endif // !TKTK_DX12_GAME_H_

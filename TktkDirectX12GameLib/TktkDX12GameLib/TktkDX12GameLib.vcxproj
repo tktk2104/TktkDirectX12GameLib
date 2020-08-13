@@ -303,6 +303,7 @@
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\Sound\SoundData.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\Sound\SoundPlayState.h" />
     <ClInclude Include="inc\TktkDX12Game\Time\ElapsedTimer.h" />
+    <ClInclude Include="inc\TktkDX12Game\TktkDX12Game.h" />
     <ClInclude Include="inc\TktkDX12Game\_MainManager\DX12GameManager.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\_SystemDXGameResourceIdGetter\IdType\SystemPostEffectMaterialType.h" />
     <ClInclude Include="inc\TktkDX12Game\_MainManager\DX12GameManagerFuncInOutValueType.h" />
@@ -420,6 +421,7 @@
     <ClCompile Include="src\TktkDX12Game\DXGameResource\Sound\Sound.cpp" />
     <ClCompile Include="src\TktkDX12Game\DXGameResource\Sound\SoundData.cpp" />
     <ClCompile Include="src\TktkDX12Game\Time\ElapsedTimer.cpp" />
+    <ClCompile Include="src\TktkDX12Game\TktkDX12Game.cpp" />
     <ClCompile Include="src\TktkDX12Game\_MainManager\DX12GameManager.cpp" />
   </ItemGroup>
   <ItemGroup>
