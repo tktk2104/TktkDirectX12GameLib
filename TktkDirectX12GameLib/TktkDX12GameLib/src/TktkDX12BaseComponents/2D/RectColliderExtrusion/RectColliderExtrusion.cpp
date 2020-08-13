@@ -26,10 +26,10 @@ namespace tktk
 		auto selfCollider = getComponent<tktk::RectCollider>();
 		if (selfTransform.expired() || selfCollider.expired()) return;
 
-		auto selfPos = selfTransform->getWorldPosition();
-		auto selfVertexs = static_cast<const BoundingPolygon2d&>(selfCollider->getBodyBase()).calculateVertexs();
-		auto enemyPos = otherTransform->getWorldPosition();
-		auto enemyVertexs = static_cast<const BoundingPolygon2d&>(otherCollider->getBodyBase()).calculateVertexs();
+		const auto& selfPos = selfTransform->getWorldPosition();
+		auto selfVertexs = static_cast<const tktkCollision::BoundingPolygon2d&>(selfCollider->getBodyBase()).calculateVertexs();
+		const auto& enemyPos = otherTransform->getWorldPosition();
+		auto enemyVertexs = static_cast<const tktkCollision::BoundingPolygon2d&>(otherCollider->getBodyBase()).calculateVertexs();
 
 		// äÓèÄÇ∆Ç»ÇÈç∑Åiç≈Ç‡í∑Ç≥ÇÃç∑Ç™è¨Ç≥Ç¢Åj
 		float referenceDist = INFINITY;

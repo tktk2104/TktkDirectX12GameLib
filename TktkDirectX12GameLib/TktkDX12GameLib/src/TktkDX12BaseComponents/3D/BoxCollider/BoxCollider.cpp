@@ -49,12 +49,12 @@ namespace tktk
 		return false;
 	}
 
-	const Body3dBase & BoxCollider::getBodyBase() const
+	const tktkCollision::Body3dBase & BoxCollider::getBodyBase() const
 	{
 		return m_boundingBox;
 	}
 
-	const HitInfo3D & BoxCollider::getHitInfo3D() const
+	const tktkCollision::HitInfo3D & BoxCollider::getHitInfo3D() const
 	{
 		return m_hitInfo;
 	}

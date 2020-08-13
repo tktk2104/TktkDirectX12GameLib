@@ -31,18 +31,18 @@ namespace tktk
 	public:
 
 		// 当たり判定のクラスを取得
-		const Body2dBase& getBodyBase() const;
+		const tktkCollision::Body2dBase& getBodyBase() const;
 
 		// 直前の衝突判定の結果を取得
-		const HitInfo2D& getHitInfo2D() const;
+		const tktkCollision::HitInfo2D& getHitInfo2D() const;
 
 	private:
 
 		// 衝突判定結果
-		HitInfo2D m_hitInfo;
+		tktkCollision::HitInfo2D m_hitInfo;
 
 		// 円の衝突判定クラス
-		BoundingCircle m_boundingCircle;
+		tktkCollision::BoundingCircle m_boundingCircle;
 
 		// 自身の２次元座標コンポーネント
 		ComponentPtr<Transform2D> m_transform2D;

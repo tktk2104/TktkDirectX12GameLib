@@ -23,7 +23,7 @@ namespace tktk
 
 		for (const auto & circleCollider : circleColliderList)
 		{
-			const BoundingCircle& boundingCircle = static_cast<const BoundingCircle&>(circleCollider->getBodyBase());
+			const tktkCollision::BoundingCircle& boundingCircle = static_cast<const tktkCollision::BoundingCircle&>(circleCollider->getBodyBase());
 
 			std::vector<tktkMath::Vector2> vertexArray;
 			vertexArray.reserve(20U + 1U);
@@ -57,7 +57,7 @@ namespace tktk
 
 		for (const auto & rectCollider : rectColliderList)
 		{
-			const BoundingPolygon2d& boundingPolygon2d = static_cast<const BoundingPolygon2d&>(rectCollider->getBodyBase());
+			const tktkCollision::BoundingPolygon2d& boundingPolygon2d = static_cast<const tktkCollision::BoundingPolygon2d&>(rectCollider->getBodyBase());
 
 			std::vector<tktkMath::Vector2> vertexArray = boundingPolygon2d.calculateLocalVertexs();
 			vertexArray.push_back(boundingPolygon2d.calculateLocalVertexs().at(0));
@@ -80,7 +80,7 @@ namespace tktk
 
 		for (const auto & polygon2dCollider : polygon2dColliderList)
 		{
-			const BoundingPolygon2d& boundingPolygon2d = static_cast<const BoundingPolygon2d&>(polygon2dCollider->getBodyBase());
+			const tktkCollision::BoundingPolygon2d& boundingPolygon2d = static_cast<const tktkCollision::BoundingPolygon2d&>(polygon2dCollider->getBodyBase());
 
 			std::vector<tktkMath::Vector2> vertexArray = boundingPolygon2d.calculateLocalVertexs();
 			vertexArray.push_back(boundingPolygon2d.calculateLocalVertexs().at(0));
