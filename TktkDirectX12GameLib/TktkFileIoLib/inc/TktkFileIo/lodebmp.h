@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 
-namespace tktk
+namespace tktkFileIo
 {
 	// ※「OS/2」フォーマットには未対応
 	class lodebmp

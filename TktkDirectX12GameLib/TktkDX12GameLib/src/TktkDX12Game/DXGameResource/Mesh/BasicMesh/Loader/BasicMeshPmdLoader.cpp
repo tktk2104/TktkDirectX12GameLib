@@ -6,16 +6,16 @@
 namespace tktk
 {
 	// スケルトンを作る
-	inline void craeteSkeleton(unsigned int createSkeletonId, const std::vector<lodepmd::loadData::OutBone>& boneData);
+	inline void craeteSkeleton(unsigned int createSkeletonId, const std::vector<tktkFileIo::lodepmd::loadData::OutBone>& boneData);
 
 	// 読み込み関数
 	BasicMeshLoadPmdReturnValue BasicMeshPmdLoader::loadPmd(const BasicMeshLoadPmdArgs& args)
 	{
 		// pmdファイルのロード処理の出力変数
-		lodepmd::loadData outData{};
+		tktkFileIo::lodepmd::loadData outData{};
 
 		// ロードを行う
-		lodepmd::load(&outData, args.filePath);
+		tktkFileIo::lodepmd::load(&outData, args.filePath);
 
 		// 頂点バッファを作る
 		DX12GameManager::createVertexBuffer(args.createVertexBufferId, outData.vertexData);
@@ -160,7 +160,7 @@ namespace tktk
 	}
 
 	// スケルトンを作る
-	void craeteSkeleton(unsigned int createSkeletonId, const std::vector<lodepmd::loadData::OutBone>& boneData)
+	void craeteSkeleton(unsigned int createSkeletonId, const std::vector<tktkFileIo::lodepmd::loadData::OutBone>& boneData)
 	{
 		// 骨情報の作成に必要な情報
 		SkeletonInitParam skeletonInitParam{};

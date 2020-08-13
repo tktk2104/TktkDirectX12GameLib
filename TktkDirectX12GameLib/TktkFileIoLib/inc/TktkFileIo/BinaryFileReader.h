@@ -4,11 +4,13 @@
 #include <string>
 #include <vector>
 
-class BinaryFileReader
+namespace tktkFileIo
 {
-public:
+	class BinaryFileReader
+	{
+	public:
 
-	static void fileRead(const std::string& filePath, std::vector<unsigned char>* out);
-};
-
+		static void fileRead(const std::string& filePath, std::vector<unsigned char>* out);
+	};
+}
 #endif // !BINARY_FILE_READER_H_

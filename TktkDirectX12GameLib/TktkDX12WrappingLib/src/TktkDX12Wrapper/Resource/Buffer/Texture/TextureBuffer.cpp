@@ -42,8 +42,8 @@ namespace tktk
 			formatParam.sampleDescCount = 1U;
 			formatParam.sampleDescQuality = 0U;
 
-			lodebmp::loadData outData{};
-			lodebmp::load(&outData, texDataPath);
+			tktkFileIo::lodebmp::loadData outData{};
+			tktkFileIo::lodebmp::load(&outData, texDataPath);
 			dataParam.width = outData.width;
 			dataParam.height = outData.height;
 			dataParam.textureData.resize(outData.data.size());
@@ -85,8 +85,8 @@ namespace tktk
 			formatParam.sampleDescCount = 1U;
 			formatParam.sampleDescQuality = 0U;
 
-			lodebmp::loadData outData{};
-			lodebmp::load(&outData, texDataPath);
+			tktkFileIo::lodebmp::loadData outData{};
+			tktkFileIo::lodebmp::load(&outData, texDataPath);
 			dataParam.width = outData.width;
 			dataParam.height = outData.height;
 			dataParam.textureData.resize(outData.data.size());

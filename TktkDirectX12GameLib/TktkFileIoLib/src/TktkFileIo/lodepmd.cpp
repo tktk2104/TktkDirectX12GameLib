@@ -3,7 +3,7 @@
 #include <filesystem>
 #include <unordered_map>
 
-namespace tktk
+namespace tktkFileIo
 {
 	struct PmdHeader
 	{

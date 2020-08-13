@@ -7,9 +7,9 @@ namespace tktk
 {
     MotionData::MotionData(const std::string& motionFileName)
     {
-        lodevmd::loadData outData{};
+        tktkFileIo::lodevmd::loadData outData{};
 
-        lodevmd::load(&outData, motionFileName);
+        tktkFileIo::lodevmd::load(&outData, motionFileName);
 
         for (const auto& node : outData.motionData)
         {

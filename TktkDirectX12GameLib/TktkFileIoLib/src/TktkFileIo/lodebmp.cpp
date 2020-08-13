@@ -2,7 +2,7 @@
 
 #include <filesystem>
 
-namespace tktk
+namespace tktkFileIo
 {
 #pragma pack(push, 1)
 	struct BmpHeader

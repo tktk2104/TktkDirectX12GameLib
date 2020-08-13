@@ -5,7 +5,7 @@
 #include <vector>
 #include <d3d11.h>
 
-namespace tktk
+namespace tktkFileIo
 {
 #pragma pack(push, 1)
 	struct DDS_PIXELFORMAT
@@ -62,12 +62,12 @@ namespace tktk
 
 	public:
 
-		static void load(loadData* outData, const std::string & fileName);
+		static void load(loadData* outData, const std::string& fileName);
 
 	private:
 
 		static void createTextureFromDDS(loadData* outData, const DDS_HEADER* header, const unsigned char* bitData, unsigned int bitSize, unsigned int maxSize);
-	
+
 		static void fillInitData(
 			loadData* outData,
 			unsigned int width,
