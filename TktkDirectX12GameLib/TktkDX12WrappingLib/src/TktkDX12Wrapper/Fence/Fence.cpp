@@ -1,5 +1,9 @@
 #include "TktkDX12Wrapper/Fence/Fence.h"
 
+#ifdef _DEBUG
+#include <stdexcept>
+#endif // _DEBUG
+
 namespace tktk
 {
 	Fence::~Fence()
@@ -28,6 +32,12 @@ namespace tktk
 
 			// フェンスにGPU処理が終わったらイベントを発生させる事を設定する
 			m_fence->SetEventOnCompletion(m_fenceVal, eventHandle);
+
+#ifdef _DEBUG
+			if (eventHandle == nullptr) throw std::runtime_error("EventHandle Fraud Ptr");
+#else
+			if (eventHandle == nullptr) return;
+#endif // _DEBUG
 
 			// フェンスに指定したイベントが発生するまで無限に待ち続ける
 			WaitForSingleObject(eventHandle, INFINITE);
