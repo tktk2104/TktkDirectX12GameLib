@@ -174,7 +174,7 @@ namespace tktk
 		m_dxGameResource->disableScene(id);
 	}
 
-	void DX12GameManager::SendMessageAll(unsigned int messageId, const MessageAttachment& value)
+	void DX12GameManager::sendMessageAll(unsigned int messageId, const MessageAttachment& value)
 	{
 		m_gameObjectManager->runHandleMessageAll(messageId, value);
 	}

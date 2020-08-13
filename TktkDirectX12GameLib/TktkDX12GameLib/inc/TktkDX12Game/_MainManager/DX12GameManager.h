@@ -67,7 +67,7 @@ namespace tktk
 	public: /* ゲームオブジェクトの処理 */
 
 		// 全てのGameObjectにメッセージを送信する
-		static void SendMessageAll(unsigned int messageId, const MessageAttachment& value = {});
+		static void sendMessageAll(unsigned int messageId, const MessageAttachment& value = {});
 
 		// ゲームオブジェクトを作成し、そのポインタを返す
 		static GameObjectPtr createGameObject();
