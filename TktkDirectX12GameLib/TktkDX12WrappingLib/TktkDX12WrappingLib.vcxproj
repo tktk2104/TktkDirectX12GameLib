@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <ProjectGuid>{1FB321F6-65B0-45BC-9EB5-91F71E7FC0B8}</ProjectGuid>
+    <RootNamespace>TktkDX12WrappingLib</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(SolutionDir)lib\</OutDir>
+    <TargetName>$(ProjectName)_mtd</TargetName>
+    <IncludePath>$(SolutionDir)TktkFileIoLib\inc;$(SolutionDir)TktkTemplateMetaLib\inc;$(SolutionDir)TktkContainerLib\inc;$(SolutionDir)TktkMathLib\inc;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)lib\</OutDir>
+    <TargetName>$(ProjectName)_mt</TargetName>
+    <IncludePath>$(SolutionDir)TktkFileIoLib\inc;$(SolutionDir)TktkTemplateMetaLib\inc;$(SolutionDir)TktkContainerLib\inc;$(SolutionDir)TktkMathLib\inc;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>.\inc</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <DebugInformationFormat>OldStyle</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>.\inc</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <DebugInformationFormat>None</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="inc\TktkDX12Wrapper\Resource\Buffer\BufferResource.h" />
+    <ClInclude Include="inc\TktkDX12Wrapper\Resource\Buffer\BufferResourceInitParam.h" />
+    <ClInclude Include="inc\TktkDX12Wrapper\Resource\Buffer\BufferType.h" />
+    <ClInclude Include="inc\TktkDX12Wrapper\Resource\Buffer\DepthStencil\DepthStencilBufferInitParam.h" />
+    <ClInclude Include="inc\TktkDX12Wrapper\Resource\DescriptorHeap\Basic\BasicDescriptorHeap.h" />
+    <ClInclude Include="inc\TktkDX12Wrapper\Resource\DescriptorHeap\Basic\BasicDescriptorHeapData.h" />
+    <ClInclude Include="inc\TktkDX12Wrapper\Resource\DescriptorHeap\Basic\BasicDescriptorHeapInitParam.h" />
+    <ClInclude Include="inc\TktkDX12Wrapper\Resource\Buffer\Constant\ConstantBuffer.h" />
+    <ClInclude Include="inc\TktkDX12Wrapper\Resource\Buffer\Constant\ConstantBufferData.h" />
+    <ClInclude Include="inc\TktkDX12Wrapper\Resource\Buffer\DepthStencil\DepthStencilBuffer.h" />
+    <ClInclude Include="inc\TktkDX12Wrapper\Resource\Buffer\DepthStencil\DepthStencilBufferData.h" />
+    <ClInclude Include="inc\TktkDX12Wrapper\Resource\Buffer\RenderTarget\RenderTargetBuffer.h" />
+    <ClInclude Include="inc\TktkDX12Wrapper\Resource\Buffer\RenderTarget\RenderTargetBufferData.h" />
+    <ClInclude Include="inc\TktkDX12Wrapper\Resource\Buffer\Texture\ShaderResourceViewInitParam.h" />
+    <ClInclude Include="inc\TktkDX12Wrapper\Resource\Buffer\Texture\TextureBuffer.h" />
+    <ClInclude Include="inc\TktkDX12Wrapper\Resource\Buffer\Texture\TextureBufferData.h" />
+    <ClInclude Include="inc\TktkDX12Wrapper\Resource\Buffer\Texture\TextureBufferInitParam.h" />
+    <ClInclude Include="inc\TktkDX12Wrapper\Resource\DescriptorHeap\DescriptorHeap.h" />
+    <ClInclude Include="inc\TktkDX12Wrapper\Resource\DescriptorHeap\DescriptorHeapInitParam.h" />
+    <ClInclude Include="inc\TktkDX12Wrapper\Resource\DescriptorHeap\DescriptorHeapParam.h" />
+    <ClInclude Include="inc\TktkDX12Wrapper\Resource\DescriptorHeap\Dsv\DsvDescriptorHeap.h" />
+    <ClInclude Include="inc\TktkDX12Wrapper\Resource\DescriptorHeap\Dsv\DsvDescriptorHeapData.h" />
+    <ClInclude Include="inc\TktkDX12Wrapper\Resource\DescriptorHeap\Dsv\DsvDescriptorHeapInitParam.h" />
+    <ClInclude Include="inc\TktkDX12Wrapper\Resource\DescriptorHeap\Rtv\RtvDescriptorHeap.h" />
+    <ClInclude Include="inc\TktkDX12Wrapper\Resource\DescriptorHeap\Rtv\RtvDescriptorHeapData.h" />
+    <ClInclude Include="inc\TktkDX12Wrapper\Resource\DescriptorHeap\Rtv\RtvDescriptorHeapInitParam.h" />
+    <ClInclude Include="inc\TktkDX12Wrapper\Resource\DX3DResource.h" />
+    <ClInclude Include="inc\TktkDX12Wrapper\Resource\DX3DResourceInitParam.h" />
+    <ClInclude Include="inc\TktkDX12Wrapper\Resource\GraphicsPipeLine\GraphicsPipeLine.h" />
+    <ClInclude Include="inc\TktkDX12Wrapper\Resource\_SystemResourceIdGetter\SystemResourceIdGetter.h" />
+    <ClInclude Include="inc\TktkDX12Wrapper\Resource\_SystemResourceIdGetter\SystemResourceType.h" />
+    <ClInclude Include="inc\TktkDX12Wrapper\Resource\_SystemResourceIdGetter\IdType\SystemBasicDescriptorHeapType.h" />
+    <ClInclude Include="inc\TktkDX12Wrapper\Resource\_SystemResourceIdGetter\IdType\SystemConstantBufferType.h" />
+    <ClInclude Include="inc\TktkDX12Wrapper\Resource\_SystemResourceIdGetter\IdType\SystemDepthStencilBufferType.h" />
+    <ClInclude Include="inc\TktkDX12Wrapper\Resource\_SystemResourceIdGetter\IdType\SystemDsvDescriptorHeapType.h" />
+    <ClInclude Include="inc\TktkDX12Wrapper\Resource\_SystemResourceIdGetter\IdType\SystemIndexBufferType.h" />
+    <ClInclude Include="inc\TktkDX12Wrapper\Resource\_SystemResourceIdGetter\IdType\SystemPipeLineStateType.h" />
+    <ClInclude Include="inc\TktkDX12Wrapper\Resource\_SystemResourceIdGetter\IdType\SystemRenderTargetBufferType.h" />
+    <ClInclude Include="inc\TktkDX12Wrapper\Resource\_SystemResourceIdGetter\IdType\SystemRootSignatureType.h" />
+    <ClInclude Include="inc\TktkDX12Wrapper\Resource\_SystemResourceIdGetter\IdType\SystemRtvDescriptorHeapType.h" />
+    <ClInclude Include="inc\TktkDX12Wrapper\Resource\_SystemResourceIdGetter\IdType\SystemScissorRectType.h" />
+    <ClInclude Include="inc\TktkDX12Wrapper\Resource\_SystemResourceIdGetter\IdType\SystemTextureBufferType.h" />
+    <ClInclude Include="inc\TktkDX12Wrapper\Resource\_SystemResourceIdGetter\IdType\SystemVertexBufferType.h" />
+    <ClInclude Include="inc\TktkDX12Wrapper\Resource\_SystemResourceIdGetter\IdType\SystemViewportType.h" />
+    <ClInclude Include="inc\TktkDX12Wrapper\Fence\Fence.h" />
+    <ClInclude Include="inc\TktkDX12Wrapper\Resource\GraphicsPipeLine\PipeLineState\PipeLineState.h" />
+    <ClInclude Include="inc\TktkDX12Wrapper\Resource\GraphicsPipeLine\PipeLineState\PipeLineStateData.h" />
+    <ClInclude Include="inc\TktkDX12Wrapper\Resource\GraphicsPipeLine\PipeLineState\PipeLineStateInitParam.h" />
+    <ClInclude Include="inc\TktkDX12Wrapper\Resource\GraphicsPipeLine\RootSignature\RootSignature.h" />
+    <ClInclude Include="inc\TktkDX12Wrapper\Resource\GraphicsPipeLine\RootSignature\RootSignatureData.h" />
+    <ClInclude Include="inc\TktkDX12Wrapper\Resource\GraphicsPipeLine\RootSignature\RootSignatureInitParam.h" />
+    <ClInclude Include="inc\TktkDX12Wrapper\Resource\Buffer\Index\IndexBuffer.h" />
+    <ClInclude Include="inc\TktkDX12Wrapper\Resource\Buffer\Index\IndexBufferData.h" />
+    <ClInclude Include="inc\TktkDX12Wrapper\Resource\ScissorRect\ScissorRect.h" />
+    <ClInclude Include="inc\TktkDX12Wrapper\Resource\ScissorRect\ScissorRectData.h" />
+    <ClInclude Include="inc\TktkDX12Wrapper\Resource\ScissorRect\ScissorRectInitParam.h" />
+    <ClInclude Include="inc\TktkDX12Wrapper\SwapChain\SwapChain.h" />
+    <ClInclude Include="inc\TktkDX12Wrapper\Resource\Buffer\Vertex\VertexBuffer.h" />
+    <ClInclude Include="inc\TktkDX12Wrapper\Resource\Buffer\Vertex\VertexBufferData.h" />
+    <ClInclude Include="inc\TktkDX12Wrapper\Resource\Viewport\Viewport.h" />
+    <ClInclude Include="inc\TktkDX12Wrapper\Resource\Viewport\ViewportData.h" />
+    <ClInclude Include="inc\TktkDX12Wrapper\Resource\Viewport\ViewportInitParam.h" />
+    <ClInclude Include="inc\TktkDX12Wrapper\_BaseObjects\DX3DBaseObjects.h" />
+    <ClInclude Include="inc\TktkDX12Wrapper\Window\Window.h" />
+    <ClInclude Include="inc\TktkDX12Wrapper\Window\WindowInitParam.h" />
+    <ClInclude Include="inc\TktkDX12WrappingLibDefinition.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\TktkDX12Wrapper\Resource\Buffer\BufferResource.cpp" />
+    <ClCompile Include="src\TktkDX12Wrapper\Resource\DescriptorHeap\Basic\BasicDescriptorHeap.cpp" />
+    <ClCompile Include="src\TktkDX12Wrapper\Resource\DescriptorHeap\Basic\BasicDescriptorHeapData.cpp" />
+    <ClCompile Include="src\TktkDX12Wrapper\Resource\Buffer\Constant\ConstantBuffer.cpp" />
+    <ClCompile Include="src\TktkDX12Wrapper\Resource\Buffer\Constant\ConstantBufferData.cpp" />
+    <ClCompile Include="src\TktkDX12Wrapper\Resource\Buffer\DepthStencil\DepthStencilBuffer.cpp" />
+    <ClCompile Include="src\TktkDX12Wrapper\Resource\Buffer\DepthStencil\DepthStencilBufferData.cpp" />
+    <ClCompile Include="src\TktkDX12Wrapper\Resource\Buffer\RenderTarget\RenderTargetBuffer.cpp" />
+    <ClCompile Include="src\TktkDX12Wrapper\Resource\Buffer\RenderTarget\RenderTargetBufferData.cpp" />
+    <ClCompile Include="src\TktkDX12Wrapper\Resource\Buffer\Texture\TextureBuffer.cpp" />
+    <ClCompile Include="src\TktkDX12Wrapper\Resource\Buffer\Texture\TextureBufferData.cpp" />
+    <ClCompile Include="src\TktkDX12Wrapper\Resource\DescriptorHeap\DescriptorHeap.cpp" />
+    <ClCompile Include="src\TktkDX12Wrapper\Resource\DescriptorHeap\Dsv\DsvDescriptorHeap.cpp" />
+    <ClCompile Include="src\TktkDX12Wrapper\Resource\DescriptorHeap\Dsv\DsvDescriptorHeapData.cpp" />
+    <ClCompile Include="src\TktkDX12Wrapper\Resource\DescriptorHeap\Rtv\RtvDescriptorHeap.cpp" />
+    <ClCompile Include="src\TktkDX12Wrapper\Resource\DescriptorHeap\Rtv\RtvDescriptorHeapData.cpp" />
+    <ClCompile Include="src\TktkDX12Wrapper\Resource\DX3DResource.cpp" />
+    <ClCompile Include="src\TktkDX12Wrapper\Resource\GraphicsPipeLine\GraphicsPipeLine.cpp" />
+    <ClCompile Include="src\TktkDX12Wrapper\Resource\_SystemResourceIdGetter\SystemResourceIdGetter.cpp" />
+    <ClCompile Include="src\TktkDX12Wrapper\Fence\Fence.cpp" />
+    <ClCompile Include="src\TktkDX12Wrapper\Resource\GraphicsPipeLine\PipeLineState\PipeLineState.cpp" />
+    <ClCompile Include="src\TktkDX12Wrapper\Resource\GraphicsPipeLine\PipeLineState\PipeLineStateData.cpp" />
+    <ClCompile Include="src\TktkDX12Wrapper\Resource\GraphicsPipeLine\RootSignature\RootSignature.cpp" />
+    <ClCompile Include="src\TktkDX12Wrapper\Resource\GraphicsPipeLine\RootSignature\RootSignatureData.cpp" />
+    <ClCompile Include="src\TktkDX12Wrapper\Resource\Buffer\Index\IndexBuffer.cpp" />
+    <ClCompile Include="src\TktkDX12Wrapper\Resource\Buffer\Index\IndexBufferData.cpp" />
+    <ClCompile Include="src\TktkDX12Wrapper\Resource\ScissorRect\ScissorRect.cpp" />
+    <ClCompile Include="src\TktkDX12Wrapper\Resource\ScissorRect\ScissorRectData.cpp" />
+    <ClCompile Include="src\TktkDX12Wrapper\SwapChain\SwapChain.cpp" />
+    <ClCompile Include="src\TktkDX12Wrapper\Resource\Buffer\Vertex\VertexBuffer.cpp" />
+    <ClCompile Include="src\TktkDX12Wrapper\Resource\Buffer\Vertex\VertexBufferData.cpp" />
+    <ClCompile Include="src\TktkDX12Wrapper\Resource\Viewport\Viewport.cpp" />
+    <ClCompile Include="src\TktkDX12Wrapper\Resource\Viewport\ViewportData.cpp" />
+    <ClCompile Include="src\TktkDX12Wrapper\_BaseObjects\DX3DBaseObjects.cpp" />
+    <ClCompile Include="src\TktkDX12Wrapper\Window\Window.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="shader\drawRenderTargetShader\DrawRenderTargetPixelShader.hlsl">
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectDir)\shader\drawRenderTargetShader\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectDir)\shader\drawRenderTargetShader\%(Filename).cso</ObjectFileOutput>
+    </FxCompile>
+    <FxCompile Include="shader\drawRenderTargetShader\DrawRenderTargetVertexShader.hlsl">
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectDir)\shader\drawRenderTargetShader\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectDir)\shader\drawRenderTargetShader\%(Filename).cso</ObjectFileOutput>
+    </FxCompile>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

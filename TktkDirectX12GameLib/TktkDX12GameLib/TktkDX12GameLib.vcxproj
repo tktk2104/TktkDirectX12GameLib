@@ -1,0 +1,510 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <ProjectGuid>{45000072-BEC9-43D8-AB03-29B5C2959261}</ProjectGuid>
+    <RootNamespace>TktkDX12GameLib</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(SolutionDir)lib\</OutDir>
+    <TargetName>$(ProjectName)_mtd</TargetName>
+    <IncludePath>$(SolutionDir)TktkFileIoLib\inc;$(SolutionDir)TktkTemplateMetaLib\inc;$(SolutionDir)TktkContainerLib\inc;$(SolutionDir)TktkMathLib\inc;$(SolutionDir)TktkDX12WrappingLib\inc;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)lib\</OutDir>
+    <TargetName>$(ProjectName)_mt</TargetName>
+    <IncludePath>$(SolutionDir)TktkFileIoLib\inc;$(SolutionDir)TktkTemplateMetaLib\inc;$(SolutionDir)TktkContainerLib\inc;$(SolutionDir)TktkMathLib\inc;$(SolutionDir)TktkDX12WrappingLib\inc;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>.\inc</AdditionalIncludeDirectories>
+      <DebugInformationFormat>OldStyle</DebugInformationFormat>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>.\inc</AdditionalIncludeDirectories>
+      <DebugInformationFormat>None</DebugInformationFormat>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="inc\TktkDX12BaseComponents\2D\CircleCollider\CircleCollider.h" />
+    <ClInclude Include="inc\TktkDX12BaseComponents\2D\CircleCollider\CircleColliderMaker.h" />
+    <ClInclude Include="inc\TktkDX12BaseComponents\2D\ColliderWireFrameDrawer2D\ColliderWireFrameDrawer2D.h" />
+    <ClInclude Include="inc\TktkDX12BaseComponents\2D\ColliderWireFrameDrawer2D\ColliderWireFrameDrawer2DMaker.h" />
+    <ClInclude Include="inc\TktkDX12BaseComponents\2D\InertialMovement2D\InertialMovement2D.h" />
+    <ClInclude Include="inc\TktkDX12BaseComponents\2D\InertialMovement2D\InertialMovement2DMaker.h" />
+    <ClInclude Include="inc\TktkDX12BaseComponents\2D\InertialRotatement2D\InertialRotatement2D.h" />
+    <ClInclude Include="inc\TktkDX12BaseComponents\2D\InertialRotatement2D\InertialRotatement2DMaker.h" />
+    <ClInclude Include="inc\TktkDX12BaseComponents\2D\Line2dDrawer\Line2DDrawer.h" />
+    <ClInclude Include="inc\TktkDX12BaseComponents\2D\Line2dDrawer\Line2DDrawerMaker.h" />
+    <ClInclude Include="inc\TktkDX12BaseComponents\2D\Polygon2dCollider\Polygon2dCollider.h" />
+    <ClInclude Include="inc\TktkDX12BaseComponents\2D\Polygon2dCollider\Polygon2dColliderMaker.h" />
+    <ClInclude Include="inc\TktkDX12BaseComponents\2D\RectColliderExtrusion\RectColliderExtrusion.h" />
+    <ClInclude Include="inc\TktkDX12BaseComponents\2D\RectColliderExtrusion\RectColliderExtrusionMaker.h" />
+    <ClInclude Include="inc\TktkDX12BaseComponents\2D\RectCollider\RectCollider.h" />
+    <ClInclude Include="inc\TktkDX12BaseComponents\2D\RectCollider\RectColliderMaker.h" />
+    <ClInclude Include="inc\TktkDX12BaseComponents\3D\BoxCollider\BoxCollider.h" />
+    <ClInclude Include="inc\TktkDX12BaseComponents\3D\BoxCollider\BoxColliderMaker.h" />
+    <ClInclude Include="inc\TktkDX12BaseComponents\3D\Camera\BasicCameraController.h" />
+    <ClInclude Include="inc\TktkDX12BaseComponents\3D\Camera\BasicCameraControllerMaker.h" />
+    <ClInclude Include="inc\TktkDX12BaseComponents\3D\Camera\FirstPersonModule.h" />
+    <ClInclude Include="inc\TktkDX12BaseComponents\3D\Camera\FirstPersonModuleMaker.h" />
+    <ClInclude Include="inc\TktkDX12BaseComponents\3D\Camera\OrthographicCameraController.h" />
+    <ClInclude Include="inc\TktkDX12BaseComponents\3D\Camera\OrthographicCameraControllerMaker.h" />
+    <ClInclude Include="inc\TktkDX12BaseComponents\3D\ColliderWireFrameDrawer3D\ColliderWireFrameDrawer3D.h" />
+    <ClInclude Include="inc\TktkDX12BaseComponents\3D\ColliderWireFrameDrawer3D\ColliderWireFrameDrawer3DMaker.h" />
+    <ClInclude Include="inc\TktkDX12BaseComponents\3D\InertialMovement3D\InertialMovement3D.h" />
+    <ClInclude Include="inc\TktkDX12BaseComponents\3D\InertialMovement3D\InertialMovement3DMaker.h" />
+    <ClInclude Include="inc\TktkDX12BaseComponents\3D\Light\PointLightControllerMaker.h" />
+    <ClInclude Include="inc\TktkDX12BaseComponents\3D\MeshDrawer\SphereMeshDrawer.h" />
+    <ClInclude Include="inc\TktkDX12BaseComponents\3D\MeshDrawer\SphereMeshDrawerMaker.h" />
+    <ClInclude Include="inc\TktkDX12BaseComponents\3D\MeshDrawer\SphereMeshWireFrameDrawer.h" />
+    <ClInclude Include="inc\TktkDX12BaseComponents\3D\MeshDrawer\SphereMeshWireFrameDrawerMaker.h" />
+    <ClInclude Include="inc\TktkDX12BaseComponents\3D\SphereCollider\SphereCollider.h" />
+    <ClInclude Include="inc\TktkDX12BaseComponents\3D\SphereCollider\SphereColliderMaker.h" />
+    <ClInclude Include="inc\TktkDX12BaseComponents\Components.h" />
+    <ClInclude Include="inc\TktkDX12BaseComponents\Other\ReceiveMessageToSelfDestroyer\ReceiveMessageToSelfDestroyer.h" />
+    <ClInclude Include="inc\TktkDX12BaseComponents\Other\ReceiveMessageToSelfDestroyer\ReceiveMessageToSelfDestroyerMaker.h" />
+    <ClInclude Include="inc\TktkDX12BaseComponents\Other\Sound\SoundPlayer.h" />
+    <ClInclude Include="inc\TktkDX12GameLibDefinition.h" />
+    <ClInclude Include="inc\TktkDX12Game\Component\ComponentBasePtr.h" />
+    <ClInclude Include="inc\TktkDX12Game\Component\ComponentBase.h" />
+    <ClInclude Include="inc\TktkDX12Game\Component\ComponentCollisionFunc\ComponentCollisionFuncRunner.h" />
+    <ClInclude Include="inc\TktkDX12Game\Component\ComponentCollisionFunc\ComponentCollisionList.h" />
+    <ClInclude Include="inc\TktkDX12Game\Component\ComponentDrawFunc\ComponentDrawList.h" />
+    <ClInclude Include="inc\TktkDX12Game\Component\ComponentDrawFunc\ComponentDrawRunner.h" />
+    <ClInclude Include="inc\TktkDX12Game\Component\ComponentGameObjectFunc\ComponentGameObjectFuncRunner.h" />
+    <ClInclude Include="inc\TktkDX12Game\Component\ComponentMainList.h" />
+    <ClInclude Include="inc\TktkDX12Game\Component\ComponentManager.h" />
+    <ClInclude Include="inc\TktkDX12Game\Component\ComponentPtr.h" />
+    <ClInclude Include="inc\TktkDX12Game\Component\ComponentStartFunc\ComponentSatrtList.h" />
+    <ClInclude Include="inc\TktkDX12Game\Component\ComponentStartFunc\ComponentStartRunner.h" />
+    <ClInclude Include="inc\TktkDX12Game\Component\ComponentUpdatePriorityList.h" />
+    <ClInclude Include="inc\TktkDX12BaseComponents\2D\PostEffectDrawer\PostEffectDrawer.h" />
+    <ClInclude Include="inc\TktkDX12BaseComponents\2D\PostEffectDrawer\PostEffectDrawerMaker.h" />
+    <ClInclude Include="inc\TktkDX12BaseComponents\2D\SpriteDrawer\SpriteDrawer.h" />
+    <ClInclude Include="inc\TktkDX12BaseComponents\2D\SpriteDrawer\SpriteDrawerMaker.h" />
+    <ClInclude Include="inc\TktkDX12BaseComponents\2D\Transform2D\TraceParentType.h" />
+    <ClInclude Include="inc\TktkDX12BaseComponents\2D\Transform2D\Transform2D.h" />
+    <ClInclude Include="inc\TktkDX12BaseComponents\2D\Transform2D\Transform2DMaker.h" />
+    <ClInclude Include="inc\TktkDX12Game\Component\DefaultComponents\StateMachine\CurStateTypeList.h" />
+    <ClInclude Include="inc\TktkDX12Game\Component\DefaultComponents\StateMachine\StateMachine.h" />
+    <ClInclude Include="inc\TktkDX12Game\Component\DefaultComponents\StateMachine\StateMachineList.h" />
+    <ClInclude Include="inc\TktkDX12Game\Component\DefaultComponents\StateMachine\StateMachineListInitParam.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Camera\Camera.h" />
+    <ClInclude Include="inc\TktkDX12BaseComponents\3D\Light\PointLightController.h" />
+    <ClInclude Include="inc\TktkDX12BaseComponents\3D\MeshAnimator\MeshAnimator.h" />
+    <ClInclude Include="inc\TktkDX12BaseComponents\3D\MeshAnimator\MeshAnimatorMaker.h" />
+    <ClInclude Include="inc\TktkDX12BaseComponents\3D\MeshDrawer\BasicMeshDrawer.h" />
+    <ClInclude Include="inc\TktkDX12BaseComponents\3D\MeshDrawer\BasicMeshDrawerMaker.h" />
+    <ClInclude Include="inc\TktkDX12BaseComponents\3D\ShadowMapWriter\BasicMeshShadowMapWriter.h" />
+    <ClInclude Include="inc\TktkDX12BaseComponents\3D\ShadowMapWriter\BasicMeshShadowMapWriterMaker.h" />
+    <ClInclude Include="inc\TktkDX12BaseComponents\3D\Transform3D\Transform3D.h" />
+    <ClInclude Include="inc\TktkDX12BaseComponents\3D\Transform3D\Transform3DMaker.h" />
+    <ClInclude Include="inc\TktkDX12Game\Component\DefaultComponents\ParentChildManager\ChildList.h" />
+    <ClInclude Include="inc\TktkDX12Game\Component\DefaultComponents\ParentChildManager\ParentChildManager.h" />
+    <ClInclude Include="inc\TktkDX12Game\Component\ComponentGameObjectFunc\GameObjectComponentList.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Camera\CameraData.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameBaseShaderFilePaths.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameDrawFuncArgs.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameResource.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameResourceNum.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Light\Light.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Light\LightCBuffer.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Light\LightData.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Line2D\Line2DMaterial.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Line2D\Line2DConstantBufferData.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Line2D\Line2DMaterialData.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Line2D\Line2DMaterialInitParam.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Line2D\Line2DMaterialDrawFuncArgs.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Mesh\BasicMesh\BasicMeshMaterialCbuffer.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Mesh\BasicMesh\BasicMonoColorMeshCbuffer.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Mesh\BasicMesh\Loader\BasicMeshLoadPmdReturnValue.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Mesh\BasicMesh\Loader\BasicMeshPmdLoader.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Mesh\BasicMesh\Maker\SphereMeshMaker.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Mesh\BasicMesh\Material\BasicMeshMaterialAppendParam.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Mesh\BasicMesh\Mesh\BasicMesh.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Mesh\BasicMesh\Loader\BasicMeshLoadPmdArgs.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Mesh\BasicMesh\Material\BasicMeshMaterial.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Mesh\BasicMesh\Material\BasicMeshMaterialData.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Mesh\BasicMesh\Material\BasicMeshMaterialInitParam.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Mesh\BasicMesh\Mesh\BasicMeshData.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Mesh\BasicMesh\Mesh\BasicMeshInitParam.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Mesh\BasicMesh\Subset.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Mesh\MeshDrawFuncBaseArgs.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Mesh\MeshPrimitiveTopology.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Mesh\MeshShadowMapCBuffer.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Mesh\MeshTransformCbuffer.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Mesh\Motion\Motion.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Mesh\Motion\MotionBoneParam.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Mesh\Motion\MotionData.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Mesh\Skeleton\BoneMatrixCbufferData.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Mesh\Skeleton\Skeleton.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Mesh\Skeleton\SkeletonData.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Mesh\Skeleton\SkeletonInitParam.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\PostEffect\PostEffectMaterial.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\PostEffect\PostEffectMaterialData.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\PostEffect\PostEffectMaterialDrawFuncArgs.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\PostEffect\PostEffectMaterialInitParam.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\PostEffect\PostEffectShaderFilePaths.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Scene\SceneBase.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Scene\SceneVTable.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Sprite\SpriteConstantBufferData.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Sprite\SpriteMaterialDrawFuncArgs.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\_SystemDXGameResourceIdGetter\IdType\SystemBasicMeshMaterialType.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\_SystemDXGameResourceIdGetter\IdType\SystemBasicMeshType.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\_SystemDXGameResourceIdGetter\SystemDXGameResourceIdGetter.h" />
+    <ClInclude Include="inc\TktkDX12Game\EventMessage\MessageAttachment.h" />
+    <ClInclude Include="inc\TktkDX12Game\GameObject\GameObject.h" />
+    <ClInclude Include="inc\TktkDX12Game\GameObject\GameObjectManager.h" />
+    <ClInclude Include="inc\TktkDX12Game\GameObject\GameObjectPtr.h" />
+    <ClInclude Include="inc\TktkDX12Game\GameObject\GameObjectTagList.h" />
+    <ClInclude Include="inc\TktkDX12Game\Input\DirectInputWrapper\DirectInputIncluder.h" />
+    <ClInclude Include="inc\TktkDX12Game\Input\DirectInputWrapper\DirectInputWrapper.h" />
+    <ClInclude Include="inc\TktkDX12Game\Input\DirectInputWrapper\GamePad\GamePad.h" />
+    <ClInclude Include="inc\TktkDX12Game\Input\DirectInputWrapper\GamePad\GamePadBtnType.h" />
+    <ClInclude Include="inc\TktkDX12Game\Input\DirectInputWrapper\Keyboard\Keyboard.h" />
+    <ClInclude Include="inc\TktkDX12Game\Input\DirectInputWrapper\Keyboard\KeybordKeyType.h" />
+    <ClInclude Include="inc\TktkDX12Game\Input\Mouse\Mouse.h" />
+    <ClInclude Include="inc\TktkDX12Game\Input\Mouse\MouseButtonType.h" />
+    <ClInclude Include="inc\TktkDX12Game\ClassTypeChecker\ClassTypeChecker.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Scene\SceneInstanceCarrier.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Scene\SceneManager.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Sprite\SpriteMaterial.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Sprite\SpriteMaterialData.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Sprite\SpriteMaterialInitParam.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Sound\CSoundCallback.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Sound\Sound.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Sound\SoundData.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Sound\SoundPlayState.h" />
+    <ClInclude Include="inc\TktkDX12Game\Time\ElapsedTimer.h" />
+    <ClInclude Include="inc\TktkDX12Game\_MainManager\DX12GameManager.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\_SystemDXGameResourceIdGetter\IdType\SystemPostEffectMaterialType.h" />
+    <ClInclude Include="inc\TktkDX12Game\_MainManager\DX12GameManagerFuncInOutValueType.h" />
+    <ClInclude Include="inc\TktkDX12Game\_MainManager\DX12GameManagerInitParam.h" />
+    <ClInclude Include="inc\TktkDX12Game\_MainManager\DX12GameManagerUseInitParams.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\TktkDX12BaseComponents\2D\CircleCollider\CircleCollider.cpp" />
+    <ClCompile Include="src\TktkDX12BaseComponents\2D\CircleCollider\CircleColliderMaker.cpp" />
+    <ClCompile Include="src\TktkDX12BaseComponents\2D\ColliderWireFrameDrawer2D\ColliderWireFrameDrawer2D.cpp" />
+    <ClCompile Include="src\TktkDX12BaseComponents\2D\ColliderWireFrameDrawer2D\ColliderWireFrameDrawer2DMaker.cpp" />
+    <ClCompile Include="src\TktkDX12BaseComponents\2D\InertialMovement2D\InertialMovement2D.cpp" />
+    <ClCompile Include="src\TktkDX12BaseComponents\2D\InertialMovement2D\InertialMovement2DMaker.cpp" />
+    <ClCompile Include="src\TktkDX12BaseComponents\2D\InertialRotatement2D\InertialRotatement2D.cpp" />
+    <ClCompile Include="src\TktkDX12BaseComponents\2D\InertialRotatement2D\InertialRotatement2DMaker.cpp" />
+    <ClCompile Include="src\TktkDX12BaseComponents\2D\Line2dDrawer\Line2DDrawer.cpp" />
+    <ClCompile Include="src\TktkDX12BaseComponents\2D\Line2dDrawer\Line2DDrawerMaker.cpp" />
+    <ClCompile Include="src\TktkDX12BaseComponents\2D\Polygon2dCollider\Polygon2dCollider.cpp" />
+    <ClCompile Include="src\TktkDX12BaseComponents\2D\Polygon2dCollider\Polygon2dColliderMaker.cpp" />
+    <ClCompile Include="src\TktkDX12BaseComponents\2D\RectColliderExtrusion\RectColliderExtrusion.cpp" />
+    <ClCompile Include="src\TktkDX12BaseComponents\2D\RectColliderExtrusion\RectColliderExtrusionMaker.cpp" />
+    <ClCompile Include="src\TktkDX12BaseComponents\2D\RectCollider\RectCollider.cpp" />
+    <ClCompile Include="src\TktkDX12BaseComponents\2D\RectCollider\RectColliderMaker.cpp" />
+    <ClCompile Include="src\TktkDX12BaseComponents\3D\BoxCollider\BoxCollider.cpp" />
+    <ClCompile Include="src\TktkDX12BaseComponents\3D\BoxCollider\BoxColliderMaker.cpp" />
+    <ClCompile Include="src\TktkDX12BaseComponents\3D\Camera\BasicCameraController.cpp" />
+    <ClCompile Include="src\TktkDX12BaseComponents\3D\Camera\BasicCameraControllerMaker.cpp" />
+    <ClCompile Include="src\TktkDX12BaseComponents\3D\Camera\FirstPersonModule.cpp" />
+    <ClCompile Include="src\TktkDX12BaseComponents\3D\Camera\FirstPersonModuleMaker.cpp" />
+    <ClCompile Include="src\TktkDX12BaseComponents\3D\Camera\OrthographicCameraController.cpp" />
+    <ClCompile Include="src\TktkDX12BaseComponents\3D\Camera\OrthographicCameraControllerMaker.cpp" />
+    <ClCompile Include="src\TktkDX12BaseComponents\3D\ColliderWireFrameDrawer3D\ColliderWireFrameDrawer3D.cpp" />
+    <ClCompile Include="src\TktkDX12BaseComponents\3D\ColliderWireFrameDrawer3D\ColliderWireFrameDrawer3DMaker.cpp" />
+    <ClCompile Include="src\TktkDX12BaseComponents\3D\InertialMovement3D\InertialMovement3D.cpp" />
+    <ClCompile Include="src\TktkDX12BaseComponents\3D\InertialMovement3D\InertialMovement3DMaker.cpp" />
+    <ClCompile Include="src\TktkDX12BaseComponents\3D\Light\PointLightControllerMaker.cpp" />
+    <ClCompile Include="src\TktkDX12BaseComponents\3D\MeshDrawer\SphereMeshDrawer.cpp" />
+    <ClCompile Include="src\TktkDX12BaseComponents\3D\MeshDrawer\SphereMeshDrawerMaker.cpp" />
+    <ClCompile Include="src\TktkDX12BaseComponents\3D\MeshDrawer\SphereMeshWireFrameDrawer.cpp" />
+    <ClCompile Include="src\TktkDX12BaseComponents\3D\MeshDrawer\SphereMeshWireFrameDrawerMaker.cpp" />
+    <ClCompile Include="src\TktkDX12BaseComponents\3D\SphereCollider\SphereCollider.cpp" />
+    <ClCompile Include="src\TktkDX12BaseComponents\3D\SphereCollider\SphereColliderMaker.cpp" />
+    <ClCompile Include="src\TktkDX12BaseComponents\Other\ReceiveMessageToSelfDestroyer\ReceiveMessageToSelfDestroyer.cpp" />
+    <ClCompile Include="src\TktkDX12BaseComponents\Other\ReceiveMessageToSelfDestroyer\ReceiveMessageToSelfDestroyerMaker.cpp" />
+    <ClCompile Include="src\TktkDX12BaseComponents\Other\Sound\SoundPlayer.cpp" />
+    <ClCompile Include="src\TktkDX12Game\Component\ComponentBasePtr.cpp" />
+    <ClCompile Include="src\TktkDX12Game\Component\ComponentBase.cpp" />
+    <ClCompile Include="src\TktkDX12Game\Component\ComponentCollisionFunc\ComponentCollisionFuncRunner.cpp" />
+    <ClCompile Include="src\TktkDX12Game\Component\ComponentCollisionFunc\ComponentCollisionList.cpp" />
+    <ClCompile Include="src\TktkDX12Game\Component\ComponentDrawFunc\ComponentDrawList.cpp" />
+    <ClCompile Include="src\TktkDX12Game\Component\ComponentDrawFunc\ComponentDrawRunner.cpp" />
+    <ClCompile Include="src\TktkDX12Game\Component\ComponentGameObjectFunc\ComponentGameObjectFuncRunner.cpp" />
+    <ClCompile Include="src\TktkDX12Game\Component\ComponentMainList.cpp" />
+    <ClCompile Include="src\TktkDX12Game\Component\ComponentManager.cpp" />
+    <ClCompile Include="src\TktkDX12Game\Component\ComponentStartFunc\ComponentSatrtList.cpp" />
+    <ClCompile Include="src\TktkDX12Game\Component\ComponentStartFunc\ComponentStartRunner.cpp" />
+    <ClCompile Include="src\TktkDX12Game\Component\ComponentUpdatePriorityList.cpp" />
+    <ClCompile Include="src\TktkDX12BaseComponents\2D\PostEffectDrawer\PostEffectDrawer.cpp" />
+    <ClCompile Include="src\TktkDX12BaseComponents\2D\PostEffectDrawer\PostEffectDrawerMaker.cpp" />
+    <ClCompile Include="src\TktkDX12BaseComponents\2D\SpriteDrawer\SpriteDrawer.cpp" />
+    <ClCompile Include="src\TktkDX12BaseComponents\2D\SpriteDrawer\SpriteDrawerMaker.cpp" />
+    <ClCompile Include="src\TktkDX12BaseComponents\2D\Transform2D\Transform2D.cpp" />
+    <ClCompile Include="src\TktkDX12BaseComponents\2D\Transform2D\Transform2DMaker.cpp" />
+    <ClCompile Include="src\TktkDX12Game\Component\DefaultComponents\StateMachine\CurStateTypeList.cpp" />
+    <ClCompile Include="src\TktkDX12Game\Component\DefaultComponents\StateMachine\StateMachine.cpp" />
+    <ClCompile Include="src\TktkDX12Game\Component\DefaultComponents\StateMachine\StateMachineList.cpp" />
+    <ClCompile Include="src\TktkDX12Game\Component\DefaultComponents\StateMachine\StateMachineListInitParam.cpp" />
+    <ClCompile Include="src\TktkDX12Game\DXGameResource\Camera\Camera.cpp" />
+    <ClCompile Include="src\TktkDX12BaseComponents\3D\Light\PointLightController.cpp" />
+    <ClCompile Include="src\TktkDX12BaseComponents\3D\MeshAnimator\MeshAnimator.cpp" />
+    <ClCompile Include="src\TktkDX12BaseComponents\3D\MeshAnimator\MeshAnimatorMaker.cpp" />
+    <ClCompile Include="src\TktkDX12BaseComponents\3D\MeshDrawer\BasicMeshDrawer.cpp" />
+    <ClCompile Include="src\TktkDX12BaseComponents\3D\MeshDrawer\BasicMeshDrawerMaker.cpp" />
+    <ClCompile Include="src\TktkDX12BaseComponents\3D\ShadowMapWriter\BasicMeshShadowMapWriter.cpp" />
+    <ClCompile Include="src\TktkDX12BaseComponents\3D\ShadowMapWriter\BasicMeshShadowMapWriterMaker.cpp" />
+    <ClCompile Include="src\TktkDX12BaseComponents\3D\Transform3D\Transform3D.cpp" />
+    <ClCompile Include="src\TktkDX12BaseComponents\3D\Transform3D\Transform3DMaker.cpp" />
+    <ClCompile Include="src\TktkDX12Game\Component\DefaultComponents\ParentChildManager\ChildList.cpp" />
+    <ClCompile Include="src\TktkDX12Game\Component\DefaultComponents\ParentChildManager\ParentChildManager.cpp" />
+    <ClCompile Include="src\TktkDX12Game\Component\ComponentGameObjectFunc\GameObjectComponentList.cpp" />
+    <ClCompile Include="src\TktkDX12Game\DXGameResource\Camera\CameraData.cpp" />
+    <ClCompile Include="src\TktkDX12Game\DXGameResource\DXGameResource.cpp" />
+    <ClCompile Include="src\TktkDX12Game\DXGameResource\Light\Light.cpp" />
+    <ClCompile Include="src\TktkDX12Game\DXGameResource\Light\LightData.cpp" />
+    <ClCompile Include="src\TktkDX12Game\DXGameResource\Line2D\Line2DMaterial.cpp" />
+    <ClCompile Include="src\TktkDX12Game\DXGameResource\Line2D\Line2DMaterialData.cpp" />
+    <ClCompile Include="src\TktkDX12Game\DXGameResource\Mesh\BasicMesh\Loader\BasicMeshPmdLoader.cpp" />
+    <ClCompile Include="src\TktkDX12Game\DXGameResource\Mesh\BasicMesh\Maker\SphereMeshMaker.cpp" />
+    <ClCompile Include="src\TktkDX12Game\DXGameResource\Mesh\BasicMesh\Material\BasicMeshMaterialAppendParam.cpp" />
+    <ClCompile Include="src\TktkDX12Game\DXGameResource\Mesh\BasicMesh\Mesh\BasicMesh.cpp" />
+    <ClCompile Include="src\TktkDX12Game\DXGameResource\Mesh\BasicMesh\Material\BasicMeshMaterial.cpp" />
+    <ClCompile Include="src\TktkDX12Game\DXGameResource\Mesh\BasicMesh\Material\BasicMeshMaterialData.cpp" />
+    <ClCompile Include="src\TktkDX12Game\DXGameResource\Mesh\BasicMesh\Mesh\BasicMeshData.cpp" />
+    <ClCompile Include="src\TktkDX12Game\DXGameResource\Mesh\Motion\Motion.cpp" />
+    <ClCompile Include="src\TktkDX12Game\DXGameResource\Mesh\Motion\MotionData.cpp" />
+    <ClCompile Include="src\TktkDX12Game\DXGameResource\Mesh\Skeleton\Skeleton.cpp" />
+    <ClCompile Include="src\TktkDX12Game\DXGameResource\Mesh\Skeleton\SkeletonData.cpp" />
+    <ClCompile Include="src\TktkDX12Game\DXGameResource\PostEffect\PostEffectMaterial.cpp" />
+    <ClCompile Include="src\TktkDX12Game\DXGameResource\PostEffect\PostEffectMaterialData.cpp" />
+    <ClCompile Include="src\TktkDX12Game\DXGameResource\_SystemDXGameResourceIdGetter\SystemDXGameResourceIdGetter.cpp" />
+    <ClCompile Include="src\TktkDX12Game\GameObject\GameObject.cpp" />
+    <ClCompile Include="src\TktkDX12Game\GameObject\GameObjectManager.cpp" />
+    <ClCompile Include="src\TktkDX12Game\GameObject\GameObjectPtr.cpp" />
+    <ClCompile Include="src\TktkDX12Game\GameObject\GameObjectTagList.cpp" />
+    <ClCompile Include="src\TktkDX12Game\Input\DirectInputWrapper\DirectInputWrapper.cpp" />
+    <ClCompile Include="src\TktkDX12Game\Input\DirectInputWrapper\GamePad\GamePad.cpp" />
+    <ClCompile Include="src\TktkDX12Game\Input\DirectInputWrapper\Keyboard\Keyboard.cpp" />
+    <ClCompile Include="src\TktkDX12Game\Input\Mouse\Mouse.cpp" />
+    <ClCompile Include="src\TktkDX12Game\ClassTypeChecker\ClassTypeChecker.cpp" />
+    <ClCompile Include="src\TktkDX12Game\DXGameResource\Scene\SceneInstanceCarrier.cpp" />
+    <ClCompile Include="src\TktkDX12Game\DXGameResource\Scene\SceneManager.cpp" />
+    <ClCompile Include="src\TktkDX12Game\DXGameResource\Sprite\SpriteMaterial.cpp" />
+    <ClCompile Include="src\TktkDX12Game\DXGameResource\Sprite\SpriteMaterialData.cpp" />
+    <ClCompile Include="src\TktkDX12Game\DXGameResource\Sound\CSoundCallback.cpp" />
+    <ClCompile Include="src\TktkDX12Game\DXGameResource\Sound\Sound.cpp" />
+    <ClCompile Include="src\TktkDX12Game\DXGameResource\Sound\SoundData.cpp" />
+    <ClCompile Include="src\TktkDX12Game\Time\ElapsedTimer.cpp" />
+    <ClCompile Include="src\TktkDX12Game\_MainManager\DX12GameManager.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="shader\basicMeshShader\BasicMeshPixelShader.hlsl">
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectDir)\shader\basicMeshShader\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectDir)\shader\basicMeshShader\%(Filename).cso</ObjectFileOutput>
+    </FxCompile>
+    <FxCompile Include="shader\basicMeshShader\BasicMeshVertexShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">5.0</ShaderModel>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectDir)\shader\basicMeshShader\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectDir)\shader\basicMeshShader\%(Filename).cso</ObjectFileOutput>
+    </FxCompile>
+    <FxCompile Include="shader\basicMeshShader\BasicMonoColorMeshPixelShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">5.0</ShaderModel>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectDir)\shader\basicMeshShader\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectDir)\shader\basicMeshShader\%(Filename).cso</ObjectFileOutput>
+    </FxCompile>
+    <FxCompile Include="shader\line2DShader\Line2DPixelShader.hlsl">
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectDir)\shader\line2DShader\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectDir)\shader\line2DShader\%(Filename).cso</ObjectFileOutput>
+    </FxCompile>
+    <FxCompile Include="shader\line2DShader\Line2DVertexShader.hlsl">
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectDir)\shader\line2DShader\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectDir)\shader\line2DShader\%(Filename).cso</ObjectFileOutput>
+    </FxCompile>
+    <FxCompile Include="shader\postEffectShader\monochromeShader\MonochromePixelShader.hlsl">
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectDir)\shader\postEffectShader\monochromeShader\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectDir)\shader\postEffectShader\monochromeShader\%(Filename).cso</ObjectFileOutput>
+    </FxCompile>
+    <FxCompile Include="shader\postEffectShader\PostEffectVertexShader.hlsl">
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectDir)\shader\postEffectShader\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectDir)\shader\postEffectShader\%(Filename).cso</ObjectFileOutput>
+    </FxCompile>
+    <FxCompile Include="shader\shadowMapShader\BasicMeshShadowVertexShader.hlsl">
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectDir)\shader\shadowMapShader\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectDir)\shader\shadowMapShader\%(Filename).cso</ObjectFileOutput>
+    </FxCompile>
+    <FxCompile Include="shader\spriteShader\SpritePixelShader.hlsl">
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectDir)\shader\spriteShader\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectDir)\shader\spriteShader\%(Filename).cso</ObjectFileOutput>
+    </FxCompile>
+    <FxCompile Include="shader\spriteShader\SpriteVertexShader.hlsl">
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectDir)\shader\spriteShader\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectDir)\shader\spriteShader\%(Filename).cso</ObjectFileOutput>
+    </FxCompile>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

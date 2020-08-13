@@ -1,0 +1,6 @@
+#ifndef HAS_AFTER_CHANGE_PARENT_CHECKER_H_
+#define HAS_AFTER_CHANGE_PARENT_CHECKER_H_
+
+#include "../HasFuncCheckMacro.h"
+HAS_FUNC_CHECK(afterChangeParent)
+#endif // !HAS_AFTER_CHANGE_PARENT_CHECKER_H_
