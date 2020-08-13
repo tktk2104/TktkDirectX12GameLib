@@ -2,7 +2,7 @@
 #define BASIC_DESCRIPTOR_HEAP_DATA_H_
 
 #include <vector>
-#include <d3d12.h>
+#include "../../../Includer/D3d12Includer.h"
 #include "BasicDescriptorHeapInitParam.h"
 
 namespace tktk

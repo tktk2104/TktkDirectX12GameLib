@@ -1,11 +1,9 @@
 #ifndef SWAP_CHAIN_H_
 #define SWAP_CHAIN_H_
 
-#include <d3d12.h>
 #include <dxgi1_6.h>
-#undef min
-#undef max
 #include <TktkMath/Structs/Vector2.h>
+#include "../Includer/D3d12Includer.h"
 
 namespace tktk
 {

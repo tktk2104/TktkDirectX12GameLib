@@ -1,9 +1,7 @@
 #ifndef FENCE_H_
 #define FENCE_H_
 
-#include <d3d12.h>
-#undef min
-#undef max
+#include "../Includer/D3d12Includer.h"
 
 namespace tktk
 {

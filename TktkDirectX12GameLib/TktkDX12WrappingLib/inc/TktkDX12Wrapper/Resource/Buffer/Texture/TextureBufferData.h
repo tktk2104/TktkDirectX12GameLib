@@ -1,10 +1,8 @@
 #ifndef TEXTURE_BUFFER_DATA_H_
 #define TEXTURE_BUFFER_DATA_H_
 
-#include <d3d12.h>
-#undef min
-#undef max
 #include <TktkMath/Structs/Vector3.h>
+#include "../../../Includer/D3d12Includer.h"
 #include "TextureBufferInitParam.h"
 #include "ShaderResourceViewInitParam.h"
 

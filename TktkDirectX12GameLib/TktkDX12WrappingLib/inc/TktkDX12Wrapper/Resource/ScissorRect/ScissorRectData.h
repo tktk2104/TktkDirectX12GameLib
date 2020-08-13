@@ -2,9 +2,7 @@
 #define SCISSOR_RECT_DATA_H_
 
 #include <vector>
-#include <d3d12.h>
-#undef min
-#undef max
+#include "../../Includer/D3d12Includer.h"
 #include "ScissorRectInitParam.h"
 
 namespace tktk

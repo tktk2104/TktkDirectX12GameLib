@@ -1,7 +1,7 @@
 #ifndef MESH_PRIMITIVE_TOPOLOGY_H_
 #define MESH_PRIMITIVE_TOPOLOGY_H_
 
-#include <d3d12.h>
+#include <TktkDX12Wrapper/Includer/D3d12Includer.h>
 
 namespace tktk
 {

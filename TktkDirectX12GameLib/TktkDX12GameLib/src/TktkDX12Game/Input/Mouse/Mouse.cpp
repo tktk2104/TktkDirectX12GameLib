@@ -1,8 +1,6 @@
 #include "TktkDX12Game/Input/Mouse/Mouse.h"
 
-#include <Windows.h>
-#undef min
-#undef max
+#include <TktkDX12Wrapper/Includer/D3d12Includer.h>
 
 namespace tktk
 {

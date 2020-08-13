@@ -4,9 +4,7 @@
 #include <string>
 #include <array>
 #include <vector>
-#include <d3d12.h>
-#undef min
-#undef max
+#include "../../../Includer/D3d12Includer.h"
 
 namespace tktk
 {

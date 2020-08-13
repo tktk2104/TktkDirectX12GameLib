@@ -2,7 +2,7 @@
 #define TEXTURE_BUFFER_INIT_PARAM_H_
 
 #include <vector>
-#include <d3d12.h>
+#include "../../../Includer/D3d12Includer.h"
 
 namespace tktk
 {

@@ -152,6 +152,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="inc\TktkDX12Wrapper\Includer\D3d12Includer.h" />
     <ClInclude Include="inc\TktkDX12Wrapper\Resource\Buffer\BufferResource.h" />
     <ClInclude Include="inc\TktkDX12Wrapper\Resource\Buffer\BufferResourceInitParam.h" />
     <ClInclude Include="inc\TktkDX12Wrapper\Resource\Buffer\BufferType.h" />

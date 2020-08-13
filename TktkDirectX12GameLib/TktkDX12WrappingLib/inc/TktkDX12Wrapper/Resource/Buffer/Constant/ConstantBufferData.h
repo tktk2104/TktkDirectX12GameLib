@@ -1,8 +1,8 @@
 #ifndef CONSTANT_BUFFER_DATA_H_
 #define CONSTANT_BUFFER_DATA_H_
 
-#include <d3d12.h>
 #include <forward_list>
+#include "../../../Includer/D3d12Includer.h"
 
 namespace tktk
 {

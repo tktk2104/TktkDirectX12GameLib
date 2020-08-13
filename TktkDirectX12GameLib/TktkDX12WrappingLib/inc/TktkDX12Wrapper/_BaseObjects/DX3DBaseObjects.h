@@ -3,12 +3,10 @@
 
 #include <array>
 #include <vector>
-#include <d3d12.h>
 #include <dxgi1_6.h> //IDXGIFactory6
-#undef min
-#undef max
 #include <TktkMath/Structs/Color.h>
 #include <TktkMath/Structs/Vector2.h>
+#include "../Includer/D3d12Includer.h"
 #include "../SwapChain/SwapChain.h"
 #include "../Fence/Fence.h"
 #include "../Resource/DX3DResource.h"

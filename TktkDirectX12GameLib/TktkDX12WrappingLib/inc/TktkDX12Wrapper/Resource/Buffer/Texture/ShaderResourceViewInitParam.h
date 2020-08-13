@@ -1,7 +1,7 @@
 #ifndef SHADER_RESOURCE_VIEW_INIT_PARAM_H_
 #define SHADER_RESOURCE_VIEW_INIT_PARAM_H_
 
-#include <d3d12.h>
+#include "../../../Includer/D3d12Includer.h"
 
 namespace tktk
 {
