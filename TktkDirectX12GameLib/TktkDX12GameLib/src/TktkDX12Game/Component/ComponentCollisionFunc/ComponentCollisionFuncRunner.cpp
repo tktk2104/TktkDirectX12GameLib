@@ -12,7 +12,7 @@ namespace tktk
 		m_curHitObjectList.clear();
 	}
 
-	void ComponentCollisionFuncRunner::runCollideFunc(ComponentCollisionFuncRunner& other)
+	void ComponentCollisionFuncRunner::runCollideFunc(const ComponentCollisionFuncRunner& other)
 	{
 		// 自身か衝突相手どちらかが死んでいるか、非アクティブ状態になっていたら何もしない
 		if (m_selfPtr.isDead() || other.m_selfPtr.isDead() || !m_selfPtr->isActive() || !other.m_selfPtr->isActive()) return;
