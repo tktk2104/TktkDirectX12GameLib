@@ -92,9 +92,9 @@ namespace tktk
 		auto createdComponent = (*findNode).second.lock()->createComponent<ComponentType>(std::forward<Args>(args)...);
 		
 		// 各種関数呼び出し処理リストにそのweak_ptrを渡す
-		m_startList.addComponent(createdComponent);
-		m_collisionList.addComponent(createdComponent);
-		m_drawList.addComponent(createdComponent);
+		m_startList.add(createdComponent);
+		m_collisionList.add(createdComponent);
+		m_drawList.add(createdComponent);
 
 		// 作ったコンポーネントのweak_ptrを返して終了
 		return createdComponent;

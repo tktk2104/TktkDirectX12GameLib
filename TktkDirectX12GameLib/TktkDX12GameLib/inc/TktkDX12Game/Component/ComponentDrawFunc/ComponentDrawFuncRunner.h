@@ -33,7 +33,7 @@ namespace tktk
 		struct VTableInitializer
 		{
 			// 「draw」関数を持っていたら呼ぶ処理を行う為の関数
-			static void runDraw(const ComponentBasePtr& self);
+			static void runDraw(const ComponentBasePtr& runPtr);
 
 			static VTable m_vtable;
 		};
@@ -62,9 +62,9 @@ namespace tktk
 
 	// 「draw」関数を持っていたら呼ぶ処理
 	template<class ComponentType>
-	inline void ComponentDrawFuncRunner::VTableInitializer<ComponentType>::runDraw(const ComponentBasePtr& self)
+	inline void ComponentDrawFuncRunner::VTableInitializer<ComponentType>::runDraw(const ComponentBasePtr& runPtr)
 	{
-		draw_runner<void>::checkAndRun(self.castPtr<ComponentType>());
+		draw_runner<void>::checkAndRun(runPtr.castPtr<ComponentType>());
 	}
 }
 #endif // !COMPONENT_DRAW_RUNNER_H_

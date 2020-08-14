@@ -24,9 +24,9 @@ namespace tktk
 
 		// 引数のコンポーネントの型が「start」関数を持っていたら自身のコンテナに追加する
 		template <class ComponentType, has_start<ComponentType> = nullptr>
-		void addComponent(const std::weak_ptr<ComponentType>& componentPtr);
+		void add(const std::weak_ptr<ComponentType>& componentPtr);
 		template <class ComponentType, not_has_start<ComponentType> = nullptr>
-		void addComponent(const std::weak_ptr<ComponentType>& componentPtr);
+		void add(const std::weak_ptr<ComponentType>& componentPtr);
 
 		// 「start()」関数を呼ぶ
 		void runStartFunc();
@@ -48,11 +48,11 @@ namespace tktk
 
 	// 引数のコンポーネントの型が「start()」関数を持っていたら自身のコンテナに追加する
 	template<class ComponentType, has_start<ComponentType>>
-	inline void ComponentStartList::addComponent(const std::weak_ptr<ComponentType>& componentPtr)
+	inline void ComponentStartList::add(const std::weak_ptr<ComponentType>& componentPtr)
 	{
 		m_nextFrameAddNodeList.emplace_front(componentPtr);
 	}
 	template<class ComponentType, not_has_start<ComponentType>>
-	inline void ComponentStartList::addComponent(const std::weak_ptr<ComponentType>& componentPtr) {}
+	inline void ComponentStartList::add(const std::weak_ptr<ComponentType>& componentPtr) {}
 }
 #endif // !COMPONENT_SATRT_LIST_H_

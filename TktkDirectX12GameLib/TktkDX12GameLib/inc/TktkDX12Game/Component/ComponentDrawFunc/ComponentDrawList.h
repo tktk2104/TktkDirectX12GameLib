@@ -24,7 +24,7 @@ namespace tktk
 	public:
 
 		// 描画優先度順で「draw」関数を呼ぶ
-		void runDrawFunc();
+		void runDrawFunc() const;
 
 		// 前フレームに追加されたコンポーネントをメインリストに追加する
 		void movePreFrameAddedNode();
@@ -36,9 +36,9 @@ namespace tktk
 
 		// 引数のコンポーネントの型が「draw()」関数を持っていたら自身のコンテナに追加する
 		template <class ComponentType, has_draw<ComponentType> = nullptr>
-		void addComponent(const std::weak_ptr<ComponentType>& componentPtr);
+		void add(const std::weak_ptr<ComponentType>& componentPtr);
 		template <class ComponentType, not_has_draw<ComponentType> = nullptr>
-		void addComponent(const std::weak_ptr<ComponentType>& componentPtr);
+		void add(const std::weak_ptr<ComponentType>& componentPtr);
 
 	private:
 
@@ -51,11 +51,11 @@ namespace tktk
 
 	// 引数のコンポーネントの型が「draw()」関数を持っていたら自身のコンテナに追加する
 	template<class ComponentType, has_draw<ComponentType>>
-	inline void ComponentDrawList::addComponent(const std::weak_ptr<ComponentType>& componentPtr)
+	inline void ComponentDrawList::add(const std::weak_ptr<ComponentType>& componentPtr)
 	{
 		m_nextFrameAddNodeList.emplace_front(componentPtr.lock()->getDrawPriority(), componentPtr);
 	}
 	template<class ComponentType, not_has_draw<ComponentType>>
-	inline void ComponentDrawList::addComponent(const std::weak_ptr<ComponentType>& componentPtr) {}
+	inline void ComponentDrawList::add(const std::weak_ptr<ComponentType>& componentPtr) {}
 }
 #endif // !COMPONENT_DRAW_LIST_H_

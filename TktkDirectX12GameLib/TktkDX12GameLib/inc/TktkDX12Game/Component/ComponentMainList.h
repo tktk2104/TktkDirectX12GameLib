@@ -13,6 +13,18 @@
 
 namespace tktk
 {
+	// 指定のクラスが変数が特定の関数を持っているか判定するテンプレートメタのエイリアステンプレート
+	template <class ComponentType>
+	using has_update = std::enable_if_t<has_update_checker<ComponentType*, void>::value>*;
+	template <class ComponentType>
+	using not_has_update = std::enable_if_t<!has_update_checker<ComponentType*, void>::value>*;
+
+	template <class ComponentType>
+	using has_afterCollide = std::enable_if_t<has_afterCollide_checker<ComponentType*, void>::value>*;
+	template <class ComponentType>
+	using not_has_afterCollide = std::enable_if_t<!has_afterCollide_checker<ComponentType*, void>::value>*;
+
+
 	class ComponentBase;
 
 	// １種類のコンポーネントを管理するリストクラス
@@ -65,16 +77,16 @@ namespace tktk
 		{
 			// 「update()」関数を持っていたら呼ぶ処理を行う為の関数達
 			static void runUpdate(const std::forward_list<std::shared_ptr<ComponentBase>>& mainList);
-			template <class U, std::enable_if_t<has_update_checker<U*, void>::value>* = nullptr>
+			template <class T, has_update<T> = nullptr>
 			static void checkAndRunUpdate(const std::forward_list<std::shared_ptr<ComponentBase>>& mainList);
-			template <class U, std::enable_if_t<!has_update_checker<U*, void>::value>* = nullptr>
+			template <class T, not_has_update<T> = nullptr>
 			static void checkAndRunUpdate(const std::forward_list<std::shared_ptr<ComponentBase>>& mainList);
 
 			// 「afterCollide()」関数を持っていたら呼ぶ処理を行う為の関数達
 			static void runAfterCollide(const std::forward_list<std::shared_ptr<ComponentBase>>& mainList);
-			template <class U, std::enable_if_t<has_afterCollide_checker<U*, void>::value>* = nullptr>
+			template <class T, has_afterCollide<T> = nullptr>
 			static void checkAndRunAfterCollide(const std::forward_list<std::shared_ptr<ComponentBase>>& mainList);
-			template <class U, std::enable_if_t<!has_afterCollide_checker<U*, void>::value>* = nullptr>
+			template <class T, not_has_afterCollide<T> = nullptr>
 			static void checkAndRunAfterCollide(const std::forward_list<std::shared_ptr<ComponentBase>>& mainList);
 
 			// 「onEnable()」関数を持っていたら呼ぶ処理を行う為の関数
@@ -135,17 +147,17 @@ namespace tktk
 		checkAndRunUpdate<ComponentType>(mainList);
 	}
 	template<class ComponentType>
-	template<class U, std::enable_if_t<has_update_checker<U*, void>::value>*>
+	template<class T, has_update<T>>
 	inline void ComponentMainList::VTableInitializer<ComponentType>::checkAndRunUpdate(const std::forward_list<std::shared_ptr<ComponentBase>>& mainList)
 	{
 		for (const auto& node : mainList)
 		{
 			if (!node->isActive()) continue;
-			std::dynamic_pointer_cast<U>(node)->update();
+			std::dynamic_pointer_cast<T>(node)->update();
 		}
 	}
 	template<class ComponentType>
-	template<class U, std::enable_if_t<!has_update_checker<U*, void>::value>*>
+	template<class T, not_has_update<T>>
 	inline void ComponentMainList::VTableInitializer<ComponentType>::checkAndRunUpdate(const std::forward_list<std::shared_ptr<ComponentBase>>& mainList) {}
 
 	// 「afterCollide()」関数を持っていたら呼ぶ処理を行う為の関数達
@@ -155,17 +167,17 @@ namespace tktk
 		checkAndRunAfterCollide<ComponentType>(mainList);
 	}
 	template<class ComponentType>
-	template<class U, std::enable_if_t<has_afterCollide_checker<U*, void>::value>*>
+	template<class T, has_afterCollide<T>>
 	inline void ComponentMainList::VTableInitializer<ComponentType>::checkAndRunAfterCollide(const std::forward_list<std::shared_ptr<ComponentBase>>& mainList)
 	{
 		for (const auto& node : mainList)
 		{
 			if (!node->isActive()) continue;
-			std::dynamic_pointer_cast<U>(node)->afterCollide();
+			std::dynamic_pointer_cast<T>(node)->afterCollide();
 		}
 	}
 	template<class ComponentType>
-	template<class U, std::enable_if_t<!has_afterCollide_checker<U*, void>::value>*>
+	template<class T, not_has_afterCollide<T>>
 	inline void ComponentMainList::VTableInitializer<ComponentType>::checkAndRunAfterCollide(const std::forward_list<std::shared_ptr<ComponentBase>>& mainList) {}
 
 	// 「onEnable()」関数を持っていたら呼ぶ処理を行う為の関数

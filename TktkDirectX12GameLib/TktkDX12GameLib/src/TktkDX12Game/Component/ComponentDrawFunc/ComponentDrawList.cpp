@@ -2,7 +2,7 @@
 
 namespace tktk
 {
-	void ComponentDrawList::runDrawFunc()
+	void ComponentDrawList::runDrawFunc() const
 	{
 		// •`‰æŠÖ”ŒÄ‚Ño‚µƒNƒ‰ƒX‚ğ„‰ñ‚·‚é
 		for (const auto& drawFuncRunner : m_drawList)

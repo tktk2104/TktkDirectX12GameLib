@@ -41,9 +41,9 @@ namespace tktk
 
 		// 引数のコンポーネントの型が「isCollide()」関数を持っていたら自身のコンテナに追加する
 		template <class ComponentType, has_isCollide<ComponentType> = nullptr>
-		void addComponent(const std::weak_ptr<ComponentType>& componentPtr);
+		void add(const std::weak_ptr<ComponentType>& componentPtr);
 		template <class ComponentType, not_has_isCollide<ComponentType> = nullptr>
-		void addComponent(const std::weak_ptr<ComponentType>& componentPtr);
+		void add(const std::weak_ptr<ComponentType>& componentPtr);
 
 	private:
 
@@ -57,11 +57,11 @@ namespace tktk
 
 	// 引数のコンポーネントの型が「isCollide()」関数を持っていたら次フレームでメインリストに追加するための一時リストに追加する
 	template<class ComponentType, has_isCollide<ComponentType>>
-	inline void ComponentCollisionList::addComponent(const std::weak_ptr<ComponentType>& componentPtr)
+	inline void ComponentCollisionList::add(const std::weak_ptr<ComponentType>& componentPtr)
 	{
 		m_nextFrameAddNodeList.emplace_front(componentPtr.lock()->getCollisionGroup(), componentPtr);
 	}
 	template<class ComponentType, not_has_isCollide<ComponentType>>
-	inline void ComponentCollisionList::addComponent(const std::weak_ptr<ComponentType>& componentPtr) {}
+	inline void ComponentCollisionList::add(const std::weak_ptr<ComponentType>& componentPtr) {}
 }
 #endif // !COMPONENT_COLLISION_LIST_H_
