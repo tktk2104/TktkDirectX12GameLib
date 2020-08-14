@@ -53,7 +53,10 @@ namespace tktk
 	void GameObjectComponentList::movePreFrameAddedNode()
 	{
 		// メインリストに移動する情報が入ったリストの要素をメインリストに移動
-		m_componentList.splice_after(std::begin(m_componentList), std::move(m_nextFrameAddNodeList));
+		for (const auto& node : m_nextFrameAddNodeList)
+		{
+			m_componentList.push_front(node);
+		}
 
 		// コピー元のコンテナは削除
 		m_nextFrameAddNodeList.clear();
