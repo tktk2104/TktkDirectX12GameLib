@@ -407,7 +407,7 @@ namespace tktk
 	public: /* タイム関係の処理 */
 
 		// 経過時間を初期化する
-		static void reset();
+		static void resetElapsedTime();
 
 		// 前フレームとの時間の差を求める
 		static float deltaTime();

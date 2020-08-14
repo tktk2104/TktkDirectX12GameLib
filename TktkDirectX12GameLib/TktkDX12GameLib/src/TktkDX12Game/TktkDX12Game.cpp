@@ -59,7 +59,7 @@ namespace tktk
 
 	void DX12Game::resetElapsedTime()
 	{
-		DX12GameManager::reset();
+		DX12GameManager::resetElapsedTime();
 	}
 
 	float DX12Game::deltaTime()

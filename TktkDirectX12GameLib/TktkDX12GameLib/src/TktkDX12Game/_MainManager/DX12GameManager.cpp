@@ -614,7 +614,7 @@ namespace tktk
 		return m_directInputWrapper->isTrigger(btnType);
 	}
 
-	void DX12GameManager::reset()
+	void DX12GameManager::resetElapsedTime()
 	{
 		m_elapsedTimer->reset();
 	}
