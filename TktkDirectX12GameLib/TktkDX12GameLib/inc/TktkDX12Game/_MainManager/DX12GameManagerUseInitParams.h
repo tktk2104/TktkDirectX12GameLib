@@ -2,7 +2,7 @@
 #define DX12_GAME_MANAGER_USE_INIT_PARAMS_H_
 
 #include <TktkDX12Wrapper/Window/WindowInitParam.h>
-#include <TktkDX12Wrapper/Resource/DX3DResourceInitParam.h>
+#include <TktkDX12Wrapper/Resource/DX3DResourceNum.h>
 #include <TktkDX12Wrapper/Resource/GraphicsPipeLine/RootSignature/RootSignatureInitParam.h>
 #include <TktkDX12Wrapper/Resource/GraphicsPipeLine/PipeLineState/PipeLineStateInitParam.h>
 #include <TktkDX12Wrapper/Resource/DescriptorHeap/Basic/BasicDescriptorHeapInitParam.h>

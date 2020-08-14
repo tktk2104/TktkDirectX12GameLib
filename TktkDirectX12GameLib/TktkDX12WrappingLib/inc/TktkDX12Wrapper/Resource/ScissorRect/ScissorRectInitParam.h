@@ -5,6 +5,7 @@
 
 namespace tktk
 {
+	// シザー矩形を作る時に必要な変数
 	struct ScissorRectInitParam
 	{
 		tktkMath::Vector2	m_topLeft;

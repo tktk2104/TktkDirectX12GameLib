@@ -6,13 +6,13 @@
 
 namespace tktk
 {
-	DX3DResource::DX3DResource(DX3DResourceInitParam initParam)
-		: m_sysResIdGetter(&initParam)	// <=【※ここの初期化時に「initParam」の値にデフォルトのリソースの数が足されます】
-		, m_viewport(initParam.viewPortNum)
-		, m_scissorRect(initParam.scissorRectNum)
-		, m_graphicsPipeLine(initParam.pipeLineStateNum, initParam.rootSignatureNum)
-		, m_descriptorHeap(initParam.descriptorHeapNum)
-		, m_bufferResource(initParam.bufferResourceNum)
+	DX3DResource::DX3DResource(DX3DResourceNum resNum)
+		: m_sysResIdGetter(&resNum)	// <=【※ここの初期化時に「initParam」の値にデフォルトのリソースの数が足されます】
+		, m_viewport(resNum.viewPortNum)
+		, m_scissorRect(resNum.scissorRectNum)
+		, m_graphicsPipeLine(resNum.pipeLineStateNum, resNum.rootSignatureNum)
+		, m_descriptorHeap(resNum.descriptorHeapNum)
+		, m_bufferResource(resNum.bufferResourceNum)
 	{
 	}
 

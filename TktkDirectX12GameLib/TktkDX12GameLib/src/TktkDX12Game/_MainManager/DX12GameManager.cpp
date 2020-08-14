@@ -27,7 +27,7 @@ namespace tktk
 		m_gameObjectManager		= std::make_unique<GameObjectManager>();
 		m_componentManager		= std::make_unique<ComponentManager>();
 		m_window				= std::make_unique<Window>(gameManagerInitParam.windowParam);
-		m_dx3dBaseObjects		= std::make_unique<DX3DBaseObjects>(gameManagerInitParam.dx3dResParam, m_window->getHWND(), gameManagerInitParam.windowParam.windowSize, tktkMath::Color_v::black, gameManagerInitParam.craeteDebugLayer);
+		m_dx3dBaseObjects		= std::make_unique<DX3DBaseObjects>(gameManagerInitParam.dx3dResNum, m_window->getHWND(), gameManagerInitParam.windowParam.windowSize, tktkMath::Color_v::black, gameManagerInitParam.craeteDebugLayer);
 		
 		{
 			DXGameResourceNum dxGameResourceNum = gameManagerInitParam.dxGameResourceNum;

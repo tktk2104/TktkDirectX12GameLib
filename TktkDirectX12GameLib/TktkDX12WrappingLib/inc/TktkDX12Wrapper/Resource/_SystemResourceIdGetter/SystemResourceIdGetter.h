@@ -2,7 +2,7 @@
 #define SYSTEM_RESOURCE_ID_GETTER_H_
 
 #include "SystemResourceType.h"
-#include "../DX3DResourceInitParam.h"
+#include "../DX3DResourceNum.h"
 
 namespace tktk
 {
@@ -12,7 +12,7 @@ namespace tktk
 	public:
 
 		// コンストラクタ内で「initParam」の値を書き換えます
-		SystemResourceIdGetter(DX3DResourceInitParam* initParam);
+		SystemResourceIdGetter(DX3DResourceNum* resNumPtr);
 
 	public:
 
@@ -32,7 +32,7 @@ namespace tktk
 
 	private:
 
-		DX3DResourceInitParam m_basicResourceNum;
+		DX3DResourceNum m_basicResourceNum;
 	};
 }
 #endif // !SYSTEM_RESOURCE_ID_GETTER_H_

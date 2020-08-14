@@ -2,22 +2,22 @@
 
 namespace tktk
 {
-	SystemResourceIdGetter::SystemResourceIdGetter(DX3DResourceInitParam* initParam)
-		: m_basicResourceNum(*initParam)
+	SystemResourceIdGetter::SystemResourceIdGetter(DX3DResourceNum* resNumPtr)
+		: m_basicResourceNum(*resNumPtr)
 	{
-		initParam->viewPortNum										+= SystemViewportNum;
-		initParam->scissorRectNum									+= SystemScissorRectNum;
-		initParam->bufferResourceNum.vertexBufferNum			+= SystemVertexBufferNum;
-		initParam->bufferResourceNum.indexBufferNum			+= SystemIndexBufferNum;
-		initParam->bufferResourceNum.constantBufferNum		+= SystemCBufferNum;
-		initParam->bufferResourceNum.textureBufferNum			+= SystemTextureBufferNum;
-		initParam->bufferResourceNum.renderTargetBufferNum	+= SystemRtBufferNum;
-		initParam->bufferResourceNum.depthStencilBufferNum	+= SystemDsBufferNum;
-		initParam->descriptorHeapNum.basicDescriptorHeapNum	+= SystemBasicDescriptorHeapNum;
-		initParam->descriptorHeapNum.rtvDescriptorHeapNum		+= SystemRtvDescriptorHeapNum;
-		initParam->descriptorHeapNum.dsvDescriptorHeapNum		+= SystemDsvDescriptorHeapNum;
-		initParam->rootSignatureNum									+= SystemRootSignatureNum;
-		initParam->pipeLineStateNum									+= SystemPipeLineStateNum;
+		resNumPtr->viewPortNum									+= SystemViewportNum;
+		resNumPtr->scissorRectNum								+= SystemScissorRectNum;
+		resNumPtr->bufferResourceNum.vertexBufferNum			+= SystemVertexBufferNum;
+		resNumPtr->bufferResourceNum.indexBufferNum				+= SystemIndexBufferNum;
+		resNumPtr->bufferResourceNum.constantBufferNum			+= SystemCBufferNum;
+		resNumPtr->bufferResourceNum.textureBufferNum			+= SystemTextureBufferNum;
+		resNumPtr->bufferResourceNum.renderTargetBufferNum		+= SystemRtBufferNum;
+		resNumPtr->bufferResourceNum.depthStencilBufferNum		+= SystemDsBufferNum;
+		resNumPtr->descriptorHeapNum.basicDescriptorHeapNum		+= SystemBasicDescriptorHeapNum;
+		resNumPtr->descriptorHeapNum.rtvDescriptorHeapNum		+= SystemRtvDescriptorHeapNum;
+		resNumPtr->descriptorHeapNum.dsvDescriptorHeapNum		+= SystemDsvDescriptorHeapNum;
+		resNumPtr->rootSignatureNum								+= SystemRootSignatureNum;
+		resNumPtr->pipeLineStateNum								+= SystemPipeLineStateNum;
 	}
 
 	unsigned int SystemResourceIdGetter::getSystemId(SystemViewportType type) const

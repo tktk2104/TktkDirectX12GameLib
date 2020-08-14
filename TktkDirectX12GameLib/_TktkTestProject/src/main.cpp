@@ -24,7 +24,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hInstancePrev, LPSTR pCmdLine,
 		tktk::DX12GameManagerInitParam initParam{};
 
 		{
-			auto& resourceInitParam = initParam.dx3dResParam;
+			auto& resourceInitParam = initParam.dx3dResNum;
 
 			resourceInitParam.viewPortNum		= 0U;
 			resourceInitParam.scissorRectNum	= 0U;

@@ -1,7 +1,7 @@
 #ifndef DX_3D_RESOURCE_H_
 #define DX_3D_RESOURCE_H_
 
-#include "DX3DResourceInitParam.h"
+#include "DX3DResourceNum.h"
 #include "_SystemResourceIdGetter/SystemResourceIdGetter.h"
 #include "Viewport/Viewport.h"
 #include "ScissorRect/ScissorRect.h"
@@ -17,7 +17,7 @@ namespace tktk
 	public:
 
 		// ※意図的に値をコピーしています
-		DX3DResource(DX3DResourceInitParam initParam);
+		DX3DResource(DX3DResourceNum resNum);
 
 	public: /* 作成、ロード処理 */
 

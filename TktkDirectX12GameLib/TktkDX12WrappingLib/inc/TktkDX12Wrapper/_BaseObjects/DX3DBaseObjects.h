@@ -18,7 +18,7 @@ namespace tktk
 	{
 	public:
 
-		DX3DBaseObjects(const DX3DResourceInitParam& initParam, HWND hwnd, const tktkMath::Vector2& windowSize, const tktkMath::Color& backGroundColor, bool craeteDebugLayer);
+		DX3DBaseObjects(const DX3DResourceNum& initParam, HWND hwnd, const tktkMath::Vector2& windowSize, const tktkMath::Color& backGroundColor, bool craeteDebugLayer);
 		~DX3DBaseObjects();
 
 	public: /* 描画開始、終了処理 */
