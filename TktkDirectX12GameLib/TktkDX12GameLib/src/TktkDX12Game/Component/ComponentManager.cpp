@@ -13,7 +13,7 @@ namespace tktk
 		}
 		m_startList.moveNewComponent();
 		m_collisionList.movePreFrameAddedNode();
-		m_drawList.moveNewComponent();
+		m_drawList.movePreFrameAddedNode();
 
 		// アクティブフラグの判定とフラグ変更時の関数呼び出し処理
 		for (const auto& node : m_mainMap)
@@ -55,11 +55,12 @@ namespace tktk
 	void ComponentManager::draw()
 	{
 		// 「draw()」関数呼び出し処理
-		m_drawList.runDraw();
+		m_drawList.runDrawFunc();
 	}
 
 	void ComponentManager::addCollisionGroup(int firstGroup, int secondGroup)
 	{
+		// 衝突判定の組み合わせを追加
 		m_collisionList.addCollisionGroup(firstGroup, secondGroup);
 	}
 }
