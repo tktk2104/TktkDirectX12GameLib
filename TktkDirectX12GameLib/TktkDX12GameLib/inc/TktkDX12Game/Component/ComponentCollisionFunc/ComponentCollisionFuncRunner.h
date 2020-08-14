@@ -22,7 +22,7 @@ namespace tktk
 
 	public:
 
-		// 衝突中のオブジェクトを更新する
+		// 前フレームで衝突したオブジェクトを管理するリストを更新する
 		void updateHitObjectList();
 
 		// 衝突判定処理を行う
@@ -54,8 +54,8 @@ namespace tktk
 		{
 			HitObject(VTable* vtablePtr, ComponentBasePtr selfPtr);
 
-			VTable*				m_vtablePtr;
-			ComponentBasePtr	m_selfPtr;
+			VTable*				vtablePtr;
+			ComponentBasePtr	selfPtr;
 		};
 
 	private:

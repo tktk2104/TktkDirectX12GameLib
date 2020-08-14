@@ -12,7 +12,7 @@ namespace tktk
 			node.second->moveNewComponent();
 		}
 		m_startList.moveNewComponent();
-		m_collisionList.moveNewComponent();
+		m_collisionList.movePreFrameAddedNode();
 		m_drawList.moveNewComponent();
 
 		// アクティブフラグの判定とフラグ変更時の関数呼び出し処理
