@@ -11,7 +11,7 @@ namespace tktk
 		{
 			node.second->moveNewComponent();
 		}
-		m_startList.moveNewComponent();
+		m_startList.movePreFrameAddedNode();
 		m_collisionList.movePreFrameAddedNode();
 		m_drawList.movePreFrameAddedNode();
 
@@ -22,7 +22,7 @@ namespace tktk
 		}
 
 		// 「start()」関数呼び出し処理
-		m_startList.runStart();
+		m_startList.runStartFunc();
 		
 		// 「update()」関数呼び出し処理
 		for (const auto& node : m_mainMap)

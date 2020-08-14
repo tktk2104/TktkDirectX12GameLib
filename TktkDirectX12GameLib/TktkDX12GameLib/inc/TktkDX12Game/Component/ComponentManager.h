@@ -7,7 +7,7 @@
 #include <unordered_map>
 #include "ComponentUpdatePriorityList.h"
 #include "ComponentMainList.h"
-#include "ComponentStartFunc/ComponentSatrtList.h"
+#include "ComponentStartFunc/ComponentStartList.h"
 #include "ComponentCollisionFunc/ComponentCollisionList.h"
 #include "ComponentDrawFunc/ComponentDrawList.h"
 
@@ -55,7 +55,7 @@ namespace tktk
 		ComponentUpdatePriorityList									m_priorityList;		// コンポーネントの更新処理の呼び出し順を管理するリスト
 		std::multimap<float, std::shared_ptr<ComponentMainList>>	m_mainMap;			// コンポーネントを巡回するためのマップ
 		std::unordered_map<int, std::weak_ptr<ComponentMainList>>	m_addComponentMap;	// コンポーネントを追加するためのマップ
-		ComponentSatrtList											m_startList;		// start()を呼ぶためのリスト
+		ComponentStartList											m_startList;		// start()を呼ぶためのリスト
 		ComponentCollisionList										m_collisionList;	// 衝突判定処理を呼ぶためのリスト
 		ComponentDrawList											m_drawList;			// draw()を呼ぶためのリスト
 	};

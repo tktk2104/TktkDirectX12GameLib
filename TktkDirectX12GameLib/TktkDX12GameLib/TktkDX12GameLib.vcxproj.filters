@@ -66,12 +66,6 @@
     <ClInclude Include="inc\TktkDX12Game\Component\ComponentGameObjectFunc\GameObjectComponentList.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="inc\TktkDX12Game\Component\ComponentStartFunc\ComponentStartRunner.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\TktkDX12Game\Component\ComponentStartFunc\ComponentSatrtList.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\Mesh\BasicMesh\Loader\BasicMeshLoadPmdArgs.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -486,6 +480,12 @@
     <ClInclude Include="inc\TktkDX12Game\Component\ComponentDrawFunc\ComponentDrawFuncRunner.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="inc\TktkDX12Game\Component\ComponentStartFunc\ComponentStartFuncRunner.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\TktkDX12Game\Component\ComponentStartFunc\ComponentStartList.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\TktkDX12Game\_MainManager\DX12GameManager.cpp">
@@ -531,12 +531,6 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="src\TktkDX12Game\Component\ComponentGameObjectFunc\GameObjectComponentList.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\TktkDX12Game\Component\ComponentStartFunc\ComponentStartRunner.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\TktkDX12Game\Component\ComponentStartFunc\ComponentSatrtList.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="src\TktkDX12Game\DXGameResource\Mesh\BasicMesh\Loader\BasicMeshPmdLoader.cpp">
@@ -822,6 +816,12 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="src\TktkDX12Game\Component\ComponentDrawFunc\ComponentDrawFuncRunner.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TktkDX12Game\Component\ComponentStartFunc\ComponentStartFuncRunner.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TktkDX12Game\Component\ComponentStartFunc\ComponentStartList.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>

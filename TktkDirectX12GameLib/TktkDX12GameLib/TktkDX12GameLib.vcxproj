@@ -202,8 +202,8 @@
     <ClInclude Include="inc\TktkDX12Game\Component\ComponentMainList.h" />
     <ClInclude Include="inc\TktkDX12Game\Component\ComponentManager.h" />
     <ClInclude Include="inc\TktkDX12Game\Component\ComponentPtr.h" />
-    <ClInclude Include="inc\TktkDX12Game\Component\ComponentStartFunc\ComponentSatrtList.h" />
-    <ClInclude Include="inc\TktkDX12Game\Component\ComponentStartFunc\ComponentStartRunner.h" />
+    <ClInclude Include="inc\TktkDX12Game\Component\ComponentStartFunc\ComponentStartList.h" />
+    <ClInclude Include="inc\TktkDX12Game\Component\ComponentStartFunc\ComponentStartFuncRunner.h" />
     <ClInclude Include="inc\TktkDX12Game\Component\ComponentUpdatePriorityList.h" />
     <ClInclude Include="inc\TktkDX12BaseComponents\2D\PostEffectDrawer\PostEffectDrawer.h" />
     <ClInclude Include="inc\TktkDX12BaseComponents\2D\PostEffectDrawer\PostEffectDrawerMaker.h" />
@@ -358,8 +358,8 @@
     <ClCompile Include="src\TktkDX12Game\Component\ComponentGameObjectFunc\ComponentGameObjectFuncRunner.cpp" />
     <ClCompile Include="src\TktkDX12Game\Component\ComponentMainList.cpp" />
     <ClCompile Include="src\TktkDX12Game\Component\ComponentManager.cpp" />
-    <ClCompile Include="src\TktkDX12Game\Component\ComponentStartFunc\ComponentSatrtList.cpp" />
-    <ClCompile Include="src\TktkDX12Game\Component\ComponentStartFunc\ComponentStartRunner.cpp" />
+    <ClCompile Include="src\TktkDX12Game\Component\ComponentStartFunc\ComponentStartList.cpp" />
+    <ClCompile Include="src\TktkDX12Game\Component\ComponentStartFunc\ComponentStartFuncRunner.cpp" />
     <ClCompile Include="src\TktkDX12Game\Component\ComponentUpdatePriorityList.cpp" />
     <ClCompile Include="src\TktkDX12BaseComponents\2D\PostEffectDrawer\PostEffectDrawer.cpp" />
     <ClCompile Include="src\TktkDX12BaseComponents\2D\PostEffectDrawer\PostEffectDrawerMaker.cpp" />
