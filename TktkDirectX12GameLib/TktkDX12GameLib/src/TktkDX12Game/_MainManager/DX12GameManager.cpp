@@ -581,7 +581,7 @@ namespace tktk
 
 	tktkMath::Vector2 DX12GameManager::mousePos()
 	{
-		return m_mouse->mousePos();
+		return m_mouse->mousePos(m_window->getHWND());
 	}
 
 	bool DX12GameManager::isPush(KeybordKeyType keyType)

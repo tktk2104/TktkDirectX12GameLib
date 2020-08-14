@@ -20,10 +20,11 @@ namespace tktk
 		}
 	}
 
-	tktkMath::Vector2 Mouse::mousePos() const
+	tktkMath::Vector2 Mouse::mousePos(HWND hWnd) const
 	{
 		POINT tempMousePos;
 		GetCursorPos(&tempMousePos);
+		ScreenToClient(hWnd, &tempMousePos);
 		return { static_cast<float>(tempMousePos.x), static_cast<float>(tempMousePos.y) };
 	}
 

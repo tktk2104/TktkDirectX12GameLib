@@ -3,6 +3,7 @@
 
 #include <unordered_map>
 #include <TktkMath/Structs/Vector2.h>
+#include <TktkDX12Wrapper/Includer/WindowsHeaderIncluder.h>
 #include "MouseButtonType.h"
 
 namespace tktk
@@ -31,7 +32,7 @@ namespace tktk
 		bool isTrigger(MouseButtonType buttonType) const;
 
 		// マウスカーソルの座標を取得する
-		tktkMath::Vector2 mousePos() const;
+		tktkMath::Vector2 mousePos(HWND hWnd) const;
 
 	private:
 
