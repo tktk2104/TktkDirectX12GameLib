@@ -2,56 +2,66 @@
 
 namespace tktk
 {
-	void GameObjectComponentList::runHandleMessageAll(unsigned int messageId, const MessageAttachment& value)
+	void GameObjectComponentList::runHandleMessageAll(unsigned int messageId, const MessageAttachment& value) const
 	{
-		for (auto& node : m_componentList)
+		for (const auto& node : m_componentList)
 		{
 			node.runHandleMessage(value, messageId);
 		}
 	}
 
-	void GameObjectComponentList::runAfterChangeParentAll(const GameObjectPtr& beforParent)
+	void GameObjectComponentList::runAfterChangeParentAll(const GameObjectPtr& beforParent) const
 	{
-		for (auto& node : m_componentList)
+		for (const auto& node : m_componentList)
 		{
 			node.runAfterChangeParent(beforParent);
 		}
 	}
 
-	void GameObjectComponentList::runOnCollisionEnterAll(const GameObjectPtr& other)
+	void GameObjectComponentList::runOnCollisionEnterAll(const GameObjectPtr& other) const
 	{
-		for (auto& node : m_componentList)
+		for (const auto& node : m_componentList)
 		{
 			node.runOnCollisionEnter(other);
 		}
 	}
 
-	void GameObjectComponentList::runOnCollisionStayAll(const GameObjectPtr& other)
+	void GameObjectComponentList::runOnCollisionStayAll(const GameObjectPtr& other) const
 	{
-		for (auto& node : m_componentList)
+		for (const auto& node : m_componentList)
 		{
 			node.runOnCollisionStay(other);
 		}
 	}
 
-	void GameObjectComponentList::runOnCollisionExitAll(const GameObjectPtr& other)
+	void GameObjectComponentList::runOnCollisionExitAll(const GameObjectPtr& other) const
 	{
-		for (auto& node : m_componentList)
+		for (const auto& node : m_componentList)
 		{
 			node.runOnCollisionExit(other);
 		}
 	}
 
-	void GameObjectComponentList::destroyAll()
+	void GameObjectComponentList::destroyAll() const
 	{
-		for (auto& node : m_componentList)
+		for (const auto& node : m_componentList)
 		{
 			node.destroy();
 		}
 	}
 
+	void GameObjectComponentList::movePreFrameAddedNode()
+	{
+		// メインリストに移動する情報が入ったリストの要素をメインリストに移動
+		m_componentList.splice_after(std::begin(m_componentList), std::move(m_nextFrameAddNodeList));
+
+		// コピー元のコンテナは削除
+		m_nextFrameAddNodeList.clear();
+	}
+
 	void GameObjectComponentList::removeDeadComponent()
 	{
-		m_componentList.remove_if([this](const auto& node) { return node.isDead(); });
+		// 死亡フラグの立ったコンポーネントをリストから削除する
+		m_componentList.remove_if([](const auto& node) { return node.isDead(); });
 	}
 }

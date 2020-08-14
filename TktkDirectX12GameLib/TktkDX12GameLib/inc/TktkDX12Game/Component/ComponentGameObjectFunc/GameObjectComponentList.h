@@ -6,8 +6,6 @@
 
 namespace tktk
 {
-	class ComponentBase;
-
 	// ゲームオブジェクトが持っているコンポーネントのリスト
 	class GameObjectComponentList
 	{
@@ -32,28 +30,33 @@ namespace tktk
 		std::forward_list<ComponentPtr<ComponentType>> findAll() const;
 
 		// 全てのメッセージ取得関数を呼ぶ
-		void runHandleMessageAll(unsigned int messageId, const MessageAttachment& value);
+		void runHandleMessageAll(unsigned int messageId, const MessageAttachment& value) const;
 
 		// 全ての「子供の全てのコンポーネントの親要素が変わった時関数」を呼ぶ
-		void runAfterChangeParentAll(const GameObjectPtr& beforParent);
+		void runAfterChangeParentAll(const GameObjectPtr& beforParent) const;
 
 		// 全てのコンポーネントの衝突開始関数を呼ぶ
-		void runOnCollisionEnterAll(const GameObjectPtr& other);
+		void runOnCollisionEnterAll(const GameObjectPtr& other) const;
 
 		// 全てのコンポーネントの衝突中関数を呼ぶ
-		void runOnCollisionStayAll(const GameObjectPtr& other);
+		void runOnCollisionStayAll(const GameObjectPtr& other) const;
 
 		// 全てのコンポーネントの衝突終了関数を呼ぶ
-		void runOnCollisionExitAll(const GameObjectPtr& other);
+		void runOnCollisionExitAll(const GameObjectPtr& other) const;
 
 		// 全てのコンポーネントを殺す
-		void destroyAll();
+		void destroyAll() const;
 
+		// 前フレームに追加されたコンポーネントをメインリストに追加する
+		void movePreFrameAddedNode();
+
+		// 死亡フラグが立っているコンポーネントを削除する
 		void removeDeadComponent();
 
 	private:
 
 		std::forward_list<ComponentGameObjectFuncRunner> m_componentList;
+		std::forward_list<ComponentGameObjectFuncRunner> m_nextFrameAddNodeList;
 	};
 //┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 //┃ここから下は関数の実装
@@ -63,7 +66,7 @@ namespace tktk
 	template<class ComponentType>
 	inline ComponentPtr<ComponentType> GameObjectComponentList::add(const std::weak_ptr<ComponentType>& weakPtr)
 	{
-		m_componentList.emplace_front(weakPtr);
+		m_nextFrameAddNodeList.emplace_front(weakPtr);
 		return ComponentPtr<ComponentType>(weakPtr);
 	}
 

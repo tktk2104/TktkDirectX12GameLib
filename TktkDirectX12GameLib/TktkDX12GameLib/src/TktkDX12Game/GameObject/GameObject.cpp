@@ -25,6 +25,7 @@ namespace tktk
 
 	void GameObject::update()
 	{
+		m_componentList.movePreFrameAddedNode();
 		m_componentList.removeDeadComponent();
 
 		m_isActive = m_nextFrameActive;
