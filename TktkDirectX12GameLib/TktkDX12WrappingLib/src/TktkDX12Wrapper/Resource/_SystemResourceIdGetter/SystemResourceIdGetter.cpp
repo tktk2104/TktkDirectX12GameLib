@@ -7,15 +7,15 @@ namespace tktk
 	{
 		initParam->viewPortNum										+= SystemViewportNum;
 		initParam->scissorRectNum									+= SystemScissorRectNum;
-		initParam->bufferResourceInitParam.vertexBufferNum			+= SystemVertexBufferNum;
-		initParam->bufferResourceInitParam.indexBufferNum			+= SystemIndexBufferNum;
-		initParam->bufferResourceInitParam.constantBufferNum		+= SystemCBufferNum;
-		initParam->bufferResourceInitParam.textureBufferNum			+= SystemTextureBufferNum;
-		initParam->bufferResourceInitParam.renderTargetBufferNum	+= SystemRtBufferNum;
-		initParam->bufferResourceInitParam.depthStencilBufferNum	+= SystemDsBufferNum;
-		initParam->descriptorHeapInitParam.basicDescriptorHeapNum	+= SystemBasicDescriptorHeapNum;
-		initParam->descriptorHeapInitParam.rtvDescriptorHeapNum		+= SystemRtvDescriptorHeapNum;
-		initParam->descriptorHeapInitParam.dsvDescriptorHeapNum		+= SystemDsvDescriptorHeapNum;
+		initParam->bufferResourceNum.vertexBufferNum			+= SystemVertexBufferNum;
+		initParam->bufferResourceNum.indexBufferNum			+= SystemIndexBufferNum;
+		initParam->bufferResourceNum.constantBufferNum		+= SystemCBufferNum;
+		initParam->bufferResourceNum.textureBufferNum			+= SystemTextureBufferNum;
+		initParam->bufferResourceNum.renderTargetBufferNum	+= SystemRtBufferNum;
+		initParam->bufferResourceNum.depthStencilBufferNum	+= SystemDsBufferNum;
+		initParam->descriptorHeapNum.basicDescriptorHeapNum	+= SystemBasicDescriptorHeapNum;
+		initParam->descriptorHeapNum.rtvDescriptorHeapNum		+= SystemRtvDescriptorHeapNum;
+		initParam->descriptorHeapNum.dsvDescriptorHeapNum		+= SystemDsvDescriptorHeapNum;
 		initParam->rootSignatureNum									+= SystemRootSignatureNum;
 		initParam->pipeLineStateNum									+= SystemPipeLineStateNum;
 	}
@@ -32,47 +32,47 @@ namespace tktk
 
 	unsigned int SystemResourceIdGetter::getSystemId(SystemVertexBufferType type) const
 	{
-		return  m_basicResourceNum.bufferResourceInitParam.vertexBufferNum + static_cast<unsigned int>(type);
+		return  m_basicResourceNum.bufferResourceNum.vertexBufferNum + static_cast<unsigned int>(type);
 	}
 
 	unsigned int SystemResourceIdGetter::getSystemId(SystemIndexBufferType type) const
 	{
-		return  m_basicResourceNum.bufferResourceInitParam.indexBufferNum + static_cast<unsigned int>(type);
+		return  m_basicResourceNum.bufferResourceNum.indexBufferNum + static_cast<unsigned int>(type);
 	}
 
 	unsigned int SystemResourceIdGetter::getSystemId(SystemCBufferType type) const
 	{
-		return m_basicResourceNum.bufferResourceInitParam.constantBufferNum + static_cast<unsigned int>(type);
+		return m_basicResourceNum.bufferResourceNum.constantBufferNum + static_cast<unsigned int>(type);
 	}
 
 	unsigned int SystemResourceIdGetter::getSystemId(SystemTextureBufferType type) const
 	{
-		return m_basicResourceNum.bufferResourceInitParam.textureBufferNum + static_cast<unsigned int>(type);
+		return m_basicResourceNum.bufferResourceNum.textureBufferNum + static_cast<unsigned int>(type);
 	}
 
 	unsigned int SystemResourceIdGetter::getSystemId(SystemRtBufferType type) const
 	{
-		return m_basicResourceNum.bufferResourceInitParam.renderTargetBufferNum + static_cast<unsigned int>(type);
+		return m_basicResourceNum.bufferResourceNum.renderTargetBufferNum + static_cast<unsigned int>(type);
 	}
 
 	unsigned int SystemResourceIdGetter::getSystemId(SystemDsBufferType type) const
 	{
-		return  m_basicResourceNum.bufferResourceInitParam.depthStencilBufferNum + static_cast<unsigned int>(type);
+		return  m_basicResourceNum.bufferResourceNum.depthStencilBufferNum + static_cast<unsigned int>(type);
 	}
 
 	unsigned int SystemResourceIdGetter::getSystemId(SystemBasicDescriptorHeapType type) const
 	{
-		return m_basicResourceNum.descriptorHeapInitParam.basicDescriptorHeapNum + static_cast<unsigned int>(type);
+		return m_basicResourceNum.descriptorHeapNum.basicDescriptorHeapNum + static_cast<unsigned int>(type);
 	}
 
 	unsigned int SystemResourceIdGetter::getSystemId(SystemRtvDescriptorHeapType type) const
 	{
-		return m_basicResourceNum.descriptorHeapInitParam.rtvDescriptorHeapNum + static_cast<unsigned int>(type);
+		return m_basicResourceNum.descriptorHeapNum.rtvDescriptorHeapNum + static_cast<unsigned int>(type);
 	}
 
 	unsigned int SystemResourceIdGetter::getSystemId(SystemDsvDescriptorHeapType type) const
 	{
-		return m_basicResourceNum.descriptorHeapInitParam.dsvDescriptorHeapNum + static_cast<unsigned int>(type);
+		return m_basicResourceNum.descriptorHeapNum.dsvDescriptorHeapNum + static_cast<unsigned int>(type);
 	}
 
 	unsigned int SystemResourceIdGetter::getSystemId(SystemRootSignatureType type) const

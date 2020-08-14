@@ -5,18 +5,21 @@
 
 namespace tktk
 {
+	// このディスクリプタヒープで扱うバッファーの種類
 	enum class RtvDescriptorType
 	{
 		normal,
 		backBuffer
 	};
 
+	// 個々のディスクリプタの情報
 	struct RtvDescriptorParam
 	{
 		RtvDescriptorType	type;
 		unsigned int		id;
 	};
 
+	// レンダーターゲットビュー用のディスクリプタヒープを作る時に必要な変数
 	struct RtvDescriptorHeapInitParam
 	{
 		bool							shaderVisible{ true };

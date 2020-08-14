@@ -1,7 +1,7 @@
 #ifndef DESCRIPTOR_HEAP_H_
 #define DESCRIPTOR_HEAP_H_
 
-#include "DescriptorHeapInitParam.h"
+#include "DescriptorHeapNum.h"
 #include "DescriptorHeapParam.h"
 
 #include "Basic/BasicDescriptorHeap.h"
@@ -15,7 +15,7 @@ namespace tktk
 	{
 	public:
 
-		DescriptorHeap(const DescriptorHeapInitParam& initParam);
+		DescriptorHeap(const DescriptorHeapNum& initParam);
 
 	public: /* コマンドリストに登録する処理 */
 

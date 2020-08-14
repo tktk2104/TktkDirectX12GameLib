@@ -32,7 +32,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hInstancePrev, LPSTR pCmdLine,
 			resourceInitParam.rootSignatureNum	= RootSignatureNum;
 
 			{
-				auto& descriptorHeapInitParam = resourceInitParam.descriptorHeapInitParam;
+				auto& descriptorHeapInitParam = resourceInitParam.descriptorHeapNum;
 
 				descriptorHeapInitParam.basicDescriptorHeapNum	= BasicDescriptorHeapNum;
 				descriptorHeapInitParam.rtvDescriptorHeapNum	= RtvDescriptorHeapNum;
@@ -40,7 +40,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hInstancePrev, LPSTR pCmdLine,
 			}
 
 			{
-				auto& bufferResourceInitParam = resourceInitParam.bufferResourceInitParam;
+				auto& bufferResourceInitParam = resourceInitParam.bufferResourceNum;
 
 				bufferResourceInitParam.vertexBufferNum			= VertexBufferNum;
 				bufferResourceInitParam.indexBufferNum			= IndexBufferNum;

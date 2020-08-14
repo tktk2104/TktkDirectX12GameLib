@@ -3,7 +3,7 @@
 
 namespace tktk
 {
-	struct DescriptorHeapInitParam
+	struct DescriptorHeapNum
 	{
 		unsigned int basicDescriptorHeapNum;
 		unsigned int rtvDescriptorHeapNum;

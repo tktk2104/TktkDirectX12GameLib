@@ -171,7 +171,8 @@
     <ClInclude Include="inc\TktkDX12Wrapper\Resource\Buffer\Texture\TextureBufferData.h" />
     <ClInclude Include="inc\TktkDX12Wrapper\Resource\Buffer\Texture\TextureBufferInitParam.h" />
     <ClInclude Include="inc\TktkDX12Wrapper\Resource\DescriptorHeap\DescriptorHeap.h" />
-    <ClInclude Include="inc\TktkDX12Wrapper\Resource\DescriptorHeap\DescriptorHeapInitParam.h" />
+    <ClInclude Include="inc\TktkDX12Wrapper\Resource\DescriptorHeap\DescriptorHeapInitParamIncluder.h" />
+    <ClInclude Include="inc\TktkDX12Wrapper\Resource\DescriptorHeap\DescriptorHeapNum.h" />
     <ClInclude Include="inc\TktkDX12Wrapper\Resource\DescriptorHeap\DescriptorHeapParam.h" />
     <ClInclude Include="inc\TktkDX12Wrapper\Resource\DescriptorHeap\Dsv\DsvDescriptorHeap.h" />
     <ClInclude Include="inc\TktkDX12Wrapper\Resource\DescriptorHeap\Dsv\DsvDescriptorHeapData.h" />

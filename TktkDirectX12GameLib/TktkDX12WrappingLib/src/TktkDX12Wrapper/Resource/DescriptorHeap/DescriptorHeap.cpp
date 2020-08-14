@@ -2,7 +2,7 @@
 
 namespace tktk
 {
-	DescriptorHeap::DescriptorHeap(const DescriptorHeapInitParam& initParam)
+	DescriptorHeap::DescriptorHeap(const DescriptorHeapNum& initParam)
 		: m_basicDescriptorHeap(initParam.basicDescriptorHeapNum)
 		, m_rtvDescriptorHeap(initParam.rtvDescriptorHeapNum)
 		, m_dsvDescriptorHeap(initParam.dsvDescriptorHeapNum)

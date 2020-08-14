@@ -11,8 +11,8 @@ namespace tktk
 		, m_viewport(initParam.viewPortNum)
 		, m_scissorRect(initParam.scissorRectNum)
 		, m_graphicsPipeLine(initParam.pipeLineStateNum, initParam.rootSignatureNum)
-		, m_descriptorHeap(initParam.descriptorHeapInitParam)
-		, m_bufferResource(initParam.bufferResourceInitParam)
+		, m_descriptorHeap(initParam.descriptorHeapNum)
+		, m_bufferResource(initParam.bufferResourceNum)
 	{
 	}
 
