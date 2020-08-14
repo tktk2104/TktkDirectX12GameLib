@@ -183,6 +183,7 @@
     <ClInclude Include="inc\TktkDX12Wrapper\Resource\DX3DResource.h" />
     <ClInclude Include="inc\TktkDX12Wrapper\Resource\DX3DResourceInitParam.h" />
     <ClInclude Include="inc\TktkDX12Wrapper\Resource\GraphicsPipeLine\GraphicsPipeLine.h" />
+    <ClInclude Include="inc\TktkDX12Wrapper\Resource\GraphicsPipeLine\GraphicsPipeLineInitParamIncluder.h" />
     <ClInclude Include="inc\TktkDX12Wrapper\Resource\_SystemResourceIdGetter\SystemResourceIdGetter.h" />
     <ClInclude Include="inc\TktkDX12Wrapper\Resource\_SystemResourceIdGetter\SystemResourceType.h" />
     <ClInclude Include="inc\TktkDX12Wrapper\Resource\_SystemResourceIdGetter\IdType\SystemBasicDescriptorHeapType.h" />

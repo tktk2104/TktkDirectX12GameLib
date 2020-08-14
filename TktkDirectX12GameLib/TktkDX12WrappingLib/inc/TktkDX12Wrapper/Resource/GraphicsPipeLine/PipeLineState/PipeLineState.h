@@ -1,7 +1,6 @@
 #ifndef GRAPHICS_PIPELINE_STATE_H_
 #define GRAPHICS_PIPELINE_STATE_H_
 
-#include <string>
 #include <TktkContainer/HeapArray/HeapArray.h>
 #include "PipeLineStateData.h"
 
