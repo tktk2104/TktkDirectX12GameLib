@@ -5,12 +5,12 @@
 
 namespace tktk
 {
-	DX3DBaseObjects::DX3DBaseObjects(const DX3DResourceNum& initParam, HWND hwnd, const tktkMath::Vector2& windowSize, const tktkMath::Color& backGroundColor, bool craeteDebugLayer)
-		: m_dX3DResource(initParam)
-		, m_backGroundColor(backGroundColor)
+	DX3DBaseObjects::DX3DBaseObjects(const DX3DBaseObjectsInitParam& initParam)
+		: m_dX3DResource(initParam.resourceNum)
+		, m_backGroundColor(initParam.backGroundColor)
 	{
 #ifdef _DEBUG
-		if (craeteDebugLayer)
+		if (initParam.craeteDebugLayer)
 		{
 			ID3D12Debug* debugLayer{ nullptr };
 			D3D12GetDebugInterface(IID_PPV_ARGS(&debugLayer));
@@ -30,7 +30,7 @@ namespace tktk
 
 		// ファクトリを作る
 #ifdef _DEBUG
-		if (craeteDebugLayer) CreateDXGIFactory2(DXGI_CREATE_FACTORY_DEBUG, IID_PPV_ARGS(&m_factory));
+		if (initParam.craeteDebugLayer) CreateDXGIFactory2(DXGI_CREATE_FACTORY_DEBUG, IID_PPV_ARGS(&m_factory));
 		else CreateDXGIFactory1(IID_PPV_ARGS(&m_factory));
 #else
 		CreateDXGIFactory1(IID_PPV_ARGS(&m_factory));
@@ -51,7 +51,7 @@ namespace tktk
 		m_device->CreateCommandQueue(&commandQueueDesc, IID_PPV_ARGS(&m_commandQueue));
 		
 		// スワップチェーンを初期化する
-		m_swapChain.initialize(hwnd, m_factory, m_commandQueue, windowSize);
+		m_swapChain.initialize(initParam.hwnd, m_factory, m_commandQueue, initParam.windowSize);
 
 		// フェンスを初期化する
 		m_fence.initialize(m_device);
@@ -62,10 +62,10 @@ namespace tktk
 		m_commandList->Reset(m_commandAllocator, nullptr);
 
 		// ビューポートを作る
-		m_dX3DResource.createViewport(getSystemId(SystemViewportType::Basic), { { windowSize, tktkMath::Vector2_v::zero, 1.0f, 0.0f } });
+		m_dX3DResource.createViewport(getSystemId(SystemViewportType::Basic), { { initParam.windowSize, tktkMath::Vector2_v::zero, 1.0f, 0.0f } });
 
 		// シザー矩形を作る
-		m_dX3DResource.createScissorRect(getSystemId(SystemScissorRectType::Basic), { { tktkMath::Vector2_v::zero, windowSize } });
+		m_dX3DResource.createScissorRect(getSystemId(SystemScissorRectType::Basic), { { tktkMath::Vector2_v::zero, initParam.windowSize } });
 
 		// スワップチェーンのバックバッファーをディスクリプタヒープで使うための準備
 		m_dX3DResource.createRtBuffer(getSystemId(SystemRtBufferType::BackBuffer_1), m_swapChain.getPtr(), 0U);
@@ -73,33 +73,33 @@ namespace tktk
 
 		// バックバッファー用のディスクリプタヒープを作る
 		{
-			RtvDescriptorHeapInitParam initParam{};
-			initParam.shaderVisible = false;
-			initParam.descriptorParamArray.resize(2U);
-			initParam.descriptorParamArray.at(0U).type = RtvDescriptorType::normal;
-			initParam.descriptorParamArray.at(0U).id = getSystemId(SystemRtBufferType::BackBuffer_1);
-			initParam.descriptorParamArray.at(1U).type = RtvDescriptorType::normal;
-			initParam.descriptorParamArray.at(1U).id = getSystemId(SystemRtBufferType::BackBuffer_2);
+			RtvDescriptorHeapInitParam rtvDescriptorHeapInitParam{};
+			rtvDescriptorHeapInitParam.shaderVisible = false;
+			rtvDescriptorHeapInitParam.descriptorParamArray.resize(2U);
+			rtvDescriptorHeapInitParam.descriptorParamArray.at(0U).type = RtvDescriptorType::normal;
+			rtvDescriptorHeapInitParam.descriptorParamArray.at(0U).id = getSystemId(SystemRtBufferType::BackBuffer_1);
+			rtvDescriptorHeapInitParam.descriptorParamArray.at(1U).type = RtvDescriptorType::normal;
+			rtvDescriptorHeapInitParam.descriptorParamArray.at(1U).id = getSystemId(SystemRtBufferType::BackBuffer_2);
 
-			m_dX3DResource.createRtvDescriptorHeap(getSystemId(SystemRtvDescriptorHeapType::BackBuffer), m_device, initParam);
+			m_dX3DResource.createRtvDescriptorHeap(getSystemId(SystemRtvDescriptorHeapType::BackBuffer), m_device, rtvDescriptorHeapInitParam);
 		}
 
 		// デフォルトの深度バッファーを作る
 		{
-			DepthStencilBufferInitParam initParam{};
-			initParam.depthStencilSize = windowSize;
-			initParam.useAsShaderResource = false;
+			DepthStencilBufferInitParam dsbInitParam{};
+			dsbInitParam.depthStencilSize = initParam.windowSize;
+			dsbInitParam.useAsShaderResource = false;
 
-			m_dX3DResource.createDsBuffer(getSystemId(SystemDsBufferType::Basic), m_device, initParam);
+			m_dX3DResource.createDsBuffer(getSystemId(SystemDsBufferType::Basic), m_device, dsbInitParam);
 		}
 
 		// デフォルトの深度ディスクリプタヒープを作る
 		{
-			DsvDescriptorHeapInitParam initParam{};
-			initParam.shaderVisible = false;
-			initParam.descriptorParamArray.push_back({ DsvDescriptorType::normal, getSystemId(SystemDsBufferType::Basic) });
+			DsvDescriptorHeapInitParam dsvDescriptorHeapInitParam{};
+			dsvDescriptorHeapInitParam.shaderVisible = false;
+			dsvDescriptorHeapInitParam.descriptorParamArray.push_back({ DsvDescriptorType::normal, getSystemId(SystemDsBufferType::Basic) });
 
-			m_dX3DResource.createDsvDescriptorHeap(getSystemId(SystemDsvDescriptorHeapType::Basic), m_device, initParam);
+			m_dX3DResource.createDsvDescriptorHeap(getSystemId(SystemDsvDescriptorHeapType::Basic), m_device, dsvDescriptorHeapInitParam);
 		}
 
 		// 白テクスチャを作る

@@ -1,10 +1,8 @@
 #ifndef WINDOW_H_
 #define WINDOW_H_
 
-#include <Windows.h>
-#undef min
-#undef max
 #include <TktkMath/Structs/Vector2.h>
+#include "../Includer/WindowsHeaderIncluder.h"
 #include "WindowInitParam.h"
 
 namespace tktk

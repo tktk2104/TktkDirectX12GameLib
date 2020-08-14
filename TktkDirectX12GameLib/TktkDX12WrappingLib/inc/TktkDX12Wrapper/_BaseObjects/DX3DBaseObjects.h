@@ -2,10 +2,8 @@
 #define DX3D_BASE_OBJECTS_H_
 
 #include <array>
-#include <vector>
 #include <dxgi1_6.h> //IDXGIFactory6
-#include <TktkMath/Structs/Color.h>
-#include <TktkMath/Structs/Vector2.h>
+#include "DX3DBaseObjectsInitParam.h"
 #include "../Includer/D3d12Includer.h"
 #include "../SwapChain/SwapChain.h"
 #include "../Fence/Fence.h"
@@ -18,7 +16,7 @@ namespace tktk
 	{
 	public:
 
-		DX3DBaseObjects(const DX3DResourceNum& initParam, HWND hwnd, const tktkMath::Vector2& windowSize, const tktkMath::Color& backGroundColor, bool craeteDebugLayer);
+		DX3DBaseObjects(const DX3DBaseObjectsInitParam& initParam);
 		~DX3DBaseObjects();
 
 	public: /* 描画開始、終了処理 */

@@ -225,6 +225,12 @@
     <ClInclude Include="inc\TktkDX12Wrapper\Resource\DX3DResourceInitParamIncluder.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="inc\TktkDX12Wrapper\Includer\WindowsHeaderIncluder.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\TktkDX12Wrapper\_BaseObjects\DX3DBaseObjectsInitParam.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\TktkDX12Wrapper\Window\Window.cpp">
