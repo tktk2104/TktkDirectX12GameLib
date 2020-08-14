@@ -74,4 +74,9 @@ namespace tktk
 	{
 		return m_albedoColor;
 	}
+
+	void SphereMeshDrawer::setAlbedoColor(const tktkMath::Color& color)
+	{
+		m_albedoColor = color;
+	}
 }
