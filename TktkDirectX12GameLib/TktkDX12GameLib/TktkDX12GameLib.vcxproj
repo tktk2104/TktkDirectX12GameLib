@@ -279,6 +279,7 @@
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\_SystemDXGameResourceIdGetter\IdType\SystemBasicMeshMaterialType.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\_SystemDXGameResourceIdGetter\IdType\SystemBasicMeshType.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\_SystemDXGameResourceIdGetter\SystemDXGameResourceIdGetter.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\_SystemDXGameResourceIdGetter\SystemDXGameResourceType.h" />
     <ClInclude Include="inc\TktkDX12Game\EventMessage\MessageAttachment.h" />
     <ClInclude Include="inc\TktkDX12Game\GameObject\GameObject.h" />
     <ClInclude Include="inc\TktkDX12Game\GameObject\GameObjectManager.h" />

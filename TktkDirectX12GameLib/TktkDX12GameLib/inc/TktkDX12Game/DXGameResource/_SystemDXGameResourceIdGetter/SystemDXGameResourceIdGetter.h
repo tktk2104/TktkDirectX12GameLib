@@ -1,9 +1,7 @@
 #ifndef SYSTEM_DX_GAME_RESOURCE_ID_GETTER_H_
 #define SYSTEM_DX_GAME_RESOURCE_ID_GETTER_H_
 
-#include "IdType/SystemBasicMeshType.h"
-#include "IdType/SystemBasicMeshMaterialType.h"
-#include "IdType/SystemPostEffectMaterialType.h"
+#include "SystemDXGameResourceType.h"
 #include "../DXGameResourceNum.h"
 
 namespace tktk
