@@ -30,10 +30,13 @@ namespace tktk
     {
         BoneMatrixCbufferData boneMatBuf;
 
+        // 骨情報の定数バッファを単位行列でクリアする
         for (unsigned int i = 0; i < 128U; i++)
         {
             boneMatBuf.boneMatrix[i] = tktkMath::Matrix4_v::identity;
         }
+
+        // 骨情報の定数バッファを更新する
         DX12GameManager::updateCBuffer(DX12GameManager::getSystemId(SystemCBufferType::BoneMatCbuffer), boneMatBuf);
     }
 }
