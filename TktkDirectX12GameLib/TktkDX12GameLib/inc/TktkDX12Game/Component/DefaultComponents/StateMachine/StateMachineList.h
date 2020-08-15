@@ -13,6 +13,7 @@ namespace tktk
 	class StateMachine;
 
 	// ステートマシンのポインタを管理するクラス
+	// ※GameObjectの「setupStateMachine」関数で作成される
 	class StateMachineList
 	{
 	public:

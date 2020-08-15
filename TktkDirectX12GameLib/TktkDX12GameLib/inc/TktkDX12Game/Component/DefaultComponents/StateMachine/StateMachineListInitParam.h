@@ -5,10 +5,12 @@
 
 namespace tktk
 {
+	// ステートマシンを作るために必要な変数
 	struct StateMachineListInitParam
 	{
 	public:
 
+		// ステートの要素（入れ子構造になっている）
 		struct Node
 		{
 		public:
@@ -28,6 +30,7 @@ namespace tktk
 
 	public:
 
+		// 一番上の階層の要素
 		std::vector<Node>	m_roots;
 	};
 }

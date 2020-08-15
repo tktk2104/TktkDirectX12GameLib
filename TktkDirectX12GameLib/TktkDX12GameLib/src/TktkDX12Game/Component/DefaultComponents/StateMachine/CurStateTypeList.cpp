@@ -19,11 +19,10 @@ namespace tktk
 		m_stateTypeList.clear();
 	}
 
-	bool CurStateTypeList::contain(int stateType)
+	bool CurStateTypeList::contain(int stateType) const
 	{
-		auto begin = std::begin(m_stateTypeList);
 		auto end = std::end(m_stateTypeList);
-		auto result = std::find(begin, end, stateType);
+		auto result = std::find(std::begin(m_stateTypeList), end, stateType);
 		return (result != end);
 	}
 }
