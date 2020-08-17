@@ -170,9 +170,21 @@ namespace tktk
 		m_motion.load(id, motionFileName);
 	}
 
-	void DXGameResource::updateMotion(unsigned int skeletonId, unsigned int motionId, unsigned int curFrame)
+	unsigned int DXGameResource::getMotionEndFrameNo(unsigned int id) const
 	{
-		m_skeleton.transform(skeletonId, m_motion.calculateBoneTransformMatrices(motionId, curFrame));
+		return m_motion.getEndFrameNo(id);
+	}
+
+	void DXGameResource::updateMotion(
+		unsigned int skeletonId,
+		unsigned int curMotionId,
+		unsigned int preMotionId,
+		unsigned int curFrame,
+		unsigned int preFrame,
+		float amount
+	)
+	{
+		m_skeleton.transform(skeletonId, m_motion.calculateBoneTransformMatrices(curMotionId, preMotionId, curFrame, preFrame, amount));
 	}
 
 	void DXGameResource::createPostEffectMaterial(unsigned int id, const PostEffectMaterialInitParam& initParam)

@@ -474,9 +474,28 @@ namespace tktk
 		m_dxGameResource->loadMotion(id, motionFileName);
 	}
 
-	void DX12GameManager::updateMotion(unsigned int skeletonId, unsigned int motionId, unsigned int curFrame)
+	unsigned int DX12GameManager::getMotionEndFrameNo(unsigned int id)
 	{
-		m_dxGameResource->updateMotion(skeletonId, motionId, curFrame);
+		return m_dxGameResource->getMotionEndFrameNo(id);
+	}
+
+	void DX12GameManager::updateMotion(
+		unsigned int skeletonId,
+		unsigned int curMotionId,
+		unsigned int preMotionId,
+		unsigned int curFrame,
+		unsigned int preFrame,
+		float amount
+	)
+	{
+		m_dxGameResource->updateMotion(
+			skeletonId,
+			curMotionId,
+			preMotionId,
+			curFrame,
+			preFrame,
+			amount
+		);
 	}
 
 	void DX12GameManager::createPostEffectMaterial(unsigned int id, const PostEffectMaterialInitParam& initParam)

@@ -299,8 +299,19 @@ namespace tktk
 		// vmdファイルを読み込んで「MotionData」のインスタンスを作る
 		static void loadMotion(unsigned int id, const std::string& motionFileName);
 
-		// 指定のフレームのモーション情報を使用してスケルトンを更新する
-		static void updateMotion(unsigned int skeletonId, unsigned int motionId, unsigned int curFrame);
+		// 指定のモーションの終了キーの番号を取得する
+		static unsigned int getMotionEndFrameNo(unsigned int id);
+
+		// 2種類のモーション情報を線形補完してスケルトンを更新する
+		// ※補完割合の値は「0.0fでpreFrame100%」、「1.0fでcurFrame100%」となる
+		static void updateMotion(
+			unsigned int skeletonId,
+			unsigned int curMotionId,
+			unsigned int preMotionId,
+			unsigned int curFrame,
+			unsigned int preFrame,
+			float amount
+		);
 
 	public: /* ポストエフェクト関係の処理 */
 

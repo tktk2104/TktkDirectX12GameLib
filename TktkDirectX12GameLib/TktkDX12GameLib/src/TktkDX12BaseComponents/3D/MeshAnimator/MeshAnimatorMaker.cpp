@@ -19,7 +19,14 @@ namespace tktk
 	ComponentPtr<MeshAnimator> MeshAnimatorMaker::create()
 	{
 		// コンポーネントを作成してそのポインタを返す
-		return m_user->createComponent<MeshAnimator>(m_initMotionId);
+		return m_user->createComponent<MeshAnimator>(m_initMotionId, m_isLoop);
+	}
+
+	MeshAnimatorMaker& MeshAnimatorMaker::isLoop(bool value)
+	{
+		// 値を設定して自身の参照を返す
+		m_isLoop = value;
+		return *this;
 	}
 
 	MeshAnimatorMaker& MeshAnimatorMaker::initMotionIdImpl(unsigned int value)

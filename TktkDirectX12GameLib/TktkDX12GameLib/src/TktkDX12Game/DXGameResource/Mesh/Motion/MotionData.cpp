@@ -7,28 +7,44 @@ namespace tktk
 {
     MotionData::MotionData(const std::string& motionFileName)
     {
+        // vmdファイルの読み込み結果の構造体
         tktkFileIo::lodevmd::loadData outData{};
 
+        // vmdファイルの読み込み処理
         tktkFileIo::lodevmd::load(&outData, motionFileName);
 
+        m_endFrameNo = 0U;
+
+        // 読み込んだモーションデータのキーフレームの配列を巡回する
         for (const auto& node : outData.motionData)
         {
+            // もし現在の最終キーフレームよりも大きなキーがあったらその値に更新する
+            if (m_endFrameNo < node.frameNo) m_endFrameNo = node.frameNo;
+
+            // ボーンの名称毎にキーフレームの配列を作る
             m_boneKeyFrames[node.boneName].push_back({ node.frameNo, node.location, tktkMath::Vector3_v::one, node.rotation });
         }
 
         // キーフレームの順番を整理する
         for (auto& motion : m_boneKeyFrames)
         {
+            // キーフレームの順番でソートする
             std::sort(
-                motion.second.begin(),
-                motion.second.end(),
+                std::begin(motion.second),
+                std::end(motion.second),
                 [](const KeyFrame& lval, const KeyFrame& rval) { return lval.frameNo <= rval.frameNo; }
             );
         }
     }
 
+    unsigned int MotionData::getEndFrameNo() const
+    {
+        return m_endFrameNo;
+    }
+
     std::vector<MotionBoneParam> MotionData::calculateBoneTransformMatrices(unsigned int frame) const
     {
+        // ボーン毎の座標変換行列の配列
         std::vector<MotionBoneParam> result{};
         result.reserve(m_boneKeyFrames.size());
 
