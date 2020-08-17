@@ -4,7 +4,7 @@
 
 #include <TktkDX12Wrapper/Resource/DescriptorHeap/DescriptorHeapParam.h>
 #include "../DXGameResource/Sprite/SpriteMaterialDrawFuncArgs.h"
-#include "../DXGameResource/Mesh/MeshDrawFuncBaseArgs.h"
+#include "../DXGameResource/Mesh/Structs/MeshDrawFuncBaseArgs.h"
 #include "../DXGameResource/Mesh/BasicMesh/Loader/BasicMeshLoadPmdArgs.h"
 #include "../DXGameResource/Mesh/BasicMesh/Loader/BasicMeshLoadPmdReturnValue.h"
 #include "../DXGameResource/PostEffect/PostEffectMaterialDrawFuncArgs.h"

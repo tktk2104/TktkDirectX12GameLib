@@ -7,11 +7,6 @@ namespace tktk
 	BasicMesh::BasicMesh(const std::string& writeShadowMapVsFilePath, unsigned int basicMeshNum)
 		: m_basicMeshArray(basicMeshNum)
 	{
-		// TODO : Meshクラスを作ってこのクラスを持たせて、下の処理をMeshクラスに移動する
-		// メッシュ共通で使用する座標変換定数バッファを作る
-		tktk::DX12GameManager::createCBuffer(tktk::DX12GameManager::getSystemId(tktk::SystemCBufferType::MeshTransform), MeshTransformCbuffer());
-		tktk::DX12GameManager::createCBuffer(tktk::DX12GameManager::getSystemId(tktk::SystemCBufferType::MeshShadowMap), MeshShadowMapCBuffer());
-
 		createWriteShadowMapRootSignature();
 		createWriteShadowMapGraphicsPipeLineState(writeShadowMapVsFilePath);
 	

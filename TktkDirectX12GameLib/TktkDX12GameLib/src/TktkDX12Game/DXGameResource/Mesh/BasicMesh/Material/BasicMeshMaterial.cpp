@@ -4,8 +4,8 @@
 #include <stdexcept>
 #endif // _DEBUG
 #include "TktkDX12Game/_MainManager/DX12GameManager.h"
-#include "TktkDX12Game/DXGameResource/Mesh/BasicMesh/BasicMeshMaterialCbuffer.h"
-#include "TktkDX12Game/DXGameResource/Mesh/BasicMesh/BasicMonoColorMeshCbuffer.h"
+#include "TktkDX12Game/DXGameResource/Mesh/BasicMesh/Structs/BasicMeshMaterialCbuffer.h"
+#include "TktkDX12Game/DXGameResource/Mesh/BasicMesh/Structs/BasicMonoColorMeshCbuffer.h"
 
 namespace tktk
 {

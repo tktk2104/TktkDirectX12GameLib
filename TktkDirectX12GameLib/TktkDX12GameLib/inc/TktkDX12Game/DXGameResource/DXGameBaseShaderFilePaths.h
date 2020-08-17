@@ -3,6 +3,7 @@
 
 #include <TktkDX12Wrapper/Resource/GraphicsPipeLine/PipeLineState/PipeLineStateInitParam.h>
 #include "PostEffect/PostEffectShaderFilePaths.h"
+#include "Mesh/MeshResourceShaderFilePaths.h"
 
 namespace tktk
 {
@@ -10,19 +11,13 @@ namespace tktk
 	struct DXGameBaseShaderFilePaths
 	{
 		// スプライトシェーダーのファイルパス
-		tktk::ShaderFilePaths		spriteShaderFilePaths{};
+		ShaderFilePaths				spriteShaderFilePaths		{};
 
 		// 2Dラインシェーダーのファイルパス
-		tktk::ShaderFilePaths		line2DShaderFilePaths{};
+		ShaderFilePaths				line2DShaderFilePaths		{};
 
-		// 通常メッシュシェーダーのファイルパス
-		tktk::ShaderFilePaths		basicMeshShaderFilePaths{};
-
-		// 単色塗りつぶしメッシュシェーダーのファイルパス
-		std::string					monoColorShaderPsFilePath;
-
-		// シャドウマップシェーダーのファイルパス
-		std::string					writeShadowMapVsFilePath{};
+		// メッシュ描画で使用するシェーダーのファイルパス
+		MeshResourceShaderFilePaths	meshResourceShaderFilePaths	{};
 
 		// ポストエフェクトシェーダーのファイルパス
 		PostEffectShaderFilePaths	postEffectShaderFilePaths{};

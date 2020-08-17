@@ -46,16 +46,16 @@ namespace tktk
 			m_systemDXGameResourceIdGetter = std::make_unique<SystemDXGameResourceIdGetter>(&dxGameResourceNum);
 
 			DXGameBaseShaderFilePaths dxGameBaseShaderFilePaths{};
-			dxGameBaseShaderFilePaths.spriteShaderFilePaths.vsFilePath					= gameManagerInitParam.tktkLibResFolderPath + "TktkLibRes/shader/SpriteVertexShader.cso";
-			dxGameBaseShaderFilePaths.spriteShaderFilePaths.psFilePath					= gameManagerInitParam.tktkLibResFolderPath + "TktkLibRes/shader/SpritePixelShader.cso";
-			dxGameBaseShaderFilePaths.line2DShaderFilePaths.vsFilePath					= gameManagerInitParam.tktkLibResFolderPath + "TktkLibRes/shader/Line2DVertexShader.cso";
-			dxGameBaseShaderFilePaths.line2DShaderFilePaths.psFilePath					= gameManagerInitParam.tktkLibResFolderPath + "TktkLibRes/shader/Line2DPixelShader.cso";
-			dxGameBaseShaderFilePaths.basicMeshShaderFilePaths.vsFilePath				= gameManagerInitParam.tktkLibResFolderPath + "TktkLibRes/shader/BasicMeshVertexShader.cso";
-			dxGameBaseShaderFilePaths.basicMeshShaderFilePaths.psFilePath				= gameManagerInitParam.tktkLibResFolderPath + "TktkLibRes/shader/BasicMeshPixelShader.cso";
-			dxGameBaseShaderFilePaths.monoColorShaderPsFilePath							= gameManagerInitParam.tktkLibResFolderPath + "TktkLibRes/shader/BasicMonoColorMeshPixelShader.cso";
-			dxGameBaseShaderFilePaths.writeShadowMapVsFilePath							= gameManagerInitParam.tktkLibResFolderPath + "TktkLibRes/shader/BasicMeshShadowVertexShader.cso";
-			dxGameBaseShaderFilePaths.postEffectShaderFilePaths.postEffectVSFilePath	= gameManagerInitParam.tktkLibResFolderPath + "TktkLibRes/shader/PostEffectVertexShader.cso";
-			dxGameBaseShaderFilePaths.postEffectShaderFilePaths.monochromePSFilePath	= gameManagerInitParam.tktkLibResFolderPath + "TktkLibRes/shader/MonochromePixelShader.cso";
+			dxGameBaseShaderFilePaths.spriteShaderFilePaths.vsFilePath								= gameManagerInitParam.tktkLibResFolderPath + "TktkLibRes/shader/SpriteVertexShader.cso";
+			dxGameBaseShaderFilePaths.spriteShaderFilePaths.psFilePath								= gameManagerInitParam.tktkLibResFolderPath + "TktkLibRes/shader/SpritePixelShader.cso";
+			dxGameBaseShaderFilePaths.line2DShaderFilePaths.vsFilePath								= gameManagerInitParam.tktkLibResFolderPath + "TktkLibRes/shader/Line2DVertexShader.cso";
+			dxGameBaseShaderFilePaths.line2DShaderFilePaths.psFilePath								= gameManagerInitParam.tktkLibResFolderPath + "TktkLibRes/shader/Line2DPixelShader.cso";
+			dxGameBaseShaderFilePaths.meshResourceShaderFilePaths.basicShaderFilePaths.vsFilePath	= gameManagerInitParam.tktkLibResFolderPath + "TktkLibRes/shader/BasicMeshVertexShader.cso";
+			dxGameBaseShaderFilePaths.meshResourceShaderFilePaths.basicShaderFilePaths.psFilePath	= gameManagerInitParam.tktkLibResFolderPath + "TktkLibRes/shader/BasicMeshPixelShader.cso";
+			dxGameBaseShaderFilePaths.meshResourceShaderFilePaths.monoColorShaderPsFilePath			= gameManagerInitParam.tktkLibResFolderPath + "TktkLibRes/shader/BasicMonoColorMeshPixelShader.cso";
+			dxGameBaseShaderFilePaths.meshResourceShaderFilePaths.writeShadowMapVsFilePath			= gameManagerInitParam.tktkLibResFolderPath + "TktkLibRes/shader/BasicMeshShadowVertexShader.cso";
+			dxGameBaseShaderFilePaths.postEffectShaderFilePaths.postEffectVSFilePath				= gameManagerInitParam.tktkLibResFolderPath + "TktkLibRes/shader/PostEffectVertexShader.cso";
+			dxGameBaseShaderFilePaths.postEffectShaderFilePaths.monochromePSFilePath				= gameManagerInitParam.tktkLibResFolderPath + "TktkLibRes/shader/MonochromePixelShader.cso";
 
 			m_dxGameResource = std::make_unique<DXGameResource>(dxGameResourceNum, dxGameBaseShaderFilePaths);
 		}
@@ -158,12 +158,16 @@ namespace tktk
 				m_mouse->update();
 				m_dxGameResource->updateScene();
 				m_dxGameResource->updateSound();
+
 				m_gameObjectManager->update();
 				m_componentManager->update();
 
 				m_dx3dBaseObjects->beginDraw();
 				m_componentManager->draw();
 				m_dx3dBaseObjects->endDraw();
+
+				m_gameObjectManager->removeDeadObject();
+				m_componentManager->removeDeadComponent();
 			}
 		}
 		m_dxGameResource->clearSound();

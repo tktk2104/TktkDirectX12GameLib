@@ -5,6 +5,7 @@
 
 namespace tktk
 {
+	// メッシュ描画の時の頂点、インデックスバッファの解釈方法
 	enum class MeshPrimitiveTopology
 	{
 		TriangleList	= D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST,

@@ -3,7 +3,7 @@
 
 #include <unordered_map>
 #include "BasicMeshMaterialInitParam.h"
-#include "../../MeshDrawFuncBaseArgs.h"
+#include "../../Structs/MeshDrawFuncBaseArgs.h"
 #include "BasicMeshMaterialAppendParam.h"
 
 namespace tktk

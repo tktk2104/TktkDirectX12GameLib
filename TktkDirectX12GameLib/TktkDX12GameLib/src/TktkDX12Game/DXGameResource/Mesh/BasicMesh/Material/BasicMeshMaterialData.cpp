@@ -1,7 +1,7 @@
 #include "TktkDX12Game/DXGameResource/Mesh/BasicMesh/Material/BasicMeshMaterialData.h"
 
 #include "TktkDX12Game/_MainManager/DX12GameManager.h"
-#include "TktkDX12Game/DXGameResource/Mesh/BasicMesh/BasicMeshMaterialCbuffer.h"
+#include "TktkDX12Game/DXGameResource/Mesh/BasicMesh/Structs/BasicMeshMaterialCbuffer.h"
 
 namespace tktk
 {

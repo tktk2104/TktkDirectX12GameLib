@@ -1,32 +1,35 @@
 #ifndef DX_GAME_RESOURCE_H_
 #define DX_GAME_RESOURCE_H_
 
+#include <memory>
+#include "Mesh/MeshResourceNum.h"
+#include "Mesh/MeshResourceShaderFilePaths.h"
+#include "Mesh/MeshResourceInitParamIncluder.h"
+#include "Mesh/MeshResourceFuncArgsIncluder.h"
+
 #include "DXGameResourceNum.h"
 #include "DXGameBaseShaderFilePaths.h"
-
 #include "Scene/SceneManager.h"
 #include "Sound/Sound.h"
 #include "PostEffect/PostEffectMaterial.h"
 #include "Sprite/SpriteMaterial.h"
 #include "Line2D/Line2DMaterial.h"
-#include "Mesh/BasicMesh/Mesh/BasicMesh.h"
-#include "Mesh/BasicMesh/Material/BasicMeshMaterial.h"
-#include "Mesh/BasicMesh/Loader/BasicMeshLoadPmdArgs.h"
-#include "Mesh/BasicMesh/Loader/BasicMeshLoadPmdReturnValue.h"
-#include "Mesh/Skeleton/Skeleton.h"
-#include "Mesh/Motion/Motion.h"
+
 #include "Camera/Camera.h"
 #include "Light/Light.h"
 
 namespace tktk
 {
+	// 前方宣言達
+	class MeshResource;
+
 	// ゲームで使用するリソースを管理するクラス
 	class DXGameResource
 	{
 	public:
 
 		DXGameResource(const DXGameResourceNum& resourceNum, const DXGameBaseShaderFilePaths& filePaths);
-		~DXGameResource() = default;
+		~DXGameResource();
 
 	public: /* シーン関係の処理 */
 
@@ -200,17 +203,14 @@ namespace tktk
 
 	private:
 
-		SceneManager		m_sceneManager;
-		Sound				m_sound;
-		SpriteMaterial		m_spriteMaterial;
-		Line2DMaterial		m_line2DMaterial;
-		Skeleton			m_skeleton;
-		BasicMesh			m_basicMesh;
-		BasicMeshMaterial	m_basicMeshMaterial;
-		Motion				m_motion;
-		PostEffectMaterial	m_postEffectMaterial;
-		Camera				m_camera;
-		Light				m_light;
+		SceneManager					m_sceneManager;
+		Sound							m_sound;
+		SpriteMaterial					m_spriteMaterial;
+		Line2DMaterial					m_line2DMaterial;
+		std::unique_ptr<MeshResource>	m_meshResource;
+		PostEffectMaterial				m_postEffectMaterial;
+		Camera							m_camera;
+		Light							m_light;
 	};
 }
 #endif // !DX_GAME_RESOURCE_H_

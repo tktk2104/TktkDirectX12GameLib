@@ -2,8 +2,8 @@
 #define BASIC_MESH_INIT_PARAM_H_
 
 #include <vector>
-#include "../Subset.h"
-#include "../../MeshPrimitiveTopology.h"
+#include "../Structs/Subset.h"
+#include "../../Structs/MeshPrimitiveTopology.h"
 
 namespace tktk
 {

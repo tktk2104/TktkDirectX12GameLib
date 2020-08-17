@@ -1,7 +1,7 @@
 #include "TktkDX12Game/DXGameResource/DXGameResource.h"
 
 #include "TktkDX12Game/_MainManager/DX12GameManager.h"
-#include "TktkDX12Game/DXGameResource/Mesh/BasicMesh/Loader/BasicMeshPmdLoader.h"
+#include "TktkDX12Game/DXGameResource/Mesh/MeshResource.h"
 
 namespace tktk
 {
@@ -10,15 +10,16 @@ namespace tktk
 		, m_sound(resourceNum.soundNum)
 		, m_spriteMaterial(filePaths.spriteShaderFilePaths, resourceNum.spriteMaterialNum)
 		, m_line2DMaterial(filePaths.line2DShaderFilePaths, resourceNum.line2DMaterialNum)
-		, m_skeleton(resourceNum.skeletonNum) // ※メッシュクラスの初期化にボーン行列定数バッファが必要なので先にコンストラクトする必要がある
-		, m_basicMesh(filePaths.writeShadowMapVsFilePath, resourceNum.basicMeshNum)
-		, m_basicMeshMaterial(filePaths.basicMeshShaderFilePaths, filePaths.monoColorShaderPsFilePath, resourceNum.basicMeshMaterialNum)
-		, m_motion(resourceNum.motionNum)
 		, m_postEffectMaterial(filePaths.postEffectShaderFilePaths, resourceNum.postEffectMaterialNum)
 		, m_camera(resourceNum.cameraNum)
 		, m_light(resourceNum.lightNum)
 	{
+		// 各種リソースクラスを作る
+		m_meshResource = std::make_unique<MeshResource>(resourceNum.meshResourceNum, filePaths.meshResourceShaderFilePaths);
 	}
+
+	// デストラクタを非インライン化する
+	DXGameResource::~DXGameResource() = default;
 
 	void DXGameResource::createScene(unsigned int id, const std::shared_ptr<SceneBase>& scenePtr, SceneVTable* vtablePtr)
 	{
@@ -97,94 +98,87 @@ namespace tktk
 
 	void DXGameResource::createBasicMesh(unsigned int id, const BasicMeshInitParam& initParam)
 	{
-		m_basicMesh.craete(id, initParam);
+		m_meshResource->createBasicMesh(id, initParam);
 	}
 
 	void DXGameResource::copyBasicMesh(unsigned int id, unsigned int originalId)
 	{
-		m_basicMesh.copy(id, originalId);
+		m_meshResource->copyBasicMesh(id, originalId);
 	}
 
 	void DXGameResource::createBasicMeshMaterial(unsigned int id, const BasicMeshMaterialInitParam& initParam)
 	{
-		m_basicMeshMaterial.create(id, initParam);
+		m_meshResource->createBasicMeshMaterial(id, initParam);
 	}
 
 	void DXGameResource::copyBasicMeshMaterial(unsigned int id, unsigned int originalId)
 	{
-		m_basicMeshMaterial.copy(id, originalId);
+		m_meshResource->copyBasicMeshMaterial(id, originalId);
 	}
 
 	void DXGameResource::setMaterialId(unsigned int id, unsigned int materialSlot, unsigned int materialId)
 	{
-		m_basicMesh.setMaterialId(id, materialSlot, materialId);
+		m_meshResource->setMaterialId(id, materialSlot, materialId);
 	}
 
 	void DXGameResource::writeBasicMeshShadowMap(unsigned int id, const MeshTransformCbuffer& transformBufferData) const
 	{
-		m_basicMesh.writeShadowMap(id, transformBufferData);
+		m_meshResource->writeBasicMeshShadowMap(id, transformBufferData);
 	}
 
 	void DXGameResource::setMaterialData(unsigned int id) const
 	{
-		m_basicMeshMaterial.setMaterialData(id);
+		m_meshResource->setMaterialData(id);
 	}
 
 	void DXGameResource::addMaterialAppendParam(unsigned int id, unsigned int cbufferId, unsigned int dataSize, void* dataTopPos)
 	{
-		m_basicMeshMaterial.addAppendParam(id, cbufferId, dataSize, dataTopPos);
+		m_meshResource->addMaterialAppendParam(id, cbufferId, dataSize, dataTopPos);
 	}
 
 	void DXGameResource::updateMaterialAppendParam(unsigned int id, unsigned int cbufferId, unsigned int dataSize, const void* dataTopPos)
 	{
-		m_basicMeshMaterial.updateAppendParam(id, cbufferId, dataSize, dataTopPos);
+		m_meshResource->updateMaterialAppendParam(id, cbufferId, dataSize, dataTopPos);
 	}
 
 	void DXGameResource::drawBasicMesh(unsigned int id, const MeshDrawFuncBaseArgs& baseArgs) const
 	{
-		m_basicMesh.drawMesh(id, baseArgs);
+		m_meshResource->drawBasicMesh(id, baseArgs);
 	}
 
 	BasicMeshLoadPmdReturnValue DXGameResource::loadPmd(const BasicMeshLoadPmdArgs& args)
 	{
-		return BasicMeshPmdLoader::loadPmd(args);
+		return m_meshResource->loadPmd(args);
 	}
 
 	void DXGameResource::createSkeleton(unsigned int id, const SkeletonInitParam& initParam)
 	{
-		m_skeleton.create(id, initParam);
+		m_meshResource->createSkeleton(id, initParam);
 	}
 
 	void DXGameResource::updateBoneMatrixCbuffer(unsigned int id) const
 	{
-		m_skeleton.updateBoneMatrixCbuffer(id);
+		m_meshResource->updateBoneMatrixCbuffer(id);
 	}
 
 	void DXGameResource::resetBoneMatrixCbuffer() const
 	{
-		m_skeleton.resetBoneMatrixCbuffer();
+		m_meshResource->resetBoneMatrixCbuffer();
 	}
 
 	void DXGameResource::loadMotion(unsigned int id, const std::string& motionFileName)
 	{
-		m_motion.load(id, motionFileName);
+		m_meshResource->loadMotion(id, motionFileName);
 	}
 
 	unsigned int DXGameResource::getMotionEndFrameNo(unsigned int id) const
 	{
-		return m_motion.getEndFrameNo(id);
+		return m_meshResource->getMotionEndFrameNo(id);
 	}
 
-	void DXGameResource::updateMotion(
-		unsigned int skeletonId,
-		unsigned int curMotionId,
-		unsigned int preMotionId,
-		unsigned int curFrame,
-		unsigned int preFrame,
-		float amount
-	)
+	void DXGameResource::updateMotion(unsigned int skeletonId, unsigned int curMotionId, unsigned int preMotionId, unsigned int curFrame, unsigned int preFrame, float amount)
 	{
-		m_skeleton.transform(skeletonId, m_motion.calculateBoneTransformMatrices(curMotionId, preMotionId, curFrame, preFrame, amount));
+		m_meshResource->updateMotion(skeletonId, curMotionId, preMotionId, curFrame, preFrame, amount);
 	}
 
 	void DXGameResource::createPostEffectMaterial(unsigned int id, const PostEffectMaterialInitParam& initParam)
