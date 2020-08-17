@@ -38,7 +38,10 @@ namespace tktk
 		{
 			node.second->runAfterCollide();
 		}
-		
+	}
+
+	void ComponentManager::removeDeadComponent()
+	{
 		// メインリストが管理しているコンポーネントポインタの生存確認
 		for (const auto& node : m_mainMap)
 		{
@@ -47,7 +50,7 @@ namespace tktk
 
 		// 衝突判定リストが管理しているコンポーネントポインタの生存確認
 		m_collisionList.removeDeadComponent();
-		
+
 		// 描画リストが管理しているコンポーネントポインタの生存確認
 		m_drawList.removeDeadComponent();
 	}

@@ -21,6 +21,9 @@ namespace tktk
 
 		void update();
 
+		// 死んだゲームオブジェクトを削除する
+		void removeDeadObject();
+
 	public:
 
 		// 全てのGameObjectにメッセージを送信する

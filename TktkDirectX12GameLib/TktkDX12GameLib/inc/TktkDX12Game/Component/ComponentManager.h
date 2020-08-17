@@ -27,6 +27,9 @@ namespace tktk
 		// コンポーネントの更新処理
 		void update();
 
+		// 死んだコンポーネントを削除する
+		void removeDeadComponent();
+
 		// コンポーネントの描画処理
 		void draw();
 
