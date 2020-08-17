@@ -63,17 +63,17 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hInstancePrev, LPSTR pCmdLine,
 		{
 			auto& dxGameResourceNum = initParam.dxGameResourceNum;
 
-			dxGameResourceNum.sceneNum				= SceneNum;
-			dxGameResourceNum.soundNum				= SoundNum;
-			dxGameResourceNum.spriteMaterialNum		= SpriteMaterialNum;
-			dxGameResourceNum.line2DMaterialNum		= line2DMaterialNum;
-			dxGameResourceNum.basicMeshNum			= BasicMeshNum;
-			dxGameResourceNum.basicMeshMaterialNum	= BasicMeshMaterialNum;
-			dxGameResourceNum.skeletonNum			= SkeletonNum;
-			dxGameResourceNum.motionNum				= MotionNum;
-			dxGameResourceNum.postEffectMaterialNum = PostEffectMaterialNum;
-			dxGameResourceNum.cameraNum				= CameraNum;
-			dxGameResourceNum.lightNum				= LightNum;
+			dxGameResourceNum.sceneNum								= SceneNum;
+			dxGameResourceNum.soundNum								= SoundNum;
+			dxGameResourceNum.spriteMaterialNum						= SpriteMaterialNum;
+			dxGameResourceNum.line2DMaterialNum						= line2DMaterialNum;
+			dxGameResourceNum.meshResourceNum.basicMeshNum			= BasicMeshNum;
+			dxGameResourceNum.meshResourceNum.basicMeshMaterialNum	= BasicMeshMaterialNum;
+			dxGameResourceNum.meshResourceNum.skeletonNum			= SkeletonNum;
+			dxGameResourceNum.meshResourceNum.motionNum				= MotionNum;
+			dxGameResourceNum.postEffectMaterialNum					= PostEffectMaterialNum;
+			dxGameResourceNum.cameraNum								= CameraNum;
+			dxGameResourceNum.lightNum								= LightNum;
 		}
 
 		// DX12GameManagerのセットアップ

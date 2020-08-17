@@ -37,6 +37,7 @@ struct Miku
 			.create();
 
 		tktk::MeshAnimatorMaker::makeStart(gameObject)
+			.isLoop(false)
 			.initMotionId(1U)
 			.create();
 
