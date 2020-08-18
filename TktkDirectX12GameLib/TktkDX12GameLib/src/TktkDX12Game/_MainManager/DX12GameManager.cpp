@@ -10,6 +10,8 @@
 #include "TktkDX12Game/Input/DirectInputWrapper/DirectInputWrapper.h"
 #include "TktkDX12Game/Time/ElapsedTimer.h"
 
+#include "TktkDX12Game/DXGameResource/Mesh/BasicMesh/Maker/SphereMeshMaker.h"
+
 namespace tktk
 {
 	std::unique_ptr<GameObjectManager>				DX12GameManager::m_gameObjectManager;

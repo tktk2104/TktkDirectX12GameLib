@@ -150,12 +150,6 @@
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\Mesh\Motion\MotionBoneParam.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="inc\TktkDX12Game\_MainManager\DX12GameManagerUseInitParams.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\TktkDX12Game\_MainManager\DX12GameManagerFuncInOutValueType.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="inc\TktkDX12Game\Input\DirectInputWrapper\GamePad\GamePad.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -508,6 +502,12 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameResourceFuncArgsIncluder.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\TktkDX12Game\_MainManager\DX12GameManagerInitParamIncluder.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\TktkDX12Game\_MainManager\DX12GameManagerFuncArgsIncluder.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

@@ -314,9 +314,9 @@
     <ClInclude Include="inc\TktkDX12Game\TktkDX12Game.h" />
     <ClInclude Include="inc\TktkDX12Game\_MainManager\DX12GameManager.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\_SystemDXGameResourceIdGetter\IdType\SystemPostEffectMaterialType.h" />
-    <ClInclude Include="inc\TktkDX12Game\_MainManager\DX12GameManagerFuncInOutValueType.h" />
+    <ClInclude Include="inc\TktkDX12Game\_MainManager\DX12GameManagerFuncArgsIncluder.h" />
     <ClInclude Include="inc\TktkDX12Game\_MainManager\DX12GameManagerInitParam.h" />
-    <ClInclude Include="inc\TktkDX12Game\_MainManager\DX12GameManagerUseInitParams.h" />
+    <ClInclude Include="inc\TktkDX12Game\_MainManager\DX12GameManagerInitParamIncluder.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\TktkDX12BaseComponents\2D\CircleCollider\CircleCollider.cpp" />
