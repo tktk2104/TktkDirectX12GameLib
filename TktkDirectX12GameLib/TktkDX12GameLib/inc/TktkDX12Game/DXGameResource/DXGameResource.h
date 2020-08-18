@@ -2,26 +2,30 @@
 #define DX_GAME_RESOURCE_H_
 
 #include <memory>
-#include "Mesh/MeshResourceNum.h"
-#include "Mesh/MeshResourceShaderFilePaths.h"
+#include "Scene/SceneVTable.h"
+#include "PostEffect/PostEffectMaterialInitParam.h"
+#include "PostEffect/PostEffectMaterialDrawFuncArgs.h"
+#include "Sprite/SpriteMaterialInitParam.h"
+#include "Sprite/SpriteMaterialDrawFuncArgs.h"
+#include "Line2D/Line2DMaterialInitParam.h"
+#include "Line2D/Line2DMaterialDrawFuncArgs.h"
 #include "Mesh/MeshResourceInitParamIncluder.h"
 #include "Mesh/MeshResourceFuncArgsIncluder.h"
 
 #include "DXGameResourceNum.h"
 #include "DXGameBaseShaderFilePaths.h"
-#include "Scene/SceneManager.h"
-#include "Sound/Sound.h"
-#include "PostEffect/PostEffectMaterial.h"
-#include "Sprite/SpriteMaterial.h"
-#include "Line2D/Line2DMaterial.h"
-
-#include "Camera/Camera.h"
-#include "Light/Light.h"
 
 namespace tktk
 {
 	// 前方宣言達
+	class SceneManager;
+	class Sound;
+	class PostEffectMaterial;
+	class SpriteMaterial;
+	class Line2DMaterial;
 	class MeshResource;
+	class Camera;
+	class Light;
 
 	// ゲームで使用するリソースを管理するクラス
 	class DXGameResource
@@ -68,6 +72,14 @@ namespace tktk
 
 		// 大元の音量を変更する（0.0f～1.0f）
 		void setMasterVolume(float volume);
+
+	public: /* ポストエフェクト関係の処理 */
+
+		// ポストエフェクトのマテリアルを作る
+		void createPostEffectMaterial(unsigned int id, const PostEffectMaterialInitParam& initParam);
+
+		// 指定のポストエフェクトを描画する
+		void drawPostEffect(unsigned int id, const PostEffectMaterialDrawFuncArgs& drawFuncArgs) const;
 
 	public: /* スプライト関係の処理 */
 
@@ -150,14 +162,6 @@ namespace tktk
 			float amount
 		);
 
-	public: /* ポストエフェクト関係の処理 */
-
-		// ポストエフェクトのマテリアルを作る
-		void createPostEffectMaterial(unsigned int id, const PostEffectMaterialInitParam& initParam);
-
-		// 指定のポストエフェクトを描画する
-		void drawPostEffect(unsigned int id, const PostEffectMaterialDrawFuncArgs& drawFuncArgs) const;
-
 	public: /* カメラ関係の処理 */
 
 		// カメラを作る
@@ -203,14 +207,14 @@ namespace tktk
 
 	private:
 
-		SceneManager					m_sceneManager;
-		Sound							m_sound;
-		SpriteMaterial					m_spriteMaterial;
-		Line2DMaterial					m_line2DMaterial;
-		std::unique_ptr<MeshResource>	m_meshResource;
-		PostEffectMaterial				m_postEffectMaterial;
-		Camera							m_camera;
-		Light							m_light;
+		std::unique_ptr<SceneManager>		m_sceneManager;
+		std::unique_ptr<Sound>				m_sound;
+		std::unique_ptr<PostEffectMaterial>	m_postEffectMaterial;
+		std::unique_ptr<SpriteMaterial>		m_spriteMaterial;
+		std::unique_ptr<Line2DMaterial>		m_line2DMaterial;
+		std::unique_ptr<MeshResource>		m_meshResource;
+		std::unique_ptr<Camera>				m_camera;
+		std::unique_ptr<Light>				m_light;
 	};
 }
 #endif // !DX_GAME_RESOURCE_H_

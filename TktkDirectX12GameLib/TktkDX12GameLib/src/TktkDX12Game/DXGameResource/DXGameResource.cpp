@@ -1,21 +1,28 @@
 #include "TktkDX12Game/DXGameResource/DXGameResource.h"
 
 #include "TktkDX12Game/_MainManager/DX12GameManager.h"
+#include "TktkDX12Game/DXGameResource/Scene/SceneManager.h"
+#include "TktkDX12Game/DXGameResource/Sound/Sound.h"
+#include "TktkDX12Game/DXGameResource/PostEffect/PostEffectMaterial.h"
+#include "TktkDX12Game/DXGameResource/Sprite/SpriteMaterial.h"
+#include "TktkDX12Game/DXGameResource/Line2D/Line2DMaterial.h"
 #include "TktkDX12Game/DXGameResource/Mesh/MeshResource.h"
+#include "TktkDX12Game/DXGameResource/Camera/Camera.h"
+#include "TktkDX12Game/DXGameResource/Light/Light.h"
 
 namespace tktk
 {
 	DXGameResource::DXGameResource(const DXGameResourceNum& resourceNum, const DXGameBaseShaderFilePaths& filePaths)
-		: m_sceneManager(resourceNum.sceneNum)
-		, m_sound(resourceNum.soundNum)
-		, m_spriteMaterial(filePaths.spriteShaderFilePaths, resourceNum.spriteMaterialNum)
-		, m_line2DMaterial(filePaths.line2DShaderFilePaths, resourceNum.line2DMaterialNum)
-		, m_postEffectMaterial(filePaths.postEffectShaderFilePaths, resourceNum.postEffectMaterialNum)
-		, m_camera(resourceNum.cameraNum)
-		, m_light(resourceNum.lightNum)
 	{
 		// 各種リソースクラスを作る
-		m_meshResource = std::make_unique<MeshResource>(resourceNum.meshResourceNum, filePaths.meshResourceShaderFilePaths);
+		m_sceneManager			= std::make_unique<SceneManager>(resourceNum.sceneNum);
+		m_sound					= std::make_unique<Sound>(resourceNum.soundNum);
+		m_postEffectMaterial	= std::make_unique<PostEffectMaterial>(filePaths.postEffectShaderFilePaths, resourceNum.postEffectMaterialNum);
+		m_spriteMaterial		= std::make_unique<SpriteMaterial>(filePaths.spriteShaderFilePaths, resourceNum.spriteMaterialNum);
+		m_line2DMaterial		= std::make_unique<Line2DMaterial>(filePaths.line2DShaderFilePaths, resourceNum.line2DMaterialNum);
+		m_meshResource			= std::make_unique<MeshResource>(resourceNum.meshResourceNum, filePaths.meshResourceShaderFilePaths);
+		m_camera				= std::make_unique<Camera>(resourceNum.cameraNum);
+		m_light					= std::make_unique<Light>(resourceNum.lightNum);
 	}
 
 	// デストラクタを非インライン化する
@@ -23,77 +30,87 @@ namespace tktk
 
 	void DXGameResource::createScene(unsigned int id, const std::shared_ptr<SceneBase>& scenePtr, SceneVTable* vtablePtr)
 	{
-		m_sceneManager.create(id, scenePtr, vtablePtr);
+		m_sceneManager->create(id, scenePtr, vtablePtr);
 	}
 
 	void DXGameResource::enableScene(unsigned int id)
 	{
-		m_sceneManager.enable(id);
+		m_sceneManager->enable(id);
 	}
 
 	void DXGameResource::disableScene(unsigned int id)
 	{
-		m_sceneManager.disable(id);
+		m_sceneManager->disable(id);
 	}
 
 	void DXGameResource::updateScene()
 	{
-		m_sceneManager.update();
+		m_sceneManager->update();
 	}
 
 	void DXGameResource::updateSound()
 	{
-		m_sound.update();
+		m_sound->update();
 	}
 
 	void DXGameResource::clearSound()
 	{
-		m_sound.clear();
+		m_sound->clear();
 	}
 
 	void DXGameResource::loadSound(unsigned int id, const std::string& fileName)
 	{
-		m_sound.load(id, fileName);
+		m_sound->load(id, fileName);
 	}
 
 	void DXGameResource::playSound(unsigned int id, bool loopPlay)
 	{
-		m_sound.play(id, loopPlay);
+		m_sound->play(id, loopPlay);
 	}
 
 	void DXGameResource::stopSound(unsigned int id)
 	{
-		m_sound.stop(id);
+		m_sound->stop(id);
 	}
 
 	void DXGameResource::pauseSound(unsigned int id)
 	{
-		m_sound.pause(id);
+		m_sound->pause(id);
 	}
 
 	void DXGameResource::setMasterVolume(float volume)
 	{
-		m_sound.setMasterVolume(volume);
+		m_sound->setMasterVolume(volume);
+	}
+
+	void DXGameResource::createPostEffectMaterial(unsigned int id, const PostEffectMaterialInitParam& initParam)
+	{
+		m_postEffectMaterial->create(id, initParam);
+	}
+
+	void DXGameResource::drawPostEffect(unsigned int id, const PostEffectMaterialDrawFuncArgs& drawFuncArgs) const
+	{
+		m_postEffectMaterial->drawPostEffect(id, drawFuncArgs);
 	}
 
 	void DXGameResource::createSpriteMaterial(unsigned int id, const SpriteMaterialInitParam& initParam)
 	{
-		m_spriteMaterial.create(id, initParam);
+		m_spriteMaterial->create(id, initParam);
 	}
 
 	void DXGameResource::drawSprite(unsigned int id, const SpriteMaterialDrawFuncArgs& drawFuncArgs) const
 	{
-		m_spriteMaterial.drawSprite(id, drawFuncArgs);
+		m_spriteMaterial->drawSprite(id, drawFuncArgs);
 	}
 
 	void DXGameResource::createLine(unsigned int id, const Line2DMaterialDataInitParam& initParam)
 	{
-		m_line2DMaterial.create(id, initParam);
+		m_line2DMaterial->create(id, initParam);
 	}
 
 	void DXGameResource::drawLine(unsigned int id, const Line2DMaterialDrawFuncArgs& drawFuncArgs) const
 	{
-		m_line2DMaterial.drawLine(id, drawFuncArgs);
+		m_line2DMaterial->drawLine(id, drawFuncArgs);
 	}
 
 	void DXGameResource::createBasicMesh(unsigned int id, const BasicMeshInitParam& initParam)
@@ -181,68 +198,58 @@ namespace tktk
 		m_meshResource->updateMotion(skeletonId, curMotionId, preMotionId, curFrame, preFrame, amount);
 	}
 
-	void DXGameResource::createPostEffectMaterial(unsigned int id, const PostEffectMaterialInitParam& initParam)
-	{
-		m_postEffectMaterial.create(id, initParam);
-	}
-
-	void DXGameResource::drawPostEffect(unsigned int id, const PostEffectMaterialDrawFuncArgs& drawFuncArgs) const
-	{
-		m_postEffectMaterial.drawPostEffect(id, drawFuncArgs);
-	}
-
 	void DXGameResource::createCamera(unsigned int id)
 	{
-		m_camera.create(id);
+		m_camera->create(id);
 	}
 
 	const tktkMath::Matrix4& DXGameResource::getViewMatrix(unsigned int cameraId) const
 	{
-		return m_camera.getViewMatrix(cameraId);
+		return m_camera->getViewMatrix(cameraId);
 	}
 
 	void DXGameResource::setViewMatrix(unsigned int cameraId, const tktkMath::Matrix4& view)
 	{
-		m_camera.setViewMatrix(cameraId, view);
+		m_camera->setViewMatrix(cameraId, view);
 	}
 
 	const tktkMath::Matrix4& DXGameResource::getProjectionMatrix(unsigned int cameraId) const
 	{
-		return m_camera.getProjectionMatrix(cameraId);
+		return m_camera->getProjectionMatrix(cameraId);
 	}
 
 	void DXGameResource::setProjectionMatrix(unsigned int cameraId, const tktkMath::Matrix4& projection)
 	{
-		m_camera.setProjectionMatrix(cameraId, projection);
+		m_camera->setProjectionMatrix(cameraId, projection);
 	}
 
 	void DXGameResource::createLight(unsigned int id, const tktkMath::Color& ambient, const tktkMath::Color& diffuse, const tktkMath::Color& speqular, const tktkMath::Vector3& position)
 	{
-		m_light.create(id, ambient, diffuse, speqular, position);
+		m_light->create(id, ambient, diffuse, speqular, position);
 	}
 
 	void DXGameResource::updateLightCBuffer(unsigned int id) const
 	{
-		m_light.updateLightCBuffer(id);
+		m_light->updateLightCBuffer(id);
 	}
 
 	void DXGameResource::setLightAmbient(unsigned int id, const tktkMath::Color& ambient)
 	{
-		return m_light.setAmbient(id, ambient);
+		return m_light->setAmbient(id, ambient);
 	}
 
 	void DXGameResource::setLightDiffuse(unsigned int id, const tktkMath::Color& diffuse)
 	{
-		return m_light.setDiffuse(id, diffuse);
+		return m_light->setDiffuse(id, diffuse);
 	}
 
 	void DXGameResource::setLightSpeqular(unsigned int id, const tktkMath::Color& speqular)
 	{
-		return m_light.setSpeqular(id, speqular);
+		return m_light->setSpeqular(id, speqular);
 	}
 
 	void DXGameResource::setLightPosition(unsigned int id, const tktkMath::Vector3& position)
 	{
-		return m_light.setPosition(id, position);
+		return m_light->setPosition(id, position);
 	}
 }
