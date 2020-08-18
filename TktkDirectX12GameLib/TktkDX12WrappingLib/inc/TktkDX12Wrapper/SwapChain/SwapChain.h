@@ -12,13 +12,10 @@ namespace tktk
 	{
 	public:
 
-		SwapChain() = default;
+		SwapChain(HWND hwnd, IDXGIFactory6* factory, ID3D12CommandQueue* commandQueue, const tktkMath::Vector2& windowSize);
 		~SwapChain();
 
 	public:
-
-		// 初期化する
-		void initialize(HWND hwnd, IDXGIFactory6* factory, ID3D12CommandQueue* commandQueue, const tktkMath::Vector2& windowSize);
 
 		// 現在のバックバッファーを識別するインデックスを更新する
 		void updateBackBufferIndex();
