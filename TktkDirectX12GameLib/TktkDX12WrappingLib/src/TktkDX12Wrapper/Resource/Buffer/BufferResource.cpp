@@ -19,6 +19,7 @@ namespace tktk
 		m_renderTargetBuffer	= std::make_unique<RenderTargetBuffer>(initParam.renderTargetBufferNum);
 	}
 
+	// デストラクタを非インライン化する
 	BufferResource::~BufferResource() = default;
 
 	void BufferResource::deleteUploadBufferAll()

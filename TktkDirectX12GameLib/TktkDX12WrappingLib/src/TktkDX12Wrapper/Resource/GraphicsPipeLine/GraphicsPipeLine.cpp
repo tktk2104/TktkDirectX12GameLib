@@ -11,6 +11,7 @@ namespace tktk
 		m_pipeLineState = std::make_unique<PipeLineState>(pipeLineNum);
 	}
 
+	// デストラクタを非インライン化する
 	GraphicsPipeLine::~GraphicsPipeLine() = default;
 
 	void GraphicsPipeLine::createRootSignature(unsigned int id, ID3D12Device* device, const RootSignatureInitParam& initParam)

@@ -24,6 +24,9 @@ namespace tktk
 		m_bufferResource	= std::make_unique<BufferResource>(resNum.bufferResourceNum);
 	}
 
+	// デストラクタを非インライン化する
+	DX3DResource::~DX3DResource() = default;
+
 	void DX3DResource::createViewport(unsigned int id, const std::vector<ViewportInitParam>& initParamArray)
 	{
 		m_viewport->create(id, initParamArray);

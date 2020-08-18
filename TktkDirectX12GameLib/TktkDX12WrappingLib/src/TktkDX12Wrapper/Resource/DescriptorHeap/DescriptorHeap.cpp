@@ -13,6 +13,7 @@ namespace tktk
 		m_dsvDescriptorHeap		= std::make_unique<DsvDescriptorHeap>(initParam.dsvDescriptorHeapNum);
 	}
 
+	// デストラクタを非インライン化する
 	DescriptorHeap::~DescriptorHeap() = default;
 
 	void DescriptorHeap::set(ID3D12Device* device, ID3D12GraphicsCommandList* commandList, const std::vector<DescriptorHeapParam>& heapParamArray) const
