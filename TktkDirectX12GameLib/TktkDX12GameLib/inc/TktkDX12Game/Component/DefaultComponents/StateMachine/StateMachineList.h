@@ -1,6 +1,7 @@
 #ifndef STATE_MACHINE_LIST_H_
 #define STATE_MACHINE_LIST_H_
 
+#include <memory>
 #include <vector>
 #include <unordered_map>
 #include "../../../GameObject/GameObjectPtr.h"
@@ -18,7 +19,7 @@ namespace tktk
 	{
 	public:
 
-		StateMachineList(const StateMachineListInitParam& initParam, const GameObjectPtr& user, GameObjectComponentList* componentList);
+		StateMachineList(const StateMachineListInitParam& initParam, const GameObjectPtr& user, const std::unique_ptr<GameObjectComponentList>& componentList);
 
 	public:
 
@@ -42,7 +43,7 @@ namespace tktk
 	private:
 
 		// 親の状態を持つステートマシンを作る
-		void createNode(StateMachineList::Node& parentNode, const StateMachineListInitParam::Node& nodeInitParam, const GameObjectPtr& user, GameObjectComponentList* componentList);
+		void createNode(StateMachineList::Node& parentNode, const StateMachineListInitParam::Node& nodeInitParam, const GameObjectPtr& user, const std::unique_ptr<GameObjectComponentList>& componentList);
 
 		// int型の配列から指定のステートを取得する
 		ComponentPtr<StateMachine> getTarget(const std::vector<int>& targetState) const;

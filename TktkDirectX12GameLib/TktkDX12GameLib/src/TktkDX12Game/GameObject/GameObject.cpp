@@ -192,7 +192,7 @@ namespace tktk
 		m_stateTypeList		= createComponent<CurStateTypeList>();
 
 		// 引数分のステートのステートマシンを作る
-		m_stateMachineList	= std::make_unique<StateMachineList>(initParam, GameObjectPtr(weak_from_this()), &m_componentList);
+		m_stateMachineList	= std::make_unique<StateMachineList>(initParam, GameObjectPtr(weak_from_this()), m_componentList);
 	}
 
 	void GameObject::addState(int stateType)
