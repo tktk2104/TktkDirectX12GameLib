@@ -1,23 +1,31 @@
 #ifndef BUFFER_RESOURCE_H_
 #define BUFFER_RESOURCE_H_
 
+#include <memory>		// std::unique_ptr
+#include <dxgi1_6.h>	// swapChain
+#include <TktkMath/Structs/Color.h>
+#include <TktkMath/Structs/Vector3.h>
+#include "../../Includer/D3d12Includer.h"
+#include "BufferResourceInitParamIncluder.h"
 #include "BufferResourceNum.h"
-#include "Vertex/VertexBuffer.h"
-#include "Index/IndexBuffer.h"
-#include "Constant/ConstantBuffer.h"
-#include "Texture/TextureBuffer.h"
-#include "DepthStencil/DepthStencilBuffer.h"
-#include "RenderTarget/RenderTargetBuffer.h"
 
 namespace tktk
 {
+	// 前方宣言達
+	class VertexBuffer;
+	class IndexBuffer;
+	class ConstantBuffer;
+	class TextureBuffer;
+	class DepthStencilBuffer;
+	class RenderTargetBuffer;
+
 	// ６種類のバッファリソースを管理するクラス
 	class BufferResource
 	{
 	public:
 
 		BufferResource(const BufferResourceNum& initParam);
-		~BufferResource() = default;
+		~BufferResource();
 
 	public: /* バッファ共通の処理 */
 
@@ -141,12 +149,12 @@ namespace tktk
 
 	private:
 
-		VertexBuffer		m_vertexBuffer;
-		IndexBuffer			m_indexBuffer;
-		ConstantBuffer		m_constantBuffer;
-		TextureBuffer		m_textureBuffer;
-		DepthStencilBuffer	m_depthStencilBuffer;
-		RenderTargetBuffer	m_renderTargetBuffer;
+		std::unique_ptr<VertexBuffer>		m_vertexBuffer;
+		std::unique_ptr<IndexBuffer>		m_indexBuffer;
+		std::unique_ptr<ConstantBuffer>		m_constantBuffer;
+		std::unique_ptr<TextureBuffer>		m_textureBuffer;
+		std::unique_ptr<DepthStencilBuffer>	m_depthStencilBuffer;
+		std::unique_ptr<RenderTargetBuffer>	m_renderTargetBuffer;
 	};
 }
 #endif // !BUFFER_RESOURCE_H_

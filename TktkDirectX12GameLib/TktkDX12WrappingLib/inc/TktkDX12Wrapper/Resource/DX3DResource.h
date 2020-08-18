@@ -1,16 +1,25 @@
 #ifndef DX_3D_RESOURCE_H_
 #define DX_3D_RESOURCE_H_
 
+#include <memory>		// std::unique_ptr
+#include <dxgi1_6.h>	// swapChain
+#include <TktkMath/Structs/Color.h>
+#include <TktkMath/Structs/Vector3.h>
+#include "../Includer/D3d12Includer.h"
+#include "DX3DResourceInitParamIncluder.h"
+#include "DX3DResourceFuncArgsIncluder.h"
 #include "DX3DResourceNum.h"
-#include "_SystemResourceIdGetter/SystemResourceIdGetter.h"
-#include "Viewport/Viewport.h"
-#include "ScissorRect/ScissorRect.h"
-#include "GraphicsPipeLine/GraphicsPipeLine.h"
-#include "DescriptorHeap/DescriptorHeap.h"
-#include "Buffer/BufferResource.h"
 
 namespace tktk
 {
+	// 前方宣言達
+	class SystemResourceIdGetter;
+	class Viewport;
+	class ScissorRect;
+	class GraphicsPipeLine;
+	class DescriptorHeap;
+	class BufferResource;
+
 	// DirectX12のリソースを管理するクラス
 	class DX3DResource
 	{
@@ -206,13 +215,12 @@ namespace tktk
 
 	private:
 
-		SystemResourceIdGetter	m_sysResIdGetter;
-
-		Viewport				m_viewport;
-		ScissorRect				m_scissorRect;
-		GraphicsPipeLine		m_graphicsPipeLine;
-		DescriptorHeap			m_descriptorHeap;
-		BufferResource			m_bufferResource;
+		std::unique_ptr<SystemResourceIdGetter>	m_sysResIdGetter;
+		std::unique_ptr<Viewport>				m_viewport;
+		std::unique_ptr<ScissorRect>			m_scissorRect;
+		std::unique_ptr<GraphicsPipeLine>		m_graphicsPipeLine;
+		std::unique_ptr<DescriptorHeap>			m_descriptorHeap;
+		std::unique_ptr<BufferResource>			m_bufferResource;
 	};
 }
 #endif // !DX_3D_RESOURCE_H_

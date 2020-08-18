@@ -182,6 +182,7 @@
     <ClInclude Include="inc\TktkDX12Wrapper\Resource\DescriptorHeap\Rtv\RtvDescriptorHeapData.h" />
     <ClInclude Include="inc\TktkDX12Wrapper\Resource\DescriptorHeap\Rtv\RtvDescriptorHeapInitParam.h" />
     <ClInclude Include="inc\TktkDX12Wrapper\Resource\DX3DResource.h" />
+    <ClInclude Include="inc\TktkDX12Wrapper\Resource\DX3DResourceFuncArgsIncluder.h" />
     <ClInclude Include="inc\TktkDX12Wrapper\Resource\DX3DResourceInitParamIncluder.h" />
     <ClInclude Include="inc\TktkDX12Wrapper\Resource\DX3DResourceNum.h" />
     <ClInclude Include="inc\TktkDX12Wrapper\Resource\GraphicsPipeLine\GraphicsPipeLine.h" />
