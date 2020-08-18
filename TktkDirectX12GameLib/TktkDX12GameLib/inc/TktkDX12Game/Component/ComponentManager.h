@@ -5,6 +5,8 @@
 #include <utility>
 #include <map>
 #include <unordered_map>
+
+// 以下のクラスはテンプレートを使っているため、前方宣言＋ポインタで隠蔽できない
 #include "ComponentUpdatePriorityList.h"
 #include "ComponentMainList.h"
 #include "ComponentStartFunc/ComponentStartList.h"
@@ -13,6 +15,7 @@
 
 namespace tktk
 {
+	// 前方宣言達
 	class ComponentMainList;
 
 	// 全てのコンポーネントを管理するマネージャークラス
