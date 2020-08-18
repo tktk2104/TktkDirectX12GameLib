@@ -22,7 +22,7 @@ namespace tktk
 	{
 	public:
 
-		DX3DBaseObjects(const DX3DBaseObjectsInitParam& initParam);
+		explicit DX3DBaseObjects(const DX3DBaseObjectsInitParam& initParam);
 		~DX3DBaseObjects();
 
 	public: /* 描画開始、終了処理 */
