@@ -128,6 +128,16 @@ namespace tktk
 		return m_parentChildManager->getChildren();
 	}
 
+	GameObjectPtr GameObject::findChildWithTag(int tag) const
+	{
+		return m_parentChildManager->findGameObjectWithTag(tag);
+	}
+
+	std::forward_list<GameObjectPtr> GameObject::findChildrenWithTag(int tag) const
+	{
+		return m_parentChildManager->findGameObjectsWithTag(tag);
+	}
+
 	void GameObject::addChild(const GameObjectPtr& child)
 	{
 #ifdef _DEBUG

@@ -15,6 +15,38 @@ namespace tktk
 		return m_childList;
 	}
 
+	GameObjectPtr ChildList::findGameObjectWithTag(int tag) const
+	{
+		for (const auto& node : m_childList)
+		{
+			if (node->containGameobjectTag(tag)) return node;
+
+			// 孫要素で再起する
+			auto findGrandchildResult = node->findChildWithTag(tag);
+
+			// 孫要素で対象となるゲームオブジェクトを見つけたらそれを返す
+			if (!findGrandchildResult.expired()) return findGrandchildResult;
+		}
+		return GameObjectPtr();
+	}
+
+	std::forward_list<GameObjectPtr> ChildList::findGameObjectsWithTag(int tag) const
+	{
+		std::forward_list<GameObjectPtr> result;
+
+		for (const auto& node : m_childList)
+		{
+			if (node->containGameobjectTag(tag))
+			{
+				result.push_front(node);
+			}
+
+			// 孫要素で再起した結果を検索結果リストに追加する
+			result.splice_after(result.before_begin(), std::move(node->findChildrenWithTag(tag)));
+		}
+		return result;
+	}
+
 	void ChildList::updateContainer()
 	{
 		// 前フレームで追加されたゲームオブジェクトをメインリストに移動する

@@ -98,6 +98,13 @@ namespace tktk
 		// 子要素のリストを取得
 		const std::forward_list<GameObjectPtr>& getChildren() const;
 
+		// 自身の子要素から引数のタグを持ったゲームオブジェクトを取得する
+		// ※複数該当オブジェクトがあった場合、最初に見つけた１つを取得する
+		GameObjectPtr findChildWithTag(int tag) const;
+
+		// 自身の子要素から引数のタグを持ったゲームオブジェクトを全て取得する
+		std::forward_list<GameObjectPtr> findChildrenWithTag(int tag) const;
+
 		// 子要素をリストに追加する
 		void addChild(const GameObjectPtr& child);
 
