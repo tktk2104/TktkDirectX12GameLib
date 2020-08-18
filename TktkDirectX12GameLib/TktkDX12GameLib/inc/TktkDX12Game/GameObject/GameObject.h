@@ -1,20 +1,21 @@
 #ifndef GAME_OBJECT_H_
 #define GAME_OBJECT_H_
 
-#include <memory>
-#include <utility>
-#include <unordered_map>
-#include "GameObjectTagList.h"
+#include <memory>	// std::smart_ptr
+#include <utility>	// std::forward
 #include "../Component/ComponentGameObjectFunc/GameObjectComponentList.h"
 #include "../_MainManager/DX12GameManager.h"
 #include "../Component/ComponentPtr.h"
-#include "../Component/DefaultComponents/StateMachine/StateMachineList.h"
+#include "TktkDX12Game/Component/DefaultComponents/StateMachine/StateMachineListInitParam.h"
 
 namespace tktk
 {
+	// 前方宣言達
+	class GameObjectTagList;
+	class StateMachineList;
 	class ParentChildManager;
 	class CurStateTypeList;
-
+	
 	// ゲームオブジェクトクラス
 	class GameObject
 		: public std::enable_shared_from_this<GameObject>
@@ -179,13 +180,13 @@ namespace tktk
 		bool												m_isActive				{ true };
 		bool												m_nextFrameActive		{ true };
 		bool												m_isDead				{ false };
-		GameObjectTagList									m_tagList				{};
-		GameObjectComponentList								m_componentList			{};
-		ComponentPtr<ParentChildManager>					m_parentChildManager	{};
-		
-		// ステートマシン関連のクラスは「setupStateMachine()」を呼ぶまで実態が作られないのでポインタにて管理
-		ComponentPtr<CurStateTypeList>						m_stateTypeList			{};
+		std::unique_ptr<GameObjectTagList>					m_tagList				{};
+		std::unique_ptr<GameObjectComponentList>			m_componentList			{};	// ※テンプレート関数を使用するため、前方宣言不可
 		std::unique_ptr<StateMachineList>					m_stateMachineList		{};
+		
+		// デフォルトコンポーネント
+		ComponentPtr<ParentChildManager>					m_parentChildManager	{};
+		ComponentPtr<CurStateTypeList>						m_stateTypeList			{};
 	};
 //┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 //┃ここから下は関数の実装
@@ -197,7 +198,7 @@ namespace tktk
 	{
 		auto createdComponent = DX12GameManager::createComponent<ComponentType>(std::forward<Args>(args)...);
 		createdComponent.lock()->setUser(GameObjectPtr(weak_from_this()));
-		return m_componentList.add<ComponentType>(createdComponent);
+		return m_componentList->add<ComponentType>(createdComponent);
 	}
 
 	// テンプレート引数の型のコンポーネントを持っていたら取得し、持っていなかったらnullptrを返す
@@ -205,14 +206,14 @@ namespace tktk
 	template<class ComponentType>
 	inline ComponentPtr<ComponentType> GameObject::getComponent() const
 	{
-		return m_componentList.find<ComponentType>();
+		return m_componentList->find<ComponentType>();
 	}
 
 	// テンプレート引数の型のコンポーネントを全て取得する
 	template<class ComponentType>
 	inline std::forward_list<ComponentPtr<ComponentType>> GameObject::getComponents() const
 	{
-		return m_componentList.findAll<ComponentType>();
+		return m_componentList->findAll<ComponentType>();
 	}
 
 	// int型の配列でステートを指定し、テンプレート引数の型のコンポーネントを引数の値を使って作る
@@ -223,7 +224,7 @@ namespace tktk
 		auto createdComponent = DX12GameManager::createComponent<ComponentType>(std::forward<Args>(args)...);
 		createdComponent.lock()->setUser(GameObjectPtr(weak_from_this()));
 		createComponentImpl(targetState, ComponentBasePtr(createdComponent));
-		return m_componentList.add<ComponentType>(createdComponent);
+		return m_componentList->add<ComponentType>(createdComponent);
 	}
 }
 #endif // !GAME_OBJECT_H_
