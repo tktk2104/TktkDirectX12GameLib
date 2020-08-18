@@ -18,6 +18,7 @@ namespace tktk
 	public:
 
 		// 新たな子要素を追加
+		// ※追加した子要素は次のフレームでメインのリストに追加される
 		void addChild(const GameObjectPtr& child);
 
 		// 子要素のリストを取得
@@ -38,6 +39,7 @@ namespace tktk
 	private:
 
 		std::forward_list<GameObjectPtr> m_childList;
+		std::forward_list<GameObjectPtr> m_newComponentList;
 	};
 }
 #endif // !CHILD_LIST_H_

@@ -33,6 +33,8 @@ namespace tktk
 		m_componentList->movePreFrameAddedNode();
 		m_componentList->removeDeadComponent();
 
+		m_parentChildManager->updateContainer();
+
 		m_isActive = m_nextFrameActive;
 	}
 

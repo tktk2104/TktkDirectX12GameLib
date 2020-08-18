@@ -2,13 +2,12 @@
 
 #include <algorithm>
 #include "TktkDX12Game/GameObject/GameObject.h"
-#include "..\..\..\..\..\inc\TktkDX12Game\Component\DefaultComponents\ParentChildManager\ChildList.h"
 
 namespace tktk
 {
 	void ChildList::addChild(const GameObjectPtr& child)
 	{
-		m_childList.push_front(child);
+		m_newComponentList.push_front(child);
 	}
 
 	const std::forward_list<GameObjectPtr>& ChildList::getChildren() const
@@ -18,17 +17,21 @@ namespace tktk
 
 	void ChildList::updateContainer()
 	{
-		m_childList.remove_if([](GameObjectPtr& node) { return node.expired(); });
+		// 前フレームで追加されたゲームオブジェクトをメインリストに移動する
+		m_childList.splice_after(m_childList.before_begin(), std::move(m_newComponentList));
+
+		// 死んでいるゲームオブジェクトをメインリストから削除する
+		m_childList.remove_if([](const GameObjectPtr& node) { return node.expired(); });
 	}
 
 	void ChildList::remove(const GameObjectPtr& gameObject)
 	{
-		m_childList.remove_if([gameObject](GameObjectPtr& node) { return (node.isSame(gameObject)); });
+		m_childList.remove_if([gameObject](const GameObjectPtr& node) { return (node.isSame(gameObject)); });
 	}
 
 	void ChildList::destroyAll()
 	{
-		for (auto& node : m_childList)
+		for (const auto& node : m_childList)
 		{
 			node->destroy();
 		}
@@ -36,7 +39,7 @@ namespace tktk
 
 	void ChildList::sendMessage(unsigned int messageId, const MessageAttachment& value)
 	{
-		for (auto& node : m_childList)
+		for (const auto& node : m_childList)
 		{
 			node->sendMessage(messageId, value);
 		}

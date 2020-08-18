@@ -57,6 +57,7 @@ namespace tktk
 	public: /* コンポーネント取得処理 */
 
 		// テンプレート引数の型のコンポーネントを引数の値を使って作る
+		// ※作ったコンポーネントは次のフレームの頭に追加される
 		template <class ComponentType, class... Args>
 		ComponentPtr<ComponentType> createComponent(Args&&... args);
 
