@@ -6,17 +6,17 @@
 
 namespace tktk
 {
+	Fence::Fence(ID3D12Device* device)
+	{
+		device->CreateFence(m_fenceVal, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&m_fence));
+	}
+
 	Fence::~Fence()
 	{
 		if (m_fence != nullptr)
 		{
 			m_fence->Release();
 		}
-	}
-
-	void Fence::initialize(ID3D12Device* device)
-	{
-		device->CreateFence(m_fenceVal, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&m_fence));
 	}
 
 	void Fence::waitGpuProcess(ID3D12CommandQueue* commandQueue)
