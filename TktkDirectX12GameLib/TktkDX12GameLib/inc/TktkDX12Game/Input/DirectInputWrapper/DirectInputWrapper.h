@@ -10,6 +10,7 @@
 
 namespace tktk
 {
+	// ‘O•ûéŒ¾’B
 	class Keyboard;
 	class GamePad;
 

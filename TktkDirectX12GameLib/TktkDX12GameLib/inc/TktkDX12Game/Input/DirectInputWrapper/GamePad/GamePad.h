@@ -2,7 +2,6 @@
 #define GAME_PAD_H_
 
 #include <memory>
-#include <array>
 #include <TktkMath/Structs/Vector2.h>
 #include "../DirectInputIncluder.h"
 #include "GamePadBtnType.h"
