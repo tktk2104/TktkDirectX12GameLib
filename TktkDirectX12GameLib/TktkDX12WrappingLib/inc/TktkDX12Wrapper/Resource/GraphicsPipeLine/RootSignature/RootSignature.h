@@ -11,7 +11,7 @@ namespace tktk
 	{
 	public:
 
-		RootSignature(unsigned int rootSignatureNum);
+		explicit RootSignature(unsigned int rootSignatureNum);
 		~RootSignature() = default;
 
 	public:

@@ -11,7 +11,7 @@ namespace tktk
 	{
 	public:
 
-		ConstantBuffer(unsigned int constantBufferNum);
+		explicit ConstantBuffer(unsigned int constantBufferNum);
 		~ConstantBuffer() = default;
 
 	public:

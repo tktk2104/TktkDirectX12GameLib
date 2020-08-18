@@ -12,7 +12,7 @@ namespace tktk
 	{
 	public:
 
-		ScissorRectData(const std::vector<ScissorRectInitParam>& initParamArray);
+		explicit ScissorRectData(const std::vector<ScissorRectInitParam>& initParamArray);
 		~ScissorRectData() = default;
 
 	public:

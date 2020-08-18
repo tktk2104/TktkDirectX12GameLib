@@ -20,7 +20,7 @@ namespace tktk
 	{
 	public:
 
-		DescriptorHeap(const DescriptorHeapNum& initParam);
+		explicit DescriptorHeap(const DescriptorHeapNum& initParam);
 		~DescriptorHeap();
 
 	public: /* コマンドリストに登録する処理 */

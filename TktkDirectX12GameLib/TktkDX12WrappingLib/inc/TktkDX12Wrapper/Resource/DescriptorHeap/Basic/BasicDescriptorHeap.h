@@ -12,7 +12,7 @@ namespace tktk
 	{
 	public:
 
-		BasicDescriptorHeap(unsigned int basicDescriptorHeapNum);
+		explicit BasicDescriptorHeap(unsigned int basicDescriptorHeapNum);
 		~BasicDescriptorHeap() = default;
 
 	public:

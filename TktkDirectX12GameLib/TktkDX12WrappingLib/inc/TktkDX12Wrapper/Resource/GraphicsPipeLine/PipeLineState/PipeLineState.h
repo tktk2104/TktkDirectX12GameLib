@@ -11,7 +11,7 @@ namespace tktk
 	{
 	public:
 
-		PipeLineState(unsigned int pipeLineNum);
+		explicit PipeLineState(unsigned int pipeLineNum);
 		~PipeLineState() = default;
 
 	public:

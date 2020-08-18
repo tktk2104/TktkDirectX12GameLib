@@ -11,7 +11,7 @@ namespace tktk
 	{
 	public:
 
-		Viewport(unsigned int viewportNum);
+		explicit Viewport(unsigned int viewportNum);
 
 	public:
 

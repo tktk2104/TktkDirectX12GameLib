@@ -11,7 +11,7 @@ namespace tktk
 	{
 	public:
 
-		VertexBuffer(unsigned int vertexBufferNum);
+		explicit VertexBuffer(unsigned int vertexBufferNum);
 		~VertexBuffer() = default;
 
 	public:

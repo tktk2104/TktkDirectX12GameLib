@@ -11,7 +11,7 @@ namespace tktk
 	{
 	public:
 
-		IndexBuffer(unsigned int indexBufferNum);
+		explicit IndexBuffer(unsigned int indexBufferNum);
 		~IndexBuffer() = default;
 
 	public:

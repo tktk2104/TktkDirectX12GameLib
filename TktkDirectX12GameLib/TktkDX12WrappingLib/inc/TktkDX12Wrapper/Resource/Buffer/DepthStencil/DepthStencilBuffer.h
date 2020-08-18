@@ -11,7 +11,7 @@ namespace tktk
 	{
 	public:
 
-		DepthStencilBuffer(unsigned int depthStencilBufferNum);
+		explicit DepthStencilBuffer(unsigned int depthStencilBufferNum);
 		~DepthStencilBuffer() = default;
 
 	public:

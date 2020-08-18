@@ -12,7 +12,7 @@ namespace tktk
 	public:
 
 		// コンストラクタ内で「initParam」の値を書き換えます
-		SystemResourceIdGetter(DX3DResourceNum* resNumPtr);
+		explicit SystemResourceIdGetter(DX3DResourceNum* resNumPtr);
 
 	public:
 

@@ -11,7 +11,7 @@ namespace tktk
 	{
 	public:
 
-		RenderTargetBuffer(unsigned int renderTargetBufferNum);
+		explicit RenderTargetBuffer(unsigned int renderTargetBufferNum);
 		~RenderTargetBuffer() = default;
 
 	public:

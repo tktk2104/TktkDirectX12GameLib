@@ -12,7 +12,7 @@ namespace tktk
 	{
 	public:
 
-		ViewportData(const std::vector<ViewportInitParam>& initParamArray);
+		explicit ViewportData(const std::vector<ViewportInitParam>& initParamArray);
 		~ViewportData() = default;
 
 	public:

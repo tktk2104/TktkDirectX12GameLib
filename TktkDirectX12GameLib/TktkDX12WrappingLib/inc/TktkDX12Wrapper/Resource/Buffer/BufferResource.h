@@ -24,7 +24,7 @@ namespace tktk
 	{
 	public:
 
-		BufferResource(const BufferResourceNum& initParam);
+		explicit BufferResource(const BufferResourceNum& initParam);
 		~BufferResource();
 
 	public: /* バッファ共通の処理 */

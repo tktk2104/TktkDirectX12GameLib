@@ -11,7 +11,7 @@ namespace tktk
 	{
 	public:
 
-		ScissorRect(unsigned int scissorRectNum);
+		explicit ScissorRect(unsigned int scissorRectNum);
 		~ScissorRect() = default;
 
 	public:

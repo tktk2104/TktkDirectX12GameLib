@@ -11,7 +11,7 @@ namespace tktk
 	{
 	public:
 
-		RtvDescriptorHeap(unsigned int rtvDescriptorHeapNum);
+		explicit RtvDescriptorHeap(unsigned int rtvDescriptorHeapNum);
 		~RtvDescriptorHeap() = default;
 
 	public:

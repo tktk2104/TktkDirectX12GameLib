@@ -26,7 +26,7 @@ namespace tktk
 	public:
 
 		// ※意図的に値をコピーしています
-		DX3DResource(DX3DResourceNum resNum);
+		explicit DX3DResource(DX3DResourceNum resNum);
 
 	public: /* 作成、ロード処理 */
 

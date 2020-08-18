@@ -12,7 +12,7 @@ namespace tktk
 	{
 	public:
 
-		TextureBuffer(unsigned int textureBufferNum);
+		explicit TextureBuffer(unsigned int textureBufferNum);
 		~TextureBuffer() = default;
 
 	public:

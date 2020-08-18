@@ -11,7 +11,7 @@ namespace tktk
 	{
 	public:
 
-		DsvDescriptorHeap(unsigned int dsvDescriptorHeapNum);
+		explicit DsvDescriptorHeap(unsigned int dsvDescriptorHeapNum);
 		~DsvDescriptorHeap() = default;
 
 	public:
