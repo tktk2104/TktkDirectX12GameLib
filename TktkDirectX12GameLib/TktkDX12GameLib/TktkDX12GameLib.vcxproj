@@ -233,6 +233,8 @@
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameBaseShaderFilePaths.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameDrawFuncArgs.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameResource.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameResourceFuncArgsIncluder.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameResourceInitParamIncluder.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameResourceNum.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\Light\Light.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\Light\LightCBuffer.h" />

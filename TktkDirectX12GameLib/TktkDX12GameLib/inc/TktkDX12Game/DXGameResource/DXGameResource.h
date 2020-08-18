@@ -2,18 +2,10 @@
 #define DX_GAME_RESOURCE_H_
 
 #include <memory>
-#include "Scene/SceneVTable.h"
-#include "PostEffect/PostEffectMaterialInitParam.h"
-#include "PostEffect/PostEffectMaterialDrawFuncArgs.h"
-#include "Sprite/SpriteMaterialInitParam.h"
-#include "Sprite/SpriteMaterialDrawFuncArgs.h"
-#include "Line2D/Line2DMaterialInitParam.h"
-#include "Line2D/Line2DMaterialDrawFuncArgs.h"
-#include "Mesh/MeshResourceInitParamIncluder.h"
-#include "Mesh/MeshResourceFuncArgsIncluder.h"
-
 #include "DXGameResourceNum.h"
 #include "DXGameBaseShaderFilePaths.h"
+#include "DXGameResourceInitParamIncluder.h"
+#include "DXGameResourceFuncArgsIncluder.h"
 
 namespace tktk
 {
