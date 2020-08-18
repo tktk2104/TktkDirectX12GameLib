@@ -1,0 +1,6 @@
+#ifndef DX_3D_BASE_OBJECTS_FUNC_ARGS_INCLUDER_H_
+#define DX_3D_BASE_OBJECTS_FUNC_ARGS_INCLUDER_H_
+
+#include "../Resource/DX3DResourceFuncArgsIncluder.h"
+
+#endif // !DX_3D_BASE_OBJECTS_FUNC_ARGS_INCLUDER_H_

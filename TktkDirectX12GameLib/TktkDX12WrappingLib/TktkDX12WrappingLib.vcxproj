@@ -223,7 +223,9 @@
     <ClInclude Include="inc\TktkDX12Wrapper\_BaseObjects\DX3DBaseObjects.h" />
     <ClInclude Include="inc\TktkDX12Wrapper\Window\Window.h" />
     <ClInclude Include="inc\TktkDX12Wrapper\Window\WindowInitParam.h" />
+    <ClInclude Include="inc\TktkDX12Wrapper\_BaseObjects\DX3DBaseObjectsFuncArgsIncluder.h" />
     <ClInclude Include="inc\TktkDX12Wrapper\_BaseObjects\DX3DBaseObjectsInitParam.h" />
+    <ClInclude Include="inc\TktkDX12Wrapper\_BaseObjects\DX3DBaseObjectsInitParamIncluder.h" />
     <ClInclude Include="inc\TktkDX12WrappingLibDefinition.h" />
   </ItemGroup>
   <ItemGroup>
