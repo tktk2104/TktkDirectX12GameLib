@@ -161,13 +161,20 @@ namespace tktk
 				m_dxGameResource->updateScene();
 				m_dxGameResource->updateSound();
 
+				// 前フレームに追加された要素をメインリストに移動する
+				m_gameObjectManager->movePreFrameAddedNode();
+				m_componentManager->movePreFrameAddedNode();
+
+				// 更新処理
 				m_gameObjectManager->update();
 				m_componentManager->update();
 
+				// 描画処理
 				m_dx3dBaseObjects->beginDraw();
 				m_componentManager->draw();
 				m_dx3dBaseObjects->endDraw();
 
+				// 死亡している要素をメインリストから削除する
 				m_gameObjectManager->removeDeadObject();
 				m_componentManager->removeDeadComponent();
 			}
