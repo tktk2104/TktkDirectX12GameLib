@@ -1,8 +1,11 @@
 #ifndef TKTK_DX12_GAME_H_
 #define TKTK_DX12_GAME_H_
 
+#include <forward_list>
 #include <TktkTemplateMetaLib/TypeCheck/isIdType.h>
-#include "_MainManager/DX12GameManager.h"
+#include "EventMessage/MessageAttachment.h"
+#include "GameObject/GameObjectPtr.h"
+#include "_MainManager/DX12GameManagerFuncArgsIncluder.h"
 
 namespace tktk
 {

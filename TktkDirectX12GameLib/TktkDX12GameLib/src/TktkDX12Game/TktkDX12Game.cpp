@@ -1,5 +1,7 @@
 #include "TktkDX12Game/TktkDX12Game.h"
 
+#include "TktkDX12Game/_MainManager/DX12GameManager.h"
+
 namespace tktk
 {
 	const tktkMath::Vector2& DX12Game::getWindowSize()
