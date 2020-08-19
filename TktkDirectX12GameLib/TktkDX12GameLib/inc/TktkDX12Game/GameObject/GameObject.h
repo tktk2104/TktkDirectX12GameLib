@@ -3,6 +3,7 @@
 
 #include <memory>	// std::smart_ptr
 #include <utility>	// std::forward
+#include <TktkTemplateMetaLib/TypeCheck/isIdType.h>
 #include "../Component/ComponentGameObjectFunc/GameObjectComponentList.h"
 #include "../_MainManager/DX12GameManager.h"
 #include "../Component/ComponentPtr.h"
@@ -46,13 +47,16 @@ namespace tktk
 	public: /* タグ管理関数 */
 
 		// 自身のタグを追加する
-		void addGameObjectTag(int tag);
+		template<class TagType, is_idType<TagType> = nullptr>
+		void addGameObjectTag(TagType tag);
 
 		// 引数のタグを削除する
-		void removeGameobjectTag(int tag);
+		template<class TagType, is_idType<TagType> = nullptr>
+		void removeGameobjectTag(TagType tag);
 
 		// 引数のタグを持っているかの判定を行う
-		bool containGameobjectTag(int tag) const;
+		template<class TagType, is_idType<TagType> = nullptr>
+		bool containGameobjectTag(TagType tag) const;
 
 	public: /* コンポーネント取得処理 */
 
@@ -181,6 +185,9 @@ namespace tktk
 
 	private:
 
+		void addGameObjectTagImpl(unsigned int tag);
+		void removeGameobjectTagImpl(unsigned int tag);
+		bool containGameobjectTagImpl(unsigned int tag) const;
 		void createComponentImpl(const std::vector<int>& targetState, const ComponentBasePtr& componentPtr);
 
 	private:
@@ -195,10 +202,38 @@ namespace tktk
 		// デフォルトコンポーネント
 		ComponentPtr<ParentChildManager>					m_parentChildManager	{};
 		ComponentPtr<CurStateTypeList>						m_stateTypeList			{};
+
+	public:
+
+		// 不正な型が引数として渡された時の処理
+		template<class TagType, is_not_idType<TagType> = nullptr>
+		void addGameObjectTag(TagType tag) { static_assert(false, "TagType Fraud Type"); }
+		template<class TagType, is_not_idType<TagType> = nullptr>
+		void removeGameobjectTag(TagType tag) { static_assert(false, "TagType Fraud Type"); }
+		template<class TagType, is_not_idType<TagType> = nullptr>
+		bool containGameobjectTag(TagType tag) const { static_assert(false, "TagType Fraud Type"); }
 	};
 //┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 //┃ここから下は関数の実装
 //┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+	template<class TagType, is_idType<TagType>>
+	inline void GameObject::addGameObjectTag(TagType tag)
+	{
+		addGameObjectTagImpl(static_cast<unsigned int>(tag));
+	}
+
+	template<class TagType, is_idType<TagType>>
+	inline void GameObject::removeGameobjectTag(TagType tag)
+	{
+		removeGameobjectTagImpl(static_cast<unsigned int>(tag));
+	}
+
+	template<class TagType, is_idType<TagType>>
+	inline bool GameObject::containGameobjectTag(TagType tag) const
+	{
+		return containGameobjectTagImpl(static_cast<unsigned int>(tag));
+	}
 
 	// テンプレート引数の型のコンポーネントを引数の値を使って作る
 	template<class ComponentType, class ...Args>

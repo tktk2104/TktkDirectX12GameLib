@@ -62,21 +62,6 @@ namespace tktk
 		return m_isDead;
 	}
 
-	void GameObject::addGameObjectTag(int tag)
-	{
-		m_tagList->addTag(tag);
-	}
-
-	void GameObject::removeGameobjectTag(int tag)
-	{
-		m_tagList->removeTag(tag);
-	}
-
-	bool GameObject::containGameobjectTag(int tag) const
-	{
-		return m_tagList->contain(tag);
-	}
-
 	void GameObject::runHandleMessageAll(unsigned int messageId, const MessageAttachment& value)
 	{
 		m_componentList->runHandleMessageAll(messageId, value);
@@ -228,6 +213,21 @@ namespace tktk
 	void GameObject::addChild(const std::vector<int>& targetState, const GameObjectPtr& child)
 	{
 		m_stateMachineList->addChild(targetState, child);
+	}
+
+	void GameObject::addGameObjectTagImpl(unsigned int tag)
+	{
+		m_tagList->addTag(tag);
+	}
+
+	void GameObject::removeGameobjectTagImpl(unsigned int tag)
+	{
+		m_tagList->removeTag(tag);
+	}
+
+	bool GameObject::containGameobjectTagImpl(unsigned int tag) const
+	{
+		return m_tagList->contain(tag);
 	}
 
 	void GameObject::createComponentImpl(const std::vector<int>& targetState, const ComponentBasePtr& componentPtr)
