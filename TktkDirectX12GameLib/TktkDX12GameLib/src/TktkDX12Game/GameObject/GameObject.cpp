@@ -215,17 +215,17 @@ namespace tktk
 		m_stateMachineList->addChild(targetState, child);
 	}
 
-	void GameObject::addGameObjectTagImpl(unsigned int tag)
+	void GameObject::addGameObjectTagImpl(int tag)
 	{
 		m_tagList->addTag(tag);
 	}
 
-	void GameObject::removeGameobjectTagImpl(unsigned int tag)
+	void GameObject::removeGameobjectTagImpl(int tag)
 	{
 		m_tagList->removeTag(tag);
 	}
 
-	bool GameObject::containGameobjectTagImpl(unsigned int tag) const
+	bool GameObject::containGameobjectTagImpl(int tag) const
 	{
 		return m_tagList->contain(tag);
 	}

@@ -16,13 +16,13 @@ namespace tktk
 	public:
 
 		// 引数のタグを追加する
-		void addTag(unsigned int tag);
+		void addTag(int tag);
 
 		// 引数のタグを削除する
-		void removeTag(unsigned int tag);
+		void removeTag(int tag);
 
 		// 引数のタグを所持しているかを判定する
-		bool contain(unsigned int tag) const;
+		bool contain(int tag) const;
 
 	private:
 

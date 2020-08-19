@@ -185,9 +185,9 @@ namespace tktk
 
 	private:
 
-		void addGameObjectTagImpl(unsigned int tag);
-		void removeGameobjectTagImpl(unsigned int tag);
-		bool containGameobjectTagImpl(unsigned int tag) const;
+		void addGameObjectTagImpl(int tag);
+		void removeGameobjectTagImpl(int tag);
+		bool containGameobjectTagImpl(int tag) const;
 		void createComponentImpl(const std::vector<int>& targetState, const ComponentBasePtr& componentPtr);
 
 	private:
@@ -220,19 +220,19 @@ namespace tktk
 	template<class TagType, is_idType<TagType>>
 	inline void GameObject::addGameObjectTag(TagType tag)
 	{
-		addGameObjectTagImpl(static_cast<unsigned int>(tag));
+		addGameObjectTagImpl(static_cast<int>(tag));
 	}
 
 	template<class TagType, is_idType<TagType>>
 	inline void GameObject::removeGameobjectTag(TagType tag)
 	{
-		removeGameobjectTagImpl(static_cast<unsigned int>(tag));
+		removeGameobjectTagImpl(static_cast<int>(tag));
 	}
 
 	template<class TagType, is_idType<TagType>>
 	inline bool GameObject::containGameobjectTag(TagType tag) const
 	{
-		return containGameobjectTagImpl(static_cast<unsigned int>(tag));
+		return containGameobjectTagImpl(static_cast<int>(tag));
 	}
 
 	// テンプレート引数の型のコンポーネントを引数の値を使って作る
