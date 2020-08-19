@@ -27,6 +27,9 @@ namespace tktk
 
 	public:
 
+		// 前フレームに追加されたコンポーネントをメインリストに追加する
+		void movePreFrameAddedNode();
+
 		// コンポーネントの更新処理
 		void update();
 

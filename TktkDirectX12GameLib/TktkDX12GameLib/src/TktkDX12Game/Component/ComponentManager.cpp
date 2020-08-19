@@ -4,7 +4,7 @@
 
 namespace tktk
 {
-	void ComponentManager::update()
+	void ComponentManager::movePreFrameAddedNode()
 	{
 		// 前フレームに追加されたコンポーネントをメインリストに追加する
 		for (const auto& node : m_mainMap)
@@ -14,17 +14,20 @@ namespace tktk
 		m_startList.movePreFrameAddedNode();
 		m_collisionList.movePreFrameAddedNode();
 		m_drawList.movePreFrameAddedNode();
+	}
 
+	void ComponentManager::update()
+	{
 		// アクティブフラグの判定とフラグ変更時の関数呼び出し処理
 		for (const auto& node : m_mainMap)
 		{
 			node.second->activeChangeCheck();
 		}
 
-		// 「start()」関数呼び出し処理
+		// 「start」関数呼び出し処理
 		m_startList.runStartFunc();
 		
-		// 「update()」関数呼び出し処理
+		// 「update」関数呼び出し処理
 		for (const auto& node : m_mainMap)
 		{
 			node.second->runUpdate();
