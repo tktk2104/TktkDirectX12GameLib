@@ -4,7 +4,9 @@ namespace tktk
 {
 	void ParentChildManager::updateContainer()
 	{
-		m_childList.updateContainer();
+		m_childList.movePreFrameAddedNode();
+
+		m_childList.removeDeadComponent();
 	}
 
 	void ParentChildManager::runAfterChangeParentAll(const GameObjectPtr& beforParent)

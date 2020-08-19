@@ -7,7 +7,7 @@ namespace tktk
 {
 	void ChildList::addChild(const GameObjectPtr& child)
 	{
-		m_newComponentList.push_front(child);
+		m_newGameObjectList.push_front(child);
 	}
 
 	const std::forward_list<GameObjectPtr>& ChildList::getChildren() const
@@ -47,11 +47,14 @@ namespace tktk
 		return result;
 	}
 
-	void ChildList::updateContainer()
+	void ChildList::movePreFrameAddedNode()
 	{
 		// 前フレームで追加されたゲームオブジェクトをメインリストに移動する
-		m_childList.splice_after(m_childList.before_begin(), std::move(m_newComponentList));
+		m_childList.splice_after(m_childList.before_begin(), std::move(m_newGameObjectList));
+	}
 
+	void ChildList::removeDeadComponent()
+	{
 		// 死んでいるゲームオブジェクトをメインリストから削除する
 		m_childList.remove_if([](const GameObjectPtr& node) { return node.expired(); });
 	}
