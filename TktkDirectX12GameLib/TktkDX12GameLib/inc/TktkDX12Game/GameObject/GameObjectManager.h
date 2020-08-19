@@ -21,6 +21,9 @@ namespace tktk
 
 		void update();
 
+		// 前フレームに追加されたゲームオブジェクトをメインリストに追加する
+		void movePreFrameAddedNode();
+
 		// 死んだゲームオブジェクトを削除する
 		void removeDeadObject();
 
@@ -42,6 +45,7 @@ namespace tktk
 	private:
 
 		std::forward_list<std::shared_ptr<GameObject>> m_gameObjectList;
+		std::forward_list<std::shared_ptr<GameObject>> m_newGameObjectList;
 	};
 }
 #endif // !GAME_OBJECT_MANAGER_H_

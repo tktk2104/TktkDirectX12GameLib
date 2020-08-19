@@ -12,6 +12,11 @@ namespace tktk
 		}
 	}
 
+	void GameObjectManager::movePreFrameAddedNode()
+	{
+		m_gameObjectList.splice_after(m_gameObjectList.before_begin(), std::move(m_newGameObjectList));
+	}
+
 	void GameObjectManager::removeDeadObject()
 	{
 		// 死亡フラグの立ったオブジェクトを削除する
@@ -30,7 +35,7 @@ namespace tktk
 	{
 		auto gameObject = std::make_shared<GameObject>();
 
-		m_gameObjectList.push_front(gameObject);
+		m_newGameObjectList.push_front(gameObject);
 
 		return GameObjectPtr(gameObject);
 	}
