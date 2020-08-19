@@ -21,19 +21,15 @@ namespace tktk
 
 	GameObject::~GameObject()
 	{
-		if (!m_parentChildManager.expired())
-		{
-			m_parentChildManager->destroyChildren();
-		}
 		m_componentList->destroyAll();
 	}
 
 	void GameObject::update()
 	{
+		m_parentChildManager->updateContainer();
+
 		m_componentList->movePreFrameAddedNode();
 		m_componentList->removeDeadComponent();
-
-		m_parentChildManager->updateContainer();
 
 		m_isActive = m_nextFrameActive;
 	}
@@ -46,6 +42,8 @@ namespace tktk
 	void GameObject::destroy()
 	{
 		m_isDead = true;
+
+		m_parentChildManager->destroyChildren();
 
 		m_componentList->destroyAll();
 	}
