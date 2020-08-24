@@ -25,11 +25,9 @@ namespace tktk
 
 	void VertexBuffer::deleteUploadBufferAll()
 	{
-		for (unsigned int i = 0; i < m_vertexBufferDataArray.arrayMaxSize(); i++)
+		for (auto& node : m_vertexBufferDataArray)
 		{
-			auto ptr = m_vertexBufferDataArray.at(i);
-
-			if (ptr != nullptr) ptr->deleteUploadBufferAll();
+			node.deleteUploadBufferAll();
 		}
 	}
 }

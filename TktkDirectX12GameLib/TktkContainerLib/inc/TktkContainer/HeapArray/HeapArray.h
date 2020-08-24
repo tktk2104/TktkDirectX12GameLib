@@ -1,7 +1,9 @@
 #ifndef HEAP_ARRAY_H_
 #define HEAP_ARRAY_H_
 
+#include <stdexcept>
 #include <memory>
+#include "HeapArrayIterator.h"
 
 namespace tktkContainer
 {
@@ -10,12 +12,20 @@ namespace tktkContainer
 	{
 	public:
 
-		HeapArray(unsigned int arrayMaxSize);
+		typedef HeapArrayIterator<NodeType, Allocator>			iterator;
+		typedef HeapArrayIterator<const NodeType, Allocator>	const_iterator;
+
+	public:
+
+		explicit HeapArray(unsigned int arrayMaxSize);
 		~HeapArray();
 
 	public:
 
 		unsigned int arrayMaxSize() const;
+
+		// 新たなインスタンスを作るだけの空きがあるか？
+		bool canCreateNode() const;
 
 	public:
 
@@ -44,6 +54,12 @@ namespace tktkContainer
 		// 指定したインデックスのポインタを取得する（const版）（インデックスが指し示すメモリが未使用ならnullPtrを返す）
 		const NodeType* at(unsigned int index) const;
 
+		typename HeapArray<NodeType, Allocator>::iterator begin();
+		typename HeapArray<NodeType, Allocator>::const_iterator begin() const;
+
+		typename HeapArray<NodeType, Allocator>::iterator end();
+		typename HeapArray<NodeType, Allocator>::const_iterator end() const;
+
 	private:
 
 		// アロケータ
@@ -51,6 +67,9 @@ namespace tktkContainer
 
 		// 配列の最大数（「m_arrayMaxSize * sizeof(NodeType)」の大きさのヒープメモリが自身の配列のために確保される）
 		unsigned int	m_arrayMaxSize;
+
+		// 現在のインスタンス数
+		unsigned int	m_curInstanceCount{ 0U };
 
 		// 確保したメモリの先頭アドレス
 		NodeType*		m_arrayTopPos;
@@ -100,11 +119,24 @@ namespace tktkContainer
 		return m_arrayMaxSize;
 	}
 
+	// 新たなインスタンスを作るだけの空きがあるか？
+	template<class NodeType, class Allocator>
+	inline bool HeapArray<NodeType, Allocator>::canCreateNode() const
+	{
+		return m_curInstanceCount < m_arrayMaxSize;
+	}
+
 	// 確保したメモリの先頭から使用可能なメモリが存在するか探し、見つけたら引数を使ってインスタンスを作った上でそのアドレスのポインタを返し、見つからなかったらnullptrを返す
 	template<class NodeType, class Allocator>
 	template<class ...ConstructorArgs>
 	inline NodeType* HeapArray<NodeType, Allocator>::emplace(ConstructorArgs&& ...args)
 	{
+		// 現在のインスタンス数が作成可能最大数だったら
+		if (!canCreateNode())
+		{
+			return nullptr;
+		}
+
 		for (unsigned int i = 0U; i < m_arrayMaxSize; i++)
 		{
 			// 未使用メモリを見つけたら
@@ -115,6 +147,9 @@ namespace tktkContainer
 
 				// 作成したインスタンスの存在するメモリを使用中にする
 				m_arrayNodeUseCheckBitFlag[i / 32U] |= (1U << (i % 32U));
+
+				// 現在のインスタンス数を１増やす
+				m_curInstanceCount++;
 
 				// 作成したインスタンスのポインタを返す
 				return (m_arrayTopPos + i);
@@ -128,8 +163,8 @@ namespace tktkContainer
 	template<class ...ConstructorArgs>
 	inline NodeType* HeapArray<NodeType, Allocator>::emplaceAt(unsigned int index, ConstructorArgs&& ...args)
 	{
-		// インデックスが範囲外を指していたら
-		if (index >= m_arrayMaxSize)
+		// 現在のインスタンス数が作成可能最大数か、インデックスが範囲外を指していたら
+		if (!canCreateNode() || index >= m_arrayMaxSize)
 		{
 			return nullptr;
 		}
@@ -142,6 +177,9 @@ namespace tktkContainer
 
 			// 作成したインスタンスの存在するメモリを使用中にする
 			m_arrayNodeUseCheckBitFlag[index / 32U] |= (1U << (index % 32U));
+
+			// 現在のインスタンス数を１増やす
+			m_curInstanceCount++;
 
 			// 作成したインスタンスのポインタを返す
 			return (m_arrayTopPos + index);
@@ -171,6 +209,9 @@ namespace tktkContainer
 			// 削除したインスタンスのメモリを未使用にする
 			m_arrayNodeUseCheckBitFlag[index / 32U] ^= (1U << (index % 32U));
 
+			// 現在のインスタンス数を１減らす
+			m_curInstanceCount--;
+
 			(*eraseNode) = nullptr;
 		}
 	}
@@ -187,6 +228,9 @@ namespace tktkContainer
 
 			// 削除したインスタンスのメモリを未使用にする
 			m_arrayNodeUseCheckBitFlag[index / 32U] ^= (1U << (index % 32U));
+
+			// 現在のインスタンス数を１減らす
+			m_curInstanceCount--;
 		}
 	}
 
@@ -205,6 +249,9 @@ namespace tktkContainer
 				m_arrayNodeUseCheckBitFlag[i / 32U] ^= (1U << (i % 32U));
 			}
 		}
+
+		// 現在のインスタンス数を０にする
+		m_curInstanceCount = 0U;
 	}
 
 	// 指定したインデックスのポインタを取得する（インデックスが指し示すメモリが未使用ならnullPtrを返す）
@@ -225,6 +272,30 @@ namespace tktkContainer
 		if ((m_arrayNodeUseCheckBitFlag[index / 32U] & (1U << (index % 32U))) == 0U) return nullptr;
 
 		return (m_arrayTopPos + index);
+	}
+
+	template<class NodeType, class Allocator>
+	inline typename HeapArray<NodeType, Allocator>::iterator HeapArray<NodeType, Allocator>::begin()
+	{
+		return HeapArray<NodeType, Allocator>::iterator::getBegin(m_arrayMaxSize, m_arrayTopPos, m_arrayNodeUseCheckBitFlag);
+	}
+
+	template<class NodeType, class Allocator>
+	inline typename HeapArray<NodeType, Allocator>::iterator HeapArray<NodeType, Allocator>::end()
+	{
+		return HeapArray<NodeType, Allocator>::iterator::getEnd(m_arrayTopPos);
+	}
+
+	template<class NodeType, class Allocator>
+	inline typename HeapArray<NodeType, Allocator>::const_iterator HeapArray<NodeType, Allocator>::begin() const
+	{
+		return HeapArray<NodeType, Allocator>::const_iterator::getBegin(m_arrayMaxSize, m_arrayTopPos, m_arrayNodeUseCheckBitFlag);
+	}
+
+	template<class NodeType, class Allocator>
+	inline typename HeapArray<NodeType, Allocator>::const_iterator HeapArray<NodeType, Allocator>::end() const
+	{
+		return HeapArray<NodeType, Allocator>::const_iterator::getEnd(m_arrayTopPos);
 	}
 }
 #endif // !HEAP_ARRAY_H_

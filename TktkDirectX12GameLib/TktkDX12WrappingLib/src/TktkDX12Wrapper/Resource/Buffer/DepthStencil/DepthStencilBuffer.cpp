@@ -25,21 +25,17 @@ namespace tktk
 
 	void DepthStencilBuffer::allBeginWrite(ID3D12GraphicsCommandList* commandList) const
 	{
-		for (unsigned int i = 0; i < m_depthStencilBufferDataArray.arrayMaxSize(); i++)
+		for (const auto& node : m_depthStencilBufferDataArray)
 		{
-			auto ptr = m_depthStencilBufferDataArray.at(i);
-
-			if (ptr != nullptr) ptr->beginWrite(commandList);
+			node.beginWrite(commandList);
 		}
 	}
 
 	void DepthStencilBuffer::allEndWrite(ID3D12GraphicsCommandList* commandList) const
 	{
-		for (unsigned int i = 0; i < m_depthStencilBufferDataArray.arrayMaxSize(); i++)
+		for (const auto& node : m_depthStencilBufferDataArray)
 		{
-			auto ptr = m_depthStencilBufferDataArray.at(i);
-
-			if (ptr != nullptr) ptr->endWrite(commandList);
+			node.endWrite(commandList);
 		}
 	}
 

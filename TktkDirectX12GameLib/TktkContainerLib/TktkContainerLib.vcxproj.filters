@@ -18,5 +18,8 @@
     <ClInclude Include="inc\TktkContainer\HeapArray\HeapArray.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="inc\TktkContainer\HeapArray\HeapArrayIterator.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

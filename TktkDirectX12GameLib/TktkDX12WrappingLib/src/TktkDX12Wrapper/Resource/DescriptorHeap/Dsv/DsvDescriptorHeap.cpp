@@ -39,11 +39,9 @@ namespace tktk
 
 	void DsvDescriptorHeap::clearDsvAll(ID3D12Device* device, ID3D12GraphicsCommandList* commandList) const
 	{
-		for (unsigned int i = 0; i < m_dsvDescriptorHeapDataArray.arrayMaxSize(); i++)
+		for (const auto& node : m_dsvDescriptorHeapDataArray)
 		{
-			auto ptr = m_dsvDescriptorHeapDataArray.at(i);
-
-			if (ptr != nullptr) ptr->clearDsv(device, commandList);
+			node.clearDsv(device, commandList);
 		}
 	}
 }
