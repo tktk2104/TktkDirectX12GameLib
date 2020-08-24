@@ -2,6 +2,8 @@
 #define SOUND_H_
 
 #include <xaudio2.h>
+#undef min
+#undef max
 #include <TktkContainer/HeapArray/HeapArray.h>
 #include "SoundData.h"
 

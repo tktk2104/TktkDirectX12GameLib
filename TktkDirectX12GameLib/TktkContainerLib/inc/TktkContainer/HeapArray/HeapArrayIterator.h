@@ -10,16 +10,16 @@ namespace tktkContainer
 	class HeapArray;
 
 	// イテレーター
-	template <class NodeType, class Allocator = std::allocator<NodeType>>
+	template <class NodeType>
 	struct HeapArrayIterator
 	{
 		friend HeapArray;
 
 		using iterator_category = std::forward_iterator_tag;
-		using value_type = NodeType;
-		using difference_type = std::ptrdiff_t;
-		using pointer = NodeType*;
-		using reference = NodeType&;
+		using value_type		= NodeType;
+		using difference_type	= std::ptrdiff_t;
+		using pointer			= NodeType*;
+		using reference			= NodeType&;
 
 	private:
 
@@ -29,28 +29,25 @@ namespace tktkContainer
 
 	private:
 
-		static HeapArrayIterator<NodeType, Allocator> getBegin(unsigned int arrayMaxSize, NodeType* arrayTopPos, unsigned int* arrayNodeUseCheckBitFlagPtr);
-		static HeapArrayIterator<NodeType, Allocator> getEnd(NodeType* arrayTopPos);
+		static HeapArrayIterator<NodeType> getBegin(unsigned int arrayMaxSize, NodeType* arrayTopPos, unsigned int* arrayNodeUseCheckBitFlagPtr);
+		static HeapArrayIterator<NodeType> getEnd(NodeType* arrayTopPos);
 
 	public:
 
 		// コピーコンストラクタのみはパブリックに
-		HeapArrayIterator(const HeapArrayIterator<NodeType, Allocator>& other);
+		HeapArrayIterator(const HeapArrayIterator<NodeType>& other);
 
 	public:
 
 		// イテレータに必要な実装
 		const NodeType& operator*() const;
-
 		NodeType& operator*();
 
-		HeapArrayIterator<NodeType, Allocator>& operator++();
+		HeapArrayIterator<NodeType>& operator++();
+		HeapArrayIterator<NodeType> operator++(int);
 
-		HeapArrayIterator<NodeType, Allocator> operator++(int);
-
-		bool operator==(const HeapArrayIterator<NodeType, Allocator>& other) const;
-
-		bool operator!=(const HeapArrayIterator<NodeType, Allocator>& other) const;
+		bool operator==(const HeapArrayIterator<NodeType>& other) const;
+		bool operator!=(const HeapArrayIterator<NodeType>& other) const;
 
 	private:
 
@@ -59,12 +56,12 @@ namespace tktkContainer
 		NodeType*		m_arrayTopPos;
 		unsigned int*	m_arrayNodeUseCheckBitFlagPtr;
 	};
-	//┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-	//┃ここから下は関数の実装
-	//┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+//┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+//┃ここから下は関数の実装
+//┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-	template<class NodeType, class Allocator>
-	inline HeapArrayIterator<NodeType, Allocator>::HeapArrayIterator(NodeType* arrayTopPos)
+	template<class NodeType>
+	inline HeapArrayIterator<NodeType>::HeapArrayIterator(NodeType* arrayTopPos)
 	{
 		m_index = SIZE_MAX;
 		m_arrayMaxSize = 0U;
@@ -72,8 +69,8 @@ namespace tktkContainer
 		m_arrayNodeUseCheckBitFlagPtr = nullptr;
 	}
 
-	template<class NodeType, class Allocator>
-	inline HeapArrayIterator<NodeType, Allocator>::HeapArrayIterator(unsigned int index, unsigned int arrayMaxSize, NodeType* arrayTopPos, unsigned int* arrayNodeUseCheckBitFlagPtr)
+	template<class NodeType>
+	inline HeapArrayIterator<NodeType>::HeapArrayIterator(unsigned int index, unsigned int arrayMaxSize, NodeType* arrayTopPos, unsigned int* arrayNodeUseCheckBitFlagPtr)
 	{
 		m_index = (index == 0 ? index : SIZE_MAX);
 		m_arrayMaxSize = arrayMaxSize;
@@ -81,10 +78,10 @@ namespace tktkContainer
 		m_arrayNodeUseCheckBitFlagPtr = arrayNodeUseCheckBitFlagPtr;
 	}
 
-	template<class NodeType, class Allocator>
-	inline HeapArrayIterator<NodeType, Allocator> HeapArrayIterator<NodeType, Allocator>::getBegin(unsigned int arrayMaxSize, NodeType* arrayTopPos, unsigned int* arrayNodeUseCheckBitFlagPtr)
+	template<class NodeType>
+	inline HeapArrayIterator<NodeType> HeapArrayIterator<NodeType>::getBegin(unsigned int arrayMaxSize, NodeType* arrayTopPos, unsigned int* arrayNodeUseCheckBitFlagPtr)
 	{
-		static auto returnValue = HeapArrayIterator<NodeType, Allocator>(0U, arrayMaxSize, arrayTopPos, arrayNodeUseCheckBitFlagPtr);
+		static auto returnValue = HeapArrayIterator<NodeType>(0U, arrayMaxSize, arrayTopPos, arrayNodeUseCheckBitFlagPtr);
 
 		// サイズゼロだった場合、endと同じ要素を返す
 		if (returnValue.m_arrayMaxSize == 0U) return getEnd(arrayTopPos);
@@ -99,16 +96,16 @@ namespace tktkContainer
 		return returnValue;
 	}
 
-	template<class NodeType, class Allocator>
-	inline HeapArrayIterator<NodeType, Allocator> HeapArrayIterator<NodeType, Allocator>::getEnd(NodeType* arrayTopPos)
+	template<class NodeType>
+	inline HeapArrayIterator<NodeType> HeapArrayIterator<NodeType>::getEnd(NodeType* arrayTopPos)
 	{
-		static auto returnValue = HeapArrayIterator<NodeType, Allocator>(arrayTopPos);
+		static auto returnValue = HeapArrayIterator<NodeType>(arrayTopPos);
 
 		return returnValue;
 	}
 
-	template<class NodeType, class Allocator>
-	inline HeapArrayIterator<NodeType, Allocator>::HeapArrayIterator(const HeapArrayIterator<NodeType, Allocator>& other)
+	template<class NodeType>
+	inline HeapArrayIterator<NodeType>::HeapArrayIterator(const HeapArrayIterator<NodeType>& other)
 	{
 		m_index			= other.m_index;
 		m_arrayMaxSize	= other.m_arrayMaxSize;
@@ -116,8 +113,8 @@ namespace tktkContainer
 		m_arrayNodeUseCheckBitFlagPtr = other.m_arrayNodeUseCheckBitFlagPtr;
 	}
 
-	template<class NodeType, class Allocator>
-	inline const NodeType& HeapArrayIterator<NodeType, Allocator>::operator*() const
+	template<class NodeType>
+	inline const NodeType& HeapArrayIterator<NodeType>::operator*() const
 	{
 		// インデックスが範囲外を表しているか、インスタンス化に使用されていないメモリを指したイテレーターの場合
 		if (m_index == SIZE_MAX || (m_arrayNodeUseCheckBitFlagPtr[m_index / 32U] & (1U << (m_index % 32U))) == 0U)
@@ -128,8 +125,8 @@ namespace tktkContainer
 		return *(m_arrayTopPos + m_index);
 	}
 
-	template<class NodeType, class Allocator>
-	inline NodeType& HeapArrayIterator<NodeType, Allocator>::operator*()
+	template<class NodeType>
+	inline NodeType& HeapArrayIterator<NodeType>::operator*()
 	{
 		// インデックスが範囲外を表しているか、インスタンス化に使用されていないメモリを指したイテレーターの場合
 		if (m_index == SIZE_MAX || (m_arrayNodeUseCheckBitFlagPtr[m_index / 32U] & (1U << (m_index % 32U))) == 0U)
@@ -140,8 +137,8 @@ namespace tktkContainer
 		return *(m_arrayTopPos + m_index);
 	}
 
-	template<class NodeType, class Allocator>
-	inline HeapArrayIterator<NodeType, Allocator>& HeapArrayIterator<NodeType, Allocator>::operator++()
+	template<class NodeType>
+	inline HeapArrayIterator<NodeType>& HeapArrayIterator<NodeType>::operator++()
 	{
 		if (m_index >= SIZE_MAX - 1U) return *this;
 
@@ -161,8 +158,8 @@ namespace tktkContainer
 		return *this;
 	}
 
-	template<class NodeType, class Allocator>
-	inline HeapArrayIterator<NodeType, Allocator> HeapArrayIterator<NodeType, Allocator>::operator++(int)
+	template<class NodeType>
+	inline HeapArrayIterator<NodeType> HeapArrayIterator<NodeType>::operator++(int)
 	{
 		HeapArrayIterator result = *this;
 
@@ -184,14 +181,14 @@ namespace tktkContainer
 		return result;
 	}
 
-	template<class NodeType, class Allocator>
-	inline bool HeapArrayIterator<NodeType, Allocator>::operator==(const HeapArrayIterator<NodeType, Allocator>& other) const
+	template<class NodeType>
+	inline bool HeapArrayIterator<NodeType>::operator==(const HeapArrayIterator<NodeType>& other) const
 	{
 		return !(*this != other);
 	}
 
-	template<class NodeType, class Allocator>
-	inline bool HeapArrayIterator<NodeType, Allocator>::operator!=(const HeapArrayIterator<NodeType, Allocator>& other) const
+	template<class NodeType>
+	inline bool HeapArrayIterator<NodeType>::operator!=(const HeapArrayIterator<NodeType>& other) const
 	{
 		return m_index != other.m_index || m_arrayTopPos != other.m_arrayTopPos;
 	}

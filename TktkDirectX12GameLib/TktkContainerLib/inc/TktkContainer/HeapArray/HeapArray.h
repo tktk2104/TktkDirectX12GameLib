@@ -1,19 +1,27 @@
 #ifndef HEAP_ARRAY_H_
 #define HEAP_ARRAY_H_
 
+#include <limits>
 #include <stdexcept>
 #include <memory>
 #include "HeapArrayIterator.h"
 
 namespace tktkContainer
 {
+	template <class NodeType>
+	struct HeapArrayIndexPtrPair
+	{
+		unsigned int	index;
+		NodeType* ptr;
+	};
+
 	template <class NodeType, class Allocator = std::allocator<NodeType>>
 	class HeapArray
 	{
 	public:
 
-		typedef HeapArrayIterator<NodeType, Allocator>			iterator;
-		typedef HeapArrayIterator<const NodeType, Allocator>	const_iterator;
+		using iterator			=  HeapArrayIterator<NodeType>;
+		using const_iterator	=  HeapArrayIterator<const NodeType>;
 
 	public:
 
@@ -29,9 +37,15 @@ namespace tktkContainer
 
 	public:
 
-		// 確保したメモリの先頭から使用可能なメモリが存在するか探し、見つけたら引数を使ってインスタンスを作った上でそのアドレスのポインタを返し、見つからなかったらnullptrを返す
+		// 確保したメモリの先頭から使用可能なメモリが存在するか探し、見つけたら引数の参照をムーブする
+		HeapArrayIndexPtrPair<NodeType> create(NodeType&& node);
+
+		// 確保したメモリの特定位置（先頭アドレス + (index * sizeof(NodeType))）のメモリが未使用ならば見つけたら引数の参照をムーブする
+		NodeType* createAt(unsigned int index, NodeType&& node);
+
+		// 確保したメモリの先頭から使用可能なメモリが存在するか探し、見つけたら引数を使ってインスタンスを作った上でそのアドレスのポインタとインデックスを返し、見つからなかったらnullptrと０を返す
 		template <class... ConstructorArgs>
-		NodeType* emplace(ConstructorArgs&&... args);
+		HeapArrayIndexPtrPair<NodeType> emplace(ConstructorArgs&&... args);
 
 		// 確保したメモリの特定位置（先頭アドレス + (index * sizeof(NodeType))）のメモリが未使用ならば引数を使ってインスタンスを作った上でそのアドレスのポインタを返し、使用済みだったらnullptrを返す
 		template <class... ConstructorArgs>
@@ -54,11 +68,11 @@ namespace tktkContainer
 		// 指定したインデックスのポインタを取得する（const版）（インデックスが指し示すメモリが未使用ならnullPtrを返す）
 		const NodeType* at(unsigned int index) const;
 
-		typename HeapArray<NodeType, Allocator>::iterator begin();
-		typename HeapArray<NodeType, Allocator>::const_iterator begin() const;
+		HeapArray<NodeType, Allocator>::iterator		begin();
+		HeapArray<NodeType, Allocator>::const_iterator	begin() const;
 
-		typename HeapArray<NodeType, Allocator>::iterator end();
-		typename HeapArray<NodeType, Allocator>::const_iterator end() const;
+		HeapArray<NodeType, Allocator>::iterator		end();
+		HeapArray<NodeType, Allocator>::const_iterator	end() const;
 
 	private:
 
@@ -77,6 +91,7 @@ namespace tktkContainer
 		// 配列の要素を使用しているかを管理するビットデータ（uint配列として作成）
 		unsigned int*	m_arrayNodeUseCheckBitFlag;
 	};
+
 //┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 //┃ここから下は関数の実装
 //┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -126,15 +141,29 @@ namespace tktkContainer
 		return m_curInstanceCount < m_arrayMaxSize;
 	}
 
-	// 確保したメモリの先頭から使用可能なメモリが存在するか探し、見つけたら引数を使ってインスタンスを作った上でそのアドレスのポインタを返し、見つからなかったらnullptrを返す
+	// 確保したメモリの先頭から使用可能なメモリが存在するか探し、見つけたら引数の参照をムーブする
+	template<class NodeType, class Allocator>
+	inline HeapArrayIndexPtrPair<NodeType> HeapArray<NodeType, Allocator>::create(NodeType&& node)
+	{
+		return emplace(std::move(node));
+	}
+
+	// 確保したメモリの特定位置（先頭アドレス + (index * sizeof(NodeType))）のメモリが未使用ならば見つけたら引数の参照をムーブする
+	template<class NodeType, class Allocator>
+	inline NodeType* HeapArray<NodeType, Allocator>::createAt(unsigned int index, NodeType&& node)
+	{
+		return emplaceAt(index, std::move(node));
+	}
+
+	// 確保したメモリの先頭から使用可能なメモリが存在するか探し、見つけたら引数を使ってインスタンスを作った上でそのアドレスのポインタを返し、見つからなかったらuintMaxを返す
 	template<class NodeType, class Allocator>
 	template<class ...ConstructorArgs>
-	inline NodeType* HeapArray<NodeType, Allocator>::emplace(ConstructorArgs&& ...args)
+	inline HeapArrayIndexPtrPair<NodeType> HeapArray<NodeType, Allocator>::emplace(ConstructorArgs&& ...args)
 	{
 		// 現在のインスタンス数が作成可能最大数だったら
 		if (!canCreateNode())
 		{
-			return nullptr;
+			return { std::numeric_limits<unsigned int>::max(), nullptr };
 		}
 
 		for (unsigned int i = 0U; i < m_arrayMaxSize; i++)
@@ -152,10 +181,10 @@ namespace tktkContainer
 				m_curInstanceCount++;
 
 				// 作成したインスタンスのポインタを返す
-				return (m_arrayTopPos + i);
+				return { i, (m_arrayTopPos + i) };
 			}
 		}
-		return nullptr;
+		return { std::numeric_limits<unsigned int>::max(), nullptr };
 	}
 
 	// 確保したメモリの特定位置（先頭アドレス + (index * sizeof(NodeType))）のメモリが未使用ならば引数を使ってインスタンスを作った上でそのアドレスのポインタを返し、使用済みだったらnullptrを返す
