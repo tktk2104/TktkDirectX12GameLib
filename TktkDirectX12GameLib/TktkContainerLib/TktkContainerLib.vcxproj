@@ -152,6 +152,12 @@
   <ItemGroup>
     <ClInclude Include="inc\TktkContainer\HeapArray\HeapArray.h" />
     <ClInclude Include="inc\TktkContainer\HeapArray\HeapArrayIterator.h" />
+    <ClInclude Include="inc\TktkContainer\ResourceContainer\ResourceContainer.h" />
+    <ClInclude Include="inc\TktkContainer\ResourceContainer\ResourceContainerIterator.h" />
+    <ClInclude Include="inc\TktkContainer\ResourceHandleManager\ResourceHandleManager.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\ResourceHandleManager\ResourceHandleManager.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
