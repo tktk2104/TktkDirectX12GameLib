@@ -1,6 +1,3 @@
-#include <TktkFileIoLibDefinition.h>
-#include <TktkMathLibDefinition.h>
-#include <TktkDX12WrappingLibDefinition.h>
 #include <TktkDX12GameLibDefinition.h>
 
 #include <TktkDX12Game/_MainManager/DX12GameManager.h>
