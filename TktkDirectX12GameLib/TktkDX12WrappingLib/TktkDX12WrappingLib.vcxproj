@@ -226,7 +226,6 @@
     <ClInclude Include="inc\TktkDX12Wrapper\_BaseObjects\DX3DBaseObjectsFuncArgsIncluder.h" />
     <ClInclude Include="inc\TktkDX12Wrapper\_BaseObjects\DX3DBaseObjectsInitParam.h" />
     <ClInclude Include="inc\TktkDX12Wrapper\_BaseObjects\DX3DBaseObjectsInitParamIncluder.h" />
-    <ClInclude Include="inc\TktkDX12WrappingLibDefinition.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\TktkDX12Wrapper\Resource\Buffer\BufferResource.cpp" />

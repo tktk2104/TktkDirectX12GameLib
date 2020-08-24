@@ -152,7 +152,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="inc\TktkFileIoLibDefinition.h" />
     <ClInclude Include="inc\TktkFileIo\BinaryFileReader.h" />
     <ClInclude Include="inc\TktkFileIo\lodebmp.h" />
     <ClInclude Include="inc\TktkFileIo\lodedds.h" />

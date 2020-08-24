@@ -39,9 +39,6 @@
     <ClInclude Include="inc\TktkMath\Structs\Vector3.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="inc\TktkMathLibDefinition.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="inc\TktkCollision\2D\Body2dBase\Body2dBase.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>

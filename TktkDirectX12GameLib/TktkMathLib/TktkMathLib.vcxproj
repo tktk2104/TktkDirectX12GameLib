@@ -167,7 +167,6 @@
     <ClInclude Include="inc\TktkCollision\3D\Body3dBase\HitInfo3D.h" />
     <ClInclude Include="inc\TktkCollision\3D\Body3dBase\ShapeType3D.h" />
     <ClInclude Include="inc\TktkCollision\3D\BoundingSphere.h" />
-    <ClInclude Include="inc\TktkMathLibDefinition.h" />
     <ClInclude Include="inc\TktkMath\Random.h" />
     <ClInclude Include="inc\TktkMath\Structs\Color.h" />
     <ClInclude Include="inc\TktkMath\MathHelper.h" />
