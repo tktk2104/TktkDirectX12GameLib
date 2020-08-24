@@ -4,27 +4,30 @@
 
 namespace tktk
 {
-	void ComponentManager::update()
+	void ComponentManager::movePreFrameAddedNode()
 	{
 		// 前フレームに追加されたコンポーネントをメインリストに追加する
 		for (const auto& node : m_mainMap)
 		{
 			node.second->moveNewComponent();
 		}
-		m_startList.moveNewComponent();
-		m_collisionList.moveNewComponent();
-		m_drawList.moveNewComponent();
+		m_startList.movePreFrameAddedNode();
+		m_collisionList.movePreFrameAddedNode();
+		m_drawList.movePreFrameAddedNode();
+	}
 
+	void ComponentManager::update()
+	{
 		// アクティブフラグの判定とフラグ変更時の関数呼び出し処理
 		for (const auto& node : m_mainMap)
 		{
 			node.second->activeChangeCheck();
 		}
 
-		// 「start()」関数呼び出し処理
-		m_startList.runStart();
+		// 「start」関数呼び出し処理
+		m_startList.runStartFunc();
 		
-		// 「update()」関数呼び出し処理
+		// 「update」関数呼び出し処理
 		for (const auto& node : m_mainMap)
 		{
 			node.second->runUpdate();
@@ -38,7 +41,10 @@ namespace tktk
 		{
 			node.second->runAfterCollide();
 		}
-		
+	}
+
+	void ComponentManager::removeDeadComponent()
+	{
 		// メインリストが管理しているコンポーネントポインタの生存確認
 		for (const auto& node : m_mainMap)
 		{
@@ -47,7 +53,7 @@ namespace tktk
 
 		// 衝突判定リストが管理しているコンポーネントポインタの生存確認
 		m_collisionList.removeDeadComponent();
-		
+
 		// 描画リストが管理しているコンポーネントポインタの生存確認
 		m_drawList.removeDeadComponent();
 	}
@@ -55,11 +61,12 @@ namespace tktk
 	void ComponentManager::draw()
 	{
 		// 「draw()」関数呼び出し処理
-		m_drawList.runDraw();
+		m_drawList.runDrawFunc();
 	}
 
 	void ComponentManager::addCollisionGroup(int firstGroup, int secondGroup)
 	{
+		// 衝突判定の組み合わせを追加
 		m_collisionList.addCollisionGroup(firstGroup, secondGroup);
 	}
 }

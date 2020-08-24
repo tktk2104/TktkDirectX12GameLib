@@ -11,7 +11,7 @@ namespace tktk
 	{
 	public:
 
-		RtvDescriptorHeap(unsigned int rtvDescriptorHeapNum);
+		explicit RtvDescriptorHeap(unsigned int rtvDescriptorHeapNum);
 		~RtvDescriptorHeap() = default;
 
 	public:
@@ -39,7 +39,7 @@ namespace tktk
 
 	private:
 
-		HeapArray<RtvDescriptorHeapData> m_rtvDescriptorHeapDataArray;
+		tktkContainer::HeapArray<RtvDescriptorHeapData> m_rtvDescriptorHeapDataArray;
 	};
 }
 #endif // !RTV_DESCRIPTOR_HEAP_H_

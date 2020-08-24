@@ -25,11 +25,9 @@ namespace tktk
 
 	void ConstantBuffer::deleteUploadBufferAll()
 	{
-		for (unsigned int i = 0; i < m_constantBufferDataArray.arrayMaxSize(); i++)
+		for (auto& node : m_constantBufferDataArray)
 		{
-			auto ptr = m_constantBufferDataArray.at(i);
-
-			if (ptr != nullptr) ptr->deleteUploadBufferAll();
+			node.deleteUploadBufferAll();
 		}
 	}
 }

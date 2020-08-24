@@ -33,7 +33,7 @@ namespace tktk
 
 	private:
 
-		HeapArray<CameraData> m_cameraArray;
+		tktkContainer::HeapArray<CameraData> m_cameraArray;
 	};
 }
 #endif // !CAMERA_H_

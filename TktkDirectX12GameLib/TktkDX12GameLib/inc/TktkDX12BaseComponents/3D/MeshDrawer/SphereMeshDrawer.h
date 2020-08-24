@@ -24,6 +24,8 @@ namespace tktk
 
 		const tktkMath::Color& getAlbedoColor() const;
 
+		void setAlbedoColor(const tktkMath::Color& color);
+
 	private:
 
 		float						m_radius;

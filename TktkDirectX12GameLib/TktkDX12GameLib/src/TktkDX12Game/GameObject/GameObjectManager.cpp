@@ -6,13 +6,21 @@ namespace tktk
 {
 	void GameObjectManager::update()
 	{
-		// 死亡フラグの立ったオブジェクトを削除する
-		m_gameObjectList.remove_if([](const auto& node) { return node->isDead(); });
-
 		for (const auto& node : m_gameObjectList)
 		{
 			node->update();
 		}
+	}
+
+	void GameObjectManager::movePreFrameAddedNode()
+	{
+		m_gameObjectList.splice_after(m_gameObjectList.before_begin(), std::move(m_newGameObjectList));
+	}
+
+	void GameObjectManager::removeDeadObject()
+	{
+		// 死亡フラグの立ったオブジェクトを削除する
+		m_gameObjectList.remove_if([](const auto& node) { return node->isDead(); });
 	}
 
 	void GameObjectManager::runHandleMessageAll(unsigned int messageId, const MessageAttachment& value)
@@ -27,7 +35,7 @@ namespace tktk
 	{
 		auto gameObject = std::make_shared<GameObject>();
 
-		m_gameObjectList.push_front(gameObject);
+		m_newGameObjectList.push_front(gameObject);
 
 		return GameObjectPtr(gameObject);
 	}

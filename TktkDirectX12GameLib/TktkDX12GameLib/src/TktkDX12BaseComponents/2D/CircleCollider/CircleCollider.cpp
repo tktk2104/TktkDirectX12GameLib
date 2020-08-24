@@ -56,12 +56,12 @@ namespace tktk
 		return false;
 	}
 
-	const Body2dBase & CircleCollider::getBodyBase() const
+	const tktkCollision::Body2dBase & CircleCollider::getBodyBase() const
 	{
 		return m_boundingCircle;
 	}
 
-	const HitInfo2D & CircleCollider::getHitInfo2D() const
+	const tktkCollision::HitInfo2D & CircleCollider::getHitInfo2D() const
 	{
 		return m_hitInfo;
 	}

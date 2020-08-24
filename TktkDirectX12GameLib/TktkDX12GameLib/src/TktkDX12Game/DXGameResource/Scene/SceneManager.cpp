@@ -24,11 +24,9 @@ namespace tktk
 
 	void SceneManager::update()
 	{
-		for (unsigned int i = 0; i < m_sceneArray.arrayMaxSize(); i++)
+		for (auto& node : m_sceneArray)
 		{
-			auto ptr = m_sceneArray.at(i);
-
-			if (ptr != nullptr) ptr->update();
+			node.update();
 		}
 	}
 }

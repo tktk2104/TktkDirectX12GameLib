@@ -152,8 +152,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="inc\TktkDX12Wrapper\Includer\D3d12Includer.h" />
+    <ClInclude Include="inc\TktkDX12Wrapper\Includer\WindowsHeaderIncluder.h" />
     <ClInclude Include="inc\TktkDX12Wrapper\Resource\Buffer\BufferResource.h" />
-    <ClInclude Include="inc\TktkDX12Wrapper\Resource\Buffer\BufferResourceInitParam.h" />
+    <ClInclude Include="inc\TktkDX12Wrapper\Resource\Buffer\BufferResourceInitParamIncluder.h" />
+    <ClInclude Include="inc\TktkDX12Wrapper\Resource\Buffer\BufferResourceNum.h" />
     <ClInclude Include="inc\TktkDX12Wrapper\Resource\Buffer\BufferType.h" />
     <ClInclude Include="inc\TktkDX12Wrapper\Resource\Buffer\DepthStencil\DepthStencilBufferInitParam.h" />
     <ClInclude Include="inc\TktkDX12Wrapper\Resource\DescriptorHeap\Basic\BasicDescriptorHeap.h" />
@@ -165,12 +168,12 @@
     <ClInclude Include="inc\TktkDX12Wrapper\Resource\Buffer\DepthStencil\DepthStencilBufferData.h" />
     <ClInclude Include="inc\TktkDX12Wrapper\Resource\Buffer\RenderTarget\RenderTargetBuffer.h" />
     <ClInclude Include="inc\TktkDX12Wrapper\Resource\Buffer\RenderTarget\RenderTargetBufferData.h" />
-    <ClInclude Include="inc\TktkDX12Wrapper\Resource\Buffer\Texture\ShaderResourceViewInitParam.h" />
     <ClInclude Include="inc\TktkDX12Wrapper\Resource\Buffer\Texture\TextureBuffer.h" />
     <ClInclude Include="inc\TktkDX12Wrapper\Resource\Buffer\Texture\TextureBufferData.h" />
     <ClInclude Include="inc\TktkDX12Wrapper\Resource\Buffer\Texture\TextureBufferInitParam.h" />
     <ClInclude Include="inc\TktkDX12Wrapper\Resource\DescriptorHeap\DescriptorHeap.h" />
-    <ClInclude Include="inc\TktkDX12Wrapper\Resource\DescriptorHeap\DescriptorHeapInitParam.h" />
+    <ClInclude Include="inc\TktkDX12Wrapper\Resource\DescriptorHeap\DescriptorHeapInitParamIncluder.h" />
+    <ClInclude Include="inc\TktkDX12Wrapper\Resource\DescriptorHeap\DescriptorHeapNum.h" />
     <ClInclude Include="inc\TktkDX12Wrapper\Resource\DescriptorHeap\DescriptorHeapParam.h" />
     <ClInclude Include="inc\TktkDX12Wrapper\Resource\DescriptorHeap\Dsv\DsvDescriptorHeap.h" />
     <ClInclude Include="inc\TktkDX12Wrapper\Resource\DescriptorHeap\Dsv\DsvDescriptorHeapData.h" />
@@ -179,8 +182,11 @@
     <ClInclude Include="inc\TktkDX12Wrapper\Resource\DescriptorHeap\Rtv\RtvDescriptorHeapData.h" />
     <ClInclude Include="inc\TktkDX12Wrapper\Resource\DescriptorHeap\Rtv\RtvDescriptorHeapInitParam.h" />
     <ClInclude Include="inc\TktkDX12Wrapper\Resource\DX3DResource.h" />
-    <ClInclude Include="inc\TktkDX12Wrapper\Resource\DX3DResourceInitParam.h" />
+    <ClInclude Include="inc\TktkDX12Wrapper\Resource\DX3DResourceFuncArgsIncluder.h" />
+    <ClInclude Include="inc\TktkDX12Wrapper\Resource\DX3DResourceInitParamIncluder.h" />
+    <ClInclude Include="inc\TktkDX12Wrapper\Resource\DX3DResourceNum.h" />
     <ClInclude Include="inc\TktkDX12Wrapper\Resource\GraphicsPipeLine\GraphicsPipeLine.h" />
+    <ClInclude Include="inc\TktkDX12Wrapper\Resource\GraphicsPipeLine\GraphicsPipeLineInitParamIncluder.h" />
     <ClInclude Include="inc\TktkDX12Wrapper\Resource\_SystemResourceIdGetter\SystemResourceIdGetter.h" />
     <ClInclude Include="inc\TktkDX12Wrapper\Resource\_SystemResourceIdGetter\SystemResourceType.h" />
     <ClInclude Include="inc\TktkDX12Wrapper\Resource\_SystemResourceIdGetter\IdType\SystemBasicDescriptorHeapType.h" />
@@ -217,6 +223,9 @@
     <ClInclude Include="inc\TktkDX12Wrapper\_BaseObjects\DX3DBaseObjects.h" />
     <ClInclude Include="inc\TktkDX12Wrapper\Window\Window.h" />
     <ClInclude Include="inc\TktkDX12Wrapper\Window\WindowInitParam.h" />
+    <ClInclude Include="inc\TktkDX12Wrapper\_BaseObjects\DX3DBaseObjectsFuncArgsIncluder.h" />
+    <ClInclude Include="inc\TktkDX12Wrapper\_BaseObjects\DX3DBaseObjectsInitParam.h" />
+    <ClInclude Include="inc\TktkDX12Wrapper\_BaseObjects\DX3DBaseObjectsInitParamIncluder.h" />
     <ClInclude Include="inc\TktkDX12WrappingLibDefinition.h" />
   </ItemGroup>
   <ItemGroup>

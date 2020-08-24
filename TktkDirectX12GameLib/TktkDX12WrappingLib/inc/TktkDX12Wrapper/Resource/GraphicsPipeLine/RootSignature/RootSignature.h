@@ -11,7 +11,7 @@ namespace tktk
 	{
 	public:
 
-		RootSignature(unsigned int rootSignatureNum);
+		explicit RootSignature(unsigned int rootSignatureNum);
 		~RootSignature() = default;
 
 	public:
@@ -27,7 +27,7 @@ namespace tktk
 
 	private:
 
-		HeapArray<RootSignatureData> m_rootSignatureDataArray;
+		tktkContainer::HeapArray<RootSignatureData> m_rootSignatureDataArray;
 	};
 }
 #endif // !ROOT_SIGNATURE_H_

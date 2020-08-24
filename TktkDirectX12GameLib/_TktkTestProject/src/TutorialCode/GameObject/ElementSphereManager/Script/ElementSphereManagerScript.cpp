@@ -18,7 +18,7 @@
 // 画面に表示する球体の上限数
 constexpr unsigned int ElementSphereManagerScript::m_sphereMaxNum;
 
-void ElementSphereManagerScript::start()
+void ElementSphereManagerScript::awake()
 {
 	// 画面に表示する球体の数だけループする
 	for (unsigned int i = 0; i < m_sphereMaxNum; i++)

@@ -1,5 +1,7 @@
 #include "MikuScript.h"
 
+#include <TktkDX12BaseComponents/3D/MeshAnimator/MeshAnimator.h>
+
 void MikuScript::start()
 {
     m_transform = getComponent<tktk::Transform3D>();
@@ -25,10 +27,10 @@ void MikuScript::update()
 {
 	if (tktk::DX12GameManager::isTrigger(tktk::KeybordKeyType::key_Space))
 	{
-		tktk::DX12GameManager::SendMessageAll(0U, 10);
+		getComponent<tktk::MeshAnimator>()->changeMotion(0U, 10.0f);
 	}
 
-	if (tktk::DX12GameManager::isPush(tktk::KeybordKeyType::key_Space))
+	/*if (tktk::DX12GameManager::isPush(tktk::KeybordKeyType::key_Space))
 	{
 		m_transform->addLocalEulerAngles({ 0.0f, 10.0f, 0.0f });
 	}
@@ -45,7 +47,7 @@ void MikuScript::update()
 	if (inputR.length() > 0.3f)
 	{
 		m_transform->addLocalPosition(tktkMath::Vector3(inputR.x, 0.0f, inputR.y));
-	}
+	}*/
 }
 
 void MikuScript::afterCollide()

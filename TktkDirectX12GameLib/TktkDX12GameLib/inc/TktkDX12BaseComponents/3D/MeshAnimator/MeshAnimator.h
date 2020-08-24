@@ -12,7 +12,7 @@ namespace tktk
 	{
 	public:
 
-		MeshAnimator(unsigned int initMotionId);
+		MeshAnimator(unsigned int initMotionId, bool isLoop);
 
 	public:
 
@@ -23,13 +23,23 @@ namespace tktk
 
 	public:
 
-		// モーションを新たに設定する
-		void setMotionId(unsigned int motionId);
+		// モーションを変更する
+		void changeMotion(unsigned int motionId, float lerpTimeSec);
 
 	private:
 
-		unsigned int m_motionId;
-		unsigned int m_curFrame{ 0U };
+		bool m_isLoop;
+
+		unsigned int m_preMotionId;
+		unsigned int m_curMotionId;
+
+		float m_curFrame				{ 0.0f };
+		float m_preFrame				{ 0.0f };
+
+		float m_animFrameIntervalPerSec	{ 60.0f };
+
+		float m_lerpTimer				{ 1.0f };
+		float m_increaseLerpTimePerSec	{ 0.0f };
 	};
 }
 #endif // !MESH_ANIMATOR_H_

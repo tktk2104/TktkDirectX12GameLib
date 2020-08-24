@@ -36,7 +36,7 @@ namespace tktk
 
 	private:
 
-		HeapArray<Line2DMaterialData> m_line2DMaterialArray;
+		tktkContainer::HeapArray<Line2DMaterialData> m_line2DMaterialArray;
 	};
 }
 #endif // !LINE_2D_H_

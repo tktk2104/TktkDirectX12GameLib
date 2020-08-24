@@ -51,11 +51,9 @@ namespace tktk
 
 		if (dw != WAIT_OBJECT_0) return;
 
-		for (unsigned int i = 0; i < m_assets.arrayMaxSize(); i++)
+		for (auto& node : m_assets)
 		{
-			auto ptr = m_assets.at(i);
-
-			if (ptr != nullptr && ptr->isPlaySound()) ptr->update();
+			node.update();
 		}
 	}
 

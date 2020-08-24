@@ -2,15 +2,7 @@
 
 namespace tktk
 {
-	SwapChain::~SwapChain()
-	{
-		if (m_swapChain != nullptr)
-		{
-			m_swapChain->Release();
-		}
-	}
-
-	void SwapChain::initialize(HWND hwnd, IDXGIFactory6* factory, ID3D12CommandQueue* commandQueue, const tktkMath::Vector2& windowSize)
+	SwapChain::SwapChain(HWND hwnd, IDXGIFactory6* factory, ID3D12CommandQueue* commandQueue, const tktkMath::Vector2& windowSize)
 	{
 		// スワップチェーンを作る
 		DXGI_SWAP_CHAIN_DESC1 swapChainDesc = {};
@@ -27,6 +19,14 @@ namespace tktk
 		swapChainDesc.AlphaMode = DXGI_ALPHA_MODE_UNSPECIFIED;
 		swapChainDesc.Flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH;
 		factory->CreateSwapChainForHwnd(commandQueue, hwnd, &swapChainDesc, nullptr, nullptr, &m_swapChain);
+	}
+
+	SwapChain::~SwapChain()
+	{
+		if (m_swapChain != nullptr)
+		{
+			m_swapChain->Release();
+		}
 	}
 
 	void SwapChain::updateBackBufferIndex()

@@ -21,6 +21,9 @@ namespace tktk
 
 	public:
 
+		// モーションの終了キーの番号を取得する
+		unsigned int getEndFrameNo() const;
+
 		// 指定のフレームのボーン毎の行列を取得する（キーが無い時は前後のキーから計算する）
 		std::vector<MotionBoneParam> calculateBoneTransformMatrices(unsigned int frame) const;
 
@@ -41,6 +44,8 @@ namespace tktk
 		KeyFrame calculateKeyFrame(const std::vector<KeyFrame>& keyFrames, unsigned int frame) const;
 
 	private:
+
+		unsigned int  m_endFrameNo;
 
 		// ボーンごとのキーフレームの配列を管理する連想配列
 		std::unordered_map<std::string, std::vector<KeyFrame>> m_boneKeyFrames;

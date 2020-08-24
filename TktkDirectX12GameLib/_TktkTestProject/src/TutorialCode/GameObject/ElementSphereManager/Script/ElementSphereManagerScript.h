@@ -14,7 +14,7 @@ public:
 
 public:
 
-	void start();
+	void awake();
 
 	void update();
 

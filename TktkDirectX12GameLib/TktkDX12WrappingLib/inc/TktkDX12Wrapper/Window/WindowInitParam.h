@@ -2,10 +2,8 @@
 #define WINDOW_INIT_PARAM_H_
 
 #include <string>
-#include <Windows.h>
-#undef min
-#undef max
 #include <TktkMath/Structs/Vector2.h>
+#include "../Includer/WindowsHeaderIncluder.h"
 
 namespace tktk
 {

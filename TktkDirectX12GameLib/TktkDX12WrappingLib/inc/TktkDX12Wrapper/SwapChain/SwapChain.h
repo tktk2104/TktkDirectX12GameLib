@@ -1,11 +1,9 @@
 #ifndef SWAP_CHAIN_H_
 #define SWAP_CHAIN_H_
 
-#include <d3d12.h>
 #include <dxgi1_6.h>
-#undef min
-#undef max
 #include <TktkMath/Structs/Vector2.h>
+#include "../Includer/D3d12Includer.h"
 
 namespace tktk
 {
@@ -14,13 +12,10 @@ namespace tktk
 	{
 	public:
 
-		SwapChain() = default;
+		SwapChain(HWND hwnd, IDXGIFactory6* factory, ID3D12CommandQueue* commandQueue, const tktkMath::Vector2& windowSize);
 		~SwapChain();
 
 	public:
-
-		// 初期化する
-		void initialize(HWND hwnd, IDXGIFactory6* factory, ID3D12CommandQueue* commandQueue, const tktkMath::Vector2& windowSize);
 
 		// 現在のバックバッファーを識別するインデックスを更新する
 		void updateBackBufferIndex();

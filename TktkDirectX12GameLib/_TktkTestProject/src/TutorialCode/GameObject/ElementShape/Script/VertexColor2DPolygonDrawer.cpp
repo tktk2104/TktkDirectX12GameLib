@@ -23,8 +23,8 @@ void VertexColor2DPolygonDrawer::start()
 		center.position += node.position;
 		center.vertexColor += node.vertexColor;
 	}
-	center.position		/= m_vertexArray.size();
-	center.vertexColor	/= m_vertexArray.size();
+	center.position		/= static_cast<float>(m_vertexArray.size());
+	center.vertexColor	/= static_cast<float>(m_vertexArray.size());
 
 	m_vertexArray.push_back(center);
 
@@ -34,7 +34,7 @@ void VertexColor2DPolygonDrawer::start()
 
 		for (unsigned int i = 0; i < (m_vertexArray.size() - 1); i++)
 		{
-			indexArray.push_back(m_vertexArray.size() - 1);
+			indexArray.push_back(static_cast<unsigned short>(m_vertexArray.size() - 1));
 			indexArray.push_back((i + 0));
 			indexArray.push_back((i + 1) % (m_vertexArray.size() - 1));
 		}

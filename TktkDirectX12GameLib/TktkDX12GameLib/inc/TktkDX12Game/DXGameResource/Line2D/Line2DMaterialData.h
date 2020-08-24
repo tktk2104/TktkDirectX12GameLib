@@ -16,10 +16,12 @@ namespace tktk
 
 	public:
 
+		// ２Ｄラインを描画する
 		void drawLine(const Line2DMaterialDrawFuncArgs& drawFuncArgs) const;
 
 	private:
 
+		// ２Ｄラインの定数バッファを更新する
 		void updateLine2DCbuffer(const Line2DMaterialDrawFuncArgs& drawFuncArgs) const;
 
 	private:

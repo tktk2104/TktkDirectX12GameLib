@@ -3,29 +3,33 @@
 #ifdef _DEBUG
 #include <stdexcept>
 #endif // _DEBUG
+
+#include "TktkDX12Game/GameObject/GameObjectTagList.h"
 #include "TktkDX12Game/Component/DefaultComponents/ParentChildManager/ParentChildManager.h"
 #include "TktkDX12Game/Component/DefaultComponents/StateMachine/StateMachine.h"
+#include "TktkDX12Game/Component/DefaultComponents/StateMachine/StateMachineList.h"
 #include "TktkDX12Game/Component/DefaultComponents/StateMachine/CurStateTypeList.h"
 
 namespace tktk
 {
 	GameObject::GameObject()
 	{
-		m_parentChildManager = createComponent<ParentChildManager>();
+		m_tagList				= std::make_unique<GameObjectTagList>();
+		m_componentList			= std::make_unique<GameObjectComponentList>();
+		m_parentChildManager	= createComponent<ParentChildManager>();
 	}
 
 	GameObject::~GameObject()
 	{
-		if (!m_parentChildManager.expired())
-		{
-			m_parentChildManager->destroyChildren();
-		}
-		m_componentList.destroyAll();
+		m_componentList->destroyAll();
 	}
 
 	void GameObject::update()
 	{
-		m_componentList.removeDeadComponent();
+		m_parentChildManager->updateContainer();
+
+		m_componentList->movePreFrameAddedNode();
+		m_componentList->removeDeadComponent();
 
 		m_isActive = m_nextFrameActive;
 	}
@@ -39,7 +43,9 @@ namespace tktk
 	{
 		m_isDead = true;
 
-		m_componentList.destroyAll();
+		m_parentChildManager->destroyChildren();
+
+		m_componentList->destroyAll();
 	}
 
 	bool GameObject::isActive() const
@@ -56,44 +62,29 @@ namespace tktk
 		return m_isDead;
 	}
 
-	void GameObject::addGameObjectTag(int tag)
-	{
-		m_tagList.addTag(tag);
-	}
-
-	void GameObject::removeGameobjectTag(int tag)
-	{
-		m_tagList.removeTag(tag);
-	}
-
-	bool GameObject::containGameobjectTag(int tag) const
-	{
-		return m_tagList.contain(tag);
-	}
-
 	void GameObject::runHandleMessageAll(unsigned int messageId, const MessageAttachment& value)
 	{
-		m_componentList.runHandleMessageAll(messageId, value);
+		m_componentList->runHandleMessageAll(messageId, value);
 	}
 
 	void GameObject::runAfterChangeParentAll(const GameObjectPtr& beforParent)
 	{
-		m_componentList.runAfterChangeParentAll(beforParent);
+		m_componentList->runAfterChangeParentAll(beforParent);
 	}
 
 	void GameObject::runOnCollisionEnterAll(const GameObjectPtr& other)
 	{
-		m_componentList.runOnCollisionEnterAll(other);
+		m_componentList->runOnCollisionEnterAll(other);
 	}
 
 	void GameObject::runOnCollisionStayAll(const GameObjectPtr& other)
 	{
-		m_componentList.runOnCollisionStayAll(other);
+		m_componentList->runOnCollisionStayAll(other);
 	}
 
 	void GameObject::runOnCollisionExitAll(const GameObjectPtr& other)
 	{
-		m_componentList.runOnCollisionExitAll(other);
+		m_componentList->runOnCollisionExitAll(other);
 	}
 
 	const GameObjectPtr& GameObject::getParent() const
@@ -120,6 +111,16 @@ namespace tktk
 		return m_parentChildManager->getChildren();
 	}
 
+	GameObjectPtr GameObject::findChildWithTag(int tag) const
+	{
+		return m_parentChildManager->findGameObjectWithTag(tag);
+	}
+
+	std::forward_list<GameObjectPtr> GameObject::findChildrenWithTag(int tag) const
+	{
+		return m_parentChildManager->findGameObjectsWithTag(tag);
+	}
+
 	void GameObject::addChild(const GameObjectPtr& child)
 	{
 #ifdef _DEBUG
@@ -144,7 +145,7 @@ namespace tktk
 		child->m_parentChildManager->setParent(GameObjectPtr(weak_from_this()));
 
 		// 追加する子供の親変更時関数を呼ぶ
-		child->m_componentList.runAfterChangeParentAll(beforeChildParent);
+		child->m_componentList->runAfterChangeParentAll(beforeChildParent);
 	}
 
 	void GameObject::removeChild(const GameObjectPtr& child)
@@ -165,7 +166,7 @@ namespace tktk
 		m_parentChildManager->removeChild(child);
 
 		// 追加する子供の親変更時関数を呼ぶ
-		child->m_componentList.runAfterChangeParentAll(GameObjectPtr(weak_from_this()));
+		child->m_componentList->runAfterChangeParentAll(GameObjectPtr(weak_from_this()));
 	}
 
 	void GameObject::sendMessage(unsigned int messageId, const MessageAttachment& value)
@@ -183,10 +184,10 @@ namespace tktk
 	void GameObject::setupStateMachine(const StateMachineListInitParam& initParam)
 	{
 		// 現在のステートを管理するコンポーネントを作る
-		m_stateTypeList = createComponent<CurStateTypeList>();
+		m_stateTypeList		= createComponent<CurStateTypeList>();
 
 		// 引数分のステートのステートマシンを作る
-		m_stateMachineList = std::make_unique<StateMachineList>(initParam, GameObjectPtr(weak_from_this()), &m_componentList);
+		m_stateMachineList	= std::make_unique<StateMachineList>(initParam, GameObjectPtr(weak_from_this()), m_componentList);
 	}
 
 	void GameObject::addState(int stateType)
@@ -212,6 +213,21 @@ namespace tktk
 	void GameObject::addChild(const std::vector<int>& targetState, const GameObjectPtr& child)
 	{
 		m_stateMachineList->addChild(targetState, child);
+	}
+
+	void GameObject::addGameObjectTagImpl(int tag)
+	{
+		m_tagList->addTag(tag);
+	}
+
+	void GameObject::removeGameobjectTagImpl(int tag)
+	{
+		m_tagList->removeTag(tag);
+	}
+
+	bool GameObject::containGameobjectTagImpl(int tag) const
+	{
+		return m_tagList->contain(tag);
 	}
 
 	void GameObject::createComponentImpl(const std::vector<int>& targetState, const ComponentBasePtr& componentPtr)

@@ -5,17 +5,20 @@
 
 namespace tktk
 {
+	// このディスクリプタヒープで扱うバッファーの種類
 	enum class DsvDescriptorType
 	{
 		normal,
 	};
 
+	// 個々のディスクリプタの情報
 	struct DsvDescriptorParam
 	{
 		DsvDescriptorType	type;
 		unsigned int		id;
 	};
 
+	// 深度ステンシルビュー用のディスクリプタヒープを作る時に必要な変数
 	struct DsvDescriptorHeapInitParam
 	{
 		bool							shaderVisible{ true };

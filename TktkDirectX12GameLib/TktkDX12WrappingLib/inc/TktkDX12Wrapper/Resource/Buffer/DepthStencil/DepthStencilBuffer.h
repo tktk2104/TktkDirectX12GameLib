@@ -11,7 +11,7 @@ namespace tktk
 	{
 	public:
 
-		DepthStencilBuffer(unsigned int depthStencilBufferNum);
+		explicit DepthStencilBuffer(unsigned int depthStencilBufferNum);
 		~DepthStencilBuffer() = default;
 
 	public:
@@ -47,7 +47,7 @@ namespace tktk
 
 	private:
 
-		HeapArray<DepthStencilBufferData> m_depthStencilBufferDataArray;
+		tktkContainer::HeapArray<DepthStencilBufferData> m_depthStencilBufferDataArray;
 	};
 }
 #endif // !DEPTH_STENCIL_BUFFER_H_

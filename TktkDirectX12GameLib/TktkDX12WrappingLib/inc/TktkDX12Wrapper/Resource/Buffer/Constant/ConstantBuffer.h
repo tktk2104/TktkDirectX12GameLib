@@ -11,7 +11,7 @@ namespace tktk
 	{
 	public:
 
-		ConstantBuffer(unsigned int constantBufferNum);
+		explicit ConstantBuffer(unsigned int constantBufferNum);
 		~ConstantBuffer() = default;
 
 	public:
@@ -31,7 +31,7 @@ namespace tktk
 
 	private:
 
-		HeapArray<ConstantBufferData> m_constantBufferDataArray;
+		tktkContainer::HeapArray<ConstantBufferData> m_constantBufferDataArray;
 	};
 }
 #endif // !CONSTANT_BUFFER_H_

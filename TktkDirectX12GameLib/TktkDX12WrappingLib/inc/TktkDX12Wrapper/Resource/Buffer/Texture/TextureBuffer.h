@@ -12,7 +12,7 @@ namespace tktk
 	{
 	public:
 
-		TextureBuffer(unsigned int textureBufferNum);
+		explicit TextureBuffer(unsigned int textureBufferNum);
 		~TextureBuffer() = default;
 
 	public:
@@ -37,7 +37,7 @@ namespace tktk
 
 	private:
 
-		HeapArray<TextureBufferData> m_textureBufferDataArray;
+		tktkContainer::HeapArray<TextureBufferData> m_textureBufferDataArray;
 	};
 }
 #endif // !TEXTURE_BUFFER_H_

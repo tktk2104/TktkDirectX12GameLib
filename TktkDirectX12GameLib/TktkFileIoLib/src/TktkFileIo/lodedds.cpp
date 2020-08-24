@@ -6,7 +6,7 @@
 #include <assert.h>
 #include "TktkFileIo/BinaryFileReader.h"
 
-namespace tktk
+namespace tktkFileIo
 {
 #ifndef MAKEFOURCC
 #define MAKEFOURCC(ch0, ch1, ch2, ch3)	\

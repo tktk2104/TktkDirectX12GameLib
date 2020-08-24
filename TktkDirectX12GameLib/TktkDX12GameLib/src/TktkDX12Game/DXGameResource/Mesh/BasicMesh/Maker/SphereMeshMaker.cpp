@@ -5,7 +5,7 @@
 #include <TktkMath/Structs/Vector2.h>
 #include <TktkMath/Structs/Vector3.h>
 #include "TktkDX12Game/_MainManager/DX12GameManager.h"
-#include "TktkDX12Game/DXGameResource/Mesh/BasicMesh/BasicMonoColorMeshCbuffer.h"
+#include "TktkDX12Game/DXGameResource/Mesh/BasicMesh/Structs/BasicMonoColorMeshCbuffer.h"
 
 namespace tktk
 {

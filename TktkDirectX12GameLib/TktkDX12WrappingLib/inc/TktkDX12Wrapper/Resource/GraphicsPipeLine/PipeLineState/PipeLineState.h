@@ -1,7 +1,6 @@
 #ifndef GRAPHICS_PIPELINE_STATE_H_
 #define GRAPHICS_PIPELINE_STATE_H_
 
-#include <string>
 #include <TktkContainer/HeapArray/HeapArray.h>
 #include "PipeLineStateData.h"
 
@@ -12,7 +11,7 @@ namespace tktk
 	{
 	public:
 
-		PipeLineState(unsigned int pipeLineNum);
+		explicit PipeLineState(unsigned int pipeLineNum);
 		~PipeLineState() = default;
 
 	public:
@@ -28,7 +27,7 @@ namespace tktk
 
 	private:
 
-		HeapArray<PipeLineStateData> m_pipeLineStateDataArray;
+		tktkContainer::HeapArray<PipeLineStateData> m_pipeLineStateDataArray;
 	};
 }
 #endif // !GRAPHICS_PIPELINE_STATE_H_

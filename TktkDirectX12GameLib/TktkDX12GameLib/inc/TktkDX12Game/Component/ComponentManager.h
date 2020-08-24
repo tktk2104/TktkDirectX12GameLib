@@ -5,14 +5,17 @@
 #include <utility>
 #include <map>
 #include <unordered_map>
+
+// 以下のクラスはテンプレートを使っているため、前方宣言＋ポインタで隠蔽できない
 #include "ComponentUpdatePriorityList.h"
 #include "ComponentMainList.h"
-#include "ComponentStartFunc/ComponentSatrtList.h"
+#include "ComponentStartFunc/ComponentStartList.h"
 #include "ComponentCollisionFunc/ComponentCollisionList.h"
 #include "ComponentDrawFunc/ComponentDrawList.h"
 
 namespace tktk
 {
+	// 前方宣言達
 	class ComponentMainList;
 
 	// 全てのコンポーネントを管理するマネージャークラス
@@ -24,8 +27,14 @@ namespace tktk
 
 	public:
 
+		// 前フレームに追加されたコンポーネントをメインリストに追加する
+		void movePreFrameAddedNode();
+
 		// コンポーネントの更新処理
 		void update();
+
+		// 死んだコンポーネントを削除する
+		void removeDeadComponent();
 
 		// コンポーネントの描画処理
 		void draw();
@@ -55,7 +64,7 @@ namespace tktk
 		ComponentUpdatePriorityList									m_priorityList;		// コンポーネントの更新処理の呼び出し順を管理するリスト
 		std::multimap<float, std::shared_ptr<ComponentMainList>>	m_mainMap;			// コンポーネントを巡回するためのマップ
 		std::unordered_map<int, std::weak_ptr<ComponentMainList>>	m_addComponentMap;	// コンポーネントを追加するためのマップ
-		ComponentSatrtList											m_startList;		// start()を呼ぶためのリスト
+		ComponentStartList											m_startList;		// start()を呼ぶためのリスト
 		ComponentCollisionList										m_collisionList;	// 衝突判定処理を呼ぶためのリスト
 		ComponentDrawList											m_drawList;			// draw()を呼ぶためのリスト
 	};
@@ -92,9 +101,9 @@ namespace tktk
 		auto createdComponent = (*findNode).second.lock()->createComponent<ComponentType>(std::forward<Args>(args)...);
 		
 		// 各種関数呼び出し処理リストにそのweak_ptrを渡す
-		m_startList.addComponent(createdComponent);
-		m_collisionList.addComponent(createdComponent);
-		m_drawList.addComponent(createdComponent);
+		m_startList.add(createdComponent);
+		m_collisionList.add(createdComponent);
+		m_drawList.add(createdComponent);
 
 		// 作ったコンポーネントのweak_ptrを返して終了
 		return createdComponent;

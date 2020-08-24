@@ -6,6 +6,7 @@
 
 namespace tktk
 {
+	// ‚Q‚cƒ‰ƒCƒ“‚ğì‚é‚É•K—v‚È•Ï”
 	struct Line2DMaterialDataInitParam
 	{
 		unsigned int					createVertexBufferId;

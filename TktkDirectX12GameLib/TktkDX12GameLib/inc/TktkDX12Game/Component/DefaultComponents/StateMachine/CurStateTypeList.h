@@ -26,7 +26,7 @@ namespace tktk
 		void clearState();
 
 		// 引数のステートを持っているか？
-		bool contain(int stateType);
+		bool contain(int stateType) const;
 
 	private:
 

@@ -1,20 +1,22 @@
 #ifndef GAME_OBJECT_H_
 #define GAME_OBJECT_H_
 
-#include <memory>
-#include <utility>
-#include <unordered_map>
-#include "GameObjectTagList.h"
+#include <memory>	// std::smart_ptr
+#include <utility>	// std::forward
+#include <TktkTemplateMetaLib/TypeCheck/isIdType.h>
 #include "../Component/ComponentGameObjectFunc/GameObjectComponentList.h"
 #include "../_MainManager/DX12GameManager.h"
 #include "../Component/ComponentPtr.h"
-#include "../Component/DefaultComponents/StateMachine/StateMachineList.h"
+#include "TktkDX12Game/Component/DefaultComponents/StateMachine/StateMachineListInitParam.h"
 
 namespace tktk
 {
+	// 前方宣言達
+	class GameObjectTagList;
+	class StateMachineList;
 	class ParentChildManager;
 	class CurStateTypeList;
-
+	
 	// ゲームオブジェクトクラス
 	class GameObject
 		: public std::enable_shared_from_this<GameObject>
@@ -45,17 +47,21 @@ namespace tktk
 	public: /* タグ管理関数 */
 
 		// 自身のタグを追加する
-		void addGameObjectTag(int tag);
+		template<class TagType, is_idType<TagType> = nullptr>
+		void addGameObjectTag(TagType tag);
 
 		// 引数のタグを削除する
-		void removeGameobjectTag(int tag);
+		template<class TagType, is_idType<TagType> = nullptr>
+		void removeGameobjectTag(TagType tag);
 
 		// 引数のタグを持っているかの判定を行う
-		bool containGameobjectTag(int tag) const;
+		template<class TagType, is_idType<TagType> = nullptr>
+		bool containGameobjectTag(TagType tag) const;
 
 	public: /* コンポーネント取得処理 */
 
 		// テンプレート引数の型のコンポーネントを引数の値を使って作る
+		// ※作ったコンポーネントは次のフレームの頭に追加される
 		template <class ComponentType, class... Args>
 		ComponentPtr<ComponentType> createComponent(Args&&... args);
 
@@ -95,6 +101,13 @@ namespace tktk
 
 		// 子要素のリストを取得
 		const std::forward_list<GameObjectPtr>& getChildren() const;
+
+		// 自身の子要素から引数のタグを持ったゲームオブジェクトを取得する
+		// ※複数該当オブジェクトがあった場合、最初に見つけた１つを取得する
+		GameObjectPtr findChildWithTag(int tag) const;
+
+		// 自身の子要素から引数のタグを持ったゲームオブジェクトを全て取得する
+		std::forward_list<GameObjectPtr> findChildrenWithTag(int tag) const;
 
 		// 子要素をリストに追加する
 		void addChild(const GameObjectPtr& child);
@@ -172,6 +185,9 @@ namespace tktk
 
 	private:
 
+		void addGameObjectTagImpl(int tag);
+		void removeGameobjectTagImpl(int tag);
+		bool containGameobjectTagImpl(int tag) const;
 		void createComponentImpl(const std::vector<int>& targetState, const ComponentBasePtr& componentPtr);
 
 	private:
@@ -179,17 +195,45 @@ namespace tktk
 		bool												m_isActive				{ true };
 		bool												m_nextFrameActive		{ true };
 		bool												m_isDead				{ false };
-		GameObjectTagList									m_tagList				{};
-		GameObjectComponentList								m_componentList			{};
-		ComponentPtr<ParentChildManager>					m_parentChildManager	{};
-		
-		// ステートマシン関連のクラスは「setupStateMachine()」を呼ぶまで実態が作られないのでポインタにて管理
-		ComponentPtr<CurStateTypeList>						m_stateTypeList			{};
+		std::unique_ptr<GameObjectTagList>					m_tagList				{};
+		std::unique_ptr<GameObjectComponentList>			m_componentList			{};	// ※テンプレート関数を使用するため、前方宣言不可
 		std::unique_ptr<StateMachineList>					m_stateMachineList		{};
+		
+		// デフォルトコンポーネント
+		ComponentPtr<ParentChildManager>					m_parentChildManager	{};
+		ComponentPtr<CurStateTypeList>						m_stateTypeList			{};
+
+	public:
+
+		// 不正な型が引数として渡された時の処理
+		template<class TagType, is_not_idType<TagType> = nullptr>
+		void addGameObjectTag(TagType tag) { static_assert(false, "TagType Fraud Type"); }
+		template<class TagType, is_not_idType<TagType> = nullptr>
+		void removeGameobjectTag(TagType tag) { static_assert(false, "TagType Fraud Type"); }
+		template<class TagType, is_not_idType<TagType> = nullptr>
+		bool containGameobjectTag(TagType tag) const { static_assert(false, "TagType Fraud Type"); }
 	};
 //┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 //┃ここから下は関数の実装
 //┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+	template<class TagType, is_idType<TagType>>
+	inline void GameObject::addGameObjectTag(TagType tag)
+	{
+		addGameObjectTagImpl(static_cast<int>(tag));
+	}
+
+	template<class TagType, is_idType<TagType>>
+	inline void GameObject::removeGameobjectTag(TagType tag)
+	{
+		removeGameobjectTagImpl(static_cast<int>(tag));
+	}
+
+	template<class TagType, is_idType<TagType>>
+	inline bool GameObject::containGameobjectTag(TagType tag) const
+	{
+		return containGameobjectTagImpl(static_cast<int>(tag));
+	}
 
 	// テンプレート引数の型のコンポーネントを引数の値を使って作る
 	template<class ComponentType, class ...Args>
@@ -197,7 +241,7 @@ namespace tktk
 	{
 		auto createdComponent = DX12GameManager::createComponent<ComponentType>(std::forward<Args>(args)...);
 		createdComponent.lock()->setUser(GameObjectPtr(weak_from_this()));
-		return m_componentList.add<ComponentType>(createdComponent);
+		return m_componentList->add<ComponentType>(createdComponent);
 	}
 
 	// テンプレート引数の型のコンポーネントを持っていたら取得し、持っていなかったらnullptrを返す
@@ -205,14 +249,14 @@ namespace tktk
 	template<class ComponentType>
 	inline ComponentPtr<ComponentType> GameObject::getComponent() const
 	{
-		return m_componentList.find<ComponentType>();
+		return m_componentList->find<ComponentType>();
 	}
 
 	// テンプレート引数の型のコンポーネントを全て取得する
 	template<class ComponentType>
 	inline std::forward_list<ComponentPtr<ComponentType>> GameObject::getComponents() const
 	{
-		return m_componentList.findAll<ComponentType>();
+		return m_componentList->findAll<ComponentType>();
 	}
 
 	// int型の配列でステートを指定し、テンプレート引数の型のコンポーネントを引数の値を使って作る
@@ -223,7 +267,7 @@ namespace tktk
 		auto createdComponent = DX12GameManager::createComponent<ComponentType>(std::forward<Args>(args)...);
 		createdComponent.lock()->setUser(GameObjectPtr(weak_from_this()));
 		createComponentImpl(targetState, ComponentBasePtr(createdComponent));
-		return m_componentList.add<ComponentType>(createdComponent);
+		return m_componentList->add<ComponentType>(createdComponent);
 	}
 }
 #endif // !GAME_OBJECT_H_

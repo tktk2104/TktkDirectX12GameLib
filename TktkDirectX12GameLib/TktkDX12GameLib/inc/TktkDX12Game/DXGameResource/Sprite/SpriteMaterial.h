@@ -33,7 +33,7 @@ namespace tktk
 
 	private:
 
-		HeapArray<SpriteMaterialData> m_spriteMaterialArray;
+		tktkContainer::HeapArray<SpriteMaterialData> m_spriteMaterialArray;
 	};
 }
 #endif // !SPRITE_MATERIAL_H_

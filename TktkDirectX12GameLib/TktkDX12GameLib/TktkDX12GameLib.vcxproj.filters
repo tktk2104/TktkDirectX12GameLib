@@ -51,9 +51,6 @@
     <ClInclude Include="inc\TktkDX12Game\Component\ComponentDrawFunc\ComponentDrawList.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="inc\TktkDX12Game\Component\ComponentDrawFunc\ComponentDrawRunner.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="inc\TktkDX12Game\Component\ComponentBasePtr.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -67,12 +64,6 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="inc\TktkDX12Game\Component\ComponentGameObjectFunc\GameObjectComponentList.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\TktkDX12Game\Component\ComponentStartFunc\ComponentStartRunner.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\TktkDX12Game\Component\ComponentStartFunc\ComponentSatrtList.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\Mesh\BasicMesh\Loader\BasicMeshLoadPmdArgs.h">
@@ -97,12 +88,6 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\Mesh\BasicMesh\Mesh\BasicMeshInitParam.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Mesh\BasicMesh\Subset.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Mesh\MeshDrawFuncBaseArgs.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\PostEffect\PostEffectMaterial.h">
@@ -163,18 +148,6 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\Mesh\Motion\MotionBoneParam.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\TktkDX12Game\_MainManager\DX12GameManagerUseInitParams.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\TktkDX12Game\_MainManager\DX12GameManagerFuncInOutValueType.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Mesh\MeshTransformCbuffer.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Mesh\BasicMesh\BasicMeshMaterialCbuffer.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="inc\TktkDX12Game\Input\DirectInputWrapper\GamePad\GamePad.h">
@@ -277,9 +250,6 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="inc\TktkDX12BaseComponents\3D\Camera\OrthographicCameraControllerMaker.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Mesh\MeshShadowMapCBuffer.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\Light\Light.h">
@@ -441,12 +411,6 @@
     <ClInclude Include="inc\TktkDX12BaseComponents\3D\MeshDrawer\SphereMeshDrawerMaker.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Mesh\MeshPrimitiveTopology.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Mesh\BasicMesh\BasicMonoColorMeshCbuffer.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\Mesh\BasicMesh\Material\BasicMeshMaterialAppendParam.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -481,6 +445,69 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="inc\TktkDX12BaseComponents\3D\ColliderWireFrameDrawer3D\ColliderWireFrameDrawer3DMaker.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\TktkDX12Game\TktkDX12Game.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\TktkDX12Game\Component\ComponentDrawFunc\ComponentDrawFuncRunner.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\TktkDX12Game\Component\ComponentStartFunc\ComponentStartFuncRunner.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\TktkDX12Game\Component\ComponentStartFunc\ComponentStartList.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\_SystemDXGameResourceIdGetter\SystemDXGameResourceType.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Mesh\BasicMesh\Structs\BasicMeshMaterialCbuffer.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Mesh\BasicMesh\Structs\BasicMonoColorMeshCbuffer.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Mesh\BasicMesh\Structs\Subset.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Mesh\Structs\MeshDrawFuncBaseArgs.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Mesh\Structs\MeshPrimitiveTopology.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Mesh\Structs\MeshShadowMapCBuffer.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Mesh\Structs\MeshTransformCbuffer.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Mesh\MeshResourceInitParamIncluder.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Mesh\MeshResource.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Mesh\MeshResourceNum.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Mesh\MeshResourceShaderFilePaths.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Mesh\MeshResourceFuncArgsIncluder.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameResourceInitParamIncluder.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameResourceFuncArgsIncluder.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\TktkDX12Game\_MainManager\DX12GameManagerInitParamIncluder.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\TktkDX12Game\_MainManager\DX12GameManagerFuncArgsIncluder.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
@@ -518,9 +545,6 @@
     <ClCompile Include="src\TktkDX12Game\Component\ComponentDrawFunc\ComponentDrawList.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="src\TktkDX12Game\Component\ComponentDrawFunc\ComponentDrawRunner.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="src\TktkDX12Game\Component\ComponentBasePtr.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -531,12 +555,6 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="src\TktkDX12Game\Component\ComponentGameObjectFunc\GameObjectComponentList.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\TktkDX12Game\Component\ComponentStartFunc\ComponentStartRunner.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\TktkDX12Game\Component\ComponentStartFunc\ComponentSatrtList.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="src\TktkDX12Game\DXGameResource\Mesh\BasicMesh\Loader\BasicMeshPmdLoader.cpp">
@@ -816,6 +834,21 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="src\TktkDX12BaseComponents\3D\ColliderWireFrameDrawer3D\ColliderWireFrameDrawer3DMaker.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TktkDX12Game\TktkDX12Game.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TktkDX12Game\Component\ComponentDrawFunc\ComponentDrawFuncRunner.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TktkDX12Game\Component\ComponentStartFunc\ComponentStartFuncRunner.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TktkDX12Game\Component\ComponentStartFunc\ComponentStartList.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TktkDX12Game\DXGameResource\Mesh\MeshResource.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>

@@ -5,6 +5,7 @@
 
 namespace tktk
 {
+	// ビューポートを作る時に必要な変数
 	struct ViewportInitParam
 	{
 		tktkMath::Vector2	windowSize;

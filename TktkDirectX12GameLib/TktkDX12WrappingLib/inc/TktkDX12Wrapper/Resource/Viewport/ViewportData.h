@@ -2,9 +2,7 @@
 #define VIEWPORT_DATA_H_
 
 #include <vector>
-#include <d3d12.h>
-#undef min
-#undef max
+#include "../../Includer/D3d12Includer.h"
 #include "ViewportInitParam.h"
 
 namespace tktk
@@ -14,7 +12,7 @@ namespace tktk
 	{
 	public:
 
-		ViewportData(const std::vector<ViewportInitParam>& initParamArray);
+		explicit ViewportData(const std::vector<ViewportInitParam>& initParamArray);
 		~ViewportData() = default;
 
 	public:

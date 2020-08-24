@@ -2,10 +2,8 @@
 #define DSV_DESCRIPTOR_HEAP_DATA_H_
 
 #include <vector>
-#include <d3d12.h>
-#undef min
-#undef max
 #include <TktkMath/Structs/Color.h>
+#include "../../../Includer/D3d12Includer.h"
 #include "DsvDescriptorHeapInitParam.h"
 
 namespace tktk

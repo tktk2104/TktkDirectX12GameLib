@@ -59,7 +59,7 @@ namespace tktk
 		return false;
 	}
 
-	const Body2dBase & RectCollider::getBodyBase() const
+	const tktkCollision::Body2dBase & RectCollider::getBodyBase() const
 	{
 		return m_boundingPolygon2d;
 	}

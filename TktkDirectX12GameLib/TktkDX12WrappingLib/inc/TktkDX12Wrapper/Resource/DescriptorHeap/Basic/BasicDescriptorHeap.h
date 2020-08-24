@@ -12,7 +12,7 @@ namespace tktk
 	{
 	public:
 
-		BasicDescriptorHeap(unsigned int basicDescriptorHeapNum);
+		explicit BasicDescriptorHeap(unsigned int basicDescriptorHeapNum);
 		~BasicDescriptorHeap() = default;
 
 	public:
@@ -31,7 +31,7 @@ namespace tktk
 
 	private:
 
-		HeapArray<BasicDescriptorHeapData> m_basicDescriptorHeapDataArray;
+		tktkContainer::HeapArray<BasicDescriptorHeapData> m_basicDescriptorHeapDataArray;
 	};
 }
 #endif // !BASIC_DESCRIPTOR_HEAP_H_

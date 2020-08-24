@@ -31,18 +31,18 @@ namespace tktk
 	public:
 
 		// 当たり判定のクラスを取得
-		const Body3dBase& getBodyBase() const;
+		const tktkCollision::Body3dBase& getBodyBase() const;
 
 		// 直前の衝突判定の結果を取得
-		const HitInfo3D& getHitInfo3D() const;
+		const tktkCollision::HitInfo3D& getHitInfo3D() const;
 
 	private:
 
 		// 衝突判定結果
-		HitInfo3D m_hitInfo;
+		tktkCollision::HitInfo3D m_hitInfo;
 
 		// 球体の衝突判定クラス
-		BoundingSphere m_boundingSphere;
+		tktkCollision::BoundingSphere m_boundingSphere;
 
 		// 自身の３次元座標コンポーネント
 		ComponentPtr<Transform3D> m_transform3D;

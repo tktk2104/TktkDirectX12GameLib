@@ -9,31 +9,31 @@ namespace tktk
 		return m_selfPtr;
 	}
 
-	void ComponentGameObjectFuncRunner::runHandleMessage(const MessageAttachment& value, unsigned int messageId)
+	void ComponentGameObjectFuncRunner::runHandleMessage(const MessageAttachment& value, unsigned int messageId) const
 	{
 		if (m_selfPtr.isDead()) return;
 		m_vtablePtr->runHandleMessage(m_selfPtr, messageId, value);
 	}
 
-	void ComponentGameObjectFuncRunner::runAfterChangeParent(const GameObjectPtr& beforParent)
+	void ComponentGameObjectFuncRunner::runAfterChangeParent(const GameObjectPtr& beforParent) const
 	{
 		if (m_selfPtr.isDead()) return;
 		m_vtablePtr->runAfterChangeParent(m_selfPtr, beforParent);
 	}
 
-	void ComponentGameObjectFuncRunner::runOnCollisionEnter(const GameObjectPtr& other)
+	void ComponentGameObjectFuncRunner::runOnCollisionEnter(const GameObjectPtr& other) const
 	{
 		if (m_selfPtr.isDead()) return;
 		m_vtablePtr->runOnCollisionEnter(m_selfPtr, other);
 	}
 
-	void ComponentGameObjectFuncRunner::runOnCollisionStay(const GameObjectPtr& other)
+	void ComponentGameObjectFuncRunner::runOnCollisionStay(const GameObjectPtr& other) const
 	{
 		if (m_selfPtr.isDead()) return;
 		m_vtablePtr->runOnCollisionStay(m_selfPtr, other);
 	}
 
-	void ComponentGameObjectFuncRunner::runOnCollisionExit(const GameObjectPtr& other)
+	void ComponentGameObjectFuncRunner::runOnCollisionExit(const GameObjectPtr& other) const
 	{
 		if (m_selfPtr.isDead()) return;
 		m_vtablePtr->runOnCollisionExit(m_selfPtr, other);
@@ -44,7 +44,7 @@ namespace tktk
 		return m_selfPtr.isDead();
 	}
 
-	void ComponentGameObjectFuncRunner::destroy()
+	void ComponentGameObjectFuncRunner::destroy() const
 	{
 		if (m_selfPtr.isDead()) return;
 		m_selfPtr->destroy();

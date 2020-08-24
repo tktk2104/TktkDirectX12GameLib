@@ -1,26 +1,28 @@
 #ifndef DX3D_BASE_OBJECTS_H_
 #define DX3D_BASE_OBJECTS_H_
 
+#include <memory>
 #include <array>
-#include <vector>
-#include <d3d12.h>
 #include <dxgi1_6.h> //IDXGIFactory6
-#undef min
-#undef max
-#include <TktkMath/Structs/Color.h>
-#include <TktkMath/Structs/Vector2.h>
-#include "../SwapChain/SwapChain.h"
-#include "../Fence/Fence.h"
-#include "../Resource/DX3DResource.h"
+#include <TktkMath/Structs/Vector3.h>
+#include "../Includer/D3d12Includer.h"
+#include "DX3DBaseObjectsInitParamIncluder.h"
+#include "DX3DBaseObjectsFuncArgsIncluder.h"
+#include "DX3DBaseObjectsInitParam.h"
 
 namespace tktk
 {
+	// 前方宣言達
+	class SwapChain;
+	class Fence;
+	class DX3DResource;
+
 	// DirectX12の描画を行うためのメインマネージャー
 	class DX3DBaseObjects
 	{
 	public:
 
-		DX3DBaseObjects(const DX3DResourceInitParam& initParam, HWND hwnd, const tktkMath::Vector2& windowSize, const tktkMath::Color& backGroundColor, bool craeteDebugLayer);
+		explicit DX3DBaseObjects(const DX3DBaseObjectsInitParam& initParam);
 		~DX3DBaseObjects();
 
 	public: /* 描画開始、終了処理 */
@@ -211,15 +213,15 @@ namespace tktk
 
 	private:
 
-		ID3D12Device*				m_device				{ nullptr };
-		IDXGIFactory6*				m_factory				{ nullptr };
-		ID3D12CommandAllocator*		m_commandAllocator		{ nullptr };
-		ID3D12GraphicsCommandList*	m_commandList			{ nullptr };
-		ID3D12CommandQueue*			m_commandQueue			{ nullptr };
-		SwapChain					m_swapChain				{};
-		Fence						m_fence					{};
-		DX3DResource				m_dX3DResource;
-		tktkMath::Color				m_backGroundColor{ tktkMath::colorBlue };
+		ID3D12Device*					m_device				{ nullptr };
+		IDXGIFactory6*					m_factory				{ nullptr };
+		ID3D12CommandAllocator*			m_commandAllocator		{ nullptr };
+		ID3D12GraphicsCommandList*		m_commandList			{ nullptr };
+		ID3D12CommandQueue*				m_commandQueue			{ nullptr };
+		std::unique_ptr<SwapChain>		m_swapChain;
+		std::unique_ptr<Fence>			m_fence;
+		std::unique_ptr<DX3DResource>	m_dX3DResource;
+		tktkMath::Color					m_backGroundColor		{ tktkMath::Color_v::blue };
 	};
 }
 #endif // !DX3D_BASE_OBJECTS_H_

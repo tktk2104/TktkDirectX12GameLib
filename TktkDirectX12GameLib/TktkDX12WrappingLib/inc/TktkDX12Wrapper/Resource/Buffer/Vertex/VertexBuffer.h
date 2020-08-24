@@ -11,7 +11,7 @@ namespace tktk
 	{
 	public:
 
-		VertexBuffer(unsigned int vertexBufferNum);
+		explicit VertexBuffer(unsigned int vertexBufferNum);
 		~VertexBuffer() = default;
 
 	public:
@@ -31,7 +31,7 @@ namespace tktk
 
 	private:
 
-		HeapArray<VertexBufferData> m_vertexBufferDataArray;
+		tktkContainer::HeapArray<VertexBufferData> m_vertexBufferDataArray;
 	};
 }
 #endif // !VERTEX_BUFFER_H_

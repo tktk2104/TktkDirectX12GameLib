@@ -24,7 +24,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hInstancePrev, LPSTR pCmdLine,
 		tktk::DX12GameManagerInitParam initParam{};
 
 		{
-			auto& resourceInitParam = initParam.dx3dResParam;
+			auto& resourceInitParam = initParam.dx3dResNum;
 
 			resourceInitParam.viewPortNum		= 0U;
 			resourceInitParam.scissorRectNum	= 0U;
@@ -32,7 +32,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hInstancePrev, LPSTR pCmdLine,
 			resourceInitParam.rootSignatureNum	= RootSignatureNum;
 
 			{
-				auto& descriptorHeapInitParam = resourceInitParam.descriptorHeapInitParam;
+				auto& descriptorHeapInitParam = resourceInitParam.descriptorHeapNum;
 
 				descriptorHeapInitParam.basicDescriptorHeapNum	= BasicDescriptorHeapNum;
 				descriptorHeapInitParam.rtvDescriptorHeapNum	= RtvDescriptorHeapNum;
@@ -40,7 +40,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hInstancePrev, LPSTR pCmdLine,
 			}
 
 			{
-				auto& bufferResourceInitParam = resourceInitParam.bufferResourceInitParam;
+				auto& bufferResourceInitParam = resourceInitParam.bufferResourceNum;
 
 				bufferResourceInitParam.vertexBufferNum			= VertexBufferNum;
 				bufferResourceInitParam.indexBufferNum			= IndexBufferNum;
@@ -63,17 +63,17 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hInstancePrev, LPSTR pCmdLine,
 		{
 			auto& dxGameResourceNum = initParam.dxGameResourceNum;
 
-			dxGameResourceNum.sceneNum				= SceneNum;
-			dxGameResourceNum.soundNum				= SoundNum;
-			dxGameResourceNum.spriteMaterialNum		= SpriteMaterialNum;
-			dxGameResourceNum.line2DMaterialNum		= line2DMaterialNum;
-			dxGameResourceNum.basicMeshNum			= BasicMeshNum;
-			dxGameResourceNum.basicMeshMaterialNum	= BasicMeshMaterialNum;
-			dxGameResourceNum.skeletonNum			= SkeletonNum;
-			dxGameResourceNum.motionNum				= MotionNum;
-			dxGameResourceNum.postEffectMaterialNum = PostEffectMaterialNum;
-			dxGameResourceNum.cameraNum				= CameraNum;
-			dxGameResourceNum.lightNum				= LightNum;
+			dxGameResourceNum.sceneNum								= SceneNum;
+			dxGameResourceNum.soundNum								= SoundNum;
+			dxGameResourceNum.spriteMaterialNum						= SpriteMaterialNum;
+			dxGameResourceNum.line2DMaterialNum						= line2DMaterialNum;
+			dxGameResourceNum.meshResourceNum.basicMeshNum			= BasicMeshNum;
+			dxGameResourceNum.meshResourceNum.basicMeshMaterialNum	= BasicMeshMaterialNum;
+			dxGameResourceNum.meshResourceNum.skeletonNum			= SkeletonNum;
+			dxGameResourceNum.meshResourceNum.motionNum				= MotionNum;
+			dxGameResourceNum.postEffectMaterialNum					= PostEffectMaterialNum;
+			dxGameResourceNum.cameraNum								= CameraNum;
+			dxGameResourceNum.lightNum								= LightNum;
 		}
 
 		// DX12GameManagerのセットアップ

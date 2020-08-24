@@ -2,16 +2,15 @@
 #define DIRECT_INPUT_WRAPPER_H_
 
 #include <memory>
-#include <Windows.h>
-#undef min
-#undef max
 #include <TktkMath/Structs/Vector2.h>
+#include <TktkDX12Wrapper/Includer/WindowsHeaderIncluder.h>
 #include "DirectInputIncluder.h"
 #include "Keyboard/KeybordKeyType.h"
 #include "GamePad/GamePadBtnType.h"
 
 namespace tktk
 {
+	// ‘O•ûéŒ¾’B
 	class Keyboard;
 	class GamePad;
 

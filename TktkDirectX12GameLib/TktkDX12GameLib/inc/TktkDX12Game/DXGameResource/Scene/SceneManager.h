@@ -30,7 +30,7 @@ namespace tktk
 
 	private:
 
-		HeapArray<SceneInstanceCarrier> m_sceneArray;
+		tktkContainer::HeapArray<SceneInstanceCarrier> m_sceneArray;
 	};
 }
 #endif // !SCENE_MANAGER_H_

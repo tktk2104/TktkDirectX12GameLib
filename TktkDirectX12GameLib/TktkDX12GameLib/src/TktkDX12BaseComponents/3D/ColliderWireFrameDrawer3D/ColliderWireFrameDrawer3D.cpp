@@ -29,7 +29,7 @@ namespace tktk
 
 		for (const auto& sphereCollider : circleColliderList)
 		{
-			const BoundingSphere& boundingCircle = static_cast<const BoundingSphere&>(sphereCollider->getBodyBase());
+			const tktkCollision::BoundingSphere& boundingCircle = static_cast<const tktkCollision::BoundingSphere&>(sphereCollider->getBodyBase());
 
 			m_wireFrameDrawerArray.push_back(
 				getGameObject()->createComponent<SphereMeshWireFrameDrawer>(

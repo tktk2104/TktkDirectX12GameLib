@@ -25,7 +25,7 @@ namespace tktk
 
 	private:
 
-		HeapArray<PostEffectMaterialData> m_postEffectMaterialArray;
+		tktkContainer::HeapArray<PostEffectMaterialData> m_postEffectMaterialArray;
 	};
 }
 #endif // !POST_EFFECT_MATERIAL_H_

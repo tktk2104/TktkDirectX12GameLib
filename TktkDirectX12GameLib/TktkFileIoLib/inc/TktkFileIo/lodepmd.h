@@ -7,7 +7,7 @@
 #include <TktkMath/Structs/Vector2.h>
 #include <TktkMath/Structs/Vector3.h>
 
-namespace tktk
+namespace tktkFileIo
 {
 	class lodepmd
 	{

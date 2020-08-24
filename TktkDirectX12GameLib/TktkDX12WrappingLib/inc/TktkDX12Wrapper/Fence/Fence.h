@@ -1,9 +1,7 @@
 #ifndef FENCE_H_
 #define FENCE_H_
 
-#include <d3d12.h>
-#undef min
-#undef max
+#include "../Includer/D3d12Includer.h"
 
 namespace tktk
 {
@@ -12,13 +10,10 @@ namespace tktk
 	{
 	public:
 
-		Fence() = default;
+		explicit Fence(ID3D12Device* device);
 		~Fence();
 
 	public:
-
-		// ‰Šú‰»
-		void initialize(ID3D12Device* device);
 
 		// GPU‚Ìˆ—‚ªI‚í‚é‚Ü‚Å‘Ò‹@‚·‚é
 		void waitGpuProcess(ID3D12CommandQueue* commandQueue);

@@ -1,6 +1,8 @@
 #ifndef DX_GAME_RESOURCE_NUM_H_
 #define DX_GAME_RESOURCE_NUM_H_
 
+#include "Mesh/MeshResourceNum.h"
+
 namespace tktk
 {
 	// ゲームで使用する表面的なリソースの数
@@ -18,17 +20,8 @@ namespace tktk
 		// ライン２Dマテリアル数
 		unsigned int line2DMaterialNum		{};
 
-		// 通常メッシュ数
-		unsigned int basicMeshNum			{};
-
-		// 通常メッシュマテリアル数
-		unsigned int basicMeshMaterialNum	{};
-
-		// スケルトンデータ数
-		unsigned int skeletonNum			{};
-
-		// モーションデータ数
-		unsigned int motionNum				{};
+		// メッシュ関連リソース数
+		MeshResourceNum meshResourceNum		{};
 
 		// ポストエフェクトマテリアル数
 		unsigned int postEffectMaterialNum	{};

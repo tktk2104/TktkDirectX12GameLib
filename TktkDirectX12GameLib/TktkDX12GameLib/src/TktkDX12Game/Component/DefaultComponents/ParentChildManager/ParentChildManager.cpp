@@ -1,11 +1,12 @@
 #include "TktkDX12Game/Component/DefaultComponents/ParentChildManager/ParentChildManager.h"
-#include "..\..\..\..\..\inc\TktkDX12Game\Component\DefaultComponents\ParentChildManager\ParentChildManager.h"
 
 namespace tktk
 {
 	void ParentChildManager::updateContainer()
 	{
-		m_childList.updateContainer();
+		m_childList.movePreFrameAddedNode();
+
+		m_childList.removeDeadComponent();
 	}
 
 	void ParentChildManager::runAfterChangeParentAll(const GameObjectPtr& beforParent)
@@ -38,6 +39,16 @@ namespace tktk
 	const std::forward_list<GameObjectPtr>& ParentChildManager::getChildren() const
 	{
 		return m_childList.getChildren();
+	}
+
+	GameObjectPtr ParentChildManager::findGameObjectWithTag(int tag) const
+	{
+		return m_childList.findGameObjectWithTag(tag);
+	}
+
+	std::forward_list<GameObjectPtr> ParentChildManager::findGameObjectsWithTag(int tag) const
+	{
+		return m_childList.findGameObjectsWithTag(tag);
 	}
 
 	void ParentChildManager::addChild(const GameObjectPtr& child)

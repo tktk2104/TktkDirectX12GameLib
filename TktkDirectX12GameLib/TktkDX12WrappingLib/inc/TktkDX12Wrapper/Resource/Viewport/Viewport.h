@@ -11,7 +11,7 @@ namespace tktk
 	{
 	public:
 
-		Viewport(unsigned int viewportNum);
+		explicit Viewport(unsigned int viewportNum);
 
 	public:
 
@@ -23,7 +23,7 @@ namespace tktk
 
 	private:
 
-		HeapArray<ViewportData> m_viewportDataArray;
+		tktkContainer::HeapArray<ViewportData> m_viewportDataArray;
 	};
 }
 #endif // !VIEWPORT_H_

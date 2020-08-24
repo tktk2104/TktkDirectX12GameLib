@@ -11,7 +11,7 @@ namespace tktk
 	{
 	public:
 
-		ScissorRect(unsigned int scissorRectNum);
+		explicit ScissorRect(unsigned int scissorRectNum);
 		~ScissorRect() = default;
 
 	public:
@@ -24,7 +24,7 @@ namespace tktk
 
 	private:
 
-		HeapArray<ScissorRectData> m_scissorRectDataArray;
+		tktkContainer::HeapArray<ScissorRectData> m_scissorRectDataArray;
 	};
 }
 #endif // !SCISSOR_RECT_H_

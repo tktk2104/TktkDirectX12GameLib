@@ -10,7 +10,7 @@
 
 namespace tktk
 {
-	StateMachineList::StateMachineList(const StateMachineListInitParam& initParam, const GameObjectPtr& user, GameObjectComponentList* componentList)
+	StateMachineList::StateMachineList(const StateMachineListInitParam& initParam, const GameObjectPtr& user, const std::unique_ptr<GameObjectComponentList>& componentList)
 	{
 		// 親の状態を持たないステートマシンを作る
 		for (const auto& node : initParam.m_roots)
@@ -39,7 +39,7 @@ namespace tktk
 		getTarget(targetState)->addComponent(componentPtr);
 	}
 
-	void StateMachineList::createNode(StateMachineList::Node& parentNode, const StateMachineListInitParam::Node& nodeInitParam, const GameObjectPtr& user, GameObjectComponentList* componentList)
+	void StateMachineList::createNode(StateMachineList::Node& parentNode, const StateMachineListInitParam::Node& nodeInitParam, const GameObjectPtr& user, const std::unique_ptr<GameObjectComponentList>& componentList)
 	{
 		// 親の状態を持つステートマシンを作る
 		for (const auto& node : nodeInitParam.m_child)

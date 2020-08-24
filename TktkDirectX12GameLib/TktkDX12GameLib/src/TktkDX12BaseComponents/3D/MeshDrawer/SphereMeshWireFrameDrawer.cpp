@@ -1,6 +1,6 @@
 #include "TktkDX12BaseComponents/3D/MeshDrawer/SphereMeshWireFrameDrawer.h"
 
-#include "TktkDX12Game/DXGameResource/Mesh/BasicMesh/BasicMonoColorMeshCbuffer.h"
+#include "TktkDX12Game/DXGameResource/Mesh/BasicMesh/Structs/BasicMonoColorMeshCbuffer.h"
 
 namespace tktk
 {

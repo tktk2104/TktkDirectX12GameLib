@@ -3,9 +3,9 @@
 
 #include <vector>
 #include "BasicMeshInitParam.h"
-#include "../Subset.h"
-#include "../../MeshDrawFuncBaseArgs.h"
-#include "../../MeshPrimitiveTopology.h"
+#include "../Structs/Subset.h"
+#include "../../Structs/MeshDrawFuncBaseArgs.h"
+#include "../../Structs/MeshPrimitiveTopology.h"
 
 namespace tktk
 {

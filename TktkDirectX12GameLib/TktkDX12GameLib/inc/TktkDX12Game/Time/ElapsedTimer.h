@@ -5,6 +5,7 @@
 
 namespace tktk
 {
+	// 経過時間を管理するタイマー
 	class ElapsedTimer
 	{
 	public:

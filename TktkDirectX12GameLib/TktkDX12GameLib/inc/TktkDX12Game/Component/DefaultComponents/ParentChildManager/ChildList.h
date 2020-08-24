@@ -18,13 +18,24 @@ namespace tktk
 	public:
 
 		// 新たな子要素を追加
+		// ※追加した子要素は次のフレームでメインのリストに追加される
 		void addChild(const GameObjectPtr& child);
 
 		// 子要素のリストを取得
 		const std::forward_list<GameObjectPtr>& getChildren() const;
 
-		// リストを更新する
-		void updateContainer();
+		// 自身の子要素から引数のタグを持ったゲームオブジェクトを取得する
+		// ※複数該当オブジェクトがあった場合、最初に見つけた１つを取得する
+		GameObjectPtr findGameObjectWithTag(int tag) const;
+
+		// 自身の子要素から引数のタグを持ったゲームオブジェクトを全て取得する
+		std::forward_list<GameObjectPtr> findGameObjectsWithTag(int tag) const;
+
+		// 前フレームに追加されたゲームオブジェクトをメインリストに追加する
+		void movePreFrameAddedNode();
+
+		// 死亡フラグが立っているゲームオブジェクトを削除する
+		void removeDeadComponent();
 
 		// 指定の子要素をリストから削除する
 		void remove(const GameObjectPtr& gameObject);
@@ -38,6 +49,7 @@ namespace tktk
 	private:
 
 		std::forward_list<GameObjectPtr> m_childList;
+		std::forward_list<GameObjectPtr> m_newGameObjectList;
 	};
 }
 #endif // !CHILD_LIST_H_

@@ -10,6 +10,8 @@
 #include "TktkDX12Game/Input/DirectInputWrapper/DirectInputWrapper.h"
 #include "TktkDX12Game/Time/ElapsedTimer.h"
 
+#include "TktkDX12Game/DXGameResource/Mesh/BasicMesh/Maker/SphereMeshMaker.h"
+
 namespace tktk
 {
 	std::unique_ptr<GameObjectManager>				DX12GameManager::m_gameObjectManager;
@@ -27,8 +29,18 @@ namespace tktk
 		m_gameObjectManager		= std::make_unique<GameObjectManager>();
 		m_componentManager		= std::make_unique<ComponentManager>();
 		m_window				= std::make_unique<Window>(gameManagerInitParam.windowParam);
-		m_dx3dBaseObjects		= std::make_unique<DX3DBaseObjects>(gameManagerInitParam.dx3dResParam, m_window->getHWND(), gameManagerInitParam.windowParam.windowSize, tktkMath::Color_v::black, gameManagerInitParam.craeteDebugLayer);
-		
+
+		{
+			DX3DBaseObjectsInitParam dX3DBaseObjectsInitParam{};
+			dX3DBaseObjectsInitParam.resourceNum		= gameManagerInitParam.dx3dResNum;
+			dX3DBaseObjectsInitParam.hwnd				= m_window->getHWND();
+			dX3DBaseObjectsInitParam.windowSize			= gameManagerInitParam.windowParam.windowSize;
+			dX3DBaseObjectsInitParam.backGroundColor	= tktkMath::Color_v::black;
+			dX3DBaseObjectsInitParam.craeteDebugLayer	= gameManagerInitParam.craeteDebugLayer;
+
+			m_dx3dBaseObjects = std::make_unique<DX3DBaseObjects>(dX3DBaseObjectsInitParam);
+		}
+
 		{
 			DXGameResourceNum dxGameResourceNum = gameManagerInitParam.dxGameResourceNum;
 
@@ -36,16 +48,16 @@ namespace tktk
 			m_systemDXGameResourceIdGetter = std::make_unique<SystemDXGameResourceIdGetter>(&dxGameResourceNum);
 
 			DXGameBaseShaderFilePaths dxGameBaseShaderFilePaths{};
-			dxGameBaseShaderFilePaths.spriteShaderFilePaths.vsFilePath					= gameManagerInitParam.tktkLibResFolderPath + "TktkLibRes/shader/SpriteVertexShader.cso";
-			dxGameBaseShaderFilePaths.spriteShaderFilePaths.psFilePath					= gameManagerInitParam.tktkLibResFolderPath + "TktkLibRes/shader/SpritePixelShader.cso";
-			dxGameBaseShaderFilePaths.line2DShaderFilePaths.vsFilePath					= gameManagerInitParam.tktkLibResFolderPath + "TktkLibRes/shader/Line2DVertexShader.cso";
-			dxGameBaseShaderFilePaths.line2DShaderFilePaths.psFilePath					= gameManagerInitParam.tktkLibResFolderPath + "TktkLibRes/shader/Line2DPixelShader.cso";
-			dxGameBaseShaderFilePaths.basicMeshShaderFilePaths.vsFilePath				= gameManagerInitParam.tktkLibResFolderPath + "TktkLibRes/shader/BasicMeshVertexShader.cso";
-			dxGameBaseShaderFilePaths.basicMeshShaderFilePaths.psFilePath				= gameManagerInitParam.tktkLibResFolderPath + "TktkLibRes/shader/BasicMeshPixelShader.cso";
-			dxGameBaseShaderFilePaths.monoColorShaderPsFilePath							= gameManagerInitParam.tktkLibResFolderPath + "TktkLibRes/shader/BasicMonoColorMeshPixelShader.cso";
-			dxGameBaseShaderFilePaths.writeShadowMapVsFilePath							= gameManagerInitParam.tktkLibResFolderPath + "TktkLibRes/shader/BasicMeshShadowVertexShader.cso";
-			dxGameBaseShaderFilePaths.postEffectShaderFilePaths.postEffectVSFilePath	= gameManagerInitParam.tktkLibResFolderPath + "TktkLibRes/shader/PostEffectVertexShader.cso";
-			dxGameBaseShaderFilePaths.postEffectShaderFilePaths.monochromePSFilePath	= gameManagerInitParam.tktkLibResFolderPath + "TktkLibRes/shader/MonochromePixelShader.cso";
+			dxGameBaseShaderFilePaths.spriteShaderFilePaths.vsFilePath								= gameManagerInitParam.tktkLibResFolderPath + "TktkLibRes/shader/SpriteVertexShader.cso";
+			dxGameBaseShaderFilePaths.spriteShaderFilePaths.psFilePath								= gameManagerInitParam.tktkLibResFolderPath + "TktkLibRes/shader/SpritePixelShader.cso";
+			dxGameBaseShaderFilePaths.line2DShaderFilePaths.vsFilePath								= gameManagerInitParam.tktkLibResFolderPath + "TktkLibRes/shader/Line2DVertexShader.cso";
+			dxGameBaseShaderFilePaths.line2DShaderFilePaths.psFilePath								= gameManagerInitParam.tktkLibResFolderPath + "TktkLibRes/shader/Line2DPixelShader.cso";
+			dxGameBaseShaderFilePaths.meshResourceShaderFilePaths.basicShaderFilePaths.vsFilePath	= gameManagerInitParam.tktkLibResFolderPath + "TktkLibRes/shader/BasicMeshVertexShader.cso";
+			dxGameBaseShaderFilePaths.meshResourceShaderFilePaths.basicShaderFilePaths.psFilePath	= gameManagerInitParam.tktkLibResFolderPath + "TktkLibRes/shader/BasicMeshPixelShader.cso";
+			dxGameBaseShaderFilePaths.meshResourceShaderFilePaths.monoColorShaderPsFilePath			= gameManagerInitParam.tktkLibResFolderPath + "TktkLibRes/shader/BasicMonoColorMeshPixelShader.cso";
+			dxGameBaseShaderFilePaths.meshResourceShaderFilePaths.writeShadowMapVsFilePath			= gameManagerInitParam.tktkLibResFolderPath + "TktkLibRes/shader/BasicMeshShadowVertexShader.cso";
+			dxGameBaseShaderFilePaths.postEffectShaderFilePaths.postEffectVSFilePath				= gameManagerInitParam.tktkLibResFolderPath + "TktkLibRes/shader/PostEffectVertexShader.cso";
+			dxGameBaseShaderFilePaths.postEffectShaderFilePaths.monochromePSFilePath				= gameManagerInitParam.tktkLibResFolderPath + "TktkLibRes/shader/MonochromePixelShader.cso";
 
 			m_dxGameResource = std::make_unique<DXGameResource>(dxGameResourceNum, dxGameBaseShaderFilePaths);
 		}
@@ -148,12 +160,23 @@ namespace tktk
 				m_mouse->update();
 				m_dxGameResource->updateScene();
 				m_dxGameResource->updateSound();
+
+				// 前フレームに追加された要素をメインリストに移動する
+				m_gameObjectManager->movePreFrameAddedNode();
+				m_componentManager->movePreFrameAddedNode();
+
+				// 更新処理
 				m_gameObjectManager->update();
 				m_componentManager->update();
 
+				// 描画処理
 				m_dx3dBaseObjects->beginDraw();
 				m_componentManager->draw();
 				m_dx3dBaseObjects->endDraw();
+
+				// 死亡している要素をメインリストから削除する
+				m_gameObjectManager->removeDeadObject();
+				m_componentManager->removeDeadComponent();
 			}
 		}
 		m_dxGameResource->clearSound();
@@ -174,7 +197,7 @@ namespace tktk
 		m_dxGameResource->disableScene(id);
 	}
 
-	void DX12GameManager::SendMessageAll(unsigned int messageId, const MessageAttachment& value)
+	void DX12GameManager::sendMessageAll(unsigned int messageId, const MessageAttachment& value)
 	{
 		m_gameObjectManager->runHandleMessageAll(messageId, value);
 	}
@@ -464,9 +487,28 @@ namespace tktk
 		m_dxGameResource->loadMotion(id, motionFileName);
 	}
 
-	void DX12GameManager::updateMotion(unsigned int skeletonId, unsigned int motionId, unsigned int curFrame)
+	unsigned int DX12GameManager::getMotionEndFrameNo(unsigned int id)
 	{
-		m_dxGameResource->updateMotion(skeletonId, motionId, curFrame);
+		return m_dxGameResource->getMotionEndFrameNo(id);
+	}
+
+	void DX12GameManager::updateMotion(
+		unsigned int skeletonId,
+		unsigned int curMotionId,
+		unsigned int preMotionId,
+		unsigned int curFrame,
+		unsigned int preFrame,
+		float amount
+	)
+	{
+		m_dxGameResource->updateMotion(
+			skeletonId,
+			curMotionId,
+			preMotionId,
+			curFrame,
+			preFrame,
+			amount
+		);
 	}
 
 	void DX12GameManager::createPostEffectMaterial(unsigned int id, const PostEffectMaterialInitParam& initParam)
@@ -571,7 +613,7 @@ namespace tktk
 
 	tktkMath::Vector2 DX12GameManager::mousePos()
 	{
-		return m_mouse->mousePos();
+		return m_mouse->mousePos(m_window->getHWND());
 	}
 
 	bool DX12GameManager::isPush(KeybordKeyType keyType)
@@ -604,7 +646,7 @@ namespace tktk
 		return m_directInputWrapper->isTrigger(btnType);
 	}
 
-	void DX12GameManager::reset()
+	void DX12GameManager::resetElapsedTime()
 	{
 		m_elapsedTimer->reset();
 	}

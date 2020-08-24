@@ -6,7 +6,7 @@
 #include <TktkMath/Structs/Vector3.h>
 #include <TktkMath/Structs/Quaternion.h>
 
-namespace tktk
+namespace tktkFileIo
 {
 	class lodevmd
 	{

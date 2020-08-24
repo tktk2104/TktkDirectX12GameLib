@@ -11,7 +11,7 @@ namespace tktk
 	{
 	public:
 
-		RenderTargetBuffer(unsigned int renderTargetBufferNum);
+		explicit RenderTargetBuffer(unsigned int renderTargetBufferNum);
 		~RenderTargetBuffer() = default;
 
 	public:
@@ -45,7 +45,7 @@ namespace tktk
 
 	private:
 
-		HeapArray<RenderTargetBufferData>	m_renderTargetBufferDataArray;
+		tktkContainer::HeapArray<RenderTargetBufferData>	m_renderTargetBufferDataArray;
 	};
 }
 #endif // !RENDER_TARGET_BUFFER_H_

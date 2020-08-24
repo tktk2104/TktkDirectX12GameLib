@@ -16,8 +16,8 @@ void ElementShapeScript::start()
 		center.position += node.position;
 		center.vertexColor += node.vertexColor;
 	}
-	center.position /= m_lineVertexArray.size();
-	center.vertexColor /= m_lineVertexArray.size();
+	center.position		/= static_cast<float>(m_lineVertexArray.size());
+	center.vertexColor	/= static_cast<float>(m_lineVertexArray.size());
 
 
 	float shapeSize = 0.0f;

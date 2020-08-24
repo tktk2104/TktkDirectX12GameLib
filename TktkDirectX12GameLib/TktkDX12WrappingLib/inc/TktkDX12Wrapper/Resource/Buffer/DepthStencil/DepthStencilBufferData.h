@@ -1,10 +1,8 @@
 #ifndef DEPTH_STENCIL_BUFFER_DATA_H_
 #define DEPTH_STENCIL_BUFFER_DATA_H_
 
-#include <d3d12.h>
-#undef min
-#undef max
 #include <TktkMath/Structs/Vector2.h>
+#include "../../../Includer/D3d12Includer.h"
 #include "DepthStencilBufferInitParam.h"
 
 namespace tktk

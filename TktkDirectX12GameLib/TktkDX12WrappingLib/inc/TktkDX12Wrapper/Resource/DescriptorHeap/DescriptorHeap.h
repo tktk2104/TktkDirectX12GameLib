@@ -1,21 +1,27 @@
 #ifndef DESCRIPTOR_HEAP_H_
 #define DESCRIPTOR_HEAP_H_
 
-#include "DescriptorHeapInitParam.h"
+#include <memory>	// std::unique_ptr
+#include <TktkMath/Structs/Color.h>
+#include "../../Includer/D3d12Includer.h"
+#include "DescriptorHeapInitParamIncluder.h"
 #include "DescriptorHeapParam.h"
-
-#include "Basic/BasicDescriptorHeap.h"
-#include "Rtv/RtvDescriptorHeap.h"
-#include "Dsv/DsvDescriptorHeap.h"
+#include "DescriptorHeapNum.h"
 
 namespace tktk
 {
+	// 前方宣言達
+	class BasicDescriptorHeap;
+	class RtvDescriptorHeap;
+	class DsvDescriptorHeap;
+
 	// ３種類のディスクリプタヒープを管理するクラス
 	class DescriptorHeap
 	{
 	public:
 
-		DescriptorHeap(const DescriptorHeapInitParam& initParam);
+		explicit DescriptorHeap(const DescriptorHeapNum& initParam);
+		~DescriptorHeap();
 
 	public: /* コマンドリストに登録する処理 */
 
@@ -73,9 +79,9 @@ namespace tktk
 
 	private:
 
-		BasicDescriptorHeap	m_basicDescriptorHeap;
-		RtvDescriptorHeap	m_rtvDescriptorHeap;
-		DsvDescriptorHeap	m_dsvDescriptorHeap;
+		std::unique_ptr<BasicDescriptorHeap>	m_basicDescriptorHeap;
+		std::unique_ptr<RtvDescriptorHeap>		m_rtvDescriptorHeap;
+		std::unique_ptr<DsvDescriptorHeap>		m_dsvDescriptorHeap;
 	};
 }
 #endif // !DESCRIPTOR_HEAP_H_

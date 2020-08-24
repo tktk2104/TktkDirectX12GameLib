@@ -6,18 +6,21 @@
 
 namespace tktk
 {
+	// 個々のディスクリプタの情報
 	struct BasicDescriptorParam
 	{
 		BufferType			type	{};
 		unsigned int		id		{};
 	};
 
+	// このディスクリプタヒープで扱うバッファーの種類
 	enum class BasicDescriptorType
 	{
 		constantBuffer,
 		textureBuffer,
 	};
 
+	// ディスクリプタテーブルを作る時に必要な変数
 	struct BasicDescriptorTableParam
 	{
 		BasicDescriptorType					type				{};

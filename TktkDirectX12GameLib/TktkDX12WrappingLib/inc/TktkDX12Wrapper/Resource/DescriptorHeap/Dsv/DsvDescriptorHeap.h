@@ -11,7 +11,7 @@ namespace tktk
 	{
 	public:
 
-		DsvDescriptorHeap(unsigned int dsvDescriptorHeapNum);
+		explicit DsvDescriptorHeap(unsigned int dsvDescriptorHeapNum);
 		~DsvDescriptorHeap() = default;
 
 	public:
@@ -39,7 +39,7 @@ namespace tktk
 
 	private:
 
-		HeapArray<DsvDescriptorHeapData> m_dsvDescriptorHeapDataArray;
+		tktkContainer::HeapArray<DsvDescriptorHeapData> m_dsvDescriptorHeapDataArray;
 	};
 }
 #endif // !DSV_DESCRIPTOR_HEAP_H_

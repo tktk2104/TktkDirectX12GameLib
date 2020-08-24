@@ -1,18 +1,22 @@
 #include "TktkDX12Wrapper/Fence/Fence.h"
 
+#ifdef _DEBUG
+#include <stdexcept>
+#endif // _DEBUG
+
 namespace tktk
 {
+	Fence::Fence(ID3D12Device* device)
+	{
+		device->CreateFence(m_fenceVal, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&m_fence));
+	}
+
 	Fence::~Fence()
 	{
 		if (m_fence != nullptr)
 		{
 			m_fence->Release();
 		}
-	}
-
-	void Fence::initialize(ID3D12Device* device)
-	{
-		device->CreateFence(m_fenceVal, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&m_fence));
 	}
 
 	void Fence::waitGpuProcess(ID3D12CommandQueue* commandQueue)
@@ -28,6 +32,12 @@ namespace tktk
 
 			// フェンスにGPU処理が終わったらイベントを発生させる事を設定する
 			m_fence->SetEventOnCompletion(m_fenceVal, eventHandle);
+
+#ifdef _DEBUG
+			if (eventHandle == nullptr) throw std::runtime_error("EventHandle Fraud Ptr");
+#else
+			if (eventHandle == nullptr) return;
+#endif // _DEBUG
 
 			// フェンスに指定したイベントが発生するまで無限に待ち続ける
 			WaitForSingleObject(eventHandle, INFINITE);

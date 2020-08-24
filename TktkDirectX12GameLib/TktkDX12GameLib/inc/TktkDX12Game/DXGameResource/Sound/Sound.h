@@ -45,7 +45,7 @@ namespace tktk
 
 	private:
 
-		HeapArray<SoundData> m_assets;
+		tktkContainer::HeapArray<SoundData> m_assets;
 
 		// サウンドのイベント処理に使用する変数
 		HANDLE m_soundEvent{ NULL };

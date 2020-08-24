@@ -3,104 +3,107 @@
 #include "TktkCollision/3D/BoundingSphere.h"
 #include "TktkCollision/3D/AxisAlignedBoundingBox.h"
 
-bool CollisionSupport3D::collideSphereToSphere(const Body3dBase & self, const Body3dBase & other, HitInfo3D * hitinfo)
+namespace tktkCollision
 {
-	const BoundingSphere& selfSphere = dynamic_cast<const BoundingSphere&>(self);
-	const BoundingSphere& otherSphere = dynamic_cast<const BoundingSphere&>(other);
+	bool CollisionSupport3D::collideSphereToSphere(const Body3dBase& self, const Body3dBase& other, HitInfo3D* hitinfo)
+	{
+		const BoundingSphere& selfSphere = dynamic_cast<const BoundingSphere&>(self);
+		const BoundingSphere& otherSphere = dynamic_cast<const BoundingSphere&>(other);
 
-	tktkMath::Vector3 selfCenterPos = selfSphere.calculatePose().calculateTranslation();
-	tktkMath::Vector3 otherCenterPos = otherSphere.calculatePose().calculateTranslation();
+		tktkMath::Vector3 selfCenterPos = selfSphere.calculatePose().calculateTranslation();
+		tktkMath::Vector3 otherCenterPos = otherSphere.calculatePose().calculateTranslation();
 
-	float selfRadius = selfSphere.calculateRadius();
-	float otherRadius = otherSphere.calculateRadius();
+		float selfRadius = selfSphere.calculateRadius();
+		float otherRadius = otherSphere.calculateRadius();
 
-	tktkMath::Vector3 selfToOtherDirection = tktkMath::Vector3::normalize(selfCenterPos - otherCenterPos);
-	tktkMath::Vector3 otherToSelfDirection = tktkMath::Vector3::normalize(otherCenterPos - selfCenterPos);
+		tktkMath::Vector3 selfToOtherDirection = tktkMath::Vector3::normalize(selfCenterPos - otherCenterPos);
+		tktkMath::Vector3 otherToSelfDirection = tktkMath::Vector3::normalize(otherCenterPos - selfCenterPos);
 
-	hitinfo->selfPointClosestToOther = selfCenterPos + (selfToOtherDirection * otherRadius);
-	hitinfo->otherPointClosestToSelf = otherCenterPos + (otherToSelfDirection * selfRadius);
+		hitinfo->selfPointClosestToOther = selfCenterPos + (selfToOtherDirection * otherRadius);
+		hitinfo->otherPointClosestToSelf = otherCenterPos + (otherToSelfDirection * selfRadius);
 
-	hitinfo->isHit = (tktkMath::Vector3::distance(selfCenterPos, otherCenterPos) < selfRadius + otherRadius);
+		hitinfo->isHit = (tktkMath::Vector3::distance(selfCenterPos, otherCenterPos) < selfRadius + otherRadius);
 
-	return hitinfo->isHit;
-}
+		return hitinfo->isHit;
+	}
 
-bool CollisionSupport3D::collideAabbToAabb(const Body3dBase & self, const Body3dBase & other, HitInfo3D * hitinfo)
-{
-	const AxisAlignedBoundingBox& selfAABB = dynamic_cast<const AxisAlignedBoundingBox&>(self);
-	const AxisAlignedBoundingBox& otherAABB = dynamic_cast<const AxisAlignedBoundingBox&>(other);
+	bool CollisionSupport3D::collideAabbToAabb(const Body3dBase& self, const Body3dBase& other, HitInfo3D* hitinfo)
+	{
+		const AxisAlignedBoundingBox& selfAABB = dynamic_cast<const AxisAlignedBoundingBox&>(self);
+		const AxisAlignedBoundingBox& otherAABB = dynamic_cast<const AxisAlignedBoundingBox&>(other);
 
-	tktkMath::Vector3 seltCenterPos = selfAABB.calculatePose().calculateTranslation();
-	tktkMath::Vector3 otherCenterPos = otherAABB.calculatePose().calculateTranslation();
+		tktkMath::Vector3 seltCenterPos = selfAABB.calculatePose().calculateTranslation();
+		tktkMath::Vector3 otherCenterPos = otherAABB.calculatePose().calculateTranslation();
 
-	tktkMath::Vector3 selfMin = selfAABB.calculateCornerPoint(AxisAlignedBoundingBox::CornerType::Min);
-	tktkMath::Vector3 selfMax = selfAABB.calculateCornerPoint(AxisAlignedBoundingBox::CornerType::Max);
+		tktkMath::Vector3 selfMin = selfAABB.calculateCornerPoint(AxisAlignedBoundingBox::CornerType::Min);
+		tktkMath::Vector3 selfMax = selfAABB.calculateCornerPoint(AxisAlignedBoundingBox::CornerType::Max);
 
-	tktkMath::Vector3 otherMin = otherAABB.calculateCornerPoint(AxisAlignedBoundingBox::CornerType::Min);
-	tktkMath::Vector3 otherMax = otherAABB.calculateCornerPoint(AxisAlignedBoundingBox::CornerType::Max);
+		tktkMath::Vector3 otherMin = otherAABB.calculateCornerPoint(AxisAlignedBoundingBox::CornerType::Min);
+		tktkMath::Vector3 otherMax = otherAABB.calculateCornerPoint(AxisAlignedBoundingBox::CornerType::Max);
 
-	hitinfo->selfPointClosestToOther = tktkMath::Vector3::clamp(
-		seltCenterPos, otherMin, otherMax
-	);
-
-	hitinfo->otherPointClosestToSelf = tktkMath::Vector3::clamp(
-		otherCenterPos, selfMin, selfMax
-	);
-
-	bool selfMinPosXCheck = selfMin.x < otherMax.x;
-	bool selfMinPosYCheck = selfMin.y < otherMax.y;
-	bool selfMinPosZCheck = selfMin.z < otherMax.z;
-
-	bool selfMaxPosXCheck = selfMax.x > otherMin.x;
-	bool selfMaxPosYCheck = selfMax.y > otherMin.y;
-	bool selfMaxPosZCheck = selfMax.z > otherMin.z;
-
-	// boolの説明変数を使わずに判定した方が比較の処理が減る（誤差の範囲内）
-	hitinfo->isHit = (
-		selfMinPosXCheck &&
-		selfMinPosYCheck &&
-		selfMinPosZCheck &&
-		selfMaxPosXCheck &&
-		selfMaxPosYCheck &&
-		selfMaxPosZCheck
+		hitinfo->selfPointClosestToOther = tktkMath::Vector3::clamp(
+			seltCenterPos, otherMin, otherMax
 		);
 
-	return hitinfo->isHit;
-}
+		hitinfo->otherPointClosestToSelf = tktkMath::Vector3::clamp(
+			otherCenterPos, selfMin, selfMax
+		);
 
-bool CollisionSupport3D::collideSphereToAabb(const Body3dBase & self, const Body3dBase & other, HitInfo3D * hitinfo)
-{
-	const BoundingSphere& selfSphere = dynamic_cast<const BoundingSphere&>(self);
-	const AxisAlignedBoundingBox& otherAABB = dynamic_cast<const AxisAlignedBoundingBox&>(other);
+		bool selfMinPosXCheck = selfMin.x < otherMax.x;
+		bool selfMinPosYCheck = selfMin.y < otherMax.y;
+		bool selfMinPosZCheck = selfMin.z < otherMax.z;
 
-	tktkMath::Vector3 selfCenterPos = selfSphere.calculatePose().calculateTranslation();
-	tktkMath::Vector3 otherCenterPos = otherAABB.calculatePose().calculateTranslation();
+		bool selfMaxPosXCheck = selfMax.x > otherMin.x;
+		bool selfMaxPosYCheck = selfMax.y > otherMin.y;
+		bool selfMaxPosZCheck = selfMax.z > otherMin.z;
 
-	tktkMath::Vector3 otherMin = otherAABB.calculateCornerPoint(AxisAlignedBoundingBox::CornerType::Min);
-	tktkMath::Vector3 otherMax = otherAABB.calculateCornerPoint(AxisAlignedBoundingBox::CornerType::Max);
+		// boolの説明変数を使わずに判定した方が比較の処理が減る（誤差の範囲内）
+		hitinfo->isHit = (
+			selfMinPosXCheck &&
+			selfMinPosYCheck &&
+			selfMinPosZCheck &&
+			selfMaxPosXCheck &&
+			selfMaxPosYCheck &&
+			selfMaxPosZCheck
+			);
 
-	hitinfo->selfPointClosestToOther = tktkMath::Vector3::clamp(
-		selfCenterPos, otherMin, otherMax
-	);
+		return hitinfo->isHit;
+	}
 
-	float selfRadius = selfSphere.calculateRadius();
+	bool CollisionSupport3D::collideSphereToAabb(const Body3dBase& self, const Body3dBase& other, HitInfo3D* hitinfo)
+	{
+		const BoundingSphere& selfSphere = dynamic_cast<const BoundingSphere&>(self);
+		const AxisAlignedBoundingBox& otherAABB = dynamic_cast<const AxisAlignedBoundingBox&>(other);
 
-	tktkMath::Vector3 otherToSelfDirection = tktkMath::Vector3::normalize(otherCenterPos - selfCenterPos);
+		tktkMath::Vector3 selfCenterPos = selfSphere.calculatePose().calculateTranslation();
+		tktkMath::Vector3 otherCenterPos = otherAABB.calculatePose().calculateTranslation();
 
-	hitinfo->otherPointClosestToSelf = otherCenterPos + (otherToSelfDirection * selfRadius);
+		tktkMath::Vector3 otherMin = otherAABB.calculateCornerPoint(AxisAlignedBoundingBox::CornerType::Min);
+		tktkMath::Vector3 otherMax = otherAABB.calculateCornerPoint(AxisAlignedBoundingBox::CornerType::Max);
 
-	hitinfo->isHit = (tktkMath::Vector3::distance(selfCenterPos, hitinfo->selfPointClosestToOther) < selfRadius);
+		hitinfo->selfPointClosestToOther = tktkMath::Vector3::clamp(
+			selfCenterPos, otherMin, otherMax
+		);
 
-	return hitinfo->isHit;
-}
+		float selfRadius = selfSphere.calculateRadius();
 
-bool CollisionSupport3D::collideAabbToSphere(const Body3dBase & self, const Body3dBase & other, HitInfo3D * hitinfo)
-{
-	bool result = collideSphereToAabb(other, self, hitinfo);
+		tktkMath::Vector3 otherToSelfDirection = tktkMath::Vector3::normalize(otherCenterPos - selfCenterPos);
 
-	auto tempSelfPoint = hitinfo->selfPointClosestToOther;
-	hitinfo->selfPointClosestToOther = hitinfo->otherPointClosestToSelf;
-	hitinfo->otherPointClosestToSelf = tempSelfPoint;
+		hitinfo->otherPointClosestToSelf = otherCenterPos + (otherToSelfDirection * selfRadius);
 
-	return result;
+		hitinfo->isHit = (tktkMath::Vector3::distance(selfCenterPos, hitinfo->selfPointClosestToOther) < selfRadius);
+
+		return hitinfo->isHit;
+	}
+
+	bool CollisionSupport3D::collideAabbToSphere(const Body3dBase& self, const Body3dBase& other, HitInfo3D* hitinfo)
+	{
+		bool result = collideSphereToAabb(other, self, hitinfo);
+
+		auto tempSelfPoint = hitinfo->selfPointClosestToOther;
+		hitinfo->selfPointClosestToOther = hitinfo->otherPointClosestToSelf;
+		hitinfo->otherPointClosestToSelf = tempSelfPoint;
+
+		return result;
+	}
 }

@@ -8,22 +8,13 @@
 #include <utility>
 #include <TktkMath/Structs/Color.h>
 #include <TktkMath/Structs/Vector3.h>
-
+#include "../GameObject/GameObjectPtr.h"			// ゲームオブジェクトを扱う時に使用する
 #include "../Component/ComponentManager.h"			// テンプレート引数に型情報を渡す必要がある為隠蔽できない
+#include "../EventMessage/MessageAttachment.h"		// メッセージを送信する時に好きな型の変数を添付する
 #include "../DXGameResource/Scene/SceneVTable.h"	// シーンマネージャークラスを隠蔽する為にテンプレート関連のみ分離
-#include "../DXGameResource/Mesh/BasicMesh/Maker/SphereMeshMaker.h"	// デフォルトの球体メッシュを作るためのクラス
-
-// 関数呼び出しに必要な型のインクルード
-#include <TktkDX12Wrapper/Resource/_SystemResourceIdGetter/SystemResourceType.h>
-#include "../DXGameResource/_SystemDXGameResourceIdGetter/IdType/SystemBasicMeshType.h"
-#include "../DXGameResource/_SystemDXGameResourceIdGetter/IdType/SystemBasicMeshMaterialType.h"
-#include "../DXGameResource/_SystemDXGameResourceIdGetter/IdType/SystemPostEffectMaterialType.h"
-#include "../GameObject/GameObjectPtr.h"			
-#include "../EventMessage/MessageAttachment.h"
-
-#include "DX12GameManagerUseInitParams.h"
-#include "DX12GameManagerFuncInOutValueType.h"
 #include "DX12GameManagerInitParam.h"
+#include "DX12GameManagerInitParamIncluder.h"
+#include "DX12GameManagerFuncArgsIncluder.h"
 
 namespace tktk
 {
@@ -37,9 +28,13 @@ namespace tktk
 	class ElapsedTimer;
 	class Mouse;
 
+	// ゲームフレームワークのメインマネージャー
+	// ※簡略版マネージャーは「tktk::DX12Game」です
 	class DX12GameManager
 	{
-	public: /* このマネージャー自体の処理 */
+	//************************************************************
+	/* このマネージャー自体の処理 */
+	public:
 
 		// 初期化
 		static void initialize(const DX12GameManagerInitParam& initParam);
@@ -47,12 +42,16 @@ namespace tktk
 		// 実行
 		static void run();
 
-	public: /* ウィンドウの処理 */
+	//************************************************************
+	/* ウィンドウの処理 */
+	public:
 
 		// ウィンドウサイズを取得する
 		static const tktkMath::Vector2& getWindowSize();
 
-	public: /* シーンの処理 */
+	//************************************************************
+	/* シーンの処理 */
+	public:
 
 		// シーンを作成して追加する
 		template<class SceneType, class... Args>
@@ -64,10 +63,12 @@ namespace tktk
 		// シーンを無効にする
 		static void disableScene(unsigned int id);
 
-	public: /* ゲームオブジェクトの処理 */
+	//************************************************************
+	/* ゲームオブジェクトの処理 */
+	public:
 
 		// 全てのGameObjectにメッセージを送信する
-		static void SendMessageAll(unsigned int messageId, const MessageAttachment& value = {});
+		static void sendMessageAll(unsigned int messageId, const MessageAttachment& value = {});
 
 		// ゲームオブジェクトを作成し、そのポインタを返す
 		static GameObjectPtr createGameObject();
@@ -79,7 +80,9 @@ namespace tktk
 		// 引数のタグを持ったゲームオブジェクトを全て取得する
 		static std::forward_list<GameObjectPtr> findGameObjectsWithTag(int tag);
 
-	public: /* コンポーネントの処理 */
+	//************************************************************
+	/* コンポーネントの処理 */
+	public:
 
 		// コンポーネントの型ごとの更新優先度を設定する
 		// ※デフォルト（0.0f）で値が小さい程、早く実行される
@@ -93,7 +96,9 @@ namespace tktk
 		template <class ComponentType, class... Args>
 		static std::weak_ptr<ComponentType> createComponent(Args&&... args);
 
-	public: /* 直接DX12の処理を呼ぶ */
+	//************************************************************
+	/* 直接DX12の処理を呼ぶ */
+	public:
 
 		// コマンドリストを手動で実行する
 		static void executeCommandList();
@@ -163,6 +168,7 @@ namespace tktk
 			unsigned int startInstanceLocation
 		);
 
+	//************************************************************
 	public: /* 直接DX12のリソースを作る */
 
 		// ルートシグネチャを作る
@@ -209,7 +215,9 @@ namespace tktk
 		// コマンドリストを使ってテクスチャをロードする（※GPU命令なので「executeCommandList()」を呼ばないとロードが完了しません）
 		static void gpuPriorityLoadTextureBuffer(unsigned int id, const std::string& texDataPath);
 		
-	public: /* 直接DX12のリソースを設定、取得する */
+	//************************************************************
+	/* 直接DX12のリソースを設定、取得する */
+	public:
 
 		// 指定の頂点バッファを更新する
 		template <class VertexData>
@@ -230,7 +238,9 @@ namespace tktk
 		static const tktkMath::Vector2& getDsBufferSizePx(unsigned int id);
 		static const tktkMath::Vector2& getRtBufferSizePx(unsigned int id);
 
-	public: /* スプライト関係の処理 */
+	//************************************************************
+	/* スプライト関係の処理 */
+	public:
 
 		// スプライトマテリアルを作る
 		static void createSpriteMaterial(unsigned int id, const SpriteMaterialInitParam& initParam);
@@ -238,7 +248,9 @@ namespace tktk
 		// 指定したスプライトを描画する
 		static void drawSprite(unsigned int id, const SpriteMaterialDrawFuncArgs& drawFuncArgs);
 
-	public: /* 2Dライン関係の処理 */
+	//************************************************************
+	/* 2Dライン関係の処理 */
+	public:
 
 		// ２Ｄラインを作る
 		static void createLine(unsigned int id, const Line2DMaterialDataInitParam& initParam);
@@ -246,7 +258,9 @@ namespace tktk
 		// 線を描画する
 		static void drawLine(unsigned int id, const Line2DMaterialDrawFuncArgs& drawFuncArgs);
 
-	public: /* メッシュ関係の処理 */
+	//************************************************************
+	/* メッシュ関係の処理 */
+	public:
 
 		// 通常メッシュを作る
 		static void createBasicMesh(unsigned int id, const BasicMeshInitParam& initParam);
@@ -283,7 +297,9 @@ namespace tktk
 		// pmdファイルをロードしてゲームの各種リソースクラスを作る
 		static BasicMeshLoadPmdReturnValue loadPmd(const BasicMeshLoadPmdArgs& args);
 
-	public: /* スケルトン関連の処理 */
+	//************************************************************
+	/* スケルトン関連の処理 */
+	public:
 
 		// スケルトンを作成する
 		static void createSkeleton(unsigned int id, const SkeletonInitParam& initParam);
@@ -294,15 +310,30 @@ namespace tktk
 		// 骨情報を管理する定数バッファに単位行列を設定する
 		static void resetBoneMatrixCbuffer();
 
-	public: /* モーション関係の処理 */
+	//************************************************************
+	/* モーション関係の処理 */
+	public:
 
 		// vmdファイルを読み込んで「MotionData」のインスタンスを作る
 		static void loadMotion(unsigned int id, const std::string& motionFileName);
 
-		// 指定のフレームのモーション情報を使用してスケルトンを更新する
-		static void updateMotion(unsigned int skeletonId, unsigned int motionId, unsigned int curFrame);
+		// 指定のモーションの終了キーの番号を取得する
+		static unsigned int getMotionEndFrameNo(unsigned int id);
 
-	public: /* ポストエフェクト関係の処理 */
+		// 2種類のモーション情報を線形補完してスケルトンを更新する
+		// ※補完割合の値は「0.0fでpreFrame100%」、「1.0fでcurFrame100%」となる
+		static void updateMotion(
+			unsigned int skeletonId,
+			unsigned int curMotionId,
+			unsigned int preMotionId,
+			unsigned int curFrame,
+			unsigned int preFrame,
+			float amount
+		);
+
+	//************************************************************
+	/* ポストエフェクト関係の処理 */
+	public:
 
 		// ポストエフェクトのマテリアルを作る
 		static void createPostEffectMaterial(unsigned int id, const PostEffectMaterialInitParam& initParam);
@@ -310,7 +341,9 @@ namespace tktk
 		// 指定のポストエフェクトを描画する
 		static void drawPostEffect(unsigned int id, const PostEffectMaterialDrawFuncArgs& drawFuncArgs);
 
-	public: /* カメラ関係の処理 */
+	//************************************************************
+	/* カメラ関係の処理 */
+	public:
 
 		// カメラを作る
 		static void createCamera(unsigned int id);
@@ -327,7 +360,9 @@ namespace tktk
 		// 指定のカメラのプロジェクション行列を設定する
 		static void setProjectionMatrix(unsigned int cameraId, const tktkMath::Matrix4& projection);
 
-	public: /* ライト関係の処理 */
+	//************************************************************
+	/* ライト関係の処理 */
+	public:
 
 		// ライトを作る
 		static void createLight(
@@ -353,7 +388,9 @@ namespace tktk
 		// 指定のライトの座標を設定する
 		static void setLightPosition(unsigned int id, const tktkMath::Vector3& position);
 
-	public: /* サウンド関係の処理 */
+	//************************************************************
+	/* サウンド関係の処理 */
+	public:
 
 		// 新しいサウンドを読み込む
 		// ※この関数で読み込めるサウンドの形式は「.wav」のみ
@@ -371,7 +408,9 @@ namespace tktk
 		// 大元の音量を変更する（0.0f～1.0f）
 		static void setMasterVolume(float volume);
 
-	public: /* マウス入力関係の処理 */
+	//************************************************************
+	/* マウス入力関係の処理 */
+	public:
 
 		// 指定のボタンが押されているか
 		static bool isPush(MouseButtonType buttonType);
@@ -382,7 +421,9 @@ namespace tktk
 		// マウスカーソルの座標を取得する
 		static tktkMath::Vector2 mousePos();
 
-	public: /* キーボード入力関係の処理 */
+	//************************************************************
+	/* キーボード入力関係の処理 */
+	public:
 
 		// 指定のキーが押されているかを判定
 		static bool isPush(KeybordKeyType keyType);
@@ -390,7 +431,9 @@ namespace tktk
 		// 指定のキーが押され始めたかを判定
 		static bool isTrigger(KeybordKeyType keyType);
 
-	public: /* ゲームパッド入力関係の処理 */
+	//************************************************************
+	/* ゲームパッド入力関係の処理 */
+	public:
 
 		// 左スティックの傾きを取得（-1.0～1.0の間）
 		static tktkMath::Vector2 getLstick();
@@ -404,10 +447,12 @@ namespace tktk
 		// 指定のボタンが押され始めたかを判定
 		static bool isTrigger(GamePadBtnType btnType);
 
-	public: /* タイム関係の処理 */
+	//************************************************************
+	/* タイム関係の処理 */
+	public:
 
 		// 経過時間を初期化する
-		static void reset();
+		static void resetElapsedTime();
 
 		// 前フレームとの時間の差を求める
 		static float deltaTime();
@@ -436,7 +481,9 @@ namespace tktk
 		// 瞬間的なFPSを取得する
 		static float fps();
 
-	public: /* デフォルトのリソースを使うためのIDを取得する */
+	//************************************************************
+	/* デフォルトのリソースを使うためのIDを取得する */
+	public:
 
 		static unsigned int getSystemId(SystemViewportType type);
 		static unsigned int getSystemId(SystemScissorRectType type);
@@ -454,7 +501,9 @@ namespace tktk
 		static unsigned int getSystemId(SystemBasicMeshMaterialType type);
 		static unsigned int getSystemId(SystemPostEffectMaterialType type);
 
-	public: /* 裏実装 */
+	//************************************************************
+	/* 裏実装 */
+	public:
 
 		static void createSceneImpl(unsigned int id, const std::shared_ptr<SceneBase>& scenePtr, SceneVTable* vtablePtr);
 		static void createVertexBufferImpl(unsigned int id, unsigned int vertexTypeSize, unsigned int vertexDataCount, const void* vertexDataTopPos);
@@ -464,7 +513,9 @@ namespace tktk
 		static void addMaterialAppendParamImpl(unsigned int id, unsigned int cbufferId, unsigned int dataSize, void* dataTopPos);
 		static void updateMaterialAppendParamImpl(unsigned int id, unsigned int cbufferId, unsigned int dataSize, const void* dataTopPos);
 
+	//************************************************************
 	private:
+
 		static std::unique_ptr<Window>							m_window;
 		static std::unique_ptr<DX3DBaseObjects>					m_dx3dBaseObjects;
 		static std::unique_ptr<GameObjectManager>				m_gameObjectManager;
@@ -472,9 +523,8 @@ namespace tktk
 		static std::unique_ptr<DXGameResource>					m_dxGameResource;
 		static std::unique_ptr<SystemDXGameResourceIdGetter>	m_systemDXGameResourceIdGetter;
 		static std::unique_ptr<DirectInputWrapper>				m_directInputWrapper;
-		static std::unique_ptr<ElapsedTimer>					m_elapsedTimer;
-
 		static std::unique_ptr<Mouse>							m_mouse;
+		static std::unique_ptr<ElapsedTimer>					m_elapsedTimer;
 	};
 //┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 //┃ここから下は関数の実装

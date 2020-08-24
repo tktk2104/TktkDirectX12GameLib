@@ -11,7 +11,7 @@ namespace tktk
 	public:
 
 		GameObjectTagList() = default;
-		~GameObjectTagList() {}
+		~GameObjectTagList() = default;
 
 	public:
 
@@ -26,7 +26,7 @@ namespace tktk
 
 	private:
 
-		std::unordered_set<int> m_tagList;
+		std::unordered_set<unsigned int> m_tagList;
 	};
 }
 #endif // !GAME_OBJECT_TAG_LIST_H_

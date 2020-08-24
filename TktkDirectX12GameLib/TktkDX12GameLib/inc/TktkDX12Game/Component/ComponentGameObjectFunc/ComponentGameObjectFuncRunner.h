@@ -1,7 +1,6 @@
 #ifndef COMPONENT_GAME_OBJECT_FUNC_RUNNER_H_
 #define COMPONENT_GAME_OBJECT_FUNC_RUNNER_H_
 
-#include <memory>
 #include <TktkTemplateMetaLib/HasFuncCheck/CreatedStruct/HasHandleMessageChecker.h>
 #include <TktkTemplateMetaLib/HasFuncCheck/CreatedStruct/HasAfterChangeParentChecker.h>
 #include <TktkTemplateMetaLib/HasFuncCheck/CreatedStruct/HasOnCollisionEnterChecker.h>
@@ -27,25 +26,25 @@ namespace tktk
 		const ComponentBasePtr& getComponentBasePtr() const;
 
 		// メッセージ取得関数を呼ぶ
-		void runHandleMessage(const MessageAttachment& value, unsigned int messageId);
+		void runHandleMessage(const MessageAttachment& value, unsigned int messageId) const;
 
 		// コンポーネントの親要素が変わった時関数を呼ぶ
-		void runAfterChangeParent(const GameObjectPtr& beforParent);
+		void runAfterChangeParent(const GameObjectPtr& beforParent) const;
 
 		// コンポーネントの衝突開始関数を呼ぶ
-		void runOnCollisionEnter(const GameObjectPtr& other);
+		void runOnCollisionEnter(const GameObjectPtr& other) const;
 
 		// コンポーネントの衝突中関数を呼ぶ
-		void runOnCollisionStay(const GameObjectPtr& other);
+		void runOnCollisionStay(const GameObjectPtr& other) const;
 
 		// コンポーネントの衝突終了関数を呼ぶ
-		void runOnCollisionExit(const GameObjectPtr& other);
+		void runOnCollisionExit(const GameObjectPtr& other) const;
 
-		// コンポーネントの死亡フラグを
+		// コンポーネントの死亡フラグを取得する
 		bool isDead() const;
 
 		// コンポーネントを殺す
-		void destroy();
+		void destroy() const;
 
 	private:
 
@@ -81,7 +80,7 @@ namespace tktk
 
 	private:
 
-		VTable* m_vtablePtr;
+		VTable*				m_vtablePtr;
 		ComponentBasePtr	m_selfPtr;
 	};
 //┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

@@ -162,7 +162,6 @@
     <ClInclude Include="inc\TktkTemplateMetaLib\HasFuncCheck\HasFuncCheckMacro.h" />
     <ClInclude Include="inc\TktkTemplateMetaLib\HasValueCheck\HasValueCheckMacro.h" />
     <ClInclude Include="inc\TktkTemplateMetaLib\IsAllOf\IsAllOf.h" />
-    <ClInclude Include="inc\TktkTemplateMetaLib\TypeCheck\HaveCollisionFuncType.h" />
     <ClInclude Include="inc\TktkTemplateMetaLib\TypeCheck\isIdType.h" />
     <ClInclude Include="inc\TktkTemplateMetaLib\TypeCheck\IsNumber.h" />
   </ItemGroup>

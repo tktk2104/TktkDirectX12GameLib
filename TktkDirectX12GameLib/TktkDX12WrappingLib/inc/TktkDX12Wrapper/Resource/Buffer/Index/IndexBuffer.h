@@ -11,7 +11,7 @@ namespace tktk
 	{
 	public:
 
-		IndexBuffer(unsigned int indexBufferNum);
+		explicit IndexBuffer(unsigned int indexBufferNum);
 		~IndexBuffer() = default;
 
 	public:
@@ -31,7 +31,7 @@ namespace tktk
 
 	private:
 
-		HeapArray<IndexBufferData> m_indexBufferDataArray;
+		tktkContainer::HeapArray<IndexBufferData> m_indexBufferDataArray;
 	};
 }
 #endif // !INDEX_BUFFER_H_

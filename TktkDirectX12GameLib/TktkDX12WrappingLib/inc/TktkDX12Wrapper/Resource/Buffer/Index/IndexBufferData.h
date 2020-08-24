@@ -2,8 +2,8 @@
 #define INDEX_BUFFER_DATA_H_
 
 #include <vector>
-#include <d3d12.h>
 #include <forward_list>
+#include "../../../Includer/D3d12Includer.h"
 
 namespace tktk
 {
@@ -29,9 +29,9 @@ namespace tktk
 
 	private:
 
-		ID3D12Resource*				m_indexBuffer{ nullptr };
-		D3D12_INDEX_BUFFER_VIEW		m_indexBufferView{};
-		std::forward_list<ID3D12Resource*> m_uploadBufferList{};
+		ID3D12Resource*						m_indexBuffer		{ nullptr };
+		D3D12_INDEX_BUFFER_VIEW				m_indexBufferView	{};
+		std::forward_list<ID3D12Resource*>	m_uploadBufferList	{};
 	};
 }
 #endif // !INDEX_BUFFER_DATA_H_

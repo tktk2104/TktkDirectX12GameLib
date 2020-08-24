@@ -8,6 +8,7 @@
 
 namespace tktk
 {
+	// ２Ｄライン描画に必要な変数
 	struct Line2DMaterialDrawFuncArgs
 	{
 		// 使用するビューポートID

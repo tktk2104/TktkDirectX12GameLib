@@ -197,13 +197,13 @@
     <ClInclude Include="inc\TktkDX12Game\Component\ComponentCollisionFunc\ComponentCollisionFuncRunner.h" />
     <ClInclude Include="inc\TktkDX12Game\Component\ComponentCollisionFunc\ComponentCollisionList.h" />
     <ClInclude Include="inc\TktkDX12Game\Component\ComponentDrawFunc\ComponentDrawList.h" />
-    <ClInclude Include="inc\TktkDX12Game\Component\ComponentDrawFunc\ComponentDrawRunner.h" />
+    <ClInclude Include="inc\TktkDX12Game\Component\ComponentDrawFunc\ComponentDrawFuncRunner.h" />
     <ClInclude Include="inc\TktkDX12Game\Component\ComponentGameObjectFunc\ComponentGameObjectFuncRunner.h" />
     <ClInclude Include="inc\TktkDX12Game\Component\ComponentMainList.h" />
     <ClInclude Include="inc\TktkDX12Game\Component\ComponentManager.h" />
     <ClInclude Include="inc\TktkDX12Game\Component\ComponentPtr.h" />
-    <ClInclude Include="inc\TktkDX12Game\Component\ComponentStartFunc\ComponentSatrtList.h" />
-    <ClInclude Include="inc\TktkDX12Game\Component\ComponentStartFunc\ComponentStartRunner.h" />
+    <ClInclude Include="inc\TktkDX12Game\Component\ComponentStartFunc\ComponentStartList.h" />
+    <ClInclude Include="inc\TktkDX12Game\Component\ComponentStartFunc\ComponentStartFuncRunner.h" />
     <ClInclude Include="inc\TktkDX12Game\Component\ComponentUpdatePriorityList.h" />
     <ClInclude Include="inc\TktkDX12BaseComponents\2D\PostEffectDrawer\PostEffectDrawer.h" />
     <ClInclude Include="inc\TktkDX12BaseComponents\2D\PostEffectDrawer\PostEffectDrawerMaker.h" />
@@ -233,6 +233,8 @@
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameBaseShaderFilePaths.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameDrawFuncArgs.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameResource.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameResourceFuncArgsIncluder.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameResourceInitParamIncluder.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameResourceNum.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\Light\Light.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\Light\LightCBuffer.h" />
@@ -242,8 +244,8 @@
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\Line2D\Line2DMaterialData.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\Line2D\Line2DMaterialInitParam.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\Line2D\Line2DMaterialDrawFuncArgs.h" />
-    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Mesh\BasicMesh\BasicMeshMaterialCbuffer.h" />
-    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Mesh\BasicMesh\BasicMonoColorMeshCbuffer.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Mesh\BasicMesh\Structs\BasicMeshMaterialCbuffer.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Mesh\BasicMesh\Structs\BasicMonoColorMeshCbuffer.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\Mesh\BasicMesh\Loader\BasicMeshLoadPmdReturnValue.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\Mesh\BasicMesh\Loader\BasicMeshPmdLoader.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\Mesh\BasicMesh\Maker\SphereMeshMaker.h" />
@@ -255,11 +257,16 @@
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\Mesh\BasicMesh\Material\BasicMeshMaterialInitParam.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\Mesh\BasicMesh\Mesh\BasicMeshData.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\Mesh\BasicMesh\Mesh\BasicMeshInitParam.h" />
-    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Mesh\BasicMesh\Subset.h" />
-    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Mesh\MeshDrawFuncBaseArgs.h" />
-    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Mesh\MeshPrimitiveTopology.h" />
-    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Mesh\MeshShadowMapCBuffer.h" />
-    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Mesh\MeshTransformCbuffer.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Mesh\BasicMesh\Structs\Subset.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Mesh\MeshResource.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Mesh\MeshResourceFuncArgsIncluder.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Mesh\MeshResourceNum.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Mesh\MeshResourceInitParamIncluder.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Mesh\MeshResourceShaderFilePaths.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Mesh\Structs\MeshDrawFuncBaseArgs.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Mesh\Structs\MeshPrimitiveTopology.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Mesh\Structs\MeshShadowMapCBuffer.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Mesh\Structs\MeshTransformCbuffer.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\Mesh\Motion\Motion.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\Mesh\Motion\MotionBoneParam.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\Mesh\Motion\MotionData.h" />
@@ -279,6 +286,7 @@
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\_SystemDXGameResourceIdGetter\IdType\SystemBasicMeshMaterialType.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\_SystemDXGameResourceIdGetter\IdType\SystemBasicMeshType.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\_SystemDXGameResourceIdGetter\SystemDXGameResourceIdGetter.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\_SystemDXGameResourceIdGetter\SystemDXGameResourceType.h" />
     <ClInclude Include="inc\TktkDX12Game\EventMessage\MessageAttachment.h" />
     <ClInclude Include="inc\TktkDX12Game\GameObject\GameObject.h" />
     <ClInclude Include="inc\TktkDX12Game\GameObject\GameObjectManager.h" />
@@ -303,11 +311,12 @@
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\Sound\SoundData.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\Sound\SoundPlayState.h" />
     <ClInclude Include="inc\TktkDX12Game\Time\ElapsedTimer.h" />
+    <ClInclude Include="inc\TktkDX12Game\TktkDX12Game.h" />
     <ClInclude Include="inc\TktkDX12Game\_MainManager\DX12GameManager.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\_SystemDXGameResourceIdGetter\IdType\SystemPostEffectMaterialType.h" />
-    <ClInclude Include="inc\TktkDX12Game\_MainManager\DX12GameManagerFuncInOutValueType.h" />
+    <ClInclude Include="inc\TktkDX12Game\_MainManager\DX12GameManagerFuncArgsIncluder.h" />
     <ClInclude Include="inc\TktkDX12Game\_MainManager\DX12GameManagerInitParam.h" />
-    <ClInclude Include="inc\TktkDX12Game\_MainManager\DX12GameManagerUseInitParams.h" />
+    <ClInclude Include="inc\TktkDX12Game\_MainManager\DX12GameManagerInitParamIncluder.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\TktkDX12BaseComponents\2D\CircleCollider\CircleCollider.cpp" />
@@ -353,12 +362,12 @@
     <ClCompile Include="src\TktkDX12Game\Component\ComponentCollisionFunc\ComponentCollisionFuncRunner.cpp" />
     <ClCompile Include="src\TktkDX12Game\Component\ComponentCollisionFunc\ComponentCollisionList.cpp" />
     <ClCompile Include="src\TktkDX12Game\Component\ComponentDrawFunc\ComponentDrawList.cpp" />
-    <ClCompile Include="src\TktkDX12Game\Component\ComponentDrawFunc\ComponentDrawRunner.cpp" />
+    <ClCompile Include="src\TktkDX12Game\Component\ComponentDrawFunc\ComponentDrawFuncRunner.cpp" />
     <ClCompile Include="src\TktkDX12Game\Component\ComponentGameObjectFunc\ComponentGameObjectFuncRunner.cpp" />
     <ClCompile Include="src\TktkDX12Game\Component\ComponentMainList.cpp" />
     <ClCompile Include="src\TktkDX12Game\Component\ComponentManager.cpp" />
-    <ClCompile Include="src\TktkDX12Game\Component\ComponentStartFunc\ComponentSatrtList.cpp" />
-    <ClCompile Include="src\TktkDX12Game\Component\ComponentStartFunc\ComponentStartRunner.cpp" />
+    <ClCompile Include="src\TktkDX12Game\Component\ComponentStartFunc\ComponentStartList.cpp" />
+    <ClCompile Include="src\TktkDX12Game\Component\ComponentStartFunc\ComponentStartFuncRunner.cpp" />
     <ClCompile Include="src\TktkDX12Game\Component\ComponentUpdatePriorityList.cpp" />
     <ClCompile Include="src\TktkDX12BaseComponents\2D\PostEffectDrawer\PostEffectDrawer.cpp" />
     <ClCompile Include="src\TktkDX12BaseComponents\2D\PostEffectDrawer\PostEffectDrawerMaker.cpp" />
@@ -396,6 +405,7 @@
     <ClCompile Include="src\TktkDX12Game\DXGameResource\Mesh\BasicMesh\Material\BasicMeshMaterial.cpp" />
     <ClCompile Include="src\TktkDX12Game\DXGameResource\Mesh\BasicMesh\Material\BasicMeshMaterialData.cpp" />
     <ClCompile Include="src\TktkDX12Game\DXGameResource\Mesh\BasicMesh\Mesh\BasicMeshData.cpp" />
+    <ClCompile Include="src\TktkDX12Game\DXGameResource\Mesh\MeshResource.cpp" />
     <ClCompile Include="src\TktkDX12Game\DXGameResource\Mesh\Motion\Motion.cpp" />
     <ClCompile Include="src\TktkDX12Game\DXGameResource\Mesh\Motion\MotionData.cpp" />
     <ClCompile Include="src\TktkDX12Game\DXGameResource\Mesh\Skeleton\Skeleton.cpp" />
@@ -420,6 +430,7 @@
     <ClCompile Include="src\TktkDX12Game\DXGameResource\Sound\Sound.cpp" />
     <ClCompile Include="src\TktkDX12Game\DXGameResource\Sound\SoundData.cpp" />
     <ClCompile Include="src\TktkDX12Game\Time\ElapsedTimer.cpp" />
+    <ClCompile Include="src\TktkDX12Game\TktkDX12Game.cpp" />
     <ClCompile Include="src\TktkDX12Game\_MainManager\DX12GameManager.cpp" />
   </ItemGroup>
   <ItemGroup>

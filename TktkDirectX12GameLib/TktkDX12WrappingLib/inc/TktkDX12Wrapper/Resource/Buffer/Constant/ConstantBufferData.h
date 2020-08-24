@@ -1,8 +1,8 @@
 #ifndef CONSTANT_BUFFER_DATA_H_
 #define CONSTANT_BUFFER_DATA_H_
 
-#include <d3d12.h>
 #include <forward_list>
+#include "../../../Includer/D3d12Includer.h"
 
 namespace tktk
 {
@@ -28,8 +28,8 @@ namespace tktk
 
 	private:
 
-		ID3D12Resource* m_constantBuffer{ nullptr };
-		std::forward_list<ID3D12Resource*> m_uploadBufferList{};
+		ID3D12Resource*						m_constantBuffer{ nullptr };
+		std::forward_list<ID3D12Resource*>	m_uploadBufferList{};
 	};
 }
 #endif // !CONSTANT_BUFFER_DATA_H_

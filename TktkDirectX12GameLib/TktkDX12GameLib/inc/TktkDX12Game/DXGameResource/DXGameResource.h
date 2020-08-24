@@ -1,32 +1,31 @@
 #ifndef DX_GAME_RESOURCE_H_
 #define DX_GAME_RESOURCE_H_
 
+#include <memory>
 #include "DXGameResourceNum.h"
 #include "DXGameBaseShaderFilePaths.h"
-
-#include "Scene/SceneManager.h"
-#include "Sound/Sound.h"
-#include "PostEffect/PostEffectMaterial.h"
-#include "Sprite/SpriteMaterial.h"
-#include "Line2D/Line2DMaterial.h"
-#include "Mesh/BasicMesh/Mesh/BasicMesh.h"
-#include "Mesh/BasicMesh/Material/BasicMeshMaterial.h"
-#include "Mesh/BasicMesh/Loader/BasicMeshLoadPmdArgs.h"
-#include "Mesh/BasicMesh/Loader/BasicMeshLoadPmdReturnValue.h"
-#include "Mesh/Skeleton/Skeleton.h"
-#include "Mesh/Motion/Motion.h"
-#include "Camera/Camera.h"
-#include "Light/Light.h"
+#include "DXGameResourceInitParamIncluder.h"
+#include "DXGameResourceFuncArgsIncluder.h"
 
 namespace tktk
 {
+	// 前方宣言達
+	class SceneManager;
+	class Sound;
+	class PostEffectMaterial;
+	class SpriteMaterial;
+	class Line2DMaterial;
+	class MeshResource;
+	class Camera;
+	class Light;
+
 	// ゲームで使用するリソースを管理するクラス
 	class DXGameResource
 	{
 	public:
 
 		DXGameResource(const DXGameResourceNum& resourceNum, const DXGameBaseShaderFilePaths& filePaths);
-		~DXGameResource() = default;
+		~DXGameResource();
 
 	public: /* シーン関係の処理 */
 
@@ -65,6 +64,14 @@ namespace tktk
 
 		// 大元の音量を変更する（0.0f～1.0f）
 		void setMasterVolume(float volume);
+
+	public: /* ポストエフェクト関係の処理 */
+
+		// ポストエフェクトのマテリアルを作る
+		void createPostEffectMaterial(unsigned int id, const PostEffectMaterialInitParam& initParam);
+
+		// 指定のポストエフェクトを描画する
+		void drawPostEffect(unsigned int id, const PostEffectMaterialDrawFuncArgs& drawFuncArgs) const;
 
 	public: /* スプライト関係の処理 */
 
@@ -133,17 +140,19 @@ namespace tktk
 		// vmdファイルを読み込んで「MotionData」のインスタンスを作る
 		void loadMotion(unsigned int id, const std::string& motionFileName);
 
-		// 指定のフレームのモーション情報を使用してスケルトンを更新する
-		// TODO : モーションの補完を実装する
-		void updateMotion(unsigned int skeletonId, unsigned int motionId, unsigned int curFrame);
+		// 指定のモーションの終了キーの番号を取得する
+		unsigned int getMotionEndFrameNo(unsigned int id) const;
 
-	public: /* ポストエフェクト関係の処理 */
-
-		// ポストエフェクトのマテリアルを作る
-		void createPostEffectMaterial(unsigned int id, const PostEffectMaterialInitParam& initParam);
-
-		// 指定のポストエフェクトを描画する
-		void drawPostEffect(unsigned int id, const PostEffectMaterialDrawFuncArgs& drawFuncArgs) const;
+		// 2種類のモーション情報を線形補完してスケルトンを更新する
+		// ※補完割合の値は「0.0fでpreFrame100%」、「1.0fでcurFrame100%」となる
+		void updateMotion(
+			unsigned int skeletonId,
+			unsigned int curMotionId,
+			unsigned int preMotionId,
+			unsigned int curFrame,
+			unsigned int preFrame,
+			float amount
+		);
 
 	public: /* カメラ関係の処理 */
 
@@ -190,17 +199,14 @@ namespace tktk
 
 	private:
 
-		SceneManager		m_sceneManager;
-		Sound				m_sound;
-		SpriteMaterial		m_spriteMaterial;
-		Line2DMaterial		m_line2DMaterial;
-		Skeleton			m_skeleton;
-		BasicMesh			m_basicMesh;
-		BasicMeshMaterial	m_basicMeshMaterial;
-		Motion				m_motion;
-		PostEffectMaterial	m_postEffectMaterial;
-		Camera				m_camera;
-		Light				m_light;
+		std::unique_ptr<SceneManager>		m_sceneManager;
+		std::unique_ptr<Sound>				m_sound;
+		std::unique_ptr<PostEffectMaterial>	m_postEffectMaterial;
+		std::unique_ptr<SpriteMaterial>		m_spriteMaterial;
+		std::unique_ptr<Line2DMaterial>		m_line2DMaterial;
+		std::unique_ptr<MeshResource>		m_meshResource;
+		std::unique_ptr<Camera>				m_camera;
+		std::unique_ptr<Light>				m_light;
 	};
 }
 #endif // !DX_GAME_RESOURCE_H_

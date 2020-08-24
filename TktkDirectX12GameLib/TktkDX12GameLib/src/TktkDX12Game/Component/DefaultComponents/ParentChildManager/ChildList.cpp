@@ -2,13 +2,12 @@
 
 #include <algorithm>
 #include "TktkDX12Game/GameObject/GameObject.h"
-#include "..\..\..\..\..\inc\TktkDX12Game\Component\DefaultComponents\ParentChildManager\ChildList.h"
 
 namespace tktk
 {
 	void ChildList::addChild(const GameObjectPtr& child)
 	{
-		m_childList.push_front(child);
+		m_newGameObjectList.push_front(child);
 	}
 
 	const std::forward_list<GameObjectPtr>& ChildList::getChildren() const
@@ -16,19 +15,58 @@ namespace tktk
 		return m_childList;
 	}
 
-	void ChildList::updateContainer()
+	GameObjectPtr ChildList::findGameObjectWithTag(int tag) const
 	{
-		m_childList.remove_if([](GameObjectPtr& node) { return node.expired(); });
+		for (const auto& node : m_childList)
+		{
+			if (node->containGameobjectTag(tag)) return node;
+
+			// 孫要素で再起する
+			auto findGrandchildResult = node->findChildWithTag(tag);
+
+			// 孫要素で対象となるゲームオブジェクトを見つけたらそれを返す
+			if (!findGrandchildResult.expired()) return findGrandchildResult;
+		}
+		return GameObjectPtr();
+	}
+
+	std::forward_list<GameObjectPtr> ChildList::findGameObjectsWithTag(int tag) const
+	{
+		std::forward_list<GameObjectPtr> result;
+
+		for (const auto& node : m_childList)
+		{
+			if (node->containGameobjectTag(tag))
+			{
+				result.push_front(node);
+			}
+
+			// 孫要素で再起した結果を検索結果リストに追加する
+			result.splice_after(result.before_begin(), std::move(node->findChildrenWithTag(tag)));
+		}
+		return result;
+	}
+
+	void ChildList::movePreFrameAddedNode()
+	{
+		// 前フレームで追加されたゲームオブジェクトをメインリストに移動する
+		m_childList.splice_after(m_childList.before_begin(), std::move(m_newGameObjectList));
+	}
+
+	void ChildList::removeDeadComponent()
+	{
+		// 死んでいるゲームオブジェクトをメインリストから削除する
+		m_childList.remove_if([](const GameObjectPtr& node) { return node.expired(); });
 	}
 
 	void ChildList::remove(const GameObjectPtr& gameObject)
 	{
-		m_childList.remove_if([gameObject](GameObjectPtr& node) { return (node.isSame(gameObject)); });
+		m_childList.remove_if([gameObject](const GameObjectPtr& node) { return (node.isSame(gameObject)); });
 	}
 
 	void ChildList::destroyAll()
 	{
-		for (auto& node : m_childList)
+		for (const auto& node : m_childList)
 		{
 			node->destroy();
 		}
@@ -36,7 +74,7 @@ namespace tktk
 
 	void ChildList::sendMessage(unsigned int messageId, const MessageAttachment& value)
 	{
-		for (auto& node : m_childList)
+		for (const auto& node : m_childList)
 		{
 			node->sendMessage(messageId, value);
 		}
