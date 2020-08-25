@@ -89,9 +89,9 @@ namespace tktkContainer
 		// もしも先頭のイテレーターが未使用状態ならインクリメントする
 		if ((returnValue.m_arrayNodeUseCheckBitFlagPtr[returnValue.m_index / 32U] & (1U << (returnValue.m_index % 32U))) == 0U)
 		{
-			auto incrementReturnValue = ++returnValue;
+			auto incrementReturnValue = returnValue;
 
-			return incrementReturnValue;
+			return ++incrementReturnValue;
 		}
 		return returnValue;
 	}

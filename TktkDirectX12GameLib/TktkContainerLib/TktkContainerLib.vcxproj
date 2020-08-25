@@ -153,6 +153,8 @@
     <ClInclude Include="inc\TktkContainer\HeapArray\HeapArray.h" />
     <ClInclude Include="inc\TktkContainer\HeapArray\HeapArrayIterator.h" />
     <ClInclude Include="inc\TktkContainer\ResourceContainer\ResourceContainer.h" />
+    <ClInclude Include="inc\TktkContainer\ResourceContainer\ResourceContainerConstIterator.h" />
+    <ClInclude Include="inc\TktkContainer\ResourceContainer\ResourceContainerInitParam.h" />
     <ClInclude Include="inc\TktkContainer\ResourceContainer\ResourceContainerIterator.h" />
     <ClInclude Include="inc\TktkContainer\ResourceHandleManager\ResourceHandleManager.h" />
   </ItemGroup>

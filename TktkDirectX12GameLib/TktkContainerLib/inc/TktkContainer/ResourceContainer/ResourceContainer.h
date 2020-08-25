@@ -8,6 +8,8 @@
 #include "../HeapArray/HeapArray.h"
 #include "../ResourceHandleManager/ResourceHandleManager.h"
 #include "ResourceContainerIterator.h"
+#include "ResourceContainerConstIterator.h"
+#include "ResourceContainerInitParam.h"
 
 namespace tktkContainer
 {
@@ -17,11 +19,11 @@ namespace tktkContainer
 	public:
 
 		using iterator			= ResourceContainerIterator<NodeType>;
-		using const_iterator	= ResourceContainerIterator<const NodeType>;
+		using const_iterator	= ResourceContainerConstIterator<NodeType>;
 
 	public:
 
-		ResourceContainer(unsigned int staticNodeNum, unsigned int moveNodeMaxNumPerFrame);
+		explicit ResourceContainer(const ResourceContainerInitParam& initParam);
 		~ResourceContainer() = default;
 
 	private:
@@ -49,7 +51,7 @@ namespace tktkContainer
 
 		// ハンドルを引数に対応するポインタを取得する
 		// ※ハンドルに対応したリソースが無かった場合、nullptrを返す
-		NodeType* getPtr(unsigned int handle) const;
+		NodeType* getMatchHandlePtr(unsigned int handle) const;
 
 		// IDを引数に対応するポインタを取得する
 		// ※IDに対応したリソースが無かった場合、nullptrを返す
@@ -87,16 +89,16 @@ namespace tktkContainer
 		HeapArray<NodeType, Allocator> m_staticNode;
 
 		// 動的にメモリを確保してインスタンスを作るコンテナ
-		std::list<NodeType> m_dynamicNode;
+		std::list<NodeType, Allocator> m_dynamicNode;
 	};
 //┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 //┃ここから下は関数の実装
 //┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 	template<class NodeType, class Allocator>
-	inline ResourceContainer<NodeType, Allocator>::ResourceContainer(unsigned int staticNodeNum, unsigned int moveNodeMaxNumPerFrame)
-		: m_moveNodeMaxNumPerFrame(moveNodeMaxNumPerFrame)
-		, m_staticNode(staticNodeNum)
+	inline ResourceContainer<NodeType, Allocator>::ResourceContainer(const ResourceContainerInitParam& initParam)
+		: m_moveNodeMaxNumPerFrame(initParam.moveNodeMaxNumPerFrame)
+		, m_staticNode(initParam.staticNodeNum)
 	{
 	}
 
@@ -187,7 +189,7 @@ namespace tktkContainer
 	// ハンドルを引数に対応するポインタを取得する
 	// ※ハンドルに対応したリソースが無かった場合、nullptrを返す
 	template<class NodeType, class Allocator>
-	inline NodeType* ResourceContainer<NodeType, Allocator>::getPtr(unsigned int handle) const
+	inline NodeType* ResourceContainer<NodeType, Allocator>::getMatchHandlePtr(unsigned int handle) const
 	{
 		if (m_connectNodeMap.count(handle) == 0U) return nullptr;
 
@@ -201,7 +203,7 @@ namespace tktkContainer
 	{
 		if (m_idHandleMap.count(id) == 0U) return nullptr;
 
-		return getPtr(m_idHandleMap.at(id));
+		return getMatchHandlePtr(m_idHandleMap.at(id));
 	}
 
 	// 引数のハンドルのインスタンスを削除（メモリ解放）する

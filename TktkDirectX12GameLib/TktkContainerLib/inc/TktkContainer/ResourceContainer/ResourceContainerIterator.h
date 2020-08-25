@@ -1,6 +1,7 @@
 #ifndef RESOURCE_CONTAINER_ITERATOR_H_
 #define RESOURCE_CONTAINER_ITERATOR_H_
 
+#include <type_traits>
 #include <iterator>
 #include <memory>
 #include <list>
@@ -41,7 +42,6 @@ namespace tktkContainer
 	public:
 
 		// イテレータに必要な実装
-		const NodeType& operator*() const;
 		NodeType& operator*();
 
 		ResourceContainerIterator<NodeType>& operator++();
@@ -89,14 +89,6 @@ namespace tktkContainer
 		, m_curListItr(other.m_curListItr)
 		, m_endListItr(other.m_endListItr)
 	{
-	}
-
-	template<class NodeType>
-	inline const NodeType& ResourceContainerIterator<NodeType>::operator*() const
-	{
-		if (m_isStatic) return *m_curHeapArrayItr;
-
-		return *m_curListItr;
 	}
 
 	template<class NodeType>
@@ -154,6 +146,5 @@ namespace tktkContainer
 	{
 		return m_isStatic != other.m_isStatic || m_curHeapArrayItr != other.m_curHeapArrayItr || m_curListItr != other.m_curListItr;
 	}
-
 }
 #endif // !RESOURCE_CONTAINER_ITERATOR_H_
