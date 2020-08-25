@@ -27,6 +27,14 @@ namespace tktk
 		}
 	}
 
+	RtvDescriptorHeapData::RtvDescriptorHeapData(RtvDescriptorHeapData&& other) noexcept
+		: m_rtBufferIdArray(std::move(other.m_rtBufferIdArray))
+		, m_descriptorHeap(other.m_descriptorHeap)
+	{
+		other.m_descriptorHeap = nullptr;
+		other.m_rtBufferIdArray.clear();
+	}
+
 	std::vector<D3D12_CPU_DESCRIPTOR_HANDLE> RtvDescriptorHeapData::getCpuHeapHandleArray(ID3D12Device* device) const
 	{
 		std::vector<D3D12_CPU_DESCRIPTOR_HANDLE> handleArray;

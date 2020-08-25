@@ -2,25 +2,24 @@
 
 namespace tktk
 {
-	ConstantBuffer::ConstantBuffer(unsigned int constantBufferNum)
-		: m_constantBufferDataArray(constantBufferNum)
+	ConstantBuffer::ConstantBuffer(const tktkContainer::ResourceContainerInitParam& initParam)
+		: m_constantBufferDataArray(initParam)
 	{
 	}
 
-	void ConstantBuffer::create(unsigned int id, ID3D12Device* device, unsigned int constantBufferTypeSize, const void* constantBufferDataTopPos)
+	unsigned int ConstantBuffer::create(ID3D12Device* device, unsigned int constantBufferTypeSize, const void* constantBufferDataTopPos)
 	{
-		if (m_constantBufferDataArray.at(id) != nullptr) m_constantBufferDataArray.eraseAt(id);
-		m_constantBufferDataArray.emplaceAt(id, device, constantBufferTypeSize, constantBufferDataTopPos);
+		return m_constantBufferDataArray.create(device, constantBufferTypeSize, constantBufferDataTopPos);
 	}
 
-	void ConstantBuffer::createCbv(unsigned int id, ID3D12Device* device, D3D12_CPU_DESCRIPTOR_HANDLE heapHandle) const
+	void ConstantBuffer::createCbv(unsigned int handle, ID3D12Device* device, D3D12_CPU_DESCRIPTOR_HANDLE heapHandle) const
 	{
-		m_constantBufferDataArray.at(id)->createCbv(device, heapHandle);
+		m_constantBufferDataArray.getMatchHandlePtr(handle)->createCbv(device, heapHandle);
 	}
 
-	void ConstantBuffer::updateBuffer(unsigned int id, ID3D12Device* device, ID3D12GraphicsCommandList* commandList, unsigned int constantBufferTypeSize, const void* constantBufferDataTopPos)
+	void ConstantBuffer::updateBuffer(unsigned int handle, ID3D12Device* device, ID3D12GraphicsCommandList* commandList, unsigned int constantBufferTypeSize, const void* constantBufferDataTopPos)
 	{
-		m_constantBufferDataArray.at(id)->updateBuffer(device, commandList, constantBufferTypeSize, constantBufferDataTopPos);
+		m_constantBufferDataArray.getMatchHandlePtr(handle)->updateBuffer(device, commandList, constantBufferTypeSize, constantBufferDataTopPos);
 	}
 
 	void ConstantBuffer::deleteUploadBufferAll()

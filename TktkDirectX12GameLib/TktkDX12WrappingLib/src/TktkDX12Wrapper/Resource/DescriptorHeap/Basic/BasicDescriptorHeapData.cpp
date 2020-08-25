@@ -34,6 +34,14 @@ namespace tktk
 		}
 	}
 
+	BasicDescriptorHeapData::BasicDescriptorHeapData(BasicDescriptorHeapData&& other) noexcept
+		: m_descriptorTableSizeArray(std::move(other.m_descriptorTableSizeArray))
+		, m_descriptorHeap(other.m_descriptorHeap)
+	{
+		other.m_descriptorHeap = nullptr;
+		other.m_descriptorTableSizeArray.clear();
+	}
+
 	std::vector<D3D12_CPU_DESCRIPTOR_HANDLE> BasicDescriptorHeapData::getCpuHeapHandleArray(ID3D12Device* device) const
 	{
 		// ディスクリプタヒープ上に存在するディスクリプタの数分のメモリを確保する

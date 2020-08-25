@@ -15,6 +15,12 @@ namespace tktk
 		}
 	}
 
+	ScissorRectData::ScissorRectData(ScissorRectData&& other) noexcept
+		: m_scissorRectArray(std::move(other.m_scissorRectArray))
+	{
+		other.m_scissorRectArray.clear();
+	}
+
 	void ScissorRectData::set(ID3D12GraphicsCommandList* commandList) const
 	{
 		commandList->RSSetScissorRects(m_scissorRectArray.size(), m_scissorRectArray.data());

@@ -17,6 +17,12 @@ namespace tktk
 		}
 	}
 
+	ViewportData::ViewportData(ViewportData&& other) noexcept
+		: m_viewportArray(other.m_viewportArray)
+	{
+		other.m_viewportArray.clear();
+	}
+
 	void ViewportData::set(ID3D12GraphicsCommandList* commandList) const
 	{
 		commandList->RSSetViewports(m_viewportArray.size(), m_viewportArray.data());

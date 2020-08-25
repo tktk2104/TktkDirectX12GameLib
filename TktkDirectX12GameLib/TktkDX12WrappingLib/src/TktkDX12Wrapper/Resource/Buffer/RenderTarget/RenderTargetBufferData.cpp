@@ -52,10 +52,18 @@ namespace tktk
 
 	RenderTargetBufferData::~RenderTargetBufferData()
 	{
-		if (m_mustRelease)
+		if (m_mustRelease && m_renderTargetBuffer != nullptr)
 		{
 			m_renderTargetBuffer->Release();
 		}
+	}
+
+	RenderTargetBufferData::RenderTargetBufferData(RenderTargetBufferData&& other) noexcept
+		: m_mustRelease(other.m_mustRelease)
+		, m_renderTargetSize(other.m_renderTargetSize)
+		, m_renderTargetBuffer(other.m_renderTargetBuffer)
+	{
+		other.m_renderTargetBuffer = nullptr;
 	}
 
 	void RenderTargetBufferData::beginWriteBasicRtBuffer(ID3D12GraphicsCommandList* commandList) const

@@ -15,6 +15,9 @@ namespace tktk
 		IndexBufferData(ID3D12Device* device, const std::vector<unsigned short>& indexDataArray);
 		~IndexBufferData();
 
+		// ムーブコンストラクタ
+		IndexBufferData(IndexBufferData&& other) noexcept;
+
 	public:
 
 		// コマンドリストにインデックスバッファを登録する

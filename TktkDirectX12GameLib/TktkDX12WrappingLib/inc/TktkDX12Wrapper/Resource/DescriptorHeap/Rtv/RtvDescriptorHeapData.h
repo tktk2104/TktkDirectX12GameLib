@@ -16,6 +16,9 @@ namespace tktk
 		RtvDescriptorHeapData(ID3D12Device* device, const RtvDescriptorHeapInitParam& initParam);
 		~RtvDescriptorHeapData();
 
+		// ムーブコンストラクタ
+		RtvDescriptorHeapData(RtvDescriptorHeapData&& other) noexcept;
+
 	public:
 
 		// 各ビューのCPUアドレスの配列を取得する
@@ -39,9 +42,8 @@ namespace tktk
 
 	private:
 
-		std::vector<unsigned int> m_rtBufferIdArray{};
-
-		ID3D12DescriptorHeap* m_descriptorHeap{ nullptr };
+		std::vector<unsigned int>	m_rtBufferIdArray	{};
+		ID3D12DescriptorHeap*		m_descriptorHeap	{ nullptr };
 	};
 }
 #endif // !RTV_DESCRIPTOR_HEAP_DATA_H_

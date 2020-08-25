@@ -2,25 +2,24 @@
 
 namespace tktk
 {
-	VertexBuffer::VertexBuffer(unsigned int vertexBufferNum)
-		: m_vertexBufferDataArray(vertexBufferNum)
+	VertexBuffer::VertexBuffer(const tktkContainer::ResourceContainerInitParam& initParam)
+		: m_vertexBufferDataArray(initParam)
 	{
 	}
 
-	void VertexBuffer::create(unsigned int id, ID3D12Device* device, unsigned int vertexTypeSize, unsigned int vertexDataCount, const void* vertexDataTopPos)
+	unsigned int VertexBuffer::create(ID3D12Device* device, unsigned int vertexTypeSize, unsigned int vertexDataCount, const void* vertexDataTopPos)
 	{
-		if (m_vertexBufferDataArray.at(id) != nullptr) m_vertexBufferDataArray.eraseAt(id);
-		m_vertexBufferDataArray.emplaceAt(id, device, vertexTypeSize, vertexDataCount, vertexDataTopPos);
+		return m_vertexBufferDataArray.create(device, vertexTypeSize, vertexDataCount, vertexDataTopPos);
 	}
 
-	void VertexBuffer::set(unsigned int id, ID3D12GraphicsCommandList* commandList) const
+	void VertexBuffer::set(unsigned int handle, ID3D12GraphicsCommandList* commandList) const
 	{
-		m_vertexBufferDataArray.at(id)->set(commandList);
+		m_vertexBufferDataArray.getMatchHandlePtr(handle)->set(commandList);
 	}
 
-	void VertexBuffer::updateBuffer(unsigned int id, ID3D12Device* device, ID3D12GraphicsCommandList* commandList, unsigned int vertexTypeSize, unsigned int vertexDataCount, const void* vertexDataTopPos)
+	void VertexBuffer::updateBuffer(unsigned int handle, ID3D12Device* device, ID3D12GraphicsCommandList* commandList, unsigned int vertexTypeSize, unsigned int vertexDataCount, const void* vertexDataTopPos)
 	{
-		m_vertexBufferDataArray.at(id)->updateBuffer(device, commandList, vertexTypeSize, vertexDataCount, vertexDataTopPos);
+		m_vertexBufferDataArray.getMatchHandlePtr(handle)->updateBuffer(device, commandList, vertexTypeSize, vertexDataCount, vertexDataTopPos);
 	}
 
 	void VertexBuffer::deleteUploadBufferAll()

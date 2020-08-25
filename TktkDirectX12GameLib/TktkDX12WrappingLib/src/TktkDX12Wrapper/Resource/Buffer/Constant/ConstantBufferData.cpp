@@ -55,6 +55,14 @@ namespace tktk
 		}
 	}
 
+	ConstantBufferData::ConstantBufferData(ConstantBufferData&& other) noexcept
+		: m_constantBuffer(other.m_constantBuffer)
+		, m_uploadBufferList(std::move(other.m_uploadBufferList))
+	{
+		other.m_constantBuffer = nullptr;
+		other.m_uploadBufferList.clear();
+	}
+
 	void ConstantBufferData::createCbv(ID3D12Device* device, D3D12_CPU_DESCRIPTOR_HANDLE heapHandle) const
 	{
 		D3D12_CONSTANT_BUFFER_VIEW_DESC cbvDesc{};

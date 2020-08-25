@@ -10,7 +10,7 @@ namespace tktk
 		ID3D12RootSignature* rootSignaturePtr
 	)
 	{
-		m_rootSignatureId = initParam.rootSignatureId;
+		m_rootSignatureHandle = initParam.rootSignatureHandle;
 
 		D3D12_GRAPHICS_PIPELINE_STATE_DESC graphicsPipeLineStateDesc{};
 		graphicsPipeLineStateDesc.pRootSignature					= rootSignaturePtr;
@@ -62,9 +62,16 @@ namespace tktk
 		}
 	}
 
-	unsigned int PipeLineStateData::getUseRootSignatureIndex() const
+	PipeLineStateData::PipeLineStateData(PipeLineStateData&& other) noexcept
+		: m_rootSignatureHandle(other.m_rootSignatureHandle)
+		, m_pipeLineState(other.m_pipeLineState)
 	{
-		return m_rootSignatureId;
+		m_pipeLineState = nullptr;
+	}
+
+	unsigned int PipeLineStateData::getUseRootSignatureHandle() const
+	{
+		return m_rootSignatureHandle;
 	}
 
 	void PipeLineStateData::set(ID3D12GraphicsCommandList* commandList) const

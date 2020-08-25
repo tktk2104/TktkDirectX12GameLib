@@ -2,18 +2,18 @@
 
 namespace tktk
 {
-	ScissorRect::ScissorRect(unsigned int scissorRectNum)
-		: m_scissorRectDataArray(scissorRectNum)
+	ScissorRect::ScissorRect(const tktkContainer::ResourceContainerInitParam& initParam)
+		: m_scissorRectDataArray(initParam)
 	{
 	}
 
-	void ScissorRect::create(unsigned int id, const std::vector<ScissorRectInitParam>& initParamArray)
+	unsigned int ScissorRect::create(const std::vector<ScissorRectInitParam>& initParamArray)
 	{
-		m_scissorRectDataArray.emplaceAt(id, initParamArray);
+		return m_scissorRectDataArray.create(initParamArray);
 	}
 
-	void ScissorRect::set(unsigned int id, ID3D12GraphicsCommandList* commandList) const
+	void ScissorRect::set(unsigned int handle, ID3D12GraphicsCommandList* commandList) const
 	{
-		m_scissorRectDataArray.at(id)->set(commandList);
+		m_scissorRectDataArray.getMatchHandlePtr(handle)->set(commandList);
 	}
 }

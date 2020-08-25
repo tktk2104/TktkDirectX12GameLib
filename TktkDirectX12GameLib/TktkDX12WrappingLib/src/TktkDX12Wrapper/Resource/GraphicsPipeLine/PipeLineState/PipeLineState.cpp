@@ -5,12 +5,12 @@
 
 namespace tktk
 {
-	PipeLineState::PipeLineState(unsigned int pipeLineNum)
-		: m_pipeLineStateDataArray(pipeLineNum)
+	PipeLineState::PipeLineState(const tktkContainer::ResourceContainerInitParam& initParam)
+		: m_pipeLineStateDataArray(initParam)
 	{
 	}
 
-	void PipeLineState::createPipeLineState(unsigned int id, ID3D12Device* device, const PipeLineStateInitParam& initParam, const ShaderFilePaths& shaderFilePath, ID3D12RootSignature* rootSignaturePtr)
+	unsigned int PipeLineState::createPipeLineState(ID3D12Device* device, const PipeLineStateInitParam& initParam, const ShaderFilePaths& shaderFilePath, ID3D12RootSignature* rootSignaturePtr)
 	{
 		// 頂点シェーダーを読み込む
 		std::vector<char> vsByteArray;
@@ -22,7 +22,7 @@ namespace tktk
 			int ret = fopen_s(&fp, shaderFilePath.vsFilePath.c_str(), "rb");
 	
 #ifdef _DEBUG
-			if (ret != 0)
+			if (ret != 0 || fp == nullptr)
 			{
 				throw std::runtime_error("load vertexShader error");
 			}
@@ -46,7 +46,7 @@ namespace tktk
 			int ret = fopen_s(&fp, shaderFilePath.psFilePath.c_str(), "rb");
 	
 #ifdef _DEBUG
-			if (ret != 0)
+			if (ret != 0 || fp == nullptr)
 			{
 				throw std::runtime_error("load pixelShader error");
 			}
@@ -60,8 +60,7 @@ namespace tktk
 			fclose(fp);
 		}
 	
-		m_pipeLineStateDataArray.emplaceAt(
-			id,
+		return m_pipeLineStateDataArray.create(
 			device,
 			initParam,
 			vsByteArray,
@@ -70,13 +69,13 @@ namespace tktk
 		);
 	}
 
-	unsigned int PipeLineState::getUseRootSignatureIndex(unsigned int id) const
+	unsigned int PipeLineState::getUseRootSignatureIndex(unsigned int handle) const
 	{
-		return m_pipeLineStateDataArray.at(id)->getUseRootSignatureIndex();
+		return m_pipeLineStateDataArray.getMatchHandlePtr(handle)->getUseRootSignatureHandle();
 	}
 
-	void PipeLineState::set(unsigned int id, ID3D12GraphicsCommandList* commandList) const
+	void PipeLineState::set(unsigned int handle, ID3D12GraphicsCommandList* commandList) const
 	{
-		m_pipeLineStateDataArray.at(id)->set(commandList);
+		m_pipeLineStateDataArray.getMatchHandlePtr(handle)->set(commandList);
 	}
 }

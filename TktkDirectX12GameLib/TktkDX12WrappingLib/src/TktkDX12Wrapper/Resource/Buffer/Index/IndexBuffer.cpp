@@ -2,25 +2,24 @@
 
 namespace tktk
 {
-	IndexBuffer::IndexBuffer(unsigned int indexBufferNum)
-		: m_indexBufferDataArray(indexBufferNum)
+	IndexBuffer::IndexBuffer(const tktkContainer::ResourceContainerInitParam& initParam)
+		: m_indexBufferDataArray(initParam)
 	{
 	}
 
-	void IndexBuffer::create(unsigned int id, ID3D12Device* device, const std::vector<unsigned short>& indexDataArray)
+	unsigned int IndexBuffer::create(ID3D12Device* device, const std::vector<unsigned short>& indexDataArray)
 	{
-		if (m_indexBufferDataArray.at(id) != nullptr) m_indexBufferDataArray.eraseAt(id);
-		m_indexBufferDataArray.emplaceAt(id, device, indexDataArray);
+		return m_indexBufferDataArray.create(device, indexDataArray);
 	}
 
-	void IndexBuffer::set(unsigned int id, ID3D12GraphicsCommandList* commandList) const
+	void IndexBuffer::set(unsigned int handle, ID3D12GraphicsCommandList* commandList) const
 	{
-		m_indexBufferDataArray.at(id)->set(commandList);
+		m_indexBufferDataArray.getMatchHandlePtr(handle)->set(commandList);
 	}
 
-	void IndexBuffer::updateBuffer(unsigned int id, ID3D12Device* device, ID3D12GraphicsCommandList* commandList, const std::vector<unsigned short>& indexDataArray)
+	void IndexBuffer::updateBuffer(unsigned int handle, ID3D12Device* device, ID3D12GraphicsCommandList* commandList, const std::vector<unsigned short>& indexDataArray)
 	{
-		m_indexBufferDataArray.at(id)->updateBuffer(device, commandList, indexDataArray);
+		m_indexBufferDataArray.getMatchHandlePtr(handle)->updateBuffer(device, commandList, indexDataArray);
 	}
 
 	void IndexBuffer::deleteUploadBufferAll()

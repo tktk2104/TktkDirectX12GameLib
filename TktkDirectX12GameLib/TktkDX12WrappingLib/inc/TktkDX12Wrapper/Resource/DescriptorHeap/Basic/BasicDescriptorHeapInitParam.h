@@ -10,7 +10,7 @@ namespace tktk
 	struct BasicDescriptorParam
 	{
 		BufferType			type	{};
-		unsigned int		id		{};
+		unsigned int		handle	{};
 	};
 
 	// このディスクリプタヒープで扱うバッファーの種類

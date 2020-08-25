@@ -15,6 +15,9 @@ namespace tktk
 		BasicDescriptorHeapData(ID3D12Device* device, const BasicDescriptorHeapInitParam& initParam);
 		~BasicDescriptorHeapData();
 
+		// ムーブコンストラクタ
+		BasicDescriptorHeapData(BasicDescriptorHeapData&& other) noexcept;
+
 	public:
 
 		// 各ビューのCPUアドレスの配列を取得する
@@ -29,9 +32,8 @@ namespace tktk
 	public:
 
 		// それぞれのディスクリプタテーブルが持っているディスクリプタの数の配列
-		std::vector<unsigned int> m_descriptorTableSizeArray;
-
-		ID3D12DescriptorHeap*	m_descriptorHeap{ nullptr };
+		std::vector<unsigned int>	m_descriptorTableSizeArray;
+		ID3D12DescriptorHeap*		m_descriptorHeap			{ nullptr };
 	};
 }
 #endif // !BASIC_DESCRIPTOR_HEAP_DATA_H_

@@ -33,6 +33,9 @@ namespace tktk
 		TextureBufferData(ID3D12Device* device, ID3D12GraphicsCommandList* commandList, const TexBufFormatParam& formatParam, const TexBuffData& dataParam);
 		~TextureBufferData();
 
+		// ムーブコンストラクタ
+		TextureBufferData(TextureBufferData&& other) noexcept;
+
 	public:
 
 		// 引数のディスクリプタハンドルにシェーダーリソースビューを作る
@@ -43,10 +46,10 @@ namespace tktk
 
 	private:
 
-		tktkMath::Vector3	m_textureSize{ 1.0f, 1.0f, 1.0f };
-		SrvInitParam		m_srvInitParam{};
-		ID3D12Resource*		m_textureBuffer{ nullptr };
-		ID3D12Resource*		m_uploadBuff{ nullptr };
+		tktkMath::Vector3	m_textureSize	{ 1.0f, 1.0f, 1.0f };
+		SrvInitParam		m_srvInitParam	{};
+		ID3D12Resource*		m_textureBuffer	{ nullptr };
+		ID3D12Resource*		m_uploadBuff	{ nullptr };
 	};
 }
 #endif // !TEXTURE_BUFFER_DATA_H_

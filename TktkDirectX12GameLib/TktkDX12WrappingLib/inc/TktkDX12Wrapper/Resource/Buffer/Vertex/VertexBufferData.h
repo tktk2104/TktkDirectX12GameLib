@@ -14,6 +14,9 @@ namespace tktk
 		VertexBufferData(ID3D12Device* device, unsigned int vertexTypeSize, unsigned int vertexDataCount, const void* vertexDataTopPos);
 		~VertexBufferData();
 
+		// ムーブコンストラクタ
+		VertexBufferData(VertexBufferData&& other) noexcept;
+
 	public:
 
 		// コマンドリストに頂点バッファを登録する
@@ -28,9 +31,9 @@ namespace tktk
 
 	private:
 
-		ID3D12Resource*				m_vertexBuffer		{ nullptr };
-		D3D12_VERTEX_BUFFER_VIEW	m_vertexBufferView	{};
-		std::forward_list<ID3D12Resource*> m_uploadBufferList{};
+		ID3D12Resource*						m_vertexBuffer		{ nullptr };
+		D3D12_VERTEX_BUFFER_VIEW			m_vertexBufferView	{};
+		std::forward_list<ID3D12Resource*>	m_uploadBufferList	{};
 	};
 }
 #endif // !VERTEX_BUFFER_DATA_H_

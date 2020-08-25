@@ -49,7 +49,25 @@ namespace tktk
 		{
 			m_indexBuffer->Release();
 		}
+
+		for (auto node : m_uploadBufferList)
+		{
+			if (node != nullptr)
+			{
+				node->Release();
+			}
+		}
 	}
+
+	IndexBufferData::IndexBufferData(IndexBufferData&& other) noexcept
+		: m_indexBuffer(other.m_indexBuffer)
+		, m_indexBufferView(other.m_indexBufferView)
+		, m_uploadBufferList(std::move(other.m_uploadBufferList))
+	{
+		other.m_indexBuffer = nullptr;
+		other.m_uploadBufferList.clear();
+	}
+
 	void IndexBufferData::set(ID3D12GraphicsCommandList* commandList) const
 	{
 		commandList->IASetIndexBuffer(&m_indexBufferView);

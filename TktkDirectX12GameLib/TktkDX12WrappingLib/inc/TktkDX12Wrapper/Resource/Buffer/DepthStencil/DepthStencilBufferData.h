@@ -13,7 +13,10 @@ namespace tktk
 	public:
 
 		DepthStencilBufferData(ID3D12Device* device, const DepthStencilBufferInitParam& initParam);
-		~DepthStencilBufferData() = default;
+		~DepthStencilBufferData();
+
+		// ムーブコンストラクタ
+		DepthStencilBufferData(DepthStencilBufferData&& other) noexcept;
 
 	public:
 

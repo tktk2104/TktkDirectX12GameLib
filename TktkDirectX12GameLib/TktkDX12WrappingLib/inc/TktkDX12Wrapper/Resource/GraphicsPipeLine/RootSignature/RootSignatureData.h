@@ -14,6 +14,9 @@ namespace tktk
 		RootSignatureData(ID3D12Device* device, const RootSignatureInitParam& initParam);
 		~RootSignatureData();
 
+		// ムーブコンストラクタ
+		RootSignatureData(RootSignatureData&& other) noexcept;
+
 	public:
 
 		// パイプラインステートを作るためにあるゲッター

@@ -20,18 +20,21 @@ namespace tktk
 		);
 		~PipeLineStateData();
 
+		// ムーブコンストラクタ
+		PipeLineStateData(PipeLineStateData&& other) noexcept;
+
 	public:
 
 		// 使用しているルートシグネチャのIDを取得する
-		unsigned int getUseRootSignatureIndex() const;
+		unsigned int getUseRootSignatureHandle() const;
 
 		// 自身をコマンドリストに登録する
 		void set(ID3D12GraphicsCommandList* commandList) const;
 
 	private:
 
-		int						m_rootSignatureId{};
-		ID3D12PipelineState*	m_pipeLineState{ nullptr };
+		int						m_rootSignatureHandle	{};
+		ID3D12PipelineState*	m_pipeLineState			{ nullptr };
 	};
 }
 #endif // !PIPELINE_STATE_DATA_H_

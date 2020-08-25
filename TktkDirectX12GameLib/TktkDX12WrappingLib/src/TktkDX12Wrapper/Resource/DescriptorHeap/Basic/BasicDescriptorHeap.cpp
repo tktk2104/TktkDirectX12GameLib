@@ -2,28 +2,28 @@
 
 namespace tktk
 {
-	BasicDescriptorHeap::BasicDescriptorHeap(unsigned int basicDescriptorHeapNum)
-		: m_basicDescriptorHeapDataArray(basicDescriptorHeapNum)
+	BasicDescriptorHeap::BasicDescriptorHeap(const tktkContainer::ResourceContainerInitParam& initParam)
+		: m_basicDescriptorHeapDataArray(initParam)
 	{
 	}
 
-	void BasicDescriptorHeap::create(unsigned int id, ID3D12Device* device, const BasicDescriptorHeapInitParam& initParam)
+	unsigned int BasicDescriptorHeap::create(ID3D12Device* device, const BasicDescriptorHeapInitParam& initParam)
 	{
-		m_basicDescriptorHeapDataArray.emplaceAt(id, device, initParam);
+		return m_basicDescriptorHeapDataArray.create(device, initParam);
 	}
 
-	std::vector<D3D12_CPU_DESCRIPTOR_HANDLE> BasicDescriptorHeap::getCpuHeapHandleArray(unsigned int id, ID3D12Device* device) const
+	std::vector<D3D12_CPU_DESCRIPTOR_HANDLE> BasicDescriptorHeap::getCpuHeapHandleArray(unsigned int handle, ID3D12Device* device) const
 	{
-		return m_basicDescriptorHeapDataArray.at(id)->getCpuHeapHandleArray(device);
+		return m_basicDescriptorHeapDataArray.getMatchHandlePtr(handle)->getCpuHeapHandleArray(device);
 	}
 
-	ID3D12DescriptorHeap* BasicDescriptorHeap::getPtr(unsigned int id) const
+	ID3D12DescriptorHeap* BasicDescriptorHeap::getPtr(unsigned int handle) const
 	{
-		return m_basicDescriptorHeapDataArray.at(id)->getPtr();
+		return m_basicDescriptorHeapDataArray.getMatchHandlePtr(handle)->getPtr();
 	}
 
-	void BasicDescriptorHeap::setRootDescriptorTable(unsigned int id, ID3D12Device* device, ID3D12GraphicsCommandList* commandList) const
+	void BasicDescriptorHeap::setRootDescriptorTable(unsigned int handle, ID3D12Device* device, ID3D12GraphicsCommandList* commandList) const
 	{
-		m_basicDescriptorHeapDataArray.at(id)->setRootDescriptorTable(device, commandList);
+		m_basicDescriptorHeapDataArray.getMatchHandlePtr(handle)->setRootDescriptorTable(device, commandList);
 	}
 }

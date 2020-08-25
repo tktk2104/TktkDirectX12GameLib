@@ -27,12 +27,6 @@
     <ClInclude Include="inc\TktkDX12Wrapper\SwapChain\SwapChain.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="inc\TktkDX12Wrapper\Resource\_SystemResourceIdGetter\SystemResourceIdGetter.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\TktkDX12Wrapper\Resource\_SystemResourceIdGetter\SystemResourceType.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="inc\TktkDX12Wrapper\Resource\DescriptorHeap\DescriptorHeap.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -159,45 +153,6 @@
     <ClInclude Include="inc\TktkDX12Wrapper\_BaseObjects\DX3DBaseObjects.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="inc\TktkDX12Wrapper\Resource\_SystemResourceIdGetter\IdType\SystemBasicDescriptorHeapType.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\TktkDX12Wrapper\Resource\_SystemResourceIdGetter\IdType\SystemConstantBufferType.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\TktkDX12Wrapper\Resource\_SystemResourceIdGetter\IdType\SystemDepthStencilBufferType.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\TktkDX12Wrapper\Resource\_SystemResourceIdGetter\IdType\SystemDsvDescriptorHeapType.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\TktkDX12Wrapper\Resource\_SystemResourceIdGetter\IdType\SystemIndexBufferType.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\TktkDX12Wrapper\Resource\_SystemResourceIdGetter\IdType\SystemPipeLineStateType.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\TktkDX12Wrapper\Resource\_SystemResourceIdGetter\IdType\SystemRenderTargetBufferType.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\TktkDX12Wrapper\Resource\_SystemResourceIdGetter\IdType\SystemRootSignatureType.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\TktkDX12Wrapper\Resource\_SystemResourceIdGetter\IdType\SystemRtvDescriptorHeapType.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\TktkDX12Wrapper\Resource\_SystemResourceIdGetter\IdType\SystemScissorRectType.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\TktkDX12Wrapper\Resource\_SystemResourceIdGetter\IdType\SystemTextureBufferType.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\TktkDX12Wrapper\Resource\_SystemResourceIdGetter\IdType\SystemVertexBufferType.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\TktkDX12Wrapper\Resource\_SystemResourceIdGetter\IdType\SystemViewportType.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="inc\TktkDX12Wrapper\Includer\D3d12Includer.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -237,6 +192,54 @@
     <ClInclude Include="inc\TktkDX12Wrapper\_BaseObjects\DX3DBaseObjectsFuncArgsIncluder.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="inc\TktkDX12Wrapper\Resource\GraphicsPipeLine\GraphicsPipeLineResourceNum.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\TktkDX12Wrapper\Resource\_SystemResourceHandleGetter\SystemResourceHandleGetter.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\TktkDX12Wrapper\Resource\_SystemResourceHandleGetter\IdType\SystemBasicDescriptorHeapType.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\TktkDX12Wrapper\Resource\_SystemResourceHandleGetter\IdType\SystemConstantBufferType.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\TktkDX12Wrapper\Resource\_SystemResourceHandleGetter\IdType\SystemDepthStencilBufferType.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\TktkDX12Wrapper\Resource\_SystemResourceHandleGetter\IdType\SystemDsvDescriptorHeapType.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\TktkDX12Wrapper\Resource\_SystemResourceHandleGetter\IdType\SystemIndexBufferType.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\TktkDX12Wrapper\Resource\_SystemResourceHandleGetter\IdType\SystemPipeLineStateType.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\TktkDX12Wrapper\Resource\_SystemResourceHandleGetter\IdType\SystemRenderTargetBufferType.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\TktkDX12Wrapper\Resource\_SystemResourceHandleGetter\IdType\SystemRootSignatureType.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\TktkDX12Wrapper\Resource\_SystemResourceHandleGetter\IdType\SystemRtvDescriptorHeapType.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\TktkDX12Wrapper\Resource\_SystemResourceHandleGetter\IdType\SystemScissorRectType.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\TktkDX12Wrapper\Resource\_SystemResourceHandleGetter\IdType\SystemTextureBufferType.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\TktkDX12Wrapper\Resource\_SystemResourceHandleGetter\IdType\SystemVertexBufferType.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\TktkDX12Wrapper\Resource\_SystemResourceHandleGetter\IdType\SystemViewportType.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\TktkDX12Wrapper\Resource\_SystemResourceHandleGetter\SystemResourceType.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\TktkDX12Wrapper\Window\Window.cpp">
@@ -246,9 +249,6 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="src\TktkDX12Wrapper\SwapChain\SwapChain.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\TktkDX12Wrapper\Resource\_SystemResourceIdGetter\SystemResourceIdGetter.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="src\TktkDX12Wrapper\Resource\DescriptorHeap\DescriptorHeap.cpp">
@@ -342,6 +342,9 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="src\TktkDX12Wrapper\_BaseObjects\DX3DBaseObjects.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TktkDX12Wrapper\Resource\_SystemResourceHandleGetter\SystemResourceHandleGetter.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>

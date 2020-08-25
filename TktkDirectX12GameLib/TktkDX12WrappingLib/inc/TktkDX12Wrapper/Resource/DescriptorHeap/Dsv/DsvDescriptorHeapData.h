@@ -16,6 +16,9 @@ namespace tktk
 		DsvDescriptorHeapData(ID3D12Device* device, const DsvDescriptorHeapInitParam& initParam);
 		~DsvDescriptorHeapData();
 
+		// ムーブコンストラクタ
+		DsvDescriptorHeapData(DsvDescriptorHeapData&& other) noexcept;
+
 	public:
 
 		// 各ビューのCPUアドレスの配列を取得する
@@ -38,9 +41,8 @@ namespace tktk
 
 	private:
 
-		std::vector<unsigned int> m_dsBufferIdArray{};
-
-		ID3D12DescriptorHeap* m_descriptorHeap{ nullptr };
+		std::vector<unsigned int>	m_dsBufferIdArray	{};
+		ID3D12DescriptorHeap*		m_descriptorHeap	{ nullptr };
 	};
 }
 #endif // !DSV_DESCRIPTOR_HEAP_DATA_H_

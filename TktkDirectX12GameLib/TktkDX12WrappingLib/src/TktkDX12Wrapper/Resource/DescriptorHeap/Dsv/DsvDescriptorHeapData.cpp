@@ -27,6 +27,14 @@ namespace tktk
 		}
 	}
 
+	DsvDescriptorHeapData::DsvDescriptorHeapData(DsvDescriptorHeapData&& other) noexcept
+		: m_dsBufferIdArray(std::move(other.m_dsBufferIdArray))
+		, m_descriptorHeap(other.m_descriptorHeap)
+	{
+		other.m_dsBufferIdArray.clear();
+		other.m_descriptorHeap = nullptr;
+	}
+
 	std::vector<D3D12_CPU_DESCRIPTOR_HANDLE> DsvDescriptorHeapData::getCpuHeapHandleArray(ID3D12Device* device) const
 	{
 		std::vector<D3D12_CPU_DESCRIPTOR_HANDLE> handleArray;

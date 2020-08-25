@@ -15,6 +15,9 @@ namespace tktk
 		explicit ScissorRectData(const std::vector<ScissorRectInitParam>& initParamArray);
 		~ScissorRectData() = default;
 
+		// ムーブコンストラクタ
+		ScissorRectData(ScissorRectData&& other) noexcept;
+
 	public:
 
 		// 自身をコマンドリストに登録する

@@ -258,6 +258,16 @@ namespace tktk
 		}
 	}
 
+	TextureBufferData::TextureBufferData(TextureBufferData&& other) noexcept
+		: m_textureSize(other.m_textureSize)
+		, m_srvInitParam(other.m_srvInitParam)
+		, m_textureBuffer(other.m_textureBuffer)
+		, m_uploadBuff(other.m_uploadBuff)
+	{
+		other.m_textureBuffer = nullptr;
+		other.m_uploadBuff = nullptr;
+	}
+
 	void TextureBufferData::createSrv(ID3D12Device* device, D3D12_CPU_DESCRIPTOR_HANDLE heapHandle) const
 	{
 		D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc{};

@@ -1,7 +1,7 @@
 #ifndef VIEWPORT_H_
 #define VIEWPORT_H_
 
-#include <TktkContainer/HeapArray/HeapArray.h>
+#include <TktkContainer/ResourceContainer/ResourceContainer.h>
 #include "ViewportData.h"
 
 namespace tktk
@@ -11,19 +11,20 @@ namespace tktk
 	{
 	public:
 
-		explicit Viewport(unsigned int viewportNum);
+		explicit Viewport(const tktkContainer::ResourceContainerInitParam& initParam);
+		~Viewport() = default;
 
 	public:
 
-		// 「ViewportData」のインスタンスを作る
-		void create(unsigned int id, const std::vector<ViewportInitParam>& initParamArray);
+		// 「ViewportData」のインスタンスを作り、そのリソースのハンドルを返す
+		unsigned int create(const std::vector<ViewportInitParam>& initParamArray);
 
 		// 指定のビューポートをコマンドリストに登録する
-		void set(unsigned int id, ID3D12GraphicsCommandList* commandList) const;
+		void set(unsigned int handle, ID3D12GraphicsCommandList* commandList) const;
 
 	private:
 
-		tktkContainer::HeapArray<ViewportData> m_viewportDataArray;
+		tktkContainer::ResourceContainer<ViewportData> m_viewportDataArray;
 	};
 }
 #endif // !VIEWPORT_H_

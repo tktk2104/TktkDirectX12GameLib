@@ -20,6 +20,9 @@ namespace tktk
 		RenderTargetBufferData(IDXGISwapChain1* swapChain, unsigned int backBufferIndex);
 		~RenderTargetBufferData();
 
+		// ムーブコンストラクタ
+		RenderTargetBufferData(RenderTargetBufferData&& other) noexcept;
+
 	public:
 
 		// 自身のリソースバリアをレンダーターゲット状態に変更する

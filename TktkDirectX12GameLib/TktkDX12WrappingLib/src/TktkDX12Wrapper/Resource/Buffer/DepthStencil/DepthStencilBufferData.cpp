@@ -40,6 +40,22 @@ namespace tktk
 		);
 	}
 
+	DepthStencilBufferData::~DepthStencilBufferData()
+	{
+		if (m_depthStencilBuffer != nullptr)
+		{
+			m_depthStencilBuffer->Release();
+		}
+	}
+
+	DepthStencilBufferData::DepthStencilBufferData(DepthStencilBufferData&& other) noexcept
+		: m_useAsShaderResource(std::move(other.m_useAsShaderResource))
+		, m_depthStencilSize(std::move(other.m_depthStencilSize))
+		, m_depthStencilBuffer(std::move(other.m_depthStencilBuffer))
+	{
+		m_depthStencilBuffer = nullptr;
+	}
+
 	void DepthStencilBufferData::beginWrite(ID3D12GraphicsCommandList* commandList) const
 	{
 		if (!m_useAsShaderResource) return;

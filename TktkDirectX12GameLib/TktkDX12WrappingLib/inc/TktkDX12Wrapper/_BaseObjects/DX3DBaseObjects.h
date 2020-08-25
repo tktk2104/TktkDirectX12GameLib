@@ -35,47 +35,47 @@ namespace tktk
 
 	public: /* リソース作成、ロード処理 */
 
-		// ルートシグネチャを作る
-		void createRootSignature(unsigned int id, const RootSignatureInitParam& initParam);
+		// ルートシグネチャを作り、そのリソースのハンドルを返す
+		unsigned int createRootSignature(const RootSignatureInitParam& initParam);
 
-		// パイプラインステートを作る
-		void createPipeLineState(unsigned int id, const PipeLineStateInitParam& initParam, const ShaderFilePaths& shaderFilePath);
+		// パイプラインステートを作り、そのリソースのハンドルを返す
+		unsigned int createPipeLineState(const PipeLineStateInitParam& initParam, const ShaderFilePaths& shaderFilePath);
 
-		// 頂点バッファを作る
-		void createVertexBuffer(unsigned int id, unsigned int vertexTypeSize, unsigned int vertexDataCount, const void* vertexDataTopPos);
+		// 頂点バッファを作り、そのリソースのハンドルを返す
+		unsigned int createVertexBuffer(unsigned int vertexTypeSize, unsigned int vertexDataCount, const void* vertexDataTopPos);
 
-		// インデックスバッファを作る
-		void createIndexBuffer(unsigned int id, const std::vector<unsigned short>& indices);
+		// インデックスバッファを作り、そのリソースのハンドルを返す
+		unsigned int createIndexBuffer(const std::vector<unsigned short>& indices);
 
-		// 定数バッファを作る
-		void createCBuffer(unsigned int id, unsigned int constantBufferTypeSize, const void* constantBufferDataTopPos);
+		// 定数バッファを作り、そのリソースのハンドルを返す
+		unsigned int createCBuffer(unsigned int constantBufferTypeSize, const void* constantBufferDataTopPos);
 
-		// レンダーターゲットバッファを作る
-		void createRtBuffer(unsigned int id, const tktkMath::Vector2& renderTargetSize, const tktkMath::Color& clearColor);
+		// レンダーターゲットバッファを作り、そのリソースのハンドルを返す
+		unsigned int createRtBuffer(const tktkMath::Vector2& renderTargetSize, const tktkMath::Color& clearColor);
 
-		// 深度ステンシルバッファを作る
-		void createDsBuffer(unsigned int id, const DepthStencilBufferInitParam& initParam);
+		// 深度ステンシルバッファを作り、そのリソースのハンドルを返す
+		unsigned int createDsBuffer(const DepthStencilBufferInitParam& initParam);
 
-		// 定数、テクスチャのディスクリプタヒープを作る
-		void createBasicDescriptorHeap(unsigned int id, const BasicDescriptorHeapInitParam& initParam);
+		// 定数、テクスチャのディスクリプタヒープを作り、そのリソースのハンドルを返す
+		unsigned int createBasicDescriptorHeap(const BasicDescriptorHeapInitParam& initParam);
 
-		// レンダーターゲットのディスクリプタヒープを作る
-		void createRtvDescriptorHeap(unsigned int id, const RtvDescriptorHeapInitParam& initParam);
+		// レンダーターゲットのディスクリプタヒープを作り、そのリソースのハンドルを返す
+		unsigned int createRtvDescriptorHeap(const RtvDescriptorHeapInitParam& initParam);
 
-		// 深度ステンシルビューのディスクリプタヒープを作る
-		void createDsvDescriptorHeap(unsigned int id, const DsvDescriptorHeapInitParam& initParam);
+		// 深度ステンシルビューのディスクリプタヒープを作り、そのリソースのハンドルを返す
+		unsigned int createDsvDescriptorHeap(const DsvDescriptorHeapInitParam& initParam);
 
-		// コマンドリストを使わずにテクスチャを作る
-		void cpuPriorityCreateTextureBuffer(unsigned int id, const TexBufFormatParam& formatParam, const TexBuffData& dataParam);
+		// コマンドリストを使わずにテクスチャを作り、そのリソースのハンドルを返す
+		unsigned int cpuPriorityCreateTextureBuffer(const TexBufFormatParam& formatParam, const TexBuffData& dataParam);
 
-		// コマンドリストを使ってテクスチャを作る（※GPU命令なので「executeCommandList()」を呼ばないとロードが完了しません）
-		void gpuPriorityCreateTextureBuffer(unsigned int id, const TexBufFormatParam& formatParam, const TexBuffData& dataParam);
+		// コマンドリストを使ってテクスチャを作り、そのリソースのハンドルを返す（※GPU命令なので「executeCommandList()」を呼ばないとロードが完了しません）
+		unsigned int gpuPriorityCreateTextureBuffer(const TexBufFormatParam& formatParam, const TexBuffData& dataParam);
 
-		// コマンドリストを使わずにテクスチャをロードする
-		void cpuPriorityLoadTextureBuffer(unsigned int id, const std::string& texDataPath);
+		// コマンドリストを使わずにテクスチャをロードし、そのリソースのハンドルを返す
+		unsigned int cpuPriorityLoadTextureBuffer(const std::string& texDataPath);
 
-		// コマンドリストを使ってテクスチャをロードする（※GPU命令なので「executeCommandList()」を呼ばないとロードが完了しません）
-		void gpuPriorityLoadTextureBuffer(unsigned int id, const std::string& texDataPath);
+		// コマンドリストを使ってテクスチャをロードし、そのリソースのハンドルを返す（※GPU命令なので「executeCommandList()」を呼ばないとロードが完了しません）
+		unsigned int gpuPriorityLoadTextureBuffer(const std::string& texDataPath);
 
 	public: /* リソース更新処理 */
 
@@ -170,46 +170,62 @@ namespace tktk
 		// コマンドリストを実行する
 		void executeCommandList();
 
-	public: /* デフォルトのリソースを使うためのIDを取得する */
+	public: /* システムのリソースを使うためのハンドルを取得する */
 
-		// デフォルトのビューポートIDを取得する
-		unsigned int getSystemId(SystemViewportType type) const;
+		// システムのビューポートハンドルを取得する
+		unsigned int getSystemHandle(SystemViewportType type) const;
 
-		// デフォルトのシザー矩形IDを取得する
-		unsigned int getSystemId(SystemScissorRectType type) const;
+		// システムのシザー矩形ハンドルを取得する
+		unsigned int getSystemHandle(SystemScissorRectType type) const;
 
-		// デフォルトの頂点バッファIDを取得する
-		unsigned int getSystemId(SystemVertexBufferType type) const;
+		// システムの頂点バッファハンドルを取得する
+		unsigned int getSystemHandle(SystemVertexBufferType type) const;
 
-		// デフォルトのインデックスバッファIDを取得する
-		unsigned int getSystemId(SystemIndexBufferType type) const;
+		// システムのインデックスバッファハンドルを取得する
+		unsigned int getSystemHandle(SystemIndexBufferType type) const;
 
-		// デフォルトの定数バッファIDを取得する
-		unsigned int getSystemId(SystemCBufferType type) const;
+		// システムの定数バッファハンドルを取得する
+		unsigned int getSystemHandle(SystemCBufferType type) const;
 
-		// デフォルトのテクスチャバッファIDを取得する
-		unsigned int getSystemId(SystemTextureBufferType type) const;
+		// システムのテクスチャバッファハンドルを取得する
+		unsigned int getSystemHandle(SystemTextureBufferType type) const;
 
-		// デフォルトのレンダーターゲットバッファIDを取得する
-		unsigned int getSystemId(SystemRtBufferType type) const;
+		// システムのレンダーターゲットバッファハンドルを取得する
+		unsigned int getSystemHandle(SystemRtBufferType type) const;
 
-		// デフォルトの深度ステンシルバッファIDを取得する
-		unsigned int getSystemId(SystemDsBufferType type) const;
+		// システムの深度ステンシルバッファハンドルを取得する
+		unsigned int getSystemHandle(SystemDsBufferType type) const;
 
-		// デフォルトの通常のディスクリプタヒープIDを取得する
-		unsigned int getSystemId(SystemBasicDescriptorHeapType type) const;
+		// システムの通常のディスクリプタヒープハンドルを取得する
+		unsigned int getSystemHandle(SystemBasicDescriptorHeapType type) const;
 
-		// デフォルトのレンダーターゲット用のディスクリプタヒープIDを取得する
-		unsigned int getSystemId(SystemRtvDescriptorHeapType type) const;
+		// システムのレンダーターゲット用のディスクリプタヒープハンドルを取得する
+		unsigned int getSystemHandle(SystemRtvDescriptorHeapType type) const;
 
-		// デフォルトの深度ステンシル用のディスクリプタヒープIDを取得する
-		unsigned int getSystemId(SystemDsvDescriptorHeapType type) const;
+		// システムの深度ステンシル用のディスクリプタヒープハンドルを取得する
+		unsigned int getSystemHandle(SystemDsvDescriptorHeapType type) const;
 
-		// デフォルトのルートシグネチャIDを取得する
-		unsigned int getSystemId(SystemRootSignatureType type) const;
+		// システムのルートシグネチャハンドルを取得する
+		unsigned int getSystemHandle(SystemRootSignatureType type) const;
 
-		// デフォルトのパイプラインステートIDを取得する
-		unsigned int getSystemId(SystemPipeLineStateType type) const;
+		// システムのパイプラインステートハンドルを取得する
+		unsigned int getSystemHandle(SystemPipeLineStateType type) const;
+
+	public: /* システムのリソースを使うためのハンドルとシステムのリソースの種類を結びつける */
+
+		void setSystemHandle(SystemViewportType type,				unsigned int handle);
+		void setSystemHandle(SystemScissorRectType type,			unsigned int handle);
+		void setSystemHandle(SystemVertexBufferType type,			unsigned int handle);
+		void setSystemHandle(SystemIndexBufferType type,			unsigned int handle);
+		void setSystemHandle(SystemCBufferType type,				unsigned int handle);
+		void setSystemHandle(SystemTextureBufferType type,			unsigned int handle);
+		void setSystemHandle(SystemRtBufferType type,				unsigned int handle);
+		void setSystemHandle(SystemDsBufferType type,				unsigned int handle);
+		void setSystemHandle(SystemBasicDescriptorHeapType type,	unsigned int handle);
+		void setSystemHandle(SystemRtvDescriptorHeapType type,		unsigned int handle);
+		void setSystemHandle(SystemDsvDescriptorHeapType type,		unsigned int handle);
+		void setSystemHandle(SystemRootSignatureType type,			unsigned int handle);
+		void setSystemHandle(SystemPipeLineStateType type,			unsigned int handle);
 
 	private:
 

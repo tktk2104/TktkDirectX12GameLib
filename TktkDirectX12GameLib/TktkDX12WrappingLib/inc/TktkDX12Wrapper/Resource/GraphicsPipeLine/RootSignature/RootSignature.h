@@ -1,7 +1,7 @@
 #ifndef ROOT_SIGNATURE_H_
 #define ROOT_SIGNATURE_H_
 
-#include <TktkContainer/HeapArray/HeapArray.h>
+#include <TktkContainer/ResourceContainer/ResourceContainer.h>
 #include "RootSignatureData.h"
 
 namespace tktk
@@ -11,23 +11,23 @@ namespace tktk
 	{
 	public:
 
-		explicit RootSignature(unsigned int rootSignatureNum);
+		explicit RootSignature(const tktkContainer::ResourceContainerInitParam& initParam);
 		~RootSignature() = default;
 
 	public:
 
-		// 「RootSignatureData」のインスタンスを作る
-		void create(unsigned int id, ID3D12Device* device, const RootSignatureInitParam& initParam);
+		// 「RootSignatureData」のインスタンスを作り、そのリソースのハンドルを返す
+		unsigned int create(ID3D12Device* device, const RootSignatureInitParam& initParam);
 
 		// 指定したルートシグネチャのポインタを取得する
-		ID3D12RootSignature* getPtr(unsigned int id) const;
+		ID3D12RootSignature* getPtr(unsigned int handle) const;
 
 		// 指定したルートシグネチャをコマンドリストに登録する
-		void set(unsigned int id, ID3D12GraphicsCommandList* commandList) const;
+		void set(unsigned int handle, ID3D12GraphicsCommandList* commandList) const;
 
 	private:
 
-		tktkContainer::HeapArray<RootSignatureData> m_rootSignatureDataArray;
+		tktkContainer::ResourceContainer<RootSignatureData> m_rootSignatureDataArray;
 	};
 }
 #endif // !ROOT_SIGNATURE_H_

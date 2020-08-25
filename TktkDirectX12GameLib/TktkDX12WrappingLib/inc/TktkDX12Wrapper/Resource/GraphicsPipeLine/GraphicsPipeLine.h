@@ -4,6 +4,7 @@
 #include <memory>	// std::unique_ptr
 #include "../../Includer/D3d12Includer.h"
 #include "GraphicsPipeLineInitParamIncluder.h"
+#include "GraphicsPipeLineResourceNum.h"
 
 namespace tktk
 {
@@ -16,23 +17,23 @@ namespace tktk
 	{
 	public:
 
-		GraphicsPipeLine(unsigned int pipeLineNum, unsigned int rootSignatureNum);
+		explicit GraphicsPipeLine(const GraphicsPipeLineResourceNum& initParam);
 		~GraphicsPipeLine();
 
 	public:
 
 		// ルートシグネチャを作る
-		void createRootSignature(unsigned int id, ID3D12Device* device, const RootSignatureInitParam& initParam);
+		unsigned int createRootSignature(ID3D12Device* device, const RootSignatureInitParam& initParam);
 
 	public:
 
 		// パイプラインステートを作る
-		void createPipeLineState(unsigned int id, ID3D12Device* device, const PipeLineStateInitParam& initParam, const ShaderFilePaths& shaderFilePath);
+		unsigned int createPipeLineState(ID3D12Device* device, const PipeLineStateInitParam& initParam, const ShaderFilePaths& shaderFilePath);
 
 	public:
 
 		// グラフィックパイプラインをコマンドリストに登録する
-		void set(unsigned int id, ID3D12GraphicsCommandList* commandList) const;
+		void set(unsigned int handle, ID3D12GraphicsCommandList* commandList) const;
 
 	private:
 

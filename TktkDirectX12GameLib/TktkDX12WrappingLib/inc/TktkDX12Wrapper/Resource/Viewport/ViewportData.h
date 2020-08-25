@@ -15,6 +15,9 @@ namespace tktk
 		explicit ViewportData(const std::vector<ViewportInitParam>& initParamArray);
 		~ViewportData() = default;
 
+		// ムーブコンストラクタ
+		ViewportData(ViewportData&& other) noexcept;
+
 	public:
 
 		// 自身をコマンドリストに登録する

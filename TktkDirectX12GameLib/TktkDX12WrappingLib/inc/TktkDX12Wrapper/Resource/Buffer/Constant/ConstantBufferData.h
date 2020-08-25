@@ -14,6 +14,9 @@ namespace tktk
 		ConstantBufferData(ID3D12Device* device, unsigned int constantBufferTypeSize, const void* constantBufferDataTopPos);
 		~ConstantBufferData();
 
+		// ムーブコンストラクタ
+		ConstantBufferData(ConstantBufferData&& other) noexcept;
+
 	public:
 
 		// 引数のディスクリプタハンドルに定数バッファビューを作る

@@ -95,6 +95,12 @@ namespace tktk
 		}
 	}
 
+	RootSignatureData::RootSignatureData(RootSignatureData&& other) noexcept
+		: m_rootSignature(other.m_rootSignature)
+	{
+		other.m_rootSignature = nullptr;
+	}
+
 	ID3D12RootSignature* RootSignatureData::getPtr() const
 	{
 		return m_rootSignature;

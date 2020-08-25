@@ -2,55 +2,53 @@
 
 namespace tktk
 {
-	RenderTargetBuffer::RenderTargetBuffer(unsigned int renderTargetBufferNum)
-		: m_renderTargetBufferDataArray(renderTargetBufferNum)
+	RenderTargetBuffer::RenderTargetBuffer(const tktkContainer::ResourceContainerInitParam& initParam)
+		: m_renderTargetBufferDataArray(initParam)
 	{
 	}
 
-	void RenderTargetBuffer::create(unsigned int id, ID3D12Device* device, const tktkMath::Vector2& renderTargetSize, const tktkMath::Color& clearColor)
+	unsigned int RenderTargetBuffer::create(ID3D12Device* device, const tktkMath::Vector2& renderTargetSize, const tktkMath::Color& clearColor)
 	{
-		if (m_renderTargetBufferDataArray.at(id) != nullptr) m_renderTargetBufferDataArray.eraseAt(id);
-		m_renderTargetBufferDataArray.emplaceAt(id, device, renderTargetSize, clearColor);
+		return m_renderTargetBufferDataArray.create(device, renderTargetSize, clearColor);
 	}
 
-	void RenderTargetBuffer::create(unsigned int id, IDXGISwapChain1* swapChain, unsigned int backBufferIndex)
+	unsigned int RenderTargetBuffer::create(IDXGISwapChain1* swapChain, unsigned int backBufferIndex)
 	{
-		if (m_renderTargetBufferDataArray.at(id) != nullptr) m_renderTargetBufferDataArray.eraseAt(id);
-		m_renderTargetBufferDataArray.emplaceAt(id, swapChain, backBufferIndex);
+		return m_renderTargetBufferDataArray.create(swapChain, backBufferIndex);
 	}
 
-	void RenderTargetBuffer::beginWriteBasicRtBuffer(unsigned int id, ID3D12GraphicsCommandList* commandList) const
+	void RenderTargetBuffer::beginWriteBasicRtBuffer(unsigned int handle, ID3D12GraphicsCommandList* commandList) const
 	{
-		m_renderTargetBufferDataArray.at(id)->beginWriteBasicRtBuffer(commandList);
+		m_renderTargetBufferDataArray.getMatchHandlePtr(handle)->beginWriteBasicRtBuffer(commandList);
 	}
 
-	void RenderTargetBuffer::endWriteBasicRtBuffer(unsigned int id, ID3D12GraphicsCommandList* commandList) const
+	void RenderTargetBuffer::endWriteBasicRtBuffer(unsigned int handle, ID3D12GraphicsCommandList* commandList) const
 	{
-		m_renderTargetBufferDataArray.at(id)->endWriteBasicRtBuffer(commandList);
+		m_renderTargetBufferDataArray.getMatchHandlePtr(handle)->endWriteBasicRtBuffer(commandList);
 	}
 
-	void RenderTargetBuffer::beginWriteBackBuffer(unsigned int id, ID3D12GraphicsCommandList* commandList) const
+	void RenderTargetBuffer::beginWriteBackBuffer(unsigned int handle, ID3D12GraphicsCommandList* commandList) const
 	{
-		m_renderTargetBufferDataArray.at(id)->beginWriteBackBuffer(commandList);
+		m_renderTargetBufferDataArray.getMatchHandlePtr(handle)->beginWriteBackBuffer(commandList);
 	}
 
-	void RenderTargetBuffer::endWriteBackBuffer(unsigned int id, ID3D12GraphicsCommandList* commandList) const
+	void RenderTargetBuffer::endWriteBackBuffer(unsigned int handle, ID3D12GraphicsCommandList* commandList) const
 	{
-		m_renderTargetBufferDataArray.at(id)->endWriteBackBuffer(commandList);
+		m_renderTargetBufferDataArray.getMatchHandlePtr(handle)->endWriteBackBuffer(commandList);
 	}
 
-	void RenderTargetBuffer::createRtv(unsigned int id, ID3D12Device* device, D3D12_CPU_DESCRIPTOR_HANDLE heapHandle) const
+	void RenderTargetBuffer::createRtv(unsigned int handle, ID3D12Device* device, D3D12_CPU_DESCRIPTOR_HANDLE heapHandle) const
 	{
-		m_renderTargetBufferDataArray.at(id)->createRtv(device, heapHandle);
+		m_renderTargetBufferDataArray.getMatchHandlePtr(handle)->createRtv(device, heapHandle);
 	}
 
-	void RenderTargetBuffer::createSrv(unsigned int id, ID3D12Device* device, D3D12_CPU_DESCRIPTOR_HANDLE heapHandle) const
+	void RenderTargetBuffer::createSrv(unsigned int handle, ID3D12Device* device, D3D12_CPU_DESCRIPTOR_HANDLE heapHandle) const
 	{
-		m_renderTargetBufferDataArray.at(id)->createSrv(device, heapHandle);
+		m_renderTargetBufferDataArray.getMatchHandlePtr(handle)->createSrv(device, heapHandle);
 	}
 
-	const tktkMath::Vector2& RenderTargetBuffer::getRenderTargetSizePx(unsigned int id) const
+	const tktkMath::Vector2& RenderTargetBuffer::getRenderTargetSizePx(unsigned int handle) const
 	{
-		return m_renderTargetBufferDataArray.at(id)->getRenderTargetSizePx();
+		return m_renderTargetBufferDataArray.getMatchHandlePtr(handle)->getRenderTargetSizePx();
 	}
 }

@@ -53,6 +53,15 @@ namespace tktk
 		}
 	}
 
+	VertexBufferData::VertexBufferData(VertexBufferData&& other) noexcept
+		: m_vertexBuffer(other.m_vertexBuffer)
+		, m_vertexBufferView(other.m_vertexBufferView)
+		, m_uploadBufferList(std::move(other.m_uploadBufferList))
+	{
+		m_vertexBuffer = nullptr;
+		m_uploadBufferList.clear();
+	}
+
 	void VertexBufferData::set(ID3D12GraphicsCommandList* commandList) const
 	{
 		commandList->IASetVertexBuffers(0, 1, &m_vertexBufferView);
