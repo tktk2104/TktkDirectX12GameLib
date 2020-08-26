@@ -21,10 +21,5 @@ namespace tktk
 
 		// ポストエフェクトの描画を行う
 		DX12GameManager::drawPostEffect(m_postEffectMaterialId, drawFuncArgs);
-
-		// TODO : レンダーターゲットのクリア処理は仮
-		DX12GameManager::setRtv(0U, 0U, 1U);
-		DX12GameManager::clearRtv(0U, 0U, tktkMath::Color_v::red);
-		DX12GameManager::unSetRtv(0U, 0U, 1U);
 	}
 }

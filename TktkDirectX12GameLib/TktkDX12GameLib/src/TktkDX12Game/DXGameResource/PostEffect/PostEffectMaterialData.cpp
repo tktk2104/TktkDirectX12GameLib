@@ -7,6 +7,7 @@ namespace tktk
 	PostEffectMaterialData::PostEffectMaterialData(const PostEffectMaterialInitParam& initParam)
 		: m_usePipeLineStateHandle(initParam.usePipeLineStateHandle)
 		, m_useDescriptorHeapHandle(initParam.useDescriptorHeapHandle)
+		, m_autoClearRtvDescriptorHeapHandleArray(std::move(initParam.autoClearRtvDescriptorHeapHandleArray))
 	{
 	}
 
@@ -50,6 +51,15 @@ namespace tktk
 		if (drawFuncArgs.rtvDescriptorHeapHandle != DX12GameManager::getSystemHandle(SystemRtvDescriptorHeapType::BackBuffer))
 		{
 			DX12GameManager::unSetRtv(drawFuncArgs.rtvDescriptorHeapHandle, 0U, 1U);
+		}
+
+		// 描画後にクリアするレンダーターゲットビュー用のディスクリプタヒープのハンドルを巡回する
+		for (const auto& node : m_autoClearRtvDescriptorHeapHandleArray)
+		{
+			// TODO : レンダーターゲットのクリアカラーは事前に設定した色にする
+			DX12GameManager::setRtv(node, 0U, 1U);
+			DX12GameManager::clearRtv(node, 0U, tktkMath::Color_v::red);
+			DX12GameManager::unSetRtv(node, 0U, 1U);
 		}
 	}
 }

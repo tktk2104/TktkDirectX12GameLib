@@ -1,6 +1,7 @@
 #ifndef POST_EFFECT_MATERIAL_DATA_H_
 #define POST_EFFECT_MATERIAL_DATA_H_
 
+#include <vector>
 #include "PostEffectMaterialInitParam.h"
 #include "PostEffectMaterialDrawFuncArgs.h"
 
@@ -23,6 +24,7 @@ namespace tktk
 
 		unsigned int m_usePipeLineStateHandle;
 		unsigned int m_useDescriptorHeapHandle;
+		std::vector<unsigned int> m_autoClearRtvDescriptorHeapHandleArray;
 	};
 }
 #endif // !POST_EFFECT_MATERIAL_DATA_H_
