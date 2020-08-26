@@ -137,61 +137,61 @@ namespace tktk
 		void setBackGroundColor(const tktkMath::Color& backGroundColor);
 
 		// 指定の頂点バッファを更新する
-		void updateVertexBuffer(unsigned int id, unsigned int vertexTypeSize, unsigned int vertexDataCount, const void* vertexDataTopPos);
+		void updateVertexBuffer(unsigned int handle, unsigned int vertexTypeSize, unsigned int vertexDataCount, const void* vertexDataTopPos);
 
 		// 指定のインデックスバッファを更新する
-		void updateIndexBuffer(unsigned int id, const std::vector<unsigned short>& indexDataArray);
+		void updateIndexBuffer(unsigned int handle, const std::vector<unsigned short>& indexDataArray);
 
 		// 指定の定数バッファを更新する
-		void updateCBuffer(unsigned int id, unsigned int constantBufferTypeSize, const void* constantBufferDataTopPos);
+		void updateCBuffer(unsigned int handle, unsigned int constantBufferTypeSize, const void* constantBufferDataTopPos);
 
 		// 指定のレンダーターゲットビューを指定の色でクリアする
-		void clearRtv(unsigned int id, unsigned int rtvLocationIndex, const tktkMath::Color& color) const;
+		void clearRtv(unsigned int handle, unsigned int rtvLocationIndex, const tktkMath::Color& color) const;
 
 	public: /* リソース情報取得処理 */
 
 		// 指定のテクスチャのサイズを取得する（ピクセル）
-		const tktkMath::Vector3& getTextureBufferSizePx(unsigned int id) const;
-		const tktkMath::Vector2& getDsBufferSizePx(unsigned int id) const;
-		const tktkMath::Vector2& getRtBufferSizePx(unsigned int id) const;
+		const tktkMath::Vector3& getTextureBufferSizePx(unsigned int handle) const;
+		const tktkMath::Vector2& getDsBufferSizePx(unsigned int handle) const;
+		const tktkMath::Vector2& getRtBufferSizePx(unsigned int handle) const;
 
 	public: /* リソースをコマンドリストに登録する処理 */
 
 		// 指定のレンダーターゲット用のディスクリプタヒープをコマンドリストに設定する
-		void setRtv(unsigned int rtvDescriptorHeapId, unsigned int startRtvLocationIndex, unsigned int rtvCount) const;
+		void setRtv(unsigned int rtvDescriptorHeapHandle, unsigned int startRtvLocationIndex, unsigned int rtvCount) const;
 
 		// 指定の（レンダーターゲットと深度ステンシルビュー）用のディスクリプタヒープ２つをコマンドリストに設定する
-		void setRtvAndDsv(unsigned int rtvDescriptorHeapId, unsigned int dsvDescriptorHeapId, unsigned int startRtvLocationIndex, unsigned int rtvCount) const;
+		void setRtvAndDsv(unsigned int rtvDescriptorHeapHandle, unsigned int dsvDescriptorHeapHandle, unsigned int startRtvLocationIndex, unsigned int rtvCount) const;
 
 		// 指定の深度ステンシルビュー用のディスクリプタヒープをコマンドリストに設定する（※レンダーターゲットは設定できない）
-		void setOnlyDsv(unsigned int id) const;
+		void setOnlyDsv(unsigned int handle) const;
 
 		// バックバッファーを設定する
 		void setBackBufferView() const;
 
 		// バックバッファーと深度ステンシルビューを設定する
-		void setBackBufferViewAndDsv(unsigned int dsvDescriptorHeapId) const;
+		void setBackBufferViewAndDsv(unsigned int dsvDescriptorHeapHandle) const;
 
 		// 指定のレンダーターゲット用のディスクリプタヒープが使用しているレンダーターゲットバッファの書き込み後処理を行う
-		void unSetRtv(unsigned int rtvDescriptorHeapId, unsigned int startRtvLocationIndex, unsigned int rtvCount) const;
+		void unSetRtv(unsigned int rtvDescriptorHeapHandle, unsigned int startRtvLocationIndex, unsigned int rtvCount) const;
 
 		// 指定の深度書き込み用のディスクリプタヒープが使用している深度バッファの書き込み後処理を行う
-		void unSetDsv(unsigned int dsvDescriptorHeapId) const;
+		void unSetDsv(unsigned int dsvDescriptorHeapHandle) const;
 
 		// 指定のビューポートをコマンドリストに設定する
-		void setViewport(unsigned int id) const;
+		void setViewport(unsigned int handle) const;
 
 		// 指定のシザー矩形をコマンドリストに設定する
-		void setScissorRect(unsigned int id) const;
+		void setScissorRect(unsigned int handle) const;
 
 		// 指定のパイプラインステートをコマンドリストに設定する
-		void setPipeLineState(unsigned int id) const;
+		void setPipeLineState(unsigned int handle) const;
 
 		// 指定の頂点バッファをコマンドリストに設定する
-		void setVertexBuffer(unsigned int id) const;
+		void setVertexBuffer(unsigned int handle) const;
 
 		// 指定のインデックスバッファをコマンドリストに設定する
-		void setIndexBuffer(unsigned int id) const;
+		void setIndexBuffer(unsigned int handle) const;
 
 		// 指定のディスクリプタヒープの配列をコマンドリストに設定する
 		void setDescriptorHeap(const std::vector<DescriptorHeapParam>& heapParamArray) const;
