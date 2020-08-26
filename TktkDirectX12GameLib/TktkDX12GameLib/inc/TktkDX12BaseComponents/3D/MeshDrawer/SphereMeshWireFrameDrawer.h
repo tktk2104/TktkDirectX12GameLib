@@ -13,7 +13,7 @@ namespace tktk
 	{
 	public:
 
-		SphereMeshWireFrameDrawer(float drawPriority, float radius, const tktkMath::Color& albedoColor, unsigned int cameraId, unsigned int shadowMapCameraId, unsigned int lightId, unsigned int useRtvDescriptorHeapId);
+		SphereMeshWireFrameDrawer(float drawPriority, float radius, const tktkMath::Color& albedoColor, unsigned int cameraId, unsigned int shadowMapCameraId, unsigned int lightId, unsigned int useRtvDescriptorHeapHandle);
 
 	public:
 
@@ -28,7 +28,7 @@ namespace tktk
 
 		float						m_radius;
 		tktkMath::Color				m_albedoColor;
-		unsigned int				m_useRtvDescriptorHeapId;
+		unsigned int				m_useRtvDescriptorHeapHandle;
 		unsigned int				m_cameraId;
 		unsigned int				m_shadowMapCameraId;
 		unsigned int				m_lightId;

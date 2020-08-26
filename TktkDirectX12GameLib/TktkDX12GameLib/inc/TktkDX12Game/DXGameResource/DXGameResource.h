@@ -84,10 +84,10 @@ namespace tktk
 	public: /* 2Dライン関係の処理 */
 
 		// ２Ｄラインを作る
-		void createLine(unsigned int id, const Line2DMaterialDataInitParam& initParam);
+		void createLine(unsigned int id);
 
 		// 線を描画する
-		void drawLine(unsigned int id, const Line2DMaterialDrawFuncArgs& drawFuncArgs) const;
+		void drawLine(unsigned int id, const Line2DMaterialDrawFuncArgs& drawFuncArgs);
 
 	public: /* メッシュ関係の処理 */
 
@@ -113,10 +113,10 @@ namespace tktk
 		void setMaterialData(unsigned int id) const;
 
 		// 指定の通常メッシュのマテリアルで追加で管理する定数バッファのIDと値を設定する
-		void addMaterialAppendParam(unsigned int id, unsigned int cbufferId, unsigned int dataSize, void* dataTopPos);
+		void addMaterialAppendParam(unsigned int id, unsigned int cbufferHandle, unsigned int dataSize, void* dataTopPos);
 
 		// 指定の通常メッシュのマテリアルで追加で管理する定数バッファのIDと値を更新する
-		void updateMaterialAppendParam(unsigned int id, unsigned int cbufferId, unsigned int dataSize, const void* dataTopPos);
+		void updateMaterialAppendParam(unsigned int id, unsigned int cbufferHandle, unsigned int dataSize, const void* dataTopPos);
 
 		// 指定の通常メッシュを描画する
 		void drawBasicMesh(unsigned int id, const MeshDrawFuncBaseArgs& baseArgs) const;

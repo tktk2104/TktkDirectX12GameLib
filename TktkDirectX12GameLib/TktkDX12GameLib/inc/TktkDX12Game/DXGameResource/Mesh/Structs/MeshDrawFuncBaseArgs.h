@@ -13,17 +13,17 @@ namespace tktk
 	// メッシュ描画に必要な引数
 	struct MeshDrawFuncBaseArgs
 	{
-		// 使用するビューポートのID
-		unsigned int			viewportId;
+		// 使用するビューポートのハンドル
+		unsigned int			viewportHandle;
 
-		// 使用するシザー矩形のID
-		unsigned int			scissorRectId;
+		// 使用するシザー矩形のハンドル
+		unsigned int			scissorRectHandle;
 
-		// 使用するレンダーターゲット用のディスクリプタヒープID
-		unsigned int			rtvDescriptorHeapId;
+		// 使用するレンダーターゲット用のディスクリプタヒープハンドル
+		unsigned int			rtvDescriptorHeapHandle;
 
-		// 使用する深度ステンシル用のディスクリプタヒープID
-		unsigned int			dsvDescriptorHeapId;
+		// 使用する深度ステンシル用のディスクリプタヒープハンドル
+		unsigned int			dsvDescriptorHeapHandle;
 
 		// 使用するライトID
 		unsigned int			lightId;

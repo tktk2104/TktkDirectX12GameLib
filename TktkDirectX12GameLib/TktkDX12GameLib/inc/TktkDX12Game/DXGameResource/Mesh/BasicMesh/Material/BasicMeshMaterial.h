@@ -26,11 +26,11 @@ namespace tktk
 		// 指定の通常メッシュのマテリアル情報をグラフィックパイプラインに設定する
 		void setMaterialData(unsigned int id)  const;
 
-		// 指定の通常メッシュのマテリアルで追加で管理する定数バッファのIDと値を設定する
-		void addAppendParam(unsigned int id, unsigned int cbufferId, unsigned int dataSize, void* dataTopPos);
+		// 指定の通常メッシュのマテリアルで追加で管理する定数バッファのハンドルと値を設定する
+		void addAppendParam(unsigned int id, unsigned int cbufferHandle, unsigned int dataSize, void* dataTopPos);
 
-		// 指定の通常メッシュのマテリアルで追加で管理する定数バッファのIDと値を更新する
-		void updateAppendParam(unsigned int id, unsigned int cbufferId, unsigned int dataSize, const void* dataTopPos);
+		// 指定の通常メッシュのマテリアルで追加で管理する定数バッファのハンドルと値を更新する
+		void updateAppendParam(unsigned int id, unsigned int cbufferHandle, unsigned int dataSize, const void* dataTopPos);
 
 	private:
 

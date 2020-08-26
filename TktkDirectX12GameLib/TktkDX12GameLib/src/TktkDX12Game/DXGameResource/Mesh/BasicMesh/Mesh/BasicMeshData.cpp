@@ -5,8 +5,8 @@
 namespace tktk
 {
 	BasicMeshData::BasicMeshData(const BasicMeshInitParam& initParam)
-		: m_useVertexBufferId(initParam.useVertexBufferId)
-		, m_useIndexBufferId(initParam.useIndexBufferId)
+		: m_useVertexBufferHandle(initParam.useVertexBufferHandle)
+		, m_useIndexBufferHandle(initParam.useIndexBufferHandle)
 		, m_indexNum(initParam.indexNum)
 		, m_primitiveTopology(initParam.primitiveTopology)
 		, m_materialSlots(initParam.materialSlots)
@@ -14,8 +14,8 @@ namespace tktk
 	}
 
 	BasicMeshData::BasicMeshData(const BasicMeshData* other)
-		: m_useVertexBufferId(other->m_useVertexBufferId)
-		, m_useIndexBufferId(other->m_useIndexBufferId)
+		: m_useVertexBufferHandle(other->m_useVertexBufferHandle)
+		, m_useIndexBufferHandle(other->m_useIndexBufferHandle)
 		, m_indexNum(other->m_indexNum)
 		, m_primitiveTopology(other->m_primitiveTopology)
 		, m_materialSlots(other->m_materialSlots)
@@ -30,61 +30,61 @@ namespace tktk
 	void BasicMeshData::writeShadowMap() const
 	{
 		// シャドウマップ描画用の深度バッファー“のみ”を設定する
-		DX12GameManager::setOnlyDsv(DX12GameManager::getSystemId(SystemDsvDescriptorHeapType::ShadowMap));
+		DX12GameManager::setOnlyDsv(DX12GameManager::getSystemHandle(SystemDsvDescriptorHeapType::ShadowMap));
 
 		// ビューポートを設定する
-		DX12GameManager::setViewport(DX12GameManager::getSystemId(SystemViewportType::Basic));
+		DX12GameManager::setViewport(DX12GameManager::getSystemHandle(SystemViewportType::Basic));
 
 		// シザー矩形を設定する
-		DX12GameManager::setScissorRect(DX12GameManager::getSystemId(SystemScissorRectType::Basic));
+		DX12GameManager::setScissorRect(DX12GameManager::getSystemHandle(SystemScissorRectType::Basic));
 
 		// 通常メッシュ版シャドウマップ描画用のパイプラインステートを設定する
-		DX12GameManager::setPipeLineState(DX12GameManager::getSystemId(SystemPipeLineStateType::ShadowMap));
+		DX12GameManager::setPipeLineState(DX12GameManager::getSystemHandle(SystemPipeLineStateType::ShadowMap));
 
 		// 通常メッシュ版シャドウマップ描画用のディスクリプタヒープを設定する
-		DX12GameManager::setDescriptorHeap({ { DescriptorHeapType::basic, DX12GameManager::getSystemId(SystemBasicDescriptorHeapType::BasicMeshShadowMap) } });
+		DX12GameManager::setDescriptorHeap({ { DescriptorHeapType::basic, DX12GameManager::getSystemHandle(SystemBasicDescriptorHeapType::BasicMeshShadowMap) } });
 
 		// 指定のトポロジーで描画を行う
 		DX12GameManager::setPrimitiveTopology(static_cast<D3D_PRIMITIVE_TOPOLOGY>(m_primitiveTopology));
 
 		// 描画で使用する頂点バッファを設定する
-		DX12GameManager::setVertexBuffer(m_useVertexBufferId);
+		DX12GameManager::setVertexBuffer(m_useVertexBufferHandle);
 
 		// 描画で使用するインデックスバッファを設定する
-		DX12GameManager::setIndexBuffer(m_useIndexBufferId);
+		DX12GameManager::setIndexBuffer(m_useIndexBufferHandle);
 
 		// ドローコール
 		DX12GameManager::drawIndexedInstanced(m_indexNum, 1U, 0U, 0U, 0U);
 
 		// 深度ステンシルバッファーをシェーダーで使える状態にする
-		DX12GameManager::unSetDsv(DX12GameManager::getSystemId(SystemDsvDescriptorHeapType::ShadowMap));
+		DX12GameManager::unSetDsv(DX12GameManager::getSystemHandle(SystemDsvDescriptorHeapType::ShadowMap));
 	}
 
 	void BasicMeshData::drawMesh(const MeshDrawFuncBaseArgs& baseArgs) const
 	{
 		// ビューポートを設定する
-		DX12GameManager::setViewport(baseArgs.viewportId);
+		DX12GameManager::setViewport(baseArgs.viewportHandle);
 
 		// シザー矩形を設定する
-		DX12GameManager::setScissorRect(baseArgs.scissorRectId);
+		DX12GameManager::setScissorRect(baseArgs.scissorRectHandle);
 
 		// 指定のトポロジーで描画を行う
 		DX12GameManager::setPrimitiveTopology(static_cast<D3D_PRIMITIVE_TOPOLOGY>(m_primitiveTopology));
 
 		// 描画で使用する頂点バッファを設定する
-		DX12GameManager::setVertexBuffer(m_useVertexBufferId);
+		DX12GameManager::setVertexBuffer(m_useVertexBufferHandle);
 
 		// 描画で使用するインデックスバッファを設定する
-		DX12GameManager::setIndexBuffer(m_useIndexBufferId);
+		DX12GameManager::setIndexBuffer(m_useIndexBufferHandle);
 
 		// レンダーターゲットと深度ステンシルを設定する（バックバッファーに直で描画する場合は特殊処理）
-		if (baseArgs.rtvDescriptorHeapId == DX12GameManager::getSystemId(SystemRtvDescriptorHeapType::BackBuffer))
+		if (baseArgs.rtvDescriptorHeapHandle == DX12GameManager::getSystemHandle(SystemRtvDescriptorHeapType::BackBuffer))
 		{
-			DX12GameManager::setBackBufferViewAndDsv(baseArgs.dsvDescriptorHeapId);
+			DX12GameManager::setBackBufferViewAndDsv(baseArgs.dsvDescriptorHeapHandle);
 		}
 		else
 		{
-			DX12GameManager::setRtvAndDsv(baseArgs.rtvDescriptorHeapId, baseArgs.dsvDescriptorHeapId, 0U, 1U);
+			DX12GameManager::setRtvAndDsv(baseArgs.rtvDescriptorHeapHandle, baseArgs.dsvDescriptorHeapHandle, 0U, 1U);
 		}
 
 		// マテリアルの数だけ描画する
@@ -98,12 +98,12 @@ namespace tktk
 		}
 
 		// バックバッファ以外に描画していたら使用したレンダーターゲットバッファをシェーダーで使用する状態にする
-		if (baseArgs.rtvDescriptorHeapId != DX12GameManager::getSystemId(SystemRtvDescriptorHeapType::BackBuffer))
+		if (baseArgs.rtvDescriptorHeapHandle != DX12GameManager::getSystemHandle(SystemRtvDescriptorHeapType::BackBuffer))
 		{
-			DX12GameManager::unSetRtv(baseArgs.rtvDescriptorHeapId, 0U, 1U);
+			DX12GameManager::unSetRtv(baseArgs.rtvDescriptorHeapHandle, 0U, 1U);
 		}
 
 		// 深度ステンシルバッファーをシェーダーで使える状態にする
-		DX12GameManager::unSetDsv(baseArgs.dsvDescriptorHeapId);
+		DX12GameManager::unSetDsv(baseArgs.dsvDescriptorHeapHandle);
 	}
 }

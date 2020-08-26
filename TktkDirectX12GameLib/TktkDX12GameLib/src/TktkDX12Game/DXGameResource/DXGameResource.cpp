@@ -103,12 +103,12 @@ namespace tktk
 		m_spriteMaterial->drawSprite(id, drawFuncArgs);
 	}
 
-	void DXGameResource::createLine(unsigned int id, const Line2DMaterialDataInitParam& initParam)
+	void DXGameResource::createLine(unsigned int id)
 	{
-		m_line2DMaterial->create(id, initParam);
+		m_line2DMaterial->create(id);
 	}
 
-	void DXGameResource::drawLine(unsigned int id, const Line2DMaterialDrawFuncArgs& drawFuncArgs) const
+	void DXGameResource::drawLine(unsigned int id, const Line2DMaterialDrawFuncArgs& drawFuncArgs)
 	{
 		m_line2DMaterial->drawLine(id, drawFuncArgs);
 	}
@@ -148,14 +148,14 @@ namespace tktk
 		m_meshResource->setMaterialData(id);
 	}
 
-	void DXGameResource::addMaterialAppendParam(unsigned int id, unsigned int cbufferId, unsigned int dataSize, void* dataTopPos)
+	void DXGameResource::addMaterialAppendParam(unsigned int id, unsigned int cbufferHandle, unsigned int dataSize, void* dataTopPos)
 	{
-		m_meshResource->addMaterialAppendParam(id, cbufferId, dataSize, dataTopPos);
+		m_meshResource->addMaterialAppendParam(id, cbufferHandle, dataSize, dataTopPos);
 	}
 
-	void DXGameResource::updateMaterialAppendParam(unsigned int id, unsigned int cbufferId, unsigned int dataSize, const void* dataTopPos)
+	void DXGameResource::updateMaterialAppendParam(unsigned int id, unsigned int cbufferHandle, unsigned int dataSize, const void* dataTopPos)
 	{
-		m_meshResource->updateMaterialAppendParam(id, cbufferId, dataSize, dataTopPos);
+		m_meshResource->updateMaterialAppendParam(id, cbufferHandle, dataSize, dataTopPos);
 	}
 
 	void DXGameResource::drawBasicMesh(unsigned int id, const MeshDrawFuncBaseArgs& baseArgs) const

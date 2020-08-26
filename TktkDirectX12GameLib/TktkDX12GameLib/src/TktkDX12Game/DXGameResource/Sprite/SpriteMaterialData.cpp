@@ -6,8 +6,7 @@
 namespace tktk
 {
 	SpriteMaterialData::SpriteMaterialData(const SpriteMaterialInitParam& initParam)
-		: m_createDescriptorHeapId(initParam.createDescriptorHeapId)
-		, m_blendRate(initParam.blendRate)
+		: m_blendRate(initParam.blendRate)
 		, m_textureUvOffset(initParam.textureUvOffset)
 		, m_textureUvMulRate(initParam.textureUvMulRate)
 		, m_spriteCenterRate(initParam.spriteCenterRate)
@@ -23,7 +22,7 @@ namespace tktk
 
 			// スプライトテクスチャの１種類
 			srvDescriptorParam.descriptorParamArray = {
-				{ initParam.srvBufferType, initParam.useBufferId }
+				{ initParam.srvBufferType, initParam.useBufferHandle }
 			};
 		}
 
@@ -33,7 +32,7 @@ namespace tktk
 
 			// スプライト定数バッファの１種類
 			cbufferViewDescriptorParam.descriptorParamArray = {
-				{ BufferType::constant,		DX12GameManager::getSystemId(SystemCBufferType::Sprite) }
+				{ BufferType::constant,		DX12GameManager::getSystemHandle(SystemCBufferType::Sprite) }
 			};
 		}
 
@@ -43,22 +42,22 @@ namespace tktk
 		{
 		case BufferType::texture:
 
-			textureBufferSize = DX12GameManager::getTextureBufferSizePx(initParam.useBufferId);
+			textureBufferSize = DX12GameManager::getTextureBufferSizePx(initParam.useBufferHandle);
 			m_textureSize = { textureBufferSize.x, textureBufferSize.y };
 			break;
 
 		case BufferType::renderTarget:
 
-			m_textureSize = DX12GameManager::getRtBufferSizePx(initParam.useBufferId);
+			m_textureSize = DX12GameManager::getRtBufferSizePx(initParam.useBufferHandle);
 			break;
 
 		case BufferType::depthStencil:
 
-			m_textureSize = DX12GameManager::getDsBufferSizePx(initParam.useBufferId);
+			m_textureSize = DX12GameManager::getDsBufferSizePx(initParam.useBufferHandle);
 			break;
 		}
 
-		DX12GameManager::createBasicDescriptorHeap(m_createDescriptorHeapId, descriptorHeapInitParam);
+		m_createDescriptorHeapHandle = DX12GameManager::createBasicDescriptorHeap(descriptorHeapInitParam);
 	}
 
 	void SpriteMaterialData::drawSprite(const SpriteMaterialDrawFuncArgs& drawFuncArgs) const
@@ -67,46 +66,46 @@ namespace tktk
 		updateSpriteConstantBuffer(drawFuncArgs.worldMatrix);
 
 		// ビューポートを設定する
-		DX12GameManager::setViewport(drawFuncArgs.viewportId);
+		DX12GameManager::setViewport(drawFuncArgs.viewportHandle);
 
 		// シザー矩形を設定する
-		DX12GameManager::setScissorRect(drawFuncArgs.scissorRectId);
+		DX12GameManager::setScissorRect(drawFuncArgs.scissorRectHandle);
 
 		// レンダーターゲットを設定する（バックバッファーに直で描画する場合は特殊処理）
-		if (drawFuncArgs.rtvDescriptorHeapId == DX12GameManager::getSystemId(SystemRtvDescriptorHeapType::BackBuffer))
+		if (drawFuncArgs.rtvDescriptorHeapHandle == DX12GameManager::getSystemHandle(SystemRtvDescriptorHeapType::BackBuffer))
 		{
 			DX12GameManager::setBackBufferView();
 		}
 		else
 		{
-			DX12GameManager::setRtv(drawFuncArgs.rtvDescriptorHeapId, 0U, 1U);
+			DX12GameManager::setRtv(drawFuncArgs.rtvDescriptorHeapHandle, 0U, 1U);
 		}
 
 		// スプライト用のパイプラインステートを設定する
-		DX12GameManager::setPipeLineState(DX12GameManager::getSystemId(SystemPipeLineStateType::Sprite));
+		DX12GameManager::setPipeLineState(DX12GameManager::getSystemHandle(SystemPipeLineStateType::Sprite));
 
 		// ブレンドファクターを設定する
 		DX12GameManager::setBlendFactor({ 1.0f, 1.0f, 1.0f, 1.0f });
 
 		// スプライト用のディスクリプタヒープを設定する
-		DX12GameManager::setDescriptorHeap({ { DescriptorHeapType::basic, m_createDescriptorHeapId} });
+		DX12GameManager::setDescriptorHeap({ { DescriptorHeapType::basic, m_createDescriptorHeapHandle} });
 
 		// トライアングルストリップで描画を行う
 		DX12GameManager::setPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 
 		// スプライト用の頂点バッファを設定する
-		DX12GameManager::setVertexBuffer(DX12GameManager::getSystemId(SystemVertexBufferType::Sprite));
+		DX12GameManager::setVertexBuffer(DX12GameManager::getSystemHandle(SystemVertexBufferType::Sprite));
 
 		// スプライト用のインデックスバッファを設定する
-		DX12GameManager::setIndexBuffer(DX12GameManager::getSystemId(SystemIndexBufferType::Sprite));
+		DX12GameManager::setIndexBuffer(DX12GameManager::getSystemHandle(SystemIndexBufferType::Sprite));
 
 		// ドローコール
 		DX12GameManager::drawIndexedInstanced(4U, 1U, 0U, 0U, 0U);
 
 		// バックバッファ以外に描画していたら使用したレンダーターゲットバッファをシェーダーで使用する状態にする
-		if (drawFuncArgs.rtvDescriptorHeapId != DX12GameManager::getSystemId(SystemRtvDescriptorHeapType::BackBuffer))
+		if (drawFuncArgs.rtvDescriptorHeapHandle != DX12GameManager::getSystemHandle(SystemRtvDescriptorHeapType::BackBuffer))
 		{
-			DX12GameManager::unSetRtv(drawFuncArgs.rtvDescriptorHeapId, 0U, 1U);
+			DX12GameManager::unSetRtv(drawFuncArgs.rtvDescriptorHeapHandle, 0U, 1U);
 		}
 	}
 
@@ -126,6 +125,6 @@ namespace tktk
 		constantBufferData.spriteCenterRate = m_spriteCenterRate;
 		constantBufferData.screenSize = DX12GameManager::getWindowSize();
 
-		DX12GameManager::updateCBuffer(DX12GameManager::getSystemId(SystemCBufferType::Sprite), constantBufferData);
+		DX12GameManager::updateCBuffer(DX12GameManager::getSystemHandle(SystemCBufferType::Sprite), constantBufferData);
 	}
 }

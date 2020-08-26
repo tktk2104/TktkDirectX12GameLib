@@ -242,7 +242,6 @@
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\Line2D\Line2DMaterial.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\Line2D\Line2DConstantBufferData.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\Line2D\Line2DMaterialData.h" />
-    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Line2D\Line2DMaterialInitParam.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\Line2D\Line2DMaterialDrawFuncArgs.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\Mesh\BasicMesh\Structs\BasicMeshMaterialCbuffer.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\Mesh\BasicMesh\Structs\BasicMonoColorMeshCbuffer.h" />

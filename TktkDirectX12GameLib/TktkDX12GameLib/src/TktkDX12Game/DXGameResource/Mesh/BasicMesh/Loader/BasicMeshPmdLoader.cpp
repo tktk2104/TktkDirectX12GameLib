@@ -18,22 +18,20 @@ namespace tktk
 		tktkFileIo::lodepmd::load(&outData, args.filePath);
 
 		// 頂点バッファを作る
-		DX12GameManager::createVertexBuffer(args.createVertexBufferId, outData.vertexData);
+		unsigned int createdVertexBufferHandle = DX12GameManager::createVertexBuffer(outData.vertexData);
 
 		// インデックスバッファを作る
-		DX12GameManager::createIndexBuffer(args.createIndexBufferId, outData.indexData);
+		unsigned int createdIndexBufferHandle = DX12GameManager::createIndexBuffer(outData.indexData);
 
 		// 通常メッシュの作成に必要な情報
 		BasicMeshInitParam meshInitParam{};
-		meshInitParam.useVertexBufferId = args.createVertexBufferId;
-		meshInitParam.useIndexBufferId = args.createIndexBufferId;
+		meshInitParam.useVertexBufferHandle = createdVertexBufferHandle;
+		meshInitParam.useIndexBufferHandle = createdIndexBufferHandle;
 		meshInitParam.indexNum = outData.indexData.size();
 		meshInitParam.primitiveTopology = MeshPrimitiveTopology::TriangleList;
 		meshInitParam.materialSlots.reserve(outData.materialData.size());
 
 		// 連番のIDで作成するリソースの次に使用するIDの値
-		unsigned int curDescriptorHeapId	= args.createDescriptorHeapIdStartNum;
-		unsigned int curTextureId			= args.createTextureIdStartNum;
 		unsigned int curMaterialId			= args.createBasicMeshMaterialIdStartNum;
 
 		// 現在のインデックス（インデックスバッファの位置）
@@ -46,13 +44,15 @@ namespace tktk
 			BasicMeshMaterialInitParam materialParam{};
 
 			// デフォルトのパイプラインステートを使う
-			materialParam.usePipeLineStateId = DX12GameManager::getSystemId(SystemPipeLineStateType::BasicMesh);
+			materialParam.usePipeLineStateHandle = DX12GameManager::getSystemHandle(SystemPipeLineStateType::BasicMesh);
+
+			unsigned int createdTextureBufferHandle = 0U;
 
 			// マテリアルにテクスチャが設定されていたら
 			if (outData.materialData.at(i).textureFilePath != "")
 			{
 				// テクスチャを読み込む
-				DX12GameManager::cpuPriorityLoadTextureBuffer(curTextureId, outData.materialData.at(i).textureFilePath);
+				createdTextureBufferHandle = DX12GameManager::cpuPriorityLoadTextureBuffer(outData.materialData.at(i).textureFilePath);
 			}
 			// テクスチャが設定されていなかったら
 			else
@@ -81,7 +81,7 @@ namespace tktk
 				dataParam.height = 4U;
 
 				// テクスチャが小さすぎるのでコマンドリスト
-				DX12GameManager::cpuPriorityCreateTextureBuffer(curTextureId, formatParam, dataParam);
+				createdTextureBufferHandle = DX12GameManager::cpuPriorityCreateTextureBuffer(formatParam, dataParam);
 			}
 
 			materialParam.materialAmbient	= { 0.3f, 1.0f }; // ※マテリアルの環境光の値は定数値を設定する
@@ -89,8 +89,6 @@ namespace tktk
 			materialParam.materialSpecular	= outData.materialData.at(i).speqular;
 			materialParam.materialEmissive	= outData.materialData.at(i).emissive;
 			materialParam.materialShiniess	= outData.materialData.at(i).shiniess;
-
-			materialParam.useDescriptorHeapId = curDescriptorHeapId;
 
 			// ディスクリプタヒープを作る
 			{
@@ -104,8 +102,8 @@ namespace tktk
 
 					// アルベドマップとシャドウマップの２種類
 					srvDescriptorParam.descriptorParamArray = {
-						{ BufferType::texture,		curTextureId												},
-						{ BufferType::depthStencil, DX12GameManager::getSystemId(SystemDsBufferType::ShadowMap)	}
+						{ BufferType::texture,		createdTextureBufferHandle									},
+						{ BufferType::depthStencil, DX12GameManager::getSystemHandle(SystemDsBufferType::ShadowMap)	}
 					};
 				}
 
@@ -115,11 +113,11 @@ namespace tktk
 
 					// 
 					cbufferViewDescriptorParam.descriptorParamArray = {
-						{ BufferType::constant,		DX12GameManager::getSystemId(SystemCBufferType::MeshTransform)		},
-						{ BufferType::constant,		DX12GameManager::getSystemId(SystemCBufferType::BoneMatCbuffer)		},
-						{ BufferType::constant,		DX12GameManager::getSystemId(SystemCBufferType::Light)				},
-						{ BufferType::constant,		DX12GameManager::getSystemId(SystemCBufferType::BasicMeshMaterial)	},
-						{ BufferType::constant,		DX12GameManager::getSystemId(SystemCBufferType::MeshShadowMap)		}
+						{ BufferType::constant,		DX12GameManager::getSystemHandle(SystemCBufferType::MeshTransform)		},
+						{ BufferType::constant,		DX12GameManager::getSystemHandle(SystemCBufferType::BoneMatCbuffer)		},
+						{ BufferType::constant,		DX12GameManager::getSystemHandle(SystemCBufferType::Light)				},
+						{ BufferType::constant,		DX12GameManager::getSystemHandle(SystemCBufferType::BasicMeshMaterial)	},
+						{ BufferType::constant,		DX12GameManager::getSystemHandle(SystemCBufferType::MeshShadowMap)		}
 					};
 				}
 
@@ -129,11 +127,11 @@ namespace tktk
 
 					// 
 					cbufferViewDescriptorParam.descriptorParamArray = {
-						{ BufferType::constant,		DX12GameManager::getSystemId(SystemCBufferType::Light)		},
-						{ BufferType::constant,		DX12GameManager::getSystemId(SystemCBufferType::BasicMeshMaterial)	}
+						{ BufferType::constant,		DX12GameManager::getSystemHandle(SystemCBufferType::Light)		},
+						{ BufferType::constant,		DX12GameManager::getSystemHandle(SystemCBufferType::BasicMeshMaterial)	}
 					};
 				}
-				DX12GameManager::createBasicDescriptorHeap(materialParam.useDescriptorHeapId, descriptorHeapInitParam);
+				materialParam.useDescriptorHeapHandle = DX12GameManager::createBasicDescriptorHeap(descriptorHeapInitParam);
 			}
 
 			// 通常メッシュのマテリアルを作る
@@ -143,9 +141,7 @@ namespace tktk
 			meshInitParam.materialSlots.push_back({ curMaterialId, curIndex, outData.materialData.at(i).indexCount });
 
 			// 各種連番IDをインクリメント
-			curDescriptorHeapId++;
 			curMaterialId++;
-			curTextureId++;
 
 			// 現在のインデックスを加算
 			curIndex += outData.materialData.at(i).indexCount;
@@ -156,7 +152,7 @@ namespace tktk
 		craeteSkeleton(args.createSkeletonId, outData.boneData);
 
 		// 連番のIDで作成したリソースの最後のIDの値を返す
-		return { curDescriptorHeapId--, curMaterialId--, curTextureId-- };
+		return { curMaterialId-- };
 	}
 
 	// スケルトンを作る

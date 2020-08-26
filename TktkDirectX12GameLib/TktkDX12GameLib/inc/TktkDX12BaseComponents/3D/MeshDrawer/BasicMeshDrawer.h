@@ -15,7 +15,7 @@ namespace tktk
 	{
 	public:
 
-		BasicMeshDrawer(float drawPriority, unsigned int meshId, unsigned int skeletonId, unsigned int cameraId, unsigned int shadowMapCameraId, unsigned int lightId, unsigned int useRtvDescriptorHeapId);
+		BasicMeshDrawer(float drawPriority, unsigned int meshId, unsigned int skeletonId, unsigned int cameraId, unsigned int shadowMapCameraId, unsigned int lightId, unsigned int useRtvDescriptorHeapHandle);
 
 	public:
 
@@ -24,7 +24,7 @@ namespace tktk
 
 	private:
 
-		unsigned int				m_useRtvDescriptorHeapId;
+		unsigned int				m_useRtvDescriptorHeapHandle;
 		unsigned int				m_meshId;
 		unsigned int				m_skeletonId;
 		unsigned int				m_cameraId;

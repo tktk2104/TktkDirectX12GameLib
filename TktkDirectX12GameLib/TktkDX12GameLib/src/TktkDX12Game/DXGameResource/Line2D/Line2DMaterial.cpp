@@ -15,18 +15,18 @@ namespace tktk
 		createGraphicsPipeLineState(shaderFilePaths);
 
 		// ライン用の定数バッファを作る
-		DX12GameManager::createCBuffer(DX12GameManager::getSystemId(SystemCBufferType::Line2D), Line2DConstantBufferData());
+		DX12GameManager::setSystemHandle(SystemCBufferType::Line2D, DX12GameManager::createCBuffer(Line2DConstantBufferData()));
 
 		// 2Dライン用のディスクリプタヒープを作る
 		createBasicDescriptorHeap();
 	}
 
-	void Line2DMaterial::create(unsigned int id, const Line2DMaterialDataInitParam& initParam)
+	void Line2DMaterial::create(unsigned int id)
 	{
-		m_line2DMaterialArray.emplaceAt(id, initParam);
+		m_line2DMaterialArray.emplaceAt(id);
 	}
 
-	void Line2DMaterial::drawLine(unsigned int id, const Line2DMaterialDrawFuncArgs& drawFuncArgs) const
+	void Line2DMaterial::drawLine(unsigned int id, const Line2DMaterialDrawFuncArgs& drawFuncArgs)
 	{
 		m_line2DMaterialArray.at(id)->drawLine(drawFuncArgs);
 	}
@@ -44,11 +44,10 @@ namespace tktk
 
 			// ２Ｄライン定数バッファの１種類
 			cbufferViewDescriptorParam.descriptorParamArray = {
-				{ BufferType::constant,		DX12GameManager::getSystemId(SystemCBufferType::Line2D) }
+				{ BufferType::constant,		DX12GameManager::getSystemHandle(SystemCBufferType::Line2D) }
 			};
 		}
-
-		DX12GameManager::createBasicDescriptorHeap(DX12GameManager::getSystemId(SystemBasicDescriptorHeapType::Line2D), descriptorHeapInitParam);
+		DX12GameManager::setSystemHandle(SystemBasicDescriptorHeapType::Line2D, DX12GameManager::createBasicDescriptorHeap(descriptorHeapInitParam));
 	}
 
 	// ２Ｄライン描画用のルートシグネチャを作る
@@ -77,7 +76,7 @@ namespace tktk
 			initParam.samplerDescArray.at(0).shaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
 			initParam.samplerDescArray.at(0).comparisonFunc = D3D12_COMPARISON_FUNC_NEVER;
 		}
-		DX12GameManager::createRootSignature(DX12GameManager::getSystemId(SystemRootSignatureType::Line2D), initParam);
+		DX12GameManager::setSystemHandle(SystemRootSignatureType::Line2D, DX12GameManager::createRootSignature(initParam));
 	}
 
 	// ２Ｄライン描画用のパイプラインステートを作る
@@ -108,8 +107,8 @@ namespace tktk
 		};
 		initParam.primitiveTopology = D3D12_PRIMITIVE_TOPOLOGY_TYPE_LINE;
 		initParam.renderTargetFormatArray = { DXGI_FORMAT_R8G8B8A8_UNORM };
-		initParam.rootSignatureId = DX12GameManager::getSystemId(SystemRootSignatureType::Line2D);
+		initParam.rootSignatureHandle = DX12GameManager::getSystemHandle(SystemRootSignatureType::Line2D);
 
-		DX12GameManager::createPipeLineState(DX12GameManager::getSystemId(SystemPipeLineStateType::Line2D), initParam, shaderFilePaths);
+		DX12GameManager::setSystemHandle(SystemPipeLineStateType::Line2D, DX12GameManager::createPipeLineState(initParam, shaderFilePaths));
 	}
 }

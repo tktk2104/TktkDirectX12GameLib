@@ -169,52 +169,109 @@ namespace tktk
 		);
 
 	//************************************************************
-	public: /* 直接DX12のリソースを作る */
+	/* 直接DX12のリソースを作る */
+	public:
 
-		// ルートシグネチャを作る
-		static void createRootSignature(unsigned int id, const RootSignatureInitParam& initParam);
+		// ルートシグネチャを作り、そのリソースのハンドルを返す
+		static unsigned int createRootSignature(const RootSignatureInitParam& initParam);
 
-		// パイプラインステートを作る
-		static void createPipeLineState(unsigned int graphicsPipeLineId, const PipeLineStateInitParam& initParam, const ShaderFilePaths& shaderFilePath);
+		// パイプラインステートを作り、そのリソースのハンドルを返す
+		static unsigned int createPipeLineState(const PipeLineStateInitParam& initParam, const ShaderFilePaths& shaderFilePath);
 
-		// 頂点バッファを作る
+		// 頂点バッファを作り、そのリソースのハンドルを返す
 		template <class VertexData>
-		static void createVertexBuffer(unsigned int id, const std::vector<VertexData>& vertexDataArray);
+		static unsigned int createVertexBuffer(const std::vector<VertexData>& vertexDataArray);
 
-		// インデックスバッファを作る
-		static void createIndexBuffer(unsigned int id, const std::vector<unsigned short>& indices);
+		// インデックスバッファを作り、そのリソースのハンドルを返す
+		static unsigned int createIndexBuffer(const std::vector<unsigned short>& indices);
 
-		// 定数バッファを作る
+		// 定数バッファを作り、そのリソースのハンドルを返す
 		template <class ConstantBufferDataType>
-		static void createCBuffer(unsigned int id, const ConstantBufferDataType& rawConstantBufferData);
+		static unsigned int createCBuffer(const ConstantBufferDataType& rawConstantBufferData);
 
-		// レンダーターゲットバッファを作る
-		static void createRtBuffer(unsigned int id, const tktkMath::Vector2& renderTargetSize, const tktkMath::Color& clearColor);
+		// レンダーターゲットバッファを作り、そのリソースのハンドルを返す
+		static unsigned int createRtBuffer(const tktkMath::Vector2& renderTargetSize, const tktkMath::Color& clearColor);
 
-		// 深度ステンシルバッファを作る
-		static void createDsBuffer(unsigned int id, const DepthStencilBufferInitParam& initParam);
+		// 深度ステンシルバッファを作り、そのリソースのハンドルを返す
+		static unsigned int createDsBuffer(const DepthStencilBufferInitParam& initParam);
 
-		// ディスクリプタヒープを作る
-		static void createBasicDescriptorHeap(unsigned int id, const BasicDescriptorHeapInitParam& initParam);
+		// ディスクリプタヒープを作り、そのリソースのハンドルを返す
+		static unsigned int createBasicDescriptorHeap(const BasicDescriptorHeapInitParam& initParam);
 
-		// レンダーターゲットのディスクリプタヒープを作る
-		static void createRtvDescriptorHeap(unsigned int id, const RtvDescriptorHeapInitParam& initParam);
+		// レンダーターゲットのディスクリプタヒープを作り、そのリソースのハンドルを返す
+		static unsigned int createRtvDescriptorHeap(const RtvDescriptorHeapInitParam& initParam);
 
-		// 深度ステンシルディスクリプタヒープを作る
-		static void createDsvDescriptorHeap(unsigned int id, const DsvDescriptorHeapInitParam& initParam);
+		// 深度ステンシルディスクリプタヒープを作り、そのリソースのハンドルを返す
+		static unsigned int createDsvDescriptorHeap(const DsvDescriptorHeapInitParam& initParam);
 
-		// コマンドリストを使わずにテクスチャを作る
-		static void cpuPriorityCreateTextureBuffer(unsigned int id, const TexBufFormatParam& formatParam, const TexBuffData& dataParam);
+		// コマンドリストを使わずにテクスチャを作り、そのリソースのハンドルを返す
+		static unsigned int cpuPriorityCreateTextureBuffer(const TexBufFormatParam& formatParam, const TexBuffData& dataParam);
 
-		// コマンドリストを使ってテクスチャを作る（※GPU命令なので「executeCommandList()」を呼ばないとロードが完了しません）
-		static void gpuPriorityCreateTextureBuffer(unsigned int id, const TexBufFormatParam& formatParam, const TexBuffData& dataParam);
+		// コマンドリストを使ってテクスチャを作り、そのリソースのハンドルを返す（※GPU命令なので「executeCommandList()」を呼ばないとロードが完了しません）
+		static unsigned int gpuPriorityCreateTextureBuffer(const TexBufFormatParam& formatParam, const TexBuffData& dataParam);
 
-		// コマンドリストを使わずにテクスチャをロードする
-		static void cpuPriorityLoadTextureBuffer(unsigned int id, const std::string& texDataPath);
+		// コマンドリストを使わずにテクスチャをロードし、そのリソースのハンドルを返す
+		static unsigned int cpuPriorityLoadTextureBuffer(const std::string& texDataPath);
 
-		// コマンドリストを使ってテクスチャをロードする（※GPU命令なので「executeCommandList()」を呼ばないとロードが完了しません）
-		static void gpuPriorityLoadTextureBuffer(unsigned int id, const std::string& texDataPath);
+		// コマンドリストを使ってテクスチャをロードし、そのリソースのハンドルを返す（※GPU命令なので「executeCommandList()」を呼ばないとロードが完了しません）
+		static unsigned int gpuPriorityLoadTextureBuffer(const std::string& texDataPath);
 		
+	//************************************************************
+	/* 直接DX12のリソースを削除する */
+	public:
+
+		// 指定のビューポートを削除する
+		// ※引数のハンドルに対応するリソースが無かったら何もしない
+		static void eraseViewport(unsigned int handle);
+
+		// 指定のシザー矩形を削除する
+		// ※引数のハンドルに対応するリソースが無かったら何もしない
+		static void eraseScissorRect(unsigned int handle);
+
+		// 指定のルートシグネチャを削除する
+		// ※引数のハンドルに対応するリソースが無かったら何もしない
+		static void eraseRootSignature(unsigned int handle);
+
+		// 指定のパイプラインステートを削除する
+		// ※引数のハンドルに対応するリソースが無かったら何もしない
+		static void erasePipeLineState(unsigned int handle);
+
+		// 指定の頂点バッファを削除する
+		// ※引数のハンドルに対応するリソースが無かったら何もしない
+		static void eraseVertexBuffer(unsigned int handle);
+
+		// 指定のインデックスバッファを削除する
+		// ※引数のハンドルに対応するリソースが無かったら何もしない
+		static void eraseIndexBuffer(unsigned int handle);
+
+		// 指定の定数バッファを削除する
+		// ※引数のハンドルに対応するリソースが無かったら何もしない
+		static void eraseCBuffer(unsigned int handle);
+
+		// 指定のテクスチャバッファを削除する
+		// ※引数のハンドルに対応するリソースが無かったら何もしない
+		static void eraseTextureBuffer(unsigned int handle);
+
+		// 指定の深度ステンシルバッファを削除する
+		// ※引数のハンドルに対応するリソースが無かったら何もしない
+		static void eraseDsBuffer(unsigned int handle);
+
+		// 指定のレンダーターゲットバッファを削除する
+		// ※引数のハンドルに対応するリソースが無かったら何もしない
+		static void eraseRtBuffer(unsigned int handle);
+
+		// 指定の通常のディスクリプタヒープを削除する
+		// ※引数のハンドルに対応するリソースが無かったら何もしない
+		static void eraseBasicDescriptorHeap(unsigned int handle);
+
+		// 指定のレンダーターゲット用のディスクリプタヒープを削除する
+		// ※引数のハンドルに対応するリソースが無かったら何もしない
+		static void eraseRtvDescriptorHeap(unsigned int handle);
+
+		// 指定の深度ステンシル用のディスクリプタヒープを削除する
+		// ※引数のハンドルに対応するリソースが無かったら何もしない
+		static void eraseDsvDescriptorHeap(unsigned int handle);
+
 	//************************************************************
 	/* 直接DX12のリソースを設定、取得する */
 	public:
@@ -253,7 +310,7 @@ namespace tktk
 	public:
 
 		// ２Ｄラインを作る
-		static void createLine(unsigned int id, const Line2DMaterialDataInitParam& initParam);
+		static void createLine(unsigned int id);
 
 		// 線を描画する
 		static void drawLine(unsigned int id, const Line2DMaterialDrawFuncArgs& drawFuncArgs);
@@ -285,11 +342,11 @@ namespace tktk
 
 		// 指定の通常メッシュのマテリアルで追加で管理する定数バッファのIDと値を設定する
 		template <class CbufferType>
-		static void addMaterialAppendParam(unsigned int id, unsigned int cbufferId, CbufferType&& value);
+		static void addMaterialAppendParam(unsigned int id, unsigned int cbufferHandle, CbufferType&& value);
 
 		// 指定の通常メッシュのマテリアルで追加で管理する定数バッファのIDと値を更新する
 		template <class CbufferType>
-		static void updateMaterialAppendParam(unsigned int id, unsigned int cbufferId, const CbufferType& value);
+		static void updateMaterialAppendParam(unsigned int id, unsigned int cbufferHandle, const CbufferType& value);
 
 		// 指定の通常メッシュを描画する
 		static void drawBasicMesh(unsigned int id, const MeshDrawFuncBaseArgs& baseArgs);
@@ -482,36 +539,54 @@ namespace tktk
 		static float fps();
 
 	//************************************************************
-	/* デフォルトのリソースを使うためのIDを取得する */
+	/* システムのリソースを使うためのハンドルを取得する */
 	public:
 
-		static unsigned int getSystemId(SystemViewportType type);
-		static unsigned int getSystemId(SystemScissorRectType type);
-		static unsigned int getSystemId(SystemVertexBufferType type);
-		static unsigned int getSystemId(SystemIndexBufferType type);
-		static unsigned int getSystemId(SystemCBufferType type);
-		static unsigned int getSystemId(SystemTextureBufferType type);
-		static unsigned int getSystemId(SystemDsBufferType type);
-		static unsigned int getSystemId(SystemBasicDescriptorHeapType type);
-		static unsigned int getSystemId(SystemRtvDescriptorHeapType type);
-		static unsigned int getSystemId(SystemDsvDescriptorHeapType type);
-		static unsigned int getSystemId(SystemRootSignatureType type);
-		static unsigned int getSystemId(SystemPipeLineStateType type);
+		static unsigned int getSystemHandle(SystemViewportType type);
+		static unsigned int getSystemHandle(SystemScissorRectType type);
+		static unsigned int getSystemHandle(SystemVertexBufferType type);
+		static unsigned int getSystemHandle(SystemIndexBufferType type);
+		static unsigned int getSystemHandle(SystemCBufferType type);
+		static unsigned int getSystemHandle(SystemTextureBufferType type);
+		static unsigned int getSystemHandle(SystemDsBufferType type);
+		static unsigned int getSystemHandle(SystemBasicDescriptorHeapType type);
+		static unsigned int getSystemHandle(SystemRtvDescriptorHeapType type);
+		static unsigned int getSystemHandle(SystemDsvDescriptorHeapType type);
+		static unsigned int getSystemHandle(SystemRootSignatureType type);
+		static unsigned int getSystemHandle(SystemPipeLineStateType type);
 		static unsigned int getSystemId(SystemBasicMeshType type);
 		static unsigned int getSystemId(SystemBasicMeshMaterialType type);
 		static unsigned int getSystemId(SystemPostEffectMaterialType type);
 
 	//************************************************************
+	/* システムのリソースを使うためのハンドルとシステムのリソースの種類を結びつける */
+
+		static void setSystemHandle(SystemViewportType type,			unsigned int handle);
+		static void setSystemHandle(SystemScissorRectType type,			unsigned int handle);
+		static void setSystemHandle(SystemVertexBufferType type,		unsigned int handle);
+		static void setSystemHandle(SystemIndexBufferType type,			unsigned int handle);
+		static void setSystemHandle(SystemCBufferType type,				unsigned int handle);
+		static void setSystemHandle(SystemTextureBufferType type,		unsigned int handle);
+		static void setSystemHandle(SystemRtBufferType type,			unsigned int handle);
+		static void setSystemHandle(SystemDsBufferType type,			unsigned int handle);
+		static void setSystemHandle(SystemBasicDescriptorHeapType type,	unsigned int handle);
+		static void setSystemHandle(SystemRtvDescriptorHeapType type,	unsigned int handle);
+		static void setSystemHandle(SystemDsvDescriptorHeapType type,	unsigned int handle);
+		static void setSystemHandle(SystemRootSignatureType type,		unsigned int handle);
+		static void setSystemHandle(SystemPipeLineStateType type,		unsigned int handle);
+
+	//************************************************************
 	/* 裏実装 */
 	public:
 
+		static unsigned int createVertexBufferImpl(unsigned int vertexTypeSize, unsigned int vertexDataCount, const void* vertexDataTopPos);
+		static unsigned int createCbufferImpl(unsigned int constantBufferTypeSize, const void* constantBufferDataTopPos);
+
 		static void createSceneImpl(unsigned int id, const std::shared_ptr<SceneBase>& scenePtr, SceneVTable* vtablePtr);
-		static void createVertexBufferImpl(unsigned int id, unsigned int vertexTypeSize, unsigned int vertexDataCount, const void* vertexDataTopPos);
-		static void createCbufferImpl(unsigned int id, unsigned int constantBufferTypeSize, const void* constantBufferDataTopPos);
 		static void updateVertexBufferImpl(unsigned int id, unsigned int vertexTypeSize, unsigned int vertexDataCount, const void* vertexDataTopPos);
 		static void updateCbufferImpl(unsigned int id, unsigned int constantBufferTypeSize, const void* constantBufferDataTopPos);
-		static void addMaterialAppendParamImpl(unsigned int id, unsigned int cbufferId, unsigned int dataSize, void* dataTopPos);
-		static void updateMaterialAppendParamImpl(unsigned int id, unsigned int cbufferId, unsigned int dataSize, const void* dataTopPos);
+		static void addMaterialAppendParamImpl(unsigned int id, unsigned int cbufferHandle, unsigned int dataSize, void* dataTopPos);
+		static void updateMaterialAppendParamImpl(unsigned int id, unsigned int cbufferHandle, unsigned int dataSize, const void* dataTopPos);
 
 	//************************************************************
 	private:
@@ -554,16 +629,16 @@ namespace tktk
 
 	// 頂点バッファを作る
 	template<class VertexData>
-	inline void DX12GameManager::createVertexBuffer(unsigned int id, const std::vector<VertexData>& vertexDataArray)
+	inline unsigned int DX12GameManager::createVertexBuffer(const std::vector<VertexData>& vertexDataArray)
 	{
-		createVertexBufferImpl(id, sizeof(VertexData), vertexDataArray.size(), vertexDataArray.data());
+		return createVertexBufferImpl(sizeof(VertexData), vertexDataArray.size(), vertexDataArray.data());
 	}
 
 	// 定数バッファを作る
 	template<class ConstantBufferDataType>
-	inline void DX12GameManager::createCBuffer(unsigned int id, const ConstantBufferDataType& rawConstantBufferData)
+	inline unsigned int DX12GameManager::createCBuffer(const ConstantBufferDataType& rawConstantBufferData)
 	{
-		createCbufferImpl(id, sizeof(ConstantBufferDataType), &rawConstantBufferData);
+		return createCbufferImpl(sizeof(ConstantBufferDataType), &rawConstantBufferData);
 	}
 
 	// 指定の頂点バッファを更新する
@@ -582,16 +657,16 @@ namespace tktk
 
 	// 指定の通常メッシュのマテリアルで追加で管理する定数バッファのIDと値を設定する
 	template<class CbufferType>
-	inline void DX12GameManager::addMaterialAppendParam(unsigned int id, unsigned int cbufferId, CbufferType&& value)
+	inline void DX12GameManager::addMaterialAppendParam(unsigned int id, unsigned int cbufferHandle, CbufferType&& value)
 	{
-		addMaterialAppendParamImpl(id, cbufferId, sizeof(CbufferType), new CbufferType(std::forward<CbufferType>(value)));
+		addMaterialAppendParamImpl(id, cbufferHandle, sizeof(CbufferType), new CbufferType(std::forward<CbufferType>(value)));
 	}
 
 	// 指定の通常メッシュのマテリアルで追加で管理する定数バッファのIDと値を更新する
 	template<class CbufferType>
-	inline void DX12GameManager::updateMaterialAppendParam(unsigned int id, unsigned int cbufferId, const CbufferType& value)
+	inline void DX12GameManager::updateMaterialAppendParam(unsigned int id, unsigned int cbufferHandle, const CbufferType& value)
 	{
-		updateMaterialAppendParamImpl(id, cbufferId, sizeof(CbufferType), &value);
+		updateMaterialAppendParamImpl(id, cbufferHandle, sizeof(CbufferType), &value);
 	}
 }
 #endif // !DX12_GAME_MANAGER_H_

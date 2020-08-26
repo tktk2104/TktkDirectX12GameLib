@@ -34,7 +34,7 @@ namespace tktk
 		unsigned int	m_cameraId;
 		unsigned int	m_shadowMapCameraId;
 		unsigned int	m_lightId;
-		unsigned int	m_useRtvDescriptorHeapId;
+		unsigned int	m_useRtvDescriptorHeapHandle;
 		tktkMath::Color	m_lineColor;
 		std::vector<tktk::ComponentPtr<SphereMeshWireFrameDrawer>> m_wireFrameDrawerArray;
 	};

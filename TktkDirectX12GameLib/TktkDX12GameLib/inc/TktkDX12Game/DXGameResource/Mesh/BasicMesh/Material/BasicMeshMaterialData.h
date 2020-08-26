@@ -22,16 +22,16 @@ namespace tktk
 		// 自身のマテリアル情報とグラフィックパイプラインをコマンドリストに設定する
 		void setMaterialData() const;
 
-		// このマテリアルで追加で管理する定数バッファのIDと値を設定する
-		void addAppendParam(unsigned int cbufferId, unsigned int dataSize, void* dataTopPos);
+		// このマテリアルで追加で管理する定数バッファのハンドルと値を設定する
+		void addAppendParam(unsigned int cbufferHandle, unsigned int dataSize, void* dataTopPos);
 
 		// このマテリアルで追加で管理する定数バッファのIDと値を更新する
-		void updateAppendParam(unsigned int cbufferId, unsigned int dataSize, const void* dataTopPos);
+		void updateAppendParam(unsigned int cbufferHandle, unsigned int dataSize, const void* dataTopPos);
 
 	private:
 
-		unsigned int		m_usePipeLineStateId;
-		unsigned int		m_useDescriptorHeapId;
+		unsigned int		m_usePipeLineStateHandle;
+		unsigned int		m_useDescriptorHeapHandle;
 		tktkMath::Color		m_materialAmbient;
 		tktkMath::Color		m_materialDiffuse;
 		tktkMath::Color		m_materialSpecular;

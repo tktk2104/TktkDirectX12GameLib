@@ -16,8 +16,8 @@ namespace tktk
 		createGraphicsPipeLineState(shaderFilePaths, monoColorShaderPsFilePath);
 
 		// 通常メッシュマテリアル情報と単色塗りつぶし描画色の定数バッファを作る
-		DX12GameManager::createCBuffer(DX12GameManager::getSystemId(SystemCBufferType::BasicMeshMaterial),	BasicMeshMaterialCbuffer());
-		DX12GameManager::createCBuffer(DX12GameManager::getSystemId(SystemCBufferType::BasicMonoColorMeshCbuffer), BasicMonoColorMeshCbuffer());
+		DX12GameManager::setSystemHandle(SystemCBufferType::BasicMeshMaterial, DX12GameManager::createCBuffer(BasicMeshMaterialCbuffer()));
+		DX12GameManager::setSystemHandle(SystemCBufferType::BasicMonoColorMeshCbuffer, DX12GameManager::createCBuffer(BasicMonoColorMeshCbuffer()));
 	}
 
 	void BasicMeshMaterial::create(unsigned int id, const BasicMeshMaterialInitParam& initParam)
@@ -44,7 +44,7 @@ namespace tktk
 		basicMeshPtr->setMaterialData();
 	}
 
-	void BasicMeshMaterial::addAppendParam(unsigned int id, unsigned int cbufferId, unsigned int dataSize, void* dataTopPos)
+	void BasicMeshMaterial::addAppendParam(unsigned int id, unsigned int cbufferHandle, unsigned int dataSize, void* dataTopPos)
 	{
 		auto basicMeshPtr = m_basicMeshMaterialArray.at(id);
 
@@ -55,10 +55,10 @@ namespace tktk
 		}
 #endif // _DEBUG
 
-		basicMeshPtr->addAppendParam(cbufferId, dataSize, dataTopPos);
+		basicMeshPtr->addAppendParam(cbufferHandle, dataSize, dataTopPos);
 	}
 
-	void BasicMeshMaterial::updateAppendParam(unsigned int id, unsigned int cbufferId, unsigned int dataSize, const void* dataTopPos)
+	void BasicMeshMaterial::updateAppendParam(unsigned int id, unsigned int cbufferHandle, unsigned int dataSize, const void* dataTopPos)
 	{
 		auto basicMeshPtr = m_basicMeshMaterialArray.at(id);
 
@@ -69,7 +69,7 @@ namespace tktk
 		}
 #endif // _DEBUG
 
-		basicMeshPtr->updateAppendParam(cbufferId, dataSize, dataTopPos);
+		basicMeshPtr->updateAppendParam(cbufferHandle, dataSize, dataTopPos);
 	}
 
 	void BasicMeshMaterial::createRootSignature() const
@@ -126,7 +126,7 @@ namespace tktk
 				initParam.samplerDescArray.at(1U).comparisonFunc = D3D12_COMPARISON_FUNC_NEVER;
 				initParam.samplerDescArray.at(1U).shaderRegister = 1U;
 			}
-			DX12GameManager::createRootSignature(DX12GameManager::getSystemId(SystemRootSignatureType::BasicMesh), initParam);
+			DX12GameManager::setSystemHandle(SystemRootSignatureType::BasicMesh, DX12GameManager::createRootSignature(initParam));
 		}
 
 		// 単色のルートシグネチャを作る
@@ -169,7 +169,7 @@ namespace tktk
 				initParam.samplerDescArray.at(0U).comparisonFunc = D3D12_COMPARISON_FUNC_NEVER;
 				initParam.samplerDescArray.at(0U).shaderRegister = 0U;
 			}
-			DX12GameManager::createRootSignature(DX12GameManager::getSystemId(SystemRootSignatureType::BasicMonoColorMesh), initParam);
+			DX12GameManager::setSystemHandle(SystemRootSignatureType::BasicMonoColorMesh, DX12GameManager::createRootSignature(initParam));
 		}
 	}
 
@@ -205,9 +205,9 @@ namespace tktk
 			initParam.useDepth = true;
 			initParam.writeDepth = true;
 			initParam.depthFunc = D3D12_COMPARISON_FUNC_LESS;
-			initParam.rootSignatureId = DX12GameManager::getSystemId(SystemRootSignatureType::BasicMesh);
+			initParam.rootSignatureHandle = DX12GameManager::getSystemHandle(SystemRootSignatureType::BasicMesh);
 
-			DX12GameManager::createPipeLineState(DX12GameManager::getSystemId(SystemPipeLineStateType::BasicMesh), initParam, shaderFilePaths);
+			DX12GameManager::setSystemHandle(SystemPipeLineStateType::BasicMesh, DX12GameManager::createPipeLineState(initParam, shaderFilePaths));
 		}
 		
 		// ワイヤーフレームのパイプラインステートを作る
@@ -240,9 +240,9 @@ namespace tktk
 			initParam.useDepth = true;
 			initParam.writeDepth = true;
 			initParam.depthFunc = D3D12_COMPARISON_FUNC_LESS;
-			initParam.rootSignatureId = DX12GameManager::getSystemId(SystemRootSignatureType::BasicMesh);
+			initParam.rootSignatureHandle = DX12GameManager::getSystemHandle(SystemRootSignatureType::BasicMesh);
 
-			DX12GameManager::createPipeLineState(DX12GameManager::getSystemId(SystemPipeLineStateType::BasicMeshWireFrame), initParam, shaderFilePaths);
+			DX12GameManager::setSystemHandle(SystemPipeLineStateType::BasicMeshWireFrame, DX12GameManager::createPipeLineState(initParam, shaderFilePaths));
 		}
 
 		// 単色のパイプラインステートを作る
@@ -275,13 +275,13 @@ namespace tktk
 			initParam.useDepth = true;
 			initParam.writeDepth = true;
 			initParam.depthFunc = D3D12_COMPARISON_FUNC_LESS;
-			initParam.rootSignatureId = DX12GameManager::getSystemId(SystemRootSignatureType::BasicMonoColorMesh);
+			initParam.rootSignatureHandle = DX12GameManager::getSystemHandle(SystemRootSignatureType::BasicMonoColorMesh);
 
 			ShaderFilePaths monoColorShaderFilePaths{};
 			monoColorShaderFilePaths.vsFilePath = shaderFilePaths.vsFilePath;
 			monoColorShaderFilePaths.psFilePath = monoColorShaderPsFilePath;
 
-			DX12GameManager::createPipeLineState(DX12GameManager::getSystemId(SystemPipeLineStateType::BasicMonoColorMesh), initParam, monoColorShaderFilePaths);
+			DX12GameManager::setSystemHandle(SystemPipeLineStateType::BasicMonoColorMesh, DX12GameManager::createPipeLineState(initParam, monoColorShaderFilePaths));
 		}
 
 		// 単色ワイヤーフレームのパイプラインステートを作る
@@ -314,13 +314,13 @@ namespace tktk
 			initParam.useDepth = true;
 			initParam.writeDepth = true;
 			initParam.depthFunc = D3D12_COMPARISON_FUNC_LESS;
-			initParam.rootSignatureId = DX12GameManager::getSystemId(SystemRootSignatureType::BasicMonoColorMesh);
+			initParam.rootSignatureHandle = DX12GameManager::getSystemHandle(SystemRootSignatureType::BasicMonoColorMesh);
 
 			ShaderFilePaths monoColorShaderFilePaths{};
 			monoColorShaderFilePaths.vsFilePath = shaderFilePaths.vsFilePath;
 			monoColorShaderFilePaths.psFilePath = monoColorShaderPsFilePath;
 
-			DX12GameManager::createPipeLineState(DX12GameManager::getSystemId(SystemPipeLineStateType::BasicMonoColorMeshWireFrame), initParam, monoColorShaderFilePaths);
+			DX12GameManager::setSystemHandle(SystemPipeLineStateType::BasicMonoColorMeshWireFrame, DX12GameManager::createPipeLineState(initParam, monoColorShaderFilePaths));
 		}
 	}
 }

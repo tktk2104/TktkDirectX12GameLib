@@ -16,13 +16,13 @@ namespace tktk
 		createGraphicsPipeLineState(shaderFilePaths);
 
 		// スプライト用の頂点バッファを作る
-		DX12GameManager::createVertexBuffer<tktkMath::Vector2>(DX12GameManager::getSystemId(SystemVertexBufferType::Sprite), { tktkMath::Vector2_v::zero, tktkMath::Vector2_v::right, tktkMath::Vector2_v::up, tktkMath::Vector2_v::one });
+		DX12GameManager::setSystemHandle(SystemVertexBufferType::Sprite, DX12GameManager::createVertexBuffer<tktkMath::Vector2>({ tktkMath::Vector2_v::zero, tktkMath::Vector2_v::right, tktkMath::Vector2_v::up, tktkMath::Vector2_v::one }));
 
 		// スプライト用のインデックスバッファを作る
-		DX12GameManager::createIndexBuffer(DX12GameManager::getSystemId(SystemIndexBufferType::Sprite), { 0U, 1U, 2U, 3U });
+		DX12GameManager::setSystemHandle(SystemIndexBufferType::Sprite, DX12GameManager::createIndexBuffer({ 0U, 1U, 2U, 3U }));
 
 		// スプライト用の定数バッファを作る
-		DX12GameManager::createCBuffer(DX12GameManager::getSystemId(SystemCBufferType::Sprite), SpriteConstantBufferData());
+		DX12GameManager::setSystemHandle(SystemCBufferType::Sprite, DX12GameManager::createCBuffer(SpriteConstantBufferData()));
 	}
 
 	void SpriteMaterial::create(unsigned int id, const SpriteMaterialInitParam& initParam)
@@ -69,7 +69,7 @@ namespace tktk
 			initParam.samplerDescArray.at(0).shaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
 			initParam.samplerDescArray.at(0).comparisonFunc = D3D12_COMPARISON_FUNC_NEVER;
 		}
-		DX12GameManager::createRootSignature(DX12GameManager::getSystemId(SystemRootSignatureType::Sprite), initParam);
+		DX12GameManager::setSystemHandle(SystemRootSignatureType::Sprite, DX12GameManager::createRootSignature(initParam));
 	}
 
 	// スプライト用のグラフィックパイプラインステート
@@ -100,8 +100,8 @@ namespace tktk
 		};
 		initParam.primitiveTopology = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
 		initParam.renderTargetFormatArray = { DXGI_FORMAT_R8G8B8A8_UNORM };
-		initParam.rootSignatureId = DX12GameManager::getSystemId(SystemRootSignatureType::Sprite);
+		initParam.rootSignatureHandle = DX12GameManager::getSystemHandle(SystemRootSignatureType::Sprite);
 
-		DX12GameManager::createPipeLineState(DX12GameManager::getSystemId(SystemPipeLineStateType::Sprite), initParam, shaderFilePaths);
+		DX12GameManager::setSystemHandle(SystemPipeLineStateType::Sprite, DX12GameManager::createPipeLineState(initParam, shaderFilePaths));
 	}
 }

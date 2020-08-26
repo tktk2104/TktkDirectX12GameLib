@@ -5,57 +5,63 @@
 
 namespace tktk
 {
-	Line2DMaterialData::Line2DMaterialData(const Line2DMaterialDataInitParam& initParam)
-		: m_createdVertexBufferId(initParam.createVertexBufferId)
+	Line2DMaterialData::~Line2DMaterialData()
 	{
+		// 作成した頂点バッファを削除する
+		// ※１度も描画処理が呼ばれなかった場合は何もしない
+		DX12GameManager::eraseVertexBuffer(m_createdVertexBufferHandle);
 	}
 
-	void Line2DMaterialData::drawLine(const Line2DMaterialDrawFuncArgs& drawFuncArgs) const
+	void Line2DMaterialData::drawLine(const Line2DMaterialDrawFuncArgs& drawFuncArgs)
 	{
+		// 前フレームで作成した頂点バッファを削除する
+		// ※初回実行時は何もしない
+		DX12GameManager::eraseVertexBuffer(m_createdVertexBufferHandle);
+
 		// 自身の頂点バッファを作る
-		DX12GameManager::createVertexBuffer(m_createdVertexBufferId, drawFuncArgs.lineVertexArray);
+		m_createdVertexBufferHandle = DX12GameManager::createVertexBuffer(drawFuncArgs.lineVertexArray);
 
 		// ライン用の定数バッファを更新する
 		updateLine2DCbuffer(drawFuncArgs);
 
 		// ビューポートを設定する
-		DX12GameManager::setViewport(drawFuncArgs.viewportId);
+		DX12GameManager::setViewport(drawFuncArgs.viewportHandle);
 
 		// シザー矩形を設定する
-		DX12GameManager::setScissorRect(drawFuncArgs.scissorRectId);
+		DX12GameManager::setScissorRect(drawFuncArgs.scissorRectHandle);
 
 		// レンダーターゲットを設定する（バックバッファーに直で描画する場合は特殊処理）
-		if (drawFuncArgs.rtvDescriptorHeapId == DX12GameManager::getSystemId(SystemRtvDescriptorHeapType::BackBuffer))
+		if (drawFuncArgs.rtvDescriptorHeapHandle == DX12GameManager::getSystemHandle(SystemRtvDescriptorHeapType::BackBuffer))
 		{
 			DX12GameManager::setBackBufferView();
 		}
 		else
 		{
-			DX12GameManager::setRtv(drawFuncArgs.rtvDescriptorHeapId, 0U, 1U);
+			DX12GameManager::setRtv(drawFuncArgs.rtvDescriptorHeapHandle, 0U, 1U);
 		}
 
 		// ライン用のパイプラインステートを設定する
-		DX12GameManager::setPipeLineState(DX12GameManager::getSystemId(SystemPipeLineStateType::Line2D));
+		DX12GameManager::setPipeLineState(DX12GameManager::getSystemHandle(SystemPipeLineStateType::Line2D));
 
 		// ブレンドファクターを設定する
 		DX12GameManager::setBlendFactor({ 1.0f, 1.0f, 1.0f, 1.0f });
 
 		// 自身のディスクリプタヒープを設定する
-		DX12GameManager::setDescriptorHeap({ { DescriptorHeapType::basic, DX12GameManager::getSystemId(SystemBasicDescriptorHeapType::Line2D)} });
+		DX12GameManager::setDescriptorHeap({ { DescriptorHeapType::basic, DX12GameManager::getSystemHandle(SystemBasicDescriptorHeapType::Line2D)} });
 		
 		// ラインストリップで描画を行う
 		DX12GameManager::setPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_LINESTRIP);
 
 		// 自身の頂点バッファを設定する
-		DX12GameManager::setVertexBuffer(m_createdVertexBufferId);
+		DX12GameManager::setVertexBuffer(m_createdVertexBufferHandle);
 		
 		// ドローコール
 		DX12GameManager::drawInstanced(drawFuncArgs.lineVertexArray.size(), 1U, 0U, 0U);
 
 		// バックバッファ以外に描画していたら使用したレンダーターゲットバッファをシェーダーで使用する状態にする
-		if (drawFuncArgs.rtvDescriptorHeapId != DX12GameManager::getSystemId(SystemRtvDescriptorHeapType::BackBuffer))
+		if (drawFuncArgs.rtvDescriptorHeapHandle != DX12GameManager::getSystemHandle(SystemRtvDescriptorHeapType::BackBuffer))
 		{
-			DX12GameManager::unSetRtv(drawFuncArgs.rtvDescriptorHeapId, 0U, 1U);
+			DX12GameManager::unSetRtv(drawFuncArgs.rtvDescriptorHeapHandle, 0U, 1U);
 		}
 	}
 
@@ -71,6 +77,6 @@ namespace tktk
 		cbufferData.lineColor = drawFuncArgs.lineColor;
 		cbufferData.screenSize = DX12GameManager::getWindowSize();
 
-		DX12GameManager::updateCBuffer(DX12GameManager::getSystemId(SystemCBufferType::Line2D), cbufferData);
+		DX12GameManager::updateCBuffer(DX12GameManager::getSystemHandle(SystemCBufferType::Line2D), cbufferData);
 	}
 }

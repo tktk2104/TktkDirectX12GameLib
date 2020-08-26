@@ -10,14 +10,11 @@ namespace tktk
 	// スプライトマテリアルを作るときに必要な情報
 	struct SpriteMaterialInitParam
 	{
-		// 作るディスクリプタヒープのID
-		unsigned int		createDescriptorHeapId;
-
 		// 描画するバッファーの種類
 		BufferType			srvBufferType;
 
 		// 描画するバッファーのID
-		unsigned int		useBufferId;
+		unsigned int		useBufferHandle;
 
 		// ブレンド値
 		tktkMath::Color		blendRate		{ 1.0f, 1.0f, 1.0f, 1.0f };

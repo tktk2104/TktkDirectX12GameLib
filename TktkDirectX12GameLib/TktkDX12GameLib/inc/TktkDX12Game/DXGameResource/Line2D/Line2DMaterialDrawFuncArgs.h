@@ -11,14 +11,14 @@ namespace tktk
 	// ２Ｄライン描画に必要な変数
 	struct Line2DMaterialDrawFuncArgs
 	{
-		// 使用するビューポートID
-		unsigned int		viewportId;
+		// 使用するビューポートハンドル
+		unsigned int		viewportHandle;
 
-		// 使用するシザー矩形ID
-		unsigned int		scissorRectId;
+		// 使用するシザー矩形ハンドル
+		unsigned int		scissorRectHandle;
 
-		// 使用するレンダーターゲット用のディスクリプタヒープID
-		unsigned int		rtvDescriptorHeapId;
+		// 使用するレンダーターゲット用のディスクリプタヒープハンドル
+		unsigned int		rtvDescriptorHeapHandle;
 
 		// ワールド行列
 		tktkMath::Matrix3	worldMatrix;

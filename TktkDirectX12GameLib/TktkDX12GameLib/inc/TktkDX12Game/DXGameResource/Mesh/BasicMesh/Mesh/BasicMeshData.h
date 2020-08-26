@@ -30,8 +30,8 @@ namespace tktk
 
 	private:
 
-		unsigned int m_useVertexBufferId;
-		unsigned int m_useIndexBufferId;
+		unsigned int m_useVertexBufferHandle;
+		unsigned int m_useIndexBufferHandle;
 
 		unsigned int m_indexNum;
 

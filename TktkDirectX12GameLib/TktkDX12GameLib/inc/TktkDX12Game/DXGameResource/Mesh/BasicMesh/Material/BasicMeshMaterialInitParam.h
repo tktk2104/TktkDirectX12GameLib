@@ -8,11 +8,11 @@ namespace tktk
 	// 通常メッシュのマテリアルを作るとき必要な情報
 	struct BasicMeshMaterialInitParam
 	{
-		// 使うパイプラインステートのID
-		unsigned int						usePipeLineStateId;
+		// 使うパイプラインステートのハンドル
+		unsigned int						usePipeLineStateHandle;
 
-		// 使うディスクリプタヒープのID
-		unsigned int						useDescriptorHeapId;
+		// 使うディスクリプタヒープのハンドル
+		unsigned int						useDescriptorHeapHandle;
 
 		// マテリアルの環境光
 		tktkMath::Color						materialAmbient		{ 0.25f, 1.0f };

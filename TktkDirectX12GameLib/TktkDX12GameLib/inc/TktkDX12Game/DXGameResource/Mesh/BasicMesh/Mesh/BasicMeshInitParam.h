@@ -10,11 +10,11 @@ namespace tktk
 	// 通常メッシュを作るときに必要な情報
 	struct BasicMeshInitParam
 	{
-		// 使う頂点バッファのID
-		unsigned int useVertexBufferId;
+		// 使う頂点バッファのハンドル
+		unsigned int useVertexBufferHandle;
 
-		// 使うインデックスバッファのID
-		unsigned int useIndexBufferId;
+		// 使うインデックスバッファのハンドル
+		unsigned int useIndexBufferHandle;
 
 		// メッシュが持つインデックスの総数
 		unsigned int indexNum;

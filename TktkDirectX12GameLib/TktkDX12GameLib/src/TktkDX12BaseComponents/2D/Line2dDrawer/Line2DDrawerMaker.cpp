@@ -12,8 +12,8 @@ namespace tktk
 		// 引数のユーザーを設定
 		m_self.m_user = user;
 
-		// 使用するレンダーターゲットのディスクリプタヒープIDのデフォルト値はバックバッファ
-		m_self.m_useRtvDescriptorHeapId = DX12GameManager::getSystemId(SystemRtvDescriptorHeapType::BackBuffer);
+		// 使用するレンダーターゲットのディスクリプタヒープハンドルのデフォルト値はバックバッファ
+		m_self.m_useRtvDescriptorHeapHandle = DX12GameManager::getSystemHandle(SystemRtvDescriptorHeapType::BackBuffer);
 
 		// 自身の参照を返す
 		return m_self;
@@ -28,7 +28,7 @@ namespace tktk
 			m_lineVertexArray,
 			m_lineColor,
 			m_blendRate,
-			m_useRtvDescriptorHeapId
+			m_useRtvDescriptorHeapHandle
 			);
 	}
 
@@ -59,17 +59,17 @@ namespace tktk
 		return *this;
 	}
 
+	Line2DDrawerMaker& Line2DDrawerMaker::useRtvDescriptorHeapHandle(unsigned int value)
+	{
+		// 値を設定して自身の参照を返す
+		m_useRtvDescriptorHeapHandle = value;
+		return *this;
+	}
+
 	Line2DDrawerMaker& Line2DDrawerMaker::useLine2DMaterialIdImpl(unsigned int value)
 	{
 		// 値を設定して自身の参照を返す
 		m_useLine2DMaterialId = value;
-		return *this;
-	}
-
-	Line2DDrawerMaker& Line2DDrawerMaker::useRtvDescriptorHeapIdImpl(unsigned int value)
-	{
-		// 値を設定して自身の参照を返す
-		m_useRtvDescriptorHeapId = value;
 		return *this;
 	}
 }

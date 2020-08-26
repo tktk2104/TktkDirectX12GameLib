@@ -12,11 +12,11 @@ namespace tktk
 		const std::vector<tktkMath::Vector2>& lineVertexArray,
 		const tktkMath::Color& lineColor,
 		const tktkMath::Color& blendRate,
-		unsigned int useRtvDescriptorHeapId
+		unsigned int useRtvDescriptorHeapHandle
 	)
 		: ComponentBase(drawPriority)
 		, m_useLine2DMaterialId(useLine2DMaterialId)
-		, m_useRtvDescriptorHeapId(useRtvDescriptorHeapId)
+		, m_useRtvDescriptorHeapHandle(useRtvDescriptorHeapHandle)
 		, m_lineVertexArray(lineVertexArray)
 		, m_lineColor(lineColor)
 		, m_blendRate(blendRate)
@@ -36,12 +36,12 @@ namespace tktk
 	void Line2DDrawer::draw() const
 	{
 		Line2DMaterialDrawFuncArgs drawFuncArgs;
-		drawFuncArgs.viewportId				= DX12GameManager::getSystemId(SystemViewportType::Basic);
-		drawFuncArgs.scissorRectId			= DX12GameManager::getSystemId(SystemScissorRectType::Basic);
-		drawFuncArgs.rtvDescriptorHeapId = m_useRtvDescriptorHeapId;
-		drawFuncArgs.worldMatrix			= m_transform->calculateWorldMatrix();
-		drawFuncArgs.lineColor				= m_lineColor;
-		drawFuncArgs.lineVertexArray		= m_lineVertexArray;
+		drawFuncArgs.viewportHandle				= DX12GameManager::getSystemHandle(SystemViewportType::Basic);
+		drawFuncArgs.scissorRectHandle			= DX12GameManager::getSystemHandle(SystemScissorRectType::Basic);
+		drawFuncArgs.rtvDescriptorHeapHandle	= m_useRtvDescriptorHeapHandle;
+		drawFuncArgs.worldMatrix				= m_transform->calculateWorldMatrix();
+		drawFuncArgs.lineColor					= m_lineColor;
+		drawFuncArgs.lineVertexArray			= m_lineVertexArray;
 
 		DX12GameManager::drawLine(m_useLine2DMaterialId, drawFuncArgs);
 	}

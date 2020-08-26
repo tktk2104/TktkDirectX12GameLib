@@ -11,14 +11,14 @@ namespace tktk
 		unsigned int	cameraId,
 		unsigned int	shadowMapCameraId,
 		unsigned int	lightId,
-		unsigned int	useRtvDescriptorHeapId,
+		unsigned int	useRtvDescriptorHeapHandle,
 		const tktkMath::Color& lineColor
 	)
 		: m_drawPriority(drawPriority)
 		, m_cameraId(cameraId)
 		, m_shadowMapCameraId(shadowMapCameraId)
 		, m_lightId(lightId)
-		, m_useRtvDescriptorHeapId(useRtvDescriptorHeapId)
+		, m_useRtvDescriptorHeapHandle(useRtvDescriptorHeapHandle)
 		, m_lineColor(lineColor)
 	{
 	}
@@ -39,7 +39,7 @@ namespace tktk
 					m_cameraId,
 					m_shadowMapCameraId,
 					m_lightId,
-					m_useRtvDescriptorHeapId
+					m_useRtvDescriptorHeapHandle
 					)
 			);
 		}

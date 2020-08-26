@@ -34,8 +34,7 @@ namespace tktk
 				initParam.samplerDescArray.at(0).shaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
 				initParam.samplerDescArray.at(0).comparisonFunc = D3D12_COMPARISON_FUNC_NEVER;
 			}
-
-			DX12GameManager::createRootSignature(DX12GameManager::getSystemId(SystemRootSignatureType::PostEffectMonochrome), initParam);
+			DX12GameManager::setSystemHandle(SystemRootSignatureType::PostEffectMonochrome, DX12GameManager::createRootSignature(initParam));
 		}
 
 		// モノクロのポストエフェクト用のパイプラインステートを作る
@@ -58,13 +57,13 @@ namespace tktk
 			};
 			initParam.primitiveTopology = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
 			initParam.renderTargetFormatArray = { DXGI_FORMAT_R8G8B8A8_UNORM };
-			initParam.rootSignatureId = DX12GameManager::getSystemId(SystemRootSignatureType::PostEffectMonochrome);
+			initParam.rootSignatureHandle = DX12GameManager::getSystemHandle(SystemRootSignatureType::PostEffectMonochrome);
 
 			ShaderFilePaths filePaths{};
 			filePaths.vsFilePath = shaderFilePaths.postEffectVSFilePath;
 			filePaths.psFilePath = shaderFilePaths.monochromePSFilePath;
 
-			DX12GameManager::createPipeLineState(DX12GameManager::getSystemId(SystemPipeLineStateType::PostEffectMonochrome), initParam, filePaths);
+			DX12GameManager::setSystemHandle(SystemPipeLineStateType::PostEffectMonochrome, DX12GameManager::createPipeLineState(initParam, filePaths));
 		}
 	}
 

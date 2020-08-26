@@ -11,7 +11,7 @@ namespace tktk
 
 	void LightData::updateLightCBuffer() const
 	{
-		tktk::DX12GameManager::updateCBuffer(tktk::DX12GameManager::getSystemId(tktk::SystemCBufferType::Light), m_lightCBuffer);
+		tktk::DX12GameManager::updateCBuffer(tktk::DX12GameManager::getSystemHandle(tktk::SystemCBufferType::Light), m_lightCBuffer);
 	}
 
 	void LightData::setAmbient(const tktkMath::Color& ambient)

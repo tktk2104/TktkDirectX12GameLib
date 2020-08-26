@@ -16,7 +16,7 @@ namespace tktk
 	{
 	public:
 
-		SpriteDrawer(float drawPriority, unsigned int spriteMaterialId, unsigned int useRtvDescriptorHeapId);
+		SpriteDrawer(float drawPriority, unsigned int spriteMaterialId, unsigned int useRtvDescriptorHeapHandle);
 
 	public:
 
@@ -25,7 +25,7 @@ namespace tktk
 
 	public:
 
-		// テクスチャIDを再設定する（列挙型を含む整数型のidが渡された場合のみビルド可）
+		// テクスチャマテリアルIDを再設定する（列挙型を含む整数型のidが渡された場合のみビルド可）
 		template <class IdType, is_idType<IdType> = nullptr>
 		void setSpriteMaterialId(IdType id)
 		{
@@ -41,7 +41,7 @@ namespace tktk
 
 	private:
 
-		unsigned int				m_useRtvDescriptorHeapId;
+		unsigned int				m_useRtvDescriptorHeapHandle;
 		unsigned int				m_spriteMaterialId;
 		ComponentPtr<Transform2D>	m_transform			{ };
 	};

@@ -12,7 +12,7 @@ namespace tktk
 	{
 	public:
 
-		SpriteMaterialData(const SpriteMaterialInitParam& initParam);
+		explicit SpriteMaterialData(const SpriteMaterialInitParam& initParam);
 		~SpriteMaterialData() = default;
 
 	public:
@@ -27,7 +27,7 @@ namespace tktk
 
 	private:
 
-		unsigned int		m_createDescriptorHeapId;
+		unsigned int		m_createDescriptorHeapHandle { 0U };
 		tktkMath::Color		m_blendRate;
 		tktkMath::Vector2	m_textureUvOffset;
 		tktkMath::Vector2	m_textureUvMulRate;

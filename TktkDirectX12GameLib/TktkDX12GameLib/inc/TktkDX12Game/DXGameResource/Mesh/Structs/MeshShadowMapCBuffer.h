@@ -9,7 +9,7 @@ namespace tktk
 	struct MeshShadowMapCBuffer
 	{
 		// シャドウマップ描画に使用したビュープロジェクション行列
-		tktkMath::Matrix4	shadowMapViewProjMat	{ tktkMath::mat4Identity };
+		tktkMath::Matrix4	shadowMapViewProjMat	{ tktkMath::Matrix4_v::identity };
 	};
 }
 #endif // !MESH_SHADOW_MAP_CBUFFER_H_

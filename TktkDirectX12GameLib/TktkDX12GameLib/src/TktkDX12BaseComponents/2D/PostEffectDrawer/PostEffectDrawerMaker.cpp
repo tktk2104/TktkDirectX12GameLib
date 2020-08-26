@@ -12,8 +12,8 @@ namespace tktk
 		// 引数のユーザーを設定
 		m_self.m_user = user;
 
-		// 使用するレンダーターゲットのディスクリプタヒープIDのデフォルト値はバックバッファ
-		m_self.m_useRtvDescriptorHeapId = DX12GameManager::getSystemId(SystemRtvDescriptorHeapType::BackBuffer);
+		// 使用するレンダーターゲットのディスクリプタヒープハンドルのデフォルト値はバックバッファ
+		m_self.m_useRtvDescriptorHeapHandle = DX12GameManager::getSystemHandle(SystemRtvDescriptorHeapType::BackBuffer);
 
 		// 自身の参照を返す
 		return m_self;
@@ -25,7 +25,7 @@ namespace tktk
 		return m_user->createComponent<PostEffectDrawer>(
 			m_drawPriority,
 			m_postEffectMaterialId,
-			m_useRtvDescriptorHeapId
+			m_useRtvDescriptorHeapHandle
 			);
 	}
 
@@ -36,10 +36,10 @@ namespace tktk
 		return *this;
 	}
 
-	PostEffectDrawerMaker& PostEffectDrawerMaker::useRtvDescriptorHeapIdImpl(unsigned int value)
+	PostEffectDrawerMaker& PostEffectDrawerMaker::useRtvDescriptorHeapId(unsigned int value)
 	{
 		// 値を設定して自身の参照を返す
-		m_useRtvDescriptorHeapId = value;
+		m_useRtvDescriptorHeapHandle = value;
 		return *this;
 	}
 

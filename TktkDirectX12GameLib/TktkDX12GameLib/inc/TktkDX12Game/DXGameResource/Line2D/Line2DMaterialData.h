@@ -1,7 +1,6 @@
 #ifndef LINE_2D_DATA_H_
 #define LINE_2D_DATA_H_
 
-#include "Line2DMaterialInitParam.h"
 #include "Line2DMaterialDrawFuncArgs.h"
 
 namespace tktk
@@ -11,13 +10,14 @@ namespace tktk
 	{
 	public:
 
-		explicit Line2DMaterialData(const Line2DMaterialDataInitParam& initParam);
-		~Line2DMaterialData() = default;
+		Line2DMaterialData() = default;
+		~Line2DMaterialData();
 
 	public:
 
 		// ２Ｄラインを描画する
-		void drawLine(const Line2DMaterialDrawFuncArgs& drawFuncArgs) const;
+		// ※前フレームで作った頂点バッファを削除し、内部でライン描画用の頂点バッファを作り、そのリソースハンドルを保持する処理の為、非const関数
+		void drawLine(const Line2DMaterialDrawFuncArgs& drawFuncArgs);
 
 	private:
 
@@ -26,7 +26,7 @@ namespace tktk
 
 	private:
 
-		unsigned int m_createdVertexBufferId;
+		unsigned int m_createdVertexBufferHandle{ 0U };
 	};
 }
 

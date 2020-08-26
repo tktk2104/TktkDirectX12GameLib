@@ -29,13 +29,13 @@ namespace tktk
 		MeshTransformCbuffer transformBufferData{};
 		{
 			// Transform3Dからワールド行列を取得
-			transformBufferData.worldMatrix = m_transform->calculateWorldMatrix();
+			transformBufferData.worldMatrix			= m_transform->calculateWorldMatrix();
 
 			// 使用するカメラのビュー行列
-			transformBufferData.viewMatrix = DX12GameManager::getViewMatrix(m_cameraId);
+			transformBufferData.viewMatrix			= DX12GameManager::getViewMatrix(m_cameraId);
 
 			// 使用するカメラのプロジェクション行列
-			transformBufferData.projectionMatrix = DX12GameManager::getProjectionMatrix(m_cameraId);
+			transformBufferData.projectionMatrix	= DX12GameManager::getProjectionMatrix(m_cameraId);
 		}
 
 		// シャドウマップを描画する

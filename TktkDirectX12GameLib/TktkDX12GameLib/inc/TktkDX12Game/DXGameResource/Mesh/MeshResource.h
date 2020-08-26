@@ -77,10 +77,10 @@ namespace tktk
 		void setMaterialData(unsigned int id) const;
 
 		// 指定の通常メッシュのマテリアルで追加で管理する定数バッファのIDと値を設定する
-		void addMaterialAppendParam(unsigned int id, unsigned int cbufferId, unsigned int dataSize, void* dataTopPos);
+		void addMaterialAppendParam(unsigned int id, unsigned int cbufferHandle, unsigned int dataSize, void* dataTopPos);
 
 		// 指定の通常メッシュのマテリアルで追加で管理する定数バッファのIDと値を更新する
-		void updateMaterialAppendParam(unsigned int id, unsigned int cbufferId, unsigned int dataSize, const void* dataTopPos);
+		void updateMaterialAppendParam(unsigned int id, unsigned int cbufferHandle, unsigned int dataSize, const void* dataTopPos);
 
 		// 指定の通常メッシュを描画する
 		void drawBasicMesh(unsigned int id, const MeshDrawFuncBaseArgs& baseArgs) const;

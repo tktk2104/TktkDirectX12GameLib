@@ -4,8 +4,8 @@
 
 namespace tktk
 {
-	BasicMeshMaterialAppendParam::BasicMeshMaterialAppendParam(unsigned int cbufferId, unsigned int dataSize, void* dataTopPos)
-		: m_cbufferId(cbufferId)
+	BasicMeshMaterialAppendParam::BasicMeshMaterialAppendParam(unsigned int cbufferHandle, unsigned int dataSize, void* dataTopPos)
+		: m_cbufferHandle(cbufferHandle)
 		, m_dataSize(dataSize)
 	{
 		m_dataTopPos = std::shared_ptr<void>(dataTopPos);
@@ -18,6 +18,6 @@ namespace tktk
 
 	void BasicMeshMaterialAppendParam::updateCbuffer() const
 	{
-		DX12GameManager::updateCbufferImpl(m_cbufferId, m_dataSize, m_dataTopPos.get());
+		DX12GameManager::updateCbufferImpl(m_cbufferHandle, m_dataSize, m_dataTopPos.get());
 	}
 }

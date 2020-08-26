@@ -2,14 +2,14 @@
 
 namespace tktk
 {
-	BasicMeshDrawer::BasicMeshDrawer(float drawPriority, unsigned int meshId, unsigned int skeletonId, unsigned int cameraId, unsigned int shadowMapCameraId, unsigned int lightId, unsigned int useRtvDescriptorHeapId)
+	BasicMeshDrawer::BasicMeshDrawer(float drawPriority, unsigned int meshId, unsigned int skeletonId, unsigned int cameraId, unsigned int shadowMapCameraId, unsigned int lightId, unsigned int useRtvDescriptorHeapHandle)
 		: ComponentBase(drawPriority)
 		, m_meshId(meshId)
 		, m_skeletonId(skeletonId)
 		, m_cameraId(cameraId)
 		, m_shadowMapCameraId(shadowMapCameraId)
 		, m_lightId(lightId)
-		, m_useRtvDescriptorHeapId(useRtvDescriptorHeapId)
+		, m_useRtvDescriptorHeapHandle(useRtvDescriptorHeapHandle)
 	{
 	}
 
@@ -39,31 +39,31 @@ namespace tktk
 		MeshDrawFuncBaseArgs baseArgs{};
 		{
 			// Transform3Dからワールド行列を取得
-			baseArgs.transformBufferData.worldMatrix = m_transform->calculateWorldMatrix();
+			baseArgs.transformBufferData.worldMatrix			= m_transform->calculateWorldMatrix();
 
 			// 使用するカメラのビュー行列
-			baseArgs.transformBufferData.viewMatrix = DX12GameManager::getViewMatrix(m_cameraId);
+			baseArgs.transformBufferData.viewMatrix				= DX12GameManager::getViewMatrix(m_cameraId);
 
 			// 使用するカメラのプロジェクション行列
-			baseArgs.transformBufferData.projectionMatrix = DX12GameManager::getProjectionMatrix(m_cameraId);
+			baseArgs.transformBufferData.projectionMatrix		= DX12GameManager::getProjectionMatrix(m_cameraId);
 
-			// 使用するビューポート番号
-			baseArgs.viewportId = DX12GameManager::getSystemId(SystemViewportType::Basic);
+			// 使用するビューポートハンドル
+			baseArgs.viewportHandle								= DX12GameManager::getSystemHandle(SystemViewportType::Basic);
 
-			// 使用するシザー矩形番号
-			baseArgs.scissorRectId = DX12GameManager::getSystemId(SystemScissorRectType::Basic);
+			// 使用するシザー矩形ハンドル
+			baseArgs.scissorRectHandle								= DX12GameManager::getSystemHandle(SystemScissorRectType::Basic);
 
-			// 使用するレンダーターゲットディスクリプタヒープ番号
-			baseArgs.rtvDescriptorHeapId = m_useRtvDescriptorHeapId;
+			// 使用するレンダーターゲットディスクリプタヒープハンドル
+			baseArgs.rtvDescriptorHeapHandle						= m_useRtvDescriptorHeapHandle;
 
-			// 使用する深度ステンシルディスクリプタヒープ番号
-			baseArgs.dsvDescriptorHeapId = DX12GameManager::getSystemId(SystemDsvDescriptorHeapType::Basic);
+			// 使用する深度ステンシルディスクリプタヒープハンドル
+			baseArgs.dsvDescriptorHeapHandle						= DX12GameManager::getSystemHandle(SystemDsvDescriptorHeapType::Basic);
 
 			// 使用するライト番号
-			baseArgs.lightId = m_lightId;
+			baseArgs.lightId									= m_lightId;
 
 			// シャドウマップを使用する為に必要なシャドウマップカメラ行列
-			baseArgs.shadowMapBufferData.shadowMapViewProjMat = DX12GameManager::getViewMatrix(m_shadowMapCameraId) * DX12GameManager::getProjectionMatrix(m_shadowMapCameraId);
+			baseArgs.shadowMapBufferData.shadowMapViewProjMat	= DX12GameManager::getViewMatrix(m_shadowMapCameraId) * DX12GameManager::getProjectionMatrix(m_shadowMapCameraId);
 		}
 
 		// メッシュを描画する

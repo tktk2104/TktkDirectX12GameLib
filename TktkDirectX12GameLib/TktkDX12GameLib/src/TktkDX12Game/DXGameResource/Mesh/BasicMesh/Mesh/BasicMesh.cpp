@@ -22,12 +22,12 @@ namespace tktk
 
 				// 
 				cbufferViewDescriptorParam.descriptorParamArray = {
-					{ BufferType::constant,		DX12GameManager::getSystemId(SystemCBufferType::MeshTransform)	},
-					{ BufferType::constant,		DX12GameManager::getSystemId(SystemCBufferType::BoneMatCbuffer)	}
+					{ BufferType::constant,		DX12GameManager::getSystemHandle(SystemCBufferType::MeshTransform)	},
+					{ BufferType::constant,		DX12GameManager::getSystemHandle(SystemCBufferType::BoneMatCbuffer)	}
 				};
 			}
 
-			DX12GameManager::createBasicDescriptorHeap(DX12GameManager::getSystemId(SystemBasicDescriptorHeapType::BasicMeshShadowMap), initParam);
+			DX12GameManager::setSystemHandle(SystemBasicDescriptorHeapType::BasicMeshShadowMap, DX12GameManager::createBasicDescriptorHeap(initParam));
 		}
 	}
 
@@ -95,7 +95,7 @@ namespace tktk
 			initParam.samplerDescArray.at(0).shaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
 			initParam.samplerDescArray.at(0).comparisonFunc = D3D12_COMPARISON_FUNC_NEVER;
 		}
-		DX12GameManager::createRootSignature(DX12GameManager::getSystemId(SystemRootSignatureType::ShadowMap), initParam);
+		DX12GameManager::setSystemHandle(SystemRootSignatureType::ShadowMap, DX12GameManager::createRootSignature(initParam));
 	}
 
 	void BasicMesh::createWriteShadowMapGraphicsPipeLineState(const std::string& writeShadowMapVsFilePath) const
@@ -121,22 +121,22 @@ namespace tktk
 		initParam.useDepth = true;
 		initParam.writeDepth = true;
 		initParam.depthFunc = D3D12_COMPARISON_FUNC_LESS;
-		initParam.rootSignatureId = DX12GameManager::getSystemId(SystemRootSignatureType::ShadowMap);
+		initParam.rootSignatureHandle = DX12GameManager::getSystemHandle(SystemRootSignatureType::ShadowMap);
 
 		ShaderFilePaths shaderFilePaths{};
 		shaderFilePaths.vsFilePath = writeShadowMapVsFilePath;
 		shaderFilePaths.psFilePath = "";
 
-		DX12GameManager::createPipeLineState(DX12GameManager::getSystemId(SystemPipeLineStateType::ShadowMap), initParam, shaderFilePaths);
+		DX12GameManager::setSystemHandle(SystemPipeLineStateType::ShadowMap, DX12GameManager::createPipeLineState(initParam, shaderFilePaths));
 	}
 
 	void BasicMesh::updateMeshTransformCbuffer(const MeshTransformCbuffer& transformBufferData) const
 	{
-		DX12GameManager::updateCBuffer(DX12GameManager::getSystemId(SystemCBufferType::MeshTransform), transformBufferData);
+		DX12GameManager::updateCBuffer(DX12GameManager::getSystemHandle(SystemCBufferType::MeshTransform), transformBufferData);
 	}
 
 	void BasicMesh::updateMeshShadowMapCBuffer(const MeshShadowMapCBuffer& shadowMapBufferData) const
 	{
-		DX12GameManager::updateCBuffer(DX12GameManager::getSystemId(SystemCBufferType::MeshShadowMap), shadowMapBufferData);
+		DX12GameManager::updateCBuffer(DX12GameManager::getSystemHandle(SystemCBufferType::MeshShadowMap), shadowMapBufferData);
 	}
 }

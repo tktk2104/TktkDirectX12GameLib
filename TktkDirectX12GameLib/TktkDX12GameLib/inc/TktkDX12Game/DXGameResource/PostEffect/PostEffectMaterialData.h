@@ -21,8 +21,8 @@ namespace tktk
 
 	private:
 
-		unsigned int m_usePipeLineStateId;
-		unsigned int m_useDescriptorHeapId;
+		unsigned int m_usePipeLineStateHandle;
+		unsigned int m_useDescriptorHeapHandle;
 	};
 }
 #endif // !POST_EFFECT_MATERIAL_DATA_H_

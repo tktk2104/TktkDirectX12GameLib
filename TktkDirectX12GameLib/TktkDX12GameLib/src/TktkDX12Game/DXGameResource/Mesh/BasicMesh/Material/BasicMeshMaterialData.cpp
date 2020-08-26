@@ -6,8 +6,8 @@
 namespace tktk
 {
 	BasicMeshMaterialData::BasicMeshMaterialData(const BasicMeshMaterialInitParam& initParam)
-		: m_usePipeLineStateId(initParam.usePipeLineStateId)
-		, m_useDescriptorHeapId(initParam.useDescriptorHeapId)
+		: m_usePipeLineStateHandle(initParam.usePipeLineStateHandle)
+		, m_useDescriptorHeapHandle(initParam.useDescriptorHeapHandle)
 		, m_materialAmbient(initParam.materialAmbient)
 		, m_materialDiffuse(initParam.materialDiffuse)
 		, m_materialSpecular(initParam.materialSpecular)
@@ -17,8 +17,8 @@ namespace tktk
 	}
 
 	BasicMeshMaterialData::BasicMeshMaterialData(const BasicMeshMaterialData* other)
-		: m_usePipeLineStateId(other->m_usePipeLineStateId)
-		, m_useDescriptorHeapId(other->m_useDescriptorHeapId)
+		: m_usePipeLineStateHandle(other->m_usePipeLineStateHandle)
+		, m_useDescriptorHeapHandle(other->m_useDescriptorHeapHandle)
 		, m_materialAmbient(other->m_materialAmbient)
 		, m_materialDiffuse(other->m_materialDiffuse)
 		, m_materialSpecular(other->m_materialSpecular)
@@ -31,7 +31,7 @@ namespace tktk
 	void BasicMeshMaterialData::setMaterialData() const
 	{
 		// マテリアルが使用するパイプラインステートを設定する
-		DX12GameManager::setPipeLineState(m_usePipeLineStateId);
+		DX12GameManager::setPipeLineState(m_usePipeLineStateHandle);
 
 		// マテリアルの情報を定数バッファに書き込む
 		{
@@ -43,7 +43,7 @@ namespace tktk
 			materialBufferData.materialEmissive = m_materialEmissive;
 			materialBufferData.materialShiniess = m_materialShiniess;
 
-			DX12GameManager::updateCBuffer(DX12GameManager::getSystemId(SystemCBufferType::BasicMeshMaterial), materialBufferData);
+			DX12GameManager::updateCBuffer(DX12GameManager::getSystemHandle(SystemCBufferType::BasicMeshMaterial), materialBufferData);
 		}
 
 		for (const auto& pair : m_appendParamMap)
@@ -52,20 +52,20 @@ namespace tktk
 		}
 
 		// 指定のディスクリプタヒープを設定する
-		DX12GameManager::setDescriptorHeap({ { DescriptorHeapType::basic, m_useDescriptorHeapId } });
+		DX12GameManager::setDescriptorHeap({ { DescriptorHeapType::basic, m_useDescriptorHeapHandle } });
 	}
 
-	void BasicMeshMaterialData::addAppendParam(unsigned int cbufferId, unsigned int dataSize, void* dataTopPos)
+	void BasicMeshMaterialData::addAppendParam(unsigned int cbufferHandle, unsigned int dataSize, void* dataTopPos)
 	{
 		m_appendParamMap.emplace(
 			std::piecewise_construct,
-			std::forward_as_tuple(cbufferId),
-			std::forward_as_tuple(cbufferId, dataSize, dataTopPos)
+			std::forward_as_tuple(cbufferHandle),
+			std::forward_as_tuple(cbufferHandle, dataSize, dataTopPos)
 		);
 	}
 
-	void BasicMeshMaterialData::updateAppendParam(unsigned int cbufferId, unsigned int dataSize, const void* dataTopPos)
+	void BasicMeshMaterialData::updateAppendParam(unsigned int cbufferHandle, unsigned int dataSize, const void* dataTopPos)
 	{
-		m_appendParamMap.at(cbufferId).updateParam(dataSize, dataTopPos);
+		m_appendParamMap.at(cbufferHandle).updateParam(dataSize, dataTopPos);
 	}
 }

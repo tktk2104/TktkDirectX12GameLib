@@ -18,10 +18,11 @@ namespace tktk
 	public:
 
 		// ２Ｄラインを作る
-		void create(unsigned int id, const Line2DMaterialDataInitParam& initParam);
+		void create(unsigned int id);
 
 		// 指定の２Ｄラインを描画する
-		void drawLine(unsigned int id, const Line2DMaterialDrawFuncArgs& drawFuncArgs) const;
+		// ※前フレームで作った頂点バッファを削除し、内部でライン描画用の頂点バッファを作り、そのリソースハンドルを保持する処理の為、非const関数
+		void drawLine(unsigned int id, const Line2DMaterialDrawFuncArgs& drawFuncArgs);
 
 	private:
 

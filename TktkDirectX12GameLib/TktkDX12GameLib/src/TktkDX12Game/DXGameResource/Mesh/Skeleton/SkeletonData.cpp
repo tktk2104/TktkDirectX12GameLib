@@ -83,7 +83,7 @@ namespace tktk
 		}
 
 		// 骨情報の定数バッファを書き込む
-		DX12GameManager::updateCBuffer(DX12GameManager::getSystemId(SystemCBufferType::BoneMatCbuffer), boneMatBuf);
+		DX12GameManager::updateCBuffer(DX12GameManager::getSystemHandle(SystemCBufferType::BoneMatCbuffer), boneMatBuf);
 	}
 
 	void SkeletonData::transform(const SkeletonData::BoneNode* boneNode, const tktkMath::Matrix4& transformMat)

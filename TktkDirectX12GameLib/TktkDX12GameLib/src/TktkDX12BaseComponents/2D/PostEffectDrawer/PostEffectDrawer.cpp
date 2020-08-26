@@ -4,9 +4,9 @@
 
 namespace tktk
 {
-	PostEffectDrawer::PostEffectDrawer(float drawPriority, unsigned int postEffectMaterialId, unsigned int useRtvDescriptorHeapId)
+	PostEffectDrawer::PostEffectDrawer(float drawPriority, unsigned int postEffectMaterialId, unsigned int useRtvDescriptorHeapHandle)
 		: ComponentBase(drawPriority)
-		, m_useRtvDescriptorHeapId(useRtvDescriptorHeapId)
+		, m_useRtvDescriptorHeapHandle(useRtvDescriptorHeapHandle)
 		, m_postEffectMaterialId(postEffectMaterialId)
 	{
 	}
@@ -15,9 +15,9 @@ namespace tktk
 	{
 		// ポストエフェクトの描画に必要な値を構造体にまとめる
 		PostEffectMaterialDrawFuncArgs drawFuncArgs{};
-		drawFuncArgs.viewportId		= DX12GameManager::getSystemId(SystemViewportType::Basic);
-		drawFuncArgs.scissorRectId	= DX12GameManager::getSystemId(SystemScissorRectType::Basic);
-		drawFuncArgs.rtvDescriptorHeapId = m_useRtvDescriptorHeapId;
+		drawFuncArgs.viewportHandle				= DX12GameManager::getSystemHandle(SystemViewportType::Basic);
+		drawFuncArgs.scissorRectHandle			= DX12GameManager::getSystemHandle(SystemScissorRectType::Basic);
+		drawFuncArgs.rtvDescriptorHeapHandle	= m_useRtvDescriptorHeapHandle;
 
 		// ポストエフェクトの描画を行う
 		DX12GameManager::drawPostEffect(m_postEffectMaterialId, drawFuncArgs);

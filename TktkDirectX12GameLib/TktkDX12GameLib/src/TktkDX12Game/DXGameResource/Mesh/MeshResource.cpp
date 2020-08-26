@@ -12,8 +12,8 @@ namespace tktk
     MeshResource::MeshResource(const MeshResourceNum& resourceNum, const MeshResourceShaderFilePaths& shaderFilePaths)
     {
         // メッシュ共通で使用する座標変換定数バッファを作る
-        tktk::DX12GameManager::createCBuffer(tktk::DX12GameManager::getSystemId(tktk::SystemCBufferType::MeshTransform), MeshTransformCbuffer());
-        tktk::DX12GameManager::createCBuffer(tktk::DX12GameManager::getSystemId(tktk::SystemCBufferType::MeshShadowMap), MeshShadowMapCBuffer());
+        DX12GameManager::setSystemHandle(SystemCBufferType::MeshTransform, DX12GameManager::createCBuffer(MeshTransformCbuffer()));
+        DX12GameManager::setSystemHandle(SystemCBufferType::MeshShadowMap, DX12GameManager::createCBuffer(MeshShadowMapCBuffer()));
 
         // 各種リソースクラスを作る
         m_skeleton          = std::make_unique<Skeleton>(resourceNum.skeletonNum);
@@ -90,14 +90,14 @@ namespace tktk
         m_basicMeshMaterial->setMaterialData(id);
     }
 
-    void MeshResource::addMaterialAppendParam(unsigned int id, unsigned int cbufferId, unsigned int dataSize, void* dataTopPos)
+    void MeshResource::addMaterialAppendParam(unsigned int id, unsigned int cbufferHandle, unsigned int dataSize, void* dataTopPos)
     {
-        m_basicMeshMaterial->addAppendParam(id, cbufferId, dataSize, dataTopPos);
+        m_basicMeshMaterial->addAppendParam(id, cbufferHandle, dataSize, dataTopPos);
     }
 
-    void MeshResource::updateMaterialAppendParam(unsigned int id, unsigned int cbufferId, unsigned int dataSize, const void* dataTopPos)
+    void MeshResource::updateMaterialAppendParam(unsigned int id, unsigned int cbufferHandle, unsigned int dataSize, const void* dataTopPos)
     {
-        m_basicMeshMaterial->updateAppendParam(id, cbufferId, dataSize, dataTopPos);
+        m_basicMeshMaterial->updateAppendParam(id, cbufferHandle, dataSize, dataTopPos);
     }
 
     void MeshResource::drawBasicMesh(unsigned int id, const MeshDrawFuncBaseArgs& baseArgs) const

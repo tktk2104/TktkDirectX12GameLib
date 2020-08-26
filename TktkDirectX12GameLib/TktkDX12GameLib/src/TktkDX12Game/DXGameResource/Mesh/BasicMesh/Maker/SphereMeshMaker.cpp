@@ -90,15 +90,15 @@ namespace tktk
 		}
 
 		// 頂点バッファを作る
-		DX12GameManager::createVertexBuffer(DX12GameManager::getSystemId(SystemVertexBufferType::Sphere), vertices);
+		DX12GameManager::setSystemHandle(SystemVertexBufferType::Sphere, DX12GameManager::createVertexBuffer(vertices));
 
 		// インデックスバッファを作る
-		DX12GameManager::createIndexBuffer(DX12GameManager::getSystemId(SystemIndexBufferType::Sphere), indices);
+		DX12GameManager::setSystemHandle(SystemIndexBufferType::Sphere, DX12GameManager::createIndexBuffer(indices));
 
 		// 球体メッシュの作成に必要な情報
 		BasicMeshInitParam meshInitParam{};
-		meshInitParam.useVertexBufferId = DX12GameManager::getSystemId(SystemVertexBufferType::Sphere);
-		meshInitParam.useIndexBufferId	= DX12GameManager::getSystemId(SystemIndexBufferType::Sphere);
+		meshInitParam.useVertexBufferHandle = DX12GameManager::getSystemHandle(SystemVertexBufferType::Sphere);
+		meshInitParam.useIndexBufferHandle	= DX12GameManager::getSystemHandle(SystemIndexBufferType::Sphere);
 		meshInitParam.indexNum			= indices.size();
 		meshInitParam.primitiveTopology = MeshPrimitiveTopology::TriangleStrip;
 
@@ -107,9 +107,8 @@ namespace tktk
 			BasicMeshMaterialInitParam materialParam{};
 
 			// 単色のパイプラインステートを使う
-			materialParam.usePipeLineStateId = DX12GameManager::getSystemId(SystemPipeLineStateType::BasicMonoColorMesh);
+			materialParam.usePipeLineStateHandle = DX12GameManager::getSystemHandle(SystemPipeLineStateType::BasicMonoColorMesh);
 
-			materialParam.useDescriptorHeapId = DX12GameManager::getSystemId(SystemBasicDescriptorHeapType::Sphere);
 			materialParam.materialAmbient = { 0.3f, 1.0f }; // ※マテリアルの環境光の値は定数値を設定する
 			materialParam.materialDiffuse  = tktkMath::Color_v::white;
 			materialParam.materialSpecular = tktkMath::Color_v::white;
@@ -128,7 +127,7 @@ namespace tktk
 
 					// シャドウマップの１種類
 					srvDescriptorParam.descriptorParamArray = {
-						{ BufferType::depthStencil, DX12GameManager::getSystemId(SystemDsBufferType::ShadowMap)	}
+						{ BufferType::depthStencil, DX12GameManager::getSystemHandle(SystemDsBufferType::ShadowMap)	}
 					};
 				}
 
@@ -138,11 +137,11 @@ namespace tktk
 
 					// 
 					cbufferViewDescriptorParam.descriptorParamArray = {
-						{ BufferType::constant,		DX12GameManager::getSystemId(SystemCBufferType::MeshTransform)		},
-						{ BufferType::constant,		DX12GameManager::getSystemId(SystemCBufferType::BoneMatCbuffer)		},
-						{ BufferType::constant,		DX12GameManager::getSystemId(SystemCBufferType::Light)				},
-						{ BufferType::constant,		DX12GameManager::getSystemId(SystemCBufferType::BasicMeshMaterial)	},
-						{ BufferType::constant,		DX12GameManager::getSystemId(SystemCBufferType::MeshShadowMap)		}
+						{ BufferType::constant,		DX12GameManager::getSystemHandle(SystemCBufferType::MeshTransform)		},
+						{ BufferType::constant,		DX12GameManager::getSystemHandle(SystemCBufferType::BoneMatCbuffer)		},
+						{ BufferType::constant,		DX12GameManager::getSystemHandle(SystemCBufferType::Light)				},
+						{ BufferType::constant,		DX12GameManager::getSystemHandle(SystemCBufferType::BasicMeshMaterial)	},
+						{ BufferType::constant,		DX12GameManager::getSystemHandle(SystemCBufferType::MeshShadowMap)		}
 					};
 				}
 
@@ -152,28 +151,32 @@ namespace tktk
 
 					// 
 					cbufferViewDescriptorParam.descriptorParamArray = {
-						{ BufferType::constant,		DX12GameManager::getSystemId(SystemCBufferType::Light)		},
-						{ BufferType::constant,		DX12GameManager::getSystemId(SystemCBufferType::BasicMeshMaterial)	},
-						{ BufferType::constant,		DX12GameManager::getSystemId(SystemCBufferType::BasicMonoColorMeshCbuffer)	}
+						{ BufferType::constant,		DX12GameManager::getSystemHandle(SystemCBufferType::Light)		},
+						{ BufferType::constant,		DX12GameManager::getSystemHandle(SystemCBufferType::BasicMeshMaterial)	},
+						{ BufferType::constant,		DX12GameManager::getSystemHandle(SystemCBufferType::BasicMonoColorMeshCbuffer)	}
 					};
 				}
-				DX12GameManager::createBasicDescriptorHeap(materialParam.useDescriptorHeapId, descriptorHeapInitParam);
+
+				materialParam.useDescriptorHeapHandle = DX12GameManager::createBasicDescriptorHeap(descriptorHeapInitParam);
+
+				// TODO : 「SystemBasicDescriptorHeapType::Sphere」この値が本当に必要か調べる
+				DX12GameManager::setSystemHandle(SystemBasicDescriptorHeapType::Sphere, materialParam.useDescriptorHeapHandle);
 			}
 
 			// 球体メッシュのマテリアルを作る
 			DX12GameManager::createBasicMeshMaterial(DX12GameManager::getSystemId(SystemBasicMeshMaterialType::Sphere), materialParam);
 
 			// 球体メッシュのマテリアルにアルベドカラーのパラメータを追加する
-			DX12GameManager::addMaterialAppendParam(DX12GameManager::getSystemId(SystemBasicMeshMaterialType::Sphere), DX12GameManager::getSystemId(SystemCBufferType::BasicMonoColorMeshCbuffer), BasicMonoColorMeshCbuffer());
+			DX12GameManager::addMaterialAppendParam(DX12GameManager::getSystemId(SystemBasicMeshMaterialType::Sphere), DX12GameManager::getSystemHandle(SystemCBufferType::BasicMonoColorMeshCbuffer), BasicMonoColorMeshCbuffer());
 		
 			// 単色ワイヤーフレーム用のパイプラインステートを取得する
-			materialParam.usePipeLineStateId = DX12GameManager::getSystemId(SystemPipeLineStateType::BasicMonoColorMeshWireFrame);
+			materialParam.usePipeLineStateHandle = DX12GameManager::getSystemHandle(SystemPipeLineStateType::BasicMonoColorMeshWireFrame);
 
 			// 球体メッシュワイヤーフレームのマテリアルを作る
 			DX12GameManager::createBasicMeshMaterial(DX12GameManager::getSystemId(SystemBasicMeshMaterialType::SphereWireFrame), materialParam);
 
 			// 球体メッシュワイヤーフレームのマテリアルにアルベドカラーのパラメータを追加する
-			DX12GameManager::addMaterialAppendParam(DX12GameManager::getSystemId(SystemBasicMeshMaterialType::SphereWireFrame), DX12GameManager::getSystemId(SystemCBufferType::BasicMonoColorMeshCbuffer), BasicMonoColorMeshCbuffer());
+			DX12GameManager::addMaterialAppendParam(DX12GameManager::getSystemId(SystemBasicMeshMaterialType::SphereWireFrame), DX12GameManager::getSystemHandle(SystemCBufferType::BasicMonoColorMeshCbuffer), BasicMonoColorMeshCbuffer());
 		}
 
 		// 球体メッシュを作る

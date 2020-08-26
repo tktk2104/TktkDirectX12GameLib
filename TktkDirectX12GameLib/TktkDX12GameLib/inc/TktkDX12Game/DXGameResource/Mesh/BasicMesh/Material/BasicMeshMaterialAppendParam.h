@@ -10,7 +10,7 @@ namespace tktk
 	{
 	public:
 
-		BasicMeshMaterialAppendParam(unsigned int cbufferId, unsigned int dataSize, void* dataTopPos);
+		BasicMeshMaterialAppendParam(unsigned int cbufferHandle, unsigned int dataSize, void* dataTopPos);
 
 	public:
 
@@ -23,8 +23,8 @@ namespace tktk
 
 	private:
 
-		// 変更対象の定数バッファID
-		unsigned int m_cbufferId;
+		// 変更対象の定数バッファハンドル
+		unsigned int m_cbufferHandle;
 
 		// 定数バッファの大きさ
 		unsigned int m_dataSize;
