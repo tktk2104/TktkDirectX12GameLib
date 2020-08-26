@@ -107,40 +107,40 @@ namespace tktk
 		static void setBackGroundColor(const tktkMath::Color& backGroundColor);
 
 		// 指定のレンダーターゲット用のディスクリプタヒープをコマンドリストに設定する
-		static void setRtv(unsigned int rtvDescriptorHeapId, unsigned int startRtvLocationIndex, unsigned int rtvCount);
+		static void setRtv(unsigned int rtvDescriptorHeapHandle, unsigned int startRtvLocationIndex, unsigned int rtvCount);
 
 		// 指定の（レンダーターゲットと深度ステンシルビュー）用のディスクリプタヒープ２つをコマンドリストに設定する
-		static void setRtvAndDsv(unsigned int rtvDescriptorHeapId, unsigned int dsvDescriptorHeapId, unsigned int startRtvLocationIndex, unsigned int rtvCount);
+		static void setRtvAndDsv(unsigned int rtvDescriptorHeapHandle, unsigned int dsvDescriptorHeapHandle, unsigned int startRtvLocationIndex, unsigned int rtvCount);
 
 		// 指定の深度ステンシルビュー用のディスクリプタヒープをコマンドリストに設定する（※レンダーターゲットは設定できない）
-		static void setOnlyDsv(unsigned int dsvDescriptorHeapId);
+		static void setOnlyDsv(unsigned int dsvDescriptorHeapHandle);
 
 		// バックバッファーを設定する
 		static void setBackBufferView();
 
 		// バックバッファーと深度ステンシルビューを設定する
-		static void setBackBufferViewAndDsv(unsigned int dsvDescriptorHeapId);
+		static void setBackBufferViewAndDsv(unsigned int dsvDescriptorHeapHandle);
 
 		// 指定のレンダーターゲット用のディスクリプタヒープが使用しているレンダーターゲットバッファの書き込み後処理を行う
-		static void unSetRtv(unsigned int rtvDescriptorHeapId, unsigned int startRtvLocationIndex, unsigned int rtvCount);
+		static void unSetRtv(unsigned int rtvDescriptorHeapHandle, unsigned int startRtvLocationIndex, unsigned int rtvCount);
 
 		// 指定の深度書き込み用のディスクリプタヒープが使用している深度バッファの書き込み後処理を行う
-		static void unSetDsv(unsigned int dsvDescriptorHeapId);
+		static void unSetDsv(unsigned int dsvDescriptorHeapHandle);
 
 		// 指定のビューポートをコマンドリストに設定する
-		static void setViewport(unsigned int id);
+		static void setViewport(unsigned int handle);
 
 		// 指定のシザー矩形をコマンドリストに設定する
-		static void setScissorRect(unsigned int id);
+		static void setScissorRect(unsigned int handle);
 
 		// 指定のパイプラインステートをコマンドリストに設定する
-		static void setPipeLineState(unsigned int id);
+		static void setPipeLineState(unsigned int handle);
 
 		// 指定の頂点バッファをコマンドリストに設定する
-		static void setVertexBuffer(unsigned int id);
+		static void setVertexBuffer(unsigned int handle);
 
 		// 指定のインデックスバッファをコマンドリストに設定する
-		static void setIndexBuffer(unsigned int id);
+		static void setIndexBuffer(unsigned int handle);
 
 		// 指定のディスクリプタヒープの配列をコマンドリストに設定する
 		static void setDescriptorHeap(const std::vector<DescriptorHeapParam>& heapParamArray);
@@ -278,22 +278,22 @@ namespace tktk
 
 		// 指定の頂点バッファを更新する
 		template <class VertexData>
-		static void updateVertexBuffer(unsigned int id, const std::vector<VertexData>& vertexDataArray);
+		static void updateVertexBuffer(unsigned int handle, const std::vector<VertexData>& vertexDataArray);
 
 		// 指定のインデックスバッファを更新する
-		static void updateIndexBuffer(unsigned int id, const std::vector<unsigned short>& indexDataArray);
+		static void updateIndexBuffer(unsigned int handle, const std::vector<unsigned short>& indexDataArray);
 
 		// 指定の定数バッファを更新する
 		template <class ConstantBufferDataType>
-		static void updateCBuffer(unsigned int id, const ConstantBufferDataType& rawConstantBufferData);
+		static void updateCBuffer(unsigned int handle, const ConstantBufferDataType& rawConstantBufferData);
 
 		// 指定のレンダーターゲットビューを指定の色でクリアする
-		static void clearRtv(unsigned int id, unsigned int rtvLocationIndex, const tktkMath::Color& color);
+		static void clearRtv(unsigned int handle, unsigned int rtvLocationIndex, const tktkMath::Color& color);
 
 		// 指定のテクスチャのサイズを取得する（ピクセル（テクセル））
-		static const tktkMath::Vector3& getTextureBufferSizePx(unsigned int id);
-		static const tktkMath::Vector2& getDsBufferSizePx(unsigned int id);
-		static const tktkMath::Vector2& getRtBufferSizePx(unsigned int id);
+		static const tktkMath::Vector3& getTextureBufferSizePx(unsigned int handle);
+		static const tktkMath::Vector2& getDsBufferSizePx(unsigned int handle);
+		static const tktkMath::Vector2& getRtBufferSizePx(unsigned int handle);
 
 	//************************************************************
 	/* スプライト関係の処理 */
@@ -583,8 +583,8 @@ namespace tktk
 		static unsigned int createCbufferImpl(unsigned int constantBufferTypeSize, const void* constantBufferDataTopPos);
 
 		static void createSceneImpl(unsigned int id, const std::shared_ptr<SceneBase>& scenePtr, SceneVTable* vtablePtr);
-		static void updateVertexBufferImpl(unsigned int id, unsigned int vertexTypeSize, unsigned int vertexDataCount, const void* vertexDataTopPos);
-		static void updateCbufferImpl(unsigned int id, unsigned int constantBufferTypeSize, const void* constantBufferDataTopPos);
+		static void updateVertexBufferImpl(unsigned int handle, unsigned int vertexTypeSize, unsigned int vertexDataCount, const void* vertexDataTopPos);
+		static void updateCbufferImpl(unsigned int handle, unsigned int constantBufferTypeSize, const void* constantBufferDataTopPos);
 		static void addMaterialAppendParamImpl(unsigned int id, unsigned int cbufferHandle, unsigned int dataSize, void* dataTopPos);
 		static void updateMaterialAppendParamImpl(unsigned int id, unsigned int cbufferHandle, unsigned int dataSize, const void* dataTopPos);
 
@@ -643,16 +643,16 @@ namespace tktk
 
 	// 指定の頂点バッファを更新する
 	template<class VertexData>
-	inline void DX12GameManager::updateVertexBuffer(unsigned int id, const std::vector<VertexData>& vertexDataArray)
+	inline void DX12GameManager::updateVertexBuffer(unsigned int handle, const std::vector<VertexData>& vertexDataArray)
 	{
-		updateVertexBufferImpl(id, sizeof(VertexData), vertexDataArray.size(), vertexDataArray.data());
+		updateVertexBufferImpl(handle, sizeof(VertexData), vertexDataArray.size(), vertexDataArray.data());
 	}
 
 	// 指定の定数バッファを更新する
 	template<class ConstantBufferDataType>
-	inline void DX12GameManager::updateCBuffer(unsigned int id, const ConstantBufferDataType& rawConstantBufferData)
+	inline void DX12GameManager::updateCBuffer(unsigned int handle, const ConstantBufferDataType& rawConstantBufferData)
 	{
-		updateCbufferImpl(id, sizeof(ConstantBufferDataType), &rawConstantBufferData);
+		updateCbufferImpl(handle, sizeof(ConstantBufferDataType), &rawConstantBufferData);
 	}
 
 	// 指定の通常メッシュのマテリアルで追加で管理する定数バッファのIDと値を設定する

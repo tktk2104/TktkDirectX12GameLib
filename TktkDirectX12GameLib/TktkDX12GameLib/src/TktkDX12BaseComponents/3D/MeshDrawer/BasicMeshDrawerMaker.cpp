@@ -40,7 +40,7 @@ namespace tktk
 		return *this;
 	}
 
-	BasicMeshDrawerMaker& BasicMeshDrawerMaker::useRtvDescriptorHeapId(unsigned int value)
+	BasicMeshDrawerMaker& BasicMeshDrawerMaker::useRtvDescriptorHeapHandle(unsigned int value)
 	{
 		// ’l‚ğİ’è‚µ‚Ä©g‚ÌQÆ‚ğ•Ô‚·
 		m_useRtvDescriptorHeapHandle = value;

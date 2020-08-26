@@ -31,7 +31,7 @@ namespace tktk
 		BasicMeshDrawerMaker& drawPriority(float value);
 
 		// 使用するレンダーターゲットのディスクリプタヒープハンドルを設定する
-		BasicMeshDrawerMaker& useRtvDescriptorHeapId(unsigned int value);
+		BasicMeshDrawerMaker& useRtvDescriptorHeapHandle(unsigned int value);
 
 		// 使用するメッシュIDを設定する（列挙型を含む整数型のidが渡された場合のみビルド可）
 		template<class IdType, is_idType<IdType> = nullptr>
