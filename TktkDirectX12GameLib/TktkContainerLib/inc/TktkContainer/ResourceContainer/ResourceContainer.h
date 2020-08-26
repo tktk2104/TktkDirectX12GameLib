@@ -31,7 +31,7 @@ namespace tktkContainer
 		struct ResourceNode
 		{
 			NodeType*		ptr			{ nullptr };
-			bool			isStatic	{ false };		// TODO : この変数不要説
+			bool			isStatic	{ false };
 		};
 
 	public:
@@ -226,8 +226,11 @@ namespace tktkContainer
 		else
 		{
 			// std::listから削除する
-			m_dynamicNode.remove(*eraseNode.ptr);
+			m_dynamicNode.remove_if([&eraseNode](const auto& node) { return &node == eraseNode.ptr; });
 		}
+
+		// 削除したポインタとハンドルを結びつけているコンテナの要素を削除する
+		m_connectNodeMap.erase(handle);
 
 		// 引数のハンドルを未使用状態に変更する
 		m_resourceHandleManager.endUseHandle(handle);

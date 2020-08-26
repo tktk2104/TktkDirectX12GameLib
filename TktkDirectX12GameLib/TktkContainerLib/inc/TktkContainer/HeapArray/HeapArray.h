@@ -221,13 +221,13 @@ namespace tktkContainer
 	inline void HeapArray<NodeType, Allocator>::erase(NodeType** eraseNode)
 	{
 		// ポインタが不正だったら何もしない
-		if ((*eraseNode) < m_arrayTopPos || (*eraseNode) > (m_arrayTopPos * m_arrayMaxSize))
+		if ((*eraseNode) < m_arrayTopPos || reinterpret_cast<unsigned int>(*eraseNode) > (reinterpret_cast<unsigned int>(m_arrayTopPos) + sizeof(NodeType) * (m_arrayMaxSize - 1U)))
 		{
 			return;
 		}
 
 		// ポインタからインデックスを逆算する
-		unsigned int index = (static_cast<unsigned int>((*eraseNode)) - static_cast<unsigned int>(m_arrayTopPos)) / sizeof(NodeType);
+		unsigned int index = (reinterpret_cast<unsigned int>((*eraseNode)) - reinterpret_cast<unsigned int>(m_arrayTopPos)) / sizeof(NodeType);
 
 		// 引数のインデックスが使用中メモリを指していたら
 		if ((m_arrayNodeUseCheckBitFlag[index / 32U] & (1U << (index % 32U))) != 0U)
