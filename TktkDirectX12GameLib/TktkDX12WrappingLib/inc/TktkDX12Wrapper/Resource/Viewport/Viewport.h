@@ -19,6 +19,10 @@ namespace tktk
 		// 「ViewportData」のインスタンスを作り、そのリソースのハンドルを返す
 		unsigned int create(const std::vector<ViewportInitParam>& initParamArray);
 
+		// 指定のビューポートを削除する
+		// ※引数のハンドルに対応するリソースが無かったら何もしない
+		void erase(unsigned int handle);
+
 		// 指定のビューポートをコマンドリストに登録する
 		void set(unsigned int handle, ID3D12GraphicsCommandList* commandList) const;
 

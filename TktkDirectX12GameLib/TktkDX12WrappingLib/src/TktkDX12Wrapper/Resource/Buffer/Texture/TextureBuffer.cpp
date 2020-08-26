@@ -110,6 +110,11 @@ namespace tktk
 		return gpuPriorityCreate(device, commandList, formatParam, dataParam);
 	}
 
+	void TextureBuffer::erase(unsigned int handle)
+	{
+		m_textureBufferDataArray.erase(handle);
+	}
+
 	void TextureBuffer::createSrv(unsigned int handle, ID3D12Device* device, D3D12_CPU_DESCRIPTOR_HANDLE heapHandle) const
 	{
 		m_textureBufferDataArray.getMatchHandlePtr(handle)->createSrv(device, heapHandle);

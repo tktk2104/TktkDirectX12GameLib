@@ -19,6 +19,10 @@ namespace tktk
 		// 「VertexBufferData」のインスタンスを作り、そのリソースのハンドルを返す
 		unsigned int create(ID3D12Device* device, unsigned int vertexTypeSize, unsigned int vertexDataCount, const void* vertexDataTopPos);
 
+		// 指定の頂点バッファを削除する
+		// ※引数のハンドルに対応するリソースが無かったら何もしない
+		void erase(unsigned int handle);
+
 		// コマンドリストに指定の頂点バッファを登録する
 		void set(unsigned int handle, ID3D12GraphicsCommandList* commandList) const;
 

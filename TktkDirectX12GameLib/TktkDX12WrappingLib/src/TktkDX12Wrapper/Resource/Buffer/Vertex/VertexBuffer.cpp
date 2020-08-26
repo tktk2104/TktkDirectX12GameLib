@@ -12,6 +12,11 @@ namespace tktk
 		return m_vertexBufferDataArray.create(device, vertexTypeSize, vertexDataCount, vertexDataTopPos);
 	}
 
+	void VertexBuffer::erase(unsigned int handle)
+	{
+		m_vertexBufferDataArray.erase(handle);
+	}
+
 	void VertexBuffer::set(unsigned int handle, ID3D12GraphicsCommandList* commandList) const
 	{
 		m_vertexBufferDataArray.getMatchHandlePtr(handle)->set(commandList);

@@ -23,21 +23,21 @@ namespace tktk
 	
 		for (const auto& heapParam : heapParamArray)
 		{
-			switch (heapParam.m_type)
+			switch (heapParam.type)
 			{
 			case DescriptorHeapType::basic:
 	
-				descriptorHeapArray.push_back(m_basicDescriptorHeap->getPtr(heapParam.m_id));
+				descriptorHeapArray.push_back(m_basicDescriptorHeap->getPtr(heapParam.handle));
 				break;
 	
 			case DescriptorHeapType::rtv:
 	
-				descriptorHeapArray.push_back(m_rtvDescriptorHeap->getPtr(heapParam.m_id));
+				descriptorHeapArray.push_back(m_rtvDescriptorHeap->getPtr(heapParam.handle));
 				break;
 
 			case DescriptorHeapType::dsv:
 
-				descriptorHeapArray.push_back(m_dsvDescriptorHeap->getPtr(heapParam.m_id));
+				descriptorHeapArray.push_back(m_dsvDescriptorHeap->getPtr(heapParam.handle));
 				break;
 			}
 		}
@@ -46,21 +46,21 @@ namespace tktk
 	
 		for (const auto& heapParam : heapParamArray)
 		{
-			switch (heapParam.m_type)
+			switch (heapParam.type)
 			{
 			case DescriptorHeapType::basic:
 	
-				m_basicDescriptorHeap->setRootDescriptorTable(heapParam.m_id, device, commandList);
+				m_basicDescriptorHeap->setRootDescriptorTable(heapParam.handle, device, commandList);
 				break;
 	
 			case DescriptorHeapType::rtv:
 	
-				m_rtvDescriptorHeap->setRootDescriptorTable(heapParam.m_id, device, commandList);
+				m_rtvDescriptorHeap->setRootDescriptorTable(heapParam.handle, device, commandList);
 				break;
 
 			case DescriptorHeapType::dsv:
 
-				m_dsvDescriptorHeap->setRootDescriptorTable(heapParam.m_id, device, commandList);
+				m_dsvDescriptorHeap->setRootDescriptorTable(heapParam.handle, device, commandList);
 				break;
 			}
 		}
@@ -105,6 +105,21 @@ namespace tktk
 	unsigned int DescriptorHeap::createDsvDescriptorHeap(ID3D12Device* device, const DsvDescriptorHeapInitParam& initParam)
 	{
 		return m_dsvDescriptorHeap->create(device, initParam);
+	}
+
+	void DescriptorHeap::eraseBasicDescriptorHeap(unsigned int handle)
+	{
+		m_basicDescriptorHeap->erase(handle);
+	}
+
+	void DescriptorHeap::eraseRtvDescriptorHeap(unsigned int handle)
+	{
+		m_rtvDescriptorHeap->erase(handle);
+	}
+
+	void DescriptorHeap::eraseDsvDescriptorHeap(unsigned int handle)
+	{
+		m_dsvDescriptorHeap->erase(handle);
 	}
 
 	std::vector<D3D12_CPU_DESCRIPTOR_HANDLE> DescriptorHeap::getCpuBasicHeapHandleArray(unsigned int handle, ID3D12Device* device) const

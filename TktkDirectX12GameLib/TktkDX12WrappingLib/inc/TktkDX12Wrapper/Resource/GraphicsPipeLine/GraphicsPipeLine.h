@@ -25,10 +25,18 @@ namespace tktk
 		// ルートシグネチャを作る
 		unsigned int createRootSignature(ID3D12Device* device, const RootSignatureInitParam& initParam);
 
+		// 指定のルートシグネチャを削除する
+		// ※引数のハンドルに対応するリソースが無かったら何もしない
+		void eraseRootSignature(unsigned int handle);
+
 	public:
 
 		// パイプラインステートを作る
 		unsigned int createPipeLineState(ID3D12Device* device, const PipeLineStateInitParam& initParam, const ShaderFilePaths& shaderFilePath);
+
+		// 指定のパイプラインステートを削除する
+		// ※引数のハンドルに対応するリソースが無かったら何もしない
+		void erasePipeLineState(unsigned int handle);
 
 	public:
 

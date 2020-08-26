@@ -88,9 +88,9 @@ namespace tktk
 			rtvDescriptorHeapInitParam.shaderVisible = false;
 			rtvDescriptorHeapInitParam.descriptorParamArray.resize(2U);
 			rtvDescriptorHeapInitParam.descriptorParamArray.at(0U).type = RtvDescriptorType::normal;
-			rtvDescriptorHeapInitParam.descriptorParamArray.at(0U).id	= getSystemHandle(SystemRtBufferType::BackBuffer_1);
+			rtvDescriptorHeapInitParam.descriptorParamArray.at(0U).handle	= getSystemHandle(SystemRtBufferType::BackBuffer_1);
 			rtvDescriptorHeapInitParam.descriptorParamArray.at(1U).type = RtvDescriptorType::normal;
-			rtvDescriptorHeapInitParam.descriptorParamArray.at(1U).id	= getSystemHandle(SystemRtBufferType::BackBuffer_2);
+			rtvDescriptorHeapInitParam.descriptorParamArray.at(1U).handle	= getSystemHandle(SystemRtBufferType::BackBuffer_2);
 
 			setSystemHandle(SystemRtvDescriptorHeapType::BackBuffer, m_dX3DResource->createRtvDescriptorHeap(m_device, rtvDescriptorHeapInitParam));
 		}
@@ -280,6 +280,71 @@ namespace tktk
 	unsigned int DX3DBaseObjects::gpuPriorityLoadTextureBuffer(const std::string& texDataPath)
 	{
 		return m_dX3DResource->gpuPriorityLoadTextureBuffer(m_device, m_commandList, texDataPath);
+	}
+
+	void DX3DBaseObjects::eraseViewport(unsigned int handle)
+	{
+		m_dX3DResource->eraseViewport(handle);
+	}
+
+	void DX3DBaseObjects::eraseScissorRect(unsigned int handle)
+	{
+		m_dX3DResource->eraseScissorRect(handle);
+	}
+
+	void DX3DBaseObjects::eraseRootSignature(unsigned int handle)
+	{
+		m_dX3DResource->eraseRootSignature(handle);
+	}
+
+	void DX3DBaseObjects::erasePipeLineState(unsigned int handle)
+	{
+		m_dX3DResource->erasePipeLineState(handle);
+	}
+
+	void DX3DBaseObjects::eraseVertexBuffer(unsigned int handle)
+	{
+		m_dX3DResource->eraseVertexBuffer(handle);
+	}
+
+	void DX3DBaseObjects::eraseIndexBuffer(unsigned int handle)
+	{
+		m_dX3DResource->eraseIndexBuffer(handle);
+	}
+
+	void DX3DBaseObjects::eraseCBuffer(unsigned int handle)
+	{
+		m_dX3DResource->eraseCBuffer(handle);
+	}
+
+	void DX3DBaseObjects::eraseTextureBuffer(unsigned int handle)
+	{
+		m_dX3DResource->eraseTextureBuffer(handle);
+	}
+
+	void DX3DBaseObjects::eraseDsBuffer(unsigned int handle)
+	{
+		m_dX3DResource->eraseDsBuffer(handle);
+	}
+
+	void DX3DBaseObjects::eraseRtBuffer(unsigned int handle)
+	{
+		m_dX3DResource->eraseRtBuffer(handle);
+	}
+
+	void DX3DBaseObjects::eraseBasicDescriptorHeap(unsigned int handle)
+	{
+		m_dX3DResource->eraseBasicDescriptorHeap(handle);
+	}
+
+	void DX3DBaseObjects::eraseRtvDescriptorHeap(unsigned int handle)
+	{
+		m_dX3DResource->eraseRtvDescriptorHeap(handle);
+	}
+
+	void DX3DBaseObjects::eraseDsvDescriptorHeap(unsigned int handle)
+	{
+		m_dX3DResource->eraseDsvDescriptorHeap(handle);
 	}
 
 	void DX3DBaseObjects::setBackGroundColor(const tktkMath::Color& backGroundColor)

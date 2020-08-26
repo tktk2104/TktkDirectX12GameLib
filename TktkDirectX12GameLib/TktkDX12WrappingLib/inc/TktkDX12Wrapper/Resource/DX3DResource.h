@@ -81,6 +81,60 @@ namespace tktk
 		// 深度ステンシルのディスクリプタヒープを作り、そのリソースのハンドルを返す
 		unsigned int createDsvDescriptorHeap(ID3D12Device* device, const DsvDescriptorHeapInitParam& initParam);
 
+	public: /* リソース削除処理 */
+
+		// 指定のビューポートを削除する
+		// ※引数のハンドルに対応するリソースが無かったら何もしない
+		void eraseViewport(unsigned int handle);
+
+		// 指定のシザー矩形を削除する
+		// ※引数のハンドルに対応するリソースが無かったら何もしない
+		void eraseScissorRect(unsigned int handle);
+
+		// 指定のルートシグネチャを削除する
+		// ※引数のハンドルに対応するリソースが無かったら何もしない
+		void eraseRootSignature(unsigned int handle);
+
+		// 指定のパイプラインステートを削除する
+		// ※引数のハンドルに対応するリソースが無かったら何もしない
+		void erasePipeLineState(unsigned int handle);
+
+		// 指定の頂点バッファを削除する
+		// ※引数のハンドルに対応するリソースが無かったら何もしない
+		void eraseVertexBuffer(unsigned int handle);
+
+		// 指定のインデックスバッファを削除する
+		// ※引数のハンドルに対応するリソースが無かったら何もしない
+		void eraseIndexBuffer(unsigned int handle);
+
+		// 指定の定数バッファを削除する
+		// ※引数のハンドルに対応するリソースが無かったら何もしない
+		void eraseCBuffer(unsigned int handle);
+
+		// 指定のテクスチャバッファを削除する
+		// ※引数のハンドルに対応するリソースが無かったら何もしない
+		void eraseTextureBuffer(unsigned int handle);
+
+		// 指定の深度ステンシルバッファを削除する
+		// ※引数のハンドルに対応するリソースが無かったら何もしない
+		void eraseDsBuffer(unsigned int handle);
+
+		// 指定のレンダーターゲットバッファを削除する
+		// ※引数のハンドルに対応するリソースが無かったら何もしない
+		void eraseRtBuffer(unsigned int handle);
+
+		// 指定の通常のディスクリプタヒープを削除する
+		// ※引数のハンドルに対応するリソースが無かったら何もしない
+		void eraseBasicDescriptorHeap(unsigned int handle);
+
+		// 指定のレンダーターゲット用のディスクリプタヒープを削除する
+		// ※引数のハンドルに対応するリソースが無かったら何もしない
+		void eraseRtvDescriptorHeap(unsigned int handle);
+
+		// 指定の深度ステンシル用のディスクリプタヒープを削除する
+		// ※引数のハンドルに対応するリソースが無かったら何もしない
+		void eraseDsvDescriptorHeap(unsigned int handle);
+
 	public: /* リソース更新系処理 */
 
 		// 指定の頂点バッファを更新する

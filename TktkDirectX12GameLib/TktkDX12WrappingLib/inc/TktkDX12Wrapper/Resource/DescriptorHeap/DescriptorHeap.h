@@ -58,6 +58,20 @@ namespace tktk
 		// 深度ステンシル用のディスクリプタヒープを作る
 		unsigned int createDsvDescriptorHeap(ID3D12Device* device, const DsvDescriptorHeapInitParam& initParam);
 
+	public: /* 削除処理 */
+
+		// 指定の通常のディスクリプタヒープを削除する
+		// ※引数のハンドルに対応するリソースが無かったら何もしない
+		void eraseBasicDescriptorHeap(unsigned int handle);
+
+		// 指定のレンダーターゲット用のディスクリプタヒープを削除する
+		// ※引数のハンドルに対応するリソースが無かったら何もしない
+		void eraseRtvDescriptorHeap(unsigned int handle);
+
+		// 指定の深度ステンシル用のディスクリプタヒープを削除する
+		// ※引数のハンドルに対応するリソースが無かったら何もしない
+		void eraseDsvDescriptorHeap(unsigned int handle);
+
 	public: /* CPUハンドルの取得処理 */
 
 		// 指定した通常のディスクリプタヒープの各ビューのCPUアドレスの配列を取得する

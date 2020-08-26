@@ -12,6 +12,11 @@ namespace tktk
 		return m_depthStencilBufferDataArray.create(device, initParam);
 	}
 
+	void DepthStencilBuffer::erase(unsigned int handle)
+	{
+		m_depthStencilBufferDataArray.erase(handle);
+	}
+
 	void DepthStencilBuffer::beginWrite(unsigned int handle, ID3D12GraphicsCommandList* commandList) const
 	{
 		m_depthStencilBufferDataArray.getMatchHandlePtr(handle)->beginWrite(commandList);

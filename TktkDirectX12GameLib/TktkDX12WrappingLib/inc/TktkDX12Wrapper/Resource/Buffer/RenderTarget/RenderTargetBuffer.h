@@ -22,6 +22,10 @@ namespace tktk
 		// スワップチェインから「RenderTargetBufferData」のインスタンスを作り、そのリソースのハンドルを返す
 		unsigned int create(IDXGISwapChain1* swapChain, unsigned int backBufferIndex);
 
+		// 指定のレンダーターゲットバッファを削除する
+		// ※引数のハンドルに対応するリソースが無かったら何もしない
+		void erase(unsigned int handle);
+
 		// 指定のレンダーターゲットバッファのリソースバリアをレンダーターゲット状態に変更する
 		void beginWriteBasicRtBuffer(unsigned int handle, ID3D12GraphicsCommandList* commandList) const;
 

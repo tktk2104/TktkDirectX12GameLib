@@ -37,6 +37,10 @@ namespace tktk
 		// 頂点バッファを作り、そのリソースのハンドルを返す
 		unsigned int createVertexBuffer(ID3D12Device* device, unsigned int vertexTypeSize, unsigned int vertexDataCount, const void* vertexDataTopPos);
 
+		// 指定の頂点バッファを削除する
+		// ※引数のハンドルに対応するリソースが無かったら何もしない
+		void eraseVertexBuffer(unsigned int handle);
+
 		// 指定の頂点バッファを更新する
 		// ※アップロードバッファを新規に作成し、そのバッファから自身にコピーする命令をコマンドリストに登録する
 		void updateVertexBuffer(unsigned int handle, ID3D12Device* device, ID3D12GraphicsCommandList* commandList, unsigned int vertexTypeSize, unsigned int vertexDataCount, const void* vertexDataTopPos);
@@ -49,6 +53,10 @@ namespace tktk
 		// インデックスバッファを作り、そのリソースのハンドルを返す
 		unsigned int createIndexBuffer(ID3D12Device* device, const std::vector<unsigned short>& indexDataArray);
 
+		// 指定のインデックスバッファを削除する
+		// ※引数のハンドルに対応するリソースが無かったら何もしない
+		void eraseIndexBuffer(unsigned int handle);
+
 		// 指定のインデックスバッファを更新する
 		// ※アップロードバッファを新規に作成し、そのバッファから自身にコピーする命令をコマンドリストに登録する
 		void updateIndexBuffer(unsigned int handle, ID3D12Device* device, ID3D12GraphicsCommandList* commandList, const std::vector<unsigned short>& indexDataArray);
@@ -60,6 +68,10 @@ namespace tktk
 
 		// 定数バッファを作り、そのリソースのハンドルを返す
 		unsigned int createCBuffer(ID3D12Device* device, unsigned int constantBufferTypeSize, const void* constantBufferDataTopPos);
+
+		// 指定の定数バッファを削除する
+		// ※引数のハンドルに対応するリソースが無かったら何もしない
+		void eraseCBuffer(unsigned int handle);
 
 		// 指定の定数バッファを使用して、引数のディスクリプタハンドルに定数バッファビューを作る
 		void createCbv(unsigned int handle, ID3D12Device* device, D3D12_CPU_DESCRIPTOR_HANDLE heapHandle) const;
@@ -82,6 +94,10 @@ namespace tktk
 		// 引数のファイルから画像情報をロードし、コマンドリストを使ってテクスチャバッファを作り、そのリソースのハンドルを返す
 		unsigned int gpuPriorityLoadTextureBuffer(ID3D12Device* device, ID3D12GraphicsCommandList* commandList, const std::string& texDataPath);
 
+		// 指定のテクスチャバッファを削除する
+		// ※引数のハンドルに対応するリソースが無かったら何もしない
+		void eraseTextureBuffer(unsigned int handle);
+
 		// 指定のテクスチャバッファを使用して、引数のディスクリプタハンドルにシェーダーリソースビューを作る
 		void createSrv(unsigned int handle, ID3D12Device* device, D3D12_CPU_DESCRIPTOR_HANDLE heapHandle) const;
 
@@ -92,6 +108,10 @@ namespace tktk
 
 		// 深度ステンシルバッファを作り、そのリソースのハンドルを返す
 		unsigned int createDsBuffer(ID3D12Device* device, const DepthStencilBufferInitParam& initParam);
+
+		// 指定の深度ステンシルバッファを削除する
+		// ※引数のハンドルに対応するリソースが無かったら何もしない
+		void eraseDsBuffer(unsigned int handle);
 
 		// 指定の深度ステンシルバッファを使用して、引数のディスクリプタハンドルに深度ステンシルビューを作る
 		void createDsv(unsigned int handle, ID3D12Device* device, D3D12_CPU_DESCRIPTOR_HANDLE heapHandle) const;
@@ -125,6 +145,10 @@ namespace tktk
 		
 		// スワップチェインからレンダーターゲットバッファを作り、そのリソースのハンドルを返す
 		unsigned int createRtBuffer(IDXGISwapChain1* swapChain, unsigned int backBufferIndex);
+
+		// 指定のレンダーターゲットバッファを削除する
+		// ※引数のハンドルに対応するリソースが無かったら何もしない
+		void eraseRtBuffer(unsigned int handle);
 
 		// 指定のレンダーターゲットバッファを使用して、引数のディスクリプタハンドルにレンダーターゲットビューを作る
 		void createRtv(unsigned int handle, ID3D12Device* device, D3D12_CPU_DESCRIPTOR_HANDLE heapHandle) const;

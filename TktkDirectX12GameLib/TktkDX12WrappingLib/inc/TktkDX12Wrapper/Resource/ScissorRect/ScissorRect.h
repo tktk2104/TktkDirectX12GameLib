@@ -19,6 +19,10 @@ namespace tktk
 		// 「ScissorRectData」のインスタンスを作り、そのリソースのハンドルを返す
 		unsigned int create(const std::vector<ScissorRectInitParam>& initParamArray);
 
+		// 指定のシザー矩形を削除する
+		// ※引数のハンドルに対応するリソースが無かったら何もしない
+		void erase(unsigned int handle);
+
 		// 指定のシザー矩形をコマンドリストに登録する
 		void set(unsigned int handle, ID3D12GraphicsCommandList* commandList) const;
 

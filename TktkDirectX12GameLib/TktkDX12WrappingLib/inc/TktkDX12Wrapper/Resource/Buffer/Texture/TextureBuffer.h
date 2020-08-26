@@ -29,6 +29,10 @@ namespace tktk
 		// 引数のファイルから画像情報をロードし、コマンドリストを使って「TextureBufferData」のインスタンスを作り、そのリソースのハンドルを返す
 		unsigned int gpuPriorityLoad(ID3D12Device* device, ID3D12GraphicsCommandList* commandList, const std::string& texDataPath);
 	
+		// 指定のテクスチャバッファを削除する
+		// ※引数のハンドルに対応するリソースが無かったら何もしない
+		void erase(unsigned int handle);
+
 		// 指定のテクスチャバッファを使用して、引数のディスクリプタハンドルにシェーダーリソースビューを作る
 		void createSrv(unsigned int handle, ID3D12Device* device, D3D12_CPU_DESCRIPTOR_HANDLE heapHandle) const;
 		

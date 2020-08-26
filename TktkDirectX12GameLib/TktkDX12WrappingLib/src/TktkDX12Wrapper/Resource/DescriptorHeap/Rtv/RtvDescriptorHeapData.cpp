@@ -15,7 +15,7 @@ namespace tktk
 
 		for (const auto& node : initParam.descriptorParamArray)
 		{
-			m_rtBufferIdArray.push_back(node.id);
+			m_rtBufferIdArray.push_back(node.handle);
 		}
 	}
 

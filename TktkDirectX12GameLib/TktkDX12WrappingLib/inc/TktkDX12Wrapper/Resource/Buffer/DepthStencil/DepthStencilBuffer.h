@@ -19,6 +19,10 @@ namespace tktk
 		// 「DepthStencilBufferData」のインスタンスを作り、そのリソースのハンドルを返す
 		unsigned int create(ID3D12Device* device, const DepthStencilBufferInitParam& initParam);
 
+		// 指定の深度ステンシルバッファを削除する
+		// ※引数のハンドルに対応するリソースが無かったら何もしない
+		void erase(unsigned int handle);
+
 		// 指定の深度ステンシルバッファのリソースバリアを深度書き込み状態に変更する
 		// ※シェーダーリソースとして使用しない設定の場合読んでも何も起きない
 		void beginWrite(unsigned int handle, ID3D12GraphicsCommandList* commandList) const;

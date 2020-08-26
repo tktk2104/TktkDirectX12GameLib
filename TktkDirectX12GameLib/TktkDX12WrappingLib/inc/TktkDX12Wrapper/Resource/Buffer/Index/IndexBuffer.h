@@ -19,6 +19,10 @@ namespace tktk
 		// 「IndexBufferData」のインスタンスを作り、そのリソースのハンドルを返す
 		unsigned int create(ID3D12Device* device, const std::vector<unsigned short>& indexDataArray);
 
+		// 指定のインデックスバッファを削除する
+		// ※引数のハンドルに対応するリソースが無かったら何もしない
+		void erase(unsigned int handle);
+
 		// コマンドリストに指定のインデックスバッファを登録する
 		void set(unsigned int handle, ID3D12GraphicsCommandList* commandList) const;
 

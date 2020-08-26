@@ -12,6 +12,11 @@ namespace tktk
 		return m_viewportDataArray.create(initParamArray);
 	}
 
+	void Viewport::erase(unsigned int handle)
+	{
+		m_viewportDataArray.erase(handle);
+	}
+
 	void Viewport::set(unsigned int handle, ID3D12GraphicsCommandList* commandList) const
 	{
 		m_viewportDataArray.getMatchHandlePtr(handle)->set(commandList);

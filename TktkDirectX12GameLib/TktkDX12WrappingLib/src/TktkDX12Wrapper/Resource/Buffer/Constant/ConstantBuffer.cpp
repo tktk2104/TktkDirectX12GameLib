@@ -12,6 +12,11 @@ namespace tktk
 		return m_constantBufferDataArray.create(device, constantBufferTypeSize, constantBufferDataTopPos);
 	}
 
+	void ConstantBuffer::erase(unsigned int handle)
+	{
+		m_constantBufferDataArray.erase(handle);
+	}
+
 	void ConstantBuffer::createCbv(unsigned int handle, ID3D12Device* device, D3D12_CPU_DESCRIPTOR_HANDLE heapHandle) const
 	{
 		m_constantBufferDataArray.getMatchHandlePtr(handle)->createCbv(device, heapHandle);

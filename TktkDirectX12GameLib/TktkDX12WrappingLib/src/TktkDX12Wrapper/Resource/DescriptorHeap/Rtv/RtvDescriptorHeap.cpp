@@ -12,6 +12,11 @@ namespace tktk
 		return m_rtvDescriptorHeapDataArray.create(device, initParam);
 	}
 
+	void RtvDescriptorHeap::erase(unsigned int handle)
+	{
+		m_rtvDescriptorHeapDataArray.erase(handle);
+	}
+
 	std::vector<D3D12_CPU_DESCRIPTOR_HANDLE> RtvDescriptorHeap::getCpuHeapHandleArray(unsigned int handle, ID3D12Device* device) const
 	{
 		return m_rtvDescriptorHeapDataArray.getMatchHandlePtr(handle)->getCpuHeapHandleArray(device);

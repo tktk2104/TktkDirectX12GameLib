@@ -12,6 +12,11 @@ namespace tktk
 		return m_indexBufferDataArray.create(device, indexDataArray);
 	}
 
+	void IndexBuffer::erase(unsigned int handle)
+	{
+		m_indexBufferDataArray.erase(handle);
+	}
+
 	void IndexBuffer::set(unsigned int handle, ID3D12GraphicsCommandList* commandList) const
 	{
 		m_indexBufferDataArray.getMatchHandlePtr(handle)->set(commandList);

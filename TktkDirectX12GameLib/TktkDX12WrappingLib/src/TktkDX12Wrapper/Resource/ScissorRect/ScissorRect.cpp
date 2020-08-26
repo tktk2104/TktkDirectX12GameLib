@@ -12,6 +12,11 @@ namespace tktk
 		return m_scissorRectDataArray.create(initParamArray);
 	}
 
+	void ScissorRect::erase(unsigned int handle)
+	{
+		m_scissorRectDataArray.erase(handle);
+	}
+
 	void ScissorRect::set(unsigned int handle, ID3D12GraphicsCommandList* commandList) const
 	{
 		m_scissorRectDataArray.getMatchHandlePtr(handle)->set(commandList);

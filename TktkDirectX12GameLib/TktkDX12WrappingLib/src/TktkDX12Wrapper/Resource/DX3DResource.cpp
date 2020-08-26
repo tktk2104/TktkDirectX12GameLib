@@ -143,7 +143,7 @@ namespace tktk
 			{
 			case RtvDescriptorType::normal:
 
-				m_bufferResource->createRtv(initParam.descriptorParamArray.at(i).id, device, cpuHeapHandleArray.at(i));
+				m_bufferResource->createRtv(initParam.descriptorParamArray.at(i).handle, device, cpuHeapHandleArray.at(i));
 				break;
 			}
 		}
@@ -163,11 +163,76 @@ namespace tktk
 			{
 			case DsvDescriptorType::normal:
 
-				m_bufferResource->createDsv(initParam.descriptorParamArray.at(i).id, device, cpuHeapHandleArray.at(i));
+				m_bufferResource->createDsv(initParam.descriptorParamArray.at(i).handle, device, cpuHeapHandleArray.at(i));
 				break;
 			}
 		}
 		return handle;
+	}
+
+	void DX3DResource::eraseViewport(unsigned int handle)
+	{
+		m_viewport->erase(handle);
+	}
+
+	void DX3DResource::eraseScissorRect(unsigned int handle)
+	{
+		m_scissorRect->erase(handle);
+	}
+
+	void DX3DResource::eraseRootSignature(unsigned int handle)
+	{
+		m_graphicsPipeLine->eraseRootSignature(handle);
+	}
+
+	void DX3DResource::erasePipeLineState(unsigned int handle)
+	{
+		m_graphicsPipeLine->erasePipeLineState(handle);
+	}
+
+	void DX3DResource::eraseVertexBuffer(unsigned int handle)
+	{
+		m_bufferResource->eraseVertexBuffer(handle);
+	}
+
+	void DX3DResource::eraseIndexBuffer(unsigned int handle)
+	{
+		m_bufferResource->eraseIndexBuffer(handle);
+	}
+
+	void DX3DResource::eraseCBuffer(unsigned int handle)
+	{
+		m_bufferResource->eraseCBuffer(handle);
+	}
+
+	void DX3DResource::eraseTextureBuffer(unsigned int handle)
+	{
+		m_bufferResource->eraseTextureBuffer(handle);
+	}
+
+	void DX3DResource::eraseDsBuffer(unsigned int handle)
+	{
+		m_bufferResource->eraseDsBuffer(handle);
+	}
+
+	void DX3DResource::eraseRtBuffer(unsigned int handle)
+	{
+		m_bufferResource->eraseRtBuffer(handle);
+	}
+
+	void DX3DResource::eraseBasicDescriptorHeap(unsigned int handle)
+	{
+		m_descriptorHeap->eraseBasicDescriptorHeap(handle);
+	}
+
+	void DX3DResource::eraseRtvDescriptorHeap(unsigned int handle)
+	{
+		m_descriptorHeap->eraseRtvDescriptorHeap(handle);
+	}
+
+	void DX3DResource::eraseDsvDescriptorHeap(unsigned int handle)
+	{
+		m_descriptorHeap->eraseDsvDescriptorHeap(handle);
 	}
 
 	void DX3DResource::updateVertexBuffer(unsigned int handle, ID3D12Device* device, ID3D12GraphicsCommandList* commandList, unsigned int vertexTypeSize, unsigned int vertexDataCount, const void* vertexDataTopPos)

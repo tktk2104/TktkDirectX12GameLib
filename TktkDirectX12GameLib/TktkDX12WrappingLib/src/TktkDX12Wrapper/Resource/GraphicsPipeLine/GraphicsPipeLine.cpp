@@ -19,9 +19,19 @@ namespace tktk
 		return m_rootSignature->create(device, initParam);
 	}
 
+	void GraphicsPipeLine::eraseRootSignature(unsigned int handle)
+	{
+		m_rootSignature->erase(handle);
+	}
+
 	unsigned int GraphicsPipeLine::createPipeLineState(ID3D12Device* device, const PipeLineStateInitParam& initParam, const ShaderFilePaths& shaderFilePath)
 	{
-		return m_pipeLineState->createPipeLineState(device, initParam, shaderFilePath, m_rootSignature->getPtr(initParam.rootSignatureHandle));
+		return m_pipeLineState->create(device, initParam, shaderFilePath, m_rootSignature->getPtr(initParam.rootSignatureHandle));
+	}
+
+	void GraphicsPipeLine::erasePipeLineState(unsigned int handle)
+	{
+		m_pipeLineState->erase(handle);
 	}
 
 	void GraphicsPipeLine::set(unsigned int handle, ID3D12GraphicsCommandList* commandList) const

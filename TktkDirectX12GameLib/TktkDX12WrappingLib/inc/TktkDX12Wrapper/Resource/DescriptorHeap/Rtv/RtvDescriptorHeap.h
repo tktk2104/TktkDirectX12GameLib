@@ -20,6 +20,10 @@ namespace tktk
 		// 「RtvDescriptorHeapData」のインスタンスを作り、そのリソースのハンドルを返す
 		unsigned int create(ID3D12Device* device, const RtvDescriptorHeapInitParam& initParam);
 
+		// 指定のディスクリプタヒープを削除する
+		// ※引数のハンドルに対応するリソースが無かったら何もしない
+		void erase(unsigned int handle);
+
 		// 指定したディスクリプタヒープの各ビューのCPUアドレスの配列を取得する
 		std::vector<D3D12_CPU_DESCRIPTOR_HANDLE> getCpuHeapHandleArray(unsigned int handle, ID3D12Device* device) const;
 

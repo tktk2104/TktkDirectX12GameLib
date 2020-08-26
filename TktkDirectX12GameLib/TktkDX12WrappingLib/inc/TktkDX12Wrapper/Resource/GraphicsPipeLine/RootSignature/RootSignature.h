@@ -19,6 +19,10 @@ namespace tktk
 		// 「RootSignatureData」のインスタンスを作り、そのリソースのハンドルを返す
 		unsigned int create(ID3D12Device* device, const RootSignatureInitParam& initParam);
 
+		// 指定のルートシグネチャを削除する
+		// ※引数のハンドルに対応するリソースが無かったら何もしない
+		void erase(unsigned int handle);
+
 		// 指定したルートシグネチャのポインタを取得する
 		ID3D12RootSignature* getPtr(unsigned int handle) const;
 

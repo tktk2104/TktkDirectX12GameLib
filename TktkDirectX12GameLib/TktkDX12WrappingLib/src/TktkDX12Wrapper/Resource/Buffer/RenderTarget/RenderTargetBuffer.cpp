@@ -17,6 +17,11 @@ namespace tktk
 		return m_renderTargetBufferDataArray.create(swapChain, backBufferIndex);
 	}
 
+	void RenderTargetBuffer::erase(unsigned int handle)
+	{
+		m_renderTargetBufferDataArray.erase(handle);
+	}
+
 	void RenderTargetBuffer::beginWriteBasicRtBuffer(unsigned int handle, ID3D12GraphicsCommandList* commandList) const
 	{
 		m_renderTargetBufferDataArray.getMatchHandlePtr(handle)->beginWriteBasicRtBuffer(commandList);

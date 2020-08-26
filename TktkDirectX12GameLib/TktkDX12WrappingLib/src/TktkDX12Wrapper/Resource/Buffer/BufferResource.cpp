@@ -34,6 +34,11 @@ namespace tktk
 		return m_vertexBuffer->create(device, vertexTypeSize, vertexDataCount, vertexDataTopPos);
 	}
 
+	void BufferResource::eraseVertexBuffer(unsigned int handle)
+	{
+		m_vertexBuffer->erase(handle);
+	}
+
 	void BufferResource::updateVertexBuffer(unsigned int handle, ID3D12Device* device, ID3D12GraphicsCommandList* commandList, unsigned int vertexTypeSize, unsigned int vertexDataCount, const void* vertexDataTopPos)
 	{
 		m_vertexBuffer->updateBuffer(handle, device, commandList, vertexTypeSize, vertexDataCount, vertexDataTopPos);
@@ -49,6 +54,11 @@ namespace tktk
 		return m_indexBuffer->create(device, indexDataArray);
 	}
 
+	void BufferResource::eraseIndexBuffer(unsigned int handle)
+	{
+		m_indexBuffer->erase(handle);
+	}
+
 	void BufferResource::updateIndexBuffer(unsigned int handle, ID3D12Device* device, ID3D12GraphicsCommandList* commandList, const std::vector<unsigned short>& indexDataArray)
 	{
 		m_indexBuffer->updateBuffer(handle, device, commandList, indexDataArray);
@@ -62,6 +72,11 @@ namespace tktk
 	unsigned int BufferResource::createCBuffer(ID3D12Device* device, unsigned int constantBufferTypeSize, const void* constantBufferDataTopPos)
 	{
 		return m_constantBuffer->create(device, constantBufferTypeSize, constantBufferDataTopPos);
+	}
+
+	void BufferResource::eraseCBuffer(unsigned int handle)
+	{
+		m_constantBuffer->erase(handle);
 	}
 
 	void BufferResource::createCbv(unsigned int handle, ID3D12Device* device, D3D12_CPU_DESCRIPTOR_HANDLE heapHandle) const
@@ -94,6 +109,11 @@ namespace tktk
 		return m_textureBuffer->gpuPriorityLoad(device, commandList, texDataPath);
 	}
 
+	void BufferResource::eraseTextureBuffer(unsigned int handle)
+	{
+		m_textureBuffer->erase(handle);
+	}
+
 	void BufferResource::createSrv(unsigned int handle, ID3D12Device* device, D3D12_CPU_DESCRIPTOR_HANDLE heapHandle) const
 	{
 		m_textureBuffer->createSrv(handle, device, heapHandle);
@@ -107,6 +127,11 @@ namespace tktk
 	unsigned int BufferResource::createDsBuffer(ID3D12Device* device, const DepthStencilBufferInitParam& initParam)
 	{
 		return m_depthStencilBuffer->create(device, initParam);
+	}
+
+	void BufferResource::eraseDsBuffer(unsigned int handle)
+	{
+		m_depthStencilBuffer->erase(handle);
 	}
 
 	void BufferResource::createDsv(unsigned int handle, ID3D12Device* device, D3D12_CPU_DESCRIPTOR_HANDLE heapHandle) const
@@ -152,6 +177,11 @@ namespace tktk
 	unsigned int BufferResource::createRtBuffer(IDXGISwapChain1* swapChain, unsigned int backBufferIndex)
 	{
 		return m_renderTargetBuffer->create(swapChain, backBufferIndex);
+	}
+
+	void BufferResource::eraseRtBuffer(unsigned int handle)
+	{
+		m_renderTargetBuffer->erase(handle);
 	}
 
 	void BufferResource::createRtv(unsigned int handle, ID3D12Device* device, D3D12_CPU_DESCRIPTOR_HANDLE heapHandle) const

@@ -12,6 +12,11 @@ namespace tktk
 		return m_rootSignatureDataArray.create(device, initParam);
 	}
 
+	void RootSignature::erase(unsigned int handle)
+	{
+		m_rootSignatureDataArray.erase(handle);
+	}
+
 	ID3D12RootSignature* RootSignature::getPtr(unsigned int handle) const
 	{
 		return m_rootSignatureDataArray.getMatchHandlePtr(handle)->getPtr();
