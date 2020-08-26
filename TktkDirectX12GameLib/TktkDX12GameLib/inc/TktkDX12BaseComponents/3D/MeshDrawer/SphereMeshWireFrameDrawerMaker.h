@@ -33,6 +33,9 @@ namespace tktk
 		// 半径を設定する
 		SphereMeshWireFrameDrawerMaker& radius(float value);
 
+		// ローカル座標を設定する
+		SphereMeshWireFrameDrawerMaker& localPosition(const tktkMath::Vector3& value);
+
 		// 描画色を設定する
 		SphereMeshWireFrameDrawerMaker& albedoColor(const tktkMath::Color & value);
 
@@ -63,14 +66,15 @@ namespace tktk
 
 	private: /* 変数達 */
 
-		GameObjectPtr	m_user							{  };
-		float			m_drawPriority					{ 0.0f };
-		float			m_radius						{ 0.5f };
-		tktkMath::Color	m_albedoColor					{ tktkMath::Color_v::white };
-		unsigned int	m_useRtvDescriptorHeapHandle	{  };		// ※初期パラメータはバックバッファー
-		unsigned int	m_cameraId						{ 0U };
-		unsigned int	m_shadowMapCameraId				{ 0U };
-		unsigned int	m_lightId						{ 0U };
+		GameObjectPtr		m_user							{  };
+		float				m_drawPriority					{ 0.0f };
+		float				m_radius						{ 0.5f };
+		tktkMath::Vector3	m_localPosition					{ tktkMath::Vector3_v::zero };
+		tktkMath::Color		m_albedoColor					{ tktkMath::Color_v::white };
+		unsigned int		m_useRtvDescriptorHeapHandle	{  };		// ※初期パラメータはバックバッファー
+		unsigned int		m_cameraId						{ 0U };
+		unsigned int		m_shadowMapCameraId				{ 0U };
+		unsigned int		m_lightId						{ 0U };
 
 	public: /* 不正な型の引数が渡されそうになった時にコンパイルエラーにする為の仕組み */
 

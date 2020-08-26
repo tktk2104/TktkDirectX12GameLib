@@ -35,6 +35,7 @@ namespace tktk
 				getGameObject()->createComponent<SphereMeshWireFrameDrawer>(
 					m_drawPriority,
 					boundingCircle.calculateRadius(),
+					boundingCircle.getLocalMatrix().calculateTranslation(),
 					m_lineColor,
 					m_cameraId,
 					m_shadowMapCameraId,

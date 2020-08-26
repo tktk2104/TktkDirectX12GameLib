@@ -2,6 +2,7 @@
 #define SPHERE_MESH_DRAWER_H_
 
 #include <TktkMath/Structs/Color.h>
+#include <TktkMath/Structs/Vector3.h>
 #include "../../../TktkDX12Game/Component/ComponentBase.h"
 #include "../Transform3D/Transform3D.h"
 
@@ -13,7 +14,7 @@ namespace tktk
 	{
 	public:
 
-		SphereMeshDrawer(float drawPriority, float radius, const tktkMath::Color& albedoColor , unsigned int cameraId, unsigned int shadowMapCameraId, unsigned int lightId, unsigned int useRtvDescriptorHeapHandle);
+		SphereMeshDrawer(float drawPriority, float radius, const tktkMath::Vector3& localPosition, const tktkMath::Color& albedoColor , unsigned int cameraId, unsigned int shadowMapCameraId, unsigned int lightId, unsigned int useRtvDescriptorHeapHandle);
 	
 	public:
 
@@ -29,6 +30,7 @@ namespace tktk
 	private:
 
 		float						m_radius;
+		tktkMath::Vector3			m_localPosition;
 		tktkMath::Color				m_albedoColor;
 		unsigned int				m_useRtvDescriptorHeapHandle;
 		unsigned int				m_cameraId;

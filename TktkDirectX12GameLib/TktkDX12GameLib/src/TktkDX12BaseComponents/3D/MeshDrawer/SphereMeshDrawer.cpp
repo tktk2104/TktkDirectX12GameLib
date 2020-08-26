@@ -4,9 +4,10 @@
 
 namespace tktk
 {
-	SphereMeshDrawer::SphereMeshDrawer(float drawPriority, float radius, const tktkMath::Color& albedoColor, unsigned int cameraId, unsigned int shadowMapCameraId, unsigned int lightId, unsigned int useRtvDescriptorHeapHandle)
+	SphereMeshDrawer::SphereMeshDrawer(float drawPriority, float radius, const tktkMath::Vector3& localPosition, const tktkMath::Color& albedoColor, unsigned int cameraId, unsigned int shadowMapCameraId, unsigned int lightId, unsigned int useRtvDescriptorHeapHandle)
 		: ComponentBase(drawPriority)
 		, m_radius(radius)
+		, m_localPosition(localPosition)
 		, m_albedoColor(albedoColor)
 		, m_cameraId(cameraId)
 		, m_shadowMapCameraId(shadowMapCameraId)
@@ -39,7 +40,7 @@ namespace tktk
 		MeshDrawFuncBaseArgs baseArgs{};
 		{
 			// Transform3Dからワールド行列を取得し、半径の値でスケーリングする
-			baseArgs.transformBufferData.worldMatrix			= tktkMath::Matrix4::createScale({ m_radius * 2 }) * m_transform->calculateWorldMatrix();
+			baseArgs.transformBufferData.worldMatrix			= tktkMath::Matrix4::createScale({ m_radius * 2 }) * tktkMath::Matrix4::createTranslation(m_localPosition * m_radius) * m_transform->calculateWorldMatrix();
 
 			// 使用するカメラのビュー行列
 			baseArgs.transformBufferData.viewMatrix				= DX12GameManager::getViewMatrix(m_cameraId);
