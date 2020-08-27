@@ -41,10 +41,6 @@ namespace tktkContainer
 
 	public:
 
-		// コンストラクタ引数を渡してインスタンスを作り、そのハンドルと引数のIDを結びつけ、結びつけたハンドルを返す
-		template <class... ConstructorArgs>
-		unsigned int useIdCreate(int id, ConstructorArgs&&... args);
-
 		// コンストラクタ引数を渡してインスタンスを作り、そのハンドルを返す
 		template <class... ConstructorArgs>
 		unsigned int create(ConstructorArgs&&... args);
@@ -53,15 +49,11 @@ namespace tktkContainer
 		// ※ハンドルに対応したリソースが無かった場合、nullptrを返す
 		NodeType* getMatchHandlePtr(unsigned int handle) const;
 
-		// IDを引数に対応するポインタを取得する
-		// ※IDに対応したリソースが無かった場合、nullptrを返す
-		NodeType* getMatchIdPtr(int id) const;
-
 		// 引数のハンドルのインスタンスを削除（メモリ解放）する
 		void erase(unsigned int handle);
 
 		// 全てのインスタンスを削除（メモリ解放）する
-		void claer();
+		void clear();
 
 	public:
 
@@ -78,9 +70,6 @@ namespace tktkContainer
 
 		// リソースを管理するためのハンドルを作るクラス
 		ResourceHandleManager m_resourceHandleManager;
-
-		// ユーザーが任意に指定したIDとプログラムで自動的に設定されたハンドルを結びつけるコンテナ
-		std::unordered_map<int, unsigned int> m_idHandleMap;
 
 		// ハンドルから要素のポインタにアクセスするためのコンテナ
 		std::unordered_map<unsigned int, ResourceNode> m_connectNodeMap;
@@ -142,18 +131,6 @@ namespace tktkContainer
 		}
 	}
 
-	// コンストラクタ引数を渡してインスタンスを作り、そのハンドルと引数のIDを結びつけ、結びつけたハンドルを返す
-	template<class NodeType, class Allocator>
-	template<class ...ConstructorArgs>
-	inline unsigned int ResourceContainer<NodeType, Allocator>::useIdCreate(int id, ConstructorArgs && ...args)
-	{
-		unsigned int handle = create(std::forward<ConstructorArgs>(args)...);
-
-		m_idHandleMap.emplace(id, handle);
-
-		return handle;
-	}
-
 	// コンストラクタ引数を渡してインスタンスを作り、そのハンドルを返す
 	template<class NodeType, class Allocator>
 	template<class ...ConstructorArgs>
@@ -196,16 +173,6 @@ namespace tktkContainer
 		return m_connectNodeMap.at(handle).ptr;
 	}
 
-	// IDを引数に対応するポインタを取得する
-	// ※IDに対応したリソースが無かった場合、nullptrを返す
-	template<class NodeType, class Allocator>
-	inline NodeType* ResourceContainer<NodeType, Allocator>::getMatchIdPtr(int id) const
-	{
-		if (m_idHandleMap.count(id) == 0U) return nullptr;
-
-		return getMatchHandlePtr(m_idHandleMap.at(id));
-	}
-
 	// 引数のハンドルのインスタンスを削除（メモリ解放）する
 	template<class NodeType, class Allocator>
 	inline void ResourceContainer<NodeType, Allocator>::erase(unsigned int handle)
@@ -238,7 +205,7 @@ namespace tktkContainer
 
 	// 全てのインスタンスを削除（メモリ解放）する
 	template<class NodeType, class Allocator>
-	inline void ResourceContainer<NodeType, Allocator>::claer()
+	inline void ResourceContainer<NodeType, Allocator>::clear()
 	{
 		// 自作のコンテナの要素を全て開放する
 		m_staticNode.clear();
