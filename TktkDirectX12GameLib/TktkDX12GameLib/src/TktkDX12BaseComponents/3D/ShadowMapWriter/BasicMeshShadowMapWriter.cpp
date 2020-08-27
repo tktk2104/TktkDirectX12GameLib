@@ -2,11 +2,11 @@
 
 namespace tktk
 {
-	BasicMeshShadowMapWriter::BasicMeshShadowMapWriter(float drawPriority, unsigned int meshId, unsigned int skeletonId, unsigned int cameraId)
+	BasicMeshShadowMapWriter::BasicMeshShadowMapWriter(float drawPriority, unsigned int meshHandle, unsigned int skeletonHandle, unsigned int cameraHandle)
 		: ComponentBase(drawPriority)
-		, m_meshId(meshId)
-		, m_skeletonId(skeletonId)
-		, m_cameraId(cameraId)
+		, m_meshHandle(meshHandle)
+		, m_skeletonHandle(skeletonHandle)
+		, m_cameraHandle(cameraHandle)
 	{
 	}
 
@@ -23,7 +23,7 @@ namespace tktk
 	void BasicMeshShadowMapWriter::draw() const
 	{
 		// ボーン行列の定数バッファを更新する
-		DX12GameManager::updateBoneMatrixCbuffer(m_skeletonId);
+		DX12GameManager::updateBoneMatrixCbuffer(m_skeletonHandle);
 
 		// 深度マップ書き出しに必要な値
 		MeshTransformCbuffer transformBufferData{};
@@ -32,13 +32,13 @@ namespace tktk
 			transformBufferData.worldMatrix			= m_transform->calculateWorldMatrix();
 
 			// 使用するカメラのビュー行列
-			transformBufferData.viewMatrix			= DX12GameManager::getViewMatrix(m_cameraId);
+			transformBufferData.viewMatrix			= DX12GameManager::getViewMatrix(m_cameraHandle);
 
 			// 使用するカメラのプロジェクション行列
-			transformBufferData.projectionMatrix	= DX12GameManager::getProjectionMatrix(m_cameraId);
+			transformBufferData.projectionMatrix	= DX12GameManager::getProjectionMatrix(m_cameraHandle);
 		}
 
 		// シャドウマップを描画する
-		DX12GameManager::writeBasicMeshShadowMap(m_meshId, transformBufferData);
+		DX12GameManager::writeBasicMeshShadowMap(m_meshHandle, transformBufferData);
 	}
 }

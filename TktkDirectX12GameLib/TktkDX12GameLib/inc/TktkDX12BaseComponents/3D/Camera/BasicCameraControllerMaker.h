@@ -27,7 +27,11 @@ namespace tktk
 
 	public:  /* パラメータ設定関数 */
 
+		// 使用する初期カメラハンドルを設定する
+		BasicCameraControllerMaker& initCameraHandle(unsigned int value);
+
 		// 使用する初期カメラIDを設定する（列挙型を含む整数型のidが渡された場合のみビルド可）
+		// ※内部で対応するリソースハンドルに変換される
 		template<class IdType, is_idType<IdType> = nullptr>
 		BasicCameraControllerMaker& initCameraId(IdType value);
 
@@ -45,7 +49,7 @@ namespace tktk
 
 	private: /* 各種id指定系の関数の実装 */
 
-		BasicCameraControllerMaker& initCameraIdImpl(unsigned int value);
+		BasicCameraControllerMaker& initCameraIdImpl(int value);
 
 	private: /* 自身のインスタンスは静的な存在として扱う */
 
@@ -54,7 +58,7 @@ namespace tktk
 	private: /* 変数達 */
 
 		GameObjectPtr	m_user{  };
-		unsigned int	m_initCameraId	{ 0U };
+		unsigned int	m_initCameraHandle	{ 0U };
 		float			m_initCameraFov		{ 45.0f };
 		float			m_initCameraAspect	{};	// デフォルトはゲームスクリーンの比率
 		float			m_initCameraNear	{ 1.0f };
@@ -73,7 +77,7 @@ namespace tktk
 	template<class IdType, is_idType<IdType>>
 	inline BasicCameraControllerMaker& BasicCameraControllerMaker::initCameraId(IdType value)
 	{
-		return initCameraIdImpl(static_cast<unsigned int>(value));
+		return initCameraIdImpl(static_cast<int>(value));
 	}
 }
 #endif // !BASIC_CAMERA_CONTROLLER_MAKER_H_

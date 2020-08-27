@@ -4,10 +4,10 @@
 
 namespace tktk
 {
-	SpriteDrawer::SpriteDrawer(float drawPriority, unsigned int spriteMaterialId, unsigned int useRtvDescriptorHeapHandle)
+	SpriteDrawer::SpriteDrawer(float drawPriority, unsigned int spriteMaterialHandle, unsigned int useRtvDescriptorHeapHandle)
 		: ComponentBase(drawPriority)
 		, m_useRtvDescriptorHeapHandle(useRtvDescriptorHeapHandle)
-		, m_spriteMaterialId(spriteMaterialId)
+		, m_spriteMaterialHandle(spriteMaterialHandle)
 	{
 	}
 
@@ -24,16 +24,22 @@ namespace tktk
 	void SpriteDrawer::draw() const
 	{
 		SpriteMaterialDrawFuncArgs drawFuncArgs{};
-		drawFuncArgs.viewportHandle = DX12GameManager::getSystemHandle(SystemViewportType::Basic);
-		drawFuncArgs.scissorRectHandle = DX12GameManager::getSystemHandle(SystemScissorRectType::Basic);
-		drawFuncArgs.rtvDescriptorHeapHandle = m_useRtvDescriptorHeapHandle;
-		drawFuncArgs.worldMatrix = m_transform->calculateWorldMatrix();
 
-		DX12GameManager::drawSprite(m_spriteMaterialId, drawFuncArgs);
+		drawFuncArgs.viewportHandle				= DX12GameManager::getSystemHandle(SystemViewportType::Basic);
+		drawFuncArgs.scissorRectHandle			= DX12GameManager::getSystemHandle(SystemScissorRectType::Basic);
+		drawFuncArgs.rtvDescriptorHeapHandle	= m_useRtvDescriptorHeapHandle;
+		drawFuncArgs.worldMatrix				= m_transform->calculateWorldMatrix();
+
+		DX12GameManager::drawSprite(m_spriteMaterialHandle, drawFuncArgs);
 	}
 
-	void SpriteDrawer::setSpriteMaterialIdImpl(unsigned int id)
+	void SpriteDrawer::setSpriteMaterialHandle(unsigned int handle)
 	{
-		m_spriteMaterialId = id;
+		m_spriteMaterialHandle = handle;
+	}
+
+	void SpriteDrawer::setSpriteMaterialIdImpl(int id)
+	{
+		m_spriteMaterialHandle = DX12GameManager::getSpriteMaterialHandle(id);
 	}
 }

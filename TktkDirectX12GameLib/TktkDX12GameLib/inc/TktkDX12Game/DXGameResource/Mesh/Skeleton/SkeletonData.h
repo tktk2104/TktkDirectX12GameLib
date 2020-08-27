@@ -17,6 +17,10 @@ namespace tktk
 	public:
 
 		SkeletonData(const SkeletonInitParam& initParam);
+
+		// ムーブコンストラクタ
+		SkeletonData(SkeletonData&& other) noexcept;
+
 		~SkeletonData() = default;
 
 	public:

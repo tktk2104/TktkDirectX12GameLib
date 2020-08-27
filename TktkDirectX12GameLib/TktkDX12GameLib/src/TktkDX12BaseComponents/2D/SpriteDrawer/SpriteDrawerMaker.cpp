@@ -24,7 +24,7 @@ namespace tktk
 		// コンポーネントを作成してそのポインタを返す
 		return m_user->createComponent<SpriteDrawer>(
 			m_drawPriority,
-			m_spriteMaterialId,
+			m_spriteMaterialHandle,
 			m_useRtvDescriptorHeapHandle
 			);
 	}
@@ -43,10 +43,17 @@ namespace tktk
 		return *this;
 	}
 
-	SpriteDrawerMaker& SpriteDrawerMaker::spriteMaterialIdImpl(unsigned int value)
+	SpriteDrawerMaker& SpriteDrawerMaker::spriteMaterialHandle(unsigned int value)
 	{
 		// 値を設定して自身の参照を返す
-		m_spriteMaterialId = value;
+		m_spriteMaterialHandle = value;
+		return *this;
+	}
+
+	SpriteDrawerMaker& SpriteDrawerMaker::spriteMaterialIdImpl(int value)
+	{
+		// 値を設定して自身の参照を返す
+		m_spriteMaterialHandle = DX12GameManager::getSpriteMaterialHandle(value);
 		return *this;
 	}
 }

@@ -14,7 +14,7 @@ namespace tktk
 	public:
 
 		OrthographicCameraController(
-			unsigned int cameraId,
+			unsigned int cameraHandle,
 			float cameraWidth,
 			float cameraHeight,
 			float cameraNear,
@@ -33,7 +33,7 @@ namespace tktk
 
 	private:
 
-		unsigned int				m_cameraId;
+		unsigned int				m_cameraHandle;
 		float						m_cameraWidth;
 		float						m_cameraHeight;
 		float						m_cameraNear;

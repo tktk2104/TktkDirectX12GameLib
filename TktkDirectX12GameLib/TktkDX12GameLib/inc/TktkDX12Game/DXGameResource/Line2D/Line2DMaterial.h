@@ -1,7 +1,7 @@
 #ifndef LINE_2D_H_
 #define LINE_2D_H_
 
-#include <TktkContainer/HeapArray/HeapArray.h>
+#include <TktkContainer/ResourceContainer/ResourceContainer.h>
 #include <TktkDX12Wrapper/Resource/GraphicsPipeLine/PipeLineState/PipeLineStateInitParam.h>
 #include "Line2DMaterialData.h"
 
@@ -12,17 +12,17 @@ namespace tktk
 	{
 	public:
 
-		Line2DMaterial(const ShaderFilePaths& shaderFilePaths, unsigned int line2DMaterialNum);
+		Line2DMaterial(const ShaderFilePaths& shaderFilePaths, const tktkContainer::ResourceContainerInitParam& initParam);
 		~Line2DMaterial() = default;
 
 	public:
 
-		// ２Ｄラインを作る
-		void create(unsigned int id);
+		// ２Ｄラインを作り、そのリソースのハンドルを返す
+		unsigned int create();
 
 		// 指定の２Ｄラインを描画する
 		// ※前フレームで作った頂点バッファを削除し、内部でライン描画用の頂点バッファを作り、そのリソースハンドルを保持する処理の為、非const関数
-		void drawLine(unsigned int id, const Line2DMaterialDrawFuncArgs& drawFuncArgs);
+		void drawLine(unsigned int handle, const Line2DMaterialDrawFuncArgs& drawFuncArgs);
 
 	private:
 
@@ -37,7 +37,7 @@ namespace tktk
 
 	private:
 
-		tktkContainer::HeapArray<Line2DMaterialData> m_line2DMaterialArray;
+		tktkContainer::ResourceContainer<Line2DMaterialData> m_line2DMaterialArray;
 	};
 }
 #endif // !LINE_2D_H_

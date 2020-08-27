@@ -45,6 +45,12 @@ namespace tktk
 		}
     }
 
+	SkeletonData::SkeletonData(SkeletonData&& other) noexcept
+		: m_boneMatrixArray(std::move(other.m_boneMatrixArray))
+		, m_boneNodeMap(std::move(other.m_boneNodeMap))
+	{
+	}
+
 	void SkeletonData::transform(const std::vector<MotionBoneParam>& transformMatrices)
 	{
 		// œs—ñ‚ğ’PˆÊs—ñ‚Å‰Šú‰»‚·‚é

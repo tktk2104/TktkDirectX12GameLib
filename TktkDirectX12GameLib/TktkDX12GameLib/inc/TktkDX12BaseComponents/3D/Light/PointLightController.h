@@ -14,7 +14,7 @@ namespace tktk
 	public:
 
 		PointLightController(
-			unsigned int lightId,
+			unsigned int lightHandle,
 			const tktkMath::Color& ambient,
 			const tktkMath::Color& diffuse,
 			const tktkMath::Color& speqular
@@ -43,7 +43,7 @@ namespace tktk
 
 	private:
 
-		unsigned int				m_lightId;
+		unsigned int				m_lightHandle;
 		tktkMath::Color				m_ambient;
 		tktkMath::Color				m_diffuse;
 		tktkMath::Color				m_speqular;

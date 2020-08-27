@@ -4,52 +4,45 @@
 
 namespace tktk
 {
-	Light::Light(unsigned int lightNum)
-		: m_lightArray(lightNum)
+	Light::Light(const tktkContainer::ResourceContainerInitParam& initParam)
+		: m_lightArray(initParam)
 	{
 		// ライト用の定数バッファを作る
 		DX12GameManager::setSystemHandle(SystemCBufferType::Light, DX12GameManager::createCBuffer(LightCBuffer()));
 	}
 
-	void Light::create(
-		unsigned int id,
+	unsigned int Light::create(
 		const tktkMath::Color& ambient,
 		const tktkMath::Color& diffuse,
 		const tktkMath::Color& speqular,
 		const tktkMath::Vector3& position
 	)
 	{
-		m_lightArray.emplaceAt(
-			id,
-			ambient,
-			diffuse,
-			speqular,
-			position
-		);
+		return m_lightArray.create(ambient, diffuse, speqular, position);
 	}
 
-	void Light::updateLightCBuffer(unsigned int id) const
+	void Light::updateLightCBuffer(unsigned int handle) const
 	{
-		m_lightArray.at(id)->updateLightCBuffer();
+		m_lightArray.getMatchHandlePtr(handle)->updateLightCBuffer();
 	}
 
-	void Light::setAmbient(unsigned int id, const tktkMath::Color& ambient)
+	void Light::setAmbient(unsigned int handle, const tktkMath::Color& ambient)
 	{
-		m_lightArray.at(id)->setAmbient(ambient);
+		m_lightArray.getMatchHandlePtr(handle)->setAmbient(ambient);
 	}
 
-	void Light::setDiffuse(unsigned int id, const tktkMath::Color& diffuse)
+	void Light::setDiffuse(unsigned int handle, const tktkMath::Color& diffuse)
 	{
-		m_lightArray.at(id)->setDiffuse(diffuse);
+		m_lightArray.getMatchHandlePtr(handle)->setDiffuse(diffuse);
 	}
 
-	void Light::setSpeqular(unsigned int id, const tktkMath::Color& speqular)
+	void Light::setSpeqular(unsigned int handle, const tktkMath::Color& speqular)
 	{
-		m_lightArray.at(id)->setSpeqular(speqular);
+		m_lightArray.getMatchHandlePtr(handle)->setSpeqular(speqular);
 	}
 
-	void Light::setPosition(unsigned int id, const tktkMath::Vector3& position)
+	void Light::setPosition(unsigned int handle, const tktkMath::Vector3& position)
 	{
-		m_lightArray.at(id)->setPosition(position);
+		m_lightArray.getMatchHandlePtr(handle)->setPosition(position);
 	}
 }

@@ -109,14 +109,14 @@ namespace tktk
 		return DX12GameManager::fps();
 	}
 
-	void DX12Game::enableSceneImpl(unsigned int id)
+	void DX12Game::enableSceneImpl(int id)
 	{
-		DX12GameManager::enableScene(id);
+		DX12GameManager::enableScene(DX12GameManager::getSceneHandle(id));
 	}
 
-	void DX12Game::disableSceneImpl(unsigned int id)
+	void DX12Game::disableSceneImpl(int id)
 	{
-		DX12GameManager::disableScene(id);
+		DX12GameManager::disableScene(DX12GameManager::getSceneHandle(id));
 	}
 
 	void DX12Game::sendMessageAllImpl(unsigned int messageId, const MessageAttachment& value)

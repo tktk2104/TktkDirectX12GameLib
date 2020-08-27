@@ -205,7 +205,7 @@ namespace tktk
 		m_stateTypeList->clearState();
 	}
 
-	bool GameObject::contain(int stateType)
+	bool GameObject::containState(int stateType)
 	{
 		return m_stateTypeList->contain(stateType);
 	}

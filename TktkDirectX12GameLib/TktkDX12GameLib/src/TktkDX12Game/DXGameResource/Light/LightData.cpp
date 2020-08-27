@@ -9,6 +9,11 @@ namespace tktk
 	{
 	}
 
+	LightData::LightData(LightData&& other) noexcept
+		: m_lightCBuffer(other.m_lightCBuffer)
+	{
+	}
+
 	void LightData::updateLightCBuffer() const
 	{
 		tktk::DX12GameManager::updateCBuffer(tktk::DX12GameManager::getSystemHandle(tktk::SystemCBufferType::Light), m_lightCBuffer);

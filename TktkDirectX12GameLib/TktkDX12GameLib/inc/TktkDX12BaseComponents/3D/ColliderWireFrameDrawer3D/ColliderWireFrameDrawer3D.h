@@ -15,10 +15,10 @@ namespace tktk
 
 		ColliderWireFrameDrawer3D(
 			float			drawPriority,
-			unsigned int	cameraId,
-			unsigned int	shadowMapCameraId,
-			unsigned int	lightId,
-			unsigned int	useRtvDescriptorHeapId,
+			unsigned int	cameraHandle,
+			unsigned int	shadowMapCameraHandle,
+			unsigned int	lightHandle,
+			unsigned int	useRtvDescriptorHeapHandle,
 			const tktkMath::Color& lineColor
 		);
 
@@ -31,9 +31,9 @@ namespace tktk
 	private:
 
 		float			m_drawPriority;
-		unsigned int	m_cameraId;
-		unsigned int	m_shadowMapCameraId;
-		unsigned int	m_lightId;
+		unsigned int	m_cameraHandle;
+		unsigned int	m_shadowMapCameraHandle;
+		unsigned int	m_lightHandle;
 		unsigned int	m_useRtvDescriptorHeapHandle;
 		tktkMath::Color	m_lineColor;
 		std::vector<tktk::ComponentPtr<SphereMeshWireFrameDrawer>> m_wireFrameDrawerArray;

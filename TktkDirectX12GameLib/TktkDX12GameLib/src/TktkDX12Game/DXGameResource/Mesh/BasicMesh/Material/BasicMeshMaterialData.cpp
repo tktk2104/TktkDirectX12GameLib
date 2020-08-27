@@ -16,15 +16,27 @@ namespace tktk
 	{
 	}
 
-	BasicMeshMaterialData::BasicMeshMaterialData(const BasicMeshMaterialData* other)
-		: m_usePipeLineStateHandle(other->m_usePipeLineStateHandle)
-		, m_useDescriptorHeapHandle(other->m_useDescriptorHeapHandle)
-		, m_materialAmbient(other->m_materialAmbient)
-		, m_materialDiffuse(other->m_materialDiffuse)
-		, m_materialSpecular(other->m_materialSpecular)
-		, m_materialEmissive(other->m_materialEmissive)
-		, m_materialShiniess(other->m_materialShiniess)
-		, m_appendParamMap(other->m_appendParamMap)
+	BasicMeshMaterialData::BasicMeshMaterialData(const BasicMeshMaterialData& other)
+		: m_usePipeLineStateHandle(other.m_usePipeLineStateHandle)
+		, m_useDescriptorHeapHandle(other.m_useDescriptorHeapHandle)
+		, m_materialAmbient(other.m_materialAmbient)
+		, m_materialDiffuse(other.m_materialDiffuse)
+		, m_materialSpecular(other.m_materialSpecular)
+		, m_materialEmissive(other.m_materialEmissive)
+		, m_materialShiniess(other.m_materialShiniess)
+		, m_appendParamMap(other.m_appendParamMap)
+	{
+	}
+
+	BasicMeshMaterialData::BasicMeshMaterialData(BasicMeshMaterialData&& other) noexcept
+		: m_usePipeLineStateHandle(other.m_usePipeLineStateHandle)
+		, m_useDescriptorHeapHandle(other.m_useDescriptorHeapHandle)
+		, m_materialAmbient(other.m_materialAmbient)
+		, m_materialDiffuse(other.m_materialDiffuse)
+		, m_materialSpecular(other.m_materialSpecular)
+		, m_materialEmissive(other.m_materialEmissive)
+		, m_materialShiniess(other.m_materialShiniess)
+		, m_appendParamMap(std::move(other.m_appendParamMap))
 	{
 	}
 

@@ -2,24 +2,24 @@
 
 namespace tktk
 {
-	SceneManager::SceneManager(unsigned int sceneNum)
-		: m_sceneArray(sceneNum)
+	SceneManager::SceneManager(const tktkContainer::ResourceContainerInitParam& initParam)
+		: m_sceneArray(initParam)
 	{
 	}
 
-	void SceneManager::create(unsigned int id, const std::shared_ptr<SceneBase>& scenePtr, SceneVTable* vtablePtr)
+	unsigned int SceneManager::create(const std::shared_ptr<SceneBase>& scenePtr, SceneVTable* vtablePtr)
 	{
-		m_sceneArray.emplaceAt(id, scenePtr, vtablePtr);
+		return m_sceneArray.create(scenePtr, vtablePtr);
 	}
 
-	void SceneManager::enable(unsigned int id)
+	void SceneManager::enable(unsigned int handle)
 	{
-		m_sceneArray.at(id)->enable();
+		m_sceneArray.getMatchHandlePtr(handle)->enable();
 	}
 
-	void SceneManager::disable(unsigned int id)
+	void SceneManager::disable(unsigned int handle)
 	{
-		m_sceneArray.at(id)->disable();
+		m_sceneArray.getMatchHandlePtr(handle)->disable();
 	}
 
 	void SceneManager::update()

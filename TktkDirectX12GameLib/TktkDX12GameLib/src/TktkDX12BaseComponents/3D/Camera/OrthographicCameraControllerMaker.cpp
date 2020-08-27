@@ -19,12 +19,19 @@ namespace tktk
 	ComponentPtr<OrthographicCameraController> OrthographicCameraControllerMaker::create()
 	{
 		return m_user->createComponent<OrthographicCameraController>(
-			m_initCameraId,
+			m_initCameraHandle,
 			m_initCameraWidth,
 			m_initCameraHeight,
 			m_initCameraNear,
 			m_initCameraFar
 			);
+	}
+
+	OrthographicCameraControllerMaker& OrthographicCameraControllerMaker::initCameraHandle(unsigned int value)
+	{
+		// 値を設定して自身の参照を返す
+		m_initCameraHandle = value;
+		return *this;
 	}
 
 	OrthographicCameraControllerMaker& OrthographicCameraControllerMaker::initCameraWidth(float value)
@@ -55,10 +62,10 @@ namespace tktk
 		return *this;
 	}
 
-	OrthographicCameraControllerMaker& OrthographicCameraControllerMaker::initCameraIdImpl(unsigned int value)
+	OrthographicCameraControllerMaker& OrthographicCameraControllerMaker::initCameraIdImpl(int value)
 	{
 		// 値を設定して自身の参照を返す
-		m_initCameraId = value;
+		m_initCameraHandle = DX12GameManager::getCameraHandle(value);
 		return *this;
 	}
 }

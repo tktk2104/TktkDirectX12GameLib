@@ -21,8 +21,7 @@ namespace tktk
 		// コンポーネントを作成してそのポインタを返す
 		return m_user->createComponent<ColliderWireFrameDrawer2D>(
 			m_drawPriority,
-			m_lineColor,
-			m_useLine2DMaterialIdArray
+			m_lineColor
 			);
 	}
 
@@ -37,13 +36,6 @@ namespace tktk
 	{
 		// 値を設定して自身の参照を返す
 		m_lineColor = value;
-		return *this;
-	}
-
-	ColliderWireFrameDrawer2DMaker& ColliderWireFrameDrawer2DMaker::useLine2DMaterialIdArray(const std::vector<unsigned int>& value)
-	{
-		// 値を設定して自身の参照を返す
-		m_useLine2DMaterialIdArray = value;
 		return *this;
 	}
 }

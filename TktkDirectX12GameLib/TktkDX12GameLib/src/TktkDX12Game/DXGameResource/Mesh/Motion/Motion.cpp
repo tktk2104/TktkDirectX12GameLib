@@ -2,34 +2,34 @@
 
 namespace tktk
 {
-	Motion::Motion(unsigned int motionNum)
-		: m_motionArray(motionNum)
+	Motion::Motion(const tktkContainer::ResourceContainerInitParam& initParam)
+		: m_motionArray(initParam)
 	{
 	}
 
-	void Motion::load(unsigned int id, const std::string& motionFileName)
+	unsigned int Motion::load(const std::string& motionFileName)
 	{
-		m_motionArray.emplaceAt(id, motionFileName);
+		return m_motionArray.create(motionFileName);
 	}
 
-	unsigned int Motion::getEndFrameNo(unsigned int id) const
+	unsigned int Motion::getEndFrameNo(unsigned int handle) const
 	{
-		return m_motionArray.at(id)->getEndFrameNo();
+		return m_motionArray.getMatchHandlePtr(handle)->getEndFrameNo();
 	}
 
-	std::vector<MotionBoneParam> Motion::calculateBoneTransformMatrices(unsigned int curId, unsigned int preId, unsigned int curFrame, unsigned int preFrame, float amount) const
+	std::vector<MotionBoneParam> Motion::calculateBoneTransformMatrices(unsigned int curHandle, unsigned int preHandle, unsigned int curFrame, unsigned int preFrame, float amount) const
 	{
 		// 今のフレームで使用していたモーションの座標変換行列配列を取得する
-		auto curMatrices = m_motionArray.at(curId)->calculateBoneTransformMatrices(curFrame);
+		auto curMatrices = m_motionArray.getMatchHandlePtr(curHandle)->calculateBoneTransformMatrices(curFrame);
 
 		// 前フレームと変化が全く無ければ取得した今フレーム情報をそのまま返す
-		if (preId == curId && preFrame == curFrame) return curMatrices;
+		if (preHandle == curHandle && preFrame == curFrame) return curMatrices;
 
 		// モーションの補完割合が１以上だったら今フレーム情報をそのまま返す
 		if (amount >= 1.0f) return curMatrices;
 
 		// 前のフレームで使用していたモーションの座標変換行列配列を取得する
-		auto preMatrices = m_motionArray.at(preId)->calculateBoneTransformMatrices(preFrame);
+		auto preMatrices = m_motionArray.getMatchHandlePtr(preHandle)->calculateBoneTransformMatrices(preFrame);
 
 		// 座標変換配列の補完結果の値
 		std::vector<MotionBoneParam> result;

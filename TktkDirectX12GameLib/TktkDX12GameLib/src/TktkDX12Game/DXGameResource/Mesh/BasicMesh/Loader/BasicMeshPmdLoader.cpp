@@ -31,9 +31,6 @@ namespace tktk
 		meshInitParam.primitiveTopology = MeshPrimitiveTopology::TriangleList;
 		meshInitParam.materialSlots.reserve(outData.materialData.size());
 
-		// 連番のIDで作成するリソースの次に使用するIDの値
-		unsigned int curMaterialId			= args.createBasicMeshMaterialIdStartNum;
-
 		// 現在のインデックス（インデックスバッファの位置）
 		unsigned int curIndex				= 0U;
 
@@ -135,24 +132,21 @@ namespace tktk
 			}
 
 			// 通常メッシュのマテリアルを作る
-			DX12GameManager::createBasicMeshMaterial(curMaterialId, materialParam);
+			unsigned int meshMaterialHandle = DX12GameManager::createBasicMeshMaterial(materialParam);
 
 			// 通常メッシュのサブセット情報を更新
-			meshInitParam.materialSlots.push_back({ curMaterialId, curIndex, outData.materialData.at(i).indexCount });
-
-			// 各種連番IDをインクリメント
-			curMaterialId++;
+			meshInitParam.materialSlots.push_back({ meshMaterialHandle, curIndex, outData.materialData.at(i).indexCount });
 
 			// 現在のインデックスを加算
 			curIndex += outData.materialData.at(i).indexCount;
 		}
-		DX12GameManager::createBasicMesh(args.createBasicMeshId, meshInitParam);
+		DX12GameManager::createBasicMeshAndAttachId(args.createBasicMeshId, meshInitParam);
 
 		// スケルトンを作る
 		craeteSkeleton(args.createSkeletonId, outData.boneData);
 
-		// 連番のIDで作成したリソースの最後のIDの値を返す
-		return { curMaterialId-- };
+		// TODO : 作成したメッシュの情報を返す予定
+		return { };
 	}
 
 	// スケルトンを作る
@@ -168,6 +162,6 @@ namespace tktk
 		}
 
 		// スケルトンを作成する
-		DX12GameManager::createSkeleton(createSkeletonId, skeletonInitParam);
+		DX12GameManager::createSkeletonAndAttachId(createSkeletonId, skeletonInitParam);
 	}
 }

@@ -11,7 +11,7 @@ namespace tktk
 	{
 	public:
 
-		PostEffectDrawer(float drawPriority, unsigned int postEffectMaterialId, unsigned int useRtvDescriptorHeapHandle);
+		PostEffectDrawer(float drawPriority, unsigned int postEffectMaterialHandle, unsigned int useRtvDescriptorHeapHandle);
 
 	public:
 
@@ -20,7 +20,7 @@ namespace tktk
 	private:
 
 		unsigned int	m_useRtvDescriptorHeapHandle;
-		unsigned int	m_postEffectMaterialId;
+		unsigned int	m_postEffectMaterialHandle;
 	};
 }
 #endif // !POST_EFFECT_DRAWER_H_

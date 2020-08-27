@@ -9,8 +9,8 @@
 
 namespace tktk
 {
-	BasicMeshMaterial::BasicMeshMaterial(const ShaderFilePaths& shaderFilePaths, const std::string& monoColorShaderPsFilePath, unsigned int basicMeshMaterialNum)
-		: m_basicMeshMaterialArray(basicMeshMaterialNum)
+	BasicMeshMaterial::BasicMeshMaterial(const ShaderFilePaths& shaderFilePaths, const std::string& monoColorShaderPsFilePath, const tktkContainer::ResourceContainerInitParam& initParam)
+		: m_basicMeshMaterialArray(initParam)
 	{
 		createRootSignature();
 		createGraphicsPipeLineState(shaderFilePaths, monoColorShaderPsFilePath);
@@ -20,19 +20,19 @@ namespace tktk
 		DX12GameManager::setSystemHandle(SystemCBufferType::BasicMonoColorMeshCbuffer, DX12GameManager::createCBuffer(BasicMonoColorMeshCbuffer()));
 	}
 
-	void BasicMeshMaterial::create(unsigned int id, const BasicMeshMaterialInitParam& initParam)
+	unsigned int BasicMeshMaterial::create(const BasicMeshMaterialInitParam& initParam)
 	{
-		m_basicMeshMaterialArray.emplaceAt(id, initParam);
+		return m_basicMeshMaterialArray.create(initParam);
 	}
 
-	void BasicMeshMaterial::copy(unsigned int id, unsigned int originalId)
+	unsigned int BasicMeshMaterial::copy(unsigned int originalHandle)
 	{
-		m_basicMeshMaterialArray.emplaceAt(id, m_basicMeshMaterialArray.at(originalId));
+		return m_basicMeshMaterialArray.create(*m_basicMeshMaterialArray.getMatchHandlePtr(originalHandle));
 	}
 
-	void BasicMeshMaterial::setMaterialData(unsigned int id) const
+	void BasicMeshMaterial::setMaterialData(unsigned int handle) const
 	{
-		auto basicMeshPtr = m_basicMeshMaterialArray.at(id);
+		auto basicMeshPtr = m_basicMeshMaterialArray.getMatchHandlePtr(handle);
 
 #ifdef _DEBUG
 		if (basicMeshPtr == nullptr)
@@ -44,9 +44,9 @@ namespace tktk
 		basicMeshPtr->setMaterialData();
 	}
 
-	void BasicMeshMaterial::addAppendParam(unsigned int id, unsigned int cbufferHandle, unsigned int dataSize, void* dataTopPos)
+	void BasicMeshMaterial::addAppendParam(unsigned int handle, unsigned int cbufferHandle, unsigned int dataSize, void* dataTopPos)
 	{
-		auto basicMeshPtr = m_basicMeshMaterialArray.at(id);
+		auto basicMeshPtr = m_basicMeshMaterialArray.getMatchHandlePtr(handle);
 
 #ifdef _DEBUG
 		if (basicMeshPtr == nullptr)
@@ -58,9 +58,9 @@ namespace tktk
 		basicMeshPtr->addAppendParam(cbufferHandle, dataSize, dataTopPos);
 	}
 
-	void BasicMeshMaterial::updateAppendParam(unsigned int id, unsigned int cbufferHandle, unsigned int dataSize, const void* dataTopPos)
+	void BasicMeshMaterial::updateAppendParam(unsigned int handle, unsigned int cbufferHandle, unsigned int dataSize, const void* dataTopPos)
 	{
-		auto basicMeshPtr = m_basicMeshMaterialArray.at(id);
+		auto basicMeshPtr = m_basicMeshMaterialArray.getMatchHandlePtr(handle);
 
 #ifdef _DEBUG
 		if (basicMeshPtr == nullptr)

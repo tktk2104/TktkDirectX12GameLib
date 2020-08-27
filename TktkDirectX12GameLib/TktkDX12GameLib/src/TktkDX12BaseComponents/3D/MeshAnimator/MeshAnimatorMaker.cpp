@@ -19,7 +19,7 @@ namespace tktk
 	ComponentPtr<MeshAnimator> MeshAnimatorMaker::create()
 	{
 		// コンポーネントを作成してそのポインタを返す
-		return m_user->createComponent<MeshAnimator>(m_initMotionId, m_isLoop);
+		return m_user->createComponent<MeshAnimator>(m_initMotionHandle, m_isLoop);
 	}
 
 	MeshAnimatorMaker& MeshAnimatorMaker::isLoop(bool value)
@@ -29,10 +29,17 @@ namespace tktk
 		return *this;
 	}
 
-	MeshAnimatorMaker& MeshAnimatorMaker::initMotionIdImpl(unsigned int value)
+	MeshAnimatorMaker& MeshAnimatorMaker::initMotionHandle(unsigned int value)
 	{
 		// 値を設定して自身の参照を返す
-		m_initMotionId = value;
+		m_initMotionHandle = value;
+		return *this;
+	}
+
+	MeshAnimatorMaker& MeshAnimatorMaker::initMotionIdImpl(int value)
+	{
+		// 値を設定して自身の参照を返す
+		m_initMotionHandle = DX12GameManager::getMotionHandle(value);
 		return *this;
 	}
 }

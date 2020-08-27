@@ -33,13 +33,17 @@ namespace tktk
 		// 使用するレンダーターゲットのディスクリプタヒープハンドルを設定する
 		PostEffectDrawerMaker& useRtvDescriptorHeapId(unsigned int value);
 		
+		// 使用するポストエフェクトマテリアルハンドルを設定する
+		PostEffectDrawerMaker& postEffectMaterialHandle(unsigned int value);
+
 		// 使用するポストエフェクトマテリアルIDを設定する（列挙型を含む整数型のidが渡された場合のみビルド可）
+		// ※内部で対応するリソースハンドルに変換される
 		template<class IdType, is_idType<IdType> = nullptr>
 		PostEffectDrawerMaker& postEffectMaterialId(IdType value);
 
 	private: /* 各種id指定系の関数の実装 */
 
-		PostEffectDrawerMaker& postEffectMaterialIdImpl(unsigned int value);
+		PostEffectDrawerMaker& postEffectMaterialIdImpl(int value);
 
 	private: /* 自身のインスタンスは静的な存在として扱う */
 
@@ -50,7 +54,7 @@ namespace tktk
 		GameObjectPtr	m_user							{  };
 		float			m_drawPriority					{ 0.0f };
 		unsigned int	m_useRtvDescriptorHeapHandle	{  }; // ※初期パラメータはバックバッファー
-		unsigned int	m_postEffectMaterialId			{ 0U };
+		unsigned int	m_postEffectMaterialHandle		{ 0U };
 
 	public: /* 不正な型の引数が渡されそうになった時にコンパイルエラーにする為の仕組み */
 
@@ -65,7 +69,7 @@ namespace tktk
 	template<class IdType, is_idType<IdType>>
 	inline PostEffectDrawerMaker& PostEffectDrawerMaker::postEffectMaterialId(IdType value)
 	{
-		return postEffectMaterialIdImpl(static_cast<unsigned int>(value));
+		return postEffectMaterialIdImpl(static_cast<int>(value));
 	}
 }
 #endif // !POST_EFFECT_DRAWER_MAKER_H_

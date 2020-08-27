@@ -4,8 +4,8 @@
 
 namespace tktk
 {
-	PostEffectMaterial::PostEffectMaterial(const PostEffectShaderFilePaths& shaderFilePaths, unsigned int postEffectMaterialNum)
-		: m_postEffectMaterialArray(postEffectMaterialNum)
+	PostEffectMaterial::PostEffectMaterial(const PostEffectShaderFilePaths& shaderFilePaths, const tktkContainer::ResourceContainerInitParam& initParam)
+		: m_postEffectMaterialArray(initParam)
 	{
 		// モノクロのポストエフェクト用のロートシグネチャを作る
 		{
@@ -67,13 +67,13 @@ namespace tktk
 		}
 	}
 
-	void PostEffectMaterial::create(unsigned int id, const PostEffectMaterialInitParam& initParam)
+	unsigned int PostEffectMaterial::create(const PostEffectMaterialInitParam& initParam)
 	{
-		m_postEffectMaterialArray.emplaceAt(id, initParam);
+		return m_postEffectMaterialArray.create(initParam);
 	}
 
-	void PostEffectMaterial::drawPostEffect(unsigned int id, const PostEffectMaterialDrawFuncArgs& drawFuncArgs) const
+	void PostEffectMaterial::drawPostEffect(unsigned int handle, const PostEffectMaterialDrawFuncArgs& drawFuncArgs) const
 	{
-		m_postEffectMaterialArray.at(id)->drawPostEffect(drawFuncArgs);
+		m_postEffectMaterialArray.getMatchHandlePtr(handle)->drawPostEffect(drawFuncArgs);
 	}
 }

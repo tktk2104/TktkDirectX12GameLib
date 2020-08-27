@@ -4,14 +4,14 @@
 
 namespace tktk
 {
-	SphereMeshWireFrameDrawer::SphereMeshWireFrameDrawer(float drawPriority, float radius, const tktkMath::Vector3& localPosition, const tktkMath::Color& albedoColor, unsigned int cameraId, unsigned int shadowMapCameraId, unsigned int lightId, unsigned int useRtvDescriptorHeapHandle)
+	SphereMeshWireFrameDrawer::SphereMeshWireFrameDrawer(float drawPriority, float radius, const tktkMath::Vector3& localPosition, const tktkMath::Color& albedoColor, unsigned int cameraHandle, unsigned int shadowMapCameraHandle, unsigned int lightHandle, unsigned int useRtvDescriptorHeapHandle)
 		: ComponentBase(drawPriority)
 		, m_radius(radius)
 		, m_localPosition(localPosition)
 		, m_albedoColor(albedoColor)
-		, m_cameraId(cameraId)
-		, m_shadowMapCameraId(shadowMapCameraId)
-		, m_lightId(lightId)
+		, m_cameraHandle(cameraHandle)
+		, m_shadowMapCameraHandle(shadowMapCameraHandle)
+		, m_lightHandle(lightHandle)
 		, m_useRtvDescriptorHeapHandle(useRtvDescriptorHeapHandle)
 	{
 	}
@@ -34,7 +34,7 @@ namespace tktk
 		// 単色塗りつぶし色の定数バッファを更新する
 		BasicMonoColorMeshCbuffer tempCbufferData{};
 		tempCbufferData.albedoColor = m_albedoColor;
-		DX12GameManager::updateMaterialAppendParam(DX12GameManager::getSystemId(SystemBasicMeshMaterialType::SphereWireFrame), DX12GameManager::getSystemHandle(SystemCBufferType::BasicMonoColorMeshCbuffer), tempCbufferData);
+		DX12GameManager::updateMaterialAppendParam(DX12GameManager::getSystemHandle(SystemBasicMeshMaterialType::SphereWireFrame), DX12GameManager::getSystemHandle(SystemCBufferType::BasicMonoColorMeshCbuffer), tempCbufferData);
 
 		// メッシュ描画に必要な値
 		MeshDrawFuncBaseArgs baseArgs{};
@@ -43,10 +43,10 @@ namespace tktk
 			baseArgs.transformBufferData.worldMatrix			= tktkMath::Matrix4::createScale({ m_radius * 2 }) * tktkMath::Matrix4::createTranslation(m_localPosition * m_radius) * m_transform->calculateWorldMatrix();
 
 			// 使用するカメラのビュー行列
-			baseArgs.transformBufferData.viewMatrix				= DX12GameManager::getViewMatrix(m_cameraId);
+			baseArgs.transformBufferData.viewMatrix				= DX12GameManager::getViewMatrix(m_cameraHandle);
 
 			// 使用するカメラのプロジェクション行列
-			baseArgs.transformBufferData.projectionMatrix		= DX12GameManager::getProjectionMatrix(m_cameraId);
+			baseArgs.transformBufferData.projectionMatrix		= DX12GameManager::getProjectionMatrix(m_cameraHandle);
 
 			// 使用するビューポートハンドル
 			baseArgs.viewportHandle								= DX12GameManager::getSystemHandle(SystemViewportType::Basic);
@@ -61,14 +61,14 @@ namespace tktk
 			baseArgs.dsvDescriptorHeapHandle					= DX12GameManager::getSystemHandle(SystemDsvDescriptorHeapType::Basic);
 
 			// 使用するライト番号
-			baseArgs.lightId									= m_lightId;
+			baseArgs.lightId									= m_lightHandle;
 
 			// シャドウマップを使用する為に必要なシャドウマップカメラ行列
-			baseArgs.shadowMapBufferData.shadowMapViewProjMat	= DX12GameManager::getViewMatrix(m_shadowMapCameraId) * DX12GameManager::getProjectionMatrix(m_shadowMapCameraId);
+			baseArgs.shadowMapBufferData.shadowMapViewProjMat	= DX12GameManager::getViewMatrix(m_shadowMapCameraHandle) * DX12GameManager::getProjectionMatrix(m_shadowMapCameraHandle);
 		}
 
 		// メッシュを描画する
-		DX12GameManager::drawBasicMesh(DX12GameManager::getSystemId(SystemBasicMeshType::SphereWireFrame), baseArgs);
+		DX12GameManager::drawBasicMesh(DX12GameManager::getSystemHandle(SystemBasicMeshType::SphereWireFrame), baseArgs);
 	}
 
 	const tktkMath::Color& SphereMeshWireFrameDrawer::getAlbedoColor() const

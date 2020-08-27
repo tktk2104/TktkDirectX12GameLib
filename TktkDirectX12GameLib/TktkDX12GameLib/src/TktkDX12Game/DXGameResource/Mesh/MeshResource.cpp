@@ -25,14 +25,14 @@ namespace tktk
     // デストラクタを非インライン化する
     MeshResource::~MeshResource() = default;
 
-    void MeshResource::createSkeleton(unsigned int id, const SkeletonInitParam& initParam)
+    unsigned int MeshResource::createSkeleton(const SkeletonInitParam& initParam)
     {
-        m_skeleton->create(id, initParam);
+        return m_skeleton->create(initParam);
     }
 
-    void MeshResource::updateBoneMatrixCbuffer(unsigned int id) const
+    void MeshResource::updateBoneMatrixCbuffer(unsigned int handle) const
     {
-        m_skeleton->updateBoneMatrixCbuffer(id);
+        m_skeleton->updateBoneMatrixCbuffer(handle);
     }
 
     void MeshResource::resetBoneMatrixCbuffer() const
@@ -40,69 +40,69 @@ namespace tktk
         m_skeleton->resetBoneMatrixCbuffer();
     }
 
-    void MeshResource::loadMotion(unsigned int id, const std::string& motionFileName)
+    unsigned int MeshResource::loadMotion(const std::string& motionFileName)
     {
-        m_motion->load(id, motionFileName);
+        return m_motion->load(motionFileName);
     }
 
-    unsigned int MeshResource::getMotionEndFrameNo(unsigned int id) const
+    unsigned int MeshResource::getMotionEndFrameNo(unsigned int handle) const
     {
-        return m_motion->getEndFrameNo(id);
+        return m_motion->getEndFrameNo(handle);
     }
 
-    void MeshResource::updateMotion(unsigned int skeletonId, unsigned int curMotionId, unsigned int preMotionId, unsigned int curFrame, unsigned int preFrame, float amount)
+    void MeshResource::updateMotion(unsigned int skeletonHandle, unsigned int curMotionHandle, unsigned int preMotionHandle, unsigned int curFrame, unsigned int preFrame, float amount)
     {
-        m_skeleton->transform(skeletonId, m_motion->calculateBoneTransformMatrices(curMotionId, preMotionId, curFrame, preFrame, amount));
+        m_skeleton->transform(skeletonHandle, m_motion->calculateBoneTransformMatrices(curMotionHandle, preMotionHandle, curFrame, preFrame, amount));
     }
 
-    void MeshResource::createBasicMesh(unsigned int id, const BasicMeshInitParam& initParam)
+    unsigned int MeshResource::createBasicMesh(const BasicMeshInitParam& initParam)
     {
-        m_basicMesh->craete(id, initParam);
+        return m_basicMesh->craete(initParam);
     }
 
-    void MeshResource::copyBasicMesh(unsigned int id, unsigned int originalId)
+    unsigned int MeshResource::copyBasicMesh(unsigned int originalHandle)
     {
-        m_basicMesh->copy(id, originalId);
+        return m_basicMesh->copy(originalHandle);
     }
 
-    void MeshResource::createBasicMeshMaterial(unsigned int id, const BasicMeshMaterialInitParam& initParam)
+    unsigned int MeshResource::createBasicMeshMaterial(const BasicMeshMaterialInitParam& initParam)
     {
-        m_basicMeshMaterial->create(id, initParam);
+        return m_basicMeshMaterial->create(initParam);
     }
 
-    void MeshResource::copyBasicMeshMaterial(unsigned int id, unsigned int originalId)
+    unsigned int MeshResource::copyBasicMeshMaterial(unsigned int originalHandle)
     {
-        m_basicMeshMaterial->copy(id, originalId);
+        return m_basicMeshMaterial->copy(originalHandle);
     }
 
-    void MeshResource::setMaterialId(unsigned int id, unsigned int materialSlot, unsigned int materialId)
+    void MeshResource::setMaterialHandle(unsigned int meshHandle, unsigned int materialSlot, unsigned int materialHandle)
     {
-        m_basicMesh->setMaterialId(id, materialSlot, materialId);
+        m_basicMesh->setMaterialHandle(meshHandle, materialSlot, materialHandle);
     }
 
-    void MeshResource::writeBasicMeshShadowMap(unsigned int id, const MeshTransformCbuffer& transformBufferData) const
+    void MeshResource::writeBasicMeshShadowMap(unsigned int handle, const MeshTransformCbuffer& transformBufferData) const
     {
-        m_basicMesh->writeShadowMap(id, transformBufferData);
+        m_basicMesh->writeShadowMap(handle, transformBufferData);
     }
 
-    void MeshResource::setMaterialData(unsigned int id) const
+    void MeshResource::setMaterialData(unsigned int handle) const
     {
-        m_basicMeshMaterial->setMaterialData(id);
+        m_basicMeshMaterial->setMaterialData(handle);
     }
 
-    void MeshResource::addMaterialAppendParam(unsigned int id, unsigned int cbufferHandle, unsigned int dataSize, void* dataTopPos)
+    void MeshResource::addMaterialAppendParam(unsigned int handle, unsigned int cbufferHandle, unsigned int dataSize, void* dataTopPos)
     {
-        m_basicMeshMaterial->addAppendParam(id, cbufferHandle, dataSize, dataTopPos);
+        m_basicMeshMaterial->addAppendParam(handle, cbufferHandle, dataSize, dataTopPos);
     }
 
-    void MeshResource::updateMaterialAppendParam(unsigned int id, unsigned int cbufferHandle, unsigned int dataSize, const void* dataTopPos)
+    void MeshResource::updateMaterialAppendParam(unsigned int handle, unsigned int cbufferHandle, unsigned int dataSize, const void* dataTopPos)
     {
-        m_basicMeshMaterial->updateAppendParam(id, cbufferHandle, dataSize, dataTopPos);
+        m_basicMeshMaterial->updateAppendParam(handle, cbufferHandle, dataSize, dataTopPos);
     }
 
-    void MeshResource::drawBasicMesh(unsigned int id, const MeshDrawFuncBaseArgs& baseArgs) const
+    void MeshResource::drawBasicMesh(unsigned int handle, const MeshDrawFuncBaseArgs& baseArgs) const
     {
-        m_basicMesh->drawMesh(id, baseArgs);
+        m_basicMesh->drawMesh(handle, baseArgs);
     }
 
     BasicMeshLoadPmdReturnValue MeshResource::loadPmd(const BasicMeshLoadPmdArgs& args)

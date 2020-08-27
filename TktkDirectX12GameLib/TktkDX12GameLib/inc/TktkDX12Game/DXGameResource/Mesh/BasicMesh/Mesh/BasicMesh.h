@@ -2,7 +2,7 @@
 #define BASIC_MESH_H_
 
 #include <string>
-#include <TktkContainer/HeapArray/HeapArray.h>
+#include <TktkContainer/ResourceContainer/ResourceContainer.h>
 #include "BasicMeshData.h"
 
 namespace tktk
@@ -12,24 +12,24 @@ namespace tktk
 	{
 	public:
 
-		BasicMesh(const std::string& writeShadowMapVsFilePath, unsigned int basicMeshNum);
+		BasicMesh(const std::string& writeShadowMapVsFilePath, const tktkContainer::ResourceContainerInitParam& initParam);
 	
 	public:
 
-		// 「BasicMeshData」のインスタンスを作る
-		void craete(unsigned int id, const BasicMeshInitParam& initParam);
+		// 「BasicMeshData」のインスタンスを作り、そのリソースのハンドルを返す
+		unsigned int craete(const BasicMeshInitParam& initParam);
 
-		// 指定の「BasicMeshData」のインスタンスのコピーを作る
-		void copy(unsigned int id, unsigned int originalId);
+		// 指定の「BasicMeshData」のインスタンスのコピーを作り、そのリソースのハンドルを返す
+		unsigned int copy(unsigned int originalHandle);
 
 		// 使用しているマテリアルを更新する
-		void setMaterialId(unsigned int id, unsigned int materialSlot, unsigned int materialId);
+		void setMaterialHandle(unsigned int meshHandle, unsigned int materialSlot, unsigned int materialHandle);
 
 		// 指定の通常メッシュでシャドウマップを書き込む
-		void writeShadowMap(unsigned int id, const MeshTransformCbuffer& transformBufferData) const;
+		void writeShadowMap(unsigned int handle, const MeshTransformCbuffer& transformBufferData) const;
 
 		// 指定の通常メッシュを描画する
-		void drawMesh(unsigned int id, const MeshDrawFuncBaseArgs& baseArgs) const;
+		void drawMesh(unsigned int handle, const MeshDrawFuncBaseArgs& baseArgs) const;
 
 	private:
 
@@ -47,7 +47,7 @@ namespace tktk
 
 	private:
 
-		tktkContainer::HeapArray<BasicMeshData> m_basicMeshArray;
+		tktkContainer::ResourceContainer<BasicMeshData> m_basicMeshArray;
 	};
 }
 #endif // !BASIC_MESH_H_

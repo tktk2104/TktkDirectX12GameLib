@@ -16,6 +16,15 @@ namespace tktk
 		}
 	}
 
+	SceneInstanceCarrier::SceneInstanceCarrier(SceneInstanceCarrier&& other) noexcept
+		: m_isActive(other.m_isActive)
+		, m_nextFrameIsActive(other.m_nextFrameIsActive)
+		, m_scenePtr(std::move(other.m_scenePtr))
+		, m_vtablePtr(other.m_vtablePtr)
+	{
+		other.m_scenePtr = nullptr;
+	}
+
 	void SceneInstanceCarrier::enable()
 	{
 		m_nextFrameIsActive = true;

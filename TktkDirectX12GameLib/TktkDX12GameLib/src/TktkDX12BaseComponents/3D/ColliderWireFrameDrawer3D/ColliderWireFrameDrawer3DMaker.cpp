@@ -24,9 +24,9 @@ namespace tktk
 		// コンポーネントを作成してそのポインタを返す
 		return m_user->createComponent<ColliderWireFrameDrawer3D>(
 			m_drawPriority,
-			m_cameraId,
-			m_shadowMapCameraId,
-			m_lightId,
+			m_cameraHandle,
+			m_shadowMapCameraHandle,
+			m_lightHandle,
 			m_useRtvDescriptorHeapHandle,
 			m_lineColor
 			);
@@ -46,6 +46,27 @@ namespace tktk
 		return *this;
 	}
 
+	ColliderWireFrameDrawer3DMaker& ColliderWireFrameDrawer3DMaker::cameraHandle(unsigned int value)
+	{
+		// 値を設定して自身の参照を返す
+		m_cameraHandle = value;
+		return *this;
+	}
+
+	ColliderWireFrameDrawer3DMaker& ColliderWireFrameDrawer3DMaker::shadowMapCameraHandle(unsigned int value)
+	{
+		// 値を設定して自身の参照を返す
+		m_shadowMapCameraHandle = value;
+		return *this;
+	}
+
+	ColliderWireFrameDrawer3DMaker& ColliderWireFrameDrawer3DMaker::lightHandle(unsigned int value)
+	{
+		// 値を設定して自身の参照を返す
+		m_lightHandle = value;
+		return *this;
+	}
+
 	ColliderWireFrameDrawer3DMaker& ColliderWireFrameDrawer3DMaker::lineColor(const tktkMath::Color& value)
 	{
 		// 値を設定して自身の参照を返す
@@ -53,24 +74,24 @@ namespace tktk
 		return *this;
 	}
 
-	ColliderWireFrameDrawer3DMaker& ColliderWireFrameDrawer3DMaker::cameraIdImpl(unsigned int value)
+	ColliderWireFrameDrawer3DMaker& ColliderWireFrameDrawer3DMaker::cameraIdImpl(int value)
 	{
 		// 値を設定して自身の参照を返す
-		m_cameraId = value;
+		m_cameraHandle = DX12GameManager::getCameraHandle(value);
 		return *this;
 	}
 
-	ColliderWireFrameDrawer3DMaker& ColliderWireFrameDrawer3DMaker::shadowMapCameraIdImpl(unsigned int value)
+	ColliderWireFrameDrawer3DMaker& ColliderWireFrameDrawer3DMaker::shadowMapCameraIdImpl(int value)
 	{
 		// 値を設定して自身の参照を返す
-		m_shadowMapCameraId = value;
+		m_shadowMapCameraHandle = DX12GameManager::getCameraHandle(value);
 		return *this;
 	}
 
-	ColliderWireFrameDrawer3DMaker& ColliderWireFrameDrawer3DMaker::lightIdImpl(unsigned int value)
+	ColliderWireFrameDrawer3DMaker& ColliderWireFrameDrawer3DMaker::lightIdImpl(int value)
 	{
 		// 値を設定して自身の参照を返す
-		m_lightId = value;
+		m_lightHandle = DX12GameManager::getLightHandle(value);
 		return *this;
 	}
 }

@@ -19,6 +19,9 @@ namespace tktk
 		SoundData(const SoundData& other) = delete;
 		SoundData& operator = (const SoundData& other) = delete;
 
+		// ムーブコンストラクタ
+		SoundData(SoundData&& other) noexcept;
+
 	public:
 
 		// サウンドを再生しているか？

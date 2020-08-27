@@ -30,9 +30,6 @@ namespace tktk
 		// 線の色を設定する
 		ColliderWireFrameDrawer2DMaker& lineColor(const tktkMath::Color& value);
 
-		// 使用する2Dラインマテリアルの配列を設定する
-		ColliderWireFrameDrawer2DMaker& useLine2DMaterialIdArray(const std::vector<unsigned int>& value);
-
 	private:
 
 		static ColliderWireFrameDrawer2DMaker m_self;
@@ -40,10 +37,9 @@ namespace tktk
 	private:
 
 		// 作成用変数達
-		GameObjectPtr				m_user{ };
-		float						m_drawPriority{ 0.0f };
-		tktkMath::Color				m_lineColor{ tktkMath::colorWhite };
-		std::vector<unsigned int>	m_useLine2DMaterialIdArray{};
+		GameObjectPtr				m_user			{ };
+		float						m_drawPriority	{ 0.0f };
+		tktkMath::Color				m_lineColor		{ tktkMath::Color_v::white };
 	};
 }
 #endif // !COLLIDER_WIRE_FRAME_DRAWER_2D_MAKER_H_

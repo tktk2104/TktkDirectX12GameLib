@@ -60,6 +60,16 @@ namespace tktk
 		m_createDescriptorHeapHandle = DX12GameManager::createBasicDescriptorHeap(descriptorHeapInitParam);
 	}
 
+	SpriteMaterialData::SpriteMaterialData(SpriteMaterialData&& other) noexcept
+		: m_createDescriptorHeapHandle(other.m_createDescriptorHeapHandle)
+		, m_blendRate(other.m_blendRate)
+		, m_textureUvOffset(other.m_textureUvOffset)
+		, m_textureUvMulRate(other.m_textureUvMulRate)
+		, m_textureSize(other.m_textureSize)
+		, m_spriteCenterRate(other.m_spriteCenterRate)
+	{
+	}
+
 	void SpriteMaterialData::drawSprite(const SpriteMaterialDrawFuncArgs& drawFuncArgs) const
 	{
 		// スプライト用の定数バッファを更新する

@@ -18,6 +18,9 @@ namespace tktk
 		);
 		~LightData() = default;
 
+		// ムーブコンストラクタ
+		LightData(LightData&& other) noexcept;
+
 	public:
 
 		// ライト情報の定数バッファを更新する

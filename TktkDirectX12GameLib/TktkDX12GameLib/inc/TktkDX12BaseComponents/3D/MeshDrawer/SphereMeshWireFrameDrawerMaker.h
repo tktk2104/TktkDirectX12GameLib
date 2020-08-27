@@ -42,23 +42,35 @@ namespace tktk
 		// 使用するレンダーターゲットのディスクリプタヒープハンドルを設定する
 		SphereMeshWireFrameDrawerMaker& useRtvDescriptorHeapHandle(unsigned int value);
 
+		// 使用するカメラハンドルを設定する
+		SphereMeshWireFrameDrawerMaker& cameraHandle(unsigned int value);
+
 		// 使用するカメラIDを設定する（列挙型を含む整数型のidが渡された場合のみビルド可）
+		// ※内部で対応するリソースハンドルに変換される
 		template<class IdType, is_idType<IdType> = nullptr>
 		SphereMeshWireFrameDrawerMaker& cameraId(IdType value);
 
+		// 使用するシャドウマップカメラハンドルを設定する
+		SphereMeshWireFrameDrawerMaker& shadowMapCameraHandle(unsigned int value);
+
 		// 使用するシャドウマップカメラIDを設定する（列挙型を含む整数型のidが渡された場合のみビルド可）
+		// ※内部で対応するリソースハンドルに変換される
 		template<class IdType, is_idType<IdType> = nullptr>
 		SphereMeshWireFrameDrawerMaker& shadowMapCameraId(IdType value);
 
+		// 使用するライトハンドルを設定する
+		SphereMeshWireFrameDrawerMaker& lightHandle(unsigned int value);
+
 		// 使用するライトIDを設定する（列挙型を含む整数型のidが渡された場合のみビルド可）
+		// ※内部で対応するリソースハンドルに変換される
 		template<class IdType, is_idType<IdType> = nullptr>
 		SphereMeshWireFrameDrawerMaker& lightId(IdType value);
 
 	private: /* 各種id指定系の関数の実装 */
 
-		SphereMeshWireFrameDrawerMaker& cameraIdImpl(unsigned int value);
-		SphereMeshWireFrameDrawerMaker& shadowMapCameraIdImpl(unsigned int value);
-		SphereMeshWireFrameDrawerMaker& lightIdImpl(unsigned int value);
+		SphereMeshWireFrameDrawerMaker& cameraIdImpl(int value);
+		SphereMeshWireFrameDrawerMaker& shadowMapCameraIdImpl(int value);
+		SphereMeshWireFrameDrawerMaker& lightIdImpl(int value);
 
 	private: /* 自身のインスタンスは静的な存在として扱う */
 
@@ -72,9 +84,9 @@ namespace tktk
 		tktkMath::Vector3	m_localPosition					{ tktkMath::Vector3_v::zero };
 		tktkMath::Color		m_albedoColor					{ tktkMath::Color_v::white };
 		unsigned int		m_useRtvDescriptorHeapHandle	{  };		// ※初期パラメータはバックバッファー
-		unsigned int		m_cameraId						{ 0U };
-		unsigned int		m_shadowMapCameraId				{ 0U };
-		unsigned int		m_lightId						{ 0U };
+		unsigned int		m_cameraHandle					{ 0U };
+		unsigned int		m_shadowMapCameraHandle			{ 0U };
+		unsigned int		m_lightHandle					{ 0U };
 
 	public: /* 不正な型の引数が渡されそうになった時にコンパイルエラーにする為の仕組み */
 
@@ -95,21 +107,21 @@ namespace tktk
 	template<class IdType, is_idType<IdType>>
 	inline SphereMeshWireFrameDrawerMaker& SphereMeshWireFrameDrawerMaker::cameraId(IdType value)
 	{
-		return cameraIdImpl(static_cast<unsigned int>(value));
+		return cameraIdImpl(static_cast<int>(value));
 	}
 
 	// 使用するシャドウマップカメラIDを設定する（列挙型を含む整数型のidが渡された場合のみビルド可）
 	template<class IdType, is_idType<IdType>>
 	inline SphereMeshWireFrameDrawerMaker& SphereMeshWireFrameDrawerMaker::shadowMapCameraId(IdType value)
 	{
-		return shadowMapCameraIdImpl(static_cast<unsigned int>(value));
+		return shadowMapCameraIdImpl(static_cast<int>(value));
 	}
 
 	// 使用するライトIDを設定する（列挙型を含む整数型のidが渡された場合のみビルド可）
 	template<class IdType, is_idType<IdType>>
 	inline SphereMeshWireFrameDrawerMaker& SphereMeshWireFrameDrawerMaker::lightId(IdType value)
 	{
-		return lightIdImpl(static_cast<unsigned int>(value));
+		return lightIdImpl(static_cast<int>(value));
 	}
 }
 #endif // !SPHERE_MESH_WIRE_FRAME_DRAWER_MAKER_H_

@@ -13,6 +13,9 @@ namespace tktk
 		Line2DMaterialData() = default;
 		~Line2DMaterialData();
 
+		// ムーブコンストラクタ
+		Line2DMaterialData(Line2DMaterialData&& other) noexcept;
+
 	public:
 
 		// ２Ｄラインを描画する

@@ -15,6 +15,9 @@ namespace tktk
 		explicit SpriteMaterialData(const SpriteMaterialInitParam& initParam);
 		~SpriteMaterialData() = default;
 
+		// ムーブコンストラクタ
+		SpriteMaterialData(SpriteMaterialData&& other) noexcept;
+
 	public:
 
 		// スプライトを描画する

@@ -21,9 +21,9 @@ namespace tktk
 		// コンポーネントを作成してそのポインタを返す
 		return m_user->createComponent<BasicMeshShadowMapWriter>(
 			m_drawPriority,
-			m_meshId,
-			m_skeletonId,
-			m_cameraId
+			m_meshHandle,
+			m_skeletonHandle,
+			m_cameraHandle
 			);
 	}
 
@@ -34,24 +34,24 @@ namespace tktk
 		return *this;
 	}
 
-	BasicMeshShadowMapWriterMaker& BasicMeshShadowMapWriterMaker::meshIdImpl(unsigned int value)
+	BasicMeshShadowMapWriterMaker& BasicMeshShadowMapWriterMaker::meshIdImpl(int value)
 	{
 		// 値を設定して自身の参照を返す
-		m_meshId = value;
+		m_meshHandle = DX12GameManager::getBasicMeshHandle(value);
 		return *this;
 	}
 
-	BasicMeshShadowMapWriterMaker& BasicMeshShadowMapWriterMaker::skeletonIdImpl(unsigned int value)
+	BasicMeshShadowMapWriterMaker& BasicMeshShadowMapWriterMaker::skeletonIdImpl(int value)
 	{
 		// 値を設定して自身の参照を返す
-		m_skeletonId = value;
+		m_skeletonHandle = DX12GameManager::getSkeletonHandle(value);
 		return *this;
 	}
 
-	BasicMeshShadowMapWriterMaker& BasicMeshShadowMapWriterMaker::cameraIdImpl(unsigned int value)
+	BasicMeshShadowMapWriterMaker& BasicMeshShadowMapWriterMaker::cameraIdImpl(int value)
 	{
 		// 値を設定して自身の参照を返す
-		m_cameraId = value;
+		m_cameraHandle = DX12GameManager::getCameraHandle(value);
 		return *this;
 	}
 }

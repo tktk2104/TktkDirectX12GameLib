@@ -13,18 +13,27 @@ namespace tktk
 	{
 	}
 
-	BasicMeshData::BasicMeshData(const BasicMeshData* other)
-		: m_useVertexBufferHandle(other->m_useVertexBufferHandle)
-		, m_useIndexBufferHandle(other->m_useIndexBufferHandle)
-		, m_indexNum(other->m_indexNum)
-		, m_primitiveTopology(other->m_primitiveTopology)
-		, m_materialSlots(other->m_materialSlots)
+	BasicMeshData::BasicMeshData(const BasicMeshData& other)
+		: m_useVertexBufferHandle(other.m_useVertexBufferHandle)
+		, m_useIndexBufferHandle(other.m_useIndexBufferHandle)
+		, m_indexNum(other.m_indexNum)
+		, m_primitiveTopology(other.m_primitiveTopology)
+		, m_materialSlots(other.m_materialSlots)
 	{
 	}
 
-	void BasicMeshData::setMaterialId(unsigned int materialSlot, unsigned int materialId)
+	BasicMeshData::BasicMeshData(BasicMeshData&& other) noexcept
+		: m_useVertexBufferHandle(other.m_useVertexBufferHandle)
+		, m_useIndexBufferHandle(other.m_useIndexBufferHandle)
+		, m_indexNum(other.m_indexNum)
+		, m_primitiveTopology(other.m_primitiveTopology)
+		, m_materialSlots(std::move(other.m_materialSlots))
 	{
-		m_materialSlots.at(materialSlot).useMaterialId = materialId;
+	}
+
+	void BasicMeshData::setMaterialHandle(unsigned int materialSlot, unsigned int materialHandle)
+	{
+		m_materialSlots.at(materialSlot).useMaterialHandle = materialHandle;
 	}
 
 	void BasicMeshData::writeShadowMap() const
@@ -91,7 +100,7 @@ namespace tktk
 		for (const auto& node : m_materialSlots)
 		{
 			// マテリアルの情報を設定する
-			DX12GameManager::setMaterialData(node.useMaterialId);
+			DX12GameManager::setMaterialData(node.useMaterialHandle);
 
 			// ドローコール
 			DX12GameManager::drawIndexedInstanced(node.indexBufferUseCount, 1U, node.indexBufferStartPos, 0U, 0U);

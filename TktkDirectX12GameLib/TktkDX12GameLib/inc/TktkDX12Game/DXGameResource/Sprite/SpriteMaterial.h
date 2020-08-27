@@ -1,7 +1,7 @@
 #ifndef SPRITE_MATERIAL_H_
 #define SPRITE_MATERIAL_H_
 
-#include <TktkContainer/HeapArray/HeapArray.h>
+#include <TktkContainer/ResourceContainer/ResourceContainer.h>
 #include <TktkDX12Wrapper/Resource/GraphicsPipeLine/PipeLineState/PipeLineStateInitParam.h>
 #include "SpriteMaterialData.h"
 
@@ -12,16 +12,16 @@ namespace tktk
 	{
 	public:
 
-		SpriteMaterial(const ShaderFilePaths& shaderFilePaths, unsigned int spriteMaterialNum);
+		SpriteMaterial(const ShaderFilePaths& shaderFilePaths, const tktkContainer::ResourceContainerInitParam& initParam);
 		~SpriteMaterial() = default;
 
 	public:
 
-		// 「SpriteMaterialData」のインスタンスを作る
-		void create(unsigned int id, const SpriteMaterialInitParam& initParam);
+		// 「SpriteMaterialData」のインスタンスを作り、そのリソースのハンドルを返す
+		unsigned int create(const SpriteMaterialInitParam& initParam);
 
 		// 指定したスプライトを描画する
-		void drawSprite(unsigned int id, const SpriteMaterialDrawFuncArgs& drawFuncArgs) const;
+		void drawSprite(unsigned int handle, const SpriteMaterialDrawFuncArgs& drawFuncArgs) const;
 
 	private:
 
@@ -33,7 +33,7 @@ namespace tktk
 
 	private:
 
-		tktkContainer::HeapArray<SpriteMaterialData> m_spriteMaterialArray;
+		tktkContainer::ResourceContainer<SpriteMaterialData> m_spriteMaterialArray;
 	};
 }
 #endif // !SPRITE_MATERIAL_H_

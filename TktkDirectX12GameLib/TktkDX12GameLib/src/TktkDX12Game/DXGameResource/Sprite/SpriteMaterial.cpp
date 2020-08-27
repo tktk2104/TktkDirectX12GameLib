@@ -6,8 +6,8 @@
 
 namespace tktk
 {
-	SpriteMaterial::SpriteMaterial(const ShaderFilePaths& shaderFilePaths, unsigned int spriteMaterialNum)
-		: m_spriteMaterialArray(spriteMaterialNum)
+	SpriteMaterial::SpriteMaterial(const ShaderFilePaths& shaderFilePaths, const tktkContainer::ResourceContainerInitParam& initParam)
+		: m_spriteMaterialArray(initParam)
 	{
 		// スプライト用のルートシグネチャを作る
 		createRootSignature();
@@ -25,14 +25,14 @@ namespace tktk
 		DX12GameManager::setSystemHandle(SystemCBufferType::Sprite, DX12GameManager::createCBuffer(SpriteConstantBufferData()));
 	}
 
-	void SpriteMaterial::create(unsigned int id, const SpriteMaterialInitParam& initParam)
+	unsigned int SpriteMaterial::create(const SpriteMaterialInitParam& initParam)
 	{
-		m_spriteMaterialArray.emplaceAt(id, initParam);
+		return m_spriteMaterialArray.create(initParam);
 	}
 
-	void SpriteMaterial::drawSprite(unsigned int id, const SpriteMaterialDrawFuncArgs& drawFuncArgs) const
+	void SpriteMaterial::drawSprite(unsigned int handle, const SpriteMaterialDrawFuncArgs& drawFuncArgs) const
 	{
-		m_spriteMaterialArray.at(id)->drawSprite(drawFuncArgs);
+		m_spriteMaterialArray.getMatchHandlePtr(handle)->drawSprite(drawFuncArgs);
 	}
 
 	// スプライト用のルートシグネチャ

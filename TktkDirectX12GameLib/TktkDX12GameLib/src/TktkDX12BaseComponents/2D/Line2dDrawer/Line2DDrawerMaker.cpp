@@ -24,7 +24,6 @@ namespace tktk
 		// コンポーネントを作成してそのポインタを返す
 		return m_user->createComponent<Line2DDrawer>(
 			m_drawPriority,
-			m_useLine2DMaterialId,
 			m_lineVertexArray,
 			m_lineColor,
 			m_blendRate,
@@ -63,13 +62,6 @@ namespace tktk
 	{
 		// 値を設定して自身の参照を返す
 		m_useRtvDescriptorHeapHandle = value;
-		return *this;
-	}
-
-	Line2DDrawerMaker& Line2DDrawerMaker::useLine2DMaterialIdImpl(unsigned int value)
-	{
-		// 値を設定して自身の参照を返す
-		m_useLine2DMaterialId = value;
 		return *this;
 	}
 }

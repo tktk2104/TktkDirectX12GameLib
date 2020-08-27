@@ -12,6 +12,11 @@ namespace tktk
 		DX12GameManager::eraseVertexBuffer(m_createdVertexBufferHandle);
 	}
 
+	Line2DMaterialData::Line2DMaterialData(Line2DMaterialData&& other) noexcept
+		: m_createdVertexBufferHandle(other.m_createdVertexBufferHandle)
+	{
+	}
+
 	void Line2DMaterialData::drawLine(const Line2DMaterialDrawFuncArgs& drawFuncArgs)
 	{
 		// 前フレームで作成した頂点バッファを削除する

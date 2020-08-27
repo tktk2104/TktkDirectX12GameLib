@@ -3,13 +3,13 @@
 namespace tktk
 {
 	OrthographicCameraController::OrthographicCameraController(
-		unsigned int cameraId,
+		unsigned int cameraHandle,
 		float cameraWidth,
 		float cameraHeight,
 		float cameraNear,
 		float cameraFar
 	)
-		: m_cameraId(cameraId)
+		: m_cameraHandle(cameraHandle)
 		, m_cameraWidth(cameraWidth)
 		, m_cameraHeight(cameraHeight)
 		, m_cameraNear(cameraNear)
@@ -43,7 +43,7 @@ namespace tktk
 			m_transform->getWorldPosition() + cameraWorldMat.calculateForwardLH(),
 			cameraWorldMat.calculateUp()
 		);
-		DX12GameManager::setViewMatrix(m_cameraId, viewMat);
+		DX12GameManager::setViewMatrix(m_cameraHandle, viewMat);
 
 		auto projectionMat = tktkMath::Matrix4::createOrthographicLH(
 			m_cameraWidth,
@@ -51,6 +51,6 @@ namespace tktk
 			m_cameraNear,
 			m_cameraFar
 		);
-		DX12GameManager::setProjectionMatrix(m_cameraId, projectionMat);
+		DX12GameManager::setProjectionMatrix(m_cameraHandle, projectionMat);
 	}
 }

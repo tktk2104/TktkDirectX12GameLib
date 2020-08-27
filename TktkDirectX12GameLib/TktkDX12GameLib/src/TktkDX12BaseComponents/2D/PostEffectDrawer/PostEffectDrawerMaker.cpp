@@ -24,7 +24,7 @@ namespace tktk
 		// コンポーネントを作成してそのポインタを返す
 		return m_user->createComponent<PostEffectDrawer>(
 			m_drawPriority,
-			m_postEffectMaterialId,
+			m_postEffectMaterialHandle,
 			m_useRtvDescriptorHeapHandle
 			);
 	}
@@ -43,10 +43,17 @@ namespace tktk
 		return *this;
 	}
 
-	PostEffectDrawerMaker& PostEffectDrawerMaker::postEffectMaterialIdImpl(unsigned int value)
+	PostEffectDrawerMaker& PostEffectDrawerMaker::postEffectMaterialHandle(unsigned int value)
 	{
 		// 値を設定して自身の参照を返す
-		m_postEffectMaterialId = value;
+		m_postEffectMaterialHandle = value;
+		return *this;
+	}
+
+	PostEffectDrawerMaker& PostEffectDrawerMaker::postEffectMaterialIdImpl(int value)
+	{
+		// 値を設定して自身の参照を返す
+		m_postEffectMaterialHandle = DX12GameManager::getPostEffectMaterialHandle(value);
 		return *this;
 	}
 }

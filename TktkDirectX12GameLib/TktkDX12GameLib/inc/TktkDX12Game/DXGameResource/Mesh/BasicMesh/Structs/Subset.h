@@ -9,7 +9,7 @@ namespace tktk
 	public:
 
 		// 使用するマテリアルのID
-		unsigned int useMaterialId;
+		unsigned int useMaterialHandle;
 
 		// インデックスバッファの使用開始位置
 		unsigned int indexBufferStartPos;

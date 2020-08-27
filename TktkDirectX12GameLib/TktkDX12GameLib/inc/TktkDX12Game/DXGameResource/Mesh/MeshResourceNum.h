@@ -1,15 +1,17 @@
 #ifndef MESH_RESOURCE_NUM_H_
 #define MESH_RESOURCE_NUM_H_
 
+#include <TktkContainer/ResourceContainer/ResourceContainerInitParam.h>
+
 namespace tktk
 {
-	// メッシュ関連のリソースの数
+	// メッシュ関連のリソースを管理するコンテナを作るための変数
 	struct MeshResourceNum
 	{
-		unsigned int skeletonNum;
-		unsigned int motionNum;
-		unsigned int basicMeshNum;
-		unsigned int basicMeshMaterialNum;
+		tktkContainer::ResourceContainerInitParam skeletonNum;
+		tktkContainer::ResourceContainerInitParam motionNum;
+		tktkContainer::ResourceContainerInitParam basicMeshNum;
+		tktkContainer::ResourceContainerInitParam basicMeshMaterialNum;
 	};
 }
 #endif // !MESH_RESOURCE_NUM_H_

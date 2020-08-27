@@ -2,10 +2,10 @@
 
 namespace tktk
 {
-	MeshAnimator::MeshAnimator(unsigned int initMotionId, bool isLoop)
+	MeshAnimator::MeshAnimator(unsigned int initMotionHandle, bool isLoop)
 		: m_isLoop(isLoop)
-		, m_curMotionId(initMotionId)
-		, m_preMotionId(initMotionId)
+		, m_curMotionHandle(initMotionHandle)
+		, m_preMotionHandle(initMotionHandle)
 	{
 	}
 
@@ -13,14 +13,14 @@ namespace tktk
 	{
 		m_curFrame += m_animFrameIntervalPerSec * DX12GameManager::deltaTime();
 
-		if (m_curFrame > static_cast<float>(DX12GameManager::getMotionEndFrameNo(m_curMotionId)))
+		if (m_curFrame > static_cast<float>(DX12GameManager::getMotionEndFrameNo(m_curMotionHandle)))
 		{
 			if (m_isLoop) m_curFrame = 0.0f;
-			else m_curFrame = static_cast<float>(DX12GameManager::getMotionEndFrameNo(m_curMotionId));
+			else m_curFrame = static_cast<float>(DX12GameManager::getMotionEndFrameNo(m_curMotionHandle));
 		}
 		else if (m_curFrame < 0.0f)
 		{
-			if (m_isLoop) m_curFrame = static_cast<float>(DX12GameManager::getMotionEndFrameNo(m_curMotionId));
+			if (m_isLoop) m_curFrame = static_cast<float>(DX12GameManager::getMotionEndFrameNo(m_curMotionHandle));
 			else m_curFrame = 0.0f;
 		}
 
@@ -34,14 +34,14 @@ namespace tktk
 		}
 	}
 
-	void MeshAnimator::transformSkeleton(unsigned int skeletonId)
+	void MeshAnimator::transformSkeleton(unsigned int skeletonHandle)
 	{
 		if (isActive())
 		{
 			DX12GameManager::updateMotion(
-				skeletonId,
-				m_curMotionId,
-				m_preMotionId,
+				skeletonHandle,
+				m_curMotionHandle,
+				m_preMotionHandle,
 				static_cast<unsigned int>(m_curFrame),
 				static_cast<unsigned int>(m_preFrame),
 				m_lerpTimer
@@ -49,15 +49,20 @@ namespace tktk
 		}
 	}
 
-	void MeshAnimator::changeMotion(unsigned int motionId, float lerpTimeSec)
+	void MeshAnimator::setNewMotionHandle(unsigned int motionHandle, float lerpTimeSec)
 	{
-		m_preMotionId = m_curMotionId;
-		m_curMotionId = motionId;
+		m_preMotionHandle = m_curMotionHandle;
+		m_curMotionHandle = motionHandle;
 
 		m_preFrame = m_curFrame;
 		m_curFrame = 0.0f;
 
 		m_lerpTimer = 0.0f;
 		m_increaseLerpTimePerSec = 1.0f / lerpTimeSec;
+	}
+
+	void MeshAnimator::setNewMotionId(int motionId, float lerpTimeSec)
+	{
+		setNewMotionHandle(DX12GameManager::getMotionHandle(motionId), lerpTimeSec);
 	}
 }

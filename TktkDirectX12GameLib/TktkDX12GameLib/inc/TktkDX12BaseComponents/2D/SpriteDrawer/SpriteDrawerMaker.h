@@ -33,13 +33,17 @@ namespace tktk
 		// 使用するレンダーターゲットのディスクリプタヒープハンドルを設定する
 		SpriteDrawerMaker& useRtvDescriptorHeapHandle(unsigned int value);
 
+		// 使用するスプライトマテリアルハンドルを設定する
+		SpriteDrawerMaker& spriteMaterialHandle(unsigned int value);
+
 		// 使用するスプライトマテリアルIDを設定する（列挙型を含む整数型のidが渡された場合のみビルド可）
+		// ※内部で対応するリソースハンドルに変換される
 		template<class IdType, is_idType<IdType> = nullptr>
 		SpriteDrawerMaker& spriteMaterialId(IdType value);
 
 	private: /* 各種id指定系の関数の実装 */
 
-		SpriteDrawerMaker& spriteMaterialIdImpl(unsigned int value);
+		SpriteDrawerMaker& spriteMaterialIdImpl(int value);
 
 	private: /* 自身のインスタンスは静的な存在として扱う */
 
@@ -47,10 +51,10 @@ namespace tktk
 
 	private: /* 変数達 */
 
-		GameObjectPtr	m_user{  };
-		float			m_drawPriority{ 0.0f };
+		GameObjectPtr	m_user						{  };
+		float			m_drawPriority				{ 0.0f };
 		unsigned int	m_useRtvDescriptorHeapHandle{  }; // ※初期パラメータはバックバッファー
-		unsigned int	m_spriteMaterialId{ 0U };
+		unsigned int	m_spriteMaterialHandle		{ 0U };
 
 	public: /* 不正な型の引数が渡されそうになった時にコンパイルエラーにする為の仕組み */
 
@@ -65,7 +69,7 @@ namespace tktk
 	template<class IdType, is_idType<IdType>>
 	inline SpriteDrawerMaker& SpriteDrawerMaker::spriteMaterialId(IdType value)
 	{
-		return spriteMaterialIdImpl(static_cast<unsigned int>(value));
+		return spriteMaterialIdImpl(static_cast<int>(value));
 	}
 }
 #endif // !SPRITE_DRAWER_MAKER_H_

@@ -5,25 +5,25 @@
 
 namespace tktk
 {
-    Skeleton::Skeleton(unsigned int skeletonNum)
-        : m_skeletonArray(skeletonNum)
+    Skeleton::Skeleton(const tktkContainer::ResourceContainerInitParam& initParam)
+        : m_skeletonArray(initParam)
     {
         DX12GameManager::setSystemHandle(SystemCBufferType::BoneMatCbuffer, DX12GameManager::createCBuffer(BoneMatrixCbufferData()));
     }
 
-    void Skeleton::create(unsigned int id, const SkeletonInitParam& initParam)
+    unsigned int Skeleton::create(const SkeletonInitParam& initParam)
     {
-        m_skeletonArray.emplaceAt(id, initParam);
+        return m_skeletonArray.create(initParam);
     }
 
-    void Skeleton::transform(unsigned int id, const std::vector<MotionBoneParam>& transformMatrices)
+    void Skeleton::transform(unsigned int handle, const std::vector<MotionBoneParam>& transformMatrices)
     {
-        m_skeletonArray.at(id)->transform(transformMatrices);
+        m_skeletonArray.getMatchHandlePtr(handle)->transform(transformMatrices);
     }
 
-    void Skeleton::updateBoneMatrixCbuffer(unsigned int id) const
+    void Skeleton::updateBoneMatrixCbuffer(unsigned int handle) const
     {
-        m_skeletonArray.at(id)->updateBoneMatrixCbuffer();
+        m_skeletonArray.getMatchHandlePtr(handle)->updateBoneMatrixCbuffer();
     }
 
     void Skeleton::resetBoneMatrixCbuffer() const

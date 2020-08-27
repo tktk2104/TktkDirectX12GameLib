@@ -13,8 +13,14 @@ namespace tktk
 	{
 	public:
 
-		BasicMeshMaterialData(const BasicMeshMaterialInitParam& initParam);
-		BasicMeshMaterialData(const BasicMeshMaterialData* other);
+		explicit BasicMeshMaterialData(const BasicMeshMaterialInitParam& initParam);
+
+		// コピーコンストラクタ
+		BasicMeshMaterialData(const BasicMeshMaterialData& other);
+		
+		// ムーブコンストラクタ
+		BasicMeshMaterialData(BasicMeshMaterialData&& other) noexcept;
+
 		~BasicMeshMaterialData() = default;
 
 	public:

@@ -5,8 +5,8 @@
 
 namespace tktk
 {
-	Line2DMaterial::Line2DMaterial(const ShaderFilePaths& shaderFilePaths, unsigned int line2DMaterialNum)
-		: m_line2DMaterialArray(line2DMaterialNum)
+	Line2DMaterial::Line2DMaterial(const ShaderFilePaths& shaderFilePaths, const tktkContainer::ResourceContainerInitParam& initParam)
+		: m_line2DMaterialArray(initParam)
 	{
 		// 2Dライン描画用のルートシグネチャを作る
 		createRootSignature();
@@ -21,14 +21,14 @@ namespace tktk
 		createBasicDescriptorHeap();
 	}
 
-	void Line2DMaterial::create(unsigned int id)
+	unsigned int Line2DMaterial::create()
 	{
-		m_line2DMaterialArray.emplaceAt(id);
+		return m_line2DMaterialArray.create();
 	}
 
-	void Line2DMaterial::drawLine(unsigned int id, const Line2DMaterialDrawFuncArgs& drawFuncArgs)
+	void Line2DMaterial::drawLine(unsigned int handle, const Line2DMaterialDrawFuncArgs& drawFuncArgs)
 	{
-		m_line2DMaterialArray.at(id)->drawLine(drawFuncArgs);
+		m_line2DMaterialArray.getMatchHandlePtr(handle)->drawLine(drawFuncArgs);
 	}
 
 	void Line2DMaterial::createBasicDescriptorHeap() const

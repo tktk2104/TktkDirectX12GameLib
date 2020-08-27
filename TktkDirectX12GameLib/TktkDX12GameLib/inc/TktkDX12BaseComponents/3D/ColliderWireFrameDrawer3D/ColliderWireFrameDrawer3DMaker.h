@@ -31,15 +31,27 @@ namespace tktk
 		// 使用するレンダーターゲットのディスクリプタヒープハンドルを設定する
 		ColliderWireFrameDrawer3DMaker& useRtvDescriptorHeapHandle(unsigned int value);
 
+		// 使用するカメラハンドルを設定する
+		ColliderWireFrameDrawer3DMaker& cameraHandle(unsigned int value);
+
 		// 使用するカメラIDを設定する（列挙型を含む整数型のidが渡された場合のみビルド可）
+		// ※内部で対応するリソースハンドルに変換される
 		template<class IdType, is_idType<IdType> = nullptr>
 		ColliderWireFrameDrawer3DMaker& cameraId(IdType value);
 
+		// 使用するシャドウマップカメラハンドルを設定する
+		ColliderWireFrameDrawer3DMaker& shadowMapCameraHandle(unsigned int value);
+
 		// 使用するシャドウマップカメラIDを設定する（列挙型を含む整数型のidが渡された場合のみビルド可）
+		// ※内部で対応するリソースハンドルに変換される
 		template<class IdType, is_idType<IdType> = nullptr>
 		ColliderWireFrameDrawer3DMaker& shadowMapCameraId(IdType value);
 
+		// 使用するライトハンドルを設定する
+		ColliderWireFrameDrawer3DMaker& lightHandle(unsigned int value);
+
 		// 使用するライトIDを設定する（列挙型を含む整数型のidが渡された場合のみビルド可）
+		// ※内部で対応するリソースハンドルに変換される
 		template<class IdType, is_idType<IdType> = nullptr>
 		ColliderWireFrameDrawer3DMaker& lightId(IdType value);
 
@@ -48,9 +60,9 @@ namespace tktk
 
 	private: /* 各種id指定系の関数の実装 */
 
-		ColliderWireFrameDrawer3DMaker& cameraIdImpl(unsigned int value);
-		ColliderWireFrameDrawer3DMaker& shadowMapCameraIdImpl(unsigned int value);
-		ColliderWireFrameDrawer3DMaker& lightIdImpl(unsigned int value);
+		ColliderWireFrameDrawer3DMaker& cameraIdImpl(int value);
+		ColliderWireFrameDrawer3DMaker& shadowMapCameraIdImpl(int value);
+		ColliderWireFrameDrawer3DMaker& lightIdImpl(int value);
 
 	private:
 
@@ -61,9 +73,9 @@ namespace tktk
 		// 作成用変数達
 		GameObjectPtr				m_user						{ };
 		float						m_drawPriority				{ 0.0f };
-		unsigned int				m_cameraId					{ 0U };
-		unsigned int				m_shadowMapCameraId			{ 0U };
-		unsigned int				m_lightId					{ 0U };
+		unsigned int				m_cameraHandle				{ 0U };
+		unsigned int				m_shadowMapCameraHandle		{ 0U };
+		unsigned int				m_lightHandle				{ 0U };
 		unsigned int				m_useRtvDescriptorHeapHandle{  };// ※初期パラメータはバックバッファー
 		tktkMath::Color				m_lineColor					{ tktkMath::Color_v::white };
 	
@@ -86,21 +98,21 @@ namespace tktk
 	template<class IdType, is_idType<IdType>>
 	inline ColliderWireFrameDrawer3DMaker& ColliderWireFrameDrawer3DMaker::cameraId(IdType value)
 	{
-		return cameraIdImpl(static_cast<unsigned int>(value));
+		return cameraIdImpl(static_cast<int>(value));
 	}
 
 	// 使用するシャドウマップカメラIDを設定する（列挙型を含む整数型のidが渡された場合のみビルド可）
 	template<class IdType, is_idType<IdType>>
 	inline ColliderWireFrameDrawer3DMaker& ColliderWireFrameDrawer3DMaker::shadowMapCameraId(IdType value)
 	{
-		return shadowMapCameraIdImpl(static_cast<unsigned int>(value));
+		return shadowMapCameraIdImpl(static_cast<int>(value));
 	}
 
 	// 使用するライトIDを設定する（列挙型を含む整数型のidが渡された場合のみビルド可）
 	template<class IdType, is_idType<IdType>>
 	inline ColliderWireFrameDrawer3DMaker& ColliderWireFrameDrawer3DMaker::lightId(IdType value)
 	{
-		return lightIdImpl(static_cast<unsigned int>(value));
+		return lightIdImpl(static_cast<int>(value));
 	}
 }
 

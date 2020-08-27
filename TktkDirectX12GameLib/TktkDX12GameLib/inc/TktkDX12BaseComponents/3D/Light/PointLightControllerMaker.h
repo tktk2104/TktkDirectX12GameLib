@@ -27,7 +27,11 @@ namespace tktk
 
 	public:  /* パラメータ設定関数 */
 
+		// 使用する初期ライトハンドルを設定する
+		PointLightControllerMaker& initLightHandle(unsigned int value);
+
 		// 使用する初期ライトIDを設定する（列挙型を含む整数型のidが渡された場合のみビルド可）
+		// ※内部で対応するリソースハンドルに変換される
 		template<class IdType, is_idType<IdType> = nullptr>
 		PointLightControllerMaker& initLightId(IdType value);
 
@@ -42,7 +46,7 @@ namespace tktk
 
 	private: /* 各種id指定系の関数の実装 */
 
-		PointLightControllerMaker& initLightIdImpl(unsigned int value);
+		PointLightControllerMaker& initLightIdImpl(int value);
 
 	private: /* 自身のインスタンスは静的な存在として扱う */
 
@@ -50,11 +54,11 @@ namespace tktk
 
 	private: /* 変数達 */
 
-		GameObjectPtr	m_user			{  };
-		unsigned int	m_initLightId	{ 0U };
-		tktkMath::Color	m_initAmbient	{ 0.25f, 1.0f };
-		tktkMath::Color	m_initDiffuse	{ 0.25f, 1.0f };
-		tktkMath::Color	m_initSpeqular	{ 0.25f, 1.0f };
+		GameObjectPtr	m_user				{  };
+		unsigned int	m_initLightHandle	{ 0U };
+		tktkMath::Color	m_initAmbient		{ 0.25f, 1.0f };
+		tktkMath::Color	m_initDiffuse		{ 0.25f, 1.0f };
+		tktkMath::Color	m_initSpeqular		{ 0.25f, 1.0f };
 
 	public: /* 不正な型の引数が渡されそうになった時にコンパイルエラーにする為の仕組み */
 
@@ -69,7 +73,7 @@ namespace tktk
 	template<class IdType, is_idType<IdType>>
 	inline PointLightControllerMaker& PointLightControllerMaker::initLightId(IdType value)
 	{
-		return initLightIdImpl(static_cast<unsigned int>(value));
+		return initLightIdImpl(static_cast<int>(value));
 	}
 }
 #endif // !POINT_LIGHT_CONTROLLER_MAKER_H_

@@ -8,10 +8,9 @@
 
 namespace tktk
 {
-	ColliderWireFrameDrawer2D::ColliderWireFrameDrawer2D(float drawPriority, const tktkMath::Color & lineColor, std::vector<unsigned int> useLine2DMaterialIdArray)
+	ColliderWireFrameDrawer2D::ColliderWireFrameDrawer2D(float drawPriority, const tktkMath::Color & lineColor)
 		: m_drawPriority(drawPriority)
 		, m_lineColor(lineColor)
-		, m_useLine2DMaterialIdArray(useLine2DMaterialIdArray)
 	{
 	}
 
@@ -42,15 +41,12 @@ namespace tktk
 			m_wireFrameDrawerArray.push_back(
 				getGameObject()->createComponent<Line2DDrawer>(
 					m_drawPriority,
-					m_useLine2DMaterialIdArray.at(curIndex),
 					vertexArray,
 					m_lineColor,
 					tktkMath::Color_v::white,
 					DX12GameManager::getSystemHandle(SystemRtvDescriptorHeapType::BackBuffer)
 					)
 			);
-
-			if (++curIndex >= m_useLine2DMaterialIdArray.size()) return;
 		}
 
 		auto rectColliderList = getComponents<RectCollider>();
@@ -65,15 +61,12 @@ namespace tktk
 			m_wireFrameDrawerArray.push_back(
 				getGameObject()->createComponent<Line2DDrawer>(
 					m_drawPriority,
-					m_useLine2DMaterialIdArray.at(curIndex),
 					vertexArray,
 					m_lineColor,
 					tktkMath::Color_v::white,
 					DX12GameManager::getSystemHandle(SystemRtvDescriptorHeapType::BackBuffer)
 					)
 			);
-
-			if (++curIndex >= m_useLine2DMaterialIdArray.size()) return;
 		}
 
 		auto polygon2dColliderList = getComponents<Polygon2dCollider>();
@@ -88,15 +81,12 @@ namespace tktk
 			m_wireFrameDrawerArray.push_back(
 				getGameObject()->createComponent<Line2DDrawer>(
 					m_drawPriority,
-					m_useLine2DMaterialIdArray.at(curIndex),
 					vertexArray,
 					m_lineColor,
 					tktkMath::Color_v::white,
 					DX12GameManager::getSystemHandle(SystemRtvDescriptorHeapType::BackBuffer)
 					)
 			);
-
-			if (++curIndex >= m_useLine2DMaterialIdArray.size()) return;
 		}
 	}
 

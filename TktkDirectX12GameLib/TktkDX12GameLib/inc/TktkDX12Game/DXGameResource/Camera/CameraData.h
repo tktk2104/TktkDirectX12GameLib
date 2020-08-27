@@ -13,6 +13,9 @@ namespace tktk
 		CameraData() = default;
 		~CameraData() = default;
 
+		// ムーブコンストラクタ
+		CameraData(CameraData&& other) noexcept;
+
 	public:
 
 		// ビュー行列を取得する

@@ -37,6 +37,12 @@ namespace tktk
         }
     }
 
+    MotionData::MotionData(MotionData&& other) noexcept
+        : m_endFrameNo(other.m_endFrameNo)
+        , m_boneKeyFrames(std::move(other.m_boneKeyFrames))
+    {
+    }
+
     unsigned int MotionData::getEndFrameNo() const
     {
         return m_endFrameNo;

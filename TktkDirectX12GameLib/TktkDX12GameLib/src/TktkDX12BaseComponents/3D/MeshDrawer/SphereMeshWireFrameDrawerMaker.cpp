@@ -27,9 +27,9 @@ namespace tktk
 			m_radius,
 			m_localPosition,
 			m_albedoColor,
-			m_cameraId,
-			m_shadowMapCameraId,
-			m_lightId,
+			m_cameraHandle,
+			m_shadowMapCameraHandle,
+			m_lightHandle,
 			m_useRtvDescriptorHeapHandle
 			);
 	}
@@ -69,24 +69,45 @@ namespace tktk
 		return *this;
 	}
 
-	SphereMeshWireFrameDrawerMaker& SphereMeshWireFrameDrawerMaker::cameraIdImpl(unsigned int value)
+	SphereMeshWireFrameDrawerMaker& SphereMeshWireFrameDrawerMaker::cameraHandle(unsigned int value)
 	{
 		// 値を設定して自身の参照を返す
-		m_cameraId = value;
+		m_cameraHandle = value;
 		return *this;
 	}
 
-	SphereMeshWireFrameDrawerMaker& SphereMeshWireFrameDrawerMaker::shadowMapCameraIdImpl(unsigned int value)
+	SphereMeshWireFrameDrawerMaker& SphereMeshWireFrameDrawerMaker::shadowMapCameraHandle(unsigned int value)
 	{
 		// 値を設定して自身の参照を返す
-		m_shadowMapCameraId = value;
+		m_shadowMapCameraHandle = value;
 		return *this;
 	}
 
-	SphereMeshWireFrameDrawerMaker& SphereMeshWireFrameDrawerMaker::lightIdImpl(unsigned int value)
+	SphereMeshWireFrameDrawerMaker& SphereMeshWireFrameDrawerMaker::lightHandle(unsigned int value)
 	{
 		// 値を設定して自身の参照を返す
-		m_lightId = value;
+		m_lightHandle = value;
+		return *this;
+	}
+
+	SphereMeshWireFrameDrawerMaker& SphereMeshWireFrameDrawerMaker::cameraIdImpl(int value)
+	{
+		// 値を設定して自身の参照を返す
+		m_cameraHandle = DX12GameManager::getCameraHandle(value);
+		return *this;
+	}
+
+	SphereMeshWireFrameDrawerMaker& SphereMeshWireFrameDrawerMaker::shadowMapCameraIdImpl(int value)
+	{
+		// 値を設定して自身の参照を返す
+		m_shadowMapCameraHandle = DX12GameManager::getCameraHandle(value);
+		return *this;
+	}
+
+	SphereMeshWireFrameDrawerMaker& SphereMeshWireFrameDrawerMaker::lightIdImpl(int value)
+	{
+		// 値を設定して自身の参照を返す
+		m_lightHandle = DX12GameManager::getLightHandle(value);
 		return *this;
 	}
 }

@@ -14,7 +14,7 @@ namespace tktk
 	{
 	public:
 
-		SphereMeshWireFrameDrawer(float drawPriority, float radius, const tktkMath::Vector3& localPosition, const tktkMath::Color& albedoColor, unsigned int cameraId, unsigned int shadowMapCameraId, unsigned int lightId, unsigned int useRtvDescriptorHeapHandle);
+		SphereMeshWireFrameDrawer(float drawPriority, float radius, const tktkMath::Vector3& localPosition, const tktkMath::Color& albedoColor, unsigned int cameraHandle, unsigned int shadowMapCameraHandle, unsigned int lightHandle, unsigned int useRtvDescriptorHeapHandle);
 
 	public:
 
@@ -31,9 +31,9 @@ namespace tktk
 		tktkMath::Vector3			m_localPosition;
 		tktkMath::Color				m_albedoColor;
 		unsigned int				m_useRtvDescriptorHeapHandle;
-		unsigned int				m_cameraId;
-		unsigned int				m_shadowMapCameraId;
-		unsigned int				m_lightId;
+		unsigned int				m_cameraHandle;
+		unsigned int				m_shadowMapCameraHandle;
+		unsigned int				m_lightHandle;
 		ComponentPtr<Transform3D>	m_transform{ };
 	};
 }

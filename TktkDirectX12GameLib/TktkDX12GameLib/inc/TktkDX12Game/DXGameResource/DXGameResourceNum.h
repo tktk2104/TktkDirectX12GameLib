@@ -5,32 +5,32 @@
 
 namespace tktk
 {
-	// ゲームで使用する表面的なリソースの数
+	// ゲームで使用する表面的なリソースを管理するコンテナを作るための変数
 	struct DXGameResourceNum
 	{
-		// シーン数
-		unsigned int sceneNum				{};
+		// シーンを管理するコンテナを作るための変数
+		tktkContainer::ResourceContainerInitParam sceneNum				{};
 
-		// サウンド数
-		unsigned int soundNum				{};
+		// サウンドを管理するコンテナを作るための変数
+		tktkContainer::ResourceContainerInitParam soundNum				{};
 
-		// スプライトマテリアル数
-		unsigned int spriteMaterialNum		{};
+		// スプライトマテリアルを管理するコンテナを作るための変数
+		tktkContainer::ResourceContainerInitParam spriteMaterialNum		{};
 
-		// ライン２Dマテリアル数
-		unsigned int line2DMaterialNum		{};
+		// ライン２Dマテリアルを管理するコンテナを作るための変数
+		tktkContainer::ResourceContainerInitParam line2DMaterialNum		{};
 
-		// メッシュ関連リソース数
-		MeshResourceNum meshResourceNum		{};
+		// メッシュ関連リソースを管理するコンテナを作るための変数
+		MeshResourceNum meshResourceNum									{};
 
-		// ポストエフェクトマテリアル数
-		unsigned int postEffectMaterialNum	{};
+		// ポストエフェクトマテリアルを管理するコンテナを作るための変数
+		tktkContainer::ResourceContainerInitParam postEffectMaterialNum	{};
 
-		// カメラ数
-		unsigned int cameraNum				{};
+		// カメラを管理するコンテナを作るための変数
+		tktkContainer::ResourceContainerInitParam cameraNum				{};
 
-		// ライト数
-		unsigned int lightNum				{};
+		// ライトを管理するコンテナを作るための変数
+		tktkContainer::ResourceContainerInitParam lightNum				{};
 	};
 }
 #endif // !DX_GAME_RESOURCE_NUM_H_

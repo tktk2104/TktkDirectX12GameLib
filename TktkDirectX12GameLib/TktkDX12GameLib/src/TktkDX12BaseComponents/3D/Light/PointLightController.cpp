@@ -2,8 +2,8 @@
 
 namespace tktk
 {
-	PointLightController::PointLightController(unsigned int lightId, const tktkMath::Color& ambient, const tktkMath::Color& diffuse, const tktkMath::Color& speqular)
-		: m_lightId(lightId)
+	PointLightController::PointLightController(unsigned int lightHandle, const tktkMath::Color& ambient, const tktkMath::Color& diffuse, const tktkMath::Color& speqular)
+		: m_lightHandle(lightHandle)
 		, m_ambient(ambient)
 		, m_diffuse(diffuse)
 		, m_speqular(speqular)
@@ -46,9 +46,9 @@ namespace tktk
 	{
 		auto cameraWorldMat = m_transform->calculateWorldMatrix();
 
-		tktk::DX12GameManager::setLightAmbient(m_lightId, m_ambient);
-		tktk::DX12GameManager::setLightDiffuse(m_lightId, m_diffuse);
-		tktk::DX12GameManager::setLightSpeqular(m_lightId, m_speqular);
-		tktk::DX12GameManager::setLightPosition(m_lightId, cameraWorldMat.calculateTranslation());
+		tktk::DX12GameManager::setLightAmbient(m_lightHandle,	m_ambient);
+		tktk::DX12GameManager::setLightDiffuse(m_lightHandle,	m_diffuse);
+		tktk::DX12GameManager::setLightSpeqular(m_lightHandle,	m_speqular);
+		tktk::DX12GameManager::setLightPosition(m_lightHandle,	cameraWorldMat.calculateTranslation());
 	}
 }

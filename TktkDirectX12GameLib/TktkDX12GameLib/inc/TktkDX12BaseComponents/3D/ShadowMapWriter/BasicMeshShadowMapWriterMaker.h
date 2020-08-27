@@ -31,22 +31,25 @@ namespace tktk
 		BasicMeshShadowMapWriterMaker& drawPriority(float value);
 
 		// 使用するメッシュIDを設定する（列挙型を含む整数型のidが渡された場合のみビルド可）
+		// ※内部で対応するリソースハンドルに変換される
 		template<class IdType, is_idType<IdType> = nullptr>
 		BasicMeshShadowMapWriterMaker& meshId(IdType value);
 
 		// 使用するスケルトンIDを設定する（列挙型を含む整数型のidが渡された場合のみビルド可）
+		// ※内部で対応するリソースハンドルに変換される
 		template<class IdType, is_idType<IdType> = nullptr>
 		BasicMeshShadowMapWriterMaker& skeletonId(IdType value);
 
 		// 使用するカメラIDを設定する（列挙型を含む整数型のidが渡された場合のみビルド可）
+		// ※内部で対応するリソースハンドルに変換される
 		template<class IdType, is_idType<IdType> = nullptr>
 		BasicMeshShadowMapWriterMaker& cameraId(IdType value);
 
 	private: /* 各種id指定系の関数の実装 */
 
-		BasicMeshShadowMapWriterMaker& meshIdImpl(unsigned int value);
-		BasicMeshShadowMapWriterMaker& skeletonIdImpl(unsigned int value);
-		BasicMeshShadowMapWriterMaker& cameraIdImpl(unsigned int value);
+		BasicMeshShadowMapWriterMaker& meshIdImpl(int value);
+		BasicMeshShadowMapWriterMaker& skeletonIdImpl(int value);
+		BasicMeshShadowMapWriterMaker& cameraIdImpl(int value);
 
 	private: /* 自身のインスタンスは静的な存在として扱う */
 
@@ -56,9 +59,9 @@ namespace tktk
 
 		GameObjectPtr	m_user			{  };
 		float			m_drawPriority	{ 0.0f };
-		unsigned int	m_meshId		{ 0U };
-		unsigned int	m_skeletonId	{ 0U };
-		unsigned int	m_cameraId		{ 0U };
+		unsigned int	m_meshHandle	{ 0U };
+		unsigned int	m_skeletonHandle{ 0U };
+		unsigned int	m_cameraHandle	{ 0U };
 
 	public: /* 不正な型の引数が渡されそうになった時にコンパイルエラーにする為の仕組み */
 
@@ -79,21 +82,21 @@ namespace tktk
 	template<class IdType, is_idType<IdType>>
 	inline BasicMeshShadowMapWriterMaker& BasicMeshShadowMapWriterMaker::meshId(IdType value)
 	{
-		return meshIdImpl(static_cast<unsigned int>(value));
+		return meshIdImpl(static_cast<int>(value));
 	}
 
 	// 使用するスケルトンIDを設定する（列挙型を含む整数型のidが渡された場合のみビルド可）
 	template<class IdType, is_idType<IdType>>
 	inline BasicMeshShadowMapWriterMaker& BasicMeshShadowMapWriterMaker::skeletonId(IdType value)
 	{
-		return skeletonIdImpl(static_cast<unsigned int>(value));
+		return skeletonIdImpl(static_cast<int>(value));
 	}
 
 	// 使用するカメラIDを設定する（列挙型を含む整数型のidが渡された場合のみビルド可）
 	template<class IdType, is_idType<IdType>>
 	inline BasicMeshShadowMapWriterMaker& BasicMeshShadowMapWriterMaker::cameraId(IdType value)
 	{
-		return cameraIdImpl(static_cast<unsigned int>(value));
+		return cameraIdImpl(static_cast<int>(value));
 	}
 }
 #endif // !BASIC_MESH_SHADOW_MAP_WRITER_MAKER_H_

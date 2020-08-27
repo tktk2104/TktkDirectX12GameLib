@@ -4,7 +4,7 @@
 #include <xaudio2.h>
 #undef min
 #undef max
-#include <TktkContainer/HeapArray/HeapArray.h>
+#include <TktkContainer/ResourceContainer/ResourceContainer.h>
 #include "SoundData.h"
 
 namespace tktk
@@ -14,7 +14,7 @@ namespace tktk
 	{
 	public:
 
-		Sound(unsigned int soundDataNum);
+		explicit Sound(const tktkContainer::ResourceContainerInitParam& initParam);
 		~Sound();
 
 		Sound(const Sound& other) = delete;
@@ -26,28 +26,28 @@ namespace tktk
 
 	public:
 
-		// 新たなサウンドをロードする
+		// 新たなサウンドをロードし、そのリソースのハンドルを返す
 		// ※この関数で読み込めるサウンドの形式は「.wav」のみ
-		void load(unsigned int id, const std::string& fileName);
+		unsigned int load(const std::string& fileName);
 
 		// 全てのサウンドを削除する
 		void clear();
 
 		// 指定したサウンドを再生する
-		void play(unsigned int id, bool loopPlay);
+		void play(unsigned int handle, bool loopPlay);
 
 		// 指定したサウンドを停止する
-		void stop(unsigned int id);
+		void stop(unsigned int handle);
 
 		// 指定したサウンドを一時停止する
-		void pause(unsigned int id);
+		void pause(unsigned int handle);
 
 		// 大元の音量を変更する（0.0f～1.0f）
 		void setMasterVolume(float volume);
 
 	private:
 
-		tktkContainer::HeapArray<SoundData> m_assets;
+		tktkContainer::ResourceContainer<SoundData> m_assets;
 
 		// サウンドのイベント処理に使用する変数
 		HANDLE m_soundEvent{ NULL };

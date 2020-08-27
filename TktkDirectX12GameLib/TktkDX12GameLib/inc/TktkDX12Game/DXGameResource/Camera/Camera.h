@@ -1,7 +1,7 @@
 #ifndef CAMERA_H_
 #define CAMERA_H_
 
-#include <TktkContainer/HeapArray/HeapArray.h>
+#include <TktkContainer/ResourceContainer/ResourceContainer.h>
 #include "CameraData.h"
 
 namespace tktk
@@ -11,29 +11,29 @@ namespace tktk
 	{
 	public:
 
-		Camera(unsigned int cameraNum);
+		explicit Camera(const tktkContainer::ResourceContainerInitParam& initParam);
 		~Camera() = default;
 
 	public:
 
-		// 「CameraData」のインスタンスを作る
-		void create(unsigned int id);
+		// 「CameraData」のインスタンスを作り、そのリソースのハンドルを返す
+		unsigned int create();
 
 		// 指定のカメラのビュー行列を取得する
-		const tktkMath::Matrix4& getViewMatrix(unsigned int id) const;
+		const tktkMath::Matrix4& getViewMatrix(unsigned int handle) const;
 
 		// 指定のカメラのビュー行列を設定する
-		void setViewMatrix(unsigned int id, const tktkMath::Matrix4& view);
+		void setViewMatrix(unsigned int handle, const tktkMath::Matrix4& view);
 
 		// 指定のカメラのプロジェクション行列を取得する
-		const tktkMath::Matrix4& getProjectionMatrix(unsigned int id) const;
+		const tktkMath::Matrix4& getProjectionMatrix(unsigned int handle) const;
 
 		// プ指定のカメラのロジェクション行列を設定する
-		void setProjectionMatrix(unsigned int id, const tktkMath::Matrix4& projection);
+		void setProjectionMatrix(unsigned int handle, const tktkMath::Matrix4& projection);
 
 	private:
 
-		tktkContainer::HeapArray<CameraData> m_cameraArray;
+		tktkContainer::ResourceContainer<CameraData> m_cameraArray;
 	};
 }
 #endif // !CAMERA_H_

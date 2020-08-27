@@ -24,11 +24,11 @@ namespace tktk
 		// コンポーネントを作成してそのポインタを返す
 		return m_user->createComponent<BasicMeshDrawer>(
 			m_drawPriority,
-			m_meshId,
-			m_skeletonId,
-			m_cameraId,
-			m_shadowMapCameraId,
-			m_lightId,
+			m_meshHandle,
+			m_skeletonHandle,
+			m_cameraHandle,
+			m_shadowMapCameraHandle,
+			m_lightHandle,
 			m_useRtvDescriptorHeapHandle
 			);
 	}
@@ -47,38 +47,73 @@ namespace tktk
 		return *this;
 	}
 
-	BasicMeshDrawerMaker& BasicMeshDrawerMaker::meshIdImpl(unsigned int value)
+	BasicMeshDrawerMaker& BasicMeshDrawerMaker::meshHandle(unsigned int value)
 	{
 		// 値を設定して自身の参照を返す
-		m_meshId = value;
+		m_meshHandle = value;
 		return *this;
 	}
 
-	BasicMeshDrawerMaker& BasicMeshDrawerMaker::skeletonIdImpl(unsigned int value)
+	BasicMeshDrawerMaker& BasicMeshDrawerMaker::skeletonHandle(unsigned int value)
 	{
 		// 値を設定して自身の参照を返す
-		m_skeletonId = value;
+		m_skeletonHandle = value;
 		return *this;
 	}
 
-	BasicMeshDrawerMaker& BasicMeshDrawerMaker::cameraIdImpl(unsigned int value)
+	BasicMeshDrawerMaker& BasicMeshDrawerMaker::cameraHandle(unsigned int value)
 	{
 		// 値を設定して自身の参照を返す
-		m_cameraId = value;
+		m_cameraHandle = value;
 		return *this;
 	}
 
-	BasicMeshDrawerMaker& BasicMeshDrawerMaker::shadowMapCameraIdImpl(unsigned int value)
+	BasicMeshDrawerMaker& BasicMeshDrawerMaker::shadowMapCameraHandle(unsigned int value)
 	{
 		// 値を設定して自身の参照を返す
-		m_shadowMapCameraId = value;
+		m_shadowMapCameraHandle = value;
 		return *this;
 	}
 
-	BasicMeshDrawerMaker& BasicMeshDrawerMaker::lightIdImpl(unsigned int value)
+	BasicMeshDrawerMaker& BasicMeshDrawerMaker::lightHandle(unsigned int value)
 	{
 		// 値を設定して自身の参照を返す
-		m_lightId = value;
+		m_lightHandle = value;
+		return *this;
+	}
+
+	BasicMeshDrawerMaker& BasicMeshDrawerMaker::meshIdImpl(int value)
+	{
+		// 値を設定して自身の参照を返す
+		m_meshHandle = DX12GameManager::getBasicMeshHandle(value);
+		return *this;
+	}
+
+	BasicMeshDrawerMaker& BasicMeshDrawerMaker::skeletonIdImpl(int value)
+	{
+		// 値を設定して自身の参照を返す
+		m_skeletonHandle = DX12GameManager::getSkeletonHandle(value);
+		return *this;
+	}
+
+	BasicMeshDrawerMaker& BasicMeshDrawerMaker::cameraIdImpl(int value)
+	{
+		// 値を設定して自身の参照を返す
+		m_cameraHandle = DX12GameManager::getCameraHandle(value);
+		return *this;
+	}
+
+	BasicMeshDrawerMaker& BasicMeshDrawerMaker::shadowMapCameraIdImpl(int value)
+	{
+		// 値を設定して自身の参照を返す
+		m_shadowMapCameraHandle = DX12GameManager::getCameraHandle(value);
+		return *this;
+	}
+
+	BasicMeshDrawerMaker& BasicMeshDrawerMaker::lightIdImpl(int value)
+	{
+		// 値を設定して自身の参照を返す
+		m_lightHandle = DX12GameManager::getLightHandle(value);
 		return *this;
 	}
 }

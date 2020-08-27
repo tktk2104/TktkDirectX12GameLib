@@ -5,10 +5,10 @@
 
 namespace tktk
 {
-	Sound::Sound(unsigned int soundDataNum)
-		: m_assets(soundDataNum)
+	Sound::Sound(const tktkContainer::ResourceContainerInitParam& initParam)
+		: m_assets(initParam)
 	{
-		CoInitializeEx(NULL, COINIT_MULTITHREADED);
+		auto errorLog = CoInitializeEx(NULL, COINIT_MULTITHREADED);
 
 		m_soundEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
 		if (m_soundEvent == NULL)
@@ -57,9 +57,9 @@ namespace tktk
 		}
 	}
 
-	void Sound::load(unsigned int id, const std::string& fileName)
+	unsigned int Sound::load(const std::string& fileName)
 	{
-		m_assets.emplaceAt(id, fileName, m_xAudioPtr, m_soundEvent);
+		return m_assets.create(fileName, m_xAudioPtr, m_soundEvent);
 	}
 
 	void Sound::clear()
@@ -67,27 +67,27 @@ namespace tktk
 		m_assets.clear();
 	}
 
-	void Sound::play(unsigned int id, bool loopPlay)
+	void Sound::play(unsigned int handle, bool loopPlay)
 	{
-		if (!m_assets.at(id)->isPlaySound())
+		if (!m_assets.getMatchHandlePtr(handle)->isPlaySound())
 		{
-			m_assets.at(id)->playSound(loopPlay);
+			m_assets.getMatchHandlePtr(handle)->playSound(loopPlay);
 		}
 	}
 
-	void Sound::stop(unsigned int id)
+	void Sound::stop(unsigned int handle)
 	{
-		if (m_assets.at(id)->isPlaySound())
+		if (m_assets.getMatchHandlePtr(handle)->isPlaySound())
 		{
-			m_assets.at(id)->stopSound();
+			m_assets.getMatchHandlePtr(handle)->stopSound();
 		}
 	}
 
-	void Sound::pause(unsigned int id)
+	void Sound::pause(unsigned int handle)
 	{
-		if (m_assets.at(id)->isPlaySound())
+		if (m_assets.getMatchHandlePtr(handle)->isPlaySound())
 		{
-			m_assets.at(id)->pauseSound();
+			m_assets.getMatchHandlePtr(handle)->pauseSound();
 		}
 	}
 

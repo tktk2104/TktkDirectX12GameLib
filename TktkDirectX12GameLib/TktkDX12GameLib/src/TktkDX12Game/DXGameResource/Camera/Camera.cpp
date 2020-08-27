@@ -2,33 +2,33 @@
 
 namespace tktk
 {
-	Camera::Camera(unsigned int cameraNum)
-		: m_cameraArray(cameraNum)
+	Camera::Camera(const tktkContainer::ResourceContainerInitParam& initParam)
+		: m_cameraArray(initParam)
 	{
 	}
 
-	void Camera::create(unsigned int id)
+	unsigned int Camera::create()
 	{
-		m_cameraArray.emplaceAt(id);
+		return m_cameraArray.create();
 	}
 
-	const tktkMath::Matrix4& Camera::getViewMatrix(unsigned int id) const
+	const tktkMath::Matrix4& Camera::getViewMatrix(unsigned int handle) const
 	{
-		return m_cameraArray.at(id)->getViewMatrix();
+		return m_cameraArray.getMatchHandlePtr(handle)->getViewMatrix();
 	}
 
-	void Camera::setViewMatrix(unsigned int id, const tktkMath::Matrix4& view)
+	void Camera::setViewMatrix(unsigned int handle, const tktkMath::Matrix4& view)
 	{
-		m_cameraArray.at(id)->setViewMatrix(view);
+		m_cameraArray.getMatchHandlePtr(handle)->setViewMatrix(view);
 	}
 
-	const tktkMath::Matrix4& Camera::getProjectionMatrix(unsigned int id) const
+	const tktkMath::Matrix4& Camera::getProjectionMatrix(unsigned int handle) const
 	{
-		return m_cameraArray.at(id)->getProjectionMatrix();
+		return m_cameraArray.getMatchHandlePtr(handle)->getProjectionMatrix();
 	}
 
-	void Camera::setProjectionMatrix(unsigned int id, const tktkMath::Matrix4& projection)
+	void Camera::setProjectionMatrix(unsigned int handle, const tktkMath::Matrix4& projection)
 	{
-		m_cameraArray.at(id)->setProjectionMatrix(projection);
+		m_cameraArray.getMatchHandlePtr(handle)->setProjectionMatrix(projection);
 	}
 }

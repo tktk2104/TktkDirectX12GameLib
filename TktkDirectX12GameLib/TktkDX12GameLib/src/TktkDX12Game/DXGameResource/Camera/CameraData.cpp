@@ -2,6 +2,12 @@
 
 namespace tktk
 {
+	CameraData::CameraData(CameraData&& other) noexcept
+		: m_viewMatrix(other.m_viewMatrix)
+		, m_projectionMatrix(other.m_projectionMatrix)
+	{
+	}
+
 	const tktkMath::Matrix4& CameraData::getViewMatrix() const
 	{
 		return m_viewMatrix;

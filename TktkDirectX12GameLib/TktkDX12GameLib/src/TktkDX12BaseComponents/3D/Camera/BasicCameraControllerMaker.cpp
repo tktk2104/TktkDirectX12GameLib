@@ -22,12 +22,19 @@ namespace tktk
 	ComponentPtr<BasicCameraController> BasicCameraControllerMaker::create()
 	{
 		return m_user->createComponent<BasicCameraController>(
-			m_initCameraId,
+			m_initCameraHandle,
 			m_initCameraFov,
 			m_initCameraAspect,
 			m_initCameraNear,
 			m_initCameraFar
 			);
+	}
+
+	BasicCameraControllerMaker& BasicCameraControllerMaker::initCameraHandle(unsigned int value)
+	{
+		// 値を設定して自身の参照を返す
+		m_initCameraHandle = value;
+		return *this;
 	}
 
 	BasicCameraControllerMaker& BasicCameraControllerMaker::initCameraFov(float value)
@@ -58,10 +65,10 @@ namespace tktk
 		return *this;
 	}
 
-	BasicCameraControllerMaker& BasicCameraControllerMaker::initCameraIdImpl(unsigned int value)
+	BasicCameraControllerMaker& BasicCameraControllerMaker::initCameraIdImpl(int value)
 	{
 		// 値を設定して自身の参照を返す
-		m_initCameraId = value;
+		m_initCameraHandle = DX12GameManager::getCameraHandle(value);
 		return *this;
 	}
 }

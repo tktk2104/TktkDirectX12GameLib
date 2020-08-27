@@ -28,19 +28,19 @@ namespace tktk
 	// デストラクタを非インライン化する
 	DXGameResource::~DXGameResource() = default;
 
-	void DXGameResource::createScene(unsigned int id, const std::shared_ptr<SceneBase>& scenePtr, SceneVTable* vtablePtr)
+	unsigned int DXGameResource::createScene(const std::shared_ptr<SceneBase>& scenePtr, SceneVTable* vtablePtr)
 	{
-		m_sceneManager->create(id, scenePtr, vtablePtr);
+		return m_sceneManager->create(scenePtr, vtablePtr);
 	}
 
-	void DXGameResource::enableScene(unsigned int id)
+	void DXGameResource::enableScene(unsigned int handle)
 	{
-		m_sceneManager->enable(id);
+		m_sceneManager->enable(handle);
 	}
 
-	void DXGameResource::disableScene(unsigned int id)
+	void DXGameResource::disableScene(unsigned int handle)
 	{
-		m_sceneManager->disable(id);
+		m_sceneManager->disable(handle);
 	}
 
 	void DXGameResource::updateScene()
@@ -58,24 +58,24 @@ namespace tktk
 		m_sound->clear();
 	}
 
-	void DXGameResource::loadSound(unsigned int id, const std::string& fileName)
+	unsigned int DXGameResource::loadSound(const std::string& fileName)
 	{
-		m_sound->load(id, fileName);
+		return m_sound->load(fileName);
 	}
 
-	void DXGameResource::playSound(unsigned int id, bool loopPlay)
+	void DXGameResource::playSound(unsigned int handle, bool loopPlay)
 	{
-		m_sound->play(id, loopPlay);
+		m_sound->play(handle, loopPlay);
 	}
 
-	void DXGameResource::stopSound(unsigned int id)
+	void DXGameResource::stopSound(unsigned int handle)
 	{
-		m_sound->stop(id);
+		m_sound->stop(handle);
 	}
 
-	void DXGameResource::pauseSound(unsigned int id)
+	void DXGameResource::pauseSound(unsigned int handle)
 	{
-		m_sound->pause(id);
+		m_sound->pause(handle);
 	}
 
 	void DXGameResource::setMasterVolume(float volume)
@@ -83,84 +83,84 @@ namespace tktk
 		m_sound->setMasterVolume(volume);
 	}
 
-	void DXGameResource::createPostEffectMaterial(unsigned int id, const PostEffectMaterialInitParam& initParam)
+	unsigned int DXGameResource::createPostEffectMaterial(const PostEffectMaterialInitParam& initParam)
 	{
-		m_postEffectMaterial->create(id, initParam);
+		return m_postEffectMaterial->create(initParam);
 	}
 
-	void DXGameResource::drawPostEffect(unsigned int id, const PostEffectMaterialDrawFuncArgs& drawFuncArgs) const
+	void DXGameResource::drawPostEffect(unsigned int handle, const PostEffectMaterialDrawFuncArgs& drawFuncArgs) const
 	{
-		m_postEffectMaterial->drawPostEffect(id, drawFuncArgs);
+		m_postEffectMaterial->drawPostEffect(handle, drawFuncArgs);
 	}
 
-	void DXGameResource::createSpriteMaterial(unsigned int id, const SpriteMaterialInitParam& initParam)
+	unsigned int DXGameResource::createSpriteMaterial(const SpriteMaterialInitParam& initParam)
 	{
-		m_spriteMaterial->create(id, initParam);
+		return m_spriteMaterial->create(initParam);
 	}
 
-	void DXGameResource::drawSprite(unsigned int id, const SpriteMaterialDrawFuncArgs& drawFuncArgs) const
+	void DXGameResource::drawSprite(unsigned int handle, const SpriteMaterialDrawFuncArgs& drawFuncArgs) const
 	{
-		m_spriteMaterial->drawSprite(id, drawFuncArgs);
+		m_spriteMaterial->drawSprite(handle, drawFuncArgs);
 	}
 
-	void DXGameResource::createLine(unsigned int id)
+	unsigned int DXGameResource::createLine()
 	{
-		m_line2DMaterial->create(id);
+		return m_line2DMaterial->create();
 	}
 
-	void DXGameResource::drawLine(unsigned int id, const Line2DMaterialDrawFuncArgs& drawFuncArgs)
+	void DXGameResource::drawLine(unsigned int handle, const Line2DMaterialDrawFuncArgs& drawFuncArgs)
 	{
-		m_line2DMaterial->drawLine(id, drawFuncArgs);
+		m_line2DMaterial->drawLine(handle, drawFuncArgs);
 	}
 
-	void DXGameResource::createBasicMesh(unsigned int id, const BasicMeshInitParam& initParam)
+	unsigned int DXGameResource::createBasicMesh(const BasicMeshInitParam& initParam)
 	{
-		m_meshResource->createBasicMesh(id, initParam);
+		return m_meshResource->createBasicMesh(initParam);
 	}
 
-	void DXGameResource::copyBasicMesh(unsigned int id, unsigned int originalId)
+	unsigned int DXGameResource::copyBasicMesh(unsigned int originalHandle)
 	{
-		m_meshResource->copyBasicMesh(id, originalId);
+		return m_meshResource->copyBasicMesh(originalHandle);
 	}
 
-	void DXGameResource::createBasicMeshMaterial(unsigned int id, const BasicMeshMaterialInitParam& initParam)
+	unsigned int DXGameResource::createBasicMeshMaterial(const BasicMeshMaterialInitParam& initParam)
 	{
-		m_meshResource->createBasicMeshMaterial(id, initParam);
+		return m_meshResource->createBasicMeshMaterial(initParam);
 	}
 
-	void DXGameResource::copyBasicMeshMaterial(unsigned int id, unsigned int originalId)
+	unsigned int DXGameResource::copyBasicMeshMaterial(unsigned int originalHandle)
 	{
-		m_meshResource->copyBasicMeshMaterial(id, originalId);
+		return m_meshResource->copyBasicMeshMaterial(originalHandle);
 	}
 
-	void DXGameResource::setMaterialId(unsigned int id, unsigned int materialSlot, unsigned int materialId)
+	void DXGameResource::setMaterialHandle(unsigned int meshHandle, unsigned int materialSlot, unsigned int materialHandle)
 	{
-		m_meshResource->setMaterialId(id, materialSlot, materialId);
+		m_meshResource->setMaterialHandle(meshHandle, materialSlot, materialHandle);
 	}
 
-	void DXGameResource::writeBasicMeshShadowMap(unsigned int id, const MeshTransformCbuffer& transformBufferData) const
+	void DXGameResource::writeBasicMeshShadowMap(unsigned int handle, const MeshTransformCbuffer& transformBufferData) const
 	{
-		m_meshResource->writeBasicMeshShadowMap(id, transformBufferData);
+		m_meshResource->writeBasicMeshShadowMap(handle, transformBufferData);
 	}
 
-	void DXGameResource::setMaterialData(unsigned int id) const
+	void DXGameResource::setMaterialData(unsigned int handle) const
 	{
-		m_meshResource->setMaterialData(id);
+		m_meshResource->setMaterialData(handle);
 	}
 
-	void DXGameResource::addMaterialAppendParam(unsigned int id, unsigned int cbufferHandle, unsigned int dataSize, void* dataTopPos)
+	void DXGameResource::addMaterialAppendParam(unsigned int handle, unsigned int cbufferHandle, unsigned int dataSize, void* dataTopPos)
 	{
-		m_meshResource->addMaterialAppendParam(id, cbufferHandle, dataSize, dataTopPos);
+		m_meshResource->addMaterialAppendParam(handle, cbufferHandle, dataSize, dataTopPos);
 	}
 
-	void DXGameResource::updateMaterialAppendParam(unsigned int id, unsigned int cbufferHandle, unsigned int dataSize, const void* dataTopPos)
+	void DXGameResource::updateMaterialAppendParam(unsigned int handle, unsigned int cbufferHandle, unsigned int dataSize, const void* dataTopPos)
 	{
-		m_meshResource->updateMaterialAppendParam(id, cbufferHandle, dataSize, dataTopPos);
+		m_meshResource->updateMaterialAppendParam(handle, cbufferHandle, dataSize, dataTopPos);
 	}
 
-	void DXGameResource::drawBasicMesh(unsigned int id, const MeshDrawFuncBaseArgs& baseArgs) const
+	void DXGameResource::drawBasicMesh(unsigned int handle, const MeshDrawFuncBaseArgs& baseArgs) const
 	{
-		m_meshResource->drawBasicMesh(id, baseArgs);
+		m_meshResource->drawBasicMesh(handle, baseArgs);
 	}
 
 	BasicMeshLoadPmdReturnValue DXGameResource::loadPmd(const BasicMeshLoadPmdArgs& args)
@@ -168,14 +168,14 @@ namespace tktk
 		return m_meshResource->loadPmd(args);
 	}
 
-	void DXGameResource::createSkeleton(unsigned int id, const SkeletonInitParam& initParam)
+	unsigned int DXGameResource::createSkeleton(const SkeletonInitParam& initParam)
 	{
-		m_meshResource->createSkeleton(id, initParam);
+		return m_meshResource->createSkeleton(initParam);
 	}
 
-	void DXGameResource::updateBoneMatrixCbuffer(unsigned int id) const
+	void DXGameResource::updateBoneMatrixCbuffer(unsigned int handle) const
 	{
-		m_meshResource->updateBoneMatrixCbuffer(id);
+		m_meshResource->updateBoneMatrixCbuffer(handle);
 	}
 
 	void DXGameResource::resetBoneMatrixCbuffer() const
@@ -183,73 +183,73 @@ namespace tktk
 		m_meshResource->resetBoneMatrixCbuffer();
 	}
 
-	void DXGameResource::loadMotion(unsigned int id, const std::string& motionFileName)
+	unsigned int DXGameResource::loadMotion(const std::string& motionFileName)
 	{
-		m_meshResource->loadMotion(id, motionFileName);
+		return m_meshResource->loadMotion(motionFileName);
 	}
 
-	unsigned int DXGameResource::getMotionEndFrameNo(unsigned int id) const
+	unsigned int DXGameResource::getMotionEndFrameNo(unsigned int handle) const
 	{
-		return m_meshResource->getMotionEndFrameNo(id);
+		return m_meshResource->getMotionEndFrameNo(handle);
 	}
 
-	void DXGameResource::updateMotion(unsigned int skeletonId, unsigned int curMotionId, unsigned int preMotionId, unsigned int curFrame, unsigned int preFrame, float amount)
+	void DXGameResource::updateMotion(unsigned int skeletonHandle, unsigned int curMotionHandle, unsigned int preMotionHandle, unsigned int curFrame, unsigned int preFrame, float amount)
 	{
-		m_meshResource->updateMotion(skeletonId, curMotionId, preMotionId, curFrame, preFrame, amount);
+		m_meshResource->updateMotion(skeletonHandle, curMotionHandle, preMotionHandle, curFrame, preFrame, amount);
 	}
 
-	void DXGameResource::createCamera(unsigned int id)
+	unsigned int DXGameResource::createCamera()
 	{
-		m_camera->create(id);
+		return m_camera->create();
 	}
 
-	const tktkMath::Matrix4& DXGameResource::getViewMatrix(unsigned int cameraId) const
+	const tktkMath::Matrix4& DXGameResource::getViewMatrix(unsigned int cameraHandle) const
 	{
-		return m_camera->getViewMatrix(cameraId);
+		return m_camera->getViewMatrix(cameraHandle);
 	}
 
-	void DXGameResource::setViewMatrix(unsigned int cameraId, const tktkMath::Matrix4& view)
+	void DXGameResource::setViewMatrix(unsigned int cameraHandle, const tktkMath::Matrix4& view)
 	{
-		m_camera->setViewMatrix(cameraId, view);
+		m_camera->setViewMatrix(cameraHandle, view);
 	}
 
-	const tktkMath::Matrix4& DXGameResource::getProjectionMatrix(unsigned int cameraId) const
+	const tktkMath::Matrix4& DXGameResource::getProjectionMatrix(unsigned int cameraHandle) const
 	{
-		return m_camera->getProjectionMatrix(cameraId);
+		return m_camera->getProjectionMatrix(cameraHandle);
 	}
 
-	void DXGameResource::setProjectionMatrix(unsigned int cameraId, const tktkMath::Matrix4& projection)
+	void DXGameResource::setProjectionMatrix(unsigned int cameraHandle, const tktkMath::Matrix4& projection)
 	{
-		m_camera->setProjectionMatrix(cameraId, projection);
+		m_camera->setProjectionMatrix(cameraHandle, projection);
 	}
 
-	void DXGameResource::createLight(unsigned int id, const tktkMath::Color& ambient, const tktkMath::Color& diffuse, const tktkMath::Color& speqular, const tktkMath::Vector3& position)
+	unsigned int DXGameResource::createLight(const tktkMath::Color& ambient, const tktkMath::Color& diffuse, const tktkMath::Color& speqular, const tktkMath::Vector3& position)
 	{
-		m_light->create(id, ambient, diffuse, speqular, position);
+	 	return m_light->create(ambient, diffuse, speqular, position);
 	}
 
-	void DXGameResource::updateLightCBuffer(unsigned int id) const
+	void DXGameResource::updateLightCBuffer(unsigned int handle) const
 	{
-		m_light->updateLightCBuffer(id);
+		m_light->updateLightCBuffer(handle);
 	}
 
-	void DXGameResource::setLightAmbient(unsigned int id, const tktkMath::Color& ambient)
+	void DXGameResource::setLightAmbient(unsigned int handle, const tktkMath::Color& ambient)
 	{
-		return m_light->setAmbient(id, ambient);
+		return m_light->setAmbient(handle, ambient);
 	}
 
-	void DXGameResource::setLightDiffuse(unsigned int id, const tktkMath::Color& diffuse)
+	void DXGameResource::setLightDiffuse(unsigned int handle, const tktkMath::Color& diffuse)
 	{
-		return m_light->setDiffuse(id, diffuse);
+		return m_light->setDiffuse(handle, diffuse);
 	}
 
-	void DXGameResource::setLightSpeqular(unsigned int id, const tktkMath::Color& speqular)
+	void DXGameResource::setLightSpeqular(unsigned int handle, const tktkMath::Color& speqular)
 	{
-		return m_light->setSpeqular(id, speqular);
+		return m_light->setSpeqular(handle, speqular);
 	}
 
-	void DXGameResource::setLightPosition(unsigned int id, const tktkMath::Vector3& position)
+	void DXGameResource::setLightPosition(unsigned int handle, const tktkMath::Vector3& position)
 	{
-		return m_light->setPosition(id, position);
+		return m_light->setPosition(handle, position);
 	}
 }

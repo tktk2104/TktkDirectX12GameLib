@@ -1,7 +1,7 @@
 #ifndef BASIC_MESH_MATERIAL_H_
 #define BASIC_MESH_MATERIAL_H_
 
-#include <TktkContainer/HeapArray/HeapArray.h>
+#include <TktkContainer/ResourceContainer/ResourceContainer.h>
 #include <TktkDX12Wrapper/Resource/GraphicsPipeLine/PipeLineState/PipeLineStateInitParam.h>
 #include "BasicMeshMaterialData.h"
 
@@ -12,25 +12,25 @@ namespace tktk
 	{
 	public:
 
-		BasicMeshMaterial(const ShaderFilePaths& basicShaderFilePaths, const std::string& monoColorShaderPsFilePath, unsigned int basicMeshMaterialNum);
+		BasicMeshMaterial(const ShaderFilePaths& basicShaderFilePaths, const std::string& monoColorShaderPsFilePath, const tktkContainer::ResourceContainerInitParam& initParam);
 		~BasicMeshMaterial() = default;
 
 	public:
 
-		// 「BasicMeshMaterialData」のインスタンスを作る
-		void create(unsigned int id, const BasicMeshMaterialInitParam& initParam);
+		// 「BasicMeshMaterialData」のインスタンスを作り、そのリソースのハンドルを返す
+		unsigned int create(const BasicMeshMaterialInitParam& initParam);
 
-		// 指定の「BasicMeshMaterialData」のインスタンスのコピーを作る
-		void copy(unsigned int id, unsigned int originalId);
+		// 指定の「BasicMeshMaterialData」のインスタンスのコピーを作り、そのリソースのハンドルを返す
+		unsigned int copy(unsigned int originalHandle);
 
 		// 指定の通常メッシュのマテリアル情報をグラフィックパイプラインに設定する
-		void setMaterialData(unsigned int id)  const;
+		void setMaterialData(unsigned int handle)  const;
 
 		// 指定の通常メッシュのマテリアルで追加で管理する定数バッファのハンドルと値を設定する
-		void addAppendParam(unsigned int id, unsigned int cbufferHandle, unsigned int dataSize, void* dataTopPos);
+		void addAppendParam(unsigned int handle, unsigned int cbufferHandle, unsigned int dataSize, void* dataTopPos);
 
 		// 指定の通常メッシュのマテリアルで追加で管理する定数バッファのハンドルと値を更新する
-		void updateAppendParam(unsigned int id, unsigned int cbufferHandle, unsigned int dataSize, const void* dataTopPos);
+		void updateAppendParam(unsigned int handle, unsigned int cbufferHandle, unsigned int dataSize, const void* dataTopPos);
 
 	private:
 
@@ -42,7 +42,7 @@ namespace tktk
 
 	private:
 
-		tktkContainer::HeapArray<BasicMeshMaterialData> m_basicMeshMaterialArray;
+		tktkContainer::ResourceContainer<BasicMeshMaterialData> m_basicMeshMaterialArray;
 	};
 }
 #endif // !BASIC_MESH_MATERIAL_H_

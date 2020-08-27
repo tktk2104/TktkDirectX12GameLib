@@ -23,7 +23,8 @@ namespace tktk
 	class DX3DBaseObjects;
 	class GameObjectManager;
 	class DXGameResource;
-	class SystemDXGameResourceIdGetter;
+	class DXGameResourceHandleGetter;
+	class SystemDXGameResourceHandleGetter;
 	class DirectInputWrapper;
 	class ElapsedTimer;
 	class Mouse;
@@ -53,15 +54,19 @@ namespace tktk
 	/* シーンの処理 */
 	public:
 
-		// シーンを作成して追加する
+		// シーンを作り、そのリソースのハンドルを返す
 		template<class SceneType, class... Args>
-		static void addScene(unsigned int id, Args&&... constructorArgs);
+		static unsigned int addScene(Args&&... constructorArgs)							{ return createSceneImpl(std::make_shared<SceneType>(std::forward<Args>(constructorArgs)...), &SceneVTableInitializer<SceneType>::m_vtable); }
+
+		// シーンを作り、そのリソースのハンドルと引数のハンドルを結び付ける
+		template<class SceneType, class IdType, class... Args>
+		static unsigned int addSceneAndAttachId(IdType id, Args&&... constructorArgs);
 
 		// シーンを有効にする
-		static void enableScene(unsigned int id);
+		static void enableScene(unsigned int handle);
 
 		// シーンを無効にする
-		static void disableScene(unsigned int id);
+		static void disableScene(unsigned int handle);
 
 	//************************************************************
 	/* ゲームオブジェクトの処理 */
@@ -87,14 +92,15 @@ namespace tktk
 		// コンポーネントの型ごとの更新優先度を設定する
 		// ※デフォルト（0.0f）で値が小さい程、早く実行される
 		template <class ComponentType>
-		static void addUpdatePriority(float priority);
+		static void addUpdatePriority(float priority) { m_componentManager->addUpdatePriority<ComponentType>(priority); }
 
 		// 衝突判定の組み合わせを追加する
-		static void addCollisionGroup(int firstGroup, int secondGroup);
+		template <class CollisionGroupType>
+		static void addCollisionGroup(CollisionGroupType firstGroup, CollisionGroupType secondGroup) { addCollisionGroupImpl(static_cast<int>(firstGroup), static_cast<int>(secondGroup)); }
 
 		// テンプレート引数の型のコンポーネントを引数の値を使って作る
 		template <class ComponentType, class... Args>
-		static std::weak_ptr<ComponentType> createComponent(Args&&... args);
+		static std::weak_ptr<ComponentType> createComponent(Args&&... args) { return m_componentManager->createComponent<ComponentType>(std::forward<Args>(args)...); }
 
 	//************************************************************
 	/* 直接DX12の処理を呼ぶ */
@@ -180,14 +186,14 @@ namespace tktk
 
 		// 頂点バッファを作り、そのリソースのハンドルを返す
 		template <class VertexData>
-		static unsigned int createVertexBuffer(const std::vector<VertexData>& vertexDataArray);
+		static unsigned int createVertexBuffer(const std::vector<VertexData>& vertexDataArray) { return createVertexBufferImpl(sizeof(VertexData), vertexDataArray.size(), vertexDataArray.data()); }
 
 		// インデックスバッファを作り、そのリソースのハンドルを返す
 		static unsigned int createIndexBuffer(const std::vector<unsigned short>& indices);
 
 		// 定数バッファを作り、そのリソースのハンドルを返す
 		template <class ConstantBufferDataType>
-		static unsigned int createCBuffer(const ConstantBufferDataType& rawConstantBufferData);
+		static unsigned int createCBuffer(const ConstantBufferDataType& rawConstantBufferData) { return createCbufferImpl(sizeof(ConstantBufferDataType), &rawConstantBufferData); }
 
 		// レンダーターゲットバッファを作り、そのリソースのハンドルを返す
 		static unsigned int createRtBuffer(const tktkMath::Vector2& renderTargetSize, const tktkMath::Color& clearColor);
@@ -278,14 +284,14 @@ namespace tktk
 
 		// 指定の頂点バッファを更新する
 		template <class VertexData>
-		static void updateVertexBuffer(unsigned int handle, const std::vector<VertexData>& vertexDataArray);
+		static void updateVertexBuffer(unsigned int handle, const std::vector<VertexData>& vertexDataArray) { updateVertexBufferImpl(handle, sizeof(VertexData), vertexDataArray.size(), vertexDataArray.data()); }
 
 		// 指定のインデックスバッファを更新する
 		static void updateIndexBuffer(unsigned int handle, const std::vector<unsigned short>& indexDataArray);
 
 		// 指定の定数バッファを更新する
 		template <class ConstantBufferDataType>
-		static void updateCBuffer(unsigned int handle, const ConstantBufferDataType& rawConstantBufferData);
+		static void updateCBuffer(unsigned int handle, const ConstantBufferDataType& rawConstantBufferData) { updateCbufferImpl(handle, sizeof(ConstantBufferDataType), &rawConstantBufferData); }
 
 		// 指定のレンダーターゲットビューを指定の色でクリアする
 		static void clearRtv(unsigned int handle, unsigned int rtvLocationIndex, const tktkMath::Color& color);
@@ -299,57 +305,81 @@ namespace tktk
 	/* スプライト関係の処理 */
 	public:
 
-		// スプライトマテリアルを作る
-		static void createSpriteMaterial(unsigned int id, const SpriteMaterialInitParam& initParam);
+		// スプライトマテリアルを作り、そのリソースのハンドルを返す
+		static unsigned int createSpriteMaterial(const SpriteMaterialInitParam& initParam);
+
+		// スプライトマテリアルを作り、そのリソースのハンドルと引数のハンドルを結び付ける
+		template<class IdType>
+		static unsigned int createSpriteMaterialAndAttachId(IdType id, const SpriteMaterialInitParam& initParam);
 
 		// 指定したスプライトを描画する
-		static void drawSprite(unsigned int id, const SpriteMaterialDrawFuncArgs& drawFuncArgs);
+		static void drawSprite(unsigned int handle, const SpriteMaterialDrawFuncArgs& drawFuncArgs);
 
 	//************************************************************
 	/* 2Dライン関係の処理 */
 	public:
 
-		// ２Ｄラインを作る
-		static void createLine(unsigned int id);
+		// ２Ｄラインマテリアルを作り、そのリソースのハンドルを返す
+		static unsigned int createLine2DMaterial();
+
+		// ２Ｄラインマテリアルを作り、そのリソースのハンドルと引数のハンドルを結び付ける
+		template<class IdType>
+		static unsigned int createLine2DMaterialAndAttachId(IdType id);
 
 		// 線を描画する
-		static void drawLine(unsigned int id, const Line2DMaterialDrawFuncArgs& drawFuncArgs);
+		static void drawLine(unsigned int handle, const Line2DMaterialDrawFuncArgs& drawFuncArgs);
 
 	//************************************************************
 	/* メッシュ関係の処理 */
 	public:
 
-		// 通常メッシュを作る
-		static void createBasicMesh(unsigned int id, const BasicMeshInitParam& initParam);
+		// 通常メッシュを作り、そのリソースのハンドルを返す
+		static unsigned int createBasicMesh(const BasicMeshInitParam& initParam);
 
-		// 通常メッシュのコピーを作る
-		static void copyBasicMesh(unsigned int id, unsigned int originalId);
+		// 通常メッシュを作り、そのリソースのハンドルと引数のハンドルを結び付ける
+		template<class IdType>
+		static unsigned int createBasicMeshAndAttachId(IdType id, const BasicMeshInitParam& initParam);
 
-		// 通常メッシュマテリアルを作る
-		static void createBasicMeshMaterial(unsigned int id, const BasicMeshMaterialInitParam& initParam);
+		// 通常メッシュのコピーを作り、そのリソースのハンドルを返す
+		static unsigned int copyBasicMesh(unsigned int originalHandle);
 
-		// 通常メッシュマテリアルのコピーを作る
-		static void copyBasicMeshMaterial(unsigned int id, unsigned int originalId);
+		// 通常メッシュのコピーを作り、そのリソースのハンドルと引数のハンドルを結び付ける
+		template<class IdType>
+		static unsigned int copyBasicMeshAndAttachId(IdType id, unsigned int originalHandle);
+
+		// 通常メッシュマテリアルを作り、そのリソースのハンドルを返す
+		static unsigned int createBasicMeshMaterial(const BasicMeshMaterialInitParam& initParam);
+
+		// 通常メッシュマテリアルを作り、そのリソースのハンドルと引数のハンドルを結び付ける
+		template<class IdType>
+		static unsigned int createBasicMeshMaterialAndAttachId(IdType id, const BasicMeshMaterialInitParam& initParam);
+
+		// 通常メッシュマテリアルのコピーを作り、そのリソースのハンドルを返す
+		static unsigned int copyBasicMeshMaterial(unsigned int originalHandle);
+
+		// 通常メッシュマテリアルのコピーを作り、そのリソースのハンドルと引数のハンドルを結び付ける
+		template<class IdType>
+		static unsigned int copyBasicMeshMaterialAndAttachId(IdType id, unsigned int originalHandle);
 
 		// 通常メッシュが使用しているマテリアルを更新する
-		static void setMaterialId(unsigned int id, unsigned int materialSlot, unsigned int materialId);
+		static void setMaterialHandle(unsigned int meshHandle, unsigned int materialSlot, unsigned int materialHandle);
 
 		// 指定の通常メッシュでシャドウマップを書き込む
-		static void writeBasicMeshShadowMap(unsigned int id, const MeshTransformCbuffer& transformBufferData);
+		static void writeBasicMeshShadowMap(unsigned int handle, const MeshTransformCbuffer& transformBufferData);
 
 		// 指定の通常メッシュのマテリアル情報をグラフィックパイプラインに設定する
-		static void setMaterialData(unsigned int id);
+		static void setMaterialData(unsigned int handle);
 
 		// 指定の通常メッシュのマテリアルで追加で管理する定数バッファのIDと値を設定する
 		template <class CbufferType>
-		static void addMaterialAppendParam(unsigned int id, unsigned int cbufferHandle, CbufferType&& value);
+		static void addMaterialAppendParam(unsigned int handle, unsigned int cbufferHandle, CbufferType&& value) { addMaterialAppendParamImpl(handle, cbufferHandle, sizeof(CbufferType), new CbufferType(std::forward<CbufferType>(value))); }
 
 		// 指定の通常メッシュのマテリアルで追加で管理する定数バッファのIDと値を更新する
 		template <class CbufferType>
-		static void updateMaterialAppendParam(unsigned int id, unsigned int cbufferHandle, const CbufferType& value);
+		static void updateMaterialAppendParam(unsigned int handle, unsigned int cbufferHandle, const CbufferType& value) { updateMaterialAppendParamImpl(handle, cbufferHandle, sizeof(CbufferType), &value); }
 
 		// 指定の通常メッシュを描画する
-		static void drawBasicMesh(unsigned int id, const MeshDrawFuncBaseArgs& baseArgs);
+		static void drawBasicMesh(unsigned int handle, const MeshDrawFuncBaseArgs& baseArgs);
 
 		// pmdファイルをロードしてゲームの各種リソースクラスを作る
 		static BasicMeshLoadPmdReturnValue loadPmd(const BasicMeshLoadPmdArgs& args);
@@ -358,11 +388,15 @@ namespace tktk
 	/* スケルトン関連の処理 */
 	public:
 
-		// スケルトンを作成する
-		static void createSkeleton(unsigned int id, const SkeletonInitParam& initParam);
+		// スケルトンを作り、そのリソースのハンドルを返す
+		static unsigned int createSkeleton(const SkeletonInitParam& initParam);
+
+		// スケルトンを作り、そのリソースのハンドルと引数のハンドルを結び付ける
+		template<class IdType>
+		static unsigned int createSkeletonAndAttachId(IdType id, const SkeletonInitParam& initParam);
 
 		// 指定のスケルトンを使って骨情報を管理する定数バッファを更新する
-		static void updateBoneMatrixCbuffer(unsigned int id);
+		static void updateBoneMatrixCbuffer(unsigned int handle);
 
 		// 骨情報を管理する定数バッファに単位行列を設定する
 		static void resetBoneMatrixCbuffer();
@@ -371,18 +405,22 @@ namespace tktk
 	/* モーション関係の処理 */
 	public:
 
-		// vmdファイルを読み込んで「MotionData」のインスタンスを作る
-		static void loadMotion(unsigned int id, const std::string& motionFileName);
+		// vmdファイルを読み込んでモーションを作り、そのリソースのハンドルを返す
+		static unsigned int loadMotion(const std::string& motionFileName);
+
+		// vmdファイルを読み込んでモーションを作り、そのリソースのハンドルと引数のハンドルを結び付ける
+		template<class IdType>
+		static unsigned int loadMotionAndAttachId(IdType id, const std::string& motionFileName);
 
 		// 指定のモーションの終了キーの番号を取得する
-		static unsigned int getMotionEndFrameNo(unsigned int id);
+		static unsigned int getMotionEndFrameNo(unsigned int handle);
 
 		// 2種類のモーション情報を線形補完してスケルトンを更新する
 		// ※補完割合の値は「0.0fでpreFrame100%」、「1.0fでcurFrame100%」となる
 		static void updateMotion(
-			unsigned int skeletonId,
-			unsigned int curMotionId,
-			unsigned int preMotionId,
+			unsigned int skeletonHandle,
+			unsigned int curMotionHandle,
+			unsigned int preMotionHnadle,
 			unsigned int curFrame,
 			unsigned int preFrame,
 			float amount
@@ -392,38 +430,55 @@ namespace tktk
 	/* ポストエフェクト関係の処理 */
 	public:
 
-		// ポストエフェクトのマテリアルを作る
-		static void createPostEffectMaterial(unsigned int id, const PostEffectMaterialInitParam& initParam);
+		// ポストエフェクトのマテリアルを作り、そのリソースのハンドルを返す
+		static unsigned int createPostEffectMaterial(const PostEffectMaterialInitParam& initParam);
+
+		// ポストエフェクトのマテリアルを作り、そのリソースのハンドルと引数のハンドルを結び付ける
+		template<class IdType>
+		static unsigned int createPostEffectMaterialAndAttachId(IdType id, const PostEffectMaterialInitParam& initParam);
 
 		// 指定のポストエフェクトを描画する
-		static void drawPostEffect(unsigned int id, const PostEffectMaterialDrawFuncArgs& drawFuncArgs);
+		static void drawPostEffect(unsigned int handle, const PostEffectMaterialDrawFuncArgs& drawFuncArgs);
 
 	//************************************************************
 	/* カメラ関係の処理 */
 	public:
 
-		// カメラを作る
-		static void createCamera(unsigned int id);
+		// カメラを作り、そのリソースのハンドルを返す
+		static unsigned int createCamera();
+
+		// カメラを作り、そのリソースのハンドルと引数のハンドルを結び付ける
+		template<class IdType>
+		static unsigned int createCameraAndAttachId(IdType id);
 
 		// 指定のカメラのビュー行列を取得する
-		static const tktkMath::Matrix4& getViewMatrix(unsigned int cameraId);
+		static const tktkMath::Matrix4& getViewMatrix(unsigned int cameraHandle);
 
 		// 指定のカメラのビュー行列を設定する
-		static void setViewMatrix(unsigned int cameraId, const tktkMath::Matrix4& view);
+		static void setViewMatrix(unsigned int cameraHandle, const tktkMath::Matrix4& view);
 
 		// 指定のカメラのプロジェクション行列を取得する
-		static const tktkMath::Matrix4& getProjectionMatrix(unsigned int cameraId);
+		static const tktkMath::Matrix4& getProjectionMatrix(unsigned int cameraHandle);
 
 		// 指定のカメラのプロジェクション行列を設定する
-		static void setProjectionMatrix(unsigned int cameraId, const tktkMath::Matrix4& projection);
+		static void setProjectionMatrix(unsigned int cameraHandle, const tktkMath::Matrix4& projection);
 
 	//************************************************************
 	/* ライト関係の処理 */
 	public:
 
-		// ライトを作る
-		static void createLight(
-			unsigned int id,
+		// ライトを作り、そのリソースのハンドルを返す
+		static unsigned int createLight(
+			const tktkMath::Color& ambient,
+			const tktkMath::Color& diffuse,
+			const tktkMath::Color& speqular,
+			const tktkMath::Vector3& position
+		);
+
+		// ライトを作り、そのリソースのハンドルと引数のハンドルを結び付ける
+		template<class IdType>
+		static unsigned int createLightAndAttachId(
+			IdType id,
 			const tktkMath::Color& ambient,
 			const tktkMath::Color& diffuse,
 			const tktkMath::Color& speqular,
@@ -431,36 +486,40 @@ namespace tktk
 		);
 
 		// ライト情報の定数バッファを更新する
-		static void updateLightCBuffer(unsigned int id);
+		static void updateLightCBuffer(unsigned int handle);
 
 		// 指定のライトの環境光を設定する
-		static void setLightAmbient(unsigned int id, const tktkMath::Color& ambient);
+		static void setLightAmbient(unsigned int handle, const tktkMath::Color& ambient);
 
 		// 指定のライトの拡散反射光を設定する
-		static void setLightDiffuse(unsigned int id, const tktkMath::Color& diffuse);
+		static void setLightDiffuse(unsigned int handle, const tktkMath::Color& diffuse);
 
 		// 指定のライトの鏡面反射光を設定する
-		static void setLightSpeqular(unsigned int id, const tktkMath::Color& speqular);
+		static void setLightSpeqular(unsigned int handle, const tktkMath::Color& speqular);
 
 		// 指定のライトの座標を設定する
-		static void setLightPosition(unsigned int id, const tktkMath::Vector3& position);
+		static void setLightPosition(unsigned int handle, const tktkMath::Vector3& position);
 
 	//************************************************************
 	/* サウンド関係の処理 */
 	public:
 
-		// 新しいサウンドを読み込む
+		// 新しいサウンドを読み込み、そのリソースのハンドルを返す
 		// ※この関数で読み込めるサウンドの形式は「.wav」のみ
-		static void loadSound(unsigned int id, const std::string& fileName);
+		static unsigned int loadSound(const std::string& fileName);
+
+		// 新しいサウンドを読み込み、そのリソースのハンドルと引数のハンドルを結び付ける
+		template<class IdType>
+		static unsigned int loadSoundAndAttachId(IdType id, const std::string& fileName);
 
 		// 指定したサウンドを再生する
-		static void playSound(unsigned int id, bool loopPlay);
+		static void playSound(unsigned int handle, bool loopPlay);
 
 		// 指定したサウンドを停止する
-		static void stopSound(unsigned int id);
+		static void stopSound(unsigned int handle);
 
 		// 指定したサウンドを一時停止する
-		static void pauseSound(unsigned int id);
+		static void pauseSound(unsigned int handle);
 
 		// 大元の音量を変更する（0.0f～1.0f）
 		static void setMasterVolume(float volume);
@@ -539,6 +598,49 @@ namespace tktk
 		static float fps();
 
 	//************************************************************
+	/* リソース毎に設定したIDを引数にリソースハンドルを取得する */
+	public:
+
+		template <class SceneType>
+		static unsigned int getSceneHandle				(SceneType id)				{ return getSceneHandleImpl(static_cast<int>(id)); };
+		template <class SoundType>
+		static unsigned int getSoundHandle				(SoundType id)				{ return getSoundHandleImpl(static_cast<int>(id)); };
+		template <class PostEffectMaterialType>
+		static unsigned int getPostEffectMaterialHandle	(PostEffectMaterialType id) { return getPostEffectMaterialHandleImpl(static_cast<int>(id)); };
+		template <class SpriteMaterialType>
+		static unsigned int getSpriteMaterialHandle		(SpriteMaterialType id)		{ return getSpriteMaterialHandleImpl(static_cast<int>(id)); };
+		template <class Line2DMaterialType>
+		static unsigned int getLine2DMaterialHandle		(Line2DMaterialType id)		{ return getLine2DMaterialHandleImpl(static_cast<int>(id)); };
+		template <class SkeletonType>
+		static unsigned int getSkeletonHandle			(SkeletonType id)			{ return getSkeletonHandleImpl(static_cast<int>(id)); };
+		template <class MotionType>
+		static unsigned int getMotionHandle				(MotionType id)				{ return getMotionHandleImpl(static_cast<int>(id)); };
+		template <class BasicMeshType>
+		static unsigned int getBasicMeshHandle			(BasicMeshType id)			{ return  getBasicMeshHandleImpl(static_cast<int>(id)); };
+		template <class BasicMeshMaterialType>
+		static unsigned int getBasicMeshMaterialHandle	(BasicMeshMaterialType id)	{ return getBasicMeshMaterialHandleImpl(static_cast<int>(id)); };
+		template <class CameraType>
+		static unsigned int getCameraHandle				(CameraType id)				{ return getCameraHandleImpl(static_cast<int>(id)); };
+		template <class LightType>
+		static unsigned int getLightHandle				(LightType id)				{ return  getLightHandleImpl(static_cast<int>(id)); };
+
+	//************************************************************
+	/* リソースを使うためのハンドルとIDを結びつける */
+	public:
+
+		static void setSceneHandle				(int id, unsigned int handle);
+		static void setSoundHandle				(int id, unsigned int handle);
+		static void setPostEffectMaterialHandle	(int id, unsigned int handle);
+		static void setSpriteMaterialHandle		(int id, unsigned int handle);
+		static void setLine2DMaterialHandle		(int id, unsigned int handle);
+		static void setSkeletonHandle			(int id, unsigned int handle);
+		static void setMotionHandle				(int id, unsigned int handle);
+		static void setBasicMeshHandle			(int id, unsigned int handle);
+		static void setBasicMeshMaterialHandle	(int id, unsigned int handle);
+		static void setCameraHandle				(int id, unsigned int handle);
+		static void setLightHandle				(int id, unsigned int handle);
+
+	//************************************************************
 	/* システムのリソースを使うためのハンドルを取得する */
 	public:
 
@@ -554,9 +656,9 @@ namespace tktk
 		static unsigned int getSystemHandle(SystemDsvDescriptorHeapType type);
 		static unsigned int getSystemHandle(SystemRootSignatureType type);
 		static unsigned int getSystemHandle(SystemPipeLineStateType type);
-		static unsigned int getSystemId(SystemBasicMeshType type);
-		static unsigned int getSystemId(SystemBasicMeshMaterialType type);
-		static unsigned int getSystemId(SystemPostEffectMaterialType type);
+		static unsigned int getSystemHandle(SystemBasicMeshType type);
+		static unsigned int getSystemHandle(SystemBasicMeshMaterialType type);
+		static unsigned int getSystemHandle(SystemPostEffectMaterialType type);
 
 	//************************************************************
 	/* システムのリソースを使うためのハンドルとシステムのリソースの種類を結びつける */
@@ -574,19 +676,35 @@ namespace tktk
 		static void setSystemHandle(SystemDsvDescriptorHeapType type,	unsigned int handle);
 		static void setSystemHandle(SystemRootSignatureType type,		unsigned int handle);
 		static void setSystemHandle(SystemPipeLineStateType type,		unsigned int handle);
+		static void setSystemHandle(SystemBasicMeshType type,			unsigned int handle);
+		static void setSystemHandle(SystemBasicMeshMaterialType type,	unsigned int handle);
+		static void setSystemHandle(SystemPostEffectMaterialType type,	unsigned int handle);
 
 	//************************************************************
 	/* 裏実装 */
 	public:
 
+		static void addCollisionGroupImpl(int firstGroup, int secondGroup);
+
 		static unsigned int createVertexBufferImpl(unsigned int vertexTypeSize, unsigned int vertexDataCount, const void* vertexDataTopPos);
 		static unsigned int createCbufferImpl(unsigned int constantBufferTypeSize, const void* constantBufferDataTopPos);
-
-		static void createSceneImpl(unsigned int id, const std::shared_ptr<SceneBase>& scenePtr, SceneVTable* vtablePtr);
+		static unsigned int createSceneImpl(const std::shared_ptr<SceneBase>& scenePtr, SceneVTable* vtablePtr);
 		static void updateVertexBufferImpl(unsigned int handle, unsigned int vertexTypeSize, unsigned int vertexDataCount, const void* vertexDataTopPos);
 		static void updateCbufferImpl(unsigned int handle, unsigned int constantBufferTypeSize, const void* constantBufferDataTopPos);
-		static void addMaterialAppendParamImpl(unsigned int id, unsigned int cbufferHandle, unsigned int dataSize, void* dataTopPos);
-		static void updateMaterialAppendParamImpl(unsigned int id, unsigned int cbufferHandle, unsigned int dataSize, const void* dataTopPos);
+		static void addMaterialAppendParamImpl(unsigned int handle, unsigned int cbufferHandle, unsigned int dataSize, void* dataTopPos);
+		static void updateMaterialAppendParamImpl(unsigned int handle, unsigned int cbufferHandle, unsigned int dataSize, const void* dataTopPos);
+
+		static unsigned int getSceneHandleImpl					(int id);
+		static unsigned int getSoundHandleImpl					(int id);
+		static unsigned int getPostEffectMaterialHandleImpl		(int id);
+		static unsigned int getSpriteMaterialHandleImpl			(int id);
+		static unsigned int getLine2DMaterialHandleImpl			(int id);
+		static unsigned int getSkeletonHandleImpl				(int id);
+		static unsigned int getMotionHandleImpl					(int id);
+		static unsigned int getBasicMeshHandleImpl				(int id);
+		static unsigned int getBasicMeshMaterialHandleImpl		(int id);
+		static unsigned int getCameraHandleImpl					(int id);
+		static unsigned int getLightHandleImpl					(int id);
 
 	//************************************************************
 	private:
@@ -596,77 +714,131 @@ namespace tktk
 		static std::unique_ptr<GameObjectManager>				m_gameObjectManager;
 		static std::unique_ptr<ComponentManager>				m_componentManager;
 		static std::unique_ptr<DXGameResource>					m_dxGameResource;
-		static std::unique_ptr<SystemDXGameResourceIdGetter>	m_systemDXGameResourceIdGetter;
+		static std::unique_ptr<DXGameResourceHandleGetter>		m_dxGameResourceHandleGetter;
+		static std::unique_ptr<SystemDXGameResourceHandleGetter>m_systemDXGameResourceHandleGetter;
 		static std::unique_ptr<DirectInputWrapper>				m_directInputWrapper;
 		static std::unique_ptr<Mouse>							m_mouse;
 		static std::unique_ptr<ElapsedTimer>					m_elapsedTimer;
 	};
 //┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-//┃ここから下は関数の実装
+//┃ここから下は実装が多めのテンプレート関数の実装
 //┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-	// シーンを作成して追加する
-	template<class SceneType, class ...Args>
-	inline void DX12GameManager::addScene(unsigned int id, Args&&...constructorArgs)
+	// シーンを作り、そのリソースのハンドルと引数のハンドルを結び付ける
+	template<class SceneType, class IdType, class ...Args>
+	inline unsigned int DX12GameManager::addSceneAndAttachId(IdType id, Args && ...constructorArgs)
 	{
-		createSceneImpl(id, std::make_shared<SceneType>(std::forward<Args>(constructorArgs)...), &SceneVTableInitializer<SceneType>::m_vtable);
+		unsigned int createdHandle = addScene<SceneType>(std::forward<Args>(constructorArgs)...);
+		setSceneHandle(static_cast<int>(id), createdHandle);
+		return createdHandle;
 	}
 
-	// コンポーネントの型ごとの更新優先度を設定する
-		// ※デフォルト（0.0f）で値が小さい程、早く実行される
-	template<class ComponentType>
-	inline void DX12GameManager::addUpdatePriority(float priority)
+	// スプライトマテリアルを作り、そのリソースのハンドルと引数のハンドルを結び付ける
+	template<class IdType>
+	inline unsigned int DX12GameManager::createSpriteMaterialAndAttachId(IdType id, const SpriteMaterialInitParam& initParam)
 	{
-		m_componentManager->addUpdatePriority<ComponentType>(priority);
+		unsigned int createdHandle = createSpriteMaterial(initParam);
+		setSpriteMaterialHandle(static_cast<int>(id), createdHandle);
+		return createdHandle;
 	}
 
-	// テンプレート引数の型のコンポーネントを引数の値を使って作る
-	template<class ComponentType, class ...Args>
-	inline std::weak_ptr<ComponentType> DX12GameManager::createComponent(Args&&...args)
+	// ２Ｄラインマテリアルを作り、そのリソースのハンドルと引数のハンドルを結び付ける
+	template<class IdType>
+	inline unsigned int DX12GameManager::createLine2DMaterialAndAttachId(IdType id)
 	{
-		return m_componentManager->createComponent<ComponentType>(std::forward<Args>(args)...);
+		unsigned int createdHandle = createLine2DMaterial();
+		setLine2DMaterialHandle(static_cast<int>(id), createdHandle);
+		return createdHandle;
 	}
 
-	// 頂点バッファを作る
-	template<class VertexData>
-	inline unsigned int DX12GameManager::createVertexBuffer(const std::vector<VertexData>& vertexDataArray)
+	// 通常メッシュを作り、そのリソースのハンドルと引数のハンドルを結び付ける
+	template<class IdType>
+	inline unsigned int DX12GameManager::createBasicMeshAndAttachId(IdType id, const BasicMeshInitParam& initParam)
 	{
-		return createVertexBufferImpl(sizeof(VertexData), vertexDataArray.size(), vertexDataArray.data());
+		unsigned int createdHandle = createBasicMesh(initParam);
+		setBasicMeshHandle(static_cast<int>(id), createdHandle);
+		return createdHandle;
 	}
 
-	// 定数バッファを作る
-	template<class ConstantBufferDataType>
-	inline unsigned int DX12GameManager::createCBuffer(const ConstantBufferDataType& rawConstantBufferData)
+	// 通常メッシュのコピーを作り、そのリソースのハンドルと引数のハンドルを結び付ける
+	template<class IdType>
+	inline unsigned int DX12GameManager::copyBasicMeshAndAttachId(IdType id, unsigned int originalHandle)
 	{
-		return createCbufferImpl(sizeof(ConstantBufferDataType), &rawConstantBufferData);
+		unsigned int createdHandle = copyBasicMesh(originalHandle);
+		setBasicMeshHandle(static_cast<int>(id), createdHandle);
+		return createdHandle;
 	}
 
-	// 指定の頂点バッファを更新する
-	template<class VertexData>
-	inline void DX12GameManager::updateVertexBuffer(unsigned int handle, const std::vector<VertexData>& vertexDataArray)
+	// 通常メッシュマテリアルを作り、そのリソースのハンドルと引数のハンドルを結び付ける
+	template<class IdType>
+	inline unsigned int DX12GameManager::createBasicMeshMaterialAndAttachId(IdType id, const BasicMeshMaterialInitParam& initParam)
 	{
-		updateVertexBufferImpl(handle, sizeof(VertexData), vertexDataArray.size(), vertexDataArray.data());
+		unsigned int createdHandle = createBasicMeshMaterial(initParam);
+		setBasicMeshMaterialHandle(static_cast<int>(id), createdHandle);
+		return createdHandle;
 	}
 
-	// 指定の定数バッファを更新する
-	template<class ConstantBufferDataType>
-	inline void DX12GameManager::updateCBuffer(unsigned int handle, const ConstantBufferDataType& rawConstantBufferData)
+	// 通常メッシュマテリアルのコピーを作り、そのリソースのハンドルと引数のハンドルを結び付ける
+	template<class IdType>
+	inline unsigned int DX12GameManager::copyBasicMeshMaterialAndAttachId(IdType id, unsigned int originalHandle)
 	{
-		updateCbufferImpl(handle, sizeof(ConstantBufferDataType), &rawConstantBufferData);
+		unsigned int createdHandle = copyBasicMeshMaterial(originalHandle);
+		setBasicMeshMaterialHandle(static_cast<int>(id), createdHandle);
+		return createdHandle;
 	}
 
-	// 指定の通常メッシュのマテリアルで追加で管理する定数バッファのIDと値を設定する
-	template<class CbufferType>
-	inline void DX12GameManager::addMaterialAppendParam(unsigned int id, unsigned int cbufferHandle, CbufferType&& value)
+	// スケルトンを作り、そのリソースのハンドルと引数のハンドルを結び付ける
+	template<class IdType>
+	inline unsigned int DX12GameManager::createSkeletonAndAttachId(IdType id, const SkeletonInitParam& initParam)
 	{
-		addMaterialAppendParamImpl(id, cbufferHandle, sizeof(CbufferType), new CbufferType(std::forward<CbufferType>(value)));
+		unsigned int createdHandle = createSkeleton(initParam);
+		setSkeletonHandle(static_cast<int>(id), createdHandle);
+		return createdHandle;
 	}
 
-	// 指定の通常メッシュのマテリアルで追加で管理する定数バッファのIDと値を更新する
-	template<class CbufferType>
-	inline void DX12GameManager::updateMaterialAppendParam(unsigned int id, unsigned int cbufferHandle, const CbufferType& value)
+	// vmdファイルを読み込んでモーションを作り、そのリソースのハンドルと引数のハンドルを結び付ける
+	template<class IdType>
+	inline unsigned int DX12GameManager::loadMotionAndAttachId(IdType id, const std::string& motionFileName)
 	{
-		updateMaterialAppendParamImpl(id, cbufferHandle, sizeof(CbufferType), &value);
+		unsigned int createdHandle = loadMotion(motionFileName);
+		setMotionHandle(static_cast<int>(id), createdHandle);
+		return createdHandle;
+	}
+
+	// ポストエフェクトのマテリアルを作り、そのリソースのハンドルと引数のハンドルを結び付ける
+	template<class IdType>
+	inline unsigned int DX12GameManager::createPostEffectMaterialAndAttachId(IdType id, const PostEffectMaterialInitParam& initParam)
+	{
+		unsigned int createdHandle = createPostEffectMaterial(initParam);
+		setPostEffectMaterialHandle(static_cast<int>(id), createdHandle);
+		return createdHandle;
+	}
+
+	// ライトを作り、そのリソースのハンドルと引数のハンドルを結び付ける
+	template<class IdType>
+	inline unsigned int DX12GameManager::createCameraAndAttachId(IdType id)
+	{
+		unsigned int createdHandle = createCamera();
+		setCameraHandle(static_cast<int>(id), createdHandle);
+		return createdHandle;
+	}
+
+	// ライトを作り、そのリソースのハンドルと引数のハンドルを結び付ける
+	template<class IdType>
+	inline unsigned int DX12GameManager::createLightAndAttachId(IdType id, const tktkMath::Color& ambient, const tktkMath::Color& diffuse, const tktkMath::Color& speqular, const tktkMath::Vector3& position)
+	{
+		unsigned int createdHandle = createLight(ambient, diffuse, speqular, position);
+		setLightHandle(static_cast<int>(id), createdHandle);
+		return createdHandle;
+	}
+
+	// 新しいサウンドを読み込み、そのリソースのハンドルと引数のハンドルを結び付ける
+	template<class IdType>
+	inline unsigned int DX12GameManager::loadSoundAndAttachId(IdType id, const std::string& fileName)
+	{
+		unsigned int createdHandle = loadSound(fileName);
+		setSoundHandle(static_cast<int>(id), createdHandle);
+		return createdHandle;
 	}
 }
 #endif // !DX12_GAME_MANAGER_H_

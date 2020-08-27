@@ -11,6 +11,13 @@ namespace tktk
 	{
 	}
 
+	PostEffectMaterialData::PostEffectMaterialData(PostEffectMaterialData&& other) noexcept
+		: m_usePipeLineStateHandle(other.m_usePipeLineStateHandle)
+		, m_useDescriptorHeapHandle(other.m_useDescriptorHeapHandle)
+		, m_autoClearRtvDescriptorHeapHandleArray(std::move(other.m_autoClearRtvDescriptorHeapHandleArray))
+	{
+	}
+
 	void PostEffectMaterialData::drawPostEffect(const PostEffectMaterialDrawFuncArgs& drawFuncArgs) const
 	{
 		// ビューポートを設定する

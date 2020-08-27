@@ -4,8 +4,8 @@
 
 namespace tktk
 {
-	BasicMesh::BasicMesh(const std::string& writeShadowMapVsFilePath, unsigned int basicMeshNum)
-		: m_basicMeshArray(basicMeshNum)
+	BasicMesh::BasicMesh(const std::string& writeShadowMapVsFilePath, const tktkContainer::ResourceContainerInitParam& initParam)
+		: m_basicMeshArray(initParam)
 	{
 		createWriteShadowMapRootSignature();
 		createWriteShadowMapGraphicsPipeLineState(writeShadowMapVsFilePath);
@@ -31,31 +31,31 @@ namespace tktk
 		}
 	}
 
-	void BasicMesh::craete(unsigned int id, const BasicMeshInitParam& initParam)
+	unsigned int BasicMesh::craete(const BasicMeshInitParam& initParam)
 	{
-		m_basicMeshArray.emplaceAt(id, initParam);
+		return m_basicMeshArray.create(initParam);
 	}
 
-	void BasicMesh::copy(unsigned int id, unsigned int originalId)
+	unsigned int BasicMesh::copy(unsigned int originalHandle)
 	{
-		m_basicMeshArray.emplaceAt(id, m_basicMeshArray.at(originalId));
+		return m_basicMeshArray.create(*m_basicMeshArray.getMatchHandlePtr(originalHandle));
 	}
 
-	void BasicMesh::setMaterialId(unsigned int id, unsigned int materialSlot, unsigned int materialId)
+	void BasicMesh::setMaterialHandle(unsigned int meshHandle, unsigned int materialSlot, unsigned int materialHandle)
 	{
-		m_basicMeshArray.at(id)->setMaterialId(materialSlot, materialId);
+		m_basicMeshArray.getMatchHandlePtr(meshHandle)->setMaterialHandle(materialSlot, materialHandle);
 	}
 
-	void BasicMesh::writeShadowMap(unsigned int id, const MeshTransformCbuffer& transformBufferData) const
+	void BasicMesh::writeShadowMap(unsigned int handle, const MeshTransformCbuffer& transformBufferData) const
 	{
 		// メッシュの座標変換に使用する情報を定数バッファに書き込む
 		updateMeshTransformCbuffer(transformBufferData);
 
 		// シャドウマップへの書き込みを行う
-		m_basicMeshArray.at(id)->writeShadowMap();
+		m_basicMeshArray.getMatchHandlePtr(handle)->writeShadowMap();
 	}
 
-	void BasicMesh::drawMesh(unsigned int id, const MeshDrawFuncBaseArgs& baseArgs) const
+	void BasicMesh::drawMesh(unsigned int handle, const MeshDrawFuncBaseArgs& baseArgs) const
 	{
 		// メッシュの座標変換に使用する情報を定数バッファに書き込む
 		updateMeshTransformCbuffer(baseArgs.transformBufferData);
@@ -67,7 +67,7 @@ namespace tktk
 		DX12GameManager::updateLightCBuffer(baseArgs.lightId);
 
 		// メッシュの描画を行う
-		m_basicMeshArray.at(id)->drawMesh(baseArgs);
+		m_basicMeshArray.getMatchHandlePtr(handle)->drawMesh(baseArgs);
 	}
 
 	void BasicMesh::createWriteShadowMapRootSignature() const

@@ -17,6 +17,10 @@ namespace tktk
 	public:
 
 		MotionData(const std::string& motionFileName);
+
+		// ムーブコンストラクタ
+		MotionData(MotionData&& other) noexcept;
+
 		~MotionData() = default;
 
 	public:

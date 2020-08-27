@@ -15,6 +15,9 @@ namespace tktk
 		PostEffectMaterialData(const PostEffectMaterialInitParam& initParam);
 		~PostEffectMaterialData() = default;
 
+		// ムーブコンストラクタ
+		PostEffectMaterialData(PostEffectMaterialData&& other) noexcept;
+
 	public:
 
 		// ポストエフェクトを描画する

@@ -30,13 +30,17 @@ namespace tktk
 		// モーションをループさせるかを設定する
 		MeshAnimatorMaker& isLoop(bool value);
 
+		// 使用する初期モーションハンドルを設定する
+		MeshAnimatorMaker& initMotionHandle(unsigned int value);
+
 		// 使用する初期モーションIDを設定する（列挙型を含む整数型のidが渡された場合のみビルド可）
+		// ※内部で対応するリソースハンドルに変換される
 		template<class IdType, is_idType<IdType> = nullptr>
 		MeshAnimatorMaker& initMotionId(IdType value);
 
 	private: /* 各種id指定系の関数の実装 */
 
-		MeshAnimatorMaker& initMotionIdImpl(unsigned int value);
+		MeshAnimatorMaker& initMotionIdImpl(int value);
 
 	private: /* 自身のインスタンスは静的な存在として扱う */
 
@@ -44,9 +48,9 @@ namespace tktk
 
 	private: /* 変数達 */
 
-		GameObjectPtr	m_user			{  };
-		unsigned int	m_isLoop		{ true };
-		unsigned int	m_initMotionId	{ 0U };
+		GameObjectPtr	m_user				{  };
+		unsigned int	m_isLoop			{ true };
+		unsigned int	m_initMotionHandle	{ 0U };
 
 	public: /* 不正な型の引数が渡されそうになった時にコンパイルエラーにする為の仕組み */
 
@@ -61,7 +65,7 @@ namespace tktk
 	template<class IdType, is_idType<IdType>>
 	inline MeshAnimatorMaker& MeshAnimatorMaker::initMotionId(IdType value)
 	{
-		return initMotionIdImpl(static_cast<unsigned int>(value));
+		return initMotionIdImpl(static_cast<int>(value));
 	}
 }
 #endif // !MESH_ANIMATOR_MAKER_H_

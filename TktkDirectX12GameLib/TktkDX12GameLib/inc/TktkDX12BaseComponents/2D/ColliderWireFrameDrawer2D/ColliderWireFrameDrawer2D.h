@@ -15,8 +15,7 @@ namespace tktk
 
 		ColliderWireFrameDrawer2D(
 			float drawPriority,
-			const tktkMath::Color& lineColor,
-			std::vector<unsigned int> useLine2DMaterialIdArray
+			const tktkMath::Color& lineColor
 		);
 
 	public:
@@ -30,7 +29,6 @@ namespace tktk
 		float m_drawPriority;
 		tktkMath::Color m_lineColor;
 		std::vector<tktk::ComponentPtr<Line2DDrawer>> m_wireFrameDrawerArray;
-		std::vector<unsigned int> m_useLine2DMaterialIdArray;
 	};
 }
 #endif // !COLLIDER_WIRE_FRAME_DRAWER_2D_H_

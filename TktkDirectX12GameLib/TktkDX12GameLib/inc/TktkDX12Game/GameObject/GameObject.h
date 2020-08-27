@@ -172,7 +172,7 @@ namespace tktk
 		void clearState();
 
 		// 引数のステートを持っているか？
-		bool contain(int stateType);
+		bool containState(int stateType);
 
 		// int型の配列でステートを指定し、子要素を追加する
 		// ※「{ MOVE_STATE, WALK_STATE, BEGIN_MOVE_STATE }」で「“MOVE_STATE”内の“WALK_STATE”内の“BEGIN_MOVE_STATE”に追加」となる

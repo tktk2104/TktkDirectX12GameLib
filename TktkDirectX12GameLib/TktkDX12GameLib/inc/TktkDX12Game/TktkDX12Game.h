@@ -25,10 +25,12 @@ namespace tktk
 	public:
 
 		// シーンを有効にする
+		// ※内部で対応するリソースハンドルに変換される
 		template <class SceneType>
 		static void enableScene(SceneType id);
 
 		// シーンを無効にする
+		// ※内部で対応するリソースハンドルに変換される
 		template <class SceneType>
 		static void disableScene(SceneType id);
 
@@ -129,8 +131,8 @@ namespace tktk
 	/* 非テンプレート関数 */
 	private:
 
-		static void enableSceneImpl(unsigned int id);
-		static void disableSceneImpl(unsigned int id);
+		static void enableSceneImpl(int id);
+		static void disableSceneImpl(int id);
 		static void sendMessageAllImpl(unsigned int messageId, const MessageAttachment& value);
 		static GameObjectPtr findGameObjectWithTagImpl(int tag);
 		static std::forward_list<GameObjectPtr> findGameObjectsWithTagImpl(int tag);
@@ -140,17 +142,19 @@ namespace tktk
 //┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 	// シーンを有効にする
+	// ※内部で対応するリソースハンドルに変換される
 	template<class SceneType>
 	inline void DX12Game::enableScene(SceneType id)
 	{
-		enableSceneImpl(static_cast<unsigned int>(id));
+		enableSceneImpl(static_cast<int>(id));
 	}
 
 	// シーンを無効にする
+	// ※内部で対応するリソースハンドルに変換される
 	template<class SceneType>
 	inline void DX12Game::disableScene(SceneType id)
 	{
-		disableSceneImpl(static_cast<unsigned int>(id));
+		disableSceneImpl(static_cast<int>(id));
 	}
 
 	// 全てのGameObjectにメッセージを送信する

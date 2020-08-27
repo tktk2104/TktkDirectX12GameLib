@@ -13,6 +13,9 @@ namespace tktk
 		SceneInstanceCarrier(const std::shared_ptr<SceneBase>& scenePtr, SceneVTable* vtablePtr);
 		~SceneInstanceCarrier();
 
+		// ムーブコンストラクタ
+		SceneInstanceCarrier(SceneInstanceCarrier&& other) noexcept;
+
 	public:
 
 		// シーンを有効にする

@@ -35,6 +35,30 @@ namespace tktk
 			mmioClose(m_hmmio, 0);
 	}
 
+	SoundData::SoundData(SoundData&& other) noexcept
+		: m_hmmio(other.m_hmmio)
+		, m_mmioInfo(other.m_mmioInfo)
+		, m_riffChunkInfo(other.m_riffChunkInfo)
+		, m_formatChunkInfo(other.m_formatChunkInfo)
+		, m_dataChunkInfo(other.m_dataChunkInfo)
+		, m_wfx(other.m_wfx)
+		, m_pcmwf(other.m_pcmwf)
+		, m_cSoundCallback(other.m_cSoundCallback)
+		, m_lpSourceVoice(other.m_lpSourceVoice)
+		, m_bufinfo(other.m_bufinfo)
+		, m_voiceState(other.m_voiceState)
+		, m_buflen(other.m_buflen)
+		, m_bufData(std::move(other.m_bufData))
+		, m_bufLoadPos(other.m_bufLoadPos)
+		, m_readlen(other.m_readlen)
+		, m_soundPlayState(other.m_soundPlayState)
+		, m_soundCount(other.m_soundCount)
+		, m_sumReadlen(other.m_sumReadlen)
+	{
+		m_lpSourceVoice = nullptr;
+		m_hmmio = nullptr;
+	}
+
 	bool SoundData::isPlaySound() const
 	{
  		return ((m_soundPlayState & SOUND_PLAY_STATE_PLAYING) != 0) && ((m_soundPlayState & SOUND_PLAY_STATE_PAUSE) == 0);
