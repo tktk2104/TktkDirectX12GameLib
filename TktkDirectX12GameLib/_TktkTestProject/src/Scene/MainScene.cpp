@@ -10,9 +10,9 @@
 #include "../GameObject/Light/PointLightObject.h"
 #include "../GameObject/PostEffectObject/PostEffectObject.h"
 
-#include "../TutorialCode/GameObject/Player/Player.h"
-#include "../TutorialCode/GameObject/Enemy/Enemy.h"
-#include "../TutorialCode/GameObject/ElementSphereManager/ElementSphereManager.h"
+//#include "../TutorialCode/GameObject/Player/Player.h"
+//#include "../TutorialCode/GameObject/Enemy/Enemy.h"
+//#include "../TutorialCode/GameObject/ElementSphereManager/ElementSphereManager.h"
 
 void MainScene::start()
 {

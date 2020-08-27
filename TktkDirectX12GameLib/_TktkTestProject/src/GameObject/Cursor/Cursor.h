@@ -6,6 +6,8 @@
 #include <TktkDX12BaseComponents/2D/SpriteDrawer/SpriteDrawerMaker.h>
 #include "CursorScript.h"
 
+#include "../../ResourceHandleCarrier/ResourceHandleCarrier.h"
+
 struct Cursor
 {
 	static tktk::GameObjectPtr create()
@@ -19,7 +21,7 @@ struct Cursor
 		tktk::SpriteDrawerMaker::makeStart(gameObject)
 			.drawPriority(0.5f)
 			.spriteMaterialId(0U)
-			.useRtvDescriptorHeapId(0U)
+			.useRtvDescriptorHeapHandle(ResourceHandleCarrier::getPostEffectRtvDescriptorHeapHandle())
 			.create();
 
 		gameObject->createComponent<CursorScript>();

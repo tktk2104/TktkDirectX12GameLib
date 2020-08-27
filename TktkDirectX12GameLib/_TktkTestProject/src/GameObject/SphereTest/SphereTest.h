@@ -5,6 +5,8 @@
 #include <TktkDX12BaseComponents/3D/Transform3D/Transform3DMaker.h>
 #include <TktkDX12BaseComponents/3D/MeshDrawer/SphereMeshDrawerMaker.h>
 
+#include "../../ResourceHandleCarrier/ResourceHandleCarrier.h"
+
 struct SphereTest
 {
 	static tktk::GameObjectPtr create(const tktkMath::Vector3& position)
@@ -18,7 +20,7 @@ struct SphereTest
 
 		tktk::SphereMeshDrawerMaker::makeStart(gameObject)
 			.drawPriority(0.0f)
-			.useRtvDescriptorHeapId(0U)
+			.useRtvDescriptorHeapHandle(ResourceHandleCarrier::getPostEffectRtvDescriptorHeapHandle())
 			.cameraId(0U)
 			.shadowMapCameraId(1U)
 			.lightId(0U)

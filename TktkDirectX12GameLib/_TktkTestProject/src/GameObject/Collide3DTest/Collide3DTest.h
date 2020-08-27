@@ -35,9 +35,7 @@ struct Collide3DTest
 			.lightId(LightId::Basic)
 			.create();
 
-		gameObject->createComponent<Collide3DTestScript>(
-			moveSpeed
-			);
+		gameObject->createComponent<Collide3DTestScript>(moveSpeed);
 
 		return gameObject;
 	}

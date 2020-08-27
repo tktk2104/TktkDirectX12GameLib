@@ -7,9 +7,6 @@ enum class Line2DMaterialId
 {
 	ElementShapeGuide = 0U,
 
-	CollideDebug1,
-	CollideDebug2,
-
 	Count
 };
 

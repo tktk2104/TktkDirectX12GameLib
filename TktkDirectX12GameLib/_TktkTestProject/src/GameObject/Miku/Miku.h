@@ -8,6 +8,7 @@
 #include <TktkDX12BaseComponents/3D/MeshAnimator/MeshAnimatorMaker.h>
 
 #include "MikuScript.h"
+#include "../../ResourceHandleCarrier/ResourceHandleCarrier.h"
 
 struct Miku
 {
@@ -23,7 +24,7 @@ struct Miku
 			.drawPriority(0.0f)
 			.meshId(0U)
 			.skeletonId(0U)
-			.useRtvDescriptorHeapId(0U)
+			.useRtvDescriptorHeapHandle(ResourceHandleCarrier::getPostEffectRtvDescriptorHeapHandle())
 			.cameraId(0U)
 			.shadowMapCameraId(1U)
 			.lightId(0U)
@@ -39,6 +40,26 @@ struct Miku
 		tktk::MeshAnimatorMaker::makeStart(gameObject)
 			.isLoop(false)
 			.initMotionId(1U)
+			.create();
+
+		tktk::SphereColliderMaker::makeStart(gameObject)
+			.collisionGroupType(1)
+			.radius(2.0f)
+			.localPosition({ 0.0f, 2.0f, 0.0f })
+			.create();
+
+		tktk::SphereColliderMaker::makeStart(gameObject)
+			.collisionGroupType(1)
+			.radius(2.0f)
+			.localPosition({ 0.0f, 6.0f, 0.0f })
+			.create();
+
+		tktk::ColliderWireFrameDrawer3DMaker::makeStart(gameObject)
+			.lineColor(tktkMath::Color_v::blue)
+			.useRtvDescriptorHeapHandle(ResourceHandleCarrier::getPostEffectRtvDescriptorHeapHandle())
+			.lightId(0U)
+			.cameraId(0U)
+			.shadowMapCameraId(1U)
 			.create();
 
 		gameObject->createComponent<MikuScript>();

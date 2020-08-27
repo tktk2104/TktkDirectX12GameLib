@@ -27,7 +27,7 @@ void MikuScript::update()
 {
 	if (tktk::DX12GameManager::isTrigger(tktk::KeybordKeyType::key_Space))
 	{
-		getComponent<tktk::MeshAnimator>()->changeMotion(0U, 10.0f);
+		getComponent<tktk::MeshAnimator>()->setNewMotionId(0U, 10.0f);
 	}
 
 	/*if (tktk::DX12GameManager::isPush(tktk::KeybordKeyType::key_Space))

@@ -19,6 +19,7 @@ struct CameraObject
 			.create();
 
 		tktk::FirstPersonModuleMaker::makeStart(gameObject)
+			.enableUpDownKey(true)
 			.create();
 
 		tktk::BasicCameraControllerMaker::makeStart(gameObject)

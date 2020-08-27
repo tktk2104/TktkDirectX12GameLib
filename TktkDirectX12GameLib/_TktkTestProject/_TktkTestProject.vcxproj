@@ -153,19 +153,9 @@
     <ClCompile Include="src\GameObject\Cursor\CursorScript.cpp" />
     <ClCompile Include="src\GameObject\Miku\MikuScript.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\ResourceHandleCarrier\ResourceHandleCarrier.cpp" />
     <ClCompile Include="src\Scene\LoadingScene.cpp" />
     <ClCompile Include="src\Scene\MainScene.cpp" />
-    <ClCompile Include="src\TutorialCode\GameObject\ElementShapeGuide\ElementShapeGuide.cpp" />
-    <ClCompile Include="src\TutorialCode\GameObject\ElementShape\ElementShape.cpp" />
-    <ClCompile Include="src\TutorialCode\GameObject\ElementShape\Script\ElementShapeScript.cpp" />
-    <ClCompile Include="src\TutorialCode\GameObject\ElementShape\Script\VertexColor2DPolygonDrawer.cpp" />
-    <ClCompile Include="src\TutorialCode\GameObject\ElementSphereManager\ElementSphereManager.cpp" />
-    <ClCompile Include="src\TutorialCode\GameObject\ElementSphereManager\Script\ElementSphereManagerScript.cpp" />
-    <ClCompile Include="src\TutorialCode\GameObject\ElementSphere\ElementSphere.cpp" />
-    <ClCompile Include="src\TutorialCode\GameObject\Enemy\Enemy.cpp" />
-    <ClCompile Include="src\TutorialCode\GameObject\Player\Player.cpp" />
-    <ClCompile Include="src\TutorialCode\GameObject\Player\Scripts\InputToMove.cpp" />
-    <ClCompile Include="src\TutorialCode\GameObject\Player\Scripts\InputToRotate.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Enum\BasicMeshId.h" />
@@ -203,21 +193,9 @@
     <ClInclude Include="src\GameObject\Miku\MikuScript.h" />
     <ClInclude Include="src\GameObject\PostEffectObject\PostEffectObject.h" />
     <ClInclude Include="src\GameObject\SphereTest\SphereTest.h" />
+    <ClInclude Include="src\ResourceHandleCarrier\ResourceHandleCarrier.h" />
     <ClInclude Include="src\Scene\LoadingScene.h" />
     <ClInclude Include="src\Scene\MainScene.h" />
-    <ClInclude Include="src\TutorialCode\GameObject\ElementShapeGuide\ElementShapeGuide.h" />
-    <ClInclude Include="src\TutorialCode\GameObject\ElementShape\ElementShape.h" />
-    <ClInclude Include="src\TutorialCode\GameObject\ElementShape\Script\ElementShapeScript.h" />
-    <ClInclude Include="src\TutorialCode\GameObject\ElementShape\Script\VertexColor2DPolygonDrawer.h" />
-    <ClInclude Include="src\TutorialCode\GameObject\ElementShape\VertexColor2DPolygonConstantBufferData.h" />
-    <ClInclude Include="src\TutorialCode\GameObject\ElementShape\VertexColor2DPolygonVertexData.h" />
-    <ClInclude Include="src\TutorialCode\GameObject\ElementSphereManager\ElementSphereManager.h" />
-    <ClInclude Include="src\TutorialCode\GameObject\ElementSphereManager\Script\ElementSphereManagerScript.h" />
-    <ClInclude Include="src\TutorialCode\GameObject\ElementSphere\ElementSphere.h" />
-    <ClInclude Include="src\TutorialCode\GameObject\Enemy\Enemy.h" />
-    <ClInclude Include="src\TutorialCode\GameObject\Player\Player.h" />
-    <ClInclude Include="src\TutorialCode\GameObject\Player\Scripts\InputToMove.h" />
-    <ClInclude Include="src\TutorialCode\GameObject\Player\Scripts\InputToRotate.h" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="res\Shader\VertexColor2DPolygonPixelShader.hlsl">

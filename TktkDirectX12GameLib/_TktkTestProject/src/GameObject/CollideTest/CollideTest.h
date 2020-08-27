@@ -13,7 +13,7 @@
 
 struct CollideTest
 {
-	static tktk::GameObjectPtr create(const tktkMath::Vector2& position, float moveSpeed, unsigned int collisionGroup, Line2DMaterialId id)
+	static tktk::GameObjectPtr create(const tktkMath::Vector2& position, float moveSpeed, unsigned int collisionGroup)
 	{
 		auto gameObject = tktk::DX12GameManager::createGameObject();
 
@@ -34,7 +34,6 @@ struct CollideTest
 
 		tktk::ColliderWireFrameDrawer2DMaker::makeStart(gameObject)
 			.drawPriority(0.0f)
-			.useLine2DMaterialIdArray({ toInt(id) })
 			.lineColor(tktkMath::Color_v::red)
 			.create();
 
