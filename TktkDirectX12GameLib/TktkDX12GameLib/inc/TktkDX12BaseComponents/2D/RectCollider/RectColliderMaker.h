@@ -26,13 +26,18 @@ namespace tktk
 		ComponentPtr<RectCollider> create();
 
 		// 当たり判定のグループを設定
-		RectColliderMaker& collisionGroupType(int value);
+		template <class CollisionGroupType, is_idType<CollisionGroupType> = nullptr>
+		RectColliderMaker& collisionGroupType(CollisionGroupType value) { return collisionGroupTypeImpl(static_cast<int>(value)); }
 
 		// 当たり判定の大きさを設定
 		RectColliderMaker& rectSize(const tktkMath::Vector2& value);
 
 		// 当たり判定のローカル座標を設定
 		RectColliderMaker& localPosition(const tktkMath::Vector2& value);
+
+	private: /* 裏実装 */
+
+		RectColliderMaker& collisionGroupTypeImpl(int value);
 
 	private:
 

@@ -1,6 +1,7 @@
 #ifndef CIRCLE_COLLIDER_MAKER_H_
 #define CIRCLE_COLLIDER_MAKER_H_
 
+#include <TktkTemplateMetaLib/TypeCheck/isIdType.h>
 #include "CircleCollider.h"
 
 namespace tktk
@@ -25,13 +26,18 @@ namespace tktk
 		ComponentPtr<CircleCollider> create();
 
 		// 当たり判定のグループを設定
-		CircleColliderMaker& collisionGroupType(int value);
+		template <class CollisionGroupType, is_idType<CollisionGroupType> = nullptr>
+		CircleColliderMaker& collisionGroupType(CollisionGroupType value) { return collisionGroupTypeImpl(static_cast<int>(value)); }
 
 		// 当たり判定の半径を設定
 		CircleColliderMaker& radius(float value);
 
 		// 当たり判定のローカル座標を設定
 		CircleColliderMaker& localPosition(const tktkMath::Vector2& value);
+
+	private: /* 裏実装 */
+
+		CircleColliderMaker& collisionGroupTypeImpl(int value);
 
 	private: /* 自身のインスタンスは静的な存在として扱う */
 
@@ -43,7 +49,7 @@ namespace tktk
 		GameObjectPtr		m_user					{ };
 		int					m_collisionGroupType	{ 0 };
 		float				m_radius				{ 1.0f };
-		tktkMath::Vector2	m_localPosition			{ tktkMath::vec2Zero };
+		tktkMath::Vector2	m_localPosition			{ tktkMath::Vector2_v::zero };
 	};
 }
 #endif // !CIRCLE_COLLIDER_MAKER_H_

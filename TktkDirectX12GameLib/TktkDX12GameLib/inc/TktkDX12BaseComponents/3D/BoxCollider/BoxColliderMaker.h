@@ -1,6 +1,7 @@
 #ifndef BOX_COLLIDER_MAKER_H_
 #define BOX_COLLIDER_MAKER_H_
 
+#include <TktkTemplateMetaLib/TypeCheck/isIdType.h>
 #include "BoxCollider.h"
 
 namespace tktk
@@ -25,13 +26,18 @@ namespace tktk
 		ComponentPtr<BoxCollider> create();
 
 		// 当たり判定のグループを設定
-		BoxColliderMaker& collisionGroupType(int value);
+		template <class CollisionGroupType, is_idType<CollisionGroupType> = nullptr>
+		BoxColliderMaker& collisionGroupType(CollisionGroupType value) { return collisionGroupTypeImpl(static_cast<int>(value)); }
 
 		// 当たり判定の大きさを設定
 		BoxColliderMaker& boxSize(const tktkMath::Vector3& value);
 
 		// 当たり判定のローカル座標を設定
 		BoxColliderMaker& localPosition(const tktkMath::Vector3& value);
+
+	private: /* 裏実装 */
+
+		BoxColliderMaker& collisionGroupTypeImpl(int value);
 
 	private:
 

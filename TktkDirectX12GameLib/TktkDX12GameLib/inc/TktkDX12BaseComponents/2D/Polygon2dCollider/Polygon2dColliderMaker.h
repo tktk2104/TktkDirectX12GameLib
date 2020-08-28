@@ -1,6 +1,7 @@
 #ifndef POLYGON_2D_COLLIDER_MAKER_H_
 #define POLYGON_2D_COLLIDER_MAKER_H_
 
+#include <TktkTemplateMetaLib/TypeCheck/isIdType.h>
 #include "Polygon2dCollider.h"
 
 namespace tktk
@@ -25,13 +26,18 @@ namespace tktk
 		ComponentPtr<Polygon2dCollider> create();
 
 		// 当たり判定のグループを設定
-		Polygon2dColliderMaker& collisionGroupType(int value);
+		template <class CollisionGroupType, is_idType<CollisionGroupType> = nullptr>
+		Polygon2dColliderMaker& collisionGroupType(CollisionGroupType value) { return collisionGroupTypeImpl(static_cast<int>(value)); }
 
 		// 当たり判定の大きさを設定
 		Polygon2dColliderMaker& vertexs(const std::vector<tktkMath::Vector2>& value);
 
 		// 当たり判定のローカル座標を設定
 		Polygon2dColliderMaker& localPosition(const tktkMath::Vector2& value);
+
+	private: /* 裏実装 */
+
+		Polygon2dColliderMaker& collisionGroupTypeImpl(int value);
 
 	private:
 

@@ -1,6 +1,7 @@
 #ifndef SPHERE_COLLIDER_MAKER_H_
 #define SPHERE_COLLIDER_MAKER_H_
 
+#include <TktkTemplateMetaLib/TypeCheck/isIdType.h>
 #include "SphereCollider.h"
 
 namespace tktk
@@ -25,13 +26,18 @@ namespace tktk
 		ComponentPtr<SphereCollider> create();
 
 		// 当たり判定のグループを設定
-		SphereColliderMaker& collisionGroupType(int value);
+		template <class CollisionGroupType, is_idType<CollisionGroupType> = nullptr>
+		SphereColliderMaker& collisionGroupType(CollisionGroupType value) { return collisionGroupTypeImpl(static_cast<int>(value)); }
 
 		// 当たり判定の半径を設定
 		SphereColliderMaker& radius(float value);
 
 		// 当たり判定のローカル座標を設定
 		SphereColliderMaker& localPosition(const tktkMath::Vector3& value);
+
+	private: /* 裏実装 */
+
+		SphereColliderMaker& collisionGroupTypeImpl(int value);
 
 	private:
 

@@ -26,13 +26,6 @@ namespace tktk
 			);
 	}
 
-	Polygon2dColliderMaker & Polygon2dColliderMaker::collisionGroupType(int value)
-	{
-		// 値を設定して自身の参照を返す
-		m_collisionGroupType = value;
-		return *this;
-	}
-
 	Polygon2dColliderMaker & Polygon2dColliderMaker::vertexs(const std::vector<tktkMath::Vector2> & value)
 	{
 		// 値を設定して自身の参照を返す
@@ -44,6 +37,13 @@ namespace tktk
 	{
 		// 値を設定して自身の参照を返す
 		m_localPosition = value;
+		return *this;
+	}
+
+	Polygon2dColliderMaker& Polygon2dColliderMaker::collisionGroupTypeImpl(int value)
+	{
+		// 値を設定して自身の参照を返す
+		m_collisionGroupType = value;
 		return *this;
 	}
 }
