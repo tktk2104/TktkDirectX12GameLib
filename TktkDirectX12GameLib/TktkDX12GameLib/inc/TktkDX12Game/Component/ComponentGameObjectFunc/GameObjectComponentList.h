@@ -36,13 +36,16 @@ namespace tktk
 		void runAfterChangeParentAll(const GameObjectPtr& beforParent) const;
 
 		// 全てのコンポーネントの衝突開始関数を呼ぶ
-		void runOnCollisionEnterAll(const GameObjectPtr& other) const;
+		void runOnCollisionEnterAll(const GameObjectPtr& other);
 
 		// 全てのコンポーネントの衝突中関数を呼ぶ
-		void runOnCollisionStayAll(const GameObjectPtr& other) const;
+		void runOnCollisionStayAll(const GameObjectPtr& other);
 
 		// 全てのコンポーネントの衝突終了関数を呼ぶ
-		void runOnCollisionExitAll(const GameObjectPtr& other) const;
+		void runOnCollisionExitAll(const GameObjectPtr& other);
+
+		// 現在のフレームで衝突処理を行ったオブジェクトリストをクリアする
+		void clearHitObjectList();
 
 		// 全てのコンポーネントを殺す
 		void destroyAll() const;
@@ -55,6 +58,7 @@ namespace tktk
 
 	private:
 
+		std::forward_list<GameObjectPtr> m_curFrameHitObjectList;
 		std::forward_list<ComponentGameObjectFuncRunner> m_componentList;
 		std::forward_list<ComponentGameObjectFuncRunner> m_nextFrameAddNodeList;
 	};

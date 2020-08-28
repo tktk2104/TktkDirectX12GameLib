@@ -30,6 +30,7 @@ namespace tktk
 
 		m_componentList->movePreFrameAddedNode();
 		m_componentList->removeDeadComponent();
+		m_componentList->clearHitObjectList();
 
 		m_isActive = m_nextFrameActive;
 	}

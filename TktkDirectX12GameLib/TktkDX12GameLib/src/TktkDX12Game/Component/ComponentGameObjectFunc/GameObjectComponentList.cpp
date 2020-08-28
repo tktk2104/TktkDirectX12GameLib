@@ -4,49 +4,81 @@ namespace tktk
 {
 	void GameObjectComponentList::runHandleMessageAll(unsigned int messageId, const MessageAttachment& value) const
 	{
-		for (const auto& node : m_componentList)
+		for (const auto& component : m_componentList)
 		{
-			node.runHandleMessage(value, messageId);
+			component.runHandleMessage(value, messageId);
 		}
 	}
 
 	void GameObjectComponentList::runAfterChangeParentAll(const GameObjectPtr& beforParent) const
 	{
-		for (const auto& node : m_componentList)
+		for (const auto& component : m_componentList)
 		{
-			node.runAfterChangeParent(beforParent);
+			component.runAfterChangeParent(beforParent);
 		}
 	}
 
-	void GameObjectComponentList::runOnCollisionEnterAll(const GameObjectPtr& other) const
+	void GameObjectComponentList::runOnCollisionEnterAll(const GameObjectPtr& other)
 	{
-		for (const auto& node : m_componentList)
+		// 現在のフレームで既に衝突処理が呼ばれた組み合わせの場合、何もしない
+		for (const auto& curFrameHitObject : m_curFrameHitObjectList)
 		{
-			node.runOnCollisionEnter(other);
+			if (curFrameHitObject.isSame(other)) return;
+		}
+
+		// 現在のフレームで衝突処理を行ったオブジェクトリストに衝突相手のオブジェクトポインタを追加する
+		m_curFrameHitObjectList.push_front(other);
+
+		for (const auto& component : m_componentList)
+		{
+			component.runOnCollisionEnter(other);
 		}
 	}
 
-	void GameObjectComponentList::runOnCollisionStayAll(const GameObjectPtr& other) const
+	void GameObjectComponentList::runOnCollisionStayAll(const GameObjectPtr& other)
 	{
-		for (const auto& node : m_componentList)
+		// 現在のフレームで既に衝突処理が呼ばれた組み合わせの場合、何もしない
+		for (const auto& curFrameHitObject : m_curFrameHitObjectList)
 		{
-			node.runOnCollisionStay(other);
+			if (curFrameHitObject.isSame(other)) return;
+		}
+
+		// 現在のフレームで衝突処理を行ったオブジェクトリストに衝突相手のオブジェクトポインタを追加する
+		m_curFrameHitObjectList.push_front(other);
+
+		for (const auto& component : m_componentList)
+		{
+			component.runOnCollisionStay(other);
 		}
 	}
 
-	void GameObjectComponentList::runOnCollisionExitAll(const GameObjectPtr& other) const
+	void GameObjectComponentList::runOnCollisionExitAll(const GameObjectPtr& other)
 	{
-		for (const auto& node : m_componentList)
+		// 現在のフレームで既に衝突処理が呼ばれた組み合わせの場合、何もしない
+		for (const auto& curFrameHitObject : m_curFrameHitObjectList)
 		{
-			node.runOnCollisionExit(other);
+			if (curFrameHitObject.isSame(other)) return;
 		}
+
+		// 現在のフレームで衝突処理を行ったオブジェクトリストに衝突相手のオブジェクトポインタを追加する
+		m_curFrameHitObjectList.push_front(other);
+
+		for (const auto& component : m_componentList)
+		{
+			component.runOnCollisionExit(other);
+		}
+	}
+
+	void GameObjectComponentList::clearHitObjectList()
+	{
+		m_curFrameHitObjectList.clear();
 	}
 
 	void GameObjectComponentList::destroyAll() const
 	{
-		for (const auto& node : m_componentList)
+		for (const auto& component : m_componentList)
 		{
-			node.destroy();
+			component.destroy();
 		}
 	}
 
