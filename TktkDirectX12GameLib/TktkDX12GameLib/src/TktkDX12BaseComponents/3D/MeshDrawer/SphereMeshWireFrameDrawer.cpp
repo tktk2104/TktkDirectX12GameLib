@@ -40,7 +40,7 @@ namespace tktk
 		MeshDrawFuncBaseArgs baseArgs{};
 		{
 			// Transform3Dからワールド行列を取得し、半径の値でスケーリングする
-			baseArgs.transformBufferData.worldMatrix			= tktkMath::Matrix4::createScale({ m_radius * 2 }) * tktkMath::Matrix4::createTranslation(m_localPosition * m_radius) * m_transform->calculateWorldMatrix();
+			baseArgs.transformBufferData.worldMatrix			= tktkMath::Matrix4::createScale({ m_radius }) * tktkMath::Matrix4::createTranslation(m_localPosition) * m_transform->calculateWorldMatrix();
 
 			// 使用するカメラのビュー行列
 			baseArgs.transformBufferData.viewMatrix				= DX12GameManager::getViewMatrix(m_cameraHandle);
