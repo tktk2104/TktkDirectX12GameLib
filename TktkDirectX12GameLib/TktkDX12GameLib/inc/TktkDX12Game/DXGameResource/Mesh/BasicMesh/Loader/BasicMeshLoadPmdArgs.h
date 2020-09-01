@@ -9,10 +9,10 @@ namespace tktk
 	struct BasicMeshLoadPmdArgs
 	{
 		// 作成する通常メッシュ情報のID
-		unsigned int createBasicMeshId;
+		int createBasicMeshId;
 
 		// 作成するスケルトン情報のID
-		unsigned int createSkeletonId;
+		int createSkeletonId;
 
 		// 読み込むファイルパス
 		std::string filePath;
