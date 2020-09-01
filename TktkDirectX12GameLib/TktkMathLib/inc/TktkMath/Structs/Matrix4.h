@@ -38,7 +38,7 @@ namespace tktkMath
 		static Matrix4 createRotationY(float degree);
 		// z軸の回転行列を生成
 		static Matrix4 createRotationZ(float degree);
-		// ヨー、ピッチ、ロールで回転行列を生成
+		// ヨー、ピッチ、ロールで回転行列を生成（引数は度数法）
 		static Matrix4 createFromYawPitchRoll(float yaw, float pitch, float roll);
 		// 任意の軸の回転行列を生成
 		static Matrix4 createFromAxisAngle(const Vector3& axis, float degree);
