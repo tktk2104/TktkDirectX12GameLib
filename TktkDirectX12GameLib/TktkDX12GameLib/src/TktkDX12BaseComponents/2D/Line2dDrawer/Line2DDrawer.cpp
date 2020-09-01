@@ -35,6 +35,9 @@ namespace tktk
 
 	void Line2DDrawer::draw() const
 	{
+		// 描画命令に渡す頂点情報の配列が空だった場合、何もしない。
+		if (m_lineVertexArray.empty()) return;
+
 		Line2DMaterialDrawFuncArgs drawFuncArgs;
 		drawFuncArgs.viewportHandle				= DX12GameManager::getSystemHandle(SystemViewportType::Basic);
 		drawFuncArgs.scissorRectHandle			= DX12GameManager::getSystemHandle(SystemScissorRectType::Basic);
