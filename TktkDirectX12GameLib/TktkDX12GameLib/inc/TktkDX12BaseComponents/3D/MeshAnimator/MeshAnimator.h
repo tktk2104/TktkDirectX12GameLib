@@ -1,6 +1,7 @@
 #ifndef MESH_ANIMATOR_H_
 #define MESH_ANIMATOR_H_
 
+#include <TktkTemplateMetaLib/TypeCheck/isIdType.h>
 #include "../../../TktkDX12Game/Component/ComponentBase.h"
 
 namespace tktk
@@ -25,10 +26,16 @@ namespace tktk
 
 		// 新しいモーションIDを設定する
 		// ※内部で対応するリソースハンドルに変換される
-		void setNewMotionId(int motionId, float lerpTimeSec);
+		template <class MotionIdType, is_idType<MotionIdType> = nullptr>
+		void setNewMotionId(MotionIdType motionId, float lerpTimeSec) { setNewMotionIdImpl(static_cast<int>(motionId), lerpTimeSec); }
 
 		// 新しいモーションハンドルを設定する
 		void setNewMotionHandle(unsigned int motionHandle, float lerpTimeSec);
+
+	private:
+
+		// 裏実装
+		void setNewMotionIdImpl(int motionId, float lerpTimeSec);
 
 	private:
 

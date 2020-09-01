@@ -61,7 +61,7 @@ namespace tktk
 		m_increaseLerpTimePerSec = 1.0f / lerpTimeSec;
 	}
 
-	void MeshAnimator::setNewMotionId(int motionId, float lerpTimeSec)
+	void MeshAnimator::setNewMotionIdImpl(int motionId, float lerpTimeSec)
 	{
 		setNewMotionHandle(DX12GameManager::getMotionHandle(motionId), lerpTimeSec);
 	}
