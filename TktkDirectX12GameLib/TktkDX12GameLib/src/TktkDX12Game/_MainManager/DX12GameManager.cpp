@@ -1,5 +1,6 @@
 #include "TktkDX12Game/_MainManager/DX12GameManager.h"
 
+#include <TktkMath/Random.h>
 #include <TktkDX12Wrapper/Window/Window.h>
 #include <TktkDX12Wrapper/_BaseObjects/DX3DBaseObjects.h>
 #include "TktkDX12Game/GameObject/GameObjectManager.h"
@@ -28,6 +29,9 @@ namespace tktk
 
 	void DX12GameManager::initialize(const DX12GameManagerInitParam& gameManagerInitParam)
 	{
+		// —”‚Ì‰Šú‰»
+		tktkMath::Random::randomize();
+
 		m_gameObjectManager		= std::make_unique<GameObjectManager>();
 		m_componentManager		= std::make_unique<ComponentManager>();
 		m_window				= std::make_unique<Window>(gameManagerInitParam.windowParam);
