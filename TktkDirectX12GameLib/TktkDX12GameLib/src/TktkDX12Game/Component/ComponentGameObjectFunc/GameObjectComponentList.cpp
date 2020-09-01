@@ -76,6 +76,11 @@ namespace tktk
 
 	void GameObjectComponentList::destroyAll() const
 	{
+		for (const auto& component : m_nextFrameAddNodeList)
+		{
+			component.destroy();
+		}
+
 		for (const auto& component : m_componentList)
 		{
 			component.destroy();
