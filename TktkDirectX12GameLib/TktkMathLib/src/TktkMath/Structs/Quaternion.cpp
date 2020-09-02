@@ -166,33 +166,33 @@ namespace tktkMath
 		{
 			result.w = std::sqrt(1.0f + radicand) * 0.5f;
 			float recip = 1.0f / (4.0f * result.w);
-			result.x = (upward.z - forward.y) * recip;
-			result.y = (forward.x - right.z) * recip;
-			result.z = (right.y - upward.x) * recip;
+			result.x = (upward.z	- forward.y)	* recip;
+			result.y = (forward.x	- right.z)		* recip;
+			result.z = (right.y		- upward.x)		* recip;
 		}
 		else if (right.x >= upward.y && right.x >= forward.z)
 		{
-			result.x = std::sqrt(1.0f + right.x + upward.y - forward.z) * 0.5f;
+			result.x = std::sqrt(1.0f + right.x - upward.y - forward.z) * 0.5f;
 			float recip = 1.0f / (4.0f * result.x);
-			result.w = (upward.z - forward.y) * recip;
-			result.z = (forward.x + right.z) * recip;
-			result.y = (right.y + upward.x) * recip;
+			result.w = (upward.z	- forward.y)	* recip;
+			result.z = (forward.x	+ right.z)		* recip;
+			result.y = (right.y		+ upward.x)		* recip;
 		}
 		else if (upward.y > forward.z)
 		{
 			result.y = std::sqrt(1.0f - right.x + upward.y - forward.z) * 0.5f;
 			float recip = 1.0f / (4.0f * result.y);
-			result.z = (upward.z + forward.y) * recip;
-			result.w = (forward.x - right.z) * recip;
-			result.x = (right.y + upward.x) * recip;
+			result.z = (upward.z	+ forward.y)	* recip;
+			result.w = (forward.x	- right.z)		* recip;
+			result.x = (right.y		+ upward.x)		* recip;
 		}
 		else
 		{
 			result.z = std::sqrt(1.0f - right.x - upward.y + forward.z) * 0.5f;
 			float recip = 1.0f / (4.0f * result.z);
-			result.y = (upward.z + forward.y) * recip;
-			result.x = (forward.x + right.z) * recip;
-			result.w = (right.y - upward.x) * recip;
+			result.y = (upward.z	+ forward.y)	* recip;
+			result.x = (forward.x	+ right.z)		* recip;
+			result.w = (right.y		- upward.x)		* recip;
 		}
 		return result;
 	}
@@ -400,10 +400,11 @@ namespace tktkMath
 	Quaternion& operator *= (Quaternion& q1, const Quaternion& q2)
 	{
 		q1 = Quaternion(
-			q1.x * q2.w + q1.y * q2.z - q1.z * q2.y + q1.w * q2.x,
-			-q1.x * q2.z + q1.y * q2.w + q1.z * q2.x + q1.w * q2.y,
-			q1.x * q2.y - q1.y * q2.x + q1.z * q2.w + q1.w * q2.z,
-			-q1.x * q2.x - q1.y * q2.y - q1.z * q2.z + q1.w * q2.w);
+			q1.w * q2.x + q1.x * q2.w + q1.y * q2.z - q1.z * q2.y,
+			q1.w * q2.y + q1.y * q2.w + q1.z * q2.x - q1.x * q2.z,
+			q1.w * q2.z + q1.z * q2.w + q1.x * q2.y - q1.y * q2.x,
+			q1.w * q2.w - q1.x * q2.x - q1.y * q2.y - q1.z * q2.z);
+
 		return q1;
 	}
 
