@@ -39,6 +39,9 @@ namespace tktk
 		// 指定のテクスチャバッファ画像の大きさを取得する（ピクセル）
 		const tktkMath::Vector3& getTextureSizePx(unsigned int handle) const;
 
+		// 指定のテクスチャバッファのポインタを取得する
+		ID3D12Resource* getBufferPtr(unsigned int handle) const;
+
 	private:
 
 		tktkContainer::ResourceContainer<TextureBufferData> m_textureBufferDataArray;

@@ -56,4 +56,9 @@ namespace tktk
 	{
 		return m_renderTargetBufferDataArray.getMatchHandlePtr(handle)->getRenderTargetSizePx();
 	}
+
+	ID3D12Resource* RenderTargetBuffer::getBufferPtr(unsigned int handle) const
+	{
+		return m_renderTargetBufferDataArray.getMatchHandlePtr(handle)->getBufferPtr();
+	}
 }

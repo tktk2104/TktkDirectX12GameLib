@@ -57,4 +57,9 @@ namespace tktk
 	{
 		return m_depthStencilBufferDataArray.getMatchHandlePtr(handle)->getDepthStencilSizePx();
 	}
+
+	ID3D12Resource* DepthStencilBuffer::getBufferPtr(unsigned int handle) const
+	{
+		return m_depthStencilBufferDataArray.getMatchHandlePtr(handle)->getBufferPtr();
+	}
 }

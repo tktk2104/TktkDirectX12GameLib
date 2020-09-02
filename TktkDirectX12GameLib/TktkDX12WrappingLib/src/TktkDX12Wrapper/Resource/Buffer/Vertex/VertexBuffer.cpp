@@ -34,4 +34,9 @@ namespace tktk
 			node.deleteUploadBufferAll();
 		}
 	}
+
+	ID3D12Resource* VertexBuffer::getBufferPtr(unsigned int handle) const
+	{
+		return m_vertexBufferDataArray.getMatchHandlePtr(handle)->getBufferPtr();
+	}
 }

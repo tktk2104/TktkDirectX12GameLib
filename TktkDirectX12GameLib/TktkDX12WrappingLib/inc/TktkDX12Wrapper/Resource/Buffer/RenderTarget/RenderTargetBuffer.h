@@ -47,6 +47,9 @@ namespace tktk
 		// 指定のレンダーターゲットバッファ画像の大きさを取得す（ピクセル）
 		const tktkMath::Vector2& getRenderTargetSizePx(unsigned int handle) const;
 
+		// 指定のレンダーターゲットバッファのポインタを取得する
+		ID3D12Resource* getBufferPtr(unsigned int handle) const;
+
 	private:
 
 		tktkContainer::ResourceContainer<RenderTargetBufferData>	m_renderTargetBufferDataArray;

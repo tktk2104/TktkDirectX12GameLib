@@ -30,6 +30,9 @@ namespace tktk
 		// 全てのアップロード用のバッファを削除する
 		void deleteUploadBufferAll();
 
+		// 自身のバッファのポインタを取得する
+		ID3D12Resource* getBufferPtr() const;
+
 	private:
 
 		ID3D12Resource*						m_indexBuffer		{ nullptr };

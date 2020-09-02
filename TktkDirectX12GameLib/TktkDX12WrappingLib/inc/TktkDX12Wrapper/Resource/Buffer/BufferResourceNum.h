@@ -8,6 +8,7 @@ namespace tktk
 	// それぞれのバッファーリソースの数を設定するための構造体
 	struct BufferResourceNum
 	{
+		tktkContainer::ResourceContainerInitParam copyBufferContainerInitParam;		// コピーバッファを管理するコンテナを初期化する時の値
 		tktkContainer::ResourceContainerInitParam vertexBufferContainerInitParam;	// 頂点バッファを管理するコンテナを初期化する時の値
 		tktkContainer::ResourceContainerInitParam indexBufferContainerInitParam;	// インデックスバッファを管理するコンテナを初期化する時の値
 		tktkContainer::ResourceContainerInitParam cbufferContainerInitParam;		// 定数バッファを管理するコンテナを初期化する時の値

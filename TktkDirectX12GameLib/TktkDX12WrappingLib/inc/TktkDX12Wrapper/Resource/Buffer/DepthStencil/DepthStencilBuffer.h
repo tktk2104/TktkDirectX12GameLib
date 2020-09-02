@@ -49,6 +49,9 @@ namespace tktk
 		// 指定の深度ステンシルバッファ画像の大きさを取得する（ピクセル）
 		const tktkMath::Vector2& getDepthStencilSizePx(unsigned int handle) const;
 
+		// 指定の深度ステンシルバッファのポインタを取得する
+		ID3D12Resource* getBufferPtr(unsigned int handle) const;
+
 	private:
 
 		tktkContainer::ResourceContainer<DepthStencilBufferData> m_depthStencilBufferDataArray;

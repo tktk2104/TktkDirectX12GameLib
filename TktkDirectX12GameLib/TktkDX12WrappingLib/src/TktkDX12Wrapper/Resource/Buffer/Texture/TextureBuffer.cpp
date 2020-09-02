@@ -124,4 +124,9 @@ namespace tktk
 	{
 		return m_textureBufferDataArray.getMatchHandlePtr(handle)->getTextureSizePx();
 	}
+
+	ID3D12Resource* TextureBuffer::getBufferPtr(unsigned int handle) const
+	{
+		return m_textureBufferDataArray.getMatchHandlePtr(handle)->getBufferPtr();
+	}
 }

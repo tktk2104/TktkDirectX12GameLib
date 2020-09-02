@@ -240,6 +240,15 @@
     <ClInclude Include="inc\TktkDX12Wrapper\Resource\_SystemResourceHandleGetter\SystemResourceType.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="inc\TktkDX12Wrapper\Resource\Buffer\Copy\CopyBuffer.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\TktkDX12Wrapper\Resource\Buffer\Copy\CopyBufferData.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\TktkDX12Wrapper\Resource\Buffer\Copy\CopyBufferInitParam.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\TktkDX12Wrapper\Window\Window.cpp">
@@ -345,6 +354,12 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="src\TktkDX12Wrapper\Resource\_SystemResourceHandleGetter\SystemResourceHandleGetter.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TktkDX12Wrapper\Resource\Buffer\Copy\CopyBuffer.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TktkDX12Wrapper\Resource\Buffer\Copy\CopyBufferData.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>

@@ -158,4 +158,9 @@ namespace tktk
 		}
 		m_uploadBufferList.clear();
 	}
+
+	ID3D12Resource* ConstantBufferData::getBufferPtr() const
+	{
+		return m_constantBuffer;
+	}
 }

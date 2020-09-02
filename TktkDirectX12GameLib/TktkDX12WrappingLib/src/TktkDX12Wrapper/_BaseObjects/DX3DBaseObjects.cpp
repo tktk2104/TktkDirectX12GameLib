@@ -222,6 +222,16 @@ namespace tktk
 		return handle;
 	}
 
+	unsigned int DX3DBaseObjects::createCopyBuffer(const CopyBufferInitParam& initParam)
+	{
+		return m_dX3DResource->createCopyBuffer(m_device, initParam);
+	}
+
+	unsigned int DX3DBaseObjects::copyCopyBuffer(unsigned int originalHandle)
+	{
+		return m_dX3DResource->copyCopyBuffer(m_device, originalHandle);
+	}
+
 	unsigned int DX3DBaseObjects::createVertexBuffer(unsigned int vertexTypeSize, unsigned int vertexDataCount, const void* vertexDataTopPos)
 	{
 		return m_dX3DResource->createVertexBuffer(m_device, vertexTypeSize, vertexDataCount, vertexDataTopPos);
@@ -302,6 +312,11 @@ namespace tktk
 		m_dX3DResource->erasePipeLineState(handle);
 	}
 
+	void DX3DBaseObjects::eraseCopyBuffer(unsigned int handle)
+	{
+		m_dX3DResource->eraseCopyBuffer(handle);
+	}
+
 	void DX3DBaseObjects::eraseVertexBuffer(unsigned int handle)
 	{
 		m_dX3DResource->eraseVertexBuffer(handle);
@@ -350,6 +365,16 @@ namespace tktk
 	void DX3DBaseObjects::setBackGroundColor(const tktkMath::Color& backGroundColor)
 	{
 		m_backGroundColor = backGroundColor;
+	}
+
+	void DX3DBaseObjects::updateCopyBuffer(unsigned int handle, unsigned int bufferSize, const void* bufferDataTopPos)
+	{
+		m_dX3DResource->updateCopyBuffer(handle, bufferSize, bufferDataTopPos);
+	}
+
+	void DX3DBaseObjects::copyBuffer(unsigned int handle) const
+	{
+		m_dX3DResource->copyBuffer(handle, m_commandList);
 	}
 
 	void DX3DBaseObjects::updateVertexBuffer(unsigned int handle, unsigned int vertexTypeSize, unsigned int vertexDataCount, const void* vertexDataTopPos)

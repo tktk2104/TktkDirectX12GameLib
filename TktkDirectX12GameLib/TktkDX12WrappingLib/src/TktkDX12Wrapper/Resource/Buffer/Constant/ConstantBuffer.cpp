@@ -34,4 +34,9 @@ namespace tktk
 			node.deleteUploadBufferAll();
 		}
 	}
+
+	ID3D12Resource* ConstantBuffer::getBufferPtr(unsigned int handle) const
+	{
+		return m_constantBufferDataArray.getMatchHandlePtr(handle)->getBufferPtr();
+	}
 }

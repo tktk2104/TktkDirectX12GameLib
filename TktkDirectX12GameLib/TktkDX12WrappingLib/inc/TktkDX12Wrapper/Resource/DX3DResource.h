@@ -42,6 +42,12 @@ namespace tktk
 		// パイプラインステートを作り、そのリソースのハンドルを返す
 		unsigned int createPipeLineState(ID3D12Device* device, const PipeLineStateInitParam& initParam, const ShaderFilePaths& shaderFilePath);
 
+		// コピーバッファを作り、そのリソースのハンドルを返す
+		unsigned int createCopyBuffer(ID3D12Device* device, const CopyBufferInitParam& initParam);
+
+		// コピーバッファのコピーを作り、そのリソースのハンドルを返す
+		unsigned int copyCopyBuffer(ID3D12Device* device, unsigned int originalHandle);
+
 		// 頂点バッファを作り、そのリソースのハンドルを返す
 		unsigned int createVertexBuffer(ID3D12Device* device, unsigned int vertexTypeSize, unsigned int vertexDataCount, const void* vertexDataTopPos);
 
@@ -99,6 +105,10 @@ namespace tktk
 		// ※引数のハンドルに対応するリソースが無かったら何もしない
 		void erasePipeLineState(unsigned int handle);
 
+		// 指定のコピーバッファを削除する
+		// ※引数のハンドルに対応するリソースが無かったら何もしない
+		void eraseCopyBuffer(unsigned int handle);
+
 		// 指定の頂点バッファを削除する
 		// ※引数のハンドルに対応するリソースが無かったら何もしない
 		void eraseVertexBuffer(unsigned int handle);
@@ -136,6 +146,12 @@ namespace tktk
 		void eraseDsvDescriptorHeap(unsigned int handle);
 
 	public: /* リソース更新系処理 */
+
+		// 引数のポインタのデータを指定のコピーバッファにコピーする
+		void updateCopyBuffer(unsigned int handle, unsigned int bufferSize, const void* bufferDataTopPos);
+
+		// 指定のコピーバッファの内容を設定したバッファにコピーするGPU命令を設定する
+		void copyBuffer(unsigned int handle, ID3D12GraphicsCommandList* commandList) const;
 
 		// 指定の頂点バッファを更新する
 		void updateVertexBuffer(unsigned int handle, ID3D12Device* device, ID3D12GraphicsCommandList* commandList, unsigned int vertexTypeSize, unsigned int vertexDataCount, const void* vertexDataTopPos);

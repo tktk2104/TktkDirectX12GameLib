@@ -46,6 +46,16 @@ namespace tktk
 		return m_graphicsPipeLine->createPipeLineState(device, initParam, shaderFilePath);
 	}
 
+	unsigned int DX3DResource::createCopyBuffer(ID3D12Device* device, const CopyBufferInitParam& initParam)
+	{
+		return m_bufferResource->createCopyBuffer(device, initParam);
+	}
+
+	unsigned int DX3DResource::copyCopyBuffer(ID3D12Device* device, unsigned int originalHandle)
+	{
+		return m_bufferResource->copyCopyBuffer(device, originalHandle);
+	}
+
 	unsigned int DX3DResource::createVertexBuffer(ID3D12Device* device, unsigned int vertexTypeSize, unsigned int vertexDataCount, const void* vertexDataTopPos)
 	{
 		return m_bufferResource->createVertexBuffer(device, vertexTypeSize, vertexDataCount, vertexDataTopPos);
@@ -190,6 +200,11 @@ namespace tktk
 		m_graphicsPipeLine->erasePipeLineState(handle);
 	}
 
+	void DX3DResource::eraseCopyBuffer(unsigned int handle)
+	{
+		m_bufferResource->eraseCopyBuffer(handle);
+	}
+
 	void DX3DResource::eraseVertexBuffer(unsigned int handle)
 	{
 		m_bufferResource->eraseVertexBuffer(handle);
@@ -233,6 +248,16 @@ namespace tktk
 	void DX3DResource::eraseDsvDescriptorHeap(unsigned int handle)
 	{
 		m_descriptorHeap->eraseDsvDescriptorHeap(handle);
+	}
+
+	void DX3DResource::updateCopyBuffer(unsigned int handle, unsigned int bufferSize, const void* bufferDataTopPos)
+	{
+		m_bufferResource->updateCopyBuffer(handle, bufferSize, bufferDataTopPos);
+	}
+
+	void DX3DResource::copyBuffer(unsigned int handle, ID3D12GraphicsCommandList* commandList) const
+	{
+		m_bufferResource->copyBuffer(handle, commandList);
 	}
 
 	void DX3DResource::updateVertexBuffer(unsigned int handle, ID3D12Device* device, ID3D12GraphicsCommandList* commandList, unsigned int vertexTypeSize, unsigned int vertexDataCount, const void* vertexDataTopPos)

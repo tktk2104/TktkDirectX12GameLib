@@ -41,6 +41,12 @@ namespace tktk
 		// パイプラインステートを作り、そのリソースのハンドルを返す
 		unsigned int createPipeLineState(const PipeLineStateInitParam& initParam, const ShaderFilePaths& shaderFilePath);
 
+		// コピーバッファを作り、そのリソースのハンドルを返す
+		unsigned int createCopyBuffer(const CopyBufferInitParam& initParam);
+
+		// コピーバッファのコピーを作り、そのリソースのハンドルを返す
+		unsigned int copyCopyBuffer(unsigned int originalHandle);
+
 		// 頂点バッファを作り、そのリソースのハンドルを返す
 		unsigned int createVertexBuffer(unsigned int vertexTypeSize, unsigned int vertexDataCount, const void* vertexDataTopPos);
 
@@ -95,6 +101,10 @@ namespace tktk
 		// ※引数のハンドルに対応するリソースが無かったら何もしない
 		void erasePipeLineState(unsigned int handle);
 
+		// 指定のコピーバッファを削除する
+		// ※引数のハンドルに対応するリソースが無かったら何もしない
+		void eraseCopyBuffer(unsigned int handle);
+
 		// 指定の頂点バッファを削除する
 		// ※引数のハンドルに対応するリソースが無かったら何もしない
 		void eraseVertexBuffer(unsigned int handle);
@@ -135,6 +145,12 @@ namespace tktk
 
 		// 背景色を設定する
 		void setBackGroundColor(const tktkMath::Color& backGroundColor);
+
+		// 引数のポインタのデータを指定のコピーバッファにコピーする
+		void updateCopyBuffer(unsigned int handle, unsigned int bufferSize, const void* bufferDataTopPos);
+
+		// 指定のコピーバッファの内容を設定したバッファにコピーするGPU命令を設定する
+		void copyBuffer(unsigned int handle) const;
 
 		// 指定の頂点バッファを更新する
 		void updateVertexBuffer(unsigned int handle, unsigned int vertexTypeSize, unsigned int vertexDataCount, const void* vertexDataTopPos);

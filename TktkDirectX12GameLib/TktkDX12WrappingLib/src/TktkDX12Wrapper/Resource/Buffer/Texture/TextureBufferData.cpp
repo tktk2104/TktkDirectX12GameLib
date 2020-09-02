@@ -341,4 +341,9 @@ namespace tktk
 	{
 		return m_textureSize;
 	}
+
+	ID3D12Resource* TextureBufferData::getBufferPtr() const
+	{
+		return m_textureBuffer;
+	}
 }

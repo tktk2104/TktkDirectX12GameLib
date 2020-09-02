@@ -117,4 +117,9 @@ namespace tktk
 	{
 		return m_depthStencilSize;
 	}
+
+	ID3D12Resource* DepthStencilBufferData::getBufferPtr() const
+	{
+		return m_depthStencilBuffer;
+	}
 }

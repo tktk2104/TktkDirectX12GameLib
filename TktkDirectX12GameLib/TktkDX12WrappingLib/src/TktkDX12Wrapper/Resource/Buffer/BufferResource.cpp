@@ -1,5 +1,6 @@
 #include "TktkDX12Wrapper/Resource/Buffer/BufferResource.h"
 
+#include "TktkDX12Wrapper/Resource/Buffer/Copy/CopyBuffer.h"
 #include "TktkDX12Wrapper/Resource/Buffer/Vertex/VertexBuffer.h"
 #include "TktkDX12Wrapper/Resource/Buffer/Index/IndexBuffer.h"
 #include "TktkDX12Wrapper/Resource/Buffer/Constant/ConstantBuffer.h"
@@ -11,6 +12,7 @@ namespace tktk
 {
 	BufferResource::BufferResource(const BufferResourceNum& initParam)
 	{
+		m_copyBuffer			= std::make_unique<CopyBuffer>(initParam.copyBufferContainerInitParam);
 		m_vertexBuffer			= std::make_unique<VertexBuffer>(initParam.vertexBufferContainerInitParam);
 		m_indexBuffer			= std::make_unique<IndexBuffer>(initParam.indexBufferContainerInitParam);
 		m_constantBuffer		= std::make_unique<ConstantBuffer>(initParam.cbufferContainerInitParam);
@@ -27,6 +29,62 @@ namespace tktk
 		m_vertexBuffer->deleteUploadBufferAll();
 		m_indexBuffer->deleteUploadBufferAll();
 		m_constantBuffer->deleteUploadBufferAll();
+	}
+
+	unsigned int BufferResource::createCopyBuffer(ID3D12Device* device, const CopyBufferInitParam& initParam)
+	{
+		return m_copyBuffer->create(device, initParam);
+	}
+
+	unsigned int BufferResource::copyCopyBuffer(ID3D12Device* device, unsigned int originalHandle)
+	{
+		return m_copyBuffer->copy(device, originalHandle);
+	}
+
+	void BufferResource::eraseCopyBuffer(unsigned int handle)
+	{
+		m_copyBuffer->erase(handle);
+	}
+
+	void BufferResource::updateCopyBuffer(unsigned int handle, unsigned int bufferSize, const void* bufferDataTopPos)
+	{
+		m_copyBuffer->updateBuffer(handle, bufferSize, bufferDataTopPos);
+	}
+
+	void BufferResource::copyBuffer(unsigned int handle, ID3D12GraphicsCommandList* commandList) const
+	{
+		switch (m_copyBuffer->getTargetBufferType(handle))
+		{
+		case BufferType::renderTarget:
+
+			m_copyBuffer->copyBuffer(handle, commandList, m_renderTargetBuffer->getBufferPtr(m_copyBuffer->getTargetBufferHandle(handle)));
+			break;
+
+		case BufferType::depthStencil:
+
+			m_copyBuffer->copyBuffer(handle, commandList, m_depthStencilBuffer->getBufferPtr(m_copyBuffer->getTargetBufferHandle(handle)));
+			break;
+
+		case BufferType::vertex:
+
+			m_copyBuffer->copyBuffer(handle, commandList, m_vertexBuffer->getBufferPtr(m_copyBuffer->getTargetBufferHandle(handle)));
+			break;
+
+		case BufferType::index:
+
+			m_copyBuffer->copyBuffer(handle, commandList, m_indexBuffer->getBufferPtr(m_copyBuffer->getTargetBufferHandle(handle)));
+			break;
+
+		case BufferType::constant:
+
+			m_copyBuffer->copyBuffer(handle, commandList, m_constantBuffer->getBufferPtr(m_copyBuffer->getTargetBufferHandle(handle)));
+			break;
+
+		case BufferType::texture:
+
+			m_copyBuffer->copyBuffer(handle, commandList, m_textureBuffer->getBufferPtr(m_copyBuffer->getTargetBufferHandle(handle)));
+			break;
+		}
 	}
 
 	unsigned int BufferResource::createVertexBuffer(ID3D12Device* device, unsigned int vertexTypeSize, unsigned int vertexDataCount, const void* vertexDataTopPos)

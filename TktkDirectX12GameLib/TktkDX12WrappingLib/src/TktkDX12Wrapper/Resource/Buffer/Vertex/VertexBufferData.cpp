@@ -155,4 +155,9 @@ namespace tktk
 		}
 		m_uploadBufferList.clear();
 	}
+
+	ID3D12Resource* VertexBufferData::getBufferPtr() const
+	{
+		return m_vertexBuffer;
+	}
 }

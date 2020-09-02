@@ -142,4 +142,9 @@ namespace tktk
 	{
 		return m_renderTargetSize;
 	}
+
+	ID3D12Resource* RenderTargetBufferData::getBufferPtr() const
+	{
+		return m_renderTargetBuffer;
+	}
 }

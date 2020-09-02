@@ -12,6 +12,7 @@
 namespace tktk
 {
 	// 前方宣言達
+	class CopyBuffer;
 	class VertexBuffer;
 	class IndexBuffer;
 	class ConstantBuffer;
@@ -31,6 +32,24 @@ namespace tktk
 
 		// 全てのアップロード用のバッファを削除する
 		void deleteUploadBufferAll();
+
+	public: /* コピーバッファの処理 */
+
+		// コピーバッファを作り、そのリソースのハンドルを返す
+		unsigned int createCopyBuffer(ID3D12Device* device, const CopyBufferInitParam& initParam);
+
+		// コピーバッファのコピーを作り、そのリソースのハンドルを返す
+		unsigned int copyCopyBuffer(ID3D12Device* device, unsigned int originalHandle);
+
+		// 指定のコピーバッファを削除する
+		// ※引数のハンドルに対応するリソースが無かったら何もしない
+		void eraseCopyBuffer(unsigned int handle);
+
+		// 引数のポインタのデータを指定のコピーバッファにコピーする
+		void updateCopyBuffer(unsigned int handle, unsigned int bufferSize, const void* bufferDataTopPos);
+
+		// 指定のコピーバッファの内容を設定したバッファにコピーするGPU命令を設定する
+		void copyBuffer(unsigned int handle, ID3D12GraphicsCommandList* commandList) const;
 
 	public: /* 頂点バッファの処理 */
 
@@ -173,6 +192,7 @@ namespace tktk
 
 	private:
 
+		std::unique_ptr<CopyBuffer>			m_copyBuffer;
 		std::unique_ptr<VertexBuffer>		m_vertexBuffer;
 		std::unique_ptr<IndexBuffer>		m_indexBuffer;
 		std::unique_ptr<ConstantBuffer>		m_constantBuffer;
