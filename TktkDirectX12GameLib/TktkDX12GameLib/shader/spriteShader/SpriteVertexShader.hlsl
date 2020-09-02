@@ -1,6 +1,5 @@
-cbuffer ConstantBuffer : register(b0)
+cbuffer SpriteMaterialBuffer : register(b0)
 {
-	float3x3 worldMatrix;
 	float4 blendRate;
 	float2 textureUvOffset;
 	float2 textureUvMulRate;
@@ -8,6 +7,11 @@ cbuffer ConstantBuffer : register(b0)
 	float2 spriteCenterRate;
 	float2 screenSize;
 	float2 pad;
+};
+
+cbuffer SpriteTransformBuffer : register(b1)
+{
+	float3x3 worldMatrix;
 };
 
 struct VS_INPUT

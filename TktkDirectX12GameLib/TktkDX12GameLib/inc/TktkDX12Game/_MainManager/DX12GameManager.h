@@ -184,7 +184,14 @@ namespace tktk
 		// パイプラインステートを作り、そのリソースのハンドルを返す
 		static unsigned int createPipeLineState(const PipeLineStateInitParam& initParam, const ShaderFilePaths& shaderFilePath);
 
-		// 頂点バッファを作り、そのリソースのハンドルを返す
+		// コピーバッファを作り、そのリソースのハンドルを返す
+		template <class CopyBufferDataType>
+		static unsigned int createCopyBuffer(BufferType bufferData, unsigned int targetBufferHandle, const CopyBufferDataType& copyBuffer) { return createCopyBufferImpl({ bufferData, targetBufferHandle, sizeof(CopyBufferDataType),  &copyBuffer }); }
+
+		// コピーバッファのコピーを作り、そのリソースのハンドルを返す
+		static unsigned int copyCopyBuffer(unsigned int originalHandle);
+
+		// コピーバッファを作り、そのリソースのハンドルを返す
 		template <class VertexData>
 		static unsigned int createVertexBuffer(const std::vector<VertexData>& vertexDataArray) { return createVertexBufferImpl(sizeof(VertexData), vertexDataArray.size(), vertexDataArray.data()); }
 
@@ -242,6 +249,10 @@ namespace tktk
 		// ※引数のハンドルに対応するリソースが無かったら何もしない
 		static void erasePipeLineState(unsigned int handle);
 
+		// 指定のコピーバッファを削除する
+		// ※引数のハンドルに対応するリソースが無かったら何もしない
+		static void eraseCopyBuffer(unsigned int handle);
+
 		// 指定の頂点バッファを削除する
 		// ※引数のハンドルに対応するリソースが無かったら何もしない
 		static void eraseVertexBuffer(unsigned int handle);
@@ -281,6 +292,13 @@ namespace tktk
 	//************************************************************
 	/* 直接DX12のリソースを設定、取得する */
 	public:
+
+		// 引数のポインタのデータを指定のコピーバッファにコピーする
+		template <class CopyBufferDataType>
+		static void updateCopyBuffer(unsigned int handle, const CopyBufferDataType& bufferData) { updateCopyBufferImpl(handle, sizeof(CopyBufferDataType), &bufferData); }
+
+		// 指定のコピーバッファの内容を設定したバッファにコピーするGPU命令を設定する
+		static void copyBuffer(unsigned int handle);
 
 		// 指定の頂点バッファを更新する
 		template <class VertexData>
@@ -365,7 +383,7 @@ namespace tktk
 		static void setMaterialHandle(unsigned int meshHandle, unsigned int materialSlot, unsigned int materialHandle);
 
 		// 指定の通常メッシュでシャドウマップを書き込む
-		static void writeBasicMeshShadowMap(unsigned int handle, const MeshTransformCbuffer& transformBufferData);
+		static void writeBasicMeshShadowMap(unsigned int handle);
 
 		// 指定の通常メッシュのマテリアル情報をグラフィックパイプラインに設定する
 		static void setMaterialData(unsigned int handle);
@@ -391,12 +409,19 @@ namespace tktk
 		// スケルトンを作り、そのリソースのハンドルを返す
 		static unsigned int createSkeleton(const SkeletonInitParam& initParam);
 
+		// スケルトンのコピーを作り、そのリソースのハンドルを返す
+		static unsigned int copySkeleton(unsigned int originalHandle);
+
+		// 指定のスケルトンの骨情報の定数バッファの値にコピーするためのバッファを作り、そのハンドルを返す
+		// ※この関数で取得したハンドルは使用後に「DX12GameManager::eraseCopyBuffer(handle)」を必ず読んでバッファを削除してください
+		static unsigned int createSkeletonCopyBufferHandle(unsigned int handle);
+
 		// スケルトンを作り、そのリソースのハンドルと引数のハンドルを結び付ける
 		template<class IdType>
 		static unsigned int createSkeletonAndAttachId(IdType id, const SkeletonInitParam& initParam);
 
-		// 指定のスケルトンを使って骨情報を管理する定数バッファを更新する
-		static void updateBoneMatrixCbuffer(unsigned int handle);
+		// 指定のスケルトンを使って引数が表すコピーバッファを使い骨情報を管理する定数バッファを更新する
+		static void updateBoneMatrixCbuffer(unsigned int handle, unsigned int copyBufferHandle);
 
 		// 骨情報を管理する定数バッファに単位行列を設定する
 		static void resetBoneMatrixCbuffer();
@@ -686,9 +711,11 @@ namespace tktk
 
 		static void addCollisionGroupImpl(int firstGroup, int secondGroup);
 
+		static unsigned int createCopyBufferImpl(const CopyBufferInitParam& initParam);
 		static unsigned int createVertexBufferImpl(unsigned int vertexTypeSize, unsigned int vertexDataCount, const void* vertexDataTopPos);
 		static unsigned int createCbufferImpl(unsigned int constantBufferTypeSize, const void* constantBufferDataTopPos);
 		static unsigned int createSceneImpl(const std::shared_ptr<SceneBase>& scenePtr, SceneVTable* vtablePtr);
+		static void updateCopyBufferImpl(unsigned int handle, unsigned int bufferSize, const void* bufferDataTopPos);
 		static void updateVertexBufferImpl(unsigned int handle, unsigned int vertexTypeSize, unsigned int vertexDataCount, const void* vertexDataTopPos);
 		static void updateCbufferImpl(unsigned int handle, unsigned int constantBufferTypeSize, const void* constantBufferDataTopPos);
 		static void addMaterialAppendParamImpl(unsigned int handle, unsigned int cbufferHandle, unsigned int dataSize, void* dataTopPos);

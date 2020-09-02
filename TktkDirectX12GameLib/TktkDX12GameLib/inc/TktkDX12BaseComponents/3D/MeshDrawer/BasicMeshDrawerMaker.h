@@ -39,15 +39,15 @@ namespace tktk
 		// 使用するメッシュIDを設定する（列挙型を含む整数型のidが渡された場合のみビルド可）
 		// ※内部で対応するリソースハンドルに変換される
 		template<class IdType, is_idType<IdType> = nullptr>
-		BasicMeshDrawerMaker& meshId(IdType value);
+		BasicMeshDrawerMaker& meshId(IdType value) { return meshIdImpl(static_cast<int>(value)); }
 
-		// 使用するスケルトンハンドルを設定する
+		// 使用するスケルトンのリソースハンドルを設定する
 		BasicMeshDrawerMaker& skeletonHandle(unsigned int value);
 
-		// 使用するスケルトンIDを設定する（列挙型を含む整数型のidが渡された場合のみビルド可）
+		// 使用するスケルトンのリソースIDを設定する（列挙型を含む整数型のidが渡された場合のみビルド可）
 		// ※内部で対応するリソースハンドルに変換される
 		template<class IdType, is_idType<IdType> = nullptr>
-		BasicMeshDrawerMaker& skeletonId(IdType value);
+		BasicMeshDrawerMaker& skeletonId(IdType value) { return skeletonIdImpl(static_cast<int>(value)); }
 
 		// 使用するカメラハンドルを設定する
 		BasicMeshDrawerMaker& cameraHandle(unsigned int value);
@@ -55,7 +55,7 @@ namespace tktk
 		// 使用するカメラIDを設定する（列挙型を含む整数型のidが渡された場合のみビルド可）
 		// ※内部で対応するリソースハンドルに変換される
 		template<class IdType, is_idType<IdType> = nullptr>
-		BasicMeshDrawerMaker& cameraId(IdType value);
+		BasicMeshDrawerMaker& cameraId(IdType value) { return cameraIdImpl(static_cast<int>(value)); }
 
 		// 使用するシャドウマップカメラハンドルを設定する
 		BasicMeshDrawerMaker& shadowMapCameraHandle(unsigned int value);
@@ -63,7 +63,7 @@ namespace tktk
 		// 使用するシャドウマップカメラIDを設定する（列挙型を含む整数型のidが渡された場合のみビルド可）
 		// ※内部で対応するリソースハンドルに変換される
 		template<class IdType, is_idType<IdType> = nullptr>
-		BasicMeshDrawerMaker& shadowMapCameraId(IdType value);
+		BasicMeshDrawerMaker& shadowMapCameraId(IdType value) { return shadowMapCameraIdImpl(static_cast<int>(value)); }
 
 		// 使用するライトハンドルを設定する
 		BasicMeshDrawerMaker& lightHandle(unsigned int value);
@@ -71,7 +71,7 @@ namespace tktk
 		// 使用するライトIDを設定する（列挙型を含む整数型のidが渡された場合のみビルド可）
 		// ※内部で対応するリソースハンドルに変換される
 		template<class IdType, std::enable_if_t<is_idType_v<IdType>>* = nullptr>
-		BasicMeshDrawerMaker& lightId(IdType value);
+		BasicMeshDrawerMaker& lightId(IdType value) { return lightIdImpl(static_cast<int>(value)); }
 
 	private: /* 各種id指定系の関数の実装 */
 
@@ -87,14 +87,9 @@ namespace tktk
 
 	private: /* 変数達 */
 
-		GameObjectPtr	m_user						{  };
-		float			m_drawPriority				{ 0.0f };
-		unsigned int	m_useRtvDescriptorHeapHandle{  };		// ※初期パラメータはバックバッファー
-		unsigned int	m_meshHandle				{ 0U };
-		unsigned int	m_skeletonHandle			{ 0U };
-		unsigned int	m_cameraHandle				{ 0U };
-		unsigned int	m_shadowMapCameraHandle		{ 0U };
-		unsigned int	m_lightHandle				{ 0U };
+		GameObjectPtr						m_user				{  };
+		float								m_drawPriority		{ 0.0f };	
+		BasicMeshDrawerUseResourceHandles	m_useResourceHandles{  }; // ※「RtvDescriptorHeap」の初期パラメータはバックバッファー
 
 	public: /* 不正な型の引数が渡されそうになった時にコンパイルエラーにする為の仕組み */
 
@@ -113,43 +108,5 @@ namespace tktk
 		template<class IdType, std::enable_if_t<!is_idType_v<IdType>>* = nullptr>
 		BasicMeshDrawerMaker& lightId(IdType value) { static_assert(false, "LightId Fraud Type"); }
 	};
-//┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-//┃ここから下は関数の実装
-//┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-	// 使用するメッシュIDを設定する（列挙型を含む整数型のidが渡された場合のみビルド可）
-	template<class IdType, is_idType<IdType>>
-	inline BasicMeshDrawerMaker& BasicMeshDrawerMaker::meshId(IdType value)
-	{
-		return meshIdImpl(static_cast<int>(value));
-	}
-
-	// 使用するスケルトンIDを設定する（列挙型を含む整数型のidが渡された場合のみビルド可）
-	template<class IdType, is_idType<IdType>>
-	inline BasicMeshDrawerMaker& BasicMeshDrawerMaker::skeletonId(IdType value)
-	{
-		return skeletonIdImpl(static_cast<int>(value));
-	}
-
-	// 使用するカメラIDを設定する（列挙型を含む整数型のidが渡された場合のみビルド可）
-	template<class IdType, is_idType<IdType>>
-	inline BasicMeshDrawerMaker& BasicMeshDrawerMaker::cameraId(IdType value)
-	{
-		return cameraIdImpl(static_cast<int>(value));
-	}
-
-	// 使用するシャドウマップカメラIDを設定する（列挙型を含む整数型のidが渡された場合のみビルド可）
-	template<class IdType, is_idType<IdType>>
-	inline BasicMeshDrawerMaker& BasicMeshDrawerMaker::shadowMapCameraId(IdType value)
-	{
-		return shadowMapCameraIdImpl(static_cast<int>(value));
-	}
-
-	// 使用するライトIDを設定する（列挙型を含む整数型のidが渡された場合のみビルド可）
-	template<class IdType, is_idType<IdType>>
-	inline BasicMeshDrawerMaker& BasicMeshDrawerMaker::lightId(IdType value)
-	{
-		return lightIdImpl(static_cast<int>(value));
-	}
 }
 #endif // !BASIC_MESH_DRAWER_MAKER_H_

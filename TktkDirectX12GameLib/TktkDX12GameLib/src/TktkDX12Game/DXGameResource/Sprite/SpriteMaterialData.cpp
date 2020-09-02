@@ -1,7 +1,7 @@
 #include "TktkDX12Game/DXGameResource/Sprite/SpriteMaterialData.h"
 
 #include "TktkDX12Game/_MainManager/DX12GameManager.h"
-#include "TktkDX12Game/DXGameResource/Sprite/SpriteConstantBufferData.h"
+#include "TktkDX12Game/DXGameResource/Sprite/SpriteMaterialCbufferData.h"
 
 namespace tktk
 {
@@ -14,7 +14,7 @@ namespace tktk
 		// ディスクリプタヒープを作る
 		BasicDescriptorHeapInitParam descriptorHeapInitParam{};
 		descriptorHeapInitParam.shaderVisible = true;
-		descriptorHeapInitParam.descriptorTableParamArray.resize(2U);
+		descriptorHeapInitParam.descriptorTableParamArray.resize(3U);
 
 		{ /* シェーダーリソースビューのディスクリプタの情報 */
 			auto& srvDescriptorParam = descriptorHeapInitParam.descriptorTableParamArray.at(0U);
@@ -30,9 +30,20 @@ namespace tktk
 			auto& cbufferViewDescriptorParam = descriptorHeapInitParam.descriptorTableParamArray.at(1U);
 			cbufferViewDescriptorParam.type = BasicDescriptorType::constantBuffer;
 
-			// スプライト定数バッファの１種類
+			// マテリアル定数バッファと座標変換定数バッファの２種類
 			cbufferViewDescriptorParam.descriptorParamArray = {
-				{ BufferType::constant,		DX12GameManager::getSystemHandle(SystemCBufferType::Sprite) }
+				{ BufferType::constant,		DX12GameManager::getSystemHandle(SystemCBufferType::SpriteMaterial) },
+				{ BufferType::constant,		DX12GameManager::getSystemHandle(SystemCBufferType::SpriteTransform) }
+			};
+		}
+
+		{ /* コンスタントバッファービューのディスクリプタの情報 */
+			auto& cbufferViewDescriptorParam = descriptorHeapInitParam.descriptorTableParamArray.at(2U);
+			cbufferViewDescriptorParam.type = BasicDescriptorType::constantBuffer;
+
+			// マテリアル定数バッファの１種類
+			cbufferViewDescriptorParam.descriptorParamArray = {
+				{ BufferType::constant,		DX12GameManager::getSystemHandle(SystemCBufferType::SpriteMaterial) }
 			};
 		}
 
@@ -58,22 +69,41 @@ namespace tktk
 		}
 
 		m_createDescriptorHeapHandle = DX12GameManager::createBasicDescriptorHeap(descriptorHeapInitParam);
+
+		// コピー用バッファを作り、そのハンドルを取得する
+		m_createCopyBufferHandle = DX12GameManager::createCopyBuffer(BufferType::constant, DX12GameManager::getSystemHandle(SystemCBufferType::SpriteMaterial), SpriteMaterialCbufferData());
+	}
+
+	SpriteMaterialData::~SpriteMaterialData()
+	{
+		// 作ったディスクリプタヒープを削除する
+		DX12GameManager::eraseBasicDescriptorHeap(m_createDescriptorHeapHandle);
+
+		// コピー用バッファを削除する
+		DX12GameManager::eraseCopyBuffer(m_createCopyBufferHandle);
 	}
 
 	SpriteMaterialData::SpriteMaterialData(SpriteMaterialData&& other) noexcept
 		: m_createDescriptorHeapHandle(other.m_createDescriptorHeapHandle)
+		, m_createCopyBufferHandle(other.m_createCopyBufferHandle)
 		, m_blendRate(other.m_blendRate)
 		, m_textureUvOffset(other.m_textureUvOffset)
 		, m_textureUvMulRate(other.m_textureUvMulRate)
 		, m_textureSize(other.m_textureSize)
 		, m_spriteCenterRate(other.m_spriteCenterRate)
 	{
+		other.m_createDescriptorHeapHandle = 0U;
+		other.m_createCopyBufferHandle = 0U;
 	}
 
 	void SpriteMaterialData::drawSprite(const SpriteMaterialDrawFuncArgs& drawFuncArgs) const
 	{
-		// スプライト用の定数バッファを更新する
-		updateSpriteConstantBuffer(drawFuncArgs.worldMatrix);
+		// 定数バッファのコピー用バッファを更新する
+		// TODO : 前フレームと定数バッファに変化がない場合、更新しない処理を作る
+		updateCopyBuffer();
+
+		// スプライト用定数バッファにコピーバッファの情報をコピーする
+		DX12GameManager::copyBuffer(m_createCopyBufferHandle);
 
 		// ビューポートを設定する
 		DX12GameManager::setViewport(drawFuncArgs.viewportHandle);
@@ -119,15 +149,10 @@ namespace tktk
 		}
 	}
 
-	// スプライト用の定数バッファを更新する
-	void SpriteMaterialData::updateSpriteConstantBuffer(const tktkMath::Matrix3& worldMatrix) const
+	// 定数バッファのコピー用バッファを更新する
+	void SpriteMaterialData::updateCopyBuffer() const
 	{
-		SpriteConstantBufferData constantBufferData;
-		for (unsigned int i = 0; i < 12; i++)
-		{
-			if (i % 4U == 3) continue;
-			constantBufferData.worldMatrix[i] = worldMatrix.m[i / 4U][i % 4U];
-		}
+		SpriteMaterialCbufferData constantBufferData;
 		constantBufferData.blendRate = m_blendRate;
 		constantBufferData.textureUvOffset = m_textureUvOffset;
 		constantBufferData.textureUvMulRate = m_textureUvMulRate;
@@ -135,6 +160,6 @@ namespace tktk
 		constantBufferData.spriteCenterRate = m_spriteCenterRate;
 		constantBufferData.screenSize = DX12GameManager::getWindowSize();
 
-		DX12GameManager::updateCBuffer(DX12GameManager::getSystemHandle(SystemCBufferType::Sprite), constantBufferData);
+		DX12GameManager::updateCopyBuffer(m_createCopyBufferHandle, constantBufferData);
 	}
 }

@@ -107,7 +107,7 @@ namespace tktk
 		void setMaterialHandle(unsigned int meshHandle, unsigned int materialSlot, unsigned int materialHandle);
 
 		// 指定の通常メッシュでシャドウマップを書き込む
-		void writeBasicMeshShadowMap(unsigned int handle, const MeshTransformCbuffer& transformBufferData) const;
+		void writeBasicMeshShadowMap(unsigned int handle) const;
 
 		// 指定の通常メッシュのマテリアル情報をグラフィックパイプラインに設定する
 		void setMaterialData(unsigned int handle) const;
@@ -129,8 +129,15 @@ namespace tktk
 		// スケルトンを作り、そのリソースのハンドルを返す
 		unsigned int createSkeleton(const SkeletonInitParam& initParam);
 
-		// 指定のスケルトンを使って骨情報を管理する定数バッファを更新する
-		void updateBoneMatrixCbuffer(unsigned int handle) const;
+		// スケルトンのコピーを作り、そのリソースのハンドルを返す
+		unsigned int copySkeleton(unsigned int originalHandle);
+
+		// 指定のスケルトンの骨情報の定数バッファの値にコピーするためのバッファを作り、そのハンドルを返す
+		// ※この関数で取得したハンドルは使用後に「DX12GameManager::eraseCopyBuffer(handle)」を必ず読んでバッファを削除してください
+		unsigned int createSkeletonCopyBufferHandle(unsigned int handle) const;
+
+		// 指定のスケルトンを使って引数が表すコピーバッファを使い骨情報を管理する定数バッファを更新する
+		void updateBoneMatrixCbuffer(unsigned int handle, unsigned int copyBufferHandle) const;
 
 		// 骨情報を管理する定数バッファに単位行列を設定する
 		void resetBoneMatrixCbuffer() const;

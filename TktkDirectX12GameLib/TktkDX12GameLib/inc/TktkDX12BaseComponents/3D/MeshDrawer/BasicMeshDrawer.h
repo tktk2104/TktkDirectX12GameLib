@@ -3,6 +3,7 @@
 
 #include <TktkTemplateMetaLib/TypeCheck/isIdType.h>
 #include "../../../TktkDX12Game/Component/ComponentBase.h"
+#include "BasicMeshDrawerUseResourceHandles.h"
 #include "../Transform3D/Transform3D.h"
 #include "../MeshAnimator/MeshAnimator.h"
 
@@ -15,23 +16,30 @@ namespace tktk
 	{
 	public:
 
-		BasicMeshDrawer(float drawPriority, unsigned int meshHandle, unsigned int skeletonHandle, unsigned int cameraHandle, unsigned int shadowMapCameraHandle, unsigned int lightHandle, unsigned int useRtvDescriptorHeapHandle);
+		BasicMeshDrawer(float drawPriority, const BasicMeshDrawerUseResourceHandles& useResourceHandles);
 
 	public:
 
 		void start();
+		void onDestroy();
 		void draw() const;
 
 	private:
 
-		unsigned int				m_useRtvDescriptorHeapHandle;
-		unsigned int				m_meshHandle;
-		unsigned int				m_skeletonHandle;
-		unsigned int				m_cameraHandle;
-		unsigned int				m_shadowMapCameraHandle;
-		unsigned int				m_lightHandle;
-		ComponentPtr<Transform3D>	m_transform{ };
-		ComponentPtr<MeshAnimator>	m_animator{ };
+		// 座標変換用の定数バッファの更新
+		void updateTransformCbuffer() const;
+
+		// シャドウマップ用の定数バッファの更新
+		void updateShadowMapCbuffer() const;
+
+	private:
+
+		unsigned int m_createCopyTransformCbufferHandle{ 0U };
+		unsigned int m_createCopyShadowMapCbufferHandle{ 0U };
+		unsigned int m_createCopyBoneMatrixCbufferHandle{ 0U };
+		BasicMeshDrawerUseResourceHandles	m_useResourceHandles;
+		ComponentPtr<Transform3D>			m_transform{ };
+		ComponentPtr<MeshAnimator>			m_animator{ };
 	};
 }
 #endif // !BASIC_MESH_DRAWER_H_

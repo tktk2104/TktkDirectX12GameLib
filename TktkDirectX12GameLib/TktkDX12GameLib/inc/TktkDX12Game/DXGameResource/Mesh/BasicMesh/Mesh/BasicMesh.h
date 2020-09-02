@@ -13,6 +13,7 @@ namespace tktk
 	public:
 
 		BasicMesh(const std::string& writeShadowMapVsFilePath, const tktkContainer::ResourceContainerInitParam& initParam);
+		~BasicMesh() = default;
 	
 	public:
 
@@ -26,7 +27,7 @@ namespace tktk
 		void setMaterialHandle(unsigned int meshHandle, unsigned int materialSlot, unsigned int materialHandle);
 
 		// 指定の通常メッシュでシャドウマップを書き込む
-		void writeShadowMap(unsigned int handle, const MeshTransformCbuffer& transformBufferData) const;
+		void writeShadowMap(unsigned int handle) const;
 
 		// 指定の通常メッシュを描画する
 		void drawMesh(unsigned int handle, const MeshDrawFuncBaseArgs& baseArgs) const;
@@ -38,12 +39,6 @@ namespace tktk
 
 		// シャドウマップ書き込み用のパイプラインステートを作る
 		void createWriteShadowMapGraphicsPipeLineState(const std::string& writeShadowMapVsFilePath) const;
-
-		// メッシュの座標変換用の定数バッファを更新する
-		void updateMeshTransformCbuffer(const MeshTransformCbuffer& transformBufferData) const;
-
-		// メッシュのシャドウマップ使用用の定数バッファを更新する
-		void updateMeshShadowMapCBuffer(const MeshShadowMapCBuffer&	shadowMapBufferData) const;
 
 	private:
 

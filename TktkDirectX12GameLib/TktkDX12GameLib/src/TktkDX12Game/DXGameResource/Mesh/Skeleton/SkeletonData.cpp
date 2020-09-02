@@ -45,10 +45,36 @@ namespace tktk
 		}
     }
 
+	SkeletonData::SkeletonData(const SkeletonData& other)
+		: m_boneMatrixArray(other.m_boneMatrixArray)
+		, m_boneNodeMap(other.m_boneNodeMap)
+	{
+		// コピーした「m_boneNodeMap」内のポインタが指し示すアドレスを正す
+		for (auto& writeboneNode : m_boneNodeMap)
+		{
+			for (auto& child : writeboneNode.second.children)
+			{
+				for (auto& readBoneNode : m_boneNodeMap)
+				{
+					if (child->boneIndex == readBoneNode.second.boneIndex)
+					{
+						child = &readBoneNode.second;
+						break;
+					}
+				}
+			}
+		}
+	}
+
 	SkeletonData::SkeletonData(SkeletonData&& other) noexcept
 		: m_boneMatrixArray(std::move(other.m_boneMatrixArray))
 		, m_boneNodeMap(std::move(other.m_boneNodeMap))
 	{
+	}
+
+	unsigned int SkeletonData::createCopyBufferHandle() const
+	{
+		return DX12GameManager::createCopyBuffer(BufferType::constant, DX12GameManager::getSystemHandle(SystemCBufferType::BoneMatCbuffer), BoneMatrixCbufferData());
 	}
 
 	void SkeletonData::transform(const std::vector<MotionBoneParam>& transformMatrices)
@@ -74,22 +100,14 @@ namespace tktk
 		transform(&m_boneNodeMap.at("センター"), tktkMath::Matrix4_v::identity);
 	}
 
-	void SkeletonData::updateBoneMatrixCbuffer() const
+	void SkeletonData::updateBoneMatrixCbuffer(unsigned int copyBufferHandle) const
 	{
-		BoneMatrixCbufferData boneMatBuf;
+		// 定数バッファのコピー用バッファを更新する
+		// TODO : 前フレームと定数バッファに変化がない場合、更新しない処理を作る
+		updateCopyBuffer(copyBufferHandle);
 
-		// 定数バッファ上の骨行列の上限値分ループする
-		for (unsigned int i = 0; i < 128U; i++)
-		{
-			// 骨行列を最後まで書き込んでいたらループを終了する
-			if (i >= m_boneMatrixArray.size()) break;
-
-			// 骨行列を書き込む
-			boneMatBuf.boneMatrix[i] = m_boneMatrixArray.at(i);
-		}
-
-		// 骨情報の定数バッファを書き込む
-		DX12GameManager::updateCBuffer(DX12GameManager::getSystemHandle(SystemCBufferType::BoneMatCbuffer), boneMatBuf);
+		//  骨情報の定数バッファにコピーバッファの情報をコピーする
+		DX12GameManager::copyBuffer(copyBufferHandle);
 	}
 
 	void SkeletonData::transform(const SkeletonData::BoneNode* boneNode, const tktkMath::Matrix4& transformMat)
@@ -103,5 +121,22 @@ namespace tktk
 			// 子要素と座標変換した骨行列を引数に自身を再起呼び出しする
 			transform(children, m_boneMatrixArray.at(boneNode->boneIndex));
 		}
+	}
+
+	void SkeletonData::updateCopyBuffer(unsigned int copyBufferHandle) const
+	{
+		BoneMatrixCbufferData boneMatBuf;
+
+		// 定数バッファ上の骨行列の上限値分ループする
+		for (unsigned int i = 0; i < 128U; i++)
+		{
+			// 骨行列を最後まで書き込んでいたらループを終了する
+			if (i >= m_boneMatrixArray.size()) break;
+
+			// 骨行列を書き込む
+			boneMatBuf.boneMatrix[i] = m_boneMatrixArray.at(i);
+		}
+
+		DX12GameManager::updateCopyBuffer(copyBufferHandle, boneMatBuf);
 	}
 }

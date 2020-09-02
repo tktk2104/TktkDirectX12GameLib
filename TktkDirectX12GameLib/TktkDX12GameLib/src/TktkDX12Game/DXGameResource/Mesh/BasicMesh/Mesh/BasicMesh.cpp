@@ -46,25 +46,16 @@ namespace tktk
 		m_basicMeshArray.getMatchHandlePtr(meshHandle)->setMaterialHandle(materialSlot, materialHandle);
 	}
 
-	void BasicMesh::writeShadowMap(unsigned int handle, const MeshTransformCbuffer& transformBufferData) const
+	void BasicMesh::writeShadowMap(unsigned int handle) const
 	{
-		// メッシュの座標変換に使用する情報を定数バッファに書き込む
-		updateMeshTransformCbuffer(transformBufferData);
-
 		// シャドウマップへの書き込みを行う
 		m_basicMeshArray.getMatchHandlePtr(handle)->writeShadowMap();
 	}
 
 	void BasicMesh::drawMesh(unsigned int handle, const MeshDrawFuncBaseArgs& baseArgs) const
 	{
-		// メッシュの座標変換に使用する情報を定数バッファに書き込む
-		updateMeshTransformCbuffer(baseArgs.transformBufferData);
-
-		// メッシュのシャドウマップ使用するための情報を定数バッファに書き込む
-		updateMeshShadowMapCBuffer(baseArgs.shadowMapBufferData);
-
 		// メッシュのライティングに使用するライト情報を定数バッファに書き込む
-		DX12GameManager::updateLightCBuffer(baseArgs.lightId);
+		DX12GameManager::updateLightCBuffer(baseArgs.lightHandle);
 
 		// メッシュの描画を行う
 		m_basicMeshArray.getMatchHandlePtr(handle)->drawMesh(baseArgs);
@@ -128,15 +119,5 @@ namespace tktk
 		shaderFilePaths.psFilePath = "";
 
 		DX12GameManager::setSystemHandle(SystemPipeLineStateType::ShadowMap, DX12GameManager::createPipeLineState(initParam, shaderFilePaths));
-	}
-
-	void BasicMesh::updateMeshTransformCbuffer(const MeshTransformCbuffer& transformBufferData) const
-	{
-		DX12GameManager::updateCBuffer(DX12GameManager::getSystemHandle(SystemCBufferType::MeshTransform), transformBufferData);
-	}
-
-	void BasicMesh::updateMeshShadowMapCBuffer(const MeshShadowMapCBuffer& shadowMapBufferData) const
-	{
-		DX12GameManager::updateCBuffer(DX12GameManager::getSystemHandle(SystemCBufferType::MeshShadowMap), shadowMapBufferData);
 	}
 }

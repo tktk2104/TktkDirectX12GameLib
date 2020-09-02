@@ -30,9 +30,19 @@ namespace tktk
         return m_skeleton->create(initParam);
     }
 
-    void MeshResource::updateBoneMatrixCbuffer(unsigned int handle) const
+    unsigned int MeshResource::copySkeleton(unsigned int originalHandle)
     {
-        m_skeleton->updateBoneMatrixCbuffer(handle);
+        return m_skeleton->copy(originalHandle);
+    }
+
+    unsigned int MeshResource::createSkeletonCopyBufferHandle(unsigned int handle) const
+    {
+        return m_skeleton->createCopyBufferHandle(handle);
+    }
+
+    void MeshResource::updateBoneMatrixCbuffer(unsigned int handle, unsigned int copyBufferHandle) const
+    {
+        m_skeleton->updateBoneMatrixCbuffer(handle, copyBufferHandle);
     }
 
     void MeshResource::resetBoneMatrixCbuffer() const
@@ -80,9 +90,9 @@ namespace tktk
         m_basicMesh->setMaterialHandle(meshHandle, materialSlot, materialHandle);
     }
 
-    void MeshResource::writeBasicMeshShadowMap(unsigned int handle, const MeshTransformCbuffer& transformBufferData) const
+    void MeshResource::writeBasicMeshShadowMap(unsigned int handle) const
     {
-        m_basicMesh->writeShadowMap(handle, transformBufferData);
+        m_basicMesh->writeShadowMap(handle);
     }
 
     void MeshResource::setMaterialData(unsigned int handle) const

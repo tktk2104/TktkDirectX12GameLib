@@ -4,6 +4,7 @@
 #include <TktkMath/Structs/Color.h>
 #include <TktkMath/Structs/Vector3.h>
 #include "../../../TktkDX12Game/Component/ComponentBase.h"
+#include "SphereMeshDrawerUseResourceHandles.h"
 #include "../Transform3D/Transform3D.h"
 
 namespace tktk
@@ -14,11 +15,12 @@ namespace tktk
 	{
 	public:
 
-		SphereMeshDrawer(float drawPriority, float radius, const tktkMath::Vector3& localPosition, const tktkMath::Color& albedoColor , unsigned int cameraHandle, unsigned int shadowMapCameraHandle, unsigned int lightHandle, unsigned int useRtvDescriptorHeapHandle);
+		SphereMeshDrawer(float drawPriority, float radius, const tktkMath::Vector3& localPosition, const tktkMath::Color& albedoColor, const SphereMeshDrawerUseResourceHandles& useResourceHandles);
 	
 	public:
 
 		void start();
+		void onDestroy();
 		void draw() const;
 
 	public:
@@ -29,14 +31,21 @@ namespace tktk
 
 	private:
 
-		float						m_radius;
-		tktkMath::Vector3			m_localPosition;
-		tktkMath::Color				m_albedoColor;
-		unsigned int				m_useRtvDescriptorHeapHandle;
-		unsigned int				m_cameraHandle;
-		unsigned int				m_shadowMapCameraHandle;
-		unsigned int				m_lightHandle;
-		ComponentPtr<Transform3D>	m_transform{ };
+		// 座標変換用の定数バッファの更新
+		void updateTransformCbuffer() const;
+
+		// シャドウマップ用の定数バッファの更新
+		void updateShadowMapCbuffer() const;
+
+	private:
+
+		float				m_radius;
+		tktkMath::Vector3	m_localPosition;
+		tktkMath::Color		m_albedoColor;
+		unsigned int		m_createCopyTransformCbufferHandle{ 0U };
+		unsigned int		m_createCopyShadowMapCbufferHandle{ 0U };
+		SphereMeshDrawerUseResourceHandles	m_useResourceHandles;
+		ComponentPtr<Transform3D>			m_transform{ };
 	};
 }
 #endif // !SPHERE_MESH_DRAWER_H_

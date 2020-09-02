@@ -16,7 +16,7 @@ namespace tktk
 			const tktkMath::Color& speqular,
 			const tktkMath::Vector3& position
 		);
-		~LightData() = default;
+		~LightData();
 
 		// ムーブコンストラクタ
 		LightData(LightData&& other) noexcept;
@@ -40,6 +40,12 @@ namespace tktk
 
 	private:
 
+		// 定数バッファのコピー用バッファを更新する
+		void updateCopyBuffer() const;
+
+	private:
+
+		unsigned int		m_createCopyBufferHandle{ 0U };
 		LightCBuffer		m_lightCBuffer;
 	};
 }

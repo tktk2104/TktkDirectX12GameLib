@@ -13,7 +13,7 @@ namespace tktk
 	public:
 
 		explicit SpriteMaterialData(const SpriteMaterialInitParam& initParam);
-		~SpriteMaterialData() = default;
+		~SpriteMaterialData();
 
 		// ムーブコンストラクタ
 		SpriteMaterialData(SpriteMaterialData&& other) noexcept;
@@ -25,12 +25,13 @@ namespace tktk
 
 	private:
 
-		// スプライト用の定数バッファを更新する
-		void updateSpriteConstantBuffer(const tktkMath::Matrix3& worldMatrix) const;
+		// 定数バッファのコピー用バッファを更新する
+		void updateCopyBuffer() const;
 
 	private:
 
 		unsigned int		m_createDescriptorHeapHandle { 0U };
+		unsigned int		m_createCopyBufferHandle{ 0U };
 		tktkMath::Color		m_blendRate;
 		tktkMath::Vector2	m_textureUvOffset;
 		tktkMath::Vector2	m_textureUvMulRate;

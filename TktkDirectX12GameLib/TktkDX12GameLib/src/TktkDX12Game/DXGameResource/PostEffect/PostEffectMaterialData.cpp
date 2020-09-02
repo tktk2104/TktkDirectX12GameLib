@@ -7,7 +7,7 @@ namespace tktk
 	PostEffectMaterialData::PostEffectMaterialData(const PostEffectMaterialInitParam& initParam)
 		: m_usePipeLineStateHandle(initParam.usePipeLineStateHandle)
 		, m_useDescriptorHeapHandle(initParam.useDescriptorHeapHandle)
-		, m_autoClearRtvDescriptorHeapHandleArray(std::move(initParam.autoClearRtvDescriptorHeapHandleArray))
+		, m_autoClearRtvDescriptorHeapHandleArray(initParam.autoClearRtvDescriptorHeapHandleArray)
 	{
 	}
 

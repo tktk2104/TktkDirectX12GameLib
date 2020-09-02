@@ -22,6 +22,8 @@ namespace tktk
 		// ムーブコンストラクタ
 		BasicMeshData(BasicMeshData&& other) noexcept;
 
+		~BasicMeshData() = default;
+
 	public:
 
 		// 使用しているマテリアルを更新する
@@ -35,8 +37,8 @@ namespace tktk
 
 	private:
 
-		unsigned int m_useVertexBufferHandle;
-		unsigned int m_useIndexBufferHandle;
+		unsigned int m_useVertexBufferHandle{ 0U };
+		unsigned int m_useIndexBufferHandle{ 0U };
 
 		unsigned int m_indexNum;
 

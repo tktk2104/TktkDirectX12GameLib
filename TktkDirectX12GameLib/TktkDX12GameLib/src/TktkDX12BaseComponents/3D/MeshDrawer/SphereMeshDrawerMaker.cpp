@@ -13,7 +13,7 @@ namespace tktk
 		m_self.m_user = user;
 
 		// 使用するレンダーターゲットのディスクリプタヒープハンドルのデフォルト値はバックバッファ
-		m_self.m_useRtvDescriptorHeapHandle = DX12GameManager::getSystemHandle(SystemRtvDescriptorHeapType::BackBuffer);
+		m_self.m_useResourceHandles.rtvDescriptorHeapHandle = DX12GameManager::getSystemHandle(SystemRtvDescriptorHeapType::BackBuffer);
 
 		// 自身の参照を返す
 		return m_self;
@@ -27,10 +27,7 @@ namespace tktk
 			m_radius,
 			m_localPosition,
 			m_albedoColor,
-			m_cameraHandle,
-			m_shadowMapCameraHandle,
-			m_lightHandle,
-			m_useRtvDescriptorHeapHandle
+			m_useResourceHandles
 			);
 	}
 
@@ -65,49 +62,49 @@ namespace tktk
 	SphereMeshDrawerMaker& SphereMeshDrawerMaker::useRtvDescriptorHeapHandle(unsigned int value)
 	{
 		// 値を設定して自身の参照を返す
-		m_useRtvDescriptorHeapHandle = value;
+		m_useResourceHandles.rtvDescriptorHeapHandle = value;
 		return *this;
 	}
 
 	SphereMeshDrawerMaker& SphereMeshDrawerMaker::cameraHandle(unsigned int value)
 	{
 		// 値を設定して自身の参照を返す
-		m_cameraHandle = value;
+		m_useResourceHandles.cameraHandle = value;
 		return *this;
 	}
 
 	SphereMeshDrawerMaker& SphereMeshDrawerMaker::shadowMapCameraHandle(unsigned int value)
 	{
 		// 値を設定して自身の参照を返す
-		m_shadowMapCameraHandle = value;
+		m_useResourceHandles.shadowMapCameraHandle = value;
 		return *this;
 	}
 
 	SphereMeshDrawerMaker& SphereMeshDrawerMaker::lightHandle(unsigned int value)
 	{
 		// 値を設定して自身の参照を返す
-		m_lightHandle = value;
+		m_useResourceHandles.lightHandle = value;
 		return *this;
 	}
 
 	SphereMeshDrawerMaker& SphereMeshDrawerMaker::cameraIdImpl(int value)
 	{
 		// 値を設定して自身の参照を返す
-		m_cameraHandle = DX12GameManager::getCameraHandle(value);
+		m_useResourceHandles.cameraHandle = DX12GameManager::getCameraHandle(value);
 		return *this;
 	}
 
 	SphereMeshDrawerMaker& SphereMeshDrawerMaker::shadowMapCameraIdImpl(int value)
 	{
 		// 値を設定して自身の参照を返す
-		m_shadowMapCameraHandle = DX12GameManager::getCameraHandle(value);
+		m_useResourceHandles.shadowMapCameraHandle = DX12GameManager::getCameraHandle(value);
 		return *this;
 	}
 
 	SphereMeshDrawerMaker& SphereMeshDrawerMaker::lightIdImpl(int value)
 	{
 		// 値を設定して自身の参照を返す
-		m_lightHandle = DX12GameManager::getLightHandle(value);
+		m_useResourceHandles.lightHandle = DX12GameManager::getLightHandle(value);
 		return *this;
 	}
 }

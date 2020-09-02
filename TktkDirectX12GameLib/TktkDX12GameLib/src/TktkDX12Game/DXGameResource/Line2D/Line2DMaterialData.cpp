@@ -5,16 +5,28 @@
 
 namespace tktk
 {
+	Line2DMaterialData::Line2DMaterialData()
+	{
+		// コピー用バッファを作り、そのハンドルを取得する
+		m_createCopyCbufferHandle = DX12GameManager::createCopyBuffer(BufferType::constant, DX12GameManager::getSystemHandle(SystemCBufferType::Line2D), Line2DConstantBufferData());
+	}
+
 	Line2DMaterialData::~Line2DMaterialData()
 	{
 		// 作成した頂点バッファを削除する
 		// ※１度も描画処理が呼ばれなかった場合は何もしない
 		DX12GameManager::eraseVertexBuffer(m_createdVertexBufferHandle);
+
+		// コピー用バッファを削除する
+		DX12GameManager::eraseCopyBuffer(m_createCopyCbufferHandle);
 	}
 
 	Line2DMaterialData::Line2DMaterialData(Line2DMaterialData&& other) noexcept
 		: m_createdVertexBufferHandle(other.m_createdVertexBufferHandle)
+		, m_createCopyCbufferHandle(other.m_createCopyCbufferHandle)
 	{
+		other.m_createdVertexBufferHandle	= 0U;
+		other.m_createCopyCbufferHandle		= 0U;
 	}
 
 	void Line2DMaterialData::drawLine(const Line2DMaterialDrawFuncArgs& drawFuncArgs)
@@ -26,8 +38,12 @@ namespace tktk
 		// 自身の頂点バッファを作る
 		m_createdVertexBufferHandle = DX12GameManager::createVertexBuffer(drawFuncArgs.lineVertexArray);
 
-		// ライン用の定数バッファを更新する
-		updateLine2DCbuffer(drawFuncArgs);
+		// 定数バッファのコピー用バッファを更新する
+		// TODO : 前フレームと定数バッファに変化がない場合、更新しない処理を作る
+		updateCopyCbuffer(drawFuncArgs);
+
+		// ライン用の定数バッファにコピーバッファの情報をコピーする
+		DX12GameManager::copyBuffer(m_createCopyCbufferHandle);
 
 		// ビューポートを設定する
 		DX12GameManager::setViewport(drawFuncArgs.viewportHandle);
@@ -70,8 +86,8 @@ namespace tktk
 		}
 	}
 
-	// ライン用の定数バッファを更新する
-	void Line2DMaterialData::updateLine2DCbuffer(const Line2DMaterialDrawFuncArgs& drawFuncArgs) const
+	// 定数バッファのコピー用バッファを更新する
+	void Line2DMaterialData::updateCopyCbuffer(const Line2DMaterialDrawFuncArgs& drawFuncArgs) const
 	{
 		Line2DConstantBufferData cbufferData{};
 		for (unsigned int i = 0; i < 12; i++)
@@ -82,6 +98,6 @@ namespace tktk
 		cbufferData.lineColor = drawFuncArgs.lineColor;
 		cbufferData.screenSize = DX12GameManager::getWindowSize();
 
-		DX12GameManager::updateCBuffer(DX12GameManager::getSystemHandle(SystemCBufferType::Line2D), cbufferData);
+		DX12GameManager::updateCopyBuffer(m_createCopyCbufferHandle, cbufferData);
 	}
 }

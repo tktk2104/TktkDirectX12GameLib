@@ -138,9 +138,9 @@ namespace tktk
 		m_meshResource->setMaterialHandle(meshHandle, materialSlot, materialHandle);
 	}
 
-	void DXGameResource::writeBasicMeshShadowMap(unsigned int handle, const MeshTransformCbuffer& transformBufferData) const
+	void DXGameResource::writeBasicMeshShadowMap(unsigned int handle) const
 	{
-		m_meshResource->writeBasicMeshShadowMap(handle, transformBufferData);
+		m_meshResource->writeBasicMeshShadowMap(handle);
 	}
 
 	void DXGameResource::setMaterialData(unsigned int handle) const
@@ -173,9 +173,19 @@ namespace tktk
 		return m_meshResource->createSkeleton(initParam);
 	}
 
-	void DXGameResource::updateBoneMatrixCbuffer(unsigned int handle) const
+	unsigned int DXGameResource::copySkeleton(unsigned int originalHandle)
 	{
-		m_meshResource->updateBoneMatrixCbuffer(handle);
+		return m_meshResource->copySkeleton(originalHandle);
+	}
+
+	unsigned int DXGameResource::createSkeletonCopyBufferHandle(unsigned int handle) const
+	{
+		return m_meshResource->createSkeletonCopyBufferHandle(handle);
+	}
+
+	void DXGameResource::updateBoneMatrixCbuffer(unsigned int handle, unsigned int copyBufferHandle) const
+	{
+		m_meshResource->updateBoneMatrixCbuffer(handle, copyBufferHandle);
 	}
 
 	void DXGameResource::resetBoneMatrixCbuffer() const

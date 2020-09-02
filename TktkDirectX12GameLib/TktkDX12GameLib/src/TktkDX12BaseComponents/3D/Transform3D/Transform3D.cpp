@@ -267,7 +267,7 @@ namespace tktk
 		setLocalRotation(tktkMath::Quaternion::createFromToRotation(tktkMath::Vector3_v::zero, up));
 	}
 
-	void Transform3D::lookAt(const ComponentPtr<Transform3D>& target, const tktkMath::Vector3& worldUp)
+	void Transform3D::lookAt(const ComponentPtr<Transform3D>& target)
 	{
 #ifdef _DEBUG
 		if (target.expired())
@@ -277,12 +277,17 @@ namespace tktk
 #endif // _DEBUG
 		tktkMath::Vector3 targetPosition = target->getWorldPosition();
 
-		lookAt(targetPosition, worldUp);
+		lookAt(targetPosition);
 	}
 
-	void Transform3D::lookAt(const tktkMath::Vector3& target, const tktkMath::Vector3& worldUp)
+	void Transform3D::lookAt(const tktkMath::Vector3& target)
 	{
-		setWorldRotation(tktkMath::Quaternion::createLookRotation(target, worldUp));
+		auto lookAtRotation = (getWorldPosition() - target);
+
+		tktkMath::Vector3 horizontalLookAtRotation	{ lookAtRotation.x,	0.0f,				lookAtRotation.z };
+		tktkMath::Vector3 verticalLookAtRotation	{ 0.0f,				lookAtRotation.y,	tktkMath::Vector2(lookAtRotation.x, lookAtRotation.z).length() };
+
+		setWorldRotation(tktkMath::Quaternion::createLookRotation(horizontalLookAtRotation) * tktkMath::Quaternion::createLookRotation(verticalLookAtRotation));
 	}
 
 	void Transform3D::rotateAround(const tktkMath::Vector3& worldPoint, const tktkMath::Vector3& axis, float angle)

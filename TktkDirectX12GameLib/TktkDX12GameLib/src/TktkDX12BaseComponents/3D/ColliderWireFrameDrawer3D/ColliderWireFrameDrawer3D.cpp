@@ -6,20 +6,10 @@
 
 namespace tktk
 {
-	ColliderWireFrameDrawer3D::ColliderWireFrameDrawer3D(
-		float			drawPriority,
-		unsigned int	cameraHandle,
-		unsigned int	shadowMapCameraHandle,
-		unsigned int	lightHandle,
-		unsigned int	useRtvDescriptorHeapHandle,
-		const tktkMath::Color& lineColor
-	)
+	ColliderWireFrameDrawer3D::ColliderWireFrameDrawer3D(float drawPriority, const tktkMath::Color& lineColor, const SphereMeshDrawerUseResourceHandles& useResourceHandles)
 		: m_drawPriority(drawPriority)
-		, m_cameraHandle(cameraHandle)
-		, m_shadowMapCameraHandle(shadowMapCameraHandle)
-		, m_lightHandle(lightHandle)
-		, m_useRtvDescriptorHeapHandle(useRtvDescriptorHeapHandle)
 		, m_lineColor(lineColor)
+		, m_useResourceHandles(useResourceHandles)
 	{
 	}
 
@@ -37,10 +27,7 @@ namespace tktk
 					boundingCircle.calculateRadius(),
 					boundingCircle.getLocalMatrix().calculateTranslation(),
 					m_lineColor,
-					m_cameraHandle,
-					m_shadowMapCameraHandle,
-					m_lightHandle,
-					m_useRtvDescriptorHeapHandle
+					m_useResourceHandles
 					)
 			);
 		}

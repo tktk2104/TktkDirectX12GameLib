@@ -99,9 +99,6 @@
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\PostEffect\PostEffectMaterialInitParam.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Sprite\SpriteConstantBufferData.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\Sprite\SpriteMaterial.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -508,6 +505,18 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\_HandleGetter\SystemDXGameResourceType.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\TktkDX12BaseComponents\3D\MeshDrawer\BasicMeshDrawerUseResourceHandles.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\TktkDX12BaseComponents\3D\MeshDrawer\SphereMeshDrawerUseResourceHandles.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Sprite\SpriteMaterialCbufferData.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Sprite\SpriteTransformCbuffer.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

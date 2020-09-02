@@ -18,6 +18,9 @@ namespace tktk
 
 		SkeletonData(const SkeletonInitParam& initParam);
 
+		// コピーコンストラクタ
+		SkeletonData(const SkeletonData& other);
+
 		// ムーブコンストラクタ
 		SkeletonData(SkeletonData&& other) noexcept;
 
@@ -25,11 +28,15 @@ namespace tktk
 
 	public:
 
+		// 骨情報の定数バッファの値にコピーするためのバッファを作り、そのハンドルを返す
+		// ※この関数で取得したハンドルは使用後に「DX12GameManager::eraseCopyBuffer(handle)」を必ず読んでバッファを削除してください
+		unsigned int createCopyBufferHandle() const;
+
 		// 引数のボーン毎の座標変換行列を使ってスケルトンを変形する
 		void transform(const std::vector<MotionBoneParam>& transformMatrices);
 
-		// 骨情報を管理する定数バッファを更新する
-		void updateBoneMatrixCbuffer() const;
+		// 引数が表すコピーバッファを使って骨情報を管理する定数バッファを更新する
+		void updateBoneMatrixCbuffer(unsigned int copyBufferHandle) const;
 
 	private:
 
@@ -46,8 +53,12 @@ namespace tktk
 
 		void transform(const SkeletonData::BoneNode* boneNode, const tktkMath::Matrix4& transformMat);
 
+		// 指定のコピーバッファを更新する
+		void updateCopyBuffer(unsigned int copyBufferHandle) const;
+
 	private:
 
+		//unsigned int								m_createCopyBufferHandle{ 0U };
 		std::vector<tktkMath::Matrix4>				m_boneMatrixArray;
 		std::unordered_map<std::string, BoneNode>	m_boneNodeMap;
 	};

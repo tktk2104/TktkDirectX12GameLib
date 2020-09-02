@@ -326,6 +326,11 @@ namespace tktk
 		return m_dx3dBaseObjects->createPipeLineState(initParam, shaderFilePath);
 	}
 
+	unsigned int DX12GameManager::copyCopyBuffer(unsigned int originalHandle)
+	{
+		return m_dx3dBaseObjects->copyCopyBuffer(originalHandle);
+	}
+
 	unsigned int DX12GameManager::createIndexBuffer(const std::vector<unsigned short>& indices)
 	{
 		return m_dx3dBaseObjects->createIndexBuffer(indices);
@@ -396,6 +401,11 @@ namespace tktk
 		m_dx3dBaseObjects->erasePipeLineState(handle);
 	}
 
+	void DX12GameManager::eraseCopyBuffer(unsigned int handle)
+	{
+		m_dx3dBaseObjects->eraseCopyBuffer(handle);
+	}
+
 	void DX12GameManager::eraseVertexBuffer(unsigned int handle)
 	{
 		m_dx3dBaseObjects->eraseVertexBuffer(handle);
@@ -439,6 +449,11 @@ namespace tktk
 	void DX12GameManager::eraseDsvDescriptorHeap(unsigned int handle)
 	{
 		m_dx3dBaseObjects->eraseDsvDescriptorHeap(handle);
+	}
+
+	void DX12GameManager::copyBuffer(unsigned int handle)
+	{
+		m_dx3dBaseObjects->copyBuffer(handle);
 	}
 
 	void DX12GameManager::updateIndexBuffer(unsigned int handle, const std::vector<unsigned short>& indexDataArray)
@@ -511,9 +526,9 @@ namespace tktk
 		m_dxGameResource->setMaterialHandle(meshHandle, materialSlot, materialHandle);
 	}
 
-	void DX12GameManager::writeBasicMeshShadowMap(unsigned int handle, const MeshTransformCbuffer& transformBufferData)
+	void DX12GameManager::writeBasicMeshShadowMap(unsigned int handle)
 	{
-		m_dxGameResource->writeBasicMeshShadowMap(handle, transformBufferData);
+		m_dxGameResource->writeBasicMeshShadowMap(handle);
 	}
 
 	void DX12GameManager::setMaterialData(unsigned int handle)
@@ -536,9 +551,19 @@ namespace tktk
 		return m_dxGameResource->createSkeleton(initParam);
 	}
 
-	void DX12GameManager::updateBoneMatrixCbuffer(unsigned int handle)
+	unsigned int DX12GameManager::copySkeleton(unsigned int originalHandle)
 	{
-		m_dxGameResource->updateBoneMatrixCbuffer(handle);
+		return m_dxGameResource->copySkeleton(originalHandle);
+	}
+
+	unsigned int DX12GameManager::createSkeletonCopyBufferHandle(unsigned int handle)
+	{
+		return m_dxGameResource->createSkeletonCopyBufferHandle(handle);
+	}
+
+	void DX12GameManager::updateBoneMatrixCbuffer(unsigned int handle, unsigned int copyBufferHandle)
+	{
+		m_dxGameResource->updateBoneMatrixCbuffer(handle, copyBufferHandle);
 	}
 
 	void DX12GameManager::resetBoneMatrixCbuffer()
@@ -975,6 +1000,11 @@ namespace tktk
 		m_componentManager->addCollisionGroup(firstGroup, secondGroup);
 	}
 
+	unsigned int DX12GameManager::createCopyBufferImpl(const CopyBufferInitParam& initParam)
+	{
+		return m_dx3dBaseObjects->createCopyBuffer(initParam);
+	}
+
 	unsigned int DX12GameManager::createVertexBufferImpl(unsigned int vertexTypeSize, unsigned int vertexDataCount, const void* vertexDataTopPos)
 	{
 		return m_dx3dBaseObjects->createVertexBuffer(vertexTypeSize, vertexDataCount, vertexDataTopPos);
@@ -988,6 +1018,11 @@ namespace tktk
 	unsigned int DX12GameManager::createSceneImpl(const std::shared_ptr<SceneBase>& scenePtr, SceneVTable* vtablePtr)
 	{
 		return m_dxGameResource->createScene(scenePtr, vtablePtr);
+	}
+
+	void DX12GameManager::updateCopyBufferImpl(unsigned int handle, unsigned int bufferSize, const void* bufferDataTopPos)
+	{
+		m_dx3dBaseObjects->updateCopyBuffer(handle, bufferSize, bufferDataTopPos);
 	}
 
 	void DX12GameManager::updateVertexBufferImpl(unsigned int handle, unsigned int vertexTypeSize, unsigned int vertexDataCount, const void* vertexDataTopPos)

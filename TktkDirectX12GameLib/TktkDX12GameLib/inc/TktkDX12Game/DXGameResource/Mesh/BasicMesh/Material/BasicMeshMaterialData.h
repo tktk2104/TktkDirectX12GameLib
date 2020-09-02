@@ -16,12 +16,13 @@ namespace tktk
 		explicit BasicMeshMaterialData(const BasicMeshMaterialInitParam& initParam);
 
 		// コピーコンストラクタ
+		// ※ 「m_appendParamMap」の要素はコピーされない（void*があるため）
 		BasicMeshMaterialData(const BasicMeshMaterialData& other);
 		
 		// ムーブコンストラクタ
 		BasicMeshMaterialData(BasicMeshMaterialData&& other) noexcept;
 
-		~BasicMeshMaterialData() = default;
+		~BasicMeshMaterialData();
 
 	public:
 
@@ -36,8 +37,14 @@ namespace tktk
 
 	private:
 
-		unsigned int		m_usePipeLineStateHandle;
-		unsigned int		m_useDescriptorHeapHandle;
+		// 定数バッファのコピー用バッファを更新する
+		void updateCopyBuffer() const;
+
+	private:
+
+		unsigned int		m_usePipeLineStateHandle	{ 0U };
+		unsigned int		m_useDescriptorHeapHandle	{ 0U };
+		unsigned int		m_createCopyBufferHandle	{ 0U };
 		tktkMath::Color		m_materialAmbient;
 		tktkMath::Color		m_materialDiffuse;
 		tktkMath::Color		m_materialSpecular;

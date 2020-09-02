@@ -16,9 +16,6 @@ namespace tktk
 
 		// 使用するレンダーターゲット用のディスクリプタヒープハンドル
 		unsigned int		rtvDescriptorHeapHandle;
-
-		// ワールド行列
-		tktkMath::Matrix3	worldMatrix;
 	};
 }
 #endif // !SPRITE_MATERIAL_DRAW_FUNC_ARGS_H_

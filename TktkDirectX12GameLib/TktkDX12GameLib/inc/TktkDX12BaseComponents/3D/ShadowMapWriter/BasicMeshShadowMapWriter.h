@@ -19,10 +19,18 @@ namespace tktk
 	public:
 
 		void start();
+		void onDestroy();
 		void draw() const;
 
 	private:
 
+		// 座標変換用の定数バッファの更新
+		void updateTransformCbuffer() const;
+
+	private:
+
+		unsigned int				m_createCopyTransformCbufferHandle{ 0U };
+		unsigned int				m_createCopyBoneMatrixCbufferHandle{ 0U };
 		unsigned int				m_meshHandle;
 		unsigned int				m_skeletonHandle;
 		unsigned int				m_cameraHandle;

@@ -13,7 +13,7 @@ namespace tktk
 		m_self.m_user = user;
 
 		// 使用するレンダーターゲットのディスクリプタヒープハンドルのデフォルト値はバックバッファ
-		m_self.m_useRtvDescriptorHeapHandle = DX12GameManager::getSystemHandle(SystemRtvDescriptorHeapType::BackBuffer);
+		m_self.m_useResourceHandles.rtvDescriptorHeapHandle = DX12GameManager::getSystemHandle(SystemRtvDescriptorHeapType::BackBuffer);
 
 		// 自身の参照を返す
 		return m_self;
@@ -24,11 +24,8 @@ namespace tktk
 		// コンポーネントを作成してそのポインタを返す
 		return m_user->createComponent<ColliderWireFrameDrawer3D>(
 			m_drawPriority,
-			m_cameraHandle,
-			m_shadowMapCameraHandle,
-			m_lightHandle,
-			m_useRtvDescriptorHeapHandle,
-			m_lineColor
+			m_lineColor,
+			m_useResourceHandles
 			);
 	}
 
@@ -42,28 +39,28 @@ namespace tktk
 	ColliderWireFrameDrawer3DMaker& ColliderWireFrameDrawer3DMaker::useRtvDescriptorHeapHandle(unsigned int value)
 	{
 		// 値を設定して自身の参照を返す
-		m_useRtvDescriptorHeapHandle = value;
+		m_useResourceHandles.rtvDescriptorHeapHandle = value;
 		return *this;
 	}
 
 	ColliderWireFrameDrawer3DMaker& ColliderWireFrameDrawer3DMaker::cameraHandle(unsigned int value)
 	{
 		// 値を設定して自身の参照を返す
-		m_cameraHandle = value;
+		m_useResourceHandles.cameraHandle = value;
 		return *this;
 	}
 
 	ColliderWireFrameDrawer3DMaker& ColliderWireFrameDrawer3DMaker::shadowMapCameraHandle(unsigned int value)
 	{
 		// 値を設定して自身の参照を返す
-		m_shadowMapCameraHandle = value;
+		m_useResourceHandles.shadowMapCameraHandle = value;
 		return *this;
 	}
 
 	ColliderWireFrameDrawer3DMaker& ColliderWireFrameDrawer3DMaker::lightHandle(unsigned int value)
 	{
 		// 値を設定して自身の参照を返す
-		m_lightHandle = value;
+		m_useResourceHandles.lightHandle = value;
 		return *this;
 	}
 
@@ -77,21 +74,21 @@ namespace tktk
 	ColliderWireFrameDrawer3DMaker& ColliderWireFrameDrawer3DMaker::cameraIdImpl(int value)
 	{
 		// 値を設定して自身の参照を返す
-		m_cameraHandle = DX12GameManager::getCameraHandle(value);
+		m_useResourceHandles.cameraHandle = DX12GameManager::getCameraHandle(value);
 		return *this;
 	}
 
 	ColliderWireFrameDrawer3DMaker& ColliderWireFrameDrawer3DMaker::shadowMapCameraIdImpl(int value)
 	{
 		// 値を設定して自身の参照を返す
-		m_shadowMapCameraHandle = DX12GameManager::getCameraHandle(value);
+		m_useResourceHandles.shadowMapCameraHandle = DX12GameManager::getCameraHandle(value);
 		return *this;
 	}
 
 	ColliderWireFrameDrawer3DMaker& ColliderWireFrameDrawer3DMaker::lightIdImpl(int value)
 	{
 		// 値を設定して自身の参照を返す
-		m_lightHandle = DX12GameManager::getLightHandle(value);
+		m_useResourceHandles.lightHandle = DX12GameManager::getLightHandle(value);
 		return *this;
 	}
 }

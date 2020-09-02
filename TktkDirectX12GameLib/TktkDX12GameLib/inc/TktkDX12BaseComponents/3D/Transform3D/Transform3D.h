@@ -128,9 +128,9 @@ namespace tktk
 		void setLocalUp(const tktkMath::Vector3& up);
 
 		// 指定のTransform3Dの方を向くように自身のワールド行列を変換する
-		void lookAt(const ComponentPtr<Transform3D>& target, const tktkMath::Vector3& worldUp = tktkMath::vec3Up);
+		void lookAt(const ComponentPtr<Transform3D>& target);
 		// 指定の座標の方を向くように自身のワールド行列を変換する
-		void lookAt(const tktkMath::Vector3& target, const tktkMath::Vector3& worldUp = tktkMath::vec3Up);
+		void lookAt(const tktkMath::Vector3& target);
 
 		// 指定の座標を中心とした軸で指定した角度だけ回転させる。
 		void rotateAround(const tktkMath::Vector3& worldPoint, const tktkMath::Vector3& axis, float angle);

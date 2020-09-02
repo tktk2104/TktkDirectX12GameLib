@@ -2,7 +2,8 @@
 
 #include <TktkMath/Structs/Vector2.h>
 #include "TktkDX12Game/_MainManager/DX12GameManager.h"
-#include "TktkDX12Game/DXGameResource/Sprite/SpriteConstantBufferData.h"
+#include "TktkDX12Game/DXGameResource/Sprite/SpriteTransformCbuffer.h"
+#include "TktkDX12Game/DXGameResource/Sprite/SpriteMaterialCbufferData.h"
 
 namespace tktk
 {
@@ -22,7 +23,8 @@ namespace tktk
 		DX12GameManager::setSystemHandle(SystemIndexBufferType::Sprite, DX12GameManager::createIndexBuffer({ 0U, 1U, 2U, 3U }));
 
 		// スプライト用の定数バッファを作る
-		DX12GameManager::setSystemHandle(SystemCBufferType::Sprite, DX12GameManager::createCBuffer(SpriteConstantBufferData()));
+		DX12GameManager::setSystemHandle(SystemCBufferType::SpriteTransform, DX12GameManager::createCBuffer(SpriteTransformCbuffer()));
+		DX12GameManager::setSystemHandle(SystemCBufferType::SpriteMaterial, DX12GameManager::createCBuffer(SpriteMaterialCbufferData()));
 	}
 
 	unsigned int SpriteMaterial::create(const SpriteMaterialInitParam& initParam)
@@ -40,22 +42,25 @@ namespace tktk
 	{
 		RootSignatureInitParam initParam{};
 		initParam.flag = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
-		initParam.rootParamArray.resize(2U);
+		initParam.rootParamArray.resize(3U);
 		{/* テクスチャ用のルートパラメータ */
-			initParam.rootParamArray.at(0).shaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
-			initParam.rootParamArray.at(0).descriptorTable.resize(1U);
-			{
-				initParam.rootParamArray.at(0).descriptorTable.at(0).numDescriptors = 1U;
-				initParam.rootParamArray.at(0).descriptorTable.at(0).type = D3D12_DESCRIPTOR_RANGE_TYPE_SRV;
-			}
+			initParam.rootParamArray.at(0U).shaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
+			initParam.rootParamArray.at(0U).descriptorTable	= {
+				{ 1U, D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 0U }
+			};
 		}
-		{/* 定数バッファ用のルートパラメータ */
-			initParam.rootParamArray.at(1).shaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
-			initParam.rootParamArray.at(1).descriptorTable.resize(1U);
-			{
-				initParam.rootParamArray.at(1).descriptorTable.at(0).numDescriptors = 1U;
-				initParam.rootParamArray.at(1).descriptorTable.at(0).type = D3D12_DESCRIPTOR_RANGE_TYPE_CBV;
-			}
+		{/* 頂点シェーダー用の定数バッファ用のルートパラメータ */
+			initParam.rootParamArray.at(1U).shaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;
+			initParam.rootParamArray.at(1U).descriptorTable = {
+				{ 2U, D3D12_DESCRIPTOR_RANGE_TYPE_CBV, 0U }
+			};
+		}
+
+		{/* ピクセルシェーダー用の定数バッファ用のルートパラメータ */
+			initParam.rootParamArray.at(2U).shaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
+			initParam.rootParamArray.at(2U).descriptorTable = {
+				{ 1U, D3D12_DESCRIPTOR_RANGE_TYPE_CBV, 0U }
+			};
 		}
 		initParam.samplerDescArray.resize(1U);
 		{/* サンプラーの設定 */

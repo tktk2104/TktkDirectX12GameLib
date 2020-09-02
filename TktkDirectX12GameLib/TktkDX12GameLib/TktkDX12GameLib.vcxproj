@@ -183,6 +183,7 @@
     <ClInclude Include="inc\TktkDX12BaseComponents\3D\Light\PointLightControllerMaker.h" />
     <ClInclude Include="inc\TktkDX12BaseComponents\3D\MeshDrawer\SphereMeshDrawer.h" />
     <ClInclude Include="inc\TktkDX12BaseComponents\3D\MeshDrawer\SphereMeshDrawerMaker.h" />
+    <ClInclude Include="inc\TktkDX12BaseComponents\3D\MeshDrawer\SphereMeshDrawerUseResourceHandles.h" />
     <ClInclude Include="inc\TktkDX12BaseComponents\3D\MeshDrawer\SphereMeshWireFrameDrawer.h" />
     <ClInclude Include="inc\TktkDX12BaseComponents\3D\MeshDrawer\SphereMeshWireFrameDrawerMaker.h" />
     <ClInclude Include="inc\TktkDX12BaseComponents\3D\SphereCollider\SphereCollider.h" />
@@ -243,6 +244,7 @@
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\Line2D\Line2DConstantBufferData.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\Line2D\Line2DMaterialData.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\Line2D\Line2DMaterialDrawFuncArgs.h" />
+    <ClInclude Include="inc\TktkDX12BaseComponents\3D\MeshDrawer\BasicMeshDrawerUseResourceHandles.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\Mesh\BasicMesh\Structs\BasicMeshMaterialCbuffer.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\Mesh\BasicMesh\Structs\BasicMonoColorMeshCbuffer.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\Mesh\BasicMesh\Loader\BasicMeshLoadPmdReturnValue.h" />
@@ -280,8 +282,9 @@
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\PostEffect\PostEffectShaderFilePaths.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\Scene\SceneBase.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\Scene\SceneVTable.h" />
-    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Sprite\SpriteConstantBufferData.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Sprite\SpriteMaterialCbufferData.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\Sprite\SpriteMaterialDrawFuncArgs.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Sprite\SpriteTransformCbuffer.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\_HandleGetter\DXGameResourceHandleGetter.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\_HandleGetter\IdType\SystemBasicMeshMaterialType.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\_HandleGetter\IdType\SystemBasicMeshType.h" />

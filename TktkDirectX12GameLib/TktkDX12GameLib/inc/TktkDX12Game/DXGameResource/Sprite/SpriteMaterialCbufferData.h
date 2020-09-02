@@ -7,11 +7,8 @@
 namespace tktk
 {
 	// スプライト描画に使用する定数バッファ情報
-	struct SpriteConstantBufferData
+	struct SpriteMaterialCbufferData
 	{
-		// ワールド行列（hslsの仕様上、float4x3）
-		float				worldMatrix[12]		{};
-
 		// ブレンドレート
 		tktkMath::Color		blendRate			{ 1.0f, 1.0f, 1.0f, 1.0f };
 

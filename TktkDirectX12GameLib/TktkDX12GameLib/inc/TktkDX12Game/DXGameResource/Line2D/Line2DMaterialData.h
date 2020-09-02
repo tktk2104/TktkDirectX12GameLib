@@ -10,7 +10,7 @@ namespace tktk
 	{
 	public:
 
-		Line2DMaterialData() = default;
+		Line2DMaterialData();
 		~Line2DMaterialData();
 
 		// ムーブコンストラクタ
@@ -24,11 +24,12 @@ namespace tktk
 
 	private:
 
-		// ２Ｄラインの定数バッファを更新する
-		void updateLine2DCbuffer(const Line2DMaterialDrawFuncArgs& drawFuncArgs) const;
+		// 定数バッファのコピー用バッファを更新する
+		void updateCopyCbuffer(const Line2DMaterialDrawFuncArgs& drawFuncArgs) const;
 
 	private:
 
+		unsigned int m_createCopyCbufferHandle{ 0U };
 		unsigned int m_createdVertexBufferHandle{ 0U };
 	};
 }

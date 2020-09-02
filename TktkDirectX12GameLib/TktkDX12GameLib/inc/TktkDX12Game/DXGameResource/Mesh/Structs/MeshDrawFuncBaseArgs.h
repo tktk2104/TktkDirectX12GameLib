@@ -26,13 +26,7 @@ namespace tktk
 		unsigned int			dsvDescriptorHeapHandle;
 
 		// 使用するライトID
-		unsigned int			lightId;
-
-		// メッシュの座標変換情報
-		MeshTransformCbuffer	transformBufferData{};
-
-		// シャドウマップを使った描画に必要な情報
-		MeshShadowMapCBuffer	shadowMapBufferData{};
+		unsigned int			lightHandle;
 	};
 }
 #endif // !MESH_DRAW_FUNC_BASE_ARGS_H_

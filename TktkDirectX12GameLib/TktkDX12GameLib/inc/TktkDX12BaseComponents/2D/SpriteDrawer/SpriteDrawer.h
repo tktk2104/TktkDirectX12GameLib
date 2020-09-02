@@ -21,6 +21,7 @@ namespace tktk
 	public:
 
 		void start();
+		void onDestroy();
 		void draw() const;
 
 	public:
@@ -45,6 +46,12 @@ namespace tktk
 
 	private:
 
+		// 座標変換用の定数バッファの更新
+		void updateTransformCbuffer() const;
+
+	private:
+
+		unsigned int				m_createCopyTransformCbufferHandle{ 0U };
 		unsigned int				m_useRtvDescriptorHeapHandle;
 		unsigned int				m_spriteMaterialHandle;
 		ComponentPtr<Transform2D>	m_transform;

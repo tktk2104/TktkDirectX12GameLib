@@ -12,7 +12,7 @@ namespace tktk
 	{
 	public:
 
-		PostEffectMaterialData(const PostEffectMaterialInitParam& initParam);
+		explicit PostEffectMaterialData(const PostEffectMaterialInitParam& initParam);
 		~PostEffectMaterialData() = default;
 
 		// ムーブコンストラクタ

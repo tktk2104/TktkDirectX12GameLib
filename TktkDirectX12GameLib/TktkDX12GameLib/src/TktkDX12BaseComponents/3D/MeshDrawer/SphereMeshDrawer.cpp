@@ -4,15 +4,12 @@
 
 namespace tktk
 {
-	SphereMeshDrawer::SphereMeshDrawer(float drawPriority, float radius, const tktkMath::Vector3& localPosition, const tktkMath::Color& albedoColor, unsigned int cameraHandle, unsigned int shadowMapCameraHandle, unsigned int lightHandle, unsigned int useRtvDescriptorHeapHandle)
+	SphereMeshDrawer::SphereMeshDrawer(float drawPriority, float radius, const tktkMath::Vector3& localPosition, const tktkMath::Color& albedoColor, const SphereMeshDrawerUseResourceHandles& useResourceHandles)
 		: ComponentBase(drawPriority)
 		, m_radius(radius)
 		, m_localPosition(localPosition)
 		, m_albedoColor(albedoColor)
-		, m_cameraHandle(cameraHandle)
-		, m_shadowMapCameraHandle(shadowMapCameraHandle)
-		, m_lightHandle(lightHandle)
-		, m_useRtvDescriptorHeapHandle(useRtvDescriptorHeapHandle)
+		, m_useResourceHandles(useResourceHandles)
 	{
 	}
 
@@ -24,6 +21,17 @@ namespace tktk
 		{
 			throw std::runtime_error("BasicMeshDrawer not found Transform3D");
 		}
+
+		// コピー用バッファを作り、そのハンドルを取得する
+		m_createCopyTransformCbufferHandle = DX12GameManager::createCopyBuffer(BufferType::constant, DX12GameManager::getSystemHandle(SystemCBufferType::MeshTransform), MeshTransformCbuffer());
+		m_createCopyShadowMapCbufferHandle = DX12GameManager::createCopyBuffer(BufferType::constant, DX12GameManager::getSystemHandle(SystemCBufferType::MeshShadowMap), MeshShadowMapCBuffer());
+	}
+
+	void SphereMeshDrawer::onDestroy()
+	{
+		// コピー用バッファを削除する
+		DX12GameManager::eraseCopyBuffer(m_createCopyTransformCbufferHandle);
+		DX12GameManager::eraseCopyBuffer(m_createCopyShadowMapCbufferHandle);
 	}
 
 	void SphereMeshDrawer::draw() const
@@ -36,36 +44,29 @@ namespace tktk
 		tempCbufferData.albedoColor = m_albedoColor;
 		DX12GameManager::updateMaterialAppendParam(DX12GameManager::getSystemHandle(SystemBasicMeshMaterialType::Sphere), DX12GameManager::getSystemHandle(SystemCBufferType::BasicMonoColorMeshCbuffer), tempCbufferData);
 
+		// 座標変換用の定数バッファの更新を行う
+		updateTransformCbuffer();
+
+		// シャドウマップ用の定数バッファの更新を行う
+		updateShadowMapCbuffer();
+
 		// メッシュ描画に必要な値
 		MeshDrawFuncBaseArgs baseArgs{};
-		{
-			// Transform3Dからワールド行列を取得し、半径の値でスケーリングする
-			baseArgs.transformBufferData.worldMatrix			= tktkMath::Matrix4::createScale({ m_radius }) * tktkMath::Matrix4::createTranslation(m_localPosition) * m_transform->calculateWorldMatrix();
 
-			// 使用するカメラのビュー行列
-			baseArgs.transformBufferData.viewMatrix				= DX12GameManager::getViewMatrix(m_cameraHandle);
+		// 使用するビューポートハンドル
+		baseArgs.viewportHandle = DX12GameManager::getSystemHandle(SystemViewportType::Basic);
 
-			// 使用するカメラのプロジェクション行列
-			baseArgs.transformBufferData.projectionMatrix		= DX12GameManager::getProjectionMatrix(m_cameraHandle);
+		// 使用するシザー矩形ハンドル
+		baseArgs.scissorRectHandle = DX12GameManager::getSystemHandle(SystemScissorRectType::Basic);
 
-			// 使用するビューポートハンドル
-			baseArgs.viewportHandle								= DX12GameManager::getSystemHandle(SystemViewportType::Basic);
+		// 使用するレンダーターゲットディスクリプタヒープハンドル
+		baseArgs.rtvDescriptorHeapHandle = m_useResourceHandles.rtvDescriptorHeapHandle;
 
-			// 使用するシザー矩形ハンドル
-			baseArgs.scissorRectHandle							= DX12GameManager::getSystemHandle(SystemScissorRectType::Basic);
+		// 使用する深度ステンシルディスクリプタヒープハンドル
+		baseArgs.dsvDescriptorHeapHandle = DX12GameManager::getSystemHandle(SystemDsvDescriptorHeapType::Basic);
 
-			// 使用するレンダーターゲットディスクリプタヒープハンドル
-			baseArgs.rtvDescriptorHeapHandle					= m_useRtvDescriptorHeapHandle;
-
-			// 使用する深度ステンシルディスクリプタヒープハンドル
-			baseArgs.dsvDescriptorHeapHandle					= DX12GameManager::getSystemHandle(SystemDsvDescriptorHeapType::Basic);
-
-			// 使用するライト番号
-			baseArgs.lightId									= m_lightHandle;
-
-			// シャドウマップを使用する為に必要なシャドウマップカメラ行列
-			baseArgs.shadowMapBufferData.shadowMapViewProjMat	= DX12GameManager::getViewMatrix(m_shadowMapCameraHandle) * DX12GameManager::getProjectionMatrix(m_shadowMapCameraHandle);
-		}
+		// 使用するライト番号
+		baseArgs.lightHandle = m_useResourceHandles.lightHandle;
 
 		// メッシュを描画する
 		DX12GameManager::drawBasicMesh(DX12GameManager::getSystemHandle(SystemBasicMeshType::Sphere), baseArgs);
@@ -79,5 +80,43 @@ namespace tktk
 	void SphereMeshDrawer::setAlbedoColor(const tktkMath::Color& color)
 	{
 		m_albedoColor = color;
+	}
+
+	void SphereMeshDrawer::updateTransformCbuffer() const
+	{
+		// メッシュの座標変換用定数バッファ形式
+		MeshTransformCbuffer transformBufferData{};
+
+		// Transform3Dからワールド行列を取得
+		transformBufferData.worldMatrix = m_transform->calculateWorldMatrix();
+
+		// 使用するカメラのビュー行列
+		transformBufferData.viewMatrix = DX12GameManager::getViewMatrix(m_useResourceHandles.cameraHandle);
+
+		// 使用するカメラのプロジェクション行列
+		transformBufferData.projectionMatrix = DX12GameManager::getProjectionMatrix(m_useResourceHandles.cameraHandle);
+
+		// 定数バッファのコピー用バッファを更新する
+		// TODO : 前フレームと定数バッファに変化がない場合、更新しない処理を作る
+		DX12GameManager::updateCopyBuffer(m_createCopyTransformCbufferHandle, transformBufferData);
+
+		// 座標変換用の定数バッファにコピーバッファの情報をコピーする
+		DX12GameManager::copyBuffer(m_createCopyTransformCbufferHandle);
+	}
+
+	void SphereMeshDrawer::updateShadowMapCbuffer() const
+	{
+		// メッシュのシャドウマップ描画用定数バッファ形式
+		MeshShadowMapCBuffer shadowMapBufferData{};
+
+		// シャドウマップを使用する為に必要なシャドウマップカメラ行列
+		shadowMapBufferData.shadowMapViewProjMat = DX12GameManager::getViewMatrix(m_useResourceHandles.shadowMapCameraHandle) * DX12GameManager::getProjectionMatrix(m_useResourceHandles.shadowMapCameraHandle);
+
+		// 定数バッファのコピー用バッファを更新する
+		// TODO : 前フレームと定数バッファに変化がない場合、更新しない処理を作る
+		DX12GameManager::updateCopyBuffer(m_createCopyShadowMapCbufferHandle, shadowMapBufferData);
+
+		// シャドウマップ使用用の定数バッファにコピーバッファの情報をコピーする
+		DX12GameManager::copyBuffer(m_createCopyShadowMapCbufferHandle);
 	}
 }

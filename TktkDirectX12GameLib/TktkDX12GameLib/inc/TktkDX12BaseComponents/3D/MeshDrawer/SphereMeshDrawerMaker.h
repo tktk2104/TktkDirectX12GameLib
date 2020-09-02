@@ -48,7 +48,7 @@ namespace tktk
 		// 使用するカメラIDを設定する（列挙型を含む整数型のidが渡された場合のみビルド可）
 		// ※内部で対応するリソースハンドルに変換される
 		template<class IdType, is_idType<IdType> = nullptr>
-		SphereMeshDrawerMaker& cameraId(IdType value);
+		SphereMeshDrawerMaker& cameraId(IdType value) { return cameraIdImpl(static_cast<int>(value)); }
 
 		// 使用するシャドウマップカメラハンドルを設定する
 		SphereMeshDrawerMaker& shadowMapCameraHandle(unsigned int value);
@@ -56,7 +56,7 @@ namespace tktk
 		// 使用するシャドウマップカメラIDを設定する（列挙型を含む整数型のidが渡された場合のみビルド可）
 		// ※内部で対応するリソースハンドルに変換される
 		template<class IdType, is_idType<IdType> = nullptr>
-		SphereMeshDrawerMaker& shadowMapCameraId(IdType value);
+		SphereMeshDrawerMaker& shadowMapCameraId(IdType value) { return shadowMapCameraIdImpl(static_cast<int>(value)); }
 
 		// 使用するライトハンドルを設定する
 		SphereMeshDrawerMaker& lightHandle(unsigned int value);
@@ -64,7 +64,7 @@ namespace tktk
 		// 使用するライトIDを設定する（列挙型を含む整数型のidが渡された場合のみビルド可）
 		// ※内部で対応するリソースハンドルに変換される
 		template<class IdType, is_idType<IdType> = nullptr>
-		SphereMeshDrawerMaker& lightId(IdType value);
+		SphereMeshDrawerMaker& lightId(IdType value) { return lightIdImpl(static_cast<int>(value)); }
 
 	private: /* 各種id指定系の関数の実装 */
 
@@ -78,15 +78,12 @@ namespace tktk
 
 	private: /* 変数達 */
 
-		GameObjectPtr		m_user						{  };
-		float				m_drawPriority				{ 0.0f };
-		float				m_radius					{ 0.5f };
-		tktkMath::Vector3	m_localPosition				{ tktkMath::Vector3_v::zero };
-		tktkMath::Color		m_albedoColor				{ tktkMath::Color_v::white };
-		unsigned int		m_useRtvDescriptorHeapHandle{  };		// ※初期パラメータはバックバッファー
-		unsigned int		m_cameraHandle				{ 0U };
-		unsigned int		m_shadowMapCameraHandle		{ 0U };
-		unsigned int		m_lightHandle				{ 0U };
+		GameObjectPtr						m_user				{  };
+		float								m_drawPriority		{ 0.0f };
+		float								m_radius			{ 0.5f };
+		tktkMath::Vector3					m_localPosition		{ tktkMath::Vector3_v::zero };
+		tktkMath::Color						m_albedoColor		{ tktkMath::Color_v::white };
+		SphereMeshDrawerUseResourceHandles	m_useResourceHandles{  }; // ※「RtvDescriptorHeap」の初期パラメータはバックバッファー
 
 	public: /* 不正な型の引数が渡されそうになった時にコンパイルエラーにする為の仕組み */
 
@@ -99,29 +96,5 @@ namespace tktk
 		template<class IdType, std::enable_if_t<!is_idType_v<IdType>>* = nullptr>
 		SphereMeshDrawerMaker& lightId(IdType value) { static_assert(false, "LightId Fraud Type"); }
 	};
-//┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-//┃ここから下は関数の実装
-//┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-	// 使用するカメラIDを設定する（列挙型を含む整数型のidが渡された場合のみビルド可）
-	template<class IdType, is_idType<IdType>>
-	inline SphereMeshDrawerMaker& SphereMeshDrawerMaker::cameraId(IdType value)
-	{
-		return cameraIdImpl(static_cast<int>(value));
-	}
-
-	// 使用するシャドウマップカメラIDを設定する（列挙型を含む整数型のidが渡された場合のみビルド可）
-	template<class IdType, is_idType<IdType>>
-	inline SphereMeshDrawerMaker& SphereMeshDrawerMaker::shadowMapCameraId(IdType value)
-	{
-		return shadowMapCameraIdImpl(static_cast<int>(value));
-	}
-
-	// 使用するライトIDを設定する（列挙型を含む整数型のidが渡された場合のみビルド可）
-	template<class IdType, is_idType<IdType>>
-	inline SphereMeshDrawerMaker& SphereMeshDrawerMaker::lightId(IdType value)
-	{
-		return lightIdImpl(static_cast<int>(value));
-	}
 }
 #endif // !SPHERE_MESH_DRAWER_MAKER_H_

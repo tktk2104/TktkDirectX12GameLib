@@ -11,6 +11,7 @@ namespace tktk
 		, m_primitiveTopology(initParam.primitiveTopology)
 		, m_materialSlots(initParam.materialSlots)
 	{
+		
 	}
 
 	BasicMeshData::BasicMeshData(const BasicMeshData& other)
@@ -20,6 +21,7 @@ namespace tktk
 		, m_primitiveTopology(other.m_primitiveTopology)
 		, m_materialSlots(other.m_materialSlots)
 	{
+		
 	}
 
 	BasicMeshData::BasicMeshData(BasicMeshData&& other) noexcept
