@@ -186,6 +186,8 @@
     <ClInclude Include="inc\TktkDX12BaseComponents\3D\MeshDrawer\SphereMeshDrawerUseResourceHandles.h" />
     <ClInclude Include="inc\TktkDX12BaseComponents\3D\MeshDrawer\SphereMeshWireFrameDrawer.h" />
     <ClInclude Include="inc\TktkDX12BaseComponents\3D\MeshDrawer\SphereMeshWireFrameDrawerMaker.h" />
+    <ClInclude Include="inc\TktkDX12BaseComponents\3D\ShadowMapWriter\SphereMeshShadowMapWriter.h" />
+    <ClInclude Include="inc\TktkDX12BaseComponents\3D\ShadowMapWriter\SphereMeshShadowMapWriterMaker.h" />
     <ClInclude Include="inc\TktkDX12BaseComponents\3D\SphereCollider\SphereCollider.h" />
     <ClInclude Include="inc\TktkDX12BaseComponents\3D\SphereCollider\SphereColliderMaker.h" />
     <ClInclude Include="inc\TktkDX12BaseComponents\Components.h" />
@@ -355,6 +357,8 @@
     <ClCompile Include="src\TktkDX12BaseComponents\3D\MeshDrawer\SphereMeshDrawerMaker.cpp" />
     <ClCompile Include="src\TktkDX12BaseComponents\3D\MeshDrawer\SphereMeshWireFrameDrawer.cpp" />
     <ClCompile Include="src\TktkDX12BaseComponents\3D\MeshDrawer\SphereMeshWireFrameDrawerMaker.cpp" />
+    <ClCompile Include="src\TktkDX12BaseComponents\3D\ShadowMapWriter\SphereMeshShadowMapWriter.cpp" />
+    <ClCompile Include="src\TktkDX12BaseComponents\3D\ShadowMapWriter\SphereMeshShadowMapWriterMaker.cpp" />
     <ClCompile Include="src\TktkDX12BaseComponents\3D\SphereCollider\SphereCollider.cpp" />
     <ClCompile Include="src\TktkDX12BaseComponents\3D\SphereCollider\SphereColliderMaker.cpp" />
     <ClCompile Include="src\TktkDX12BaseComponents\Other\ReceiveMessageToSelfDestroyer\ReceiveMessageToSelfDestroyer.cpp" />
