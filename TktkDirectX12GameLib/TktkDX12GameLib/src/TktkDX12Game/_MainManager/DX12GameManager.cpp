@@ -456,11 +456,6 @@ namespace tktk
 		m_dx3dBaseObjects->copyBuffer(handle);
 	}
 
-	void DX12GameManager::updateIndexBuffer(unsigned int handle, const std::vector<unsigned short>& indexDataArray)
-	{
-		m_dx3dBaseObjects->updateIndexBuffer(handle, indexDataArray);
-	}
-
 	void DX12GameManager::clearRtv(unsigned int handle, unsigned int rtvLocationIndex, const tktkMath::Color& color)
 	{
 		m_dx3dBaseObjects->clearRtv(handle, rtvLocationIndex, color);
@@ -1023,16 +1018,6 @@ namespace tktk
 	void DX12GameManager::updateCopyBufferImpl(unsigned int handle, unsigned int bufferSize, const void* bufferDataTopPos)
 	{
 		m_dx3dBaseObjects->updateCopyBuffer(handle, bufferSize, bufferDataTopPos);
-	}
-
-	void DX12GameManager::updateVertexBufferImpl(unsigned int handle, unsigned int vertexTypeSize, unsigned int vertexDataCount, const void* vertexDataTopPos)
-	{
-		m_dx3dBaseObjects->updateVertexBuffer(handle, vertexTypeSize, vertexDataCount, vertexDataTopPos);
-	}
-
-	void DX12GameManager::updateCbufferImpl(unsigned int handle, unsigned int constantBufferTypeSize, const void* constantBufferDataTopPos)
-	{
-		m_dx3dBaseObjects->updateCBuffer(handle, constantBufferTypeSize, constantBufferDataTopPos);
 	}
 
 	void DX12GameManager::addMaterialAppendParamImpl(unsigned int handle, unsigned int cbufferHandle, unsigned int dataSize, void* dataTopPos)

@@ -24,13 +24,6 @@ namespace tktk
 	// デストラクタを非インライン化する
 	BufferResource::~BufferResource() = default;
 
-	void BufferResource::deleteUploadBufferAll()
-	{
-		m_vertexBuffer->deleteUploadBufferAll();
-		m_indexBuffer->deleteUploadBufferAll();
-		m_constantBuffer->deleteUploadBufferAll();
-	}
-
 	unsigned int BufferResource::createCopyBuffer(ID3D12Device* device, const CopyBufferInitParam& initParam)
 	{
 		return m_copyBuffer->create(device, initParam);
@@ -97,11 +90,6 @@ namespace tktk
 		m_vertexBuffer->erase(handle);
 	}
 
-	void BufferResource::updateVertexBuffer(unsigned int handle, ID3D12Device* device, ID3D12GraphicsCommandList* commandList, unsigned int vertexTypeSize, unsigned int vertexDataCount, const void* vertexDataTopPos)
-	{
-		m_vertexBuffer->updateBuffer(handle, device, commandList, vertexTypeSize, vertexDataCount, vertexDataTopPos);
-	}
-
 	void BufferResource::setVertexBuffer(unsigned int handle, ID3D12GraphicsCommandList* commandList) const
 	{
 		m_vertexBuffer->set(handle, commandList);
@@ -115,11 +103,6 @@ namespace tktk
 	void BufferResource::eraseIndexBuffer(unsigned int handle)
 	{
 		m_indexBuffer->erase(handle);
-	}
-
-	void BufferResource::updateIndexBuffer(unsigned int handle, ID3D12Device* device, ID3D12GraphicsCommandList* commandList, const std::vector<unsigned short>& indexDataArray)
-	{
-		m_indexBuffer->updateBuffer(handle, device, commandList, indexDataArray);
 	}
 
 	void BufferResource::setIndexBuffer(unsigned int handle, ID3D12GraphicsCommandList* commandList) const
@@ -140,11 +123,6 @@ namespace tktk
 	void BufferResource::createCbv(unsigned int handle, ID3D12Device* device, D3D12_CPU_DESCRIPTOR_HANDLE heapHandle) const
 	{
 		m_constantBuffer->createCbv(handle, device, heapHandle);
-	}
-
-	void BufferResource::updateCBuffer(unsigned int handle, ID3D12Device* device, ID3D12GraphicsCommandList* commandList, unsigned int constantBufferTypeSize, const void* constantBufferDataTopPos)
-	{
-		m_constantBuffer->updateBuffer(handle, device, commandList, constantBufferTypeSize, constantBufferDataTopPos);
 	}
 
 	unsigned int BufferResource::cpuPriorityCreateTextureBuffer(ID3D12Device* device, const TexBufFormatParam& formatParam, const TexBuffData& dataParam)

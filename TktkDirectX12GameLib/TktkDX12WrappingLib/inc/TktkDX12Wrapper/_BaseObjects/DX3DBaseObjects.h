@@ -152,15 +152,6 @@ namespace tktk
 		// 指定のコピーバッファの内容を設定したバッファにコピーするGPU命令を設定する
 		void copyBuffer(unsigned int handle) const;
 
-		// 指定の頂点バッファを更新する
-		void updateVertexBuffer(unsigned int handle, unsigned int vertexTypeSize, unsigned int vertexDataCount, const void* vertexDataTopPos);
-
-		// 指定のインデックスバッファを更新する
-		void updateIndexBuffer(unsigned int handle, const std::vector<unsigned short>& indexDataArray);
-
-		// 指定の定数バッファを更新する
-		void updateCBuffer(unsigned int handle, unsigned int constantBufferTypeSize, const void* constantBufferDataTopPos);
-
 		// 指定のレンダーターゲットビューを指定の色でクリアする
 		void clearRtv(unsigned int handle, unsigned int rtvLocationIndex, const tktkMath::Color& color) const;
 

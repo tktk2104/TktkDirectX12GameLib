@@ -260,26 +260,6 @@ namespace tktk
 		m_bufferResource->copyBuffer(handle, commandList);
 	}
 
-	void DX3DResource::updateVertexBuffer(unsigned int handle, ID3D12Device* device, ID3D12GraphicsCommandList* commandList, unsigned int vertexTypeSize, unsigned int vertexDataCount, const void* vertexDataTopPos)
-	{
-		m_bufferResource->updateVertexBuffer(handle, device, commandList, vertexTypeSize, vertexDataCount, vertexDataTopPos);
-	}
-
-	void DX3DResource::updateIndexBuffer(unsigned int handle, ID3D12Device* device, ID3D12GraphicsCommandList* commandList, const std::vector<unsigned short>& indexDataArray)
-	{
-		m_bufferResource->updateIndexBuffer(handle, device, commandList, indexDataArray);
-	}
-
-	void DX3DResource::updateCBuffer(unsigned int handle, ID3D12Device* device, ID3D12GraphicsCommandList* commandList, unsigned int constantBufferTypeSize, const void* constantBufferDataTopPos)
-	{
-		m_bufferResource->updateCBuffer(handle, device, commandList, constantBufferTypeSize, constantBufferDataTopPos);
-	}
-
-	void DX3DResource::deleteUploadBufferAll()
-	{
-		m_bufferResource->deleteUploadBufferAll();
-	}
-
 	void DX3DResource::clearRtv(unsigned int handle, ID3D12Device* device, ID3D12GraphicsCommandList* commandList, unsigned int rtvLocationIndex, const tktkMath::Color& color) const
 	{
 		m_descriptorHeap->clearRtv(handle, device, commandList, rtvLocationIndex, color);

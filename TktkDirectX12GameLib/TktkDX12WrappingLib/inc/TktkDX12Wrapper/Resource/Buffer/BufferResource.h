@@ -28,11 +28,6 @@ namespace tktk
 		explicit BufferResource(const BufferResourceNum& initParam);
 		~BufferResource();
 
-	public: /* バッファ共通の処理 */
-
-		// 全てのアップロード用のバッファを削除する
-		void deleteUploadBufferAll();
-
 	public: /* コピーバッファの処理 */
 
 		// コピーバッファを作り、そのリソースのハンドルを返す
@@ -60,10 +55,6 @@ namespace tktk
 		// ※引数のハンドルに対応するリソースが無かったら何もしない
 		void eraseVertexBuffer(unsigned int handle);
 
-		// 指定の頂点バッファを更新する
-		// ※アップロードバッファを新規に作成し、そのバッファから自身にコピーする命令をコマンドリストに登録する
-		void updateVertexBuffer(unsigned int handle, ID3D12Device* device, ID3D12GraphicsCommandList* commandList, unsigned int vertexTypeSize, unsigned int vertexDataCount, const void* vertexDataTopPos);
-
 		// コマンドリストに指定の頂点バッファを登録する
 		void setVertexBuffer(unsigned int handle, ID3D12GraphicsCommandList* commandList) const;
 
@@ -75,10 +66,6 @@ namespace tktk
 		// 指定のインデックスバッファを削除する
 		// ※引数のハンドルに対応するリソースが無かったら何もしない
 		void eraseIndexBuffer(unsigned int handle);
-
-		// 指定のインデックスバッファを更新する
-		// ※アップロードバッファを新規に作成し、そのバッファから自身にコピーする命令をコマンドリストに登録する
-		void updateIndexBuffer(unsigned int handle, ID3D12Device* device, ID3D12GraphicsCommandList* commandList, const std::vector<unsigned short>& indexDataArray);
 
 		// コマンドリストに指定のインデックスバッファを登録する
 		void setIndexBuffer(unsigned int handle, ID3D12GraphicsCommandList* commandList) const;
@@ -94,10 +81,6 @@ namespace tktk
 
 		// 指定の定数バッファを使用して、引数のディスクリプタハンドルに定数バッファビューを作る
 		void createCbv(unsigned int handle, ID3D12Device* device, D3D12_CPU_DESCRIPTOR_HANDLE heapHandle) const;
-
-		// 指定の定数バッファを更新する
-		// ※アップロードバッファを新規に作成し、そのバッファから自身にコピーする命令をコマンドリストに登録する
-		void updateCBuffer(unsigned int handle, ID3D12Device* device, ID3D12GraphicsCommandList* commandList, unsigned int constantBufferTypeSize, const void* constantBufferDataTopPos);
 
 	public: /* テクスチャバッファの処理 */
 

@@ -25,13 +25,6 @@ namespace tktk
 	
 		// 指定の定数バッファを使用して、引数のディスクリプタハンドルに定数バッファビューを作る
 		void createCbv(unsigned int handle, ID3D12Device* device, D3D12_CPU_DESCRIPTOR_HANDLE heapHandle) const;
-	
-		// 指定の定数バッファを更新する
-		// ※アップロードバッファを新規に作成し、そのバッファから自身にコピーする命令をコマンドリストに登録する
-		void updateBuffer(unsigned int handle, ID3D12Device* device, ID3D12GraphicsCommandList* commandList, unsigned int constantBufferTypeSize, const void* constantBufferDataTopPos);
-
-		// 全てのアップロード用のバッファを削除する
-		void deleteUploadBufferAll();
 
 		// 指定の定数バッファのポインタを取得する
 		ID3D12Resource* getBufferPtr(unsigned int handle) const;

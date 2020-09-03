@@ -56,7 +56,7 @@ namespace tktk
 
 		// シーンを作り、そのリソースのハンドルを返す
 		template<class SceneType, class... Args>
-		static unsigned int addScene(Args&&... constructorArgs)							{ return createSceneImpl(std::make_shared<SceneType>(std::forward<Args>(constructorArgs)...), &SceneVTableInitializer<SceneType>::m_vtable); }
+		static unsigned int addScene(Args&&... constructorArgs)	{ return createSceneImpl(std::make_shared<SceneType>(std::forward<Args>(constructorArgs)...), &SceneVTableInitializer<SceneType>::m_vtable); }
 
 		// シーンを作り、そのリソースのハンドルと引数のハンドルを結び付ける
 		template<class SceneType, class IdType, class... Args>
@@ -299,17 +299,6 @@ namespace tktk
 
 		// 指定のコピーバッファの内容を設定したバッファにコピーするGPU命令を設定する
 		static void copyBuffer(unsigned int handle);
-
-		// 指定の頂点バッファを更新する
-		template <class VertexData>
-		static void updateVertexBuffer(unsigned int handle, const std::vector<VertexData>& vertexDataArray) { updateVertexBufferImpl(handle, sizeof(VertexData), vertexDataArray.size(), vertexDataArray.data()); }
-
-		// 指定のインデックスバッファを更新する
-		static void updateIndexBuffer(unsigned int handle, const std::vector<unsigned short>& indexDataArray);
-
-		// 指定の定数バッファを更新する
-		template <class ConstantBufferDataType>
-		static void updateCBuffer(unsigned int handle, const ConstantBufferDataType& rawConstantBufferData) { updateCbufferImpl(handle, sizeof(ConstantBufferDataType), &rawConstantBufferData); }
 
 		// 指定のレンダーターゲットビューを指定の色でクリアする
 		static void clearRtv(unsigned int handle, unsigned int rtvLocationIndex, const tktkMath::Color& color);
@@ -716,8 +705,6 @@ namespace tktk
 		static unsigned int createCbufferImpl(unsigned int constantBufferTypeSize, const void* constantBufferDataTopPos);
 		static unsigned int createSceneImpl(const std::shared_ptr<SceneBase>& scenePtr, SceneVTable* vtablePtr);
 		static void updateCopyBufferImpl(unsigned int handle, unsigned int bufferSize, const void* bufferDataTopPos);
-		static void updateVertexBufferImpl(unsigned int handle, unsigned int vertexTypeSize, unsigned int vertexDataCount, const void* vertexDataTopPos);
-		static void updateCbufferImpl(unsigned int handle, unsigned int constantBufferTypeSize, const void* constantBufferDataTopPos);
 		static void addMaterialAppendParamImpl(unsigned int handle, unsigned int cbufferHandle, unsigned int dataSize, void* dataTopPos);
 		static void updateMaterialAppendParamImpl(unsigned int handle, unsigned int cbufferHandle, unsigned int dataSize, const void* dataTopPos);
 

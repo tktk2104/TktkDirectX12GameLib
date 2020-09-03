@@ -22,19 +22,6 @@ namespace tktk
 		m_vertexBufferDataArray.getMatchHandlePtr(handle)->set(commandList);
 	}
 
-	void VertexBuffer::updateBuffer(unsigned int handle, ID3D12Device* device, ID3D12GraphicsCommandList* commandList, unsigned int vertexTypeSize, unsigned int vertexDataCount, const void* vertexDataTopPos)
-	{
-		m_vertexBufferDataArray.getMatchHandlePtr(handle)->updateBuffer(device, commandList, vertexTypeSize, vertexDataCount, vertexDataTopPos);
-	}
-
-	void VertexBuffer::deleteUploadBufferAll()
-	{
-		for (auto& node : m_vertexBufferDataArray)
-		{
-			node.deleteUploadBufferAll();
-		}
-	}
-
 	ID3D12Resource* VertexBuffer::getBufferPtr(unsigned int handle) const
 	{
 		return m_vertexBufferDataArray.getMatchHandlePtr(handle)->getBufferPtr();

@@ -22,19 +22,6 @@ namespace tktk
 		m_constantBufferDataArray.getMatchHandlePtr(handle)->createCbv(device, heapHandle);
 	}
 
-	void ConstantBuffer::updateBuffer(unsigned int handle, ID3D12Device* device, ID3D12GraphicsCommandList* commandList, unsigned int constantBufferTypeSize, const void* constantBufferDataTopPos)
-	{
-		m_constantBufferDataArray.getMatchHandlePtr(handle)->updateBuffer(device, commandList, constantBufferTypeSize, constantBufferDataTopPos);
-	}
-
-	void ConstantBuffer::deleteUploadBufferAll()
-	{
-		for (auto& node : m_constantBufferDataArray)
-		{
-			node.deleteUploadBufferAll();
-		}
-	}
-
 	ID3D12Resource* ConstantBuffer::getBufferPtr(unsigned int handle) const
 	{
 		return m_constantBufferDataArray.getMatchHandlePtr(handle)->getBufferPtr();

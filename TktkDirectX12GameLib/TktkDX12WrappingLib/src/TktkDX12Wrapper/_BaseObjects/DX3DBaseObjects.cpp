@@ -377,21 +377,6 @@ namespace tktk
 		m_dX3DResource->copyBuffer(handle, m_commandList);
 	}
 
-	void DX3DBaseObjects::updateVertexBuffer(unsigned int handle, unsigned int vertexTypeSize, unsigned int vertexDataCount, const void* vertexDataTopPos)
-	{
-		m_dX3DResource->updateVertexBuffer(handle, m_device, m_commandList, vertexTypeSize, vertexDataCount, vertexDataTopPos);
-	}
-
-	void DX3DBaseObjects::updateIndexBuffer(unsigned int handle, const std::vector<unsigned short>& indexDataArray)
-	{
-		m_dX3DResource->updateIndexBuffer(handle, m_device, m_commandList, indexDataArray);
-	}
-
-	void DX3DBaseObjects::updateCBuffer(unsigned int handle, unsigned int constantBufferTypeSize, const void* constantBufferDataTopPos)
-	{
-		m_dX3DResource->updateCBuffer(handle, m_device, m_commandList, constantBufferTypeSize, constantBufferDataTopPos);
-	}
-
 	void DX3DBaseObjects::clearRtv(unsigned int handle, unsigned int rtvLocationIndex, const tktkMath::Color& color) const
 	{
 		m_dX3DResource->clearRtv(handle, m_device, m_commandList, rtvLocationIndex, color);
@@ -514,9 +499,6 @@ namespace tktk
 
 		// コマンドリストをリセットする
 		m_commandList->Reset(m_commandAllocator, nullptr);
-
-		// コピー元バッファを削除する
-		m_dX3DResource->deleteUploadBufferAll();
 	}
 
 	unsigned int DX3DBaseObjects::getSystemHandle(SystemViewportType type) const

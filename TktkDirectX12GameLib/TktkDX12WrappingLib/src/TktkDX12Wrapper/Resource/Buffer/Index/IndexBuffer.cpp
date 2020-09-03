@@ -22,19 +22,6 @@ namespace tktk
 		m_indexBufferDataArray.getMatchHandlePtr(handle)->set(commandList);
 	}
 
-	void IndexBuffer::updateBuffer(unsigned int handle, ID3D12Device* device, ID3D12GraphicsCommandList* commandList, const std::vector<unsigned short>& indexDataArray)
-	{
-		m_indexBufferDataArray.getMatchHandlePtr(handle)->updateBuffer(device, commandList, indexDataArray);
-	}
-
-	void IndexBuffer::deleteUploadBufferAll()
-	{
-		for (auto& node : m_indexBufferDataArray)
-		{
-			node.deleteUploadBufferAll();
-		}
-	}
-
 	ID3D12Resource* IndexBuffer::getBufferPtr(unsigned int handle) const
 	{
 		return m_indexBufferDataArray.getMatchHandlePtr(handle)->getBufferPtr();

@@ -26,13 +26,6 @@ namespace tktk
 		// コマンドリストに指定のインデックスバッファを登録する
 		void set(unsigned int handle, ID3D12GraphicsCommandList* commandList) const;
 
-		// インデックスバッファを更新する
-		// ※アップロードバッファを新規に作成し、そのバッファから自身にコピーする命令をコマンドリストに登録する
-		void updateBuffer(unsigned int handle, ID3D12Device* device, ID3D12GraphicsCommandList* commandList, const std::vector<unsigned short>& indexDataArray);
-
-		// 全てのアップロード用のバッファを削除する
-		void deleteUploadBufferAll();
-
 		// 指定のインデックスバッファのポインタを取得する
 		ID3D12Resource* getBufferPtr(unsigned int handle) const;
 
