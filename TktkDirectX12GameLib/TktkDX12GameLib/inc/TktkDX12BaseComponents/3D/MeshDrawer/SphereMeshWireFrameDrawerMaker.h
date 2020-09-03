@@ -62,9 +62,11 @@ namespace tktk
 		SphereMeshWireFrameDrawerMaker& shadowMapCameraId(IdType value) { return shadowMapCameraIdImpl(static_cast<int>(value)); }
 
 		// 使用するライトハンドルを設定する
+		// ※初期パラメータはデフォルトライト
 		SphereMeshWireFrameDrawerMaker& lightHandle(unsigned int value);
 
 		// 使用するライトIDを設定する（列挙型を含む整数型のidが渡された場合のみビルド可で、関数内で対応するリソースハンドルに変換される）
+		// ※初期パラメータはデフォルトライト
 		template<class IdType, is_idType<IdType> = nullptr>
 		SphereMeshWireFrameDrawerMaker& lightId(IdType value) { return lightIdImpl(static_cast<int>(value)); }
 

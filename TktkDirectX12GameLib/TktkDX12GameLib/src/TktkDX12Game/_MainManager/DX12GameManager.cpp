@@ -93,6 +93,9 @@ namespace tktk
 		// デフォルトのシャドウマップカメラを作る
 		DX12GameManager::setSystemHandle(SystemCameraType::DefaultShadowMapCamera, DX12GameManager::createCamera());
 
+		// デフォルトのライトを作る
+		DX12GameManager::setSystemHandle(SystemLightType::DefaultLight, DX12GameManager::createLight({ 0.3f, 1.0f }, { 0.3f, 1.0f }, { 0.3f, 1.0f }, { 0.0f }));
+
 		// 球体メッシュを作る
 		SphereMeshMaker::make();
 	}
@@ -906,6 +909,11 @@ namespace tktk
 		return m_systemDXGameResourceHandleGetter->getSystemHandle(type);
 	}
 
+	unsigned int DX12GameManager::getSystemHandle(SystemLightType type)
+	{
+		return m_systemDXGameResourceHandleGetter->getSystemHandle(type);
+	}
+
 	unsigned int DX12GameManager::getSystemHandle(SystemBasicMeshType type)
 	{
 		return m_systemDXGameResourceHandleGetter->getSystemHandle(type);
@@ -987,6 +995,11 @@ namespace tktk
 	}
 
 	void DX12GameManager::setSystemHandle(SystemCameraType type, unsigned int handle)
+	{
+		m_systemDXGameResourceHandleGetter->setSystemHandle(type, handle);
+	}
+
+	void DX12GameManager::setSystemHandle(SystemLightType type, unsigned int handle)
 	{
 		m_systemDXGameResourceHandleGetter->setSystemHandle(type, handle);
 	}

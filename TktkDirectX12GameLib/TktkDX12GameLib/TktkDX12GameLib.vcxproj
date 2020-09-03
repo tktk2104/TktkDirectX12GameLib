@@ -291,6 +291,7 @@
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\_HandleGetter\IdType\SystemBasicMeshMaterialType.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\_HandleGetter\IdType\SystemBasicMeshType.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\_HandleGetter\IdType\SystemCameraType.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\_HandleGetter\IdType\SystemLightType.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\_HandleGetter\IdType\SystemPostEffectMaterialType.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\_HandleGetter\SystemDXGameResourceHandleGetter.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\_HandleGetter\SystemDXGameResourceType.h" />

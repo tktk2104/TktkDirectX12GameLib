@@ -28,12 +28,13 @@ namespace tktk
 	public:  /* パラメータ設定関数 */
 
 		// 使用する初期ライトハンドルを設定する
+		// ※初期パラメータはデフォルトライト
 		PointLightControllerMaker& initLightHandle(unsigned int value);
 
-		// 使用する初期ライトIDを設定する（列挙型を含む整数型のidが渡された場合のみビルド可）
-		// ※内部で対応するリソースハンドルに変換される
+		// 使用する初期ライトIDを設定する（列挙型を含む整数型のidが渡された場合のみビルド可で、関数内で対応するリソースハンドルに変換される）
+		// ※初期パラメータはデフォルトライト
 		template<class IdType, is_idType<IdType> = nullptr>
-		PointLightControllerMaker& initLightId(IdType value);
+		PointLightControllerMaker& initLightId(IdType value) { return initLightIdImpl(static_cast<int>(value)); }
 
 		// 初期環境光を設定する
 		PointLightControllerMaker& initAmbient(const tktkMath::Color& value);
@@ -65,15 +66,5 @@ namespace tktk
 		template<class IdType, std::enable_if_t<!is_idType_v<IdType>>* = nullptr>
 		PointLightControllerMaker& initLightId(IdType value) { static_assert(false, "LightId Fraud Type"); }
 	};
-//┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-//┃ここから下は関数の実装
-//┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-	// 使用する初期ライトIDを設定する（列挙型を含む整数型のidが渡された場合のみビルド可）
-	template<class IdType, is_idType<IdType>>
-	inline PointLightControllerMaker& PointLightControllerMaker::initLightId(IdType value)
-	{
-		return initLightIdImpl(static_cast<int>(value));
-	}
 }
 #endif // !POINT_LIGHT_CONTROLLER_MAKER_H_

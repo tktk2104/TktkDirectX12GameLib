@@ -671,6 +671,7 @@ namespace tktk
 		static unsigned int getSystemHandle(SystemRootSignatureType type);
 		static unsigned int getSystemHandle(SystemPipeLineStateType type);
 		static unsigned int getSystemHandle(SystemCameraType type);
+		static unsigned int getSystemHandle(SystemLightType type);
 		static unsigned int getSystemHandle(SystemBasicMeshType type);
 		static unsigned int getSystemHandle(SystemBasicMeshMaterialType type);
 		static unsigned int getSystemHandle(SystemPostEffectMaterialType type);
@@ -692,6 +693,7 @@ namespace tktk
 		static void setSystemHandle(SystemRootSignatureType type,		unsigned int handle);
 		static void setSystemHandle(SystemPipeLineStateType type,		unsigned int handle);
 		static void setSystemHandle(SystemCameraType type,				unsigned int handle);
+		static void setSystemHandle(SystemLightType type,				unsigned int handle);
 		static void setSystemHandle(SystemBasicMeshType type,			unsigned int handle);
 		static void setSystemHandle(SystemBasicMeshMaterialType type,	unsigned int handle);
 		static void setSystemHandle(SystemPostEffectMaterialType type,	unsigned int handle);

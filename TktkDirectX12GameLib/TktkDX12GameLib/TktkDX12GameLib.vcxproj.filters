@@ -528,6 +528,9 @@
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\_HandleGetter\IdType\SystemCameraType.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\_HandleGetter\IdType\SystemLightType.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\TktkDX12Game\_MainManager\DX12GameManager.cpp">

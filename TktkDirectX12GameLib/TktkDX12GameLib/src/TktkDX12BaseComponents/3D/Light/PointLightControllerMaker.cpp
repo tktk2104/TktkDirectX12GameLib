@@ -12,6 +12,9 @@ namespace tktk
 		// 引数のユーザーを設定
 		m_self.m_user = user;
 
+		// 使用するライトハンドルのデフォルト値はデフォルトライト
+		m_self.m_initLightHandle = DX12GameManager::getSystemHandle(SystemLightType::DefaultLight);
+
 		// 自身の参照を返す
 		return m_self;
 	}

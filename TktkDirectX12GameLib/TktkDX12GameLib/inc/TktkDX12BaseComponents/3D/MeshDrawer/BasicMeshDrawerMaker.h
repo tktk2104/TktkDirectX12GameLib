@@ -67,9 +67,11 @@ namespace tktk
 		BasicMeshDrawerMaker& shadowMapCameraId(IdType value) { return shadowMapCameraIdImpl(static_cast<int>(value)); }
 
 		// 使用するライトハンドルを設定する
+		// ※初期パラメータはデフォルトライト
 		BasicMeshDrawerMaker& lightHandle(unsigned int value);
 
 		// 使用するライトIDを設定する（列挙型を含む整数型のidが渡された場合のみビルド可で、関数内で対応するリソースハンドルに変換される）
+		// ※初期パラメータはデフォルトライト
 		template<class IdType, std::enable_if_t<is_idType_v<IdType>>* = nullptr>
 		BasicMeshDrawerMaker& lightId(IdType value) { return lightIdImpl(static_cast<int>(value)); }
 

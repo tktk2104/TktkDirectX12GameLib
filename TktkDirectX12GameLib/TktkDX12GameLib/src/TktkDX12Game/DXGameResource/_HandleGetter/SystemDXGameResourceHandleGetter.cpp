@@ -7,6 +7,11 @@ namespace tktk
 		return m_systemCameraHandleMap.at(type);
 	}
 
+	unsigned int SystemDXGameResourceHandleGetter::getSystemHandle(SystemLightType type) const
+	{
+		return m_systemLightHandleMap.at(type);
+	}
+
 	unsigned int SystemDXGameResourceHandleGetter::getSystemHandle(SystemBasicMeshType type) const
 	{
 		return m_systemBasicMeshHandleMap.at(type);
@@ -25,6 +30,11 @@ namespace tktk
 	void SystemDXGameResourceHandleGetter::setSystemHandle(SystemCameraType type, unsigned int handle)
 	{
 		m_systemCameraHandleMap.emplace(type, handle);
+	}
+
+	void SystemDXGameResourceHandleGetter::setSystemHandle(SystemLightType type, unsigned int handle)
+	{
+		m_systemLightHandleMap.emplace(type, handle);
 	}
 
 	void SystemDXGameResourceHandleGetter::setSystemHandle(SystemBasicMeshType type, unsigned int handle)

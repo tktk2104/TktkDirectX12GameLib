@@ -18,6 +18,9 @@ namespace tktk
 		// 使用するシャドウマップカメラハンドルのデフォルト値はデフォルトシャドウマップカメラ
 		m_self.m_useResourceHandles.shadowMapCameraHandle	= DX12GameManager::getSystemHandle(SystemCameraType::DefaultShadowMapCamera);
 
+		// 使用するライトハンドルのデフォルト値はデフォルトライト
+		m_self.m_useResourceHandles.lightHandle				= DX12GameManager::getSystemHandle(SystemLightType::DefaultLight);
+
 		// 使用するレンダーターゲットのディスクリプタヒープハンドルのデフォルト値はバックバッファ
 		m_self.m_useResourceHandles.rtvDescriptorHeapHandle = DX12GameManager::getSystemHandle(SystemRtvDescriptorHeapType::BackBuffer);
 
