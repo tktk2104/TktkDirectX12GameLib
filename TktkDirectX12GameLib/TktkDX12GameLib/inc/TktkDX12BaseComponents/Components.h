@@ -19,6 +19,7 @@
 #include "3D/BoxCollider/BoxColliderMaker.h"
 #include "3D/ColliderWireFrameDrawer3D/ColliderWireFrameDrawer3DMaker.h"
 #include "3D/Light/PointLightControllerMaker.h"
+#include "3D/Light/DirectionalLightControllerMaker.h"
 #include "3D/Camera/BasicCameraControllerMaker.h"
 #include "3D/Camera/OrthographicCameraControllerMaker.h"
 #include "3D/Camera/FirstPersonModuleMaker.h"
@@ -27,12 +28,13 @@
 #include "3D/MeshDrawer/SphereMeshWireFrameDrawerMaker.h"
 #include "3D/MeshAnimator/MeshAnimatorMaker.h"
 #include "3D/ShadowMapWriter/BasicMeshShadowMapWriterMaker.h"
+#include "3D/ShadowMapWriter/SphereMeshShadowMapWriterMaker.h"
 
 #include "Other/ReceiveMessageToSelfDestroyer/ReceiveMessageToSelfDestroyerMaker.h"
 
 class TktkManual;
 
-#ifndef SAMPLE /* 「#ifdef」を「#ifndef」に変えると“F12”で対応するクラスに飛べます */
+#ifdef SAMPLE /* 「#ifdef」を「#ifndef」に変えると“F12”で対応するクラスに飛べます */
 namespace tktk
 {
 	/* ２次元コンポーネント達 */
@@ -93,29 +95,35 @@ namespace tktk
 		// ポイントライトの制御コンポーネント
 		using C35 = PointLightController;
 
+		// ディレクショナルライトの制御コンポーネント
+		using C36 = DirectionalLightController;
+
 		// 通常カメラの制御コンポーネント
-		using C36 = BasicCameraController;
+		using C37 = BasicCameraController;
 
 		// 平行投影カメラの制御コンポーネント
-		using C37 = OrthographicCameraController;
+		using C38 = OrthographicCameraController;
 
 		// １人称移動コンポーネント
-		using C38 = FirstPersonModule;
+		using C39 = FirstPersonModule;
 
 		// メッシュの描画コンポーネント
-		using C39 = BasicMeshDrawer;
+		using C40 = BasicMeshDrawer;
 
 		// 球体メッシュの描画コンポーネント
-		using C40 = SphereMeshDrawer;
+		using C41 = SphereMeshDrawer;
 
 		// 球体メッシュワイヤーフレームの描画コンポーネント
-		using C41 = SphereMeshWireFrameDrawer;
+		using C42 = SphereMeshWireFrameDrawer;
 
 		// メッシュのアニメーションコンポーネント
-		using C42 = MeshAnimator;
+		using C43 = MeshAnimator;
 
 		// メッシュのシャドウマップ描画コンポーネント
-		using C43 = BasicMeshShadowMapWriter;
+		using C44 = BasicMeshShadowMapWriter;
+
+		// 球体メッシュのシャドウマップ描画コンポーネント
+		using C45 = SphereMeshShadowMapWriter;
 	//>
 
 
