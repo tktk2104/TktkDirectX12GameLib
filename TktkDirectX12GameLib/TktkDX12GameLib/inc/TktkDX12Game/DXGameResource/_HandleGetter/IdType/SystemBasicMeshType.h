@@ -3,9 +3,6 @@
 
 namespace tktk
 {
-	// システムで使用している通常のメッシュの数
-	constexpr unsigned int SystemBasicMeshNum = 2U;
-
 	// システムで使用している通常のメッシュの種類
 	enum class SystemBasicMeshType
 	{

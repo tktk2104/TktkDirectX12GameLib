@@ -12,6 +12,9 @@ namespace tktk
 		// 引数のユーザーを設定
 		m_self.m_user = user;
 
+		// 使用するカメラハンドルのデフォルト値はデフォルト通常カメラ
+		m_self.m_initCameraHandle = DX12GameManager::getSystemHandle(SystemCameraType::DefaultCamera);
+
 		// カメラアスペクト比のデフォルト値はゲームスクリーンの比率
 		m_self.m_initCameraAspect = DX12GameManager::getWindowSize().x / DX12GameManager::getWindowSize().y;
 

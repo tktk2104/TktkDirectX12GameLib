@@ -12,6 +12,9 @@ namespace tktk
 		// 引数のユーザーを設定
 		m_self.m_user = user;
 
+		// 使用するカメラハンドルのデフォルト値はデフォルト通常カメラ
+		m_self.m_initCameraHandle = DX12GameManager::getSystemHandle(SystemCameraType::DefaultCamera);
+
 		// 自身の参照を返す
 		return m_self;
 	}

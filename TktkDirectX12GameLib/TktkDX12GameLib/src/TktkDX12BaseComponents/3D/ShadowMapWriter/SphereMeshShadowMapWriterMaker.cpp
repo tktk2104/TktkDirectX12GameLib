@@ -12,6 +12,9 @@ namespace tktk
 		// 引数のユーザーを設定
 		m_self.m_user = user;
 
+		// 使用するカメラハンドルのデフォルト値はデフォルトシャドウマップカメラ
+		m_self.m_cameraHandle = DX12GameManager::getSystemHandle(SystemCameraType::DefaultShadowMapCamera);
+
 		// 自身の参照を返す
 		return m_self;
 	}

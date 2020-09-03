@@ -3,9 +3,6 @@
 
 namespace tktk
 {
-	// システムで使用している通常のメッシュマテリアルの数
-	constexpr unsigned int SystemBasicMeshMaterialNum = 2U;
-
 	// システムで使用している通常のメッシュマテリアルの種類
 	enum class SystemBasicMeshMaterialType
 	{

@@ -87,6 +87,12 @@ namespace tktk
 			setSystemHandle(SystemDsvDescriptorHeapType::ShadowMap, createDsvDescriptorHeap(initParam));
 		}
 
+		// デフォルトの通常カメラを作る
+		DX12GameManager::setSystemHandle(SystemCameraType::DefaultCamera, DX12GameManager::createCamera());
+
+		// デフォルトのシャドウマップカメラを作る
+		DX12GameManager::setSystemHandle(SystemCameraType::DefaultShadowMapCamera, DX12GameManager::createCamera());
+
 		// 球体メッシュを作る
 		SphereMeshMaker::make();
 	}
@@ -895,6 +901,11 @@ namespace tktk
 		return m_dx3dBaseObjects->getSystemHandle(type);
 	}
 
+	unsigned int DX12GameManager::getSystemHandle(SystemCameraType type)
+	{
+		return m_systemDXGameResourceHandleGetter->getSystemHandle(type);
+	}
+
 	unsigned int DX12GameManager::getSystemHandle(SystemBasicMeshType type)
 	{
 		return m_systemDXGameResourceHandleGetter->getSystemHandle(type);
@@ -973,6 +984,11 @@ namespace tktk
 	void DX12GameManager::setSystemHandle(SystemPipeLineStateType type, unsigned int handle)
 	{
 		m_dx3dBaseObjects->setSystemHandle(type, handle);
+	}
+
+	void DX12GameManager::setSystemHandle(SystemCameraType type, unsigned int handle)
+	{
+		m_systemDXGameResourceHandleGetter->setSystemHandle(type, handle);
 	}
 
 	void DX12GameManager::setSystemHandle(SystemBasicMeshType type, unsigned int handle)

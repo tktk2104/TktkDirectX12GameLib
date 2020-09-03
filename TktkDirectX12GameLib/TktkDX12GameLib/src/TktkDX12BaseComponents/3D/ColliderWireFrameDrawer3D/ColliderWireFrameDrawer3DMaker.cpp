@@ -12,6 +12,12 @@ namespace tktk
 		// 引数のユーザーを設定
 		m_self.m_user = user;
 
+		// 使用するカメラハンドルのデフォルト値はデフォルト通常カメラ
+		m_self.m_useResourceHandles.cameraHandle			= DX12GameManager::getSystemHandle(SystemCameraType::DefaultCamera);
+
+		// 使用するシャドウマップカメラハンドルのデフォルト値はデフォルトシャドウマップカメラ
+		m_self.m_useResourceHandles.shadowMapCameraHandle	= DX12GameManager::getSystemHandle(SystemCameraType::DefaultShadowMapCamera);
+
 		// 使用するレンダーターゲットのディスクリプタヒープハンドルのデフォルト値はバックバッファ
 		m_self.m_useResourceHandles.rtvDescriptorHeapHandle = DX12GameManager::getSystemHandle(SystemRtvDescriptorHeapType::BackBuffer);
 

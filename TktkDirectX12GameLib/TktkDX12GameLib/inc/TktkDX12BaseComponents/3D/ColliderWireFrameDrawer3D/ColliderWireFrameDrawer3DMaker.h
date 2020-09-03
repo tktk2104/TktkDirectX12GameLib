@@ -32,26 +32,27 @@ namespace tktk
 		ColliderWireFrameDrawer3DMaker& useRtvDescriptorHeapHandle(unsigned int value);
 
 		// 使用するカメラハンドルを設定する
+		// ※初期パラメータはデフォルト通常カメラ
 		ColliderWireFrameDrawer3DMaker& cameraHandle(unsigned int value);
 
-		// 使用するカメラIDを設定する（列挙型を含む整数型のidが渡された場合のみビルド可）
-		// ※内部で対応するリソースハンドルに変換される
+		// 使用するカメラIDを設定する（列挙型を含む整数型のidが渡された場合のみビルド可で、関数内で対応するリソースハンドルに変換される）
+		// ※初期パラメータはデフォルト通常カメラ
 		template<class IdType, is_idType<IdType> = nullptr>
 		ColliderWireFrameDrawer3DMaker& cameraId(IdType value) { return cameraIdImpl(static_cast<int>(value)); }
 
 		// 使用するシャドウマップカメラハンドルを設定する
+		// ※初期パラメータはデフォルトシャドウマップカメラ
 		ColliderWireFrameDrawer3DMaker& shadowMapCameraHandle(unsigned int value);
 
-		// 使用するシャドウマップカメラIDを設定する（列挙型を含む整数型のidが渡された場合のみビルド可）
-		// ※内部で対応するリソースハンドルに変換される
+		// 使用するシャドウマップカメラIDを設定する（列挙型を含む整数型のidが渡された場合のみビルド可で、関数内で対応するリソースハンドルに変換される）
+		// ※初期パラメータはデフォルトシャドウマップカメラ
 		template<class IdType, is_idType<IdType> = nullptr>
 		ColliderWireFrameDrawer3DMaker& shadowMapCameraId(IdType value) { return shadowMapCameraIdImpl(static_cast<int>(value)); }
 
 		// 使用するライトハンドルを設定する
 		ColliderWireFrameDrawer3DMaker& lightHandle(unsigned int value);
 
-		// 使用するライトIDを設定する（列挙型を含む整数型のidが渡された場合のみビルド可）
-		// ※内部で対応するリソースハンドルに変換される
+		// 使用するライトIDを設定する（列挙型を含む整数型のidが渡された場合のみビルド可で、関数内で対応するリソースハンドルに変換される）
 		template<class IdType, is_idType<IdType> = nullptr>
 		ColliderWireFrameDrawer3DMaker& lightId(IdType value) { return lightIdImpl(static_cast<int>(value)); }
 

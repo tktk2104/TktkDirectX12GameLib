@@ -3,9 +3,6 @@
 
 namespace tktk
 {
-	// システムで使用している通常のポストエフェクトマテリアルの数
-	constexpr unsigned int SystemPostEffectMaterialNum = 6U;
-
 	// システムで使用している通常のポストエフェクトマテリアルの種類
 	enum class SystemPostEffectMaterialType
 	{

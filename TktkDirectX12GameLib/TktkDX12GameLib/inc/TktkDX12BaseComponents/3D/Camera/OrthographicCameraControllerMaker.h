@@ -28,12 +28,13 @@ namespace tktk
 	public:  /* パラメータ設定関数 */
 
 		// 使用する初期カメラハンドルを設定する
+		// ※初期パラメータはデフォルト通常カメラ
 		OrthographicCameraControllerMaker& initCameraHandle(unsigned int value);
 
-		// 使用する初期カメラIDを設定する（列挙型を含む整数型のidが渡された場合のみビルド可）
-		// ※内部で対応するリソースハンドルに変換される
+		// 使用する初期カメラIDを設定する（列挙型を含む整数型のidが渡された場合のみビルド可で、関数内で対応するリソースハンドルに変換される）
+		// ※初期パラメータはデフォルト通常カメラ
 		template<class IdType, is_idType<IdType> = nullptr>
-		OrthographicCameraControllerMaker& initCameraId(IdType value);
+		OrthographicCameraControllerMaker& initCameraId(IdType value) { return initCameraIdImpl(static_cast<int>(value)); }
 
 		// 初期カメラ横範囲を設定する
 		OrthographicCameraControllerMaker& initCameraWidth(float value);
@@ -69,15 +70,5 @@ namespace tktk
 		template<class IdType, std::enable_if_t<!is_idType_v<IdType>>* = nullptr>
 		OrthographicCameraControllerMaker& initCameraId(IdType value) { static_assert(false, "CameraId Fraud Type"); }
 	};
-//┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-//┃ここから下は関数の実装
-//┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-	// 使用する初期カメラIDを設定する（列挙型を含む整数型のidが渡された場合のみビルド可）
-	template<class IdType, is_idType<IdType>>
-	inline OrthographicCameraControllerMaker& OrthographicCameraControllerMaker::initCameraId(IdType value)
-	{
-		return initCameraIdImpl(static_cast<int>(value));
-	}
 }
 #endif // !ORTHOGRAPHIC_CAMERA_CONTROLLER_MAKER_H_

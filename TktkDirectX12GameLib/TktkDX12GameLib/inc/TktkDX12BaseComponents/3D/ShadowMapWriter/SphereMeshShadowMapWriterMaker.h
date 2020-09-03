@@ -36,8 +36,8 @@ namespace tktk
 		// ローカル座標を設定する
 		SphereMeshShadowMapWriterMaker& localPosition(const tktkMath::Vector3& value);
 
-		// 使用するカメラIDを設定する（列挙型を含む整数型のidが渡された場合のみビルド可）
-		// ※内部で対応するリソースハンドルに変換される
+		// 使用するカメラIDを設定する（列挙型を含む整数型のidが渡された場合のみビルド可で、関数内で対応するリソースハンドルに変換される）
+		// ※初期パラメータはデフォルトシャドウマップカメラ
 		template<class IdType, is_idType<IdType> = nullptr>
 		SphereMeshShadowMapWriterMaker& cameraId(IdType value) { return cameraIdImpl(static_cast<int>(value)); }
 

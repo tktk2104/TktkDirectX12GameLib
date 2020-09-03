@@ -31,45 +31,45 @@ namespace tktk
 		BasicMeshDrawerMaker& drawPriority(float value);
 
 		// 使用するレンダーターゲットのディスクリプタヒープハンドルを設定する
+		// ※初期パラメータはバックバッファー
 		BasicMeshDrawerMaker& useRtvDescriptorHeapHandle(unsigned int value);
 
 		// 使用するメッシュハンドルを設定する
 		BasicMeshDrawerMaker& meshHandle(unsigned int value);
 
-		// 使用するメッシュIDを設定する（列挙型を含む整数型のidが渡された場合のみビルド可）
-		// ※内部で対応するリソースハンドルに変換される
+		// 使用するメッシュIDを設定する（列挙型を含む整数型のidが渡された場合のみビルド可で、関数内で対応するリソースハンドルに変換される）
 		template<class IdType, is_idType<IdType> = nullptr>
 		BasicMeshDrawerMaker& meshId(IdType value) { return meshIdImpl(static_cast<int>(value)); }
 
 		// 使用するスケルトンのリソースハンドルを設定する
 		BasicMeshDrawerMaker& skeletonHandle(unsigned int value);
 
-		// 使用するスケルトンのリソースIDを設定する（列挙型を含む整数型のidが渡された場合のみビルド可）
-		// ※内部で対応するリソースハンドルに変換される
+		// 使用するスケルトンのリソースIDを設定する（列挙型を含む整数型のidが渡された場合のみビルド可で、関数内で対応するリソースハンドルに変換される）
 		template<class IdType, is_idType<IdType> = nullptr>
 		BasicMeshDrawerMaker& skeletonId(IdType value) { return skeletonIdImpl(static_cast<int>(value)); }
 
 		// 使用するカメラハンドルを設定する
+		// ※初期パラメータはデフォルト通常カメラ
 		BasicMeshDrawerMaker& cameraHandle(unsigned int value);
 
-		// 使用するカメラIDを設定する（列挙型を含む整数型のidが渡された場合のみビルド可）
-		// ※内部で対応するリソースハンドルに変換される
+		// 使用するカメラIDを設定する（列挙型を含む整数型のidが渡された場合のみビルド可で、関数内で対応するリソースハンドルに変換される）
+		// ※初期パラメータはデフォルト通常カメラ
 		template<class IdType, is_idType<IdType> = nullptr>
 		BasicMeshDrawerMaker& cameraId(IdType value) { return cameraIdImpl(static_cast<int>(value)); }
 
 		// 使用するシャドウマップカメラハンドルを設定する
+		// ※初期パラメータはデフォルトシャドウマップカメラ
 		BasicMeshDrawerMaker& shadowMapCameraHandle(unsigned int value);
 
-		// 使用するシャドウマップカメラIDを設定する（列挙型を含む整数型のidが渡された場合のみビルド可）
-		// ※内部で対応するリソースハンドルに変換される
+		// 使用するシャドウマップカメラIDを設定する（列挙型を含む整数型のidが渡された場合のみビルド可で、関数内で対応するリソースハンドルに変換される）
+		// ※初期パラメータはデフォルトシャドウマップカメラ
 		template<class IdType, is_idType<IdType> = nullptr>
 		BasicMeshDrawerMaker& shadowMapCameraId(IdType value) { return shadowMapCameraIdImpl(static_cast<int>(value)); }
 
 		// 使用するライトハンドルを設定する
 		BasicMeshDrawerMaker& lightHandle(unsigned int value);
 
-		// 使用するライトIDを設定する（列挙型を含む整数型のidが渡された場合のみビルド可）
-		// ※内部で対応するリソースハンドルに変換される
+		// 使用するライトIDを設定する（列挙型を含む整数型のidが渡された場合のみビルド可で、関数内で対応するリソースハンドルに変換される）
 		template<class IdType, std::enable_if_t<is_idType_v<IdType>>* = nullptr>
 		BasicMeshDrawerMaker& lightId(IdType value) { return lightIdImpl(static_cast<int>(value)); }
 
@@ -88,8 +88,8 @@ namespace tktk
 	private: /* 変数達 */
 
 		GameObjectPtr						m_user				{  };
-		float								m_drawPriority		{ 0.0f };	
-		BasicMeshDrawerUseResourceHandles	m_useResourceHandles{  }; // ※「RtvDescriptorHeap」の初期パラメータはバックバッファー
+		float								m_drawPriority		{ 0.0f };
+		BasicMeshDrawerUseResourceHandles	m_useResourceHandles{  };
 
 	public: /* 不正な型の引数が渡されそうになった時にコンパイルエラーにする為の仕組み */
 
