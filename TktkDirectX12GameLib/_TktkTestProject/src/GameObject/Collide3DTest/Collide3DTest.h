@@ -23,16 +23,20 @@ struct Collide3DTest
 			.create();
 
 		tktk::SphereColliderMaker::makeStart(gameObject)
-			.radius(1.0f)
+			.radius(4.0f)
 			.collisionGroupType(collisionGroup)
+			.localPosition({ 0.0f, 4.0f, 0.0f })
+			.create();
+
+		tktk::SphereColliderMaker::makeStart(gameObject)
+			.radius(4.0f)
+			.collisionGroupType(collisionGroup)
+			.localPosition({ 0.0f, 12.0f, 0.0f })
 			.create();
 
 		tktk::ColliderWireFrameDrawer3DMaker::makeStart(gameObject)
 			.drawPriority(0.0f)
 			.lineColor(tktkMath::Color_v::white)
-			.cameraId(CameraId::Basic)
-			.shadowMapCameraId(CameraId::ShadowMap)
-			.lightId(LightId::Basic)
 			.create();
 
 		gameObject->createComponent<Collide3DTestScript>(moveSpeed);

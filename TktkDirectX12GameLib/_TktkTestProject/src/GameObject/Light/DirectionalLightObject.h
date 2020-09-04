@@ -4,9 +4,9 @@
 #include <TktkDX12Game/_MainManager/DX12GameManager.h>
 #include <TktkDX12BaseComponents/3D/Transform3D/Transform3DMaker.h>
 #include <TktkDX12BaseComponents/3D/Camera/OrthographicCameraControllerMaker.h>
-#include <TktkDX12BaseComponents/3D/Light/PointLightControllerMaker.h>
+#include <TktkDX12BaseComponents/3D/Light/DirectionalLightControllerMaker.h>
 
-struct PointLightObject
+struct DirectionalLightObject
 {
 	static tktk::GameObjectPtr create(const tktkMath::Vector3& position)
 	{
@@ -18,13 +18,12 @@ struct PointLightObject
 			.create();
 
 		tktk::OrthographicCameraControllerMaker::makeStart(gameObject)
-			.initCameraWidth(40.0f)
-			.initCameraHeight(40.0f)
-			.initCameraId(1U)
+			.initCameraWidth(100.0f)
+			.initCameraHeight(100.0f)
+			.initCameraHandle(tktk::DX12GameManager::getSystemHandle(tktk::SystemCameraType::DefaultShadowMapCamera))
 			.create();
 
-		tktk::PointLightControllerMaker::makeStart(gameObject)
-			.initLightId(0U)
+		tktk::DirectionalLightControllerMaker::makeStart(gameObject)
 			.create();
 
 		return gameObject;

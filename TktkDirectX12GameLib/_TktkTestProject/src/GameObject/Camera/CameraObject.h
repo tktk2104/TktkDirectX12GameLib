@@ -14,6 +14,8 @@ struct CameraObject
 	{
 		auto gameObject = tktk::DX12GameManager::createGameObject();
 
+		gameObject->addGameObjectTag(999);
+
 		tktk::Transform3DMaker::makeStart(gameObject)
 			.initPosition(position)
 			.create();
@@ -23,7 +25,6 @@ struct CameraObject
 			.create();
 
 		tktk::BasicCameraControllerMaker::makeStart(gameObject)
-			.initCameraId(0U)
 			.initCameraFov(90.0f)
 			.create();
 

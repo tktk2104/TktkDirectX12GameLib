@@ -17,6 +17,8 @@ void LoadingScene::start()
 		tktk::SpriteMaterialInitParam initParam{};
 		initParam.srvBufferType				= tktk::BufferType::texture;
 		initParam.useBufferHandle			= spriteTextureHandle;
+		/*initParam.srvBufferType				= tktk::BufferType::depthStencil;
+		initParam.useBufferHandle			= tktk::DX12GameManager::getSystemHandle(tktk::SystemDsBufferType::ShadowMap);*/
 
 		tktk::DX12GameManager::createSpriteMaterialAndAttachId(SpriteMaterialId::Test, initParam);
 	}
@@ -79,27 +81,6 @@ void LoadingScene::start()
 	{
 		tktk::DX12GameManager::loadSoundAndAttachId(SoundId::TestSe, "res/Sound/damage.wav");
 		tktk::DX12GameManager::loadSoundAndAttachId(SoundId::TestBgm, "res/Sound/kendo.wav");
-	}
-
-	// カメラを作る
-	{
-		// 通常カメラ
-		tktk::DX12GameManager::createCameraAndAttachId(CameraId::Basic);
-
-		// シャドウマップカメラ
-		tktk::DX12GameManager::createCameraAndAttachId(CameraId::ShadowMap);
-	}
-
-	// ライトを作る
-	{
-		// 通常ライト
-		tktk::DX12GameManager::createLightAndAttachId(
-			LightId::Basic,
-			{ 0.3f, 1.0f },
-			{ 0.3f, 1.0f },
-			{ 0.3f, 1.0f },
-			{ 0.0f }
-		);
 	}
 
 	// 頂点カラー２Dポリゴン描画に必要なリソースを作る

@@ -21,9 +21,6 @@ struct SphereTest
 		tktk::SphereMeshDrawerMaker::makeStart(gameObject)
 			.drawPriority(0.0f)
 			.useRtvDescriptorHeapHandle(ResourceHandleCarrier::getPostEffectRtvDescriptorHeapHandle())
-			.cameraId(0U)
-			.shadowMapCameraId(1U)
-			.lightId(0U)
 			.create();
 
 		return gameObject;

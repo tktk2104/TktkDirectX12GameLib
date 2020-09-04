@@ -12,28 +12,28 @@ void Collide3DTestScript::start()
 
 void Collide3DTestScript::update()
 {
-	if (tktk::DX12GameManager::isPush(tktk::KeybordKeyType::key_W))
+	if (tktk::DX12GameManager::isPush(tktk::KeybordKeyType::key_O))
 	{
 		m_transform->addLocalPosition({ 0.0f, 0.0f, -m_moveSpeed });
 	}
-	if (tktk::DX12GameManager::isPush(tktk::KeybordKeyType::key_S))
+	if (tktk::DX12GameManager::isPush(tktk::KeybordKeyType::key_L))
 	{
 		m_transform->addLocalPosition({ 0.0f, 0.0f, m_moveSpeed });
 	}
 
-	if (tktk::DX12GameManager::isPush(tktk::KeybordKeyType::key_A))
+	/*if (tktk::DX12GameManager::isPush(tktk::KeybordKeyType::key_Left))
 	{
 		m_transform->addLocalPosition({ -m_moveSpeed, 0.0f, 0.0f });
 	}
-	if (tktk::DX12GameManager::isPush(tktk::KeybordKeyType::key_D))
+	if (tktk::DX12GameManager::isPush(tktk::KeybordKeyType::key_Right))
 	{
 		m_transform->addLocalPosition({ m_moveSpeed, 0.0f, 0.0f });
-	}
+	}*/
 }
 
 void Collide3DTestScript::onCollisionEnter(const tktk::GameObjectPtr& other)
 {
-	m_transform->addLocalScaleRate({ 1.0f, 1.0f, 1.0f });
+	//m_transform->addLocalScaleRate({ 1.0f, 1.0f, 1.0f });
 }
 
 void Collide3DTestScript::onCollisionStay(const tktk::GameObjectPtr& other)

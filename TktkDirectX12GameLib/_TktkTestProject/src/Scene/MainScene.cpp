@@ -7,7 +7,7 @@
 #include "../GameObject/Miku/Miku.h"
 #include "../GameObject/SphereTest/SphereTest.h"
 #include "../GameObject/Camera/CameraObject.h"
-#include "../GameObject/Light/PointLightObject.h"
+#include "../GameObject/Light/DirectionalLightObject.h"
 #include "../GameObject/PostEffectObject/PostEffectObject.h"
 
 //#include "../TutorialCode/GameObject/Player/Player.h"
@@ -19,16 +19,25 @@ void MainScene::start()
 	
 	/*tktk::DX12GameManager::playSound(0U, false);
 	tktk::DX12GameManager::playSound(1U, true);*/
-	Cursor::create();
+	
 	CameraObject::create({ 0.0f, 16.0f, -20.0f });
-	PointLightObject::create({ 60.0f, 10.0f, -60.0f });
+	DirectionalLightObject::create({ 60.0f, 10.0f, -60.0f });
+
+	Cursor::create();
 	Miku::create(tktkMath::Vector3_v::zero);
-	SphereTest::create(tktkMath::Vector3_v::zero);
+	//SphereTest::create(tktkMath::Vector3_v::zero);
+
+	for (size_t i = 0; i < 5; i++)
+	{
+		Miku::create(tktkMath::Vector3(10.0f * i, 0.0f, 0.0f));
+	}
+
+
 	PostEffectObject::create();
 	
 
-	/*Collide3DTest::create({ 0.0f, 0.0f, -2.0f }, 1.0f, 1);
-	Collide3DTest::create({ 0.0f, 0.0f, 2.0f }, 3.0f, 2);*/
+	/*Collide3DTest::create({ 0.0f, 0.0f, -10.0f }, 0.1f, 1);
+	Collide3DTest::create({ 0.0f, 0.0f, 10.0f }, 0.2f, 2);*/
 
 	/*CollideTest::create({ 0.0f, 0.0f }, 10.0f, 1, Line2DMaterialId::CollideDebug1);
 
