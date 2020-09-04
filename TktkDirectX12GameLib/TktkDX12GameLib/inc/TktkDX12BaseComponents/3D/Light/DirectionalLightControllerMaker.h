@@ -30,9 +30,6 @@ namespace tktk
 		// ※初期パラメータはデフォルトライト
 		DirectionalLightControllerMaker& initLightHandle(unsigned int value);
 
-		// 初期方向を設定する
-		DirectionalLightControllerMaker& initDirection(const tktkMath::Vector3& value);
-
 		// 使用する初期ライトIDを設定する（列挙型を含む整数型のidが渡された場合のみビルド可で、関数内で対応するリソースハンドルに変換される）
 		// ※初期パラメータはデフォルトライト
 		template<class IdType, is_idType<IdType> = nullptr>
@@ -59,7 +56,6 @@ namespace tktk
 
 		GameObjectPtr		m_user				{  };
 		unsigned int		m_initLightHandle	{ 0U };
-		tktkMath::Vector3	m_initDirection		{ 1.0f, -1.0f, 1.0f };
 		tktkMath::Color		m_initAmbient		{ 0.25f, 1.0f };
 		tktkMath::Color		m_initDiffuse		{ 0.25f, 1.0f };
 		tktkMath::Color		m_initSpeqular		{ 0.25f, 1.0f };

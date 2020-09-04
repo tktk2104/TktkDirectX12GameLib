@@ -24,9 +24,6 @@ namespace tktk
 
 		// テクスチャUVに乗算する値
 		tktkMath::Vector2	textureUvMulRate{ 1.0f, 1.0f };
-
-		// スプライトの中心点（割合）
-		tktkMath::Vector2	spriteCenterRate{ 0.5f, 0.5f };
 	};
 }
 #endif // !SPRITE_MATERIAL_INIT_PARAM_H_

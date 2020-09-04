@@ -37,6 +37,16 @@ namespace tktk
 		m_spriteMaterialArray.getMatchHandlePtr(handle)->drawSprite(drawFuncArgs);
 	}
 
+	void SpriteMaterial::updateTransformCbuffer(unsigned int handle, unsigned int copyBufferHandle, const tktkMath::Matrix3& worldMatrix, const tktkMath::Vector2& spriteCenterRate) const
+	{
+		m_spriteMaterialArray.getMatchHandlePtr(handle)->updateTransformCbuffer(copyBufferHandle, worldMatrix, spriteCenterRate);
+	}
+
+	void SpriteMaterial::updateTransformCbufferUseClippingParam(unsigned int handle, unsigned int copyBufferHandle, const tktkMath::Matrix3& worldMatrix, const tktkMath::Vector2& spriteCenterRate, const SpriteClippingParam& clippingParam) const
+	{
+		m_spriteMaterialArray.getMatchHandlePtr(handle)->updateTransformCbufferUseClippingParam(copyBufferHandle, worldMatrix, spriteCenterRate, clippingParam);
+	}
+
 	// スプライト用のルートシグネチャ
 	void SpriteMaterial::createRootSignature() const
 	{

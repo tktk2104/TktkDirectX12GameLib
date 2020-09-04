@@ -1,22 +1,23 @@
-#ifndef SPRITE_DRAWER_H_
-#define SPRITE_DRAWER_H_
+#ifndef SPRITE_CLIPPING_DRAWER_H_
+#define SPRITE_CLIPPING_DRAWER_H_
 
 #include <TktkTemplateMetaLib/TypeCheck/isIdType.h>
 #include <TktkMath/Structs/Color.h>
 #include <TktkMath/Structs/Vector2.h>
 #include "../../../TktkDX12Game/Component/ComponentBase.h"
 #include "../Transform2D/Transform2D.h"
+#include "../../../TktkDX12Game/DXGameResource/Sprite/SpriteClippingParam.h"
 
 namespace tktk
 {
-	// スプライト描画コンポーネント
+	// スプライト切り抜き描画コンポーネント
 	// 【必須コンポーネント：Transform2D】
-	class SpriteDrawer
+	class SpriteClippingDrawer
 		: public ComponentBase
 	{
 	public:
 
-		SpriteDrawer(float drawPriority, unsigned int spriteMaterialHandle, unsigned int useRtvDescriptorHeapHandle, const tktkMath::Vector2& centerRate);
+		SpriteClippingDrawer(float drawPriority, unsigned int spriteMaterialHandle, unsigned int useRtvDescriptorHeapHandle, const tktkMath::Vector2& centerRate, const SpriteClippingParam& clippingParam);
 
 	public:
 
@@ -37,6 +38,12 @@ namespace tktk
 		// スプライトの中心位置の割合を設定する
 		void setCenterRate(const tktkMath::Vector2& centerRate);
 
+		// 切り取る範囲のテクスチャ座標での左上座標を設定する（テクセル）
+		void setClippingLeftTopPos(const tktkMath::Vector2& leftTopPos);
+
+		// 切り取る範囲の大きさを設定する（テクセル）
+		void setClippingSize(const tktkMath::Vector2& size);
+
 	private:
 
 		// 各種id指定系の関数の実装
@@ -48,6 +55,7 @@ namespace tktk
 		unsigned int				m_useRtvDescriptorHeapHandle;
 		unsigned int				m_spriteMaterialHandle;
 		tktkMath::Vector2			m_spriteCenterRate;
+		SpriteClippingParam			m_clippingParam;
 		ComponentPtr<Transform2D>	m_transform;
 
 	public:
@@ -56,4 +64,4 @@ namespace tktk
 		void setSpriteMaterialId(IdType id) { static_assert(false, "SpriteMaterialId Fraud Type"); }
 	};
 }
-#endif // !SPRITE_DRAWER_H_
+#endif // !SPRITE_CLIPPING_DRAWER_H_

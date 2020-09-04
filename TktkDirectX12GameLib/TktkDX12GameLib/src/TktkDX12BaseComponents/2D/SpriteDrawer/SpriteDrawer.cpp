@@ -5,10 +5,11 @@
 
 namespace tktk
 {
-	SpriteDrawer::SpriteDrawer(float drawPriority, unsigned int spriteMaterialHandle, unsigned int useRtvDescriptorHeapHandle)
+	SpriteDrawer::SpriteDrawer(float drawPriority, unsigned int spriteMaterialHandle, unsigned int useRtvDescriptorHeapHandle, const tktkMath::Vector2& centerRate)
 		: ComponentBase(drawPriority)
 		, m_useRtvDescriptorHeapHandle(useRtvDescriptorHeapHandle)
 		, m_spriteMaterialHandle(spriteMaterialHandle)
+		, m_spriteCenterRate(centerRate)
 	{
 	}
 
@@ -34,10 +35,9 @@ namespace tktk
 	void SpriteDrawer::draw() const
 	{
 		// 座標変換用の定数バッファの更新
-		updateTransformCbuffer();
+		DX12GameManager::updateSpriteTransformCbuffer(m_spriteMaterialHandle, m_createCopyTransformCbufferHandle, m_transform->calculateWorldMatrix(), m_spriteCenterRate);
 
 		SpriteMaterialDrawFuncArgs drawFuncArgs{};
-
 		drawFuncArgs.viewportHandle				= DX12GameManager::getSystemHandle(SystemViewportType::Basic);
 		drawFuncArgs.scissorRectHandle			= DX12GameManager::getSystemHandle(SystemScissorRectType::Basic);
 		drawFuncArgs.rtvDescriptorHeapHandle	= m_useRtvDescriptorHeapHandle;
@@ -50,29 +50,13 @@ namespace tktk
 		m_spriteMaterialHandle = handle;
 	}
 
+	void SpriteDrawer::setCenterRate(const tktkMath::Vector2& centerRate)
+	{
+		m_spriteCenterRate = centerRate;
+	}
+
 	void SpriteDrawer::setSpriteMaterialIdImpl(int id)
 	{
 		m_spriteMaterialHandle = DX12GameManager::getSpriteMaterialHandle(id);
-	}
-
-	void SpriteDrawer::updateTransformCbuffer() const
-	{
-		// スプライトの座標変換用定数バッファ形式
-		SpriteTransformCbuffer transformBufferData{};
-
-		auto worldMatrix = m_transform->calculateWorldMatrix();
-
-		for (unsigned int i = 0; i < 12; i++)
-		{
-			if (i % 4U == 3) continue;
-			transformBufferData.worldMatrix[i] = worldMatrix.m[i / 4U][i % 4U];
-		}
-
-		// 定数バッファのコピー用バッファを更新する
-		// TODO : 前フレームと定数バッファに変化がない場合、更新しない処理を作る
-		DX12GameManager::updateCopyBuffer(m_createCopyTransformCbufferHandle, transformBufferData);
-
-		// 座標変換用の定数バッファにコピーバッファの情報をコピーする
-		DX12GameManager::copyBuffer(m_createCopyTransformCbufferHandle);
 	}
 }

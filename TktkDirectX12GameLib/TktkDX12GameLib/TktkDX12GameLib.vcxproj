@@ -168,6 +168,8 @@
     <ClInclude Include="inc\TktkDX12BaseComponents\2D\RectColliderExtrusion\RectColliderExtrusionMaker.h" />
     <ClInclude Include="inc\TktkDX12BaseComponents\2D\RectCollider\RectCollider.h" />
     <ClInclude Include="inc\TktkDX12BaseComponents\2D\RectCollider\RectColliderMaker.h" />
+    <ClInclude Include="inc\TktkDX12BaseComponents\2D\SpriteDrawer\SpriteClippingDrawer.h" />
+    <ClInclude Include="inc\TktkDX12BaseComponents\2D\SpriteDrawer\SpriteClippingDrawerMaker.h" />
     <ClInclude Include="inc\TktkDX12BaseComponents\3D\BoxCollider\BoxCollider.h" />
     <ClInclude Include="inc\TktkDX12BaseComponents\3D\BoxCollider\BoxColliderMaker.h" />
     <ClInclude Include="inc\TktkDX12BaseComponents\3D\Camera\BasicCameraController.h" />
@@ -287,6 +289,7 @@
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\PostEffect\PostEffectShaderFilePaths.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\Scene\SceneBase.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\Scene\SceneVTable.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Sprite\SpriteClippingParam.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\Sprite\SpriteMaterialCbufferData.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\Sprite\SpriteMaterialDrawFuncArgs.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\Sprite\SpriteTransformCbuffer.h" />
@@ -345,6 +348,8 @@
     <ClCompile Include="src\TktkDX12BaseComponents\2D\RectColliderExtrusion\RectColliderExtrusionMaker.cpp" />
     <ClCompile Include="src\TktkDX12BaseComponents\2D\RectCollider\RectCollider.cpp" />
     <ClCompile Include="src\TktkDX12BaseComponents\2D\RectCollider\RectColliderMaker.cpp" />
+    <ClCompile Include="src\TktkDX12BaseComponents\2D\SpriteDrawer\SpriteClippingDrawer.cpp" />
+    <ClCompile Include="src\TktkDX12BaseComponents\2D\SpriteDrawer\SpriteClippingDrawerMaker.cpp" />
     <ClCompile Include="src\TktkDX12BaseComponents\3D\BoxCollider\BoxCollider.cpp" />
     <ClCompile Include="src\TktkDX12BaseComponents\3D\BoxCollider\BoxColliderMaker.cpp" />
     <ClCompile Include="src\TktkDX12BaseComponents\3D\Camera\BasicCameraController.cpp" />

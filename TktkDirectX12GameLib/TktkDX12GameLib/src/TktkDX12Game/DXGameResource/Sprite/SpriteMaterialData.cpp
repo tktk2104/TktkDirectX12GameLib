@@ -1,6 +1,7 @@
 #include "TktkDX12Game/DXGameResource/Sprite/SpriteMaterialData.h"
 
 #include "TktkDX12Game/_MainManager/DX12GameManager.h"
+#include "TktkDX12Game/DXGameResource/Sprite/SpriteTransformCbuffer.h"
 #include "TktkDX12Game/DXGameResource/Sprite/SpriteMaterialCbufferData.h"
 
 namespace tktk
@@ -9,7 +10,6 @@ namespace tktk
 		: m_blendRate(initParam.blendRate)
 		, m_textureUvOffset(initParam.textureUvOffset)
 		, m_textureUvMulRate(initParam.textureUvMulRate)
-		, m_spriteCenterRate(initParam.spriteCenterRate)
 	{
 		// ディスクリプタヒープを作る
 		BasicDescriptorHeapInitParam descriptorHeapInitParam{};
@@ -90,7 +90,6 @@ namespace tktk
 		, m_textureUvOffset(other.m_textureUvOffset)
 		, m_textureUvMulRate(other.m_textureUvMulRate)
 		, m_textureSize(other.m_textureSize)
-		, m_spriteCenterRate(other.m_spriteCenterRate)
 	{
 		other.m_createDescriptorHeapHandle = 0U;
 		other.m_createCopyBufferHandle = 0U;
@@ -102,6 +101,67 @@ namespace tktk
 		// TODO : 前フレームと定数バッファに変化がない場合、更新しない処理を作る
 		updateCopyBuffer();
 
+		drawCall(drawFuncArgs);
+	}
+
+	void SpriteMaterialData::updateTransformCbuffer(unsigned int copyBufferHandle, const tktkMath::Matrix3& worldMatrix, const tktkMath::Vector2& spriteCenterRate) const
+	{
+		// スプライトの座標変換用定数バッファ形式
+		SpriteTransformCbuffer transformBufferData{};
+
+		for (unsigned int i = 0; i < 12; i++)
+		{
+			if (i % 4U == 3) continue;
+			transformBufferData.worldMatrix[i] = worldMatrix.m[i / 4U][i % 4U];
+		}
+		transformBufferData.textureUvOffset		= m_textureUvOffset;
+		transformBufferData.textureUvMulRate	= m_textureUvMulRate;
+		transformBufferData.textureSize			= m_textureSize;
+		transformBufferData.spriteCenterRate	= spriteCenterRate;
+
+		// 定数バッファのコピー用バッファを更新する
+		// TODO : 前フレームと定数バッファに変化がない場合、更新しない処理を作る
+		DX12GameManager::updateCopyBuffer(copyBufferHandle, transformBufferData);
+
+		// 座標変換用の定数バッファにコピーバッファの情報をコピーする
+		DX12GameManager::copyBuffer(copyBufferHandle);
+	}
+
+	void SpriteMaterialData::updateTransformCbufferUseClippingParam(unsigned int copyBufferHandle, const tktkMath::Matrix3& worldMatrix, const tktkMath::Vector2& spriteCenterRate, const SpriteClippingParam& clippingParam) const
+	{
+		// スプライトの座標変換用定数バッファ形式
+		SpriteTransformCbuffer transformBufferData{};
+
+		for (unsigned int i = 0; i < 12; i++)
+		{
+			if (i % 4U == 3) continue;
+			transformBufferData.worldMatrix[i] = worldMatrix.m[i / 4U][i % 4U];
+		}
+		transformBufferData.textureUvOffset		= tktkMath::Vector2(clippingParam.leftTopPos.x / m_textureSize.x, clippingParam.leftTopPos.y / m_textureSize.y) + m_textureUvOffset;
+		transformBufferData.textureUvMulRate	= tktkMath::Vector2(clippingParam.size.x / m_textureSize.x * m_textureUvMulRate.x, clippingParam.size.y / m_textureSize.y * m_textureUvMulRate.y);
+		transformBufferData.textureSize			= clippingParam.size;
+		transformBufferData.spriteCenterRate	= spriteCenterRate;
+
+		// 定数バッファのコピー用バッファを更新する
+		// TODO : 前フレームと定数バッファに変化がない場合、更新しない処理を作る
+		DX12GameManager::updateCopyBuffer(copyBufferHandle, transformBufferData);
+
+		// 座標変換用の定数バッファにコピーバッファの情報をコピーする
+		DX12GameManager::copyBuffer(copyBufferHandle);
+	}
+
+	// 定数バッファのコピー用バッファを更新する
+	void SpriteMaterialData::updateCopyBuffer() const
+	{
+		SpriteMaterialCbufferData constantBufferData;
+		constantBufferData.blendRate		= m_blendRate;
+		constantBufferData.screenSize		= DX12GameManager::getWindowSize();
+
+		DX12GameManager::updateCopyBuffer(m_createCopyBufferHandle, constantBufferData);
+	}
+
+	void SpriteMaterialData::drawCall(const SpriteMaterialDrawFuncArgs& drawFuncArgs) const
+	{
 		// スプライト用定数バッファにコピーバッファの情報をコピーする
 		DX12GameManager::copyBuffer(m_createCopyBufferHandle);
 
@@ -147,19 +207,5 @@ namespace tktk
 		{
 			DX12GameManager::unSetRtv(drawFuncArgs.rtvDescriptorHeapHandle, 0U, 1U);
 		}
-	}
-
-	// 定数バッファのコピー用バッファを更新する
-	void SpriteMaterialData::updateCopyBuffer() const
-	{
-		SpriteMaterialCbufferData constantBufferData;
-		constantBufferData.blendRate = m_blendRate;
-		constantBufferData.textureUvOffset = m_textureUvOffset;
-		constantBufferData.textureUvMulRate = m_textureUvMulRate;
-		constantBufferData.textureSize = m_textureSize;
-		constantBufferData.spriteCenterRate = m_spriteCenterRate;
-		constantBufferData.screenSize = DX12GameManager::getWindowSize();
-
-		DX12GameManager::updateCopyBuffer(m_createCopyBufferHandle, constantBufferData);
 	}
 }

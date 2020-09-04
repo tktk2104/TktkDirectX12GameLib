@@ -322,6 +322,12 @@ namespace tktk
 		// 指定したスプライトを描画する
 		static void drawSprite(unsigned int handle, const SpriteMaterialDrawFuncArgs& drawFuncArgs);
 
+		// 引数が表すコピーバッファを使って座標変換情報を管理する定数バッファを更新する
+		static void updateSpriteTransformCbuffer(unsigned int handle, unsigned int copyBufferHandle, const tktkMath::Matrix3& worldMatrix, const tktkMath::Vector2& spriteCenterRate);
+
+		// 引数が表すコピーバッファを使って座標変換情報を管理する定数バッファを更新する（切り抜き範囲指定版）
+		static void updateSpriteTransformCbufferUseClippingParam(unsigned int handle, unsigned int copyBufferHandle, const tktkMath::Matrix3& worldMatrix, const tktkMath::Vector2& spriteCenterRate, const SpriteClippingParam& clippingParam);
+
 	//************************************************************
 	/* 2Dライン関係の処理 */
 	public:

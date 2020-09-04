@@ -495,6 +495,16 @@ namespace tktk
 		m_dxGameResource->drawSprite(handle, drawFuncArgs);
 	}
 
+	void DX12GameManager::updateSpriteTransformCbuffer(unsigned int handle, unsigned int copyBufferHandle, const tktkMath::Matrix3& worldMatrix, const tktkMath::Vector2& spriteCenterRate)
+	{
+		m_dxGameResource->updateSpriteTransformCbuffer(handle, copyBufferHandle, worldMatrix, spriteCenterRate);
+	}
+
+	void DX12GameManager::updateSpriteTransformCbufferUseClippingParam(unsigned int handle, unsigned int copyBufferHandle, const tktkMath::Matrix3& worldMatrix, const tktkMath::Vector2& spriteCenterRate, const SpriteClippingParam& clippingParam)
+	{
+		m_dxGameResource->updateSpriteTransformCbufferUseClippingParam(handle, copyBufferHandle, worldMatrix, spriteCenterRate, clippingParam);
+	}
+
 	unsigned int DX12GameManager::createLine2DMaterial()
 	{
 		return m_dxGameResource->createLine();

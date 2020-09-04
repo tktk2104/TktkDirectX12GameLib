@@ -1,17 +1,18 @@
 cbuffer SpriteMaterialBuffer : register(b0)
 {
 	float4 blendRate;
-	float2 textureUvOffset;
-	float2 textureUvMulRate;
-	float2 textureSize;
-	float2 spriteCenterRate;
 	float2 screenSize;
 	float2 pad;
 };
 
 cbuffer SpriteTransformBuffer : register(b1)
 {
-	float3x3 worldMatrix;
+	float3x3	worldMatrix;
+	float2		textureUvOffset;
+	float2		textureUvMulRate;
+	float2		textureSize;
+	float2		spriteCenterRate;
+	
 };
 
 struct VS_INPUT

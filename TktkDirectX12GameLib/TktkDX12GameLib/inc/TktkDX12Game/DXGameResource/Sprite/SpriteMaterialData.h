@@ -4,6 +4,7 @@
 #include <TktkMath/Structs/Matrix3.h>
 #include "SpriteMaterialInitParam.h"
 #include "SpriteMaterialDrawFuncArgs.h"
+#include "SpriteClippingParam.h"
 
 namespace tktk
 {
@@ -23,10 +24,19 @@ namespace tktk
 		// スプライトを描画する
 		void drawSprite(const SpriteMaterialDrawFuncArgs& drawFuncArgs) const;
 
+		// 引数が表すコピーバッファを使って座標変換情報を管理する定数バッファを更新する
+		void updateTransformCbuffer(unsigned int copyBufferHandle, const tktkMath::Matrix3& worldMatrix, const tktkMath::Vector2& spriteCenterRate) const;
+
+		// 引数が表すコピーバッファを使って座標変換情報を管理する定数バッファを更新する（切り抜き範囲指定版）
+		void updateTransformCbufferUseClippingParam(unsigned int copyBufferHandle, const tktkMath::Matrix3& worldMatrix, const tktkMath::Vector2& spriteCenterRate, const SpriteClippingParam& clippingParam) const;
+
 	private:
 
 		// 定数バッファのコピー用バッファを更新する
 		void updateCopyBuffer() const;
+
+		// スプライト描画命令を実行する
+		void drawCall(const SpriteMaterialDrawFuncArgs& drawFuncArgs) const;
 
 	private:
 
@@ -36,7 +46,6 @@ namespace tktk
 		tktkMath::Vector2	m_textureUvOffset;
 		tktkMath::Vector2	m_textureUvMulRate;
 		tktkMath::Vector2	m_textureSize;
-		tktkMath::Vector2	m_spriteCenterRate;
 	};
 }
 #endif // !SPRITE_MATERIAL_DATA_H_

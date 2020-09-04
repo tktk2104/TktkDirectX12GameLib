@@ -25,7 +25,8 @@ namespace tktk
 		return m_user->createComponent<SpriteDrawer>(
 			m_drawPriority,
 			m_spriteMaterialHandle,
-			m_useRtvDescriptorHeapHandle
+			m_useRtvDescriptorHeapHandle,
+			m_centerRate
 			);
 	}
 
@@ -47,6 +48,13 @@ namespace tktk
 	{
 		// 値を設定して自身の参照を返す
 		m_spriteMaterialHandle = value;
+		return *this;
+	}
+
+	SpriteDrawerMaker& SpriteDrawerMaker::centerRate(const tktkMath::Vector2& value)
+	{
+		// 値を設定して自身の参照を返す
+		m_centerRate = value;
 		return *this;
 	}
 

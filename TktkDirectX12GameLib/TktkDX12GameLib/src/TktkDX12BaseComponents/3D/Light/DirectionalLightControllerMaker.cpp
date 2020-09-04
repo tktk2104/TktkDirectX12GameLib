@@ -23,7 +23,6 @@ namespace tktk
 	{
 		return  m_user->createComponent<DirectionalLightController>(
 			m_initLightHandle,
-			m_initDirection,
 			m_initAmbient,
 			m_initDiffuse,
 			m_initSpeqular
@@ -34,13 +33,6 @@ namespace tktk
 	{
 		// 値を設定して自身の参照を返す
 		m_initLightHandle = value;
-		return *this;
-	}
-
-	DirectionalLightControllerMaker& DirectionalLightControllerMaker::initDirection(const tktkMath::Vector3& value)
-	{
-		// 値を設定して自身の参照を返す
-		m_initDirection = value;
 		return *this;
 	}
 

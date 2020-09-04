@@ -4,6 +4,7 @@
 #include "Scene/SceneVTable.h"
 #include "PostEffect/PostEffectMaterialDrawFuncArgs.h"
 #include "Sprite/SpriteMaterialDrawFuncArgs.h"
+#include "Sprite/SpriteClippingParam.h"
 #include "Line2D/Line2DMaterialDrawFuncArgs.h"
 #include "Mesh/MeshResourceFuncArgsIncluder.h"
 
