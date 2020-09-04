@@ -40,8 +40,9 @@ namespace tktk
 		float				m_radius;
 		tktkMath::Vector3	m_localPosition;
 		tktkMath::Color		m_albedoColor;
-		unsigned int		m_createCopyTransformCbufferHandle{ 0U };
-		unsigned int		m_createCopyShadowMapCbufferHandle{ 0U };
+		unsigned int		m_createCopyTransformCbufferHandle		{ 0U };
+		unsigned int		m_createCopyShadowMapCbufferHandle		{ 0U };
+		unsigned int		m_createCopyMonoColorMeshCbufferHandle	{ 0U };
 		SphereMeshDrawerUseResourceHandles	m_useResourceHandles;
 		ComponentPtr<Transform3D>			m_transform{ };
 	};

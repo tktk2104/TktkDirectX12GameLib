@@ -22,8 +22,9 @@ namespace tktk
 			throw std::runtime_error("BasicMeshDrawer not found Transform3D");
 		}
 		// コピー用バッファを作り、そのハンドルを取得する
-		m_createCopyTransformCbufferHandle = DX12GameManager::createCopyBuffer(BufferType::constant, DX12GameManager::getSystemHandle(SystemCBufferType::MeshTransform), MeshTransformCbuffer());
-		m_createCopyShadowMapCbufferHandle = DX12GameManager::createCopyBuffer(BufferType::constant, DX12GameManager::getSystemHandle(SystemCBufferType::MeshShadowMap), MeshShadowMapCBuffer());
+		m_createCopyTransformCbufferHandle		= DX12GameManager::createCopyBuffer(BufferType::constant, DX12GameManager::getSystemHandle(SystemCBufferType::MeshTransform),				MeshTransformCbuffer());
+		m_createCopyShadowMapCbufferHandle		= DX12GameManager::createCopyBuffer(BufferType::constant, DX12GameManager::getSystemHandle(SystemCBufferType::MeshShadowMap),				MeshShadowMapCBuffer());
+		m_createCopyMonoColorMeshCbufferHandle	= DX12GameManager::createCopyBuffer(BufferType::constant, DX12GameManager::getSystemHandle(SystemCBufferType::BasicMonoColorMeshCbuffer),	BasicMonoColorMeshCbuffer());
 	}
 
 	void SphereMeshWireFrameDrawer::onDestroy()
@@ -31,6 +32,7 @@ namespace tktk
 		// コピー用バッファを削除する
 		DX12GameManager::eraseCopyBuffer(m_createCopyTransformCbufferHandle);
 		DX12GameManager::eraseCopyBuffer(m_createCopyShadowMapCbufferHandle);
+		DX12GameManager::eraseCopyBuffer(m_createCopyMonoColorMeshCbufferHandle);
 	}
 
 	void SphereMeshWireFrameDrawer::draw() const
@@ -39,9 +41,13 @@ namespace tktk
 		DX12GameManager::resetBoneMatrixCbuffer();
 
 		// 単色塗りつぶし色の定数バッファを更新する
-		BasicMonoColorMeshCbuffer tempCbufferData{};
-		tempCbufferData.albedoColor = m_albedoColor;
-		DX12GameManager::updateMaterialAppendParam(DX12GameManager::getSystemHandle(SystemBasicMeshMaterialType::SphereWireFrame), DX12GameManager::getSystemHandle(SystemCBufferType::BasicMonoColorMeshCbuffer), tempCbufferData);
+		{
+			BasicMonoColorMeshCbuffer tempCbufferData{};
+			tempCbufferData.albedoColor = m_albedoColor;
+
+			DX12GameManager::updateCopyBuffer(m_createCopyMonoColorMeshCbufferHandle, tempCbufferData);
+			DX12GameManager::copyBuffer(m_createCopyMonoColorMeshCbufferHandle);
+		}
 
 		// 座標変換用の定数バッファの更新を行う
 		updateTransformCbuffer();
