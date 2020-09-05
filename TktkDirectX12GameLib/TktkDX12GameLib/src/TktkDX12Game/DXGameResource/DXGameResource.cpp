@@ -6,6 +6,7 @@
 #include "TktkDX12Game/DXGameResource/PostEffect/PostEffectMaterial.h"
 #include "TktkDX12Game/DXGameResource/Sprite/SpriteMaterial.h"
 #include "TktkDX12Game/DXGameResource/Line2D/Line2DMaterial.h"
+#include "TktkDX12Game/DXGameResource/Billboard/BillboardMaterial.h"
 #include "TktkDX12Game/DXGameResource/Mesh/MeshResource.h"
 #include "TktkDX12Game/DXGameResource/Camera/Camera.h"
 #include "TktkDX12Game/DXGameResource/Light/Light.h"
@@ -20,6 +21,9 @@ namespace tktk
 		m_postEffectMaterial	= std::make_unique<PostEffectMaterial>(filePaths.postEffectShaderFilePaths, resourceNum.postEffectMaterialNum);
 		m_spriteMaterial		= std::make_unique<SpriteMaterial>(filePaths.spriteShaderFilePaths, resourceNum.spriteMaterialNum);
 		m_line2DMaterial		= std::make_unique<Line2DMaterial>(filePaths.line2DShaderFilePaths, resourceNum.line2DMaterialNum);
+		
+		// ※ビルボードのパイプラインステートを作る時にスプライトのルートシグネチャを流用しているため、先に「SpriteMaterial」を作る必要がある
+		m_billboardMaterial		= std::make_unique<BillboardMaterial>(filePaths.billboardShaderFilePaths, resourceNum.billboardMaterialNum);
 		m_meshResource			= std::make_unique<MeshResource>(resourceNum.meshResourceNum, filePaths.meshResourceShaderFilePaths);
 		m_camera				= std::make_unique<Camera>(resourceNum.cameraNum);
 		m_light					= std::make_unique<Light>(resourceNum.lightNum);
@@ -121,6 +125,26 @@ namespace tktk
 	void DXGameResource::drawLine(unsigned int handle, const Line2DMaterialDrawFuncArgs& drawFuncArgs)
 	{
 		m_line2DMaterial->drawLine(handle, drawFuncArgs);
+	}
+
+	unsigned int DXGameResource::createBillboardMaterial(const BillboardMaterialInitParam& initParam)
+	{
+		return m_billboardMaterial->create(initParam);
+	}
+
+	void DXGameResource::drawBillboard(unsigned int handle, const BillboardDrawFuncBaseArgs& drawFuncArgs) const
+	{
+		m_billboardMaterial->drawBillboard(handle, drawFuncArgs);
+	}
+
+	void DXGameResource::updateBillboardTransformCbuffer(unsigned int handle, unsigned int copyBufferHandle, const BillboardTransformCbufferUpdateFuncArgs& updateArgs) const
+	{
+		m_billboardMaterial->updateTransformCbuffer(handle, copyBufferHandle, updateArgs);
+	}
+
+	void DXGameResource::updateBillboardTransformCbufferUseClippingParam(unsigned int handle, unsigned int copyBufferHandle, const BillboardTransformCbufferUpdateFuncArgs& updateArgs, const BillboardClippingParam& clippingParam) const
+	{
+		m_billboardMaterial->updateTransformCbufferUseClippingParam(handle, copyBufferHandle, updateArgs, clippingParam);
 	}
 
 	unsigned int DXGameResource::createBasicMesh(const BasicMeshInitParam& initParam)

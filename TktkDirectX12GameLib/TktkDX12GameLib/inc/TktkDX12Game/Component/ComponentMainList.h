@@ -10,6 +10,7 @@
 #include <TktkTemplateMetaLib/HasFuncCheck/CreatedStruct/HasUpdateChecker.h>
 #include <TktkTemplateMetaLib/HasFuncCheck/CreatedStruct/HasAfterCollideChecker.h>
 #include <TktkTemplateMetaLib/HasFuncCheck/CreatedStruct/HasOnDestroyChecker.h>
+#include "../GameObject/GameObjectPtr.h"
 
 namespace tktk
 {
@@ -42,7 +43,7 @@ namespace tktk
 		// テンプレート引数の型のコンポーネントを引数の値を使って作る
 		// ※コンストラクタで指定した型でないとビルド不可
 		template <class ComponentType, class... Args>
-		std::weak_ptr<ComponentType> createComponent(Args&&... args);
+		std::weak_ptr<ComponentType> createComponent(const GameObjectPtr& user, Args&&... args);
 
 		// 自身が管理するコンポーネントを巡回し、アクティブフラグが前フレームと変わっていたら「onEnable()」もしくは「onDisable()」関数の実行を試みる
 		void activeChangeCheck();
@@ -122,11 +123,12 @@ namespace tktk
 	// テンプレート引数の型のコンポーネントを引数の値を使って作る
 	// ※コンストラクタで指定した型でないとビルド不可
 	template<class ComponentType, class ...Args>
-	inline std::weak_ptr<ComponentType> ComponentMainList::createComponent(Args&& ...args)
+	inline std::weak_ptr<ComponentType> ComponentMainList::createComponent(const GameObjectPtr& user, Args&& ...args)
 	{
 		auto createdComponent = std::make_shared<ComponentType>(std::forward<Args>(args)...);
-		awake_runner<void>::checkAndRun(createdComponent);
+		createdComponent->setUser(user);
 		m_newComponentList.push_front(createdComponent);
+		awake_runner<void>::checkAndRun(createdComponent);
 		return createdComponent;
 	}
 

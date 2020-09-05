@@ -241,9 +241,7 @@ namespace tktk
 	template<class ComponentType, class ...Args>
 	inline ComponentPtr<ComponentType> GameObject::createComponent(Args&& ...args)
 	{
-		auto createdComponent = DX12GameManager::createComponent<ComponentType>(std::forward<Args>(args)...);
-		createdComponent.lock()->setUser(GameObjectPtr(weak_from_this()));
-		return m_componentList->add<ComponentType>(createdComponent);
+		return m_componentList->add<ComponentType>(DX12GameManager::createComponent<ComponentType>(GameObjectPtr(weak_from_this()), std::forward<Args>(args)...));
 	}
 
 	// テンプレート引数の型のコンポーネントを持っていたら取得し、持っていなかったらnullptrを返す

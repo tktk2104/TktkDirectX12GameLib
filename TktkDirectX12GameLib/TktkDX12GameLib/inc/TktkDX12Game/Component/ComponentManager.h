@@ -51,7 +51,7 @@ namespace tktk
 
 		// テンプレート引数の型のコンポーネントを引数の値を使って作る
 		template <class ComponentType, class... Args>
-		std::weak_ptr<ComponentType> createComponent(Args&&... args);
+		std::weak_ptr<ComponentType> createComponent(const GameObjectPtr& user, Args&&... args);
 
 	private:
 
@@ -82,7 +82,7 @@ namespace tktk
 
 	// テンプレート引数の型のコンポーネントを引数の値を使って作る
 	template<class ComponentType, class ...Args>
-	inline std::weak_ptr<ComponentType> ComponentManager::createComponent(Args&&... args)
+	inline std::weak_ptr<ComponentType> ComponentManager::createComponent(const GameObjectPtr& user, Args&&... args)
 	{
 		// テンプレート引数のコンポーネントが以前に追加された事があるか調べる
 		auto findNode = m_addComponentMap.find(ClassTypeChecker::getClassId<ComponentType>());
@@ -98,7 +98,7 @@ namespace tktk
 		}
 
 		// 取得した対応する「１種類のコンポーネントを管理するリスト」の中にコンポーネントを作り、そのweak_ptrを返す
-		auto createdComponent = (*findNode).second.lock()->createComponent<ComponentType>(std::forward<Args>(args)...);
+		auto createdComponent = (*findNode).second.lock()->createComponent<ComponentType>(user, std::forward<Args>(args)...);
 		
 		// 各種関数呼び出し処理リストにそのweak_ptrを渡す
 		m_startList.add(createdComponent);

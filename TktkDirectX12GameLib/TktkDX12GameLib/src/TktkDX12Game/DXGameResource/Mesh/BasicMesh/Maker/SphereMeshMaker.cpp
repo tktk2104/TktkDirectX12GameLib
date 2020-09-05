@@ -166,17 +166,11 @@ namespace tktk
 			// 球体メッシュのマテリアルを作る
 			DX12GameManager::setSystemHandle(SystemBasicMeshMaterialType::Sphere, DX12GameManager::createBasicMeshMaterial(materialParam));
 
-			//// 球体メッシュのマテリアルにアルベドカラーのパラメータを追加する
-			//DX12GameManager::addMaterialAppendParam(DX12GameManager::getSystemHandle(SystemBasicMeshMaterialType::Sphere), DX12GameManager::getSystemHandle(SystemCBufferType::BasicMonoColorMeshCbuffer), BasicMonoColorMeshCbuffer());
-		
 			// 単色ワイヤーフレーム用のパイプラインステートを取得する
 			materialParam.usePipeLineStateHandle = DX12GameManager::getSystemHandle(SystemPipeLineStateType::BasicMonoColorMeshWireFrame);
 
 			// 球体メッシュワイヤーフレームのマテリアルを作る
 			DX12GameManager::setSystemHandle(SystemBasicMeshMaterialType::SphereWireFrame, DX12GameManager::createBasicMeshMaterial(materialParam));
-
-			//// 球体メッシュワイヤーフレームのマテリアルにアルベドカラーのパラメータを追加する
-			//DX12GameManager::addMaterialAppendParam(DX12GameManager::getSystemHandle(SystemBasicMeshMaterialType::SphereWireFrame), DX12GameManager::getSystemHandle(SystemCBufferType::BasicMonoColorMeshCbuffer), BasicMonoColorMeshCbuffer());
 		}
 
 		// 球体メッシュを作る

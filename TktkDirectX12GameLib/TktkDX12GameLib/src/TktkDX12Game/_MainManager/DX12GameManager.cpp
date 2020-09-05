@@ -16,6 +16,7 @@
 
 namespace tktk
 {
+	bool												DX12GameManager::m_isGameExit{ false };
 	std::unique_ptr<GameObjectManager>					DX12GameManager::m_gameObjectManager;
 	std::unique_ptr<ComponentManager>					DX12GameManager::m_componentManager;
 	std::unique_ptr<Window>								DX12GameManager::m_window;
@@ -108,7 +109,7 @@ namespace tktk
 		{
 			bool canRunDX12Func = true;
 
-			if (msg.message == WM_QUIT)
+			if (msg.message == WM_QUIT || m_isGameExit)
 			{
 				break;
 			}
@@ -193,6 +194,11 @@ namespace tktk
 			}
 		}
 		m_dxGameResource->clearSound();
+	}
+
+	void DX12GameManager::exit()
+	{
+		m_isGameExit = true;
 	}
 
 	const tktkMath::Vector2& DX12GameManager::getWindowSize()
@@ -513,6 +519,26 @@ namespace tktk
 	void DX12GameManager::drawLine(unsigned int handle, const Line2DMaterialDrawFuncArgs& drawFuncArgs)
 	{
 		m_dxGameResource->drawLine(handle, drawFuncArgs);
+	}
+
+	unsigned int DX12GameManager::createBillboardMaterial(const BillboardMaterialInitParam& initParam)
+	{
+		return m_dxGameResource->createBillboardMaterial(initParam);
+	}
+
+	void DX12GameManager::drawBillboard(unsigned int handle, const BillboardDrawFuncBaseArgs& drawFuncArgs)
+	{
+		m_dxGameResource->drawBillboard(handle, drawFuncArgs);
+	}
+
+	void DX12GameManager::updateBillboardTransformCbuffer(unsigned int handle, unsigned int copyBufferHandle, const BillboardTransformCbufferUpdateFuncArgs& updateArgs)
+	{
+		m_dxGameResource->updateBillboardTransformCbuffer(handle, copyBufferHandle, updateArgs);
+	}
+
+	void DX12GameManager::updateBillboardTransformCbufferUseClippingParam(unsigned int handle, unsigned int copyBufferHandle, const BillboardTransformCbufferUpdateFuncArgs& updateArgs, const BillboardClippingParam& clippingParam)
+	{
+		m_dxGameResource->updateBillboardTransformCbufferUseClippingParam(handle, copyBufferHandle, updateArgs, clippingParam);
 	}
 
 	unsigned int DX12GameManager::createBasicMesh(const BasicMeshInitParam& initParam)

@@ -9,6 +9,8 @@ namespace tktk
 		SpriteTransform = 0U,
 		SpriteMaterial,
 		Line2D,
+		BillboardTransform,
+		BillboardMaterial,
 		MeshTransform,
 		MeshShadowMap,
 		BoneMatCbuffer,

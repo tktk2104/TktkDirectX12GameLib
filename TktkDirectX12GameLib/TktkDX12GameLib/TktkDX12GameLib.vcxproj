@@ -170,6 +170,8 @@
     <ClInclude Include="inc\TktkDX12BaseComponents\2D\RectCollider\RectColliderMaker.h" />
     <ClInclude Include="inc\TktkDX12BaseComponents\2D\SpriteDrawer\SpriteClippingDrawer.h" />
     <ClInclude Include="inc\TktkDX12BaseComponents\2D\SpriteDrawer\SpriteClippingDrawerMaker.h" />
+    <ClInclude Include="inc\TktkDX12BaseComponents\3D\BillboardDrawer\BillboardDrawer.h" />
+    <ClInclude Include="inc\TktkDX12BaseComponents\3D\BillboardDrawer\BillboardDrawerMaker.h" />
     <ClInclude Include="inc\TktkDX12BaseComponents\3D\BoxCollider\BoxCollider.h" />
     <ClInclude Include="inc\TktkDX12BaseComponents\3D\BoxCollider\BoxColliderMaker.h" />
     <ClInclude Include="inc\TktkDX12BaseComponents\3D\Camera\BasicCameraController.h" />
@@ -223,6 +225,14 @@
     <ClInclude Include="inc\TktkDX12Game\Component\DefaultComponents\StateMachine\StateMachine.h" />
     <ClInclude Include="inc\TktkDX12Game\Component\DefaultComponents\StateMachine\StateMachineList.h" />
     <ClInclude Include="inc\TktkDX12Game\Component\DefaultComponents\StateMachine\StateMachineListInitParam.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Billboard\BillboardClippingParam.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Billboard\BillboardDrawFuncBaseArgs.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Billboard\BillboardMaterial.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Billboard\BillboardMaterialCbufferData.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Billboard\BillboardMaterialData.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Billboard\BillboardMaterialInitParam.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Billboard\BillboardTransformCbufferData.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Billboard\BillboardTransformCbufferUpdateFuncArgs.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\Camera\Camera.h" />
     <ClInclude Include="inc\TktkDX12BaseComponents\3D\Light\PointLightController.h" />
     <ClInclude Include="inc\TktkDX12BaseComponents\3D\MeshAnimator\MeshAnimator.h" />
@@ -350,6 +360,8 @@
     <ClCompile Include="src\TktkDX12BaseComponents\2D\RectCollider\RectColliderMaker.cpp" />
     <ClCompile Include="src\TktkDX12BaseComponents\2D\SpriteDrawer\SpriteClippingDrawer.cpp" />
     <ClCompile Include="src\TktkDX12BaseComponents\2D\SpriteDrawer\SpriteClippingDrawerMaker.cpp" />
+    <ClCompile Include="src\TktkDX12BaseComponents\3D\BillboardDrawer\BillboardDrawer.cpp" />
+    <ClCompile Include="src\TktkDX12BaseComponents\3D\BillboardDrawer\BillboardDrawerMaker.cpp" />
     <ClCompile Include="src\TktkDX12BaseComponents\3D\BoxCollider\BoxCollider.cpp" />
     <ClCompile Include="src\TktkDX12BaseComponents\3D\BoxCollider\BoxColliderMaker.cpp" />
     <ClCompile Include="src\TktkDX12BaseComponents\3D\Camera\BasicCameraController.cpp" />
@@ -398,6 +410,8 @@
     <ClCompile Include="src\TktkDX12Game\Component\DefaultComponents\StateMachine\StateMachine.cpp" />
     <ClCompile Include="src\TktkDX12Game\Component\DefaultComponents\StateMachine\StateMachineList.cpp" />
     <ClCompile Include="src\TktkDX12Game\Component\DefaultComponents\StateMachine\StateMachineListInitParam.cpp" />
+    <ClCompile Include="src\TktkDX12Game\DXGameResource\Billboard\BillboardMaterial.cpp" />
+    <ClCompile Include="src\TktkDX12Game\DXGameResource\Billboard\BillboardMaterialData.cpp" />
     <ClCompile Include="src\TktkDX12Game\DXGameResource\Camera\Camera.cpp" />
     <ClCompile Include="src\TktkDX12BaseComponents\3D\Light\PointLightController.cpp" />
     <ClCompile Include="src\TktkDX12BaseComponents\3D\MeshAnimator\MeshAnimator.cpp" />
@@ -477,6 +491,22 @@
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">5.0</ShaderModel>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectDir)\shader\basicMeshShader\%(Filename).cso</ObjectFileOutput>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectDir)\shader\basicMeshShader\%(Filename).cso</ObjectFileOutput>
+    </FxCompile>
+    <FxCompile Include="shader\billboardShader\BillboardPixelShader.hlsl">
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectDir)\shader\billboardShader\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectDir)\shader\billboardShader\%(Filename).cso</ObjectFileOutput>
+    </FxCompile>
+    <FxCompile Include="shader\billboardShader\BillboardVertexShader.hlsl">
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(ProjectDir)\shader\billboardShader\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(ProjectDir)\shader\billboardShader\%(Filename).cso</ObjectFileOutput>
     </FxCompile>
     <FxCompile Include="shader\line2DShader\Line2DPixelShader.hlsl">
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>

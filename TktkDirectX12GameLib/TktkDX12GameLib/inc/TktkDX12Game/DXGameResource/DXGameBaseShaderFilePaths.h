@@ -16,6 +16,9 @@ namespace tktk
 		// 2Dラインシェーダーのファイルパス
 		ShaderFilePaths				line2DShaderFilePaths		{};
 
+		// ビルボードシェーダーのファイルパス
+		ShaderFilePaths				billboardShaderFilePaths	{};
+
 		// メッシュ描画で使用するシェーダーのファイルパス
 		MeshResourceShaderFilePaths	meshResourceShaderFilePaths	{};
 

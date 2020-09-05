@@ -16,10 +16,7 @@ namespace tktk
 		for (const auto& node : initParam.m_roots)
 		{
 			// ステートマシンを作って
-			auto createdComponent = DX12GameManager::createComponent<StateMachine>(node.m_id);
-
-			// 引数のGameObjectを設定し
-			createdComponent.lock()->setUser(user);
+			auto createdComponent = DX12GameManager::createComponent<StateMachine>(user, node.m_id);
 
 			// ステートマシンリストに登録する
 			m_stateMachineList[node.m_id] = { componentList->add<StateMachine>(createdComponent), {} };
@@ -45,10 +42,7 @@ namespace tktk
 		for (const auto& node : nodeInitParam.m_child)
 		{
 			// ステートマシンを作って
-			auto createdComponent = DX12GameManager::createComponent<StateMachine>(node.m_id);
-
-			// 引数のGameObjectを設定し
-			createdComponent.lock()->setUser(user);
+			auto createdComponent = DX12GameManager::createComponent<StateMachine>(user, node.m_id);
 
 			// 親のステートマシンに登録し
 			parentNode.m_stateMachine->addComponent(ComponentBasePtr(createdComponent));

@@ -3,6 +3,7 @@
 
 #include "PostEffect/PostEffectMaterialInitParam.h"
 #include "Sprite/SpriteMaterialInitParam.h"
+#include "Billboard/BillboardMaterialInitParam.h"
 #include "Mesh/MeshResourceInitParamIncluder.h"
 
 #endif // !DX_GAME_RESOURCE_INIT_PARAM_INCLUDER_H_

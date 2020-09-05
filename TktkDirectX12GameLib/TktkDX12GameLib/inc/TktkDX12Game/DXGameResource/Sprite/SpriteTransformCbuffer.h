@@ -1,6 +1,8 @@
 #ifndef SPRITE_TRANSFORM_CBUFFER_H_
 #define SPRITE_TRANSFORM_CBUFFER_H_
 
+#include <TktkMath/Structs/Vector2.h>
+
 namespace tktk
 {
 	// スプライトの座標変換の定数バッファの情報

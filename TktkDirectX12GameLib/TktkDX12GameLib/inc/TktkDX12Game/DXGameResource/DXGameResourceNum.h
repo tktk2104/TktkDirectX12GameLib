@@ -20,6 +20,9 @@ namespace tktk
 		// ライン２Dマテリアルを管理するコンテナを作るための変数
 		tktkContainer::ResourceContainerInitParam line2DMaterialNum		{};
 
+		// ビルボードマテリアルを管理するコンテナを作るための変数
+		tktkContainer::ResourceContainerInitParam billboardMaterialNum	{};
+
 		// メッシュ関連リソースを管理するコンテナを作るための変数
 		MeshResourceNum meshResourceNum									{};
 

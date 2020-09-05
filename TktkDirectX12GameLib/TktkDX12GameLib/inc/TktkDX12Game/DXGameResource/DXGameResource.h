@@ -15,6 +15,7 @@ namespace tktk
 	class PostEffectMaterial;
 	class SpriteMaterial;
 	class Line2DMaterial;
+	class BillboardMaterial;
 	class MeshResource;
 	class Camera;
 	class Light;
@@ -94,6 +95,20 @@ namespace tktk
 
 		// 線を描画する
 		void drawLine(unsigned int handle, const Line2DMaterialDrawFuncArgs& drawFuncArgs);
+
+	public: /* ビルボード関係の処理 */
+
+		// ビルボードマテリアルを作り、そのリソースのハンドルを返す
+		unsigned int createBillboardMaterial(const BillboardMaterialInitParam& initParam);
+
+		// 指定したビルボードを描画する
+		void drawBillboard(unsigned int handle, const BillboardDrawFuncBaseArgs& drawFuncArgs) const;
+
+		// 引数が表すコピーバッファを使って座標変換情報を管理する定数バッファを更新する
+		void updateBillboardTransformCbuffer(unsigned int handle, unsigned int copyBufferHandle, const BillboardTransformCbufferUpdateFuncArgs& updateArgs) const;
+
+		// 引数が表すコピーバッファを使って座標変換情報を管理する定数バッファを更新する（切り抜き範囲指定版）
+		void updateBillboardTransformCbufferUseClippingParam(unsigned int handle, unsigned int copyBufferHandle, const BillboardTransformCbufferUpdateFuncArgs& updateArgs, const BillboardClippingParam& clippingParam) const;
 
 	public: /* メッシュ関係の処理 */
 
@@ -216,6 +231,7 @@ namespace tktk
 		std::unique_ptr<PostEffectMaterial>	m_postEffectMaterial;
 		std::unique_ptr<SpriteMaterial>		m_spriteMaterial;
 		std::unique_ptr<Line2DMaterial>		m_line2DMaterial;
+		std::unique_ptr<BillboardMaterial>	m_billboardMaterial;
 		std::unique_ptr<MeshResource>		m_meshResource;
 		std::unique_ptr<Camera>				m_camera;
 		std::unique_ptr<Light>				m_light;

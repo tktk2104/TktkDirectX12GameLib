@@ -35,9 +35,6 @@ namespace tktk
 		// 定数バッファのコピー用バッファを更新する
 		void updateCopyBuffer() const;
 
-		// スプライト描画命令を実行する
-		void drawCall(const SpriteMaterialDrawFuncArgs& drawFuncArgs) const;
-
 	private:
 
 		unsigned int		m_createDescriptorHeapHandle { 0U };

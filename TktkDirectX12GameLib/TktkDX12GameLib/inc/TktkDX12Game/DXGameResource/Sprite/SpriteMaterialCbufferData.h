@@ -10,7 +10,7 @@ namespace tktk
 	struct SpriteMaterialCbufferData
 	{
 		// ブレンドレート
-		tktkMath::Color		blendRate			{ 1.0f, 1.0f, 1.0f, 1.0f };
+		tktkMath::Color		blendRate			{ tktkMath::Color_v::white };
 
 		// スクリーンサイズ
 		tktkMath::Vector2	screenSize			{ 640.0f, 480.0f };

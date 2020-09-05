@@ -43,6 +43,9 @@ namespace tktk
 		// 実行
 		static void run();
 
+		// 終了
+		static void exit();
+
 	//************************************************************
 	/* ウィンドウの処理 */
 	public:
@@ -100,7 +103,7 @@ namespace tktk
 
 		// テンプレート引数の型のコンポーネントを引数の値を使って作る
 		template <class ComponentType, class... Args>
-		static std::weak_ptr<ComponentType> createComponent(Args&&... args) { return m_componentManager->createComponent<ComponentType>(std::forward<Args>(args)...); }
+		static std::weak_ptr<ComponentType> createComponent(const GameObjectPtr& user, Args&&... args) { return m_componentManager->createComponent<ComponentType>(user, std::forward<Args>(args)...); }
 
 	//************************************************************
 	/* 直接DX12の処理を呼ぶ */
@@ -341,6 +344,21 @@ namespace tktk
 
 		// 線を描画する
 		static void drawLine(unsigned int handle, const Line2DMaterialDrawFuncArgs& drawFuncArgs);
+
+	//************************************************************
+	/* ビルボード関係の処理 */
+
+		// ビルボードマテリアルを作り、そのリソースのハンドルを返す
+		static unsigned int createBillboardMaterial(const BillboardMaterialInitParam& initParam);
+
+		// 指定したビルボードを描画する
+		static void drawBillboard(unsigned int handle, const BillboardDrawFuncBaseArgs& drawFuncArgs);
+
+		// 引数が表すコピーバッファを使って座標変換情報を管理する定数バッファを更新する
+		static void updateBillboardTransformCbuffer(unsigned int handle, unsigned int copyBufferHandle, const BillboardTransformCbufferUpdateFuncArgs& updateArgs);
+
+		// 引数が表すコピーバッファを使って座標変換情報を管理する定数バッファを更新する（切り抜き範囲指定版）
+		static void updateBillboardTransformCbufferUseClippingParam(unsigned int handle, unsigned int copyBufferHandle, const BillboardTransformCbufferUpdateFuncArgs& updateArgs, const BillboardClippingParam& clippingParam);
 
 	//************************************************************
 	/* メッシュ関係の処理 */
@@ -733,6 +751,7 @@ namespace tktk
 	//************************************************************
 	private:
 
+		static bool												m_isGameExit;
 		static std::unique_ptr<Window>							m_window;
 		static std::unique_ptr<DX3DBaseObjects>					m_dx3dBaseObjects;
 		static std::unique_ptr<GameObjectManager>				m_gameObjectManager;
