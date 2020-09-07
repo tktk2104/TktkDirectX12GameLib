@@ -54,6 +54,8 @@ namespace tktk
 			dxGameBaseShaderFilePaths.spriteShaderFilePaths.psFilePath								= gameManagerInitParam.tktkLibResFolderPath + "TktkLibRes/shader/SpritePixelShader.cso";
 			dxGameBaseShaderFilePaths.line2DShaderFilePaths.vsFilePath								= gameManagerInitParam.tktkLibResFolderPath + "TktkLibRes/shader/Line2DVertexShader.cso";
 			dxGameBaseShaderFilePaths.line2DShaderFilePaths.psFilePath								= gameManagerInitParam.tktkLibResFolderPath + "TktkLibRes/shader/Line2DPixelShader.cso";
+			dxGameBaseShaderFilePaths.billboardShaderFilePaths.vsFilePath							= gameManagerInitParam.tktkLibResFolderPath + "TktkLibRes/shader/BillboardVertexShader.cso";
+			dxGameBaseShaderFilePaths.billboardShaderFilePaths.psFilePath							= gameManagerInitParam.tktkLibResFolderPath + "TktkLibRes/shader/BillboardPixelShader.cso";
 			dxGameBaseShaderFilePaths.meshResourceShaderFilePaths.basicShaderFilePaths.vsFilePath	= gameManagerInitParam.tktkLibResFolderPath + "TktkLibRes/shader/BasicMeshVertexShader.cso";
 			dxGameBaseShaderFilePaths.meshResourceShaderFilePaths.basicShaderFilePaths.psFilePath	= gameManagerInitParam.tktkLibResFolderPath + "TktkLibRes/shader/BasicMeshPixelShader.cso";
 			dxGameBaseShaderFilePaths.meshResourceShaderFilePaths.monoColorShaderPsFilePath			= gameManagerInitParam.tktkLibResFolderPath + "TktkLibRes/shader/BasicMonoColorMeshPixelShader.cso";
