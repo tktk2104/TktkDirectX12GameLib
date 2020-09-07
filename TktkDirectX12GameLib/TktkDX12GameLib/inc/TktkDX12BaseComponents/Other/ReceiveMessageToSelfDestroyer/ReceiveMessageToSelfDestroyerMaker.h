@@ -1,6 +1,7 @@
 #ifndef RECEIVE_MESSAGE_TO_SELF_DESTROYER_MAKER_H_
 #define RECEIVE_MESSAGE_TO_SELF_DESTROYER_MAKER_H_
 
+#include <TktkTemplateMetaLib/TypeCheck/isIdType.h>
 #include "ReceiveMessageToSelfDestroyer.h"
 
 namespace tktk
@@ -26,7 +27,12 @@ namespace tktk
 	public:
 
 		// 自身を殺すメッセージの種類を設定
-		ReceiveMessageToSelfDestroyerMaker& destroyMessegeType(int value);
+		template<class MessageType, is_idType<MessageType> = nullptr>
+		ReceiveMessageToSelfDestroyerMaker& destroyMessegeType(MessageType value) { return destroyMessegeTypeImpl(static_cast<unsigned int>(value)); }
+
+	private: /* 各種id指定系の関数の実装 */
+
+		ReceiveMessageToSelfDestroyerMaker& destroyMessegeTypeImpl(unsigned int value);
 
 	private:
 
@@ -37,7 +43,12 @@ namespace tktk
 
 		// 作成用変数達
 		GameObjectPtr m_user{ };
-		int m_destroyMessegeType{ 0 };
+		unsigned int m_destroyMessegeType{ 0 };
+
+	public: /* 不正な型の引数が渡されそうになった時にコンパイルエラーにする為の仕組み */
+
+		template<class MessageType, is_not_idType<MessageType> = nullptr>
+		ReceiveMessageToSelfDestroyerMaker& destroyMessegeType(MessageType value) { static_assert(false, "MessageType Fraud Type"); }
 	};
 }
 #endif // !RECEIVE_MESSAGE_TO_SELF_DESTROYER_MAKER_H_

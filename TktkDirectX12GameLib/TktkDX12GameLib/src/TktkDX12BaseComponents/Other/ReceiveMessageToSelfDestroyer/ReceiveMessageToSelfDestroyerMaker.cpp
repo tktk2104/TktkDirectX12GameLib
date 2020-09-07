@@ -18,12 +18,10 @@ namespace tktk
 
 	ComponentPtr<ReceiveMessageToSelfDestroyer> ReceiveMessageToSelfDestroyerMaker::create()
 	{
-		return m_user->createComponent<ReceiveMessageToSelfDestroyer>(
-			m_destroyMessegeType
-			);
+		return m_user->createComponent<ReceiveMessageToSelfDestroyer>(m_destroyMessegeType);
 	}
 
-	ReceiveMessageToSelfDestroyerMaker & ReceiveMessageToSelfDestroyerMaker::destroyMessegeType(int value)
+	ReceiveMessageToSelfDestroyerMaker& ReceiveMessageToSelfDestroyerMaker::destroyMessegeTypeImpl(unsigned int value)
 	{
 		m_destroyMessegeType = value;
 		return *this;

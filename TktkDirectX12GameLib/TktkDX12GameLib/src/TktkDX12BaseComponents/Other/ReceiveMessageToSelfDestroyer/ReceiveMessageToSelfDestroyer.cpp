@@ -2,9 +2,7 @@
 
 namespace tktk
 {
-	ReceiveMessageToSelfDestroyer::ReceiveMessageToSelfDestroyer(
-		int destroyMessegeType
-	)
+	ReceiveMessageToSelfDestroyer::ReceiveMessageToSelfDestroyer(unsigned int destroyMessegeType)
 		: m_destroyMessegeType(destroyMessegeType)
 	{
 	}

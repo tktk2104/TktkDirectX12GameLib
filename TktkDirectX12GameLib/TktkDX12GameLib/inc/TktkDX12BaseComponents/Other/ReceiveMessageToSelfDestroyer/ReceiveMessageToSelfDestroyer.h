@@ -11,7 +11,7 @@ namespace tktk
 	{
 	public:
 
-		ReceiveMessageToSelfDestroyer(int destroyMessegeType);
+		ReceiveMessageToSelfDestroyer(unsigned int destroyMessegeType);
 
 	public:
 
@@ -21,7 +21,7 @@ namespace tktk
 	private:
 
 		// 自身を削除するメッセージの種類
-		int m_destroyMessegeType;
+		unsigned int m_destroyMessegeType;
 	};
 }
 #endif // !RECEIVE_MESSAGE_TO_SELF_DESTROYER_H_
