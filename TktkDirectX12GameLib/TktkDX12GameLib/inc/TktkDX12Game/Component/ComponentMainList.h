@@ -154,7 +154,7 @@ namespace tktk
 	{
 		for (const auto& node : mainList)
 		{
-			if (!node->isActive()) continue;
+			if (!node->isActive() || node->isDead()) continue;
 			std::dynamic_pointer_cast<T>(node)->update();
 		}
 	}
@@ -174,7 +174,7 @@ namespace tktk
 	{
 		for (const auto& node : mainList)
 		{
-			if (!node->isActive()) continue;
+			if (!node->isActive() || node->isDead()) continue;
 			std::dynamic_pointer_cast<T>(node)->afterCollide();
 		}
 	}
