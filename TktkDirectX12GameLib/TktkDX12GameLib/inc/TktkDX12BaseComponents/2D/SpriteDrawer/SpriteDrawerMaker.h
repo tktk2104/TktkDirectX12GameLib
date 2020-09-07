@@ -62,7 +62,7 @@ namespace tktk
 
 	public: /* 不正な型の引数が渡されそうになった時にコンパイルエラーにする為の仕組み */
 
-		template<class IdType, std::enable_if_t<!is_idType_v<IdType>>* = nullptr>
+		template<class IdType, is_not_idType<IdType> = nullptr>
 		SpriteDrawerMaker& spriteMaterialId(IdType value) { static_assert(false, "SpriteMaterialId Fraud Type"); }
 	};
 }
