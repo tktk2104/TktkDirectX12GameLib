@@ -19,6 +19,7 @@ namespace tktk
 		unsigned int getPostEffectMaterialHandle(int id) const;
 		unsigned int getSpriteMaterialHandle	(int id) const;
 		unsigned int getLine2DMaterialHandle	(int id) const;
+		unsigned int getBillboardMaterialHandle	(int id) const;
 		unsigned int getSkeletonHandle			(int id) const;
 		unsigned int getMotionHandle			(int id) const;
 		unsigned int getBasicMeshHandle			(int id) const;
@@ -33,6 +34,7 @@ namespace tktk
 		void setPostEffectMaterialHandle(int id, unsigned int handle);
 		void setSpriteMaterialHandle	(int id, unsigned int handle);
 		void setLine2DMaterialHandle	(int id, unsigned int handle);
+		void setBillboardMaterialHandle	(int id, unsigned int handle);
 		void setSkeletonHandle			(int id, unsigned int handle);
 		void setMotionHandle			(int id, unsigned int handle);
 		void setBasicMeshHandle			(int id, unsigned int handle);
@@ -47,6 +49,7 @@ namespace tktk
 		std::unordered_map<int, unsigned int>	m_postEffectMaterialHandleMap;
 		std::unordered_map<int, unsigned int>	m_spriteMaterialHandleMap;
 		std::unordered_map<int, unsigned int>	m_line2DMaterialHandleMap;
+		std::unordered_map<int, unsigned int>	m_billboardMaterialHandleMap;
 		std::unordered_map<int, unsigned int>	m_skeletonHandleMap;
 		std::unordered_map<int, unsigned int>	m_motionHandleMap;
 		std::unordered_map<int, unsigned int>	m_basicMeshHandleMap;

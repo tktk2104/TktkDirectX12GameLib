@@ -1,39 +1,40 @@
-#include "TktkDX12BaseComponents/3D/BillboardDrawer/BillboardDrawer.h"
+#include "TktkDX12BaseComponents/3D/BillboardDrawer/BillboardClippingDrawer.h"
 
 #include <TktkDX12Game/_MainManager/DX12GameManager.h>
 #include "TktkDX12Game/DXGameResource/Billboard/BillboardTransformCbufferData.h"
 
 namespace tktk
 {
-	BillboardDrawer::BillboardDrawer(float drawPriority, unsigned int billboardMaterialHandle, unsigned int useRtvDescriptorHeapHandle, unsigned int cameraHandle, const tktkMath::Vector2& centerRate)
+	BillboardClippingDrawer::BillboardClippingDrawer(float drawPriority, unsigned int billboardMaterialHandle, unsigned int useRtvDescriptorHeapHandle, unsigned int cameraHandle, const tktkMath::Vector2& centerRate, const BillboardClippingParam& clippingParam)
 		: ComponentBase(drawPriority)
 		, m_useRtvDescriptorHeapHandle(useRtvDescriptorHeapHandle)
 		, m_cameraHandle(cameraHandle)
 		, m_billboardMaterialHandle(billboardMaterialHandle)
 		, m_billboardCenterRate(centerRate)
+		, m_clippingParam(clippingParam)
 	{
 	}
 
-	void BillboardDrawer::start()
+	void BillboardClippingDrawer::start()
 	{
 		m_transform = getComponent<Transform3D>();
 
 		if (m_transform.expired())
 		{
-			throw std::runtime_error("BillboardDrawer not found Transform3D");
+			throw std::runtime_error("BillboardClippingDrawer not found Transform3D");
 		}
 
 		// コピー用バッファを作り、そのハンドルを取得する
 		m_createCopyTransformCbufferHandle = DX12GameManager::createCopyBuffer(BufferType::constant, DX12GameManager::getSystemHandle(SystemCBufferType::BillboardTransform), BillboardTransformCbufferData());
 	}
 
-	void BillboardDrawer::onDestroy()
+	void BillboardClippingDrawer::onDestroy()
 	{
 		// コピー用バッファを削除する
 		DX12GameManager::eraseCopyBuffer(m_createCopyTransformCbufferHandle);
 	}
 
-	void BillboardDrawer::draw() const
+	void BillboardClippingDrawer::draw() const
 	{
 		BillboardTransformCbufferUpdateFuncArgs transformBufferDataUpdater{};
 		transformBufferDataUpdater.billboardPosition	= m_transform->getWorldPosition();
@@ -45,7 +46,7 @@ namespace tktk
 		transformBufferDataUpdater.projectionMatrix		= DX12GameManager::getProjectionMatrix(m_cameraHandle);
 
 		// 座標変換用の定数バッファの更新
-		DX12GameManager::updateBillboardTransformCbuffer(m_billboardMaterialHandle, m_createCopyTransformCbufferHandle, transformBufferDataUpdater);
+		DX12GameManager::updateBillboardTransformCbufferUseClippingParam(m_billboardMaterialHandle, m_createCopyTransformCbufferHandle, transformBufferDataUpdater, m_clippingParam);
 
 		BillboardDrawFuncBaseArgs drawFuncArgs{};
 		drawFuncArgs.viewportHandle				= DX12GameManager::getSystemHandle(SystemViewportType::Basic);
@@ -55,17 +56,27 @@ namespace tktk
 		DX12GameManager::drawBillboard(m_billboardMaterialHandle, drawFuncArgs);
 	}
 
-	void BillboardDrawer::setBillboardMaterialHandle(unsigned int handle)
+	void BillboardClippingDrawer::setBillboardMaterialHandle(unsigned int handle)
 	{
 		m_billboardMaterialHandle = handle;
 	}
 
-	void BillboardDrawer::setCenterRate(const tktkMath::Vector2& centerRate)
+	void BillboardClippingDrawer::setCenterRate(const tktkMath::Vector2& centerRate)
 	{
 		m_billboardCenterRate = centerRate;
 	}
 
-	void BillboardDrawer::setBillboardMaterialIdImpl(int id)
+	void BillboardClippingDrawer::setClippingLeftTopPos(const tktkMath::Vector2& leftTopPos)
+	{
+		m_clippingParam.leftTopPos = leftTopPos;
+	}
+
+	void BillboardClippingDrawer::setClippingSize(const tktkMath::Vector2& size)
+	{
+		m_clippingParam.size = size;
+	}
+
+	void BillboardClippingDrawer::setBillboardMaterialIdImpl(int id)
 	{
 		m_billboardMaterialHandle = DX12GameManager::getBillboardMaterialHandle(id);
 	}

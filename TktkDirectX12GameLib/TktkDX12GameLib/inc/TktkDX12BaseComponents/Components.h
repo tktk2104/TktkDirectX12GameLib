@@ -24,6 +24,8 @@
 #include "3D/Camera/BasicCameraControllerMaker.h"
 #include "3D/Camera/OrthographicCameraControllerMaker.h"
 #include "3D/Camera/FirstPersonModuleMaker.h"
+#include "3D/BillboardDrawer/BillboardDrawerMaker.h"
+#include "3D/BillboardDrawer/BillboardClippingDrawerMaker.h"
 #include "3D/MeshDrawer/BasicMeshDrawerMaker.h"
 #include "3D/MeshDrawer/SphereMeshDrawerMaker.h"
 #include "3D/MeshDrawer/SphereMeshWireFrameDrawerMaker.h"
@@ -111,23 +113,29 @@ namespace tktk
 		// １人称移動コンポーネント
 		using C39 = FirstPersonModule;
 
+		// ビルボード描画コンポーネント
+		using C40 = BillboardDrawer;
+
+		// ビルボード切り抜き描画コンポーネント
+		using C41 = FirstPersonModule;
+
 		// メッシュの描画コンポーネント
-		using C40 = BasicMeshDrawer;
+		using C42 = BasicMeshDrawer;
 
 		// 球体メッシュの描画コンポーネント
-		using C41 = SphereMeshDrawer;
+		using C43 = SphereMeshDrawer;
 
 		// 球体メッシュワイヤーフレームの描画コンポーネント
-		using C42 = SphereMeshWireFrameDrawer;
+		using C44 = SphereMeshWireFrameDrawer;
 
 		// メッシュのアニメーションコンポーネント
-		using C43 = MeshAnimator;
+		using C45 = MeshAnimator;
 
 		// メッシュのシャドウマップ描画コンポーネント
-		using C44 = BasicMeshShadowMapWriter;
+		using C46 = BasicMeshShadowMapWriter;
 
 		// 球体メッシュのシャドウマップ描画コンポーネント
-		using C45 = SphereMeshShadowMapWriter;
+		using C47 = SphereMeshShadowMapWriter;
 	//>
 
 

@@ -27,6 +27,11 @@ namespace tktk
         return m_line2DMaterialHandleMap.at(id);
     }
 
+    unsigned int DXGameResourceHandleGetter::getBillboardMaterialHandle(int id) const
+    {
+        return m_billboardMaterialHandleMap.at(id);
+    }
+
     unsigned int DXGameResourceHandleGetter::getSkeletonHandle(int id) const
     {
         return m_skeletonHandleMap.at(id);
@@ -80,6 +85,11 @@ namespace tktk
     void DXGameResourceHandleGetter::setLine2DMaterialHandle(int id, unsigned int handle)
     {
         m_line2DMaterialHandleMap.emplace(id, handle);
+    }
+
+    void DXGameResourceHandleGetter::setBillboardMaterialHandle(int id, unsigned int handle)
+    {
+        m_billboardMaterialHandleMap.emplace(id, handle);
     }
 
     void DXGameResourceHandleGetter::setSkeletonHandle(int id, unsigned int handle)

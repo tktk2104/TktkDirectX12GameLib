@@ -351,6 +351,10 @@ namespace tktk
 		// ビルボードマテリアルを作り、そのリソースのハンドルを返す
 		static unsigned int createBillboardMaterial(const BillboardMaterialInitParam& initParam);
 
+		// ビルボードマテリアルを作り、そのリソースのハンドルと引数のハンドルを結び付ける
+		template<class IdType>
+		static unsigned int createBillboardMaterialAndAttachId(IdType id, const BasicMeshInitParam& initParam);
+
 		// 指定したビルボードを描画する
 		static void drawBillboard(unsigned int handle, const BillboardDrawFuncBaseArgs& drawFuncArgs);
 
@@ -671,6 +675,7 @@ namespace tktk
 		static void setPostEffectMaterialHandle	(int id, unsigned int handle);
 		static void setSpriteMaterialHandle		(int id, unsigned int handle);
 		static void setLine2DMaterialHandle		(int id, unsigned int handle);
+		static void setBillboardMaterialHandle	(int id, unsigned int handle);
 		static void setSkeletonHandle			(int id, unsigned int handle);
 		static void setMotionHandle				(int id, unsigned int handle);
 		static void setBasicMeshHandle			(int id, unsigned int handle);
@@ -741,6 +746,7 @@ namespace tktk
 		static unsigned int getPostEffectMaterialHandleImpl		(int id);
 		static unsigned int getSpriteMaterialHandleImpl			(int id);
 		static unsigned int getLine2DMaterialHandleImpl			(int id);
+		static unsigned int getBillboardMaterialHandle			(int id);
 		static unsigned int getSkeletonHandleImpl				(int id);
 		static unsigned int getMotionHandleImpl					(int id);
 		static unsigned int getBasicMeshHandleImpl				(int id);
@@ -791,6 +797,15 @@ namespace tktk
 	{
 		unsigned int createdHandle = createLine2DMaterial();
 		setLine2DMaterialHandle(static_cast<int>(id), createdHandle);
+		return createdHandle;
+	}
+
+	// ビルボードマテリアルを作り、そのリソースのハンドルと引数のハンドルを結び付ける
+	template<class IdType>
+	inline unsigned int DX12GameManager::createBillboardMaterialAndAttachId(IdType id, const BasicMeshInitParam& initParam)
+	{
+		unsigned int createdHandle = createBillboardMaterial(initParam);
+		setBillboardMaterialHandle(static_cast<int>(id), createdHandle);
 		return createdHandle;
 	}
 

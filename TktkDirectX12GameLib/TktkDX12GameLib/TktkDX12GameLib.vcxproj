@@ -170,6 +170,8 @@
     <ClInclude Include="inc\TktkDX12BaseComponents\2D\RectCollider\RectColliderMaker.h" />
     <ClInclude Include="inc\TktkDX12BaseComponents\2D\SpriteDrawer\SpriteClippingDrawer.h" />
     <ClInclude Include="inc\TktkDX12BaseComponents\2D\SpriteDrawer\SpriteClippingDrawerMaker.h" />
+    <ClInclude Include="inc\TktkDX12BaseComponents\3D\BillboardDrawer\BillboardClippingDrawer.h" />
+    <ClInclude Include="inc\TktkDX12BaseComponents\3D\BillboardDrawer\BillboardClippingDrawerMaker.h" />
     <ClInclude Include="inc\TktkDX12BaseComponents\3D\BillboardDrawer\BillboardDrawer.h" />
     <ClInclude Include="inc\TktkDX12BaseComponents\3D\BillboardDrawer\BillboardDrawerMaker.h" />
     <ClInclude Include="inc\TktkDX12BaseComponents\3D\BoxCollider\BoxCollider.h" />
@@ -360,8 +362,10 @@
     <ClCompile Include="src\TktkDX12BaseComponents\2D\RectCollider\RectColliderMaker.cpp" />
     <ClCompile Include="src\TktkDX12BaseComponents\2D\SpriteDrawer\SpriteClippingDrawer.cpp" />
     <ClCompile Include="src\TktkDX12BaseComponents\2D\SpriteDrawer\SpriteClippingDrawerMaker.cpp" />
+    <ClCompile Include="src\TktkDX12BaseComponents\3D\BillboardDrawer\BillboardClippingDrawerMaker.cpp" />
     <ClCompile Include="src\TktkDX12BaseComponents\3D\BillboardDrawer\BillboardDrawer.cpp" />
     <ClCompile Include="src\TktkDX12BaseComponents\3D\BillboardDrawer\BillboardDrawerMaker.cpp" />
+    <ClCompile Include="src\TktkDX12BaseComponents\3D\BillboardDrawer\BillboardClippingDrawer.cpp" />
     <ClCompile Include="src\TktkDX12BaseComponents\3D\BoxCollider\BoxCollider.cpp" />
     <ClCompile Include="src\TktkDX12BaseComponents\3D\BoxCollider\BoxColliderMaker.cpp" />
     <ClCompile Include="src\TktkDX12BaseComponents\3D\Camera\BasicCameraController.cpp" />

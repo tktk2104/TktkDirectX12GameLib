@@ -850,6 +850,11 @@ namespace tktk
 		m_dxGameResourceHandleGetter->setLine2DMaterialHandle(id, handle);
 	}
 
+	void DX12GameManager::setBillboardMaterialHandle(int id, unsigned int handle)
+	{
+		m_dxGameResourceHandleGetter->setBillboardMaterialHandle(id, handle);
+	}
+
 	void DX12GameManager::setSkeletonHandle(int id, unsigned int handle)
 	{
 		m_dxGameResourceHandleGetter->setSkeletonHandle(id, handle);
@@ -1118,6 +1123,11 @@ namespace tktk
 	unsigned int DX12GameManager::getLine2DMaterialHandleImpl(int id)
 	{
 		return m_dxGameResourceHandleGetter->getLine2DMaterialHandle(id);
+	}
+
+	unsigned int DX12GameManager::getBillboardMaterialHandle(int id)
+	{
+		return m_dxGameResourceHandleGetter->getBillboardMaterialHandle(id);
 	}
 
 	unsigned int DX12GameManager::getSkeletonHandleImpl(int id)
