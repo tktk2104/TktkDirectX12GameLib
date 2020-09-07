@@ -19,6 +19,7 @@ namespace tktk
 	SceneInstanceCarrier::SceneInstanceCarrier(SceneInstanceCarrier&& other) noexcept
 		: m_isActive(other.m_isActive)
 		, m_nextFrameIsActive(other.m_nextFrameIsActive)
+		, m_runAfterChangeActiveFunc(other.m_runAfterChangeActiveFunc)
 		, m_scenePtr(std::move(other.m_scenePtr))
 		, m_vtablePtr(other.m_vtablePtr)
 	{
@@ -35,7 +36,7 @@ namespace tktk
 		m_nextFrameIsActive = false;
 	}
 
-	void SceneInstanceCarrier::update()
+	void SceneInstanceCarrier::changeActive()
 	{
 		if (m_scenePtr == nullptr) return;
 
@@ -43,8 +44,20 @@ namespace tktk
 		{
 			m_isActive = m_nextFrameIsActive;
 
+			m_runAfterChangeActiveFunc = true;
+		}
+	}
+
+	void SceneInstanceCarrier::update()
+	{
+		if (m_scenePtr == nullptr) return;
+
+		if (m_runAfterChangeActiveFunc)
+		{
 			if (m_isActive) m_vtablePtr->start(m_scenePtr);
 			else			m_vtablePtr->end(m_scenePtr);
+
+			m_runAfterChangeActiveFunc = false;
 		}
 
 		if (m_isActive)		m_vtablePtr->update(m_scenePtr);

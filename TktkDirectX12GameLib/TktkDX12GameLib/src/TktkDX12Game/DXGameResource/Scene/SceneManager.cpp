@@ -26,6 +26,11 @@ namespace tktk
 	{
 		for (auto& node : m_sceneArray)
 		{
+			node.changeActive();
+		}
+
+		for (auto& node : m_sceneArray)
+		{
 			node.update();
 		}
 	}
