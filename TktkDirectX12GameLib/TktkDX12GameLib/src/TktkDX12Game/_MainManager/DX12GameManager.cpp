@@ -533,14 +533,14 @@ namespace tktk
 		m_dxGameResource->drawBillboard(handle, drawFuncArgs);
 	}
 
-	void DX12GameManager::updateBillboardTransformCbuffer(unsigned int handle, unsigned int copyBufferHandle, const BillboardTransformCbufferUpdateFuncArgs& updateArgs)
+	void DX12GameManager::updateBillboardCbuffer(unsigned int handle, unsigned int copyBufferHandle, const BillboardCbufferUpdateFuncArgs& updateArgs)
 	{
-		m_dxGameResource->updateBillboardTransformCbuffer(handle, copyBufferHandle, updateArgs);
+		m_dxGameResource->updateBillboardCbuffer(handle, copyBufferHandle, updateArgs);
 	}
 
-	void DX12GameManager::updateBillboardTransformCbufferUseClippingParam(unsigned int handle, unsigned int copyBufferHandle, const BillboardTransformCbufferUpdateFuncArgs& updateArgs, const BillboardClippingParam& clippingParam)
+	void DX12GameManager::updateBillboardCbufferUseClippingParam(unsigned int handle, unsigned int copyBufferHandle, const BillboardCbufferUpdateFuncArgs& updateArgs, const BillboardClippingParam& clippingParam)
 	{
-		m_dxGameResource->updateBillboardTransformCbufferUseClippingParam(handle, copyBufferHandle, updateArgs, clippingParam);
+		m_dxGameResource->updateBillboardCbufferUseClippingParam(handle, copyBufferHandle, updateArgs, clippingParam);
 	}
 
 	unsigned int DX12GameManager::createBasicMesh(const BasicMeshInitParam& initParam)

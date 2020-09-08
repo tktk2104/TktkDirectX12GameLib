@@ -4,7 +4,7 @@
 #include "BillboardMaterialInitParam.h"
 #include "BillboardDrawFuncBaseArgs.h"
 #include "BillboardClippingParam.h"
-#include "BillboardTransformCbufferUpdateFuncArgs.h"
+#include "BillboardCbufferUpdateFuncArgs.h"
 
 namespace tktk
 {
@@ -24,21 +24,14 @@ namespace tktk
 		void drawBillboard(const BillboardDrawFuncBaseArgs& drawFuncArgs) const;
 
 		// 引数が表すコピーバッファを使って座標変換情報を管理する定数バッファを更新する
-		void updateTransformCbuffer(unsigned int copyBufferHandle, const BillboardTransformCbufferUpdateFuncArgs& updateArgs) const;
+		void updateTransformCbuffer(unsigned int copyBufferHandle, const BillboardCbufferUpdateFuncArgs& updateArgs) const;
 
 		// 引数が表すコピーバッファを使って座標変換情報を管理する定数バッファを更新する（切り抜き範囲指定版）
-		void updateTransformCbufferUseClippingParam(unsigned int copyBufferHandle, const BillboardTransformCbufferUpdateFuncArgs& updateArgs, const BillboardClippingParam& clippingParam) const;
-	
-	private:
-
-		// 定数バッファのコピー用バッファを更新する
-		void updateCopyBuffer() const;
+		void updateTransformCbufferUseClippingParam(unsigned int copyBufferHandle, const BillboardCbufferUpdateFuncArgs& updateArgs, const BillboardClippingParam& clippingParam) const;
 
 	private:
 
 		unsigned int		m_createDescriptorHeapHandle{ 0U };
-		unsigned int		m_createCopyBufferHandle{ 0U };
-		tktkMath::Color		m_blendRate;
 		tktkMath::Vector2	m_textureUvOffset;
 		tktkMath::Vector2	m_textureUvMulRate;
 		tktkMath::Vector2	m_textureSize;

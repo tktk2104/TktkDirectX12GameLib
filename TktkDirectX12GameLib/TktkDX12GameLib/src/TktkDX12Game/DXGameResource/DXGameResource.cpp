@@ -137,12 +137,12 @@ namespace tktk
 		m_billboardMaterial->drawBillboard(handle, drawFuncArgs);
 	}
 
-	void DXGameResource::updateBillboardTransformCbuffer(unsigned int handle, unsigned int copyBufferHandle, const BillboardTransformCbufferUpdateFuncArgs& updateArgs) const
+	void DXGameResource::updateBillboardCbuffer(unsigned int handle, unsigned int copyBufferHandle, const BillboardCbufferUpdateFuncArgs& updateArgs) const
 	{
 		m_billboardMaterial->updateTransformCbuffer(handle, copyBufferHandle, updateArgs);
 	}
 
-	void DXGameResource::updateBillboardTransformCbufferUseClippingParam(unsigned int handle, unsigned int copyBufferHandle, const BillboardTransformCbufferUpdateFuncArgs& updateArgs, const BillboardClippingParam& clippingParam) const
+	void DXGameResource::updateBillboardCbufferUseClippingParam(unsigned int handle, unsigned int copyBufferHandle, const BillboardCbufferUpdateFuncArgs& updateArgs, const BillboardClippingParam& clippingParam) const
 	{
 		m_billboardMaterial->updateTransformCbufferUseClippingParam(handle, copyBufferHandle, updateArgs, clippingParam);
 	}

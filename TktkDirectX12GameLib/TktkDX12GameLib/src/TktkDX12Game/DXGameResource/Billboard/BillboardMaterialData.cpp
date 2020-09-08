@@ -1,26 +1,24 @@
 #include "TktkDX12Game/DXGameResource/Billboard/BillboardMaterialData.h"
 
 #include "TktkDX12Game/_MainManager/DX12GameManager.h"
-#include "TktkDX12Game/DXGameResource/Billboard/BillboardTransformCbufferData.h"
-#include "TktkDX12Game/DXGameResource/Billboard/BillboardMaterialCbufferData.h"
+#include "TktkDX12Game/DXGameResource/Billboard/BillboardCbufferData.h"
 
 namespace tktk
 {
 	BillboardMaterialData::BillboardMaterialData(const BillboardMaterialInitParam& initParam)
-		: m_blendRate(initParam.blendRate)
-		, m_textureUvOffset(initParam.textureUvOffset)
+		: m_textureUvOffset(initParam.textureUvOffset)
 		, m_textureUvMulRate(initParam.textureUvMulRate)
 	{
 		// ディスクリプタヒープを作る
 		BasicDescriptorHeapInitParam descriptorHeapInitParam{};
 		descriptorHeapInitParam.shaderVisible = true;
-		descriptorHeapInitParam.descriptorTableParamArray.resize(3U);
+		descriptorHeapInitParam.descriptorTableParamArray.resize(2U);
 
 		{ /* シェーダーリソースビューのディスクリプタの情報 */
 			auto& srvDescriptorParam = descriptorHeapInitParam.descriptorTableParamArray.at(0U);
 			srvDescriptorParam.type = BasicDescriptorType::textureBuffer;
 
-			// スプライトテクスチャの１種類
+			// ビルボードテクスチャの１種類
 			srvDescriptorParam.descriptorParamArray = {
 				{ initParam.srvBufferType, initParam.useBufferHandle }
 			};
@@ -30,20 +28,9 @@ namespace tktk
 			auto& cbufferViewDescriptorParam = descriptorHeapInitParam.descriptorTableParamArray.at(1U);
 			cbufferViewDescriptorParam.type = BasicDescriptorType::constantBuffer;
 
-			// マテリアル定数バッファと座標変換定数バッファの２種類
+			// 定数バッファ１種類
 			cbufferViewDescriptorParam.descriptorParamArray = {
-				{ BufferType::constant,		DX12GameManager::getSystemHandle(SystemCBufferType::BillboardMaterial) },
-				{ BufferType::constant,		DX12GameManager::getSystemHandle(SystemCBufferType::BillboardTransform) }
-			};
-		}
-
-		{ /* コンスタントバッファービューのディスクリプタの情報 */
-			auto& cbufferViewDescriptorParam = descriptorHeapInitParam.descriptorTableParamArray.at(2U);
-			cbufferViewDescriptorParam.type = BasicDescriptorType::constantBuffer;
-
-			// マテリアル定数バッファの１種類
-			cbufferViewDescriptorParam.descriptorParamArray = {
-				{ BufferType::constant,		DX12GameManager::getSystemHandle(SystemCBufferType::BillboardMaterial) }
+				{ BufferType::constant,		DX12GameManager::getSystemHandle(SystemCBufferType::Billboard) }
 			};
 		}
 
@@ -69,55 +56,39 @@ namespace tktk
 		}
 
 		m_createDescriptorHeapHandle = DX12GameManager::createBasicDescriptorHeap(descriptorHeapInitParam);
-
-		// コピー用バッファを作り、そのハンドルを取得する
-		m_createCopyBufferHandle = DX12GameManager::createCopyBuffer(BufferType::constant, DX12GameManager::getSystemHandle(SystemCBufferType::SpriteMaterial), BillboardMaterialCbufferData());
 	}
 
 	BillboardMaterialData::~BillboardMaterialData()
 	{
 		// 作ったディスクリプタヒープを削除する
 		DX12GameManager::eraseBasicDescriptorHeap(m_createDescriptorHeapHandle);
-
-		// コピー用バッファを削除する
-		DX12GameManager::eraseCopyBuffer(m_createCopyBufferHandle);
 	}
 
 	BillboardMaterialData::BillboardMaterialData(BillboardMaterialData&& other) noexcept
 		: m_createDescriptorHeapHandle(other.m_createDescriptorHeapHandle)
-		, m_createCopyBufferHandle(other.m_createCopyBufferHandle)
-		, m_blendRate(other.m_blendRate)
 		, m_textureUvOffset(other.m_textureUvOffset)
 		, m_textureUvMulRate(other.m_textureUvMulRate)
 		, m_textureSize(other.m_textureSize)
 	{
 		other.m_createDescriptorHeapHandle = 0U;
-		other.m_createCopyBufferHandle = 0U;
 	}
 
 	void BillboardMaterialData::drawBillboard(const BillboardDrawFuncBaseArgs& drawFuncArgs) const
 	{
-		// 定数バッファのコピー用バッファを更新する
-		// TODO : 前フレームと定数バッファに変化がない場合、更新しない処理を作る
-		updateCopyBuffer();
-
-		// ビルボード用定数バッファにコピーバッファの情報をコピーする
-		DX12GameManager::copyBuffer(m_createCopyBufferHandle);
-
 		// ビューポートを設定する
 		DX12GameManager::setViewport(drawFuncArgs.viewportHandle);
 
 		// シザー矩形を設定する
 		DX12GameManager::setScissorRect(drawFuncArgs.scissorRectHandle);
 
-		// レンダーターゲットを設定する（バックバッファーに直で描画する場合は特殊処理）
+		// レンダーターゲットと深度ステンシルを設定する（バックバッファーに直で描画する場合は特殊処理）
 		if (drawFuncArgs.rtvDescriptorHeapHandle == DX12GameManager::getSystemHandle(SystemRtvDescriptorHeapType::BackBuffer))
 		{
-			DX12GameManager::setBackBufferView();
+			DX12GameManager::setBackBufferViewAndDsv(drawFuncArgs.dsvDescriptorHeapHandle);
 		}
 		else
 		{
-			DX12GameManager::setRtv(drawFuncArgs.rtvDescriptorHeapHandle, 0U, 1U);
+			DX12GameManager::setRtvAndDsv(drawFuncArgs.rtvDescriptorHeapHandle, drawFuncArgs.dsvDescriptorHeapHandle, 0U, 1U);
 		}
 
 		// ビルボード用のパイプラインステートを設定する
@@ -146,12 +117,15 @@ namespace tktk
 		{
 			DX12GameManager::unSetRtv(drawFuncArgs.rtvDescriptorHeapHandle, 0U, 1U);
 		}
+
+		// 深度ステンシルバッファーをシェーダーで使える状態にする
+		DX12GameManager::unSetDsv(drawFuncArgs.dsvDescriptorHeapHandle);
 	}
 
-	void BillboardMaterialData::updateTransformCbuffer(unsigned int copyBufferHandle, const BillboardTransformCbufferUpdateFuncArgs& updateArgs) const
+	void BillboardMaterialData::updateTransformCbuffer(unsigned int copyBufferHandle, const BillboardCbufferUpdateFuncArgs& updateArgs) const
 	{
 		// ビルボードの座標変換用定数バッファ形式
-		BillboardTransformCbufferData transformBufferData{};
+		BillboardCbufferData transformBufferData{};
 
 		transformBufferData.billboardPosition	= updateArgs.billboardPosition;
 		transformBufferData.billboardAngle		= updateArgs.billboardAngle;
@@ -162,6 +136,7 @@ namespace tktk
 		transformBufferData.textureCenterRate	= updateArgs.textureCenterRate;
 		transformBufferData.viewMatrix			= updateArgs.viewMatrix;
 		transformBufferData.projectionMatrix	= updateArgs.projectionMatrix;
+		transformBufferData.blendRate			= updateArgs.blendRate;
 
 		// 定数バッファのコピー用バッファを更新する
 		// TODO : 前フレームと定数バッファに変化がない場合、更新しない処理を作る
@@ -171,10 +146,10 @@ namespace tktk
 		DX12GameManager::copyBuffer(copyBufferHandle);
 	}
 
-	void BillboardMaterialData::updateTransformCbufferUseClippingParam(unsigned int copyBufferHandle, const BillboardTransformCbufferUpdateFuncArgs& updateArgs, const BillboardClippingParam& clippingParam) const
+	void BillboardMaterialData::updateTransformCbufferUseClippingParam(unsigned int copyBufferHandle, const BillboardCbufferUpdateFuncArgs& updateArgs, const BillboardClippingParam& clippingParam) const
 	{
 		// ビルボードの座標変換用定数バッファ形式
-		BillboardTransformCbufferData transformBufferData{};
+		BillboardCbufferData transformBufferData{};
 
 		transformBufferData.billboardPosition	= updateArgs.billboardPosition;
 		transformBufferData.billboardAngle		= updateArgs.billboardAngle;
@@ -185,6 +160,7 @@ namespace tktk
 		transformBufferData.textureCenterRate	= updateArgs.textureCenterRate;
 		transformBufferData.viewMatrix			= updateArgs.viewMatrix;
 		transformBufferData.projectionMatrix	= updateArgs.projectionMatrix;
+		transformBufferData.blendRate			= updateArgs.blendRate;
 
 		// 定数バッファのコピー用バッファを更新する
 		// TODO : 前フレームと定数バッファに変化がない場合、更新しない処理を作る
@@ -192,13 +168,5 @@ namespace tktk
 
 		// 座標変換用の定数バッファにコピーバッファの情報をコピーする
 		DX12GameManager::copyBuffer(copyBufferHandle);
-	}
-
-	void BillboardMaterialData::updateCopyBuffer() const
-	{
-		BillboardMaterialCbufferData constantBufferData;
-		constantBufferData.blendRate = m_blendRate;
-
-		DX12GameManager::updateCopyBuffer(m_createCopyBufferHandle, constantBufferData);
 	}
 }

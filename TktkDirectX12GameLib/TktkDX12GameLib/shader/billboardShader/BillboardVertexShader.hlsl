@@ -1,10 +1,5 @@
 
-cbuffer BillboardMaterialBuffer : register(b0)
-{
-	float4 blendRate;
-};
-
-cbuffer BillboardTransformBuffer : register(b0)
+cbuffer BillboardBuffer : register(b0)
 {
 	float3		billboardPosition;
 	float		billboardAngle;
@@ -16,6 +11,7 @@ cbuffer BillboardTransformBuffer : register(b0)
 	float2		pad;
 	float4x4    viewMatrix;
 	float4x4    projectionMatrix;
+	float4		blendRate;
 };
 
 struct VS_INPUT
@@ -36,8 +32,8 @@ VS_OUTPUT main(VS_INPUT input)
 	VS_OUTPUT output;
 
 	output.position		= input.position;
-	output.position.xy *= textureSize;
-	output.position.xy -= float2(textureCenterRate.x * textureSize.x, textureCenterRate.y * textureSize.y);
+	output.position.xy *= float2(1.0f, textureSize.y / textureSize.x);
+	output.position.xy -= float2(textureCenterRate.x, textureCenterRate.y * (textureSize.y / textureSize.x));
 	output.position.xy *= billboardScale;
 
 	float2 rotate;
@@ -56,8 +52,8 @@ VS_OUTPUT main(VS_INPUT input)
 	// “§Ž‹•ÏŠ·
 	output.position = mul(projectionMatrix, output.position);
 
-	output.texcoord.xy = (input.position.xy * textureUvMulRate) + textureUvOffset;
-
+	output.texcoord.xy = ((input.position.xy * textureUvMulRate) + textureUvOffset);
+	output.texcoord.y = 1.0 - output.texcoord.y;
 	return output;
 }
 

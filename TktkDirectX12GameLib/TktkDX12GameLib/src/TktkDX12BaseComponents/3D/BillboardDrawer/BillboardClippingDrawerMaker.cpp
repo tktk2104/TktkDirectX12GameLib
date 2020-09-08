@@ -30,6 +30,7 @@ namespace tktk
 			m_useRtvDescriptorHeapHandle,
 			m_cameraHandle,
 			m_centerRate,
+			m_blendRate,
 			m_clippingParam
 			);
 	}
@@ -66,6 +67,13 @@ namespace tktk
 	{
 		// 値を設定して自身の参照を返す
 		m_centerRate = value;
+		return *this;
+	}
+
+	BillboardClippingDrawerMaker& BillboardClippingDrawerMaker::blendRate(const tktkMath::Color& value)
+	{
+		// 値を設定して自身の参照を返す
+		m_blendRate = value;
 		return *this;
 	}
 

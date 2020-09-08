@@ -1,16 +1,17 @@
 #include "TktkDX12BaseComponents/3D/BillboardDrawer/BillboardClippingDrawer.h"
 
 #include <TktkDX12Game/_MainManager/DX12GameManager.h>
-#include "TktkDX12Game/DXGameResource/Billboard/BillboardTransformCbufferData.h"
+#include "TktkDX12Game/DXGameResource/Billboard/BillboardCbufferData.h"
 
 namespace tktk
 {
-	BillboardClippingDrawer::BillboardClippingDrawer(float drawPriority, unsigned int billboardMaterialHandle, unsigned int useRtvDescriptorHeapHandle, unsigned int cameraHandle, const tktkMath::Vector2& centerRate, const BillboardClippingParam& clippingParam)
+	BillboardClippingDrawer::BillboardClippingDrawer(float drawPriority, unsigned int billboardMaterialHandle, unsigned int useRtvDescriptorHeapHandle, unsigned int cameraHandle, const tktkMath::Vector2& centerRate, const tktkMath::Color& blendRate, const BillboardClippingParam& clippingParam)
 		: ComponentBase(drawPriority)
 		, m_useRtvDescriptorHeapHandle(useRtvDescriptorHeapHandle)
 		, m_cameraHandle(cameraHandle)
 		, m_billboardMaterialHandle(billboardMaterialHandle)
-		, m_billboardCenterRate(centerRate)
+		, m_centerRate(centerRate)
+		, m_blendRate(blendRate)
 		, m_clippingParam(clippingParam)
 	{
 	}
@@ -25,7 +26,7 @@ namespace tktk
 		}
 
 		// コピー用バッファを作り、そのハンドルを取得する
-		m_createCopyTransformCbufferHandle = DX12GameManager::createCopyBuffer(BufferType::constant, DX12GameManager::getSystemHandle(SystemCBufferType::BillboardTransform), BillboardTransformCbufferData());
+		m_createCopyTransformCbufferHandle = DX12GameManager::createCopyBuffer(BufferType::constant, DX12GameManager::getSystemHandle(SystemCBufferType::Billboard), BillboardCbufferData());
 	}
 
 	void BillboardClippingDrawer::onDestroy()
@@ -36,22 +37,24 @@ namespace tktk
 
 	void BillboardClippingDrawer::draw() const
 	{
-		BillboardTransformCbufferUpdateFuncArgs transformBufferDataUpdater{};
-		transformBufferDataUpdater.billboardPosition	= m_transform->getWorldPosition();
-		transformBufferDataUpdater.billboardAngle		= m_transform->calculateWorldEulerAngles().z;
+		BillboardCbufferUpdateFuncArgs bufferDataUpdater{};
+		bufferDataUpdater.billboardPosition	= m_transform->getWorldPosition();
+		bufferDataUpdater.billboardAngle	= m_transform->calculateWorldEulerAngles().z;
 		auto selfScale = m_transform->getWorldScaleRate();
-		transformBufferDataUpdater.billboardScale		= { selfScale.x, selfScale.y };
-		transformBufferDataUpdater.textureCenterRate	= m_billboardCenterRate;
-		transformBufferDataUpdater.viewMatrix			= DX12GameManager::getViewMatrix(m_cameraHandle);
-		transformBufferDataUpdater.projectionMatrix		= DX12GameManager::getProjectionMatrix(m_cameraHandle);
+		bufferDataUpdater.billboardScale	= { selfScale.x, selfScale.y };
+		bufferDataUpdater.textureCenterRate	= m_centerRate;
+		bufferDataUpdater.viewMatrix		= DX12GameManager::getViewMatrix(m_cameraHandle);
+		bufferDataUpdater.projectionMatrix	= DX12GameManager::getProjectionMatrix(m_cameraHandle);
+		bufferDataUpdater.blendRate			= m_blendRate;
 
-		// 座標変換用の定数バッファの更新
-		DX12GameManager::updateBillboardTransformCbufferUseClippingParam(m_billboardMaterialHandle, m_createCopyTransformCbufferHandle, transformBufferDataUpdater, m_clippingParam);
+		// 定数バッファの更新
+		DX12GameManager::updateBillboardCbufferUseClippingParam(m_billboardMaterialHandle, m_createCopyTransformCbufferHandle, bufferDataUpdater, m_clippingParam);
 
 		BillboardDrawFuncBaseArgs drawFuncArgs{};
 		drawFuncArgs.viewportHandle				= DX12GameManager::getSystemHandle(SystemViewportType::Basic);
 		drawFuncArgs.scissorRectHandle			= DX12GameManager::getSystemHandle(SystemScissorRectType::Basic);
 		drawFuncArgs.rtvDescriptorHeapHandle	= m_useRtvDescriptorHeapHandle;
+		drawFuncArgs.dsvDescriptorHeapHandle	= DX12GameManager::getSystemHandle(SystemDsvDescriptorHeapType::Basic);
 
 		DX12GameManager::drawBillboard(m_billboardMaterialHandle, drawFuncArgs);
 	}
@@ -63,7 +66,7 @@ namespace tktk
 
 	void BillboardClippingDrawer::setCenterRate(const tktkMath::Vector2& centerRate)
 	{
-		m_billboardCenterRate = centerRate;
+		m_centerRate = centerRate;
 	}
 
 	void BillboardClippingDrawer::setClippingLeftTopPos(const tktkMath::Vector2& leftTopPos)

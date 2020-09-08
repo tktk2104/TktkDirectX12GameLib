@@ -18,6 +18,7 @@ namespace tktk
 		ShadowMap,
 		Sprite,
 		Line2D,
+		Billboard,
 		BasicMesh,
 		BasicMonoColorMesh
 	};

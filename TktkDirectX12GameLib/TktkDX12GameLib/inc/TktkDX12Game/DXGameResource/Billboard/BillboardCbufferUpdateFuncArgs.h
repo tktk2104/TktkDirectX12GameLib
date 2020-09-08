@@ -1,13 +1,14 @@
 #ifndef BILLBOARD_TRANSFORM_CBUFFER_UPDATE_FUNC_ARGS_H_
 #define BILLBOARD_TRANSFORM_CBUFFER_UPDATE_FUNC_ARGS_H_
 
+#include <TktkMath/Structs/Color.h>
 #include <TktkMath/Structs/Matrix4.h>
 #include <TktkMath/Structs/Vector2.h>
 #include <TktkMath/Structs/Vector3.h>
 
 namespace tktk
 {
-	struct BillboardTransformCbufferUpdateFuncArgs
+	struct BillboardCbufferUpdateFuncArgs
 	{
 		// ビルビードの座標
 		tktkMath::Vector3	billboardPosition	{ tktkMath::Vector3_v::zero };
@@ -26,6 +27,9 @@ namespace tktk
 
 		// プロジェクション行列
 		tktkMath::Matrix4	projectionMatrix	{ tktkMath::Matrix4_v::identity };
+
+		// ブレンドレート
+		tktkMath::Color		blendRate			{ tktkMath::Color_v::white };
 	};
 }
 #endif // !BILLBOARD_TRANSFORM_CBUFFER_UPDATE_FUNC_ARGS_H_

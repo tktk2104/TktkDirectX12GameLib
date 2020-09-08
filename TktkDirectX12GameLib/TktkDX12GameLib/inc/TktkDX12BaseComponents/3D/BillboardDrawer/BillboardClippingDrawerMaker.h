@@ -50,8 +50,11 @@ namespace tktk
 		template<class IdType, is_idType<IdType> = nullptr>
 		BillboardClippingDrawerMaker& billboardMaterialId(IdType value) { return billboardMaterialIdImpl(static_cast<int>(value)); }
 
-		// スプライトの中心位置の割合を設定する
+		// ビルボードの中心位置の割合を設定する
 		BillboardClippingDrawerMaker& centerRate(const tktkMath::Vector2 & value);
+
+		// ビルボードのブレンドレートを設定する
+		BillboardClippingDrawerMaker& blendRate(const tktkMath::Color& value);
 
 		// 切り取る範囲のテクスチャ座標での左上座標を設定する（テクセル）
 		BillboardClippingDrawerMaker& clippingLeftTopPos(const tktkMath::Vector2& value);
@@ -76,6 +79,7 @@ namespace tktk
 		unsigned int			m_cameraHandle				{ 0U };
 		unsigned int			m_billboardMaterialHandle	{ 0U };
 		tktkMath::Vector2		m_centerRate				{ 0.5f, 0.5f };
+		tktkMath::Color			m_blendRate					{ tktkMath::Color_v::white };
 		BillboardClippingParam	m_clippingParam				{  };
 
 	public: /* 不正な型の引数が渡されそうになった時にコンパイルエラーにする為の仕組み */

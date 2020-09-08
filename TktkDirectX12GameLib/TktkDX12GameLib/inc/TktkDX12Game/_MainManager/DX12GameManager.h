@@ -353,16 +353,16 @@ namespace tktk
 
 		// ビルボードマテリアルを作り、そのリソースのハンドルと引数のハンドルを結び付ける
 		template<class IdType>
-		static unsigned int createBillboardMaterialAndAttachId(IdType id, const BasicMeshInitParam& initParam);
+		static unsigned int createBillboardMaterialAndAttachId(IdType id, const BillboardMaterialInitParam& initParam);
 
 		// 指定したビルボードを描画する
 		static void drawBillboard(unsigned int handle, const BillboardDrawFuncBaseArgs& drawFuncArgs);
 
-		// 引数が表すコピーバッファを使って座標変換情報を管理する定数バッファを更新する
-		static void updateBillboardTransformCbuffer(unsigned int handle, unsigned int copyBufferHandle, const BillboardTransformCbufferUpdateFuncArgs& updateArgs);
+		// 引数が表すコピーバッファを使って定数バッファを更新する
+		static void updateBillboardCbuffer(unsigned int handle, unsigned int copyBufferHandle, const BillboardCbufferUpdateFuncArgs& updateArgs);
 
-		// 引数が表すコピーバッファを使って座標変換情報を管理する定数バッファを更新する（切り抜き範囲指定版）
-		static void updateBillboardTransformCbufferUseClippingParam(unsigned int handle, unsigned int copyBufferHandle, const BillboardTransformCbufferUpdateFuncArgs& updateArgs, const BillboardClippingParam& clippingParam);
+		// 引数が表すコピーバッファを使って定数バッファを更新する（切り抜き範囲指定版）
+		static void updateBillboardCbufferUseClippingParam(unsigned int handle, unsigned int copyBufferHandle, const BillboardCbufferUpdateFuncArgs& updateArgs, const BillboardClippingParam& clippingParam);
 
 	//************************************************************
 	/* メッシュ関係の処理 */
@@ -802,7 +802,7 @@ namespace tktk
 
 	// ビルボードマテリアルを作り、そのリソースのハンドルと引数のハンドルを結び付ける
 	template<class IdType>
-	inline unsigned int DX12GameManager::createBillboardMaterialAndAttachId(IdType id, const BasicMeshInitParam& initParam)
+	inline unsigned int DX12GameManager::createBillboardMaterialAndAttachId(IdType id, const BillboardMaterialInitParam& initParam)
 	{
 		unsigned int createdHandle = createBillboardMaterial(initParam);
 		setBillboardMaterialHandle(static_cast<int>(id), createdHandle);

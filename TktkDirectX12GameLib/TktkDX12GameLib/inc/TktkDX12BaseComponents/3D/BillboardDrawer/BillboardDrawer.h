@@ -16,7 +16,7 @@ namespace tktk
 	{
 	public:
 
-		BillboardDrawer(float drawPriority, unsigned int billboardMaterialHandle, unsigned int useRtvDescriptorHeapHandle, unsigned int cameraHandle, const tktkMath::Vector2& centerRate);
+		BillboardDrawer(float drawPriority, unsigned int billboardMaterialHandle, unsigned int useRtvDescriptorHeapHandle, unsigned int cameraHandle, const tktkMath::Vector2& centerRate, const tktkMath::Color& blendRate);
 
 	public:
 
@@ -48,7 +48,8 @@ namespace tktk
 		unsigned int				m_useRtvDescriptorHeapHandle;
 		unsigned int				m_cameraHandle;
 		unsigned int				m_billboardMaterialHandle;
-		tktkMath::Vector2			m_billboardCenterRate;
+		tktkMath::Vector2			m_centerRate;
+		tktkMath::Color				m_blendRate;
 		ComponentPtr<Transform3D>	m_transform;
 
 	public:

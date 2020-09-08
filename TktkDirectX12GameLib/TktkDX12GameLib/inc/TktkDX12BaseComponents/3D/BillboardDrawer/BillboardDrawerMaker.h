@@ -50,8 +50,11 @@ namespace tktk
 		template<class IdType, is_idType<IdType> = nullptr>
 		BillboardDrawerMaker& billboardMaterialId(IdType value) { return billboardMaterialIdImpl(static_cast<int>(value)); }
 
-		// スプライトの中心位置の割合を設定する
+		// ビルボードの中心位置の割合を設定する
 		BillboardDrawerMaker& centerRate(const tktkMath::Vector2 & value);
+
+		// ビルボードのブレンドレートを設定する
+		BillboardDrawerMaker& blendRate(const tktkMath::Color& value);
 
 	private: /* 各種id指定系の関数の実装 */
 
@@ -70,6 +73,7 @@ namespace tktk
 		unsigned int		m_cameraHandle				{ 0U };
 		unsigned int		m_billboardMaterialHandle	{ 0U };
 		tktkMath::Vector2	m_centerRate				{ 0.5f, 0.5f };
+		tktkMath::Color		m_blendRate					{ tktkMath::Color_v::white };
 
 	public: /* 不正な型の引数が渡されそうになった時にコンパイルエラーにする為の仕組み */
 

@@ -230,11 +230,10 @@
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\Billboard\BillboardClippingParam.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\Billboard\BillboardDrawFuncBaseArgs.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\Billboard\BillboardMaterial.h" />
-    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Billboard\BillboardMaterialCbufferData.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\Billboard\BillboardMaterialData.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\Billboard\BillboardMaterialInitParam.h" />
-    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Billboard\BillboardTransformCbufferData.h" />
-    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Billboard\BillboardTransformCbufferUpdateFuncArgs.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Billboard\BillboardCbufferData.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Billboard\BillboardCbufferUpdateFuncArgs.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\Camera\Camera.h" />
     <ClInclude Include="inc\TktkDX12BaseComponents\3D\Light\PointLightController.h" />
     <ClInclude Include="inc\TktkDX12BaseComponents\3D\MeshAnimator\MeshAnimator.h" />

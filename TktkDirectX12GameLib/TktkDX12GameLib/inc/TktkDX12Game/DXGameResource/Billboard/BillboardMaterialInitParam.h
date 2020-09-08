@@ -15,9 +15,6 @@ namespace tktk
 		// 描画するバッファーのID
 		unsigned int		useBufferHandle;
 
-		// ブレンド値
-		tktkMath::Color		blendRate{ 1.0f, 1.0f, 1.0f, 1.0f };
-
 		// テクスチャUVのオフセット
 		tktkMath::Vector2	textureUvOffset{ 0.0f, 0.0f };
 

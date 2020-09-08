@@ -1,16 +1,17 @@
 #include "TktkDX12BaseComponents/3D/BillboardDrawer/BillboardDrawer.h"
 
 #include <TktkDX12Game/_MainManager/DX12GameManager.h>
-#include "TktkDX12Game/DXGameResource/Billboard/BillboardTransformCbufferData.h"
+#include "TktkDX12Game/DXGameResource/Billboard/BillboardCbufferData.h"
 
 namespace tktk
 {
-	BillboardDrawer::BillboardDrawer(float drawPriority, unsigned int billboardMaterialHandle, unsigned int useRtvDescriptorHeapHandle, unsigned int cameraHandle, const tktkMath::Vector2& centerRate)
+	BillboardDrawer::BillboardDrawer(float drawPriority, unsigned int billboardMaterialHandle, unsigned int useRtvDescriptorHeapHandle, unsigned int cameraHandle, const tktkMath::Vector2& centerRate, const tktkMath::Color& blendRate)
 		: ComponentBase(drawPriority)
 		, m_useRtvDescriptorHeapHandle(useRtvDescriptorHeapHandle)
 		, m_cameraHandle(cameraHandle)
 		, m_billboardMaterialHandle(billboardMaterialHandle)
-		, m_billboardCenterRate(centerRate)
+		, m_centerRate(centerRate)
+		, m_blendRate(blendRate)
 	{
 	}
 
@@ -24,7 +25,7 @@ namespace tktk
 		}
 
 		// コピー用バッファを作り、そのハンドルを取得する
-		m_createCopyTransformCbufferHandle = DX12GameManager::createCopyBuffer(BufferType::constant, DX12GameManager::getSystemHandle(SystemCBufferType::BillboardTransform), BillboardTransformCbufferData());
+		m_createCopyTransformCbufferHandle = DX12GameManager::createCopyBuffer(BufferType::constant, DX12GameManager::getSystemHandle(SystemCBufferType::Billboard), BillboardCbufferData());
 	}
 
 	void BillboardDrawer::onDestroy()
@@ -35,22 +36,24 @@ namespace tktk
 
 	void BillboardDrawer::draw() const
 	{
-		BillboardTransformCbufferUpdateFuncArgs transformBufferDataUpdater{};
-		transformBufferDataUpdater.billboardPosition	= m_transform->getWorldPosition();
-		transformBufferDataUpdater.billboardAngle		= m_transform->calculateWorldEulerAngles().z;
+		BillboardCbufferUpdateFuncArgs bufferDataUpdater{};
+		bufferDataUpdater.billboardPosition	= m_transform->getWorldPosition();
+		bufferDataUpdater.billboardAngle	= m_transform->calculateWorldEulerAngles().z;
 		auto selfScale = m_transform->getWorldScaleRate();
-		transformBufferDataUpdater.billboardScale		= { selfScale.x, selfScale.y };
-		transformBufferDataUpdater.textureCenterRate	= m_billboardCenterRate;
-		transformBufferDataUpdater.viewMatrix			= DX12GameManager::getViewMatrix(m_cameraHandle);
-		transformBufferDataUpdater.projectionMatrix		= DX12GameManager::getProjectionMatrix(m_cameraHandle);
+		bufferDataUpdater.billboardScale	= { selfScale.x, selfScale.y };
+		bufferDataUpdater.textureCenterRate	= m_centerRate;
+		bufferDataUpdater.viewMatrix		= DX12GameManager::getViewMatrix(m_cameraHandle);
+		bufferDataUpdater.projectionMatrix	= DX12GameManager::getProjectionMatrix(m_cameraHandle);
+		bufferDataUpdater.blendRate			= m_blendRate;
 
-		// 座標変換用の定数バッファの更新
-		DX12GameManager::updateBillboardTransformCbuffer(m_billboardMaterialHandle, m_createCopyTransformCbufferHandle, transformBufferDataUpdater);
+		// 定数バッファの更新
+		DX12GameManager::updateBillboardCbuffer(m_billboardMaterialHandle, m_createCopyTransformCbufferHandle, bufferDataUpdater);
 
 		BillboardDrawFuncBaseArgs drawFuncArgs{};
 		drawFuncArgs.viewportHandle				= DX12GameManager::getSystemHandle(SystemViewportType::Basic);
 		drawFuncArgs.scissorRectHandle			= DX12GameManager::getSystemHandle(SystemScissorRectType::Basic);
 		drawFuncArgs.rtvDescriptorHeapHandle	= m_useRtvDescriptorHeapHandle;
+		drawFuncArgs.dsvDescriptorHeapHandle	= DX12GameManager::getSystemHandle(SystemDsvDescriptorHeapType::Basic);
 
 		DX12GameManager::drawBillboard(m_billboardMaterialHandle, drawFuncArgs);
 	}
@@ -62,7 +65,7 @@ namespace tktk
 
 	void BillboardDrawer::setCenterRate(const tktkMath::Vector2& centerRate)
 	{
-		m_billboardCenterRate = centerRate;
+		m_centerRate = centerRate;
 	}
 
 	void BillboardDrawer::setBillboardMaterialIdImpl(int id)

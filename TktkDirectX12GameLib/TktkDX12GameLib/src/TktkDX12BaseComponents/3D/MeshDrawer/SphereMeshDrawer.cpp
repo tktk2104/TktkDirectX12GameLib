@@ -94,7 +94,7 @@ namespace tktk
 		MeshTransformCbuffer transformBufferData{};
 
 		// Transform3Dからワールド行列を取得
-		transformBufferData.worldMatrix = m_transform->calculateWorldMatrix();
+		transformBufferData.worldMatrix = tktkMath::Matrix4::createTranslation(m_localPosition) * m_transform->calculateWorldMatrix();
 
 		// 使用するカメラのビュー行列
 		transformBufferData.viewMatrix = DX12GameManager::getViewMatrix(m_useResourceHandles.cameraHandle);
