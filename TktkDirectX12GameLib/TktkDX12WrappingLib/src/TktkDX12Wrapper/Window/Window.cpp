@@ -16,6 +16,38 @@ namespace tktk
 	Window::Window(const WindowInitParam& initParam)
 		: m_windowSize(initParam.windowSize)
 	{
+#ifdef _M_AMD64 /* x64ビルドなら */
+
+		// ワイド文字列に変換
+		std::wstring wstrWindowName(initParam.windowName.begin(), initParam.windowName.end());
+
+		// ウィンドウクラスを生成
+		WNDCLASS wc{};
+		wc.lpfnWndProc = WndProc;
+		wc.hInstance = initParam.hInstance;
+		wc.lpszClassName = wstrWindowName.c_str();
+		wc.hCursor = LoadCursor(NULL, IDC_ARROW);
+		RegisterClass(&wc);
+
+		// ウィンドウサイズを計算
+		RECT rect{ 0, 0, static_cast<int>(initParam.windowSize.x), static_cast<int>(initParam.windowSize.y) };
+		AdjustWindowRect(&rect, WS_OVERLAPPEDWINDOW, false);
+
+		// ウィンドウを生成
+		m_hwnd = CreateWindow(
+			wstrWindowName.c_str(),
+			wstrWindowName.c_str(),
+			WS_OVERLAPPEDWINDOW,
+			CW_USEDEFAULT,
+			CW_USEDEFAULT,
+			rect.right - rect.left,
+			rect.bottom - rect.top,
+			NULL,
+			NULL,
+			initParam.hInstance,
+			NULL
+		);
+#else
 		// ウィンドウクラスを生成
 		WNDCLASS wc{};
 		wc.lpfnWndProc = WndProc;
@@ -42,6 +74,7 @@ namespace tktk
 			initParam.hInstance,
 			NULL
 		);
+#endif // _M_AMD64
 
 		if (m_hwnd == NULL)
 		{

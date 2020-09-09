@@ -88,7 +88,12 @@ namespace tktk
 			nullptr,
 			dataParam.textureData.data(),
 			dataParam.width * 4,
+
+#ifdef _M_AMD64 /* x64ƒrƒ‹ƒh‚È‚ç */
+			static_cast<unsigned int>(dataParam.textureData.size())
+#else
 			dataParam.textureData.size()
+#endif // WIN64
 		);
 	}
 

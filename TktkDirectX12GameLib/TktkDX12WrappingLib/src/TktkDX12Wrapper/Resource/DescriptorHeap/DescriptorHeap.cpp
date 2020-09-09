@@ -42,8 +42,12 @@ namespace tktk
 			}
 		}
 	
+#ifdef _M_AMD64 /* x64ƒrƒ‹ƒh‚È‚ç */
+		commandList->SetDescriptorHeaps(static_cast<unsigned int>(descriptorHeapArray.size()), descriptorHeapArray.data());
+#else
 		commandList->SetDescriptorHeaps(descriptorHeapArray.size(), descriptorHeapArray.data());
-	
+#endif // _M_AMD64
+		
 		for (const auto& heapParam : heapParamArray)
 		{
 			switch (heapParam.type)

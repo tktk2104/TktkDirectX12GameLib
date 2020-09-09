@@ -12,6 +12,7 @@
 #include "TktkDX12Game/Input/DirectInputWrapper/DirectInputWrapper.h"
 #include "TktkDX12Game/Time/ElapsedTimer.h"
 
+#include "TktkDX12Game/DXGameResource/Mesh/BasicMesh/Maker/BoxMeshMaker.h"
 #include "TktkDX12Game/DXGameResource/Mesh/BasicMesh/Maker/SphereMeshMaker.h"
 
 namespace tktk
@@ -50,18 +51,38 @@ namespace tktk
 
 		{
 			DXGameBaseShaderFilePaths dxGameBaseShaderFilePaths{};
-			dxGameBaseShaderFilePaths.spriteShaderFilePaths.vsFilePath								= gameManagerInitParam.tktkLibResFolderPath + "TktkLibRes/shader/SpriteVertexShader.cso";
-			dxGameBaseShaderFilePaths.spriteShaderFilePaths.psFilePath								= gameManagerInitParam.tktkLibResFolderPath + "TktkLibRes/shader/SpritePixelShader.cso";
-			dxGameBaseShaderFilePaths.line2DShaderFilePaths.vsFilePath								= gameManagerInitParam.tktkLibResFolderPath + "TktkLibRes/shader/Line2DVertexShader.cso";
-			dxGameBaseShaderFilePaths.line2DShaderFilePaths.psFilePath								= gameManagerInitParam.tktkLibResFolderPath + "TktkLibRes/shader/Line2DPixelShader.cso";
-			dxGameBaseShaderFilePaths.billboardShaderFilePaths.vsFilePath							= gameManagerInitParam.tktkLibResFolderPath + "TktkLibRes/shader/BillboardVertexShader.cso";
-			dxGameBaseShaderFilePaths.billboardShaderFilePaths.psFilePath							= gameManagerInitParam.tktkLibResFolderPath + "TktkLibRes/shader/BillboardPixelShader.cso";
-			dxGameBaseShaderFilePaths.meshResourceShaderFilePaths.basicShaderFilePaths.vsFilePath	= gameManagerInitParam.tktkLibResFolderPath + "TktkLibRes/shader/BasicMeshVertexShader.cso";
-			dxGameBaseShaderFilePaths.meshResourceShaderFilePaths.basicShaderFilePaths.psFilePath	= gameManagerInitParam.tktkLibResFolderPath + "TktkLibRes/shader/BasicMeshPixelShader.cso";
-			dxGameBaseShaderFilePaths.meshResourceShaderFilePaths.monoColorShaderPsFilePath			= gameManagerInitParam.tktkLibResFolderPath + "TktkLibRes/shader/BasicMonoColorMeshPixelShader.cso";
-			dxGameBaseShaderFilePaths.meshResourceShaderFilePaths.writeShadowMapVsFilePath			= gameManagerInitParam.tktkLibResFolderPath + "TktkLibRes/shader/BasicMeshShadowVertexShader.cso";
-			dxGameBaseShaderFilePaths.postEffectShaderFilePaths.postEffectVSFilePath				= gameManagerInitParam.tktkLibResFolderPath + "TktkLibRes/shader/PostEffectVertexShader.cso";
-			dxGameBaseShaderFilePaths.postEffectShaderFilePaths.monochromePSFilePath				= gameManagerInitParam.tktkLibResFolderPath + "TktkLibRes/shader/MonochromePixelShader.cso";
+
+#ifdef _M_AMD64 /* x64ビルドなら */
+
+			dxGameBaseShaderFilePaths.spriteShaderFilePaths.vsFilePath								= gameManagerInitParam.tktkLibResFolderPath + "TktkLibRes/shader/x64/SpriteVertexShader.cso";
+			dxGameBaseShaderFilePaths.spriteShaderFilePaths.psFilePath								= gameManagerInitParam.tktkLibResFolderPath + "TktkLibRes/shader/x64/SpritePixelShader.cso";
+			dxGameBaseShaderFilePaths.line2DShaderFilePaths.vsFilePath								= gameManagerInitParam.tktkLibResFolderPath + "TktkLibRes/shader/x64/Line2DVertexShader.cso";
+			dxGameBaseShaderFilePaths.line2DShaderFilePaths.psFilePath								= gameManagerInitParam.tktkLibResFolderPath + "TktkLibRes/shader/x64/Line2DPixelShader.cso";
+			dxGameBaseShaderFilePaths.billboardShaderFilePaths.vsFilePath							= gameManagerInitParam.tktkLibResFolderPath + "TktkLibRes/shader/x64/BillboardVertexShader.cso";
+			dxGameBaseShaderFilePaths.billboardShaderFilePaths.psFilePath							= gameManagerInitParam.tktkLibResFolderPath + "TktkLibRes/shader/x64/BillboardPixelShader.cso";
+			dxGameBaseShaderFilePaths.meshResourceShaderFilePaths.basicShaderFilePaths.vsFilePath	= gameManagerInitParam.tktkLibResFolderPath + "TktkLibRes/shader/x64/BasicMeshVertexShader.cso";
+			dxGameBaseShaderFilePaths.meshResourceShaderFilePaths.basicShaderFilePaths.psFilePath	= gameManagerInitParam.tktkLibResFolderPath + "TktkLibRes/shader/x64/BasicMeshPixelShader.cso";
+			dxGameBaseShaderFilePaths.meshResourceShaderFilePaths.monoColorShaderPsFilePath			= gameManagerInitParam.tktkLibResFolderPath + "TktkLibRes/shader/x64/BasicMonoColorMeshPixelShader.cso";
+			dxGameBaseShaderFilePaths.meshResourceShaderFilePaths.writeShadowMapVsFilePath			= gameManagerInitParam.tktkLibResFolderPath + "TktkLibRes/shader/x64/BasicMeshShadowVertexShader.cso";
+			dxGameBaseShaderFilePaths.postEffectShaderFilePaths.postEffectVSFilePath				= gameManagerInitParam.tktkLibResFolderPath + "TktkLibRes/shader/x64/PostEffectVertexShader.cso";
+			dxGameBaseShaderFilePaths.postEffectShaderFilePaths.monochromePSFilePath				= gameManagerInitParam.tktkLibResFolderPath + "TktkLibRes/shader/x64/MonochromePixelShader.cso";
+#else
+
+			dxGameBaseShaderFilePaths.spriteShaderFilePaths.vsFilePath								= gameManagerInitParam.tktkLibResFolderPath + "TktkLibRes/shader/x86/SpriteVertexShader.cso";
+			dxGameBaseShaderFilePaths.spriteShaderFilePaths.psFilePath								= gameManagerInitParam.tktkLibResFolderPath + "TktkLibRes/shader/x86/SpritePixelShader.cso";
+			dxGameBaseShaderFilePaths.line2DShaderFilePaths.vsFilePath								= gameManagerInitParam.tktkLibResFolderPath + "TktkLibRes/shader/x86/Line2DVertexShader.cso";
+			dxGameBaseShaderFilePaths.line2DShaderFilePaths.psFilePath								= gameManagerInitParam.tktkLibResFolderPath + "TktkLibRes/shader/x86/Line2DPixelShader.cso";
+			dxGameBaseShaderFilePaths.billboardShaderFilePaths.vsFilePath							= gameManagerInitParam.tktkLibResFolderPath + "TktkLibRes/shader/x86/BillboardVertexShader.cso";
+			dxGameBaseShaderFilePaths.billboardShaderFilePaths.psFilePath							= gameManagerInitParam.tktkLibResFolderPath + "TktkLibRes/shader/x86/BillboardPixelShader.cso";
+			dxGameBaseShaderFilePaths.meshResourceShaderFilePaths.basicShaderFilePaths.vsFilePath	= gameManagerInitParam.tktkLibResFolderPath + "TktkLibRes/shader/x86/BasicMeshVertexShader.cso";
+			dxGameBaseShaderFilePaths.meshResourceShaderFilePaths.basicShaderFilePaths.psFilePath	= gameManagerInitParam.tktkLibResFolderPath + "TktkLibRes/shader/x86/BasicMeshPixelShader.cso";
+			dxGameBaseShaderFilePaths.meshResourceShaderFilePaths.monoColorShaderPsFilePath			= gameManagerInitParam.tktkLibResFolderPath + "TktkLibRes/shader/x86/BasicMonoColorMeshPixelShader.cso";
+			dxGameBaseShaderFilePaths.meshResourceShaderFilePaths.writeShadowMapVsFilePath			= gameManagerInitParam.tktkLibResFolderPath + "TktkLibRes/shader/x86/BasicMeshShadowVertexShader.cso";
+			dxGameBaseShaderFilePaths.postEffectShaderFilePaths.postEffectVSFilePath				= gameManagerInitParam.tktkLibResFolderPath + "TktkLibRes/shader/x86/PostEffectVertexShader.cso";
+			dxGameBaseShaderFilePaths.postEffectShaderFilePaths.monochromePSFilePath				= gameManagerInitParam.tktkLibResFolderPath + "TktkLibRes/shader/x86/MonochromePixelShader.cso";
+#endif // _M_AMD64
+
+			
 
 			m_dxGameResource = std::make_unique<DXGameResource>(gameManagerInitParam.dxGameResourceNum, dxGameBaseShaderFilePaths);
 		}
@@ -98,6 +119,9 @@ namespace tktk
 
 		// デフォルトのライトを作る
 		DX12GameManager::setSystemHandle(SystemLightType::DefaultLight, DX12GameManager::createLight({ 0.3f, 1.0f }, { 0.3f, 1.0f }, { 0.3f, 1.0f }, { 0.0f }));
+
+		// 立方体メッシュを作る
+		BoxMeshMaker::make();
 
 		// 球体メッシュを作る
 		SphereMeshMaker::make();

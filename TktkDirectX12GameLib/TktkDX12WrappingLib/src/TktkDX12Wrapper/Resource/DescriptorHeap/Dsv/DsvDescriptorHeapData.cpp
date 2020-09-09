@@ -7,7 +7,13 @@ namespace tktk
 		D3D12_DESCRIPTOR_HEAP_DESC descHeapDesc{};
 		descHeapDesc.Flags = (initParam.shaderVisible) ? D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE : D3D12_DESCRIPTOR_HEAP_FLAG_NONE;
 		descHeapDesc.NodeMask = 0;
+
+#ifdef _M_AMD64 /* x64ƒrƒ‹ƒh‚È‚ç */
+		descHeapDesc.NumDescriptors = static_cast<unsigned int>(initParam.descriptorParamArray.size());
+#else
 		descHeapDesc.NumDescriptors = initParam.descriptorParamArray.size();
+#endif // WIN64
+
 		descHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_DSV;
 		device->CreateDescriptorHeap(&descHeapDesc, IID_PPV_ARGS(&m_descriptorHeap));
 

@@ -146,7 +146,13 @@ namespace tktk
 
 	void SoundData::loadSound(const std::string & fileName)
 	{
-		const TCHAR *lpFileName = TEXT(fileName.c_str());
+#ifdef _M_AMD64 /* x64ビルドなら */
+
+		std::wstring wstrFileName = std::wstring(fileName.begin(), fileName.end());
+		const TCHAR* lpFileName = wstrFileName.c_str();
+#else
+		const TCHAR* lpFileName = TEXT(fileName.c_str());
+#endif // _M_AMD64
 
 		// エラー検知用変数
 		MMRESULT mmret;

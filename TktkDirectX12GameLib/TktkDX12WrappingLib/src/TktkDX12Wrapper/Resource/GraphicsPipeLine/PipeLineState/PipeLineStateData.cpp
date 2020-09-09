@@ -12,6 +12,22 @@ namespace tktk
 	{
 		m_rootSignatureHandle = initParam.rootSignatureHandle;
 
+#ifdef _M_AMD64 /* x64ƒrƒ‹ƒh‚È‚ç */
+		D3D12_GRAPHICS_PIPELINE_STATE_DESC graphicsPipeLineStateDesc{};
+		graphicsPipeLineStateDesc.pRootSignature					= rootSignaturePtr;
+		graphicsPipeLineStateDesc.VS.pShaderBytecode				= (vsByteArray.size() == 0LU) ? nullptr : vsByteArray.data();
+		graphicsPipeLineStateDesc.VS.BytecodeLength					= vsByteArray.size();
+		graphicsPipeLineStateDesc.PS.pShaderBytecode				= (psByteArray.size() == 0LU) ? nullptr : psByteArray.data();
+		graphicsPipeLineStateDesc.PS.BytecodeLength					= psByteArray.size();
+		graphicsPipeLineStateDesc.SampleMask						= initParam.sampleMask;
+		graphicsPipeLineStateDesc.RasterizerState					= initParam.rasterizerDesc;
+		graphicsPipeLineStateDesc.BlendState						= initParam.blendDesc;
+		graphicsPipeLineStateDesc.InputLayout.pInputElementDescs	= initParam.inputLayoutArray.data();
+		graphicsPipeLineStateDesc.InputLayout.NumElements			= static_cast<unsigned int>(initParam.inputLayoutArray.size());
+		graphicsPipeLineStateDesc.IBStripCutValue					= D3D12_INDEX_BUFFER_STRIP_CUT_VALUE_DISABLED;
+		graphicsPipeLineStateDesc.PrimitiveTopologyType				= initParam.primitiveTopology;
+		graphicsPipeLineStateDesc.NumRenderTargets = static_cast<unsigned int>(initParam.renderTargetFormatArray.size());
+#else
 		D3D12_GRAPHICS_PIPELINE_STATE_DESC graphicsPipeLineStateDesc{};
 		graphicsPipeLineStateDesc.pRootSignature					= rootSignaturePtr;
 		graphicsPipeLineStateDesc.VS.pShaderBytecode				= (vsByteArray.size() == 0U) ? nullptr : vsByteArray.data();
@@ -25,8 +41,10 @@ namespace tktk
 		graphicsPipeLineStateDesc.InputLayout.NumElements			= initParam.inputLayoutArray.size();
 		graphicsPipeLineStateDesc.IBStripCutValue					= D3D12_INDEX_BUFFER_STRIP_CUT_VALUE_DISABLED;
 		graphicsPipeLineStateDesc.PrimitiveTopologyType				= initParam.primitiveTopology;
-
 		graphicsPipeLineStateDesc.NumRenderTargets = initParam.renderTargetFormatArray.size();
+#endif // WIN64
+
+		
 
 		if (graphicsPipeLineStateDesc.NumRenderTargets == 0U)
 		{

@@ -25,6 +25,10 @@ namespace tktk
 
 	void ViewportData::set(ID3D12GraphicsCommandList* commandList) const
 	{
+#ifdef _M_AMD64 /* x64ƒrƒ‹ƒh‚È‚ç */
+		commandList->RSSetViewports(static_cast<unsigned int>(m_viewportArray.size()), m_viewportArray.data());
+#else
 		commandList->RSSetViewports(m_viewportArray.size(), m_viewportArray.data());
+#endif // _M_AMD64
 	}
 }

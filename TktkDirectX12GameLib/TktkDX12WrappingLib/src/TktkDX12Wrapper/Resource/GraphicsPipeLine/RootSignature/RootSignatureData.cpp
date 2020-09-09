@@ -43,8 +43,13 @@ namespace tktk
 			rootParam.ShaderVisibility						= rootParamInitParam.shaderVisibility;
 			rootParam.ParameterType							= D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE;
 			rootParam.DescriptorTable.pDescriptorRanges		= descriptorTable.data();
-			rootParam.DescriptorTable.NumDescriptorRanges	= descriptorTable.size();
 
+#ifdef _M_AMD64 /* x64ビルドなら */
+			rootParam.DescriptorTable.NumDescriptorRanges = static_cast<unsigned int>(descriptorTable.size());
+#else
+			rootParam.DescriptorTable.NumDescriptorRanges = descriptorTable.size();
+#endif // WIN64
+			
 			rootParamArray.push_back(rootParam);
 		}
 
@@ -71,6 +76,16 @@ namespace tktk
 			samplerDescArray.push_back(samplerDesc);
 		}
 
+#ifdef _M_AMD64 /* x64ビルドなら */
+		// ルートシグネチャの設定をする
+		D3D12_ROOT_SIGNATURE_DESC rootSignatureDesc{};
+		rootSignatureDesc.Flags				= initParam.flag;
+		rootSignatureDesc.pParameters		= rootParamArray.data();
+		rootSignatureDesc.NumParameters		= static_cast<unsigned int>(rootParamArray.size());
+		rootSignatureDesc.pStaticSamplers	= samplerDescArray.data();
+		rootSignatureDesc.NumStaticSamplers = static_cast<unsigned int>(samplerDescArray.size());
+#else
+
 		// ルートシグネチャの設定をする
 		D3D12_ROOT_SIGNATURE_DESC rootSignatureDesc{};
 		rootSignatureDesc.Flags				= initParam.flag;
@@ -78,7 +93,8 @@ namespace tktk
 		rootSignatureDesc.NumParameters		= rootParamArray.size();
 		rootSignatureDesc.pStaticSamplers	= samplerDescArray.data();
 		rootSignatureDesc.NumStaticSamplers = samplerDescArray.size();
-
+#endif // WIN64
+		
 		// ルートシグネチャを作る
 		ID3DBlob* rootSigBlob{ nullptr };
 		ID3DBlob* errorBlob{ nullptr };

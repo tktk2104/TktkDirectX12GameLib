@@ -11,6 +11,7 @@ namespace tktk
 	{
 		Line2D				= 0U,
 		Sphere,
+		Box,
 		BasicMeshShadowMap
 	};
 }

@@ -23,6 +23,10 @@ namespace tktk
 
 	void ScissorRectData::set(ID3D12GraphicsCommandList* commandList) const
 	{
+#ifdef _M_AMD64 /* x64ƒrƒ‹ƒh‚È‚ç */
+		commandList->RSSetScissorRects(static_cast<unsigned int>(m_scissorRectArray.size()), m_scissorRectArray.data());
+#else
 		commandList->RSSetScissorRects(m_scissorRectArray.size(), m_scissorRectArray.data());
+#endif // _M_AMD64
 	}
 }

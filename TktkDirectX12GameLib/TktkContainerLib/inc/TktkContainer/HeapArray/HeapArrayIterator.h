@@ -1,6 +1,7 @@
 #ifndef HEAP_ARRAY_ITERATOR_H_
 #define HEAP_ARRAY_ITERATOR_H_
 
+#include <limits>
 #include <iterator>
 #include <memory>
 
@@ -63,7 +64,7 @@ namespace tktkContainer
 	template<class NodeType>
 	inline HeapArrayIterator<NodeType>::HeapArrayIterator(NodeType* arrayTopPos)
 	{
-		m_index = SIZE_MAX;
+		m_index = std::numeric_limits<unsigned int>::max();
 		m_arrayMaxSize = 0U;
 		m_arrayTopPos = arrayTopPos;
 		m_arrayNodeUseCheckBitFlagPtr = nullptr;
@@ -72,7 +73,7 @@ namespace tktkContainer
 	template<class NodeType>
 	inline HeapArrayIterator<NodeType>::HeapArrayIterator(unsigned int index, unsigned int arrayMaxSize, NodeType* arrayTopPos, unsigned int* arrayNodeUseCheckBitFlagPtr)
 	{
-		m_index = (index == 0 ? index : SIZE_MAX);
+		m_index = (index == 0 ? index : std::numeric_limits<unsigned int>::max());
 		m_arrayMaxSize = arrayMaxSize;
 		m_arrayTopPos = arrayTopPos;
 		m_arrayNodeUseCheckBitFlagPtr = arrayNodeUseCheckBitFlagPtr;
@@ -117,7 +118,7 @@ namespace tktkContainer
 	inline const NodeType& HeapArrayIterator<NodeType>::operator*() const
 	{
 		// インデックスが範囲外を表しているか、インスタンス化に使用されていないメモリを指したイテレーターの場合
-		if (m_index == SIZE_MAX || (m_arrayNodeUseCheckBitFlagPtr[m_index / 32U] & (1U << (m_index % 32U))) == 0U)
+		if (m_index == std::numeric_limits<unsigned int>::max() || (m_arrayNodeUseCheckBitFlagPtr[m_index / 32U] & (1U << (m_index % 32U))) == 0U)
 		{
 			throw std::out_of_range("HeapArray iterator out of range");
 		}
@@ -129,7 +130,7 @@ namespace tktkContainer
 	inline NodeType& HeapArrayIterator<NodeType>::operator*()
 	{
 		// インデックスが範囲外を表しているか、インスタンス化に使用されていないメモリを指したイテレーターの場合
-		if (m_index == SIZE_MAX || (m_arrayNodeUseCheckBitFlagPtr[m_index / 32U] & (1U << (m_index % 32U))) == 0U)
+		if (m_index == std::numeric_limits<unsigned int>::max() || (m_arrayNodeUseCheckBitFlagPtr[m_index / 32U] & (1U << (m_index % 32U))) == 0U)
 		{
 			throw std::out_of_range("HeapArray iterator out of range");
 		}
@@ -140,7 +141,7 @@ namespace tktkContainer
 	template<class NodeType>
 	inline HeapArrayIterator<NodeType>& HeapArrayIterator<NodeType>::operator++()
 	{
-		if (m_index >= SIZE_MAX - 1U) return *this;
+		if (m_index >= std::numeric_limits<unsigned int>::max() - 1U) return *this;
 
 		++m_index;
 
@@ -151,7 +152,7 @@ namespace tktkContainer
 
 			if (m_index > m_arrayMaxSize)
 			{
-				m_index			= SIZE_MAX;
+				m_index			= std::numeric_limits<unsigned int>::max();
 				return *this;
 			}
 		}
@@ -163,7 +164,7 @@ namespace tktkContainer
 	{
 		HeapArrayIterator result = *this;
 
-		if (m_index >= SIZE_MAX - 1U) return result;
+		if (m_index >= std::numeric_limits<unsigned int>::max() - 1U) return result;
 
 		++m_index;
 
@@ -174,7 +175,7 @@ namespace tktkContainer
 
 			if (m_index > m_arrayMaxSize)
 			{
-				m_index			= SIZE_MAX;
+				m_index			= std::numeric_limits<unsigned int>::max();
 				return result;
 			}
 		}

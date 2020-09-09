@@ -221,13 +221,22 @@ namespace tktkContainer
 	inline void HeapArray<NodeType, Allocator>::erase(NodeType** eraseNode)
 	{
 		// ポインタが不正だったら何もしない
+#ifdef _M_AMD64 /* x64ビルドなら */
+		if ((*eraseNode) < m_arrayTopPos || reinterpret_cast<unsigned long long>(*eraseNode) > (reinterpret_cast<unsigned long long>(m_arrayTopPos) + static_cast<unsigned long long>(sizeof(NodeType)) * static_cast<unsigned long long>(m_arrayMaxSize - 1U)))
+#else
 		if ((*eraseNode) < m_arrayTopPos || reinterpret_cast<unsigned int>(*eraseNode) > (reinterpret_cast<unsigned int>(m_arrayTopPos) + sizeof(NodeType) * (m_arrayMaxSize - 1U)))
+#endif // WIN64
 		{
 			return;
 		}
 
+#ifdef _M_AMD64 /* x64ビルドなら */
+		// ポインタからインデックスを逆算する
+		unsigned int index = static_cast<unsigned int>((reinterpret_cast<unsigned long long>((*eraseNode)) - reinterpret_cast<unsigned long long>(m_arrayTopPos)) / static_cast<unsigned long long>(sizeof(NodeType)));
+#else
 		// ポインタからインデックスを逆算する
 		unsigned int index = (reinterpret_cast<unsigned int>((*eraseNode)) - reinterpret_cast<unsigned int>(m_arrayTopPos)) / sizeof(NodeType);
+#endif // WIN64
 
 		// 引数のインデックスが使用中メモリを指していたら
 		if ((m_arrayNodeUseCheckBitFlag[index / 32U] & (1U << (index % 32U))) != 0U)

@@ -7,7 +7,9 @@ namespace tktk
 	enum class SystemBasicMeshType
 	{
 		Sphere = 0U,
-		SphereWireFrame
+		Box,
+		SphereWireFrame,
+		BoxWireFrame,
 	};
 }
 #endif // !SYSTEM_BASIC_MESH_TYPE_H_

@@ -7,7 +7,8 @@ namespace tktk
 	enum class SystemIndexBufferType
 	{
 		Sprite = 0U,
-		Sphere
+		Sphere,
+		Box,
 	};
 }
 #endif // !SYSTEM_INDEX_BUFFER_TYPE_H_

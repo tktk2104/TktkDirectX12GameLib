@@ -17,11 +17,21 @@ namespace tktk
 		// ディスクリプタテーブルの数だけループする
 		for (const auto& node : initParam.descriptorTableParamArray)
 		{
+#ifdef _M_AMD64 /* x64ビルドなら */
+			// ディスクリプタの数をディスクリプタテーブルが管理している数分加算する
+			descHeapDesc.NumDescriptors += static_cast<unsigned int>(node.descriptorParamArray.size());
+
+			// ディスクリプタテーブル毎のディスクリプタの数を記録する
+			m_descriptorTableSizeArray.push_back(static_cast<unsigned int>(node.descriptorParamArray.size()));
+#else
 			// ディスクリプタの数をディスクリプタテーブルが管理している数分加算する
 			descHeapDesc.NumDescriptors += node.descriptorParamArray.size();
 
 			// ディスクリプタテーブル毎のディスクリプタの数を記録する
 			m_descriptorTableSizeArray.push_back(node.descriptorParamArray.size());
+#endif // WIN64
+
+			
 		}
 		device->CreateDescriptorHeap(&descHeapDesc, IID_PPV_ARGS(&m_descriptorHeap));
 	}

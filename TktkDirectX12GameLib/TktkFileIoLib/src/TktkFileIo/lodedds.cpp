@@ -639,8 +639,14 @@ namespace tktkFileIo
 
 		int offset = static_cast<int>(sizeof(unsigned int) + sizeof(DDS_HEADER) + (bDXT10Header ? sizeof(DDS_HEADER_DXT10) : 0));
 
+#ifdef _M_AMD64 /* x64ƒrƒ‹ƒh‚È‚ç */
+
+		// TODO : ÅŒã‚Ìˆø”‚ÌˆÓ–¡‚ð’²‚×‚é
+		createTextureFromDDS(outData, header, outData->rawDdsFileData.data() + offset, static_cast<unsigned int>(outData->rawDdsFileData.size()) - offset, 0);
+#else
 		// TODO : ÅŒã‚Ìˆø”‚ÌˆÓ–¡‚ð’²‚×‚é
 		createTextureFromDDS(outData, header, outData->rawDdsFileData.data() + offset, outData->rawDdsFileData.size() - offset, 0);
+#endif // _M_AMD64
 	}
 
 	void lodedds::createTextureFromDDS(loadData* outData, const DDS_HEADER * header, const unsigned char * bitData, unsigned int bitSize, unsigned int maxSize)

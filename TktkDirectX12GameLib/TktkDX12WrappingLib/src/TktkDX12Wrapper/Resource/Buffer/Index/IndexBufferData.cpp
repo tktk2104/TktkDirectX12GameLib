@@ -40,7 +40,12 @@ namespace tktk
 
 		m_indexBufferView.BufferLocation = m_indexBuffer->GetGPUVirtualAddress();
 		m_indexBufferView.Format = DXGI_FORMAT_R16_UINT;
+
+#ifdef _M_AMD64 /* x64ƒrƒ‹ƒh‚È‚ç */
+		m_indexBufferView.SizeInBytes = static_cast<unsigned int>(sizeof(unsigned short) * indexDataArray.size());
+#else
 		m_indexBufferView.SizeInBytes = sizeof(unsigned short) * indexDataArray.size();
+#endif // WIN64
 	}
 
 	IndexBufferData::~IndexBufferData()

@@ -77,7 +77,13 @@ namespace tktk
 		DX12GameManager::setVertexBuffer(m_createdVertexBufferHandle);
 		
 		// ドローコール
+#ifdef _M_AMD64 /* x64ビルドなら */
+		DX12GameManager::drawInstanced(static_cast<unsigned int>(drawFuncArgs.lineVertexArray.size()), 1U, 0U, 0U);
+#else
 		DX12GameManager::drawInstanced(drawFuncArgs.lineVertexArray.size(), 1U, 0U, 0U);
+#endif // _M_AMD64
+		
+		
 
 		// バックバッファ以外に描画していたら使用したレンダーターゲットバッファをシェーダーで使用する状態にする
 		if (drawFuncArgs.rtvDescriptorHeapHandle != DX12GameManager::getSystemHandle(SystemRtvDescriptorHeapType::BackBuffer))

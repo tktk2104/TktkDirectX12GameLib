@@ -187,24 +187,46 @@ namespace tktk
 		// パイプラインステートを作り、そのリソースのハンドルを返す
 		static unsigned int createPipeLineState(const PipeLineStateInitParam& initParam, const ShaderFilePaths& shaderFilePath);
 
+#ifdef _M_AMD64 /* x64ビルドなら */
+
+		// コピーバッファを作り、そのリソースのハンドルを返す
+		template <class CopyBufferDataType>
+		static unsigned int createCopyBuffer(BufferType bufferData, unsigned int targetBufferHandle, const CopyBufferDataType& copyBuffer) { return createCopyBufferImpl({ bufferData, targetBufferHandle, static_cast<unsigned int>(sizeof(CopyBufferDataType)),  &copyBuffer }); }
+#else
 		// コピーバッファを作り、そのリソースのハンドルを返す
 		template <class CopyBufferDataType>
 		static unsigned int createCopyBuffer(BufferType bufferData, unsigned int targetBufferHandle, const CopyBufferDataType& copyBuffer) { return createCopyBufferImpl({ bufferData, targetBufferHandle, sizeof(CopyBufferDataType),  &copyBuffer }); }
 
+#endif // _M_AMD64
+		
 		// コピーバッファのコピーを作り、そのリソースのハンドルを返す
 		static unsigned int copyCopyBuffer(unsigned int originalHandle);
 
+#ifdef _M_AMD64 /* x64ビルドなら */
+
+		// コピーバッファを作り、そのリソースのハンドルを返す
+		template <class VertexData>
+		static unsigned int createVertexBuffer(const std::vector<VertexData>& vertexDataArray) { return createVertexBufferImpl(static_cast<unsigned int>(sizeof(VertexData)), static_cast<unsigned int>(vertexDataArray.size()), vertexDataArray.data()); }
+#else
 		// コピーバッファを作り、そのリソースのハンドルを返す
 		template <class VertexData>
 		static unsigned int createVertexBuffer(const std::vector<VertexData>& vertexDataArray) { return createVertexBufferImpl(sizeof(VertexData), vertexDataArray.size(), vertexDataArray.data()); }
-
+#endif // _M_AMD64
+		
 		// インデックスバッファを作り、そのリソースのハンドルを返す
 		static unsigned int createIndexBuffer(const std::vector<unsigned short>& indices);
 
+#ifdef _M_AMD64 /* x64ビルドなら */
+
+		// 定数バッファを作り、そのリソースのハンドルを返す
+		template <class ConstantBufferDataType>
+		static unsigned int createCBuffer(const ConstantBufferDataType& rawConstantBufferData) { return createCbufferImpl(static_cast<unsigned int>(sizeof(ConstantBufferDataType)), &rawConstantBufferData); }
+#else
 		// 定数バッファを作り、そのリソースのハンドルを返す
 		template <class ConstantBufferDataType>
 		static unsigned int createCBuffer(const ConstantBufferDataType& rawConstantBufferData) { return createCbufferImpl(sizeof(ConstantBufferDataType), &rawConstantBufferData); }
-
+#endif // _M_AMD64
+		
 		// レンダーターゲットバッファを作り、そのリソースのハンドルを返す
 		static unsigned int createRtBuffer(const tktkMath::Vector2& renderTargetSize, const tktkMath::Color& clearColor);
 
@@ -296,10 +318,17 @@ namespace tktk
 	/* 直接DX12のリソースを設定、取得する */
 	public:
 
+#ifdef _M_AMD64 /* x64ビルドなら */
+
+		// 引数のポインタのデータを指定のコピーバッファにコピーする
+		template <class CopyBufferDataType>
+		static void updateCopyBuffer(unsigned int handle, const CopyBufferDataType& bufferData) { updateCopyBufferImpl(handle, static_cast<unsigned int>(sizeof(CopyBufferDataType)), &bufferData); }
+#else
 		// 引数のポインタのデータを指定のコピーバッファにコピーする
 		template <class CopyBufferDataType>
 		static void updateCopyBuffer(unsigned int handle, const CopyBufferDataType& bufferData) { updateCopyBufferImpl(handle, sizeof(CopyBufferDataType), &bufferData); }
-
+#endif // _M_AMD64
+		
 		// 指定のコピーバッファの内容を設定したバッファにコピーするGPU命令を設定する
 		static void copyBuffer(unsigned int handle);
 
@@ -405,6 +434,16 @@ namespace tktk
 		// 指定の通常メッシュのマテリアル情報をグラフィックパイプラインに設定する
 		static void setMaterialData(unsigned int handle);
 
+#ifdef _M_AMD64 /* x64ビルドなら */
+
+		// 指定の通常メッシュのマテリアルで追加で管理する定数バッファのIDと値を設定する
+		template <class CbufferType>
+		static void addMaterialAppendParam(unsigned int handle, unsigned int cbufferHandle, CbufferType&& value) { addMaterialAppendParamImpl(handle, cbufferHandle, static_cast<unsigned int>(sizeof(CbufferType)), new CbufferType(std::forward<CbufferType>(value))); }
+
+		// 指定の通常メッシュのマテリアルで追加で管理する定数バッファのIDと値を更新する
+		template <class CbufferType>
+		static void updateMaterialAppendParam(unsigned int handle, unsigned int cbufferHandle, const CbufferType& value) { updateMaterialAppendParamImpl(handle, cbufferHandle, static_cast<unsigned int>(sizeof(CbufferType)), &value); }
+#else
 		// 指定の通常メッシュのマテリアルで追加で管理する定数バッファのIDと値を設定する
 		template <class CbufferType>
 		static void addMaterialAppendParam(unsigned int handle, unsigned int cbufferHandle, CbufferType&& value) { addMaterialAppendParamImpl(handle, cbufferHandle, sizeof(CbufferType), new CbufferType(std::forward<CbufferType>(value))); }
@@ -412,6 +451,7 @@ namespace tktk
 		// 指定の通常メッシュのマテリアルで追加で管理する定数バッファのIDと値を更新する
 		template <class CbufferType>
 		static void updateMaterialAppendParam(unsigned int handle, unsigned int cbufferHandle, const CbufferType& value) { updateMaterialAppendParamImpl(handle, cbufferHandle, sizeof(CbufferType), &value); }
+#endif // _M_AMD64
 
 		// 指定の通常メッシュを描画する
 		static void drawBasicMesh(unsigned int handle, const MeshDrawFuncBaseArgs& baseArgs);

@@ -40,9 +40,22 @@ namespace tktk
 			std::begin(m_preKeys)
 		);
 
+#ifdef _M_AMD64 /* x64ƒrƒ‹ƒh‚È‚ç */
+
+		// “ü—Í‚ÌŽæ“¾‚ðŽŽ‚Ý‚é
+		HRESULT ret = m_inputDevice->GetDeviceState(static_cast<unsigned int>(sizeof(unsigned char) * m_curKeys.size()), m_curKeys.data());
+
+		// “ü—Í“®ì‚ª’âŽ~‚µ‚Ä‚¢‚½ê‡
+		if (FAILED(ret))
+		{
+			// “®ì‚ðÄŠJ‚µ‚ÄÄŽæ“¾‚ðŽŽ‚Ý‚é
+			m_inputDevice->Acquire();
+			m_inputDevice->GetDeviceState(static_cast<unsigned int>(sizeof(unsigned char) * m_curKeys.size()), m_curKeys.data());
+		}
+#else
 		// “ü—Í‚ÌŽæ“¾‚ðŽŽ‚Ý‚é
 		HRESULT ret = m_inputDevice->GetDeviceState(sizeof(unsigned char) * m_curKeys.size(), m_curKeys.data());
-	
+
 		// “ü—Í“®ì‚ª’âŽ~‚µ‚Ä‚¢‚½ê‡
 		if (FAILED(ret))
 		{
@@ -50,6 +63,7 @@ namespace tktk
 			m_inputDevice->Acquire();
 			m_inputDevice->GetDeviceState(sizeof(unsigned char) * m_curKeys.size(), m_curKeys.data());
 		}
+#endif // _M_AMD64
 	}
 
 	bool Keyboard::isPush(KeybordKeyType keyType) const

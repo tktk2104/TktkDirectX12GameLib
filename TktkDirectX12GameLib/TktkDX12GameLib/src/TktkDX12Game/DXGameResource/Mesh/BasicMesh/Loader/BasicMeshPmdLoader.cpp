@@ -25,10 +25,16 @@ namespace tktk
 
 		// 通常メッシュの作成に必要な情報
 		BasicMeshInitParam meshInitParam{};
-		meshInitParam.useVertexBufferHandle = createdVertexBufferHandle;
-		meshInitParam.useIndexBufferHandle = createdIndexBufferHandle;
+		meshInitParam.useVertexBufferHandle	= createdVertexBufferHandle;
+		meshInitParam.useIndexBufferHandle	= createdIndexBufferHandle;
+
+#ifdef _M_AMD64 /* x64ビルドなら */
+		meshInitParam.indexNum = static_cast<unsigned int>(outData.indexData.size());
+#else
 		meshInitParam.indexNum = outData.indexData.size();
-		meshInitParam.primitiveTopology = MeshPrimitiveTopology::TriangleList;
+#endif // _M_AMD64
+		
+		meshInitParam.primitiveTopology		= MeshPrimitiveTopology::TriangleList;
 		meshInitParam.materialSlots.reserve(outData.materialData.size());
 
 		// 現在のインデックス（インデックスバッファの位置）

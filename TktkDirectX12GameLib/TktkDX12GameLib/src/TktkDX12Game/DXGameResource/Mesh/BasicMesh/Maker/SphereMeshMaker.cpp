@@ -15,22 +15,28 @@ namespace tktk
 		tktkMath::Vector3	normal;
 		tktkMath::Vector2	texcoord;
 		unsigned char		bones[4]	{ 0, 0, 0, 0 };
-		float				weight[4]	{ 1.0f, 1.0 , 1.0f, 1.0f };
+		float				weight[4]	{ 1.0f, 1.0f , 1.0f, 1.0f };
 		tktkMath::Vector3	tangent;
 		tktkMath::Vector3	binormal;
 	};
 
 	void SphereMeshMaker::make()
 	{
-		int uMax = 24;
-		int vMax = 12;
+		unsigned int uMax = 24;
+		unsigned int vMax = 12;
 
 		std::vector<VertexData> vertices;
-		vertices.resize(uMax * (vMax + 1));
 
-		for (int v = 0; v <= vMax; v++)
+#ifdef _M_AMD64 /* x64ビルドなら */
+
+		vertices.resize(static_cast<unsigned long long>(uMax) * static_cast<unsigned long long>(vMax + 1LLU));
+#else
+		vertices.resize(uMax * (vMax + 1));
+#endif // _M_AMD64
+		
+		for (unsigned int v = 0U; v <= vMax; v++)
 		{
-			for (int u = 0; u < uMax; u++)
+			for (unsigned int u = 0U; u < uMax; u++)
 			{
 				VertexData tempVertexData;
 
@@ -41,7 +47,8 @@ namespace tktk
 				tempVertexData.point = tktkMath::Vector3(x, y, z);
 				tempVertexData.normal = tktkMath::Vector3(0.0f, 0.0f, 1.0f);
 
-				tempVertexData.texcoord = tktkMath::Vector2(0.5f, 0.5f);
+				// TODO : 使用可能なUVになっているかチェックする
+				tempVertexData.texcoord = tktkMath::Vector2(static_cast<float>(u) / uMax, static_cast<float>(v) / vMax);
 
 				tktkMath::Vector3::orthoNormalize(
 					&tempVertexData.normal,
@@ -99,8 +106,14 @@ namespace tktk
 		BasicMeshInitParam meshInitParam{};
 		meshInitParam.useVertexBufferHandle = DX12GameManager::getSystemHandle(SystemVertexBufferType::Sphere);
 		meshInitParam.useIndexBufferHandle	= DX12GameManager::getSystemHandle(SystemIndexBufferType::Sphere);
-		meshInitParam.indexNum			= indices.size();
-		meshInitParam.primitiveTopology = MeshPrimitiveTopology::TriangleStrip;
+
+#ifdef _M_AMD64 /* x64ビルドなら */
+		meshInitParam.indexNum = static_cast<unsigned int>(indices.size());
+#else
+		meshInitParam.indexNum = indices.size();
+#endif // _M_AMD64
+		
+		meshInitParam.primitiveTopology		= MeshPrimitiveTopology::TriangleStrip;
 
 		{
 			// マテリアルの作成に必要な情報
@@ -173,6 +186,16 @@ namespace tktk
 			DX12GameManager::setSystemHandle(SystemBasicMeshMaterialType::SphereWireFrame, DX12GameManager::createBasicMeshMaterial(materialParam));
 		}
 
+#ifdef _M_AMD64 /* x64ビルドなら */
+
+		// 球体メッシュを作る
+		meshInitParam.materialSlots = { { DX12GameManager::getSystemHandle(SystemBasicMeshMaterialType::Sphere), 0, static_cast<unsigned int>(indices.size()) } };
+		DX12GameManager::setSystemHandle(SystemBasicMeshType::Sphere, DX12GameManager::createBasicMesh(meshInitParam));
+
+		// 球体メッシュワイヤーフレームを作る
+		meshInitParam.materialSlots = { { DX12GameManager::getSystemHandle(SystemBasicMeshMaterialType::SphereWireFrame), 0, static_cast<unsigned int>(indices.size()) } };
+		DX12GameManager::setSystemHandle(SystemBasicMeshType::SphereWireFrame, DX12GameManager::createBasicMesh(meshInitParam));
+#else
 		// 球体メッシュを作る
 		meshInitParam.materialSlots = { { DX12GameManager::getSystemHandle(SystemBasicMeshMaterialType::Sphere), 0, indices.size() } };
 		DX12GameManager::setSystemHandle(SystemBasicMeshType::Sphere, DX12GameManager::createBasicMesh(meshInitParam));
@@ -180,5 +203,6 @@ namespace tktk
 		// 球体メッシュワイヤーフレームを作る
 		meshInitParam.materialSlots = { { DX12GameManager::getSystemHandle(SystemBasicMeshMaterialType::SphereWireFrame), 0, indices.size() } };
 		DX12GameManager::setSystemHandle(SystemBasicMeshType::SphereWireFrame, DX12GameManager::createBasicMesh(meshInitParam));
+#endif // _M_AMD64
 	}
 }

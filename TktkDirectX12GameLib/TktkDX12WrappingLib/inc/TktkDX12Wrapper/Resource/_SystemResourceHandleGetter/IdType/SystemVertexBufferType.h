@@ -7,7 +7,8 @@ namespace tktk
 	enum class SystemVertexBufferType
 	{
 		Sprite = 0U,
-		Sphere
+		Sphere,
+		Box,
 	};
 }
 #endif // !SYSTEM_VERTEX_BUFFER_TYPE_H_
