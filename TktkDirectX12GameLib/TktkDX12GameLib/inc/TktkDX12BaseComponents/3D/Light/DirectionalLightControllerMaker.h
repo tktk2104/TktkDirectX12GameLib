@@ -56,9 +56,9 @@ namespace tktk
 
 		GameObjectPtr		m_user				{  };
 		unsigned int		m_initLightHandle	{ 0U };
-		tktkMath::Color		m_initAmbient		{ 0.25f, 1.0f };
-		tktkMath::Color		m_initDiffuse		{ 0.25f, 1.0f };
-		tktkMath::Color		m_initSpeqular		{ 0.25f, 1.0f };
+		tktkMath::Color		m_initAmbient		{ 0.1f, 1.0f };
+		tktkMath::Color		m_initDiffuse		{ 1.0f, 1.0f };
+		tktkMath::Color		m_initSpeqular		{ 1.0f, 1.0f };
 
 	public: /* 不正な型の引数が渡されそうになった時にコンパイルエラーにする為の仕組み */
 

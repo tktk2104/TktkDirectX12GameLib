@@ -118,7 +118,7 @@ namespace tktk
 		DX12GameManager::setSystemHandle(SystemCameraType::DefaultShadowMapCamera, DX12GameManager::createCamera());
 
 		// デフォルトのライトを作る
-		DX12GameManager::setSystemHandle(SystemLightType::DefaultLight, DX12GameManager::createLight({ 0.3f, 1.0f }, { 0.3f, 1.0f }, { 0.3f, 1.0f }, { 0.0f }));
+		DX12GameManager::setSystemHandle(SystemLightType::DefaultLight, DX12GameManager::createLight({ 0.1f, 1.0f }, { 1.0f, 1.0f }, { 1.0f, 1.0f }, { 0.0f }));
 
 		// 立方体メッシュを作る
 		BoxMeshMaker::make();
