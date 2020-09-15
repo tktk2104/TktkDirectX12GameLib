@@ -48,7 +48,7 @@ namespace tktk
 		tktk::DX12GameManager::setLightDiffuse(m_lightHandle, m_diffuse);
 		tktk::DX12GameManager::setLightSpeqular(m_lightHandle, m_speqular);
 
-		auto cameraWorldMat = m_transform->calculateWorldMatrix();
+		auto cameraWorldMat = tktkMath::Matrix4::createTranslation(m_transform->getWorldPosition());
 
 		// TODO : ‚¿‚á‚ñ‚Æ•ûŒü‚Ì‚İ‚ÅŠÇ—‚·‚é‚æ‚¤‚É‚·‚é
 		tktk::DX12GameManager::setLightPosition(m_lightHandle, -cameraWorldMat.calculateForwardLH() * 10000.0f);
