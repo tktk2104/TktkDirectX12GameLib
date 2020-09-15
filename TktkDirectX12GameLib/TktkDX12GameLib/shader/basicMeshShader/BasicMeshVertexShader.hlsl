@@ -73,48 +73,42 @@ VS_OUTPUT main(VS_INPUT Input)
 
 	// 【この頂点座標の座標変換】
 	// ボーンのローカル行列を使って座標変換する
-	float4 LocalPosition = mul(LocalMatrix, Input.Position);
+	float4 LocalPosition	= mul(LocalMatrix,	Input.Position);
 	// 定数バッファで取得したワールド行列を使って座標変換する
-	float4 WorldPosition = mul(WorldMatrix, LocalPosition);
+	float4 WorldPosition	= mul(WorldMatrix,	LocalPosition);
 	// 定数バッファで取得したビュー行列を使って座標変換する
-	float4 ViewPosition = mul(ViewMatrix, WorldPosition);
+	float4 ViewPosition		= mul(ViewMatrix,	WorldPosition);
 	
 	// 座標変換で使用する4x4の行列を3x3の行列に直す
-	float3x3 LocalMatrix3 = (float3x3)LocalMatrix;
-	float3x3 WorldMatrix3 = (float3x3)WorldMatrix;
-	float3x3 ViewMatrix3 = (float3x3)ViewMatrix;
+	float3x3 LocalMatrix3	= (float3x3)LocalMatrix;
+	float3x3 WorldMatrix3	= (float3x3)WorldMatrix;
+	float3x3 ViewMatrix3	= (float3x3)ViewMatrix;
 	
 	// 【この頂点法線の座標変換】（処理は頂点座標の座標変換とほぼ同じ）
-	float3 localNormal = mul(LocalMatrix3, Input.Normal);
-	float3 worldNormal = mul(WorldMatrix3, localNormal);
-	float3 viewNormal = mul(ViewMatrix3, worldNormal);
+	float3 localNormal		= mul(LocalMatrix3, Input.Normal);
+	float3 worldNormal		= mul(WorldMatrix3, localNormal);
 	
 	// 【この頂点タンジェントの座標変換】（処理は頂点座標の座標変換とほぼ同じ）
-	float3 localTangent = mul(LocalMatrix3, Input.Tangent);
-	float3 worldTangent = mul(WorldMatrix3, localTangent);
-	float3 viewTangent = mul(ViewMatrix3, worldTangent);
+	float3 localTangent		= mul(LocalMatrix3, Input.Tangent);
+	float3 worldTangent		= mul(WorldMatrix3, localTangent);
 	
 	// 【この頂点バイノーマルの座標変換】（処理は頂点座標の座標変換とほぼ同じ）
-	float3 localBinormal = mul(LocalMatrix3, Input.Binormal);
-	float3 worldBinormal = mul(WorldMatrix3, localBinormal);
-	float3 viewBinormal = mul(ViewMatrix3, worldBinormal);
-	
-	// ライトの座標をビュー行列を使って座標変換する
-	float3 ViewLight = mul(ViewMatrix, float4(lightPosition, 1.0f)).xyz;
-	
+	float3 localBinormal	= mul(LocalMatrix3, Input.Binormal);
+	float3 worldBinormal	= mul(WorldMatrix3, localBinormal);
+
 	// 接空間変換行列を計算
-	float3x3 matTBN = float3x3(normalize(viewTangent), normalize(viewBinormal), normalize(viewNormal));
+	float3x3 matTBN			= float3x3(normalize(worldTangent), normalize(worldBinormal), normalize(worldNormal));
 	
 	// パースペクティブ空間での頂点座標を計算
-	Output.Position = mul(ProjectionMatrix, ViewPosition);
+	Output.Position			= mul(ProjectionMatrix, ViewPosition);
 	// TexCoordをそのまま渡す
-	Output.TexCoord = Input.TexCoord;
+	Output.TexCoord			= Input.TexCoord;
 	// 頂点→カメラのベクトルを接空間変換行列を使って座標変換
-	Output.View = mul(-ViewPosition.xyz, matTBN);
-	//
-	Output.Light = mul((ViewLight - ViewPosition.xyz), matTBN);
-
-	Output.LightBasePos = mul(shadowMapViewProjMat, WorldPosition);
+	Output.View				= mul(-ViewPosition.xyz, matTBN);
+	// 頂点→ライトのベクトルを接空間変換行列を使って座標変換
+	Output.Light			= mul((lightPosition - WorldPosition.xyz), matTBN);
+	// シャドウマップの描画に使用した座標空間での頂点座標を計算
+	Output.LightBasePos		= mul(shadowMapViewProjMat, WorldPosition);
 
 	return Output;
 }

@@ -46,12 +46,12 @@ Texture2D<float>	g_LightDepthTexture	: register(t0);
 
 float4 main(PS_INPUT Input) : SV_TARGET
 {
-	float3 N = float3(0.0, 0.0, 1.0); //normalize(g_NormalMapTexture.Sample(g_NormalMapSampler, Input.TexCoord).xyz * 2.0 - 1.0);
+	float3 N = normalize(float3(0.0, 0.0, 1.0) * 2.0 - 1.0);//g_NormalMapTexture.Sample(g_NormalMapSampler, Input.TexCoord).xyz
 	float3 V = normalize(Input.View);
 	float3 L = normalize(Input.Light);
 	float3 H = normalize(L + V);
 
-	float diffuse = max(dot(L, N), 0.0);
+	float diffuse = max(dot(N, L), 0.0);
 	float specular = pow(max(dot(N, H), 0.0), materialShiniess);
 
 	float3 posFromLightVP = Input.LightBasePos.xyz / Input.LightBasePos.w;
