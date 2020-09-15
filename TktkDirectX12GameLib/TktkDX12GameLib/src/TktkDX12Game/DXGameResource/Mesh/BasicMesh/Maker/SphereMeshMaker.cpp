@@ -45,7 +45,7 @@ namespace tktk
 				float z = tktkMath::MathHelper::sin(180.0f * v / vMax) * tktkMath::MathHelper::sin(360.0f * u / uMax);
 
 				tempVertexData.point = tktkMath::Vector3(x, y, z);
-				tempVertexData.normal = tktkMath::Vector3(0.0f, 0.0f, 1.0f);
+				tempVertexData.normal = tempVertexData.point; //tktkMath::Vector3::normalize(tempVertexData.point);
 
 				// TODO : 使用可能なUVになっているかチェックする
 				tempVertexData.texcoord = tktkMath::Vector2(static_cast<float>(u) / uMax, static_cast<float>(v) / vMax);
@@ -75,9 +75,9 @@ namespace tktk
 		std::vector<unsigned short> indices;
 		indices.resize(2 * vMax * (uMax + 1));
 
-		for (int v = 0; v < vMax; v++)
+		for (unsigned int v = 0; v < vMax; v++)
 		{
-			for (int u = 0; u <= uMax; u++)
+			for (unsigned int u = 0; u <= uMax; u++)
 			{
 				if (u == uMax)
 				{
