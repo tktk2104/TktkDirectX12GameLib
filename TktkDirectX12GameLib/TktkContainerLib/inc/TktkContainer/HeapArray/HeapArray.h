@@ -100,7 +100,7 @@ namespace tktkContainer
 	inline HeapArray<NodeType, Allocator>::HeapArray(unsigned int arrayMaxSize)
 		: m_arrayMaxSize(arrayMaxSize)
 		, m_arrayTopPos(std::allocator_traits<Allocator>::allocate(m_allocator, m_arrayMaxSize)) // メモリを確保
-		, m_arrayNodeUseCheckBitFlag(new unsigned int[1U + (m_arrayMaxSize / 32U)])// ※uint１つで32個の要素を管理可能
+		, m_arrayNodeUseCheckBitFlag(new unsigned int[1U + static_cast<unsigned int>(m_arrayMaxSize / 32U)])// ※uint１つで32個の要素を管理可能
 	{
 		// 配列要素使用管理ビットデータのフラグを全て切る。※memset()の第三引数はバイト数指定
 		for (unsigned int i = 0; i < (1U + (m_arrayMaxSize / 32U)); i++)
