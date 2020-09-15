@@ -28,6 +28,8 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hInstancePrev, _
 			windowParam.windowSize	= { 1920.0f, 1080.0f };
 		}
 
+		initParam.craeteDebugLayer = false;
+
 		// DX12GameManagerのセットアップ
 		tktk::DX12GameManager::initialize(initParam);
 	}

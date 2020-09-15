@@ -9,5 +9,7 @@ class LoadingScene
 public:
 
 	void start();
+
+	void end();
 };
 #endif // !LOADING_SCENE_H_
