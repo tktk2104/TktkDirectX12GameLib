@@ -45,7 +45,7 @@ namespace tktk
 				float z = tktkMath::MathHelper::sin(180.0f * v / vMax) * tktkMath::MathHelper::sin(360.0f * u / uMax);
 
 				tempVertexData.point = tktkMath::Vector3(x, y, z);
-				tempVertexData.normal = tempVertexData.point; //tktkMath::Vector3::normalize(tempVertexData.point);
+				tempVertexData.normal = tktkMath::Vector3::normalize(tempVertexData.point);
 
 				// TODO : 使用可能なUVになっているかチェックする
 				tempVertexData.texcoord = tktkMath::Vector2(static_cast<float>(u) / uMax, static_cast<float>(v) / vMax);
@@ -122,11 +122,11 @@ namespace tktk
 			// 単色のパイプラインステートを使う
 			materialParam.usePipeLineStateHandle = DX12GameManager::getSystemHandle(SystemPipeLineStateType::BasicMonoColorMesh);
 
-			materialParam.materialAmbient = { 0.3f, 1.0f }; // ※マテリアルの環境光の値は定数値を設定する
-			materialParam.materialDiffuse  = tktkMath::Color_v::white;
-			materialParam.materialSpecular = tktkMath::Color_v::white;
-			materialParam.materialEmissive = tktkMath::Color_v::white;
-			materialParam.materialShiniess = 10.0f;
+			materialParam.materialAmbient	= { 0.3f, 1.0f }; // ※マテリアルの環境光の値は定数値を設定する
+			materialParam.materialDiffuse	= tktkMath::Color_v::white;
+			materialParam.materialSpecular	= tktkMath::Color_v::white;
+			materialParam.materialEmissive	= { 0.1f, 1.0f };
+			materialParam.materialShiniess	= 1.0f;
 
 			// ディスクリプタヒープを作る
 			{
