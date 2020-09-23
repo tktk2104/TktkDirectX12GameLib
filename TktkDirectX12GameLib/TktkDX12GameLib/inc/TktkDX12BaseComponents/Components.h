@@ -29,15 +29,22 @@
 #include "3D/MeshDrawer/BasicMeshDrawerMaker.h"
 #include "3D/MeshDrawer/SphereMeshDrawerMaker.h"
 #include "3D/MeshDrawer/SphereMeshWireFrameDrawerMaker.h"
+#include "3D/MeshDrawer/BoxMeshDrawerMaker.h"
+#include "3D/MeshDrawer/BoxMeshWireFrameDrawerMaker.h"
 #include "3D/MeshAnimator/MeshAnimatorMaker.h"
 #include "3D/ShadowMapWriter/BasicMeshShadowMapWriterMaker.h"
 #include "3D/ShadowMapWriter/SphereMeshShadowMapWriterMaker.h"
+#include "3D/ShadowMapWriter/BoxMeshShadowMapWriterMaker.h"
 
 #include "Other/ReceiveMessageToSelfDestroyer/ReceiveMessageToSelfDestroyerMaker.h"
+#include "Other/Sound/SoundPlayerMaker.h"
 
 class TktkManual;
 
-#ifdef SAMPLE /* 「#ifdef」を「#ifndef」に変えると“F12”で対応するクラスに飛べます */
+// 下の行のコメントアウトを外すと“F12”で対応するクラスに飛べます
+//#define SAMPLE
+
+#ifdef SAMPLE
 namespace tktk
 {
 	/* ２次元コンポーネント達 */
@@ -128,14 +135,23 @@ namespace tktk
 		// 球体メッシュワイヤーフレームの描画コンポーネント
 		using C44 = SphereMeshWireFrameDrawer;
 
+		// 立方体メッシュの描画コンポーネント
+		using C45 = BoxMeshDrawer;
+
+		// 立方体メッシュワイヤーフレームの描画コンポーネント
+		using C46 = BoxMeshWireFrameDrawer;
+
 		// メッシュのアニメーションコンポーネント
-		using C45 = MeshAnimator;
+		using C47 = MeshAnimator;
 
 		// メッシュのシャドウマップ描画コンポーネント
-		using C46 = BasicMeshShadowMapWriter;
+		using C48 = BasicMeshShadowMapWriter;
 
 		// 球体メッシュのシャドウマップ描画コンポーネント
-		using C47 = SphereMeshShadowMapWriter;
+		using C49 = SphereMeshShadowMapWriter;
+
+		// 立方体メッシュのシャドウマップ描画コンポーネント
+		using C50 = BoxMeshShadowMapWriter;
 	//>
 
 
@@ -143,7 +159,10 @@ namespace tktk
 	/* その他のコンポーネント達 */
 	//<
 		// 特定のメッセージを受け取った時に自身を持つGameObjectを殺すコンポーネント
-		using C60 = ReceiveMessageToSelfDestroyerMaker;
+		using C60 = ReceiveMessageToSelfDestroyer;
+
+		// サウンド再生コンポーネント
+		using C61 = SoundPlayer;
 	//>
 }
 #endif // !SAMPLE

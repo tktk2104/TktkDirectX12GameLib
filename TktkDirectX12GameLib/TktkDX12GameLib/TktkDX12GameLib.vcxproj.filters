@@ -594,6 +594,21 @@
     <ClInclude Include="inc\TktkDX12BaseComponents\3D\MeshDrawer\BoxMeshDrawerUseResourceHandles.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="inc\TktkDX12BaseComponents\3D\MeshDrawer\BoxMeshWireFrameDrawer.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\TktkDX12BaseComponents\3D\MeshDrawer\BoxMeshWireFrameDrawerMaker.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\TktkDX12BaseComponents\3D\ShadowMapWriter\BoxMeshShadowMapWriter.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\TktkDX12BaseComponents\3D\ShadowMapWriter\BoxMeshShadowMapWriterMaker.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\TktkDX12BaseComponents\Other\Sound\SoundPlayerMaker.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\TktkDX12Game\_MainManager\DX12GameManager.cpp">
@@ -981,6 +996,21 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="src\TktkDX12BaseComponents\3D\MeshDrawer\BoxMeshDrawerMaker.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TktkDX12BaseComponents\3D\MeshDrawer\BoxMeshWireFrameDrawer.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TktkDX12BaseComponents\3D\MeshDrawer\BoxMeshWireFrameDrawerMaker.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TktkDX12BaseComponents\3D\ShadowMapWriter\BoxMeshShadowMapWriter.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TktkDX12BaseComponents\3D\ShadowMapWriter\BoxMeshShadowMapWriterMaker.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TktkDX12BaseComponents\Other\Sound\SoundPlayerMaker.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
