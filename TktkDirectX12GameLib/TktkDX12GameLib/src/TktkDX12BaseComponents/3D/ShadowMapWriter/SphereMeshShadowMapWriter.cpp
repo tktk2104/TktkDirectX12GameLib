@@ -16,7 +16,7 @@ namespace tktk
 
 		if (m_transform.expired())
 		{
-			throw std::runtime_error("BasicMeshDrawer not found Transform3D");
+			throw std::runtime_error("SphereMeshShadowMapWriter not found Transform3D");
 		}
 
 		// コピー用バッファを作り、そのハンドルを取得する
