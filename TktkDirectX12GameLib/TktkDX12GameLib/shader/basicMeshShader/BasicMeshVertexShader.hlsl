@@ -87,26 +87,32 @@ VS_OUTPUT main(VS_INPUT Input)
 	// 【この頂点法線の座標変換】（処理は頂点座標の座標変換とほぼ同じ）
 	float3 localNormal		= mul(LocalMatrix3, Input.Normal);
 	float3 worldNormal		= mul(WorldMatrix3, localNormal);
-	
+	float3 viewNormal		= mul(ViewMatrix3, worldNormal);
+
 	// 【この頂点タンジェントの座標変換】（処理は頂点座標の座標変換とほぼ同じ）
 	float3 localTangent		= mul(LocalMatrix3, Input.Tangent);
 	float3 worldTangent		= mul(WorldMatrix3, localTangent);
+	float3 viewTangent		= mul(ViewMatrix3,	worldTangent);
 	
 	// 【この頂点バイノーマルの座標変換】（処理は頂点座標の座標変換とほぼ同じ）
 	float3 localBinormal	= mul(LocalMatrix3, Input.Binormal);
 	float3 worldBinormal	= mul(WorldMatrix3, localBinormal);
+	float3 viewBinormal		= mul(ViewMatrix3,	worldBinormal);
+
+	// ビュー空間でのライト座標を計算する
+	float3 viewLight		= mul(ViewMatrix3, lightPosition);
 
 	// 接空間変換行列を計算
-	float3x3 matTBN			= float3x3(normalize(worldTangent), normalize(worldBinormal), normalize(worldNormal));
-	
+	float3x3 matTBN		= float3x3(normalize(viewTangent), normalize(viewBinormal), normalize(viewNormal));
+
 	// パースペクティブ空間での頂点座標を計算
 	Output.Position			= mul(ProjectionMatrix, ViewPosition);
 	// TexCoordをそのまま渡す
 	Output.TexCoord			= Input.TexCoord;
-	// 頂点→カメラのベクトルを接空間変換行列を使って座標変換
-	Output.View				= mul(-ViewPosition.xyz, matTBN);
-	// 頂点→ライトのベクトルを接空間変換行列を使って座標変換
-	Output.Light			= mul((lightPosition - WorldPosition.xyz), matTBN);
+	// 接空間での「頂点→カメラのベクトル」を計算
+	Output.View				= mul(matTBN, -ViewPosition.xyz);
+	// 接空間での「頂点→ライトのベクトル」を計算
+	Output.Light			= mul(matTBN, (viewLight - ViewPosition.xyz));
 	// シャドウマップの描画に使用した座標空間での頂点座標を計算
 	Output.LightBasePos		= mul(shadowMapViewProjMat, WorldPosition);
 

@@ -44,17 +44,17 @@ Texture2D<float>	g_LightDepthTexture	: register(t1);
 
 float4 main(PS_INPUT Input) : SV_TARGET
 {
-	float3 N = normalize(float3(0.0, 0.0, 1.0) * 2.0 - 1.0);//g_NormalMapTexture.Sample(g_NormalMapSampler, Input.TexCoord).xyz
+	float3 N = float3(0.0, 0.0, 1.0);//g_NormalMapTexture.Sample(g_NormalMapSampler, Input.TexCoord).xyz
 	float3 V = normalize(Input.View);
 	float3 L = normalize(Input.Light);
 	float3 H = normalize(L + V);
 	
-	float diffuse = max(dot(N, L), 0.0);
+	float diffuse = max(dot(L, N), 0.0);
 	float specular = pow(max(dot(N, H), 0.0), materialShiniess);
 	
-	float3 posFromLightVP = Input.LightBasePos.xyz / Input.LightBasePos.w;
-	float2 shadowUV = (posFromLightVP.xy + float2(1, - 1)) * float2(0.5, -0.5);
-	float depthFromLight = g_LightDepthTexture.Sample(g_LightDepthSampler, shadowUV);
+	float3 posFromLightVP	= Input.LightBasePos.xyz / Input.LightBasePos.w;
+	float2 shadowUV			= (posFromLightVP.xy + float2(1, - 1)) * float2(0.5, -0.5);
+	float depthFromLight	= g_LightDepthTexture.Sample(g_LightDepthSampler, shadowUV);
 
 	float shadowWeight = 1.0;
 
@@ -68,7 +68,7 @@ float4 main(PS_INPUT Input) : SV_TARGET
 	float4 resultColor
 		= materialAmbient	* lightAmbient	* baseColor
 		+ materialDiffuse	* lightDiffuse	* diffuse * baseColor
-		+ materialSpecular	* lightSpeqular * specular
+		+ materialSpecular	* lightSpeqular * specular * baseColor
 		+ materialEmissive	* baseColor;
 	
 	resultColor.a = baseColor.a * materialDiffuse.a;
