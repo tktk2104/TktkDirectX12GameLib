@@ -100,10 +100,10 @@ VS_OUTPUT main(VS_INPUT Input)
 	float3 viewBinormal		= mul(ViewMatrix3,	worldBinormal);
 
 	// ビュー空間でのライト座標を計算する
-	float3 viewLight		= mul(ViewMatrix3, lightPosition);
+	float3 viewLight		= mul(ViewMatrix, float4(lightPosition, 1.0)).xyz;
 
 	// 接空間変換行列を計算
-	float3x3 matTBN		= float3x3(normalize(viewTangent), normalize(viewBinormal), normalize(viewNormal));
+	float3x3 matTBN			= float3x3(normalize(viewTangent), normalize(viewBinormal), normalize(viewNormal));
 
 	// パースペクティブ空間での頂点座標を計算
 	Output.Position			= mul(ProjectionMatrix, ViewPosition);
