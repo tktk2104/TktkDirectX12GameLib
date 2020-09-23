@@ -11,7 +11,7 @@ namespace tktk
 	{
 	public:
 
-		SoundPlayer(unsigned int soundId, bool isLoop, bool startToPlay);
+		SoundPlayer(unsigned int soundHandle, bool isLoop, bool startToPlay);
 
 	public:
 
@@ -33,7 +33,7 @@ namespace tktk
 
 	private:
 
-		unsigned int	m_soundId;
+		unsigned int	m_soundHandle;
 		bool			m_isLoop;
 		bool			m_startToPlay;
 	};
