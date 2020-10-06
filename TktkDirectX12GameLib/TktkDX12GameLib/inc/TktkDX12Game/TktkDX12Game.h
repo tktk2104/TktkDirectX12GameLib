@@ -46,6 +46,7 @@ namespace tktk
 		static GameObjectPtr createGameObject();
 
 		// 引数のタグを持ったゲームオブジェクトを取得する
+		// ※該当オブジェクトが無かった場合、空のGameObjectPtrを取得する
 		// ※複数該当オブジェクトがあった場合、最初に見つけた１つを取得する
 		template <class GameObjectTagType>
 		static GameObjectPtr findGameObjectWithTag(GameObjectTagType tag);

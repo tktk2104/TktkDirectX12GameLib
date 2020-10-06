@@ -252,16 +252,6 @@ namespace tktk
 		return m_gameObjectManager->createGameObject();
 	}
 
-	GameObjectPtr DX12GameManager::findGameObjectWithTag(int tag)
-	{
-		return m_gameObjectManager->findGameObjectWithTag(tag);
-	}
-	
-	std::forward_list<GameObjectPtr> DX12GameManager::findGameObjectsWithTag(int tag)
-	{
-		return m_gameObjectManager->findGameObjectsWithTag(tag);
-	}
-
 	void DX12GameManager::executeCommandList()
 	{
 		m_dx3dBaseObjects->executeCommandList();
@@ -1084,6 +1074,16 @@ namespace tktk
 	void DX12GameManager::setSystemHandle(SystemPostEffectMaterialType type, unsigned int handle)
 	{
 		m_systemDXGameResourceHandleGetter->setSystemHandle(type, handle);
+	}
+
+	GameObjectPtr DX12GameManager::findGameObjectWithTagImpl(int tag)
+	{
+		return m_gameObjectManager->findGameObjectWithTag(tag);
+	}
+
+	std::forward_list<GameObjectPtr> DX12GameManager::findGameObjectsWithTagImpl(int tag)
+	{
+		return m_gameObjectManager->findGameObjectsWithTag(tag);
 	}
 
 	void DX12GameManager::addCollisionGroupImpl(int firstGroup, int secondGroup)

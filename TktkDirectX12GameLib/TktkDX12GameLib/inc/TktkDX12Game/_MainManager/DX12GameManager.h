@@ -82,11 +82,14 @@ namespace tktk
 		static GameObjectPtr createGameObject();
 		
 		// 引数のタグを持ったゲームオブジェクトを取得する
+		// ※該当オブジェクトが無かった場合、空のGameObjectPtrを取得する
 		// ※複数該当オブジェクトがあった場合、最初に見つけた１つを取得する
-		static GameObjectPtr findGameObjectWithTag(int tag);
+		template<class TagType>
+		static GameObjectPtr findGameObjectWithTag(TagType tag) { return findGameObjectWithTagImpl(static_cast<int>(tag)); };
 		
 		// 引数のタグを持ったゲームオブジェクトを全て取得する
-		static std::forward_list<GameObjectPtr> findGameObjectsWithTag(int tag);
+		template<class TagType>
+		static std::forward_list<GameObjectPtr> findGameObjectsWithTag(TagType tag) { return findGameObjectsWithTagImpl(static_cast<int>(tag)); };
 
 	//************************************************************
 	/* コンポーネントの処理 */
@@ -98,8 +101,8 @@ namespace tktk
 		static void addUpdatePriority(float priority) { m_componentManager->addUpdatePriority<ComponentType>(priority); }
 
 		// 衝突判定の組み合わせを追加する
-		template <class CollisionGroupType>
-		static void addCollisionGroup(CollisionGroupType firstGroup, CollisionGroupType secondGroup) { addCollisionGroupImpl(static_cast<int>(firstGroup), static_cast<int>(secondGroup)); }
+		template <class CollisionGroupTypeOne, class CollisionGroupTypeTwo>
+		static void addCollisionGroup(CollisionGroupTypeOne firstGroup, CollisionGroupTypeTwo secondGroup) { addCollisionGroupImpl(static_cast<int>(firstGroup), static_cast<int>(secondGroup)); }
 
 		// テンプレート引数の型のコンポーネントを引数の値を使って作る
 		template <class ComponentType, class... Args>
@@ -771,6 +774,8 @@ namespace tktk
 	/* 裏実装 */
 	public:
 
+		static GameObjectPtr findGameObjectWithTagImpl(int tag);
+		static std::forward_list<GameObjectPtr> findGameObjectsWithTagImpl(int tag);
 		static void addCollisionGroupImpl(int firstGroup, int secondGroup);
 
 		static unsigned int createCopyBufferImpl(const CopyBufferInitParam& initParam);
