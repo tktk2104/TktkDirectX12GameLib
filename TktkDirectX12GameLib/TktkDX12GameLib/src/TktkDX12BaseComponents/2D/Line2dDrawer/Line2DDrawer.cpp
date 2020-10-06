@@ -33,6 +33,12 @@ namespace tktk
 		}
 	}
 
+	void Line2DDrawer::onDestroy()
+	{
+		// コピー用バッファを削除する
+		DX12GameManager::eraseCopyBuffer(m_useLine2DMaterialHandle);
+	}
+
 	void Line2DDrawer::draw() const
 	{
 		// 描画命令に渡す頂点情報の配列が空だった場合、何もしない。

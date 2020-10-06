@@ -28,6 +28,7 @@ namespace tktk
 	public:
 
 		void start();
+		void onDestroy();
 		void draw() const;
 
 	public:
