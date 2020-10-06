@@ -42,18 +42,24 @@ namespace tktk
 	template<class SceneType>
 	inline void SceneVTableInitializer<SceneType>::start(const std::weak_ptr<SceneBase>& self)
 	{
+		if (self.expired()) return;
+
 		start_runner<void>::checkAndRun(std::dynamic_pointer_cast<SceneType>(self.lock()));
 	}
 
 	template<class SceneType>
 	inline void SceneVTableInitializer<SceneType>::update(const std::weak_ptr<SceneBase>& self)
 	{
+		if (self.expired()) return;
+
 		update_runner<void>::checkAndRun(std::dynamic_pointer_cast<SceneType>(self.lock()));
 	}
 
 	template<class SceneType>
 	inline void SceneVTableInitializer<SceneType>::end(const std::weak_ptr<SceneBase>& self)
 	{
+		if (self.expired()) return;
+
 		end_runner<void>::checkAndRun(std::dynamic_pointer_cast<SceneType>(self.lock()));
 	}
 }
