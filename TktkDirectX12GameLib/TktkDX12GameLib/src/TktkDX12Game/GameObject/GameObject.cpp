@@ -112,16 +112,6 @@ namespace tktk
 		return m_parentChildManager->getChildren();
 	}
 
-	GameObjectPtr GameObject::findChildWithTag(int tag) const
-	{
-		return m_parentChildManager->findGameObjectWithTag(tag);
-	}
-
-	std::forward_list<GameObjectPtr> GameObject::findChildrenWithTag(int tag) const
-	{
-		return m_parentChildManager->findGameObjectsWithTag(tag);
-	}
-
 	void GameObject::addChild(const GameObjectPtr& child)
 	{
 #ifdef _DEBUG
@@ -229,6 +219,16 @@ namespace tktk
 	bool GameObject::containGameobjectTagImpl(int tag) const
 	{
 		return m_tagList->contain(tag);
+	}
+
+	GameObjectPtr GameObject::findChildWithTagImpl(int tag) const
+	{
+		return m_parentChildManager->findGameObjectWithTag(tag);
+	}
+
+	std::forward_list<GameObjectPtr> GameObject::findChildrenWithTagImpl(int tag) const
+	{
+		return m_parentChildManager->findGameObjectsWithTag(tag);
 	}
 
 	void GameObject::createComponentImpl(const std::vector<int>& targetState, const ComponentBasePtr& componentPtr)
