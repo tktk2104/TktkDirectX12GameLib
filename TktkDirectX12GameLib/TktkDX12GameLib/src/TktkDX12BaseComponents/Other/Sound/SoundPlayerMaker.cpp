@@ -25,7 +25,7 @@ namespace tktk
 			);
 	}
 
-	SoundPlayerMaker& SoundPlayerMaker::soundHandle(unsigned value)
+	SoundPlayerMaker& SoundPlayerMaker::soundHandle(unsigned int value)
 	{
 		m_soundHandle = value;
 		return *this;

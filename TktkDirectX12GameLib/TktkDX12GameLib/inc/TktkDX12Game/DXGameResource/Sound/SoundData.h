@@ -4,6 +4,8 @@
 #include <string>
 #include <vector>
 #include <xaudio2.h>
+#undef min
+#undef max
 #include "CSoundCallback.h"
 
 namespace tktk
@@ -47,16 +49,8 @@ namespace tktk
 	private:
 
 		// wavファイルのハンドル
-		HMMIO			m_hmmio{ NULL };
-		// リフ構造ファイルを読み込む時に使用するMMIO情報データ構造
-		MMIOINFO		m_mmioInfo;
-		// リフ構造ファイルを読み込む時に使用するRIFFチャンク情報データ構造（wavチャンク用）
-		MMCKINFO		m_riffChunkInfo;
-		// リフ構造ファイルを読み込む時に使用するRIFFチャンク情報データ構造（フォーマットチャンク用）
-		MMCKINFO		m_formatChunkInfo;
-		// リフ構造ファイルを読み込む時に使用するRIFFチャンク情報データ構造（データチャンク用）
-		MMCKINFO		m_dataChunkInfo;
-
+		HMMIO			m_hmmio{ nullptr };
+		
 		// wavファイルのフォーマット情報
 		WAVEFORMATEX	m_wfx;
 		// フォーマットチャンクが大きすぎる時に使用される情報
@@ -65,25 +59,14 @@ namespace tktk
 		// サウンドのコールバック処理クラス
 		CSoundCallback m_cSoundCallback;
 
+		// ソースボイス
 		IXAudio2SourceVoice* m_lpSourceVoice{ nullptr };
-
-		// サウンドバッファのパラメータ
-		XAUDIO2_BUFFER m_bufinfo;
-
-		// サウンドの状態
-		XAUDIO2_VOICE_STATE m_voiceState;
 
 		// サウンドバッファの大きさ
 		unsigned int m_buflen;
 
-		// サウンドバッファ
+		// サウンドバッファ（0.25秒間のサウンドデータを持つ５つのサウンドバッファが連続して存在している）
 		std::vector<unsigned char> m_bufData;
-
-		// サウンドバッファを読み込む位置
-		unsigned char* m_bufLoadPos;
-
-		// サウンドバッファを読み込む長さ
-		long m_readlen;
 
 		// サウンド再生の状態を表すビットフラグ
 		unsigned int m_soundPlayState{ 0U };

@@ -3,11 +3,14 @@
 #include <stdexcept>
 #include "TktkDX12Game/DXGameResource/Sound/SoundPlayState.h"
 
-#define BUFFERQUEUE_MAX         4
-#define BUFFERQUEUE_ALLOC       (BUFFERQUEUE_MAX + 1)
-
 namespace tktk
 {
+	// サウンドバッファの最大数
+	constexpr unsigned int BufferQueueMax = 4U;
+
+	// 実際に作るサウンドバッファの数
+	constexpr unsigned int BufferQueueAlloc = BufferQueueMax + 1U;
+
 	SoundData::SoundData(const std::string & fileName, IXAudio2* xAudioPtr, HANDLE hEvent)
 		: m_cSoundCallback(CSoundCallback(hEvent))
 	{
@@ -17,10 +20,7 @@ namespace tktk
 			&m_lpSourceVoice, &m_wfx, XAUDIO2_VOICE_NOPITCH, XAUDIO2_DEFAULT_FREQ_RATIO, &m_cSoundCallback, NULL, NULL
 		);
 
-		if (FAILED(hr))
-		{
-			throw std::runtime_error("create sourceVoice error");
-		}
+		if (FAILED(hr)) throw std::runtime_error("create sourceVoice error");
 	}
 
 	SoundData::~SoundData()
@@ -37,110 +37,133 @@ namespace tktk
 
 	SoundData::SoundData(SoundData&& other) noexcept
 		: m_hmmio(other.m_hmmio)
-		, m_mmioInfo(other.m_mmioInfo)
-		, m_riffChunkInfo(other.m_riffChunkInfo)
-		, m_formatChunkInfo(other.m_formatChunkInfo)
-		, m_dataChunkInfo(other.m_dataChunkInfo)
 		, m_wfx(other.m_wfx)
 		, m_pcmwf(other.m_pcmwf)
 		, m_cSoundCallback(other.m_cSoundCallback)
 		, m_lpSourceVoice(other.m_lpSourceVoice)
-		, m_bufinfo(other.m_bufinfo)
-		, m_voiceState(other.m_voiceState)
 		, m_buflen(other.m_buflen)
 		, m_bufData(std::move(other.m_bufData))
-		, m_bufLoadPos(other.m_bufLoadPos)
-		, m_readlen(other.m_readlen)
 		, m_soundPlayState(other.m_soundPlayState)
 		, m_soundCount(other.m_soundCount)
 		, m_sumReadlen(other.m_sumReadlen)
 	{
 		m_lpSourceVoice = nullptr;
-		m_hmmio = nullptr;
+		m_hmmio			= nullptr;
 	}
 
 	bool SoundData::isPlaySound() const
 	{
- 		return ((m_soundPlayState & SOUND_PLAY_STATE_PLAYING) != 0) && ((m_soundPlayState & SOUND_PLAY_STATE_PAUSE) == 0);
+ 		return ((m_soundPlayState & SoundPlayState::Playing) != 0) && ((m_soundPlayState & SoundPlayState::Pause) == 0);
 	}
 
 	void SoundData::playSound(bool loopPlay)
 	{
-		if (loopPlay)
-		{
-			m_soundPlayState |= SOUND_PLAY_STATE_LOOP;
-		}
+		// ループ再生を行う場合はループフラグを立てる
+		if (loopPlay) m_soundPlayState |= SoundPlayState::Loop;
 
-		if ((m_soundPlayState & SOUND_PLAY_STATE_PAUSE) == 0)
-		{
-			initSound();
-		}
+		// サウンドが既に再生中だったら一旦停止する
+		if ((m_soundPlayState & SoundPlayState::Playing) != 0) stopSound();
 
+		// ポーズ中フラグが立っていなければサウンドの再生状況を初期化する
+		if ((m_soundPlayState & SoundPlayState::Pause) == 0) initSound();
+
+		// サウンドの再生を開始する
 		HRESULT hr = m_lpSourceVoice->Start(0, XAUDIO2_COMMIT_NOW);
-		if (FAILED(hr))
-		{
-			throw std::runtime_error("play sound error");
-		}
 
-		m_soundPlayState &= (~SOUND_PLAY_STATE_PAUSE);
-		m_soundPlayState |= SOUND_PLAY_STATE_PLAYING;
+		// 再生エラーチェック
+		if (FAILED(hr)) throw std::runtime_error("play sound error");
+
+		// ポーズ中フラグを折る
+		m_soundPlayState &= (~SoundPlayState::Pause);
+
+		// 再生中フラグを立てる
+		m_soundPlayState |= SoundPlayState::Playing;
 	}
 
 	void SoundData::stopSound()
 	{
+		// ソースバッファをフラッシュする
 		m_lpSourceVoice->FlushSourceBuffers();
 
+		// サウンドファイルの読み込み位置を頭に戻す
 		mmioSeek(m_hmmio, -static_cast<long>(m_sumReadlen), SEEK_CUR);
 
-		m_soundPlayState &= (~SOUND_PLAY_STATE_PLAYING);
-		m_soundPlayState &= (~SOUND_PLAY_STATE_PAUSE);
-		m_soundPlayState &= (~SOUND_PLAY_STATE_LOOP);
+		// サウンド再生フラグを初期化する
+		m_soundPlayState = 0U;
 	}
 
 	void SoundData::pauseSound()
 	{
+		// サウンドを停止する
 		m_lpSourceVoice->Stop();
 
-		m_soundPlayState |= SOUND_PLAY_STATE_PAUSE;
+		// ポーズ中フラグを立てる
+		m_soundPlayState |= SoundPlayState::Pause;
 	}
 
 	void SoundData::update()
 	{
-		m_lpSourceVoice->GetState(&m_voiceState);
+		// 現在のサウンドの状態を取得する
+		XAUDIO2_VOICE_STATE voiceState;
+		m_lpSourceVoice->GetState(&voiceState);
 
-		if (m_voiceState.BuffersQueued == 0)
+		// 現在読み込んでいるサウンドバッファが０だったら下の処理をスキップする
+		if (voiceState.BuffersQueued == 0) return;
+
+		// サウンドバッファを読み込む余裕があったら読み込む
+		while (voiceState.BuffersQueued < BufferQueueMax && m_hmmio != nullptr)
 		{
-			if ((m_soundPlayState & SOUND_PLAY_STATE_LOOP) != 0)
+			// サウンドバッファ読み込み位置を更新する
+			unsigned char* bufLoadTopPtr = m_bufData.data() + m_buflen * m_soundCount;
+
+			// サウンドカウンターを更新する
+			m_soundCount = (m_soundCount + 1) % BufferQueueAlloc;
+
+			// サウンドバッファを更新し、更新したバッファサイズを取得する
+			auto readlen = mmioRead(m_hmmio, reinterpret_cast<HPSTR>(bufLoadTopPtr), m_buflen);
+
+			// 更新したバッファサイズが０以下だったら
+			if (readlen <= 0)
 			{
+				// 停止する前のサウンド再生状態を保持する
+				auto preSoundPlayState = m_soundPlayState;
+
+				// サウンドを停止する
 				stopSound();
-				playSound(true);
 
-				return;
+				// ループフラグが立っていたら再度再生する
+				if ((preSoundPlayState & SoundPlayState::Loop) != 0) playSound(true);
+
+				// 読み込みループを抜ける
+				break;
 			}
+			
+			// 今まで読み込んだサウンドバッファの長さを更新する
+			m_sumReadlen += readlen;
 
-			stopSound();
-			return;
-		}
+			// ソースボイスにデータを転送する為のパラメータ
+			XAUDIO2_BUFFER bufinfo;
+			memset(&bufinfo, 0x00, sizeof(XAUDIO2_BUFFER));
 
-		// loading
-		while (m_voiceState.BuffersQueued < BUFFERQUEUE_MAX && m_hmmio != NULL)
-		{
-			m_bufLoadPos = m_bufData.data() + m_buflen * m_soundCount;
-			m_soundCount = (m_soundCount + 1) % BUFFERQUEUE_ALLOC;
-			m_readlen = mmioRead(m_hmmio, (HPSTR)m_bufLoadPos, m_buflen);
+			// 更新したバッファの長さが想定よりも短い（読み込むバッファがもうない）のであれば「XAUDIO2_END_OF_STREAM」フラグを立てる
+			bufinfo.Flags		= (static_cast<unsigned int>(readlen) >= m_buflen) ? 0 : XAUDIO2_END_OF_STREAM;
+			// 転送するバッファの長さ
+			bufinfo.AudioBytes	= readlen;
+			// 転送するバッファの読み込み開始位置
+			bufinfo.pAudioData	= bufLoadTopPtr;
+			// 転送したバッファのどこから再生するか？（小分けで転送する関係上常に０）
+			bufinfo.PlayBegin	= 0;
+			// 転送したバッファの総再生量
+			bufinfo.PlayLength	= readlen / m_wfx.nBlockAlign;
 
-			if (m_readlen <= 0) break;
+			// ソースボイスにデータを転送する
+			HRESULT hr = m_lpSourceVoice->SubmitSourceBuffer(&bufinfo, nullptr);
 
-			m_sumReadlen += m_readlen;
+			// ソースボイスへのデータ転送エラーチェック
+			if (FAILED(hr)) throw std::runtime_error("submit source buffer error");
 
-			m_bufinfo.Flags = ((UINT32)m_readlen >= m_buflen) ? 0 : XAUDIO2_END_OF_STREAM;
-			m_bufinfo.AudioBytes = m_readlen;
-			m_bufinfo.pAudioData = m_bufLoadPos;
-			m_bufinfo.PlayBegin = 0;
-			m_bufinfo.PlayLength = m_readlen / m_wfx.nBlockAlign;
-			m_lpSourceVoice->SubmitSourceBuffer(&m_bufinfo, NULL);
-
-			m_voiceState.BuffersQueued++;
+			// バッファキューをインクリメント
+			voiceState.BuffersQueued++;
 		}
 	}
 
@@ -154,81 +177,122 @@ namespace tktk
 		const TCHAR* lpFileName = TEXT(fileName.c_str());
 #endif // _M_AMD64
 
+		// リフ構造ファイルを読み込む時に使用するMMIO情報データ構造
+		MMIOINFO	mmioInfo;
+		// リフ構造ファイルを読み込む時に使用するRIFFチャンク情報データ構造（wavチャンク用）
+		MMCKINFO	riffChunkInfo;
+		// リフ構造ファイルを読み込む時に使用するRIFFチャンク情報データ構造（フォーマットチャンク用）
+		MMCKINFO	formatChunkInfo;
+		// リフ構造ファイルを読み込む時に使用するRIFFチャンク情報データ構造（データチャンク用）
+		MMCKINFO	dataChunkInfo;
+
 		// エラー検知用変数
-		MMRESULT mmret;
+		MMRESULT	mmret;
 
-		memset(&m_mmioInfo, 0x00, sizeof(m_mmioInfo));
-		m_hmmio = mmioOpen(const_cast<TCHAR *>(lpFileName), &m_mmioInfo, MMIO_READ);
-		if (m_hmmio == NULL)
-		{
-			throw std::runtime_error("load sound error");
-		}
+		// MMIOデータ構造情報をゼロクリア
+		memset(&mmioInfo, 0x00, sizeof(MMIOINFO));
 
-		memset(&m_riffChunkInfo, 0x00, sizeof(m_riffChunkInfo));
-		m_riffChunkInfo.fccType = mmioFOURCC('W', 'A', 'V', 'E');
-		mmret = mmioDescend(m_hmmio, &m_riffChunkInfo, NULL, MMIO_FINDRIFF);
-		if (mmret != MMSYSERR_NOERROR)
-		{
-			throw std::runtime_error("load sound error");
-		}
+		// MMIOデータ構造情報を読み込む
+		m_hmmio = mmioOpen(const_cast<TCHAR *>(lpFileName), &mmioInfo, MMIO_READ);
 
-		memset(&m_formatChunkInfo, 0x00, sizeof(m_formatChunkInfo));
-		m_formatChunkInfo.ckid = mmioFOURCC('f', 'm', 't', ' ');
-		mmret = mmioDescend(m_hmmio, &m_formatChunkInfo, &m_riffChunkInfo, MMIO_FINDCHUNK);
-		if (mmret != MMSYSERR_NOERROR)
-		{
-			throw std::runtime_error("load sound error");
-		}
+		// 読み込みエラーチェック
+		if (m_hmmio == NULL) throw std::runtime_error("load sound error");
 
-		if (m_formatChunkInfo.cksize >= sizeof(WAVEFORMATEX))
+		// RIFF形式のWAVEチャンク構造情報をゼロクリア
+		memset(&riffChunkInfo, 0x00, sizeof(MMCKINFO));
+
+		// WAVEチャンクに移動するための情報を設定
+		riffChunkInfo.fccType = mmioFOURCC('W', 'A', 'V', 'E');
+
+		// WAVEチャンクに移動
+		mmret = mmioDescend(m_hmmio, &riffChunkInfo, NULL, MMIO_FINDRIFF);
+
+		// チャンク移動エラーチェック
+		if (mmret != MMSYSERR_NOERROR) throw std::runtime_error("load sound error");
+
+		// RIFF形式のフォーマットチャンク構造情報をゼロクリア
+		memset(&formatChunkInfo, 0x00, sizeof(MMCKINFO));
+
+		// フォーマットチャンクに移動するための情報を設定
+		formatChunkInfo.ckid = mmioFOURCC('f', 'm', 't', ' ');
+
+		// WAVEチャンクからフォーマットチャンクに移動
+		mmret = mmioDescend(m_hmmio, &formatChunkInfo, &riffChunkInfo, MMIO_FINDCHUNK);
+
+		// チャンク移動エラーチェック
+		if (mmret != MMSYSERR_NOERROR) throw std::runtime_error("load sound error");
+
+		// TODO : ここの処理の意味を理解する
+		if (formatChunkInfo.cksize >= sizeof(WAVEFORMATEX))
 		{
-			mmioRead(m_hmmio, (HPSTR)&m_wfx, sizeof(m_wfx));
+			mmioRead(m_hmmio, (HPSTR)&m_wfx, sizeof(WAVEFORMATEX));
 		}
 		else
 		{
-			mmioRead(m_hmmio, (HPSTR)&m_pcmwf, sizeof(m_pcmwf));
-			memset(&m_wfx, 0x00, sizeof(m_wfx));
-			memcpy(&m_wfx, &m_pcmwf, sizeof(m_pcmwf));
+			mmioRead(m_hmmio, (HPSTR)&m_pcmwf, sizeof(PCMWAVEFORMAT));
+			memset(&m_wfx, 0x00, sizeof(WAVEFORMATEX));
+			memcpy(&m_wfx, &m_pcmwf, sizeof(PCMWAVEFORMAT));
 			m_wfx.cbSize = 0;
 		}
 		
-		mmioAscend(m_hmmio, &m_formatChunkInfo, 0);
+		// フォーマットチャンクからWAVEチャンクに戻る
+		mmioAscend(m_hmmio, &formatChunkInfo, 0);
 
-		memset(&m_dataChunkInfo, 0x00, sizeof(m_dataChunkInfo));
-		m_dataChunkInfo.ckid = mmioFOURCC('d', 'a', 't', 'a');
-		mmret = mmioDescend(m_hmmio, &m_dataChunkInfo, &m_riffChunkInfo, MMIO_FINDCHUNK);
-		if (mmret != MMSYSERR_NOERROR)
-		{
-			throw std::runtime_error("load sound error");
-		}
+		// RIFF形式のデータチャンク構造情報をゼロクリア
+		memset(&dataChunkInfo, 0x00, sizeof(MMCKINFO));
+
+		// データチャンクに移動するための情報を設定
+		dataChunkInfo.ckid = mmioFOURCC('d', 'a', 't', 'a');
+
+		// WAVEチャンクからデータチャンクに移動
+		mmret = mmioDescend(m_hmmio, &dataChunkInfo, &riffChunkInfo, MMIO_FINDCHUNK);
+
+		// チャンク移動エラーチェック
+		if (mmret != MMSYSERR_NOERROR) throw std::runtime_error("load sound error");
 	}
 
 	void SoundData::initSound()
 	{
+		// サウンドバッファの大きさを0.25秒間のサウンドデータの大きさに設定する
 		m_buflen = m_wfx.nAvgBytesPerSec / 4;
-		m_bufData.resize(m_buflen * BUFFERQUEUE_ALLOC);
-		m_bufLoadPos = m_bufData.data();
 
-		m_readlen = mmioRead(m_hmmio, (HPSTR)m_bufLoadPos, m_buflen);
-		if (m_readlen <= 0)
-		{
-			throw std::runtime_error("load sound buffer error");
-		}
+		// サウンドバッファを書き込む領域を「BufferQueueAlloc」の数だけ作る
+		m_bufData.resize(m_buflen * BufferQueueAlloc);
 
+		// サウンドバッファを読み込む位置
+		unsigned char* bufLoadTopPtr = m_bufData.data();
+
+		// サウンドバッファを更新し、更新したバッファサイズを取得する
+		auto readlen = mmioRead(m_hmmio, (HPSTR)bufLoadTopPtr, m_buflen);
+
+		// サウンドバッファを更新エラーチェック
+		if (readlen <= 0) throw std::runtime_error("load sound buffer error");
+
+		// サウンドカウンターを初期化
 		m_soundCount = 1u;
-		m_sumReadlen = m_readlen;
 
-		memset(&m_bufinfo, 0x00, sizeof(m_bufinfo));
-		m_bufinfo.Flags = ((UINT32)m_readlen >= m_buflen) ? 0 : XAUDIO2_END_OF_STREAM;
-		m_bufinfo.AudioBytes = m_readlen;
-		m_bufinfo.pAudioData = m_bufLoadPos;
-		m_bufinfo.PlayBegin = 0;
-		m_bufinfo.PlayLength = m_readlen / m_wfx.nBlockAlign;
+		// 今まで読み込んだサウンドバッファの長さを初期化
+		m_sumReadlen = readlen;
 
-		HRESULT hr = m_lpSourceVoice->SubmitSourceBuffer(&m_bufinfo, NULL);
-		if (FAILED(hr))
-		{
-			throw std::runtime_error("create submit source buffer error");
-		}
+		// ソースボイスにデータを転送する為のパラメータ
+		XAUDIO2_BUFFER bufinfo;
+		memset(&bufinfo, 0x00, sizeof(XAUDIO2_BUFFER));
+
+		// 更新したバッファの長さが想定よりも短い（読み込むバッファがもうない）のであれば「XAUDIO2_END_OF_STREAM」フラグを立てる
+		bufinfo.Flags = ((UINT32)readlen >= m_buflen) ? 0 : XAUDIO2_END_OF_STREAM;
+		// 転送するバッファの長さ
+		bufinfo.AudioBytes = readlen;
+		// 転送するバッファの読み込み開始位置
+		bufinfo.pAudioData = bufLoadTopPtr;
+		// 転送したバッファのどこから再生するか？（小分けで転送する関係上常に０）
+		bufinfo.PlayBegin = 0;
+		// 転送したバッファの総再生量
+		bufinfo.PlayLength = readlen / m_wfx.nBlockAlign;
+
+		// ソースボイスにデータを転送する
+		HRESULT hr = m_lpSourceVoice->SubmitSourceBuffer(&bufinfo, NULL);
+
+		// ソースボイスへのデータ転送エラーチェック
+		if (FAILED(hr)) throw std::runtime_error("submit source buffer error");
 	}
 }

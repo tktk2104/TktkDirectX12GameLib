@@ -24,6 +24,13 @@ namespace tktk
 		DX12GameManager::pauseSound(m_soundHandle);
 	}
 
+	void SoundPlayer::changeSoundHandle(unsigned int soundHandle)
+	{
+		m_soundHandle = soundHandle;
+
+		playSound();
+	}
+
 	void SoundPlayer::start()
 	{
 		if (m_startToPlay)
@@ -45,5 +52,12 @@ namespace tktk
 	void SoundPlayer::onDestroy()
 	{
 		DX12GameManager::stopSound(m_soundHandle);
+	}
+
+	void SoundPlayer::changeSoundIdImpl(int soundId)
+	{
+		m_soundHandle = DX12GameManager::getSoundHandle(soundId);
+
+		playSound();
 	}
 }

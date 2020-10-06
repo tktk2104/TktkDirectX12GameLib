@@ -1,6 +1,7 @@
 #ifndef SOUND_PLAYER_H_
 #define SOUND_PLAYER_H_
 
+#include <TktkTemplateMetaLib/TypeCheck/isIdType.h>
 #include "../../../TktkDX12Game/Component/ComponentBase.h"
 
 namespace tktk
@@ -21,6 +22,13 @@ namespace tktk
 
 		void pauseSound();
 
+		// 新たなサウンドハンドルを設定し、再生する
+		void changeSoundHandle(unsigned int soundHandle);
+
+		// 新たなサウンドIDを設定し、再生する（列挙型を含む整数型のidが渡された場合のみビルド可で、関数内で対応するリソースハンドルに変換される）
+		template<class IdType, is_idType<IdType> = nullptr>
+		void changeSoundId(IdType soundId) { return changeSoundIdImpl(static_cast<int>(soundId)); }
+
 	public:
 
 		void start();
@@ -33,9 +41,18 @@ namespace tktk
 
 	private:
 
+		void changeSoundIdImpl(int soundId);
+
+	private:
+
 		unsigned int	m_soundHandle;
 		bool			m_isLoop;
 		bool			m_startToPlay;
+
+	public: /* 不正な型の引数が渡されそうになった時にコンパイルエラーにする為の仕組み */
+
+		template<class IdType, is_not_idType<IdType> = nullptr>
+		void changeSoundId(IdType soundId) { static_assert(false, "SoundId Fraud Type"); }
 	};
 }
 #endif // !SOUND_PLAYER_H_

@@ -27,7 +27,7 @@ namespace tktk
 	public:
 
 		// サウンドハンドルの設定
-		SoundPlayerMaker& soundHandle(unsigned  value);
+		SoundPlayerMaker& soundHandle(unsigned int soundHandle);
 
 		// サウンドIDの設定（列挙型を含む整数型のidが渡された場合のみビルド可で、関数内で対応するリソースハンドルに変換される）
 		template<class IdType, is_idType<IdType> = nullptr>

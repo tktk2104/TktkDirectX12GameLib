@@ -3,11 +3,11 @@
 
 namespace tktk
 {
-	enum SoundPlayState
+	struct SoundPlayState
 	{
-		SOUND_PLAY_STATE_PLAYING	= 1 << 0,
-		SOUND_PLAY_STATE_PAUSE		= 1 << 1,
-		SOUND_PLAY_STATE_LOOP		= 1 << 2
+		static constexpr unsigned int Playing	= 1 << 0;
+		static constexpr unsigned int Pause		= 1 << 1;
+		static constexpr unsigned int Loop		= 1 << 2;
 	};
 }
 #endif // !SOUND_PLAY_STATE_H_

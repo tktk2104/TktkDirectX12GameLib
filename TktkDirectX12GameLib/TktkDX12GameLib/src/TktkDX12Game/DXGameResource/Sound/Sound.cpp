@@ -69,10 +69,7 @@ namespace tktk
 
 	void Sound::play(unsigned int handle, bool loopPlay)
 	{
-		if (!m_assets.getMatchHandlePtr(handle)->isPlaySound())
-		{
-			m_assets.getMatchHandlePtr(handle)->playSound(loopPlay);
-		}
+		m_assets.getMatchHandlePtr(handle)->playSound(loopPlay);
 	}
 
 	void Sound::stop(unsigned int handle)
