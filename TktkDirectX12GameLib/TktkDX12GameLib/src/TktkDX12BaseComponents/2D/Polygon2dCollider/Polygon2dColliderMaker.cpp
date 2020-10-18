@@ -22,7 +22,7 @@ namespace tktk
 		return m_user->createComponent<Polygon2dCollider>(
 			m_collisionGroupType,
 			m_vertexs,
-			m_localPosition
+			m_extrudedRate
 			);
 	}
 
@@ -33,10 +33,10 @@ namespace tktk
 		return *this;
 	}
 
-	Polygon2dColliderMaker& Polygon2dColliderMaker::localPosition(const tktkMath::Vector2& value)
+	Polygon2dColliderMaker& Polygon2dColliderMaker::extrudedRate(float value)
 	{
 		// ’l‚ğİ’è‚µ‚Ä©g‚ÌQÆ‚ğ•Ô‚·
-		m_localPosition = value;
+		m_extrudedRate = value;
 		return *this;
 	}
 

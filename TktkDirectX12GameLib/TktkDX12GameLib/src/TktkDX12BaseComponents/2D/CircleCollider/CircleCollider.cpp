@@ -9,10 +9,12 @@ namespace tktk
 	CircleCollider::CircleCollider(
 		int collisionGroupType,
 		float radius,
-		const tktkMath::Vector2 & localPosition
+		const tktkMath::Vector2 & localPosition,
+		float extrudedRate
 	)
 		: ComponentBase(0.0f, collisionGroupType)
 		, m_boundingCircle(radius, localPosition)
+		, m_extrudedRate(extrudedRate)
 	{
 	}
 
@@ -26,43 +28,86 @@ namespace tktk
 		}
 	}
 
-	void CircleCollider::update()
-	{
-		m_boundingCircle.transform(m_transform2D->calculateWorldMatrix());
-	}
-
 	bool CircleCollider::isCollide(const ComponentBasePtr& other)
 	{
+		// 衝突相手のコンポーネントが「RectCollider」だったら
 		if (other.canCast<RectCollider>())
 		{
+			// 円と二次元ポリゴンの衝突判定を呼ぶ
 			auto otherCollider = other.castPtr<RectCollider>();
+			auto hitInfo = m_boundingCircle.isCollide(otherCollider->getBoundingPolygon2d(), m_transform2D->calculateWorldMatrix(), otherCollider->getTransform()->calculateWorldMatrix());
 
-			return m_boundingCircle.isCollide(otherCollider->getBodyBase(), &m_hitInfo);
+			// 衝突相手情報と衝突結果をリストに追加する
+			m_hitInfo2dPairList.push_front({ other->getGameObject(), otherCollider->getExtrudedRate(), hitInfo });
+			return hitInfo.isHit;
 		}
 
+		// 衝突相手のコンポーネントが「CircleCollider」だったら
 		if (other.canCast<CircleCollider>())
 		{
+			// 円と円で衝突判定を呼ぶ
 			auto otherCollider = other.castPtr<CircleCollider>();
+			auto hitInfo = m_boundingCircle.isCollide(otherCollider->getBoundingCircle(), m_transform2D->calculateWorldMatrix(), otherCollider->getTransform()->calculateWorldMatrix());
 
-			return m_boundingCircle.isCollide(otherCollider->getBodyBase(), &m_hitInfo);
+			// 衝突相手情報と衝突結果をリストに追加する
+			m_hitInfo2dPairList.push_front({ other->getGameObject(), otherCollider->getExtrudedRate(), hitInfo });
+			return hitInfo.isHit;
 		}
 
+		// 衝突相手のコンポーネントが「Polygon2dCollider」だったら
 		if (other.canCast<Polygon2dCollider>())
 		{
+			// 円と二次元ポリゴンの衝突判定を呼ぶ
 			auto otherCollider = other.castPtr<Polygon2dCollider>();
+			auto hitInfo = m_boundingCircle.isCollide(otherCollider->getBoundingPolygon2d(), m_transform2D->calculateWorldMatrix(), otherCollider->getTransform()->calculateWorldMatrix());
 
-			return m_boundingCircle.isCollide(otherCollider->getBodyBase(), &m_hitInfo);
+			// 衝突相手情報と衝突結果をリストに追加する
+			m_hitInfo2dPairList.push_front({ other->getGameObject(), otherCollider->getExtrudedRate(), hitInfo });
+			return hitInfo.isHit;
 		}
 		return false;
 	}
 
-	const tktkCollision::Body2dBase & CircleCollider::getBodyBase() const
+	void CircleCollider::afterCollide()
+	{
+		extrusion();
+
+		m_hitInfo2dPairList.clear();
+	}
+
+	const tktkCollision::BoundingCircle& CircleCollider::getBoundingCircle() const
 	{
 		return m_boundingCircle;
 	}
 
-	const tktkCollision::HitInfo2D & CircleCollider::getHitInfo2D() const
+	float CircleCollider::getExtrudedRate() const
 	{
-		return m_hitInfo;
+		return m_extrudedRate;
+	}
+
+	const ComponentPtr<Transform2D>& CircleCollider::getTransform() const
+	{
+		return m_transform2D;
+	}
+
+	void CircleCollider::extrusion()
+	{
+		for (const auto& node : m_hitInfo2dPairList)
+		{
+			// 押し出されやすさの合計を求める
+			float sumExtrudedRate = m_extrudedRate + node.otherExtrudedRate;
+
+			// ゼロで割ろうとしたら緊急回避
+			if (sumExtrudedRate == 0.0f) continue;
+
+			// 自身の押し出し処理を行う
+			m_transform2D->addWorldPosition(node.hitInfo.selfExtrudeVec * (m_extrudedRate / sumExtrudedRate));
+
+			// 相手の座標管理コンポーネントを取得
+			auto otherTransform = node.otherObject->getComponent<tktk::Transform2D>();
+
+			// 相手の押し出し処理を行う
+			otherTransform->addWorldPosition(-node.hitInfo.selfExtrudeVec * (node.otherExtrudedRate / sumExtrudedRate));
+		}
 	}
 }

@@ -32,8 +32,8 @@ namespace tktk
 		// 当たり判定の大きさを設定
 		Polygon2dColliderMaker& vertexs(const std::vector<tktkMath::Vector2>& value);
 
-		// 当たり判定のローカル座標を設定
-		Polygon2dColliderMaker& localPosition(const tktkMath::Vector2& value);
+		// 押し出されやすさを設定（割合）
+		Polygon2dColliderMaker& extrudedRate(float value);
 
 	private: /* 裏実装 */
 
@@ -50,7 +50,7 @@ namespace tktk
 		GameObjectPtr					m_user					{ };
 		int								m_collisionGroupType	{ 0 };
 		std::vector<tktkMath::Vector2>	m_vertexs				{};
-		tktkMath::Vector2				m_localPosition			{ tktkMath::Vector2_v::zero };
+		float							m_extrudedRate			{ 0.0f };
 	};
 }
 #endif // !POLYGON_2D_COLLIDER_MAKER_H_

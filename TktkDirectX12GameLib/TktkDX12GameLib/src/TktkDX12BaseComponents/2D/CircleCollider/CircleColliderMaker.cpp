@@ -22,7 +22,8 @@ namespace tktk
 		return m_user->createComponent<CircleCollider>(
 			m_collisionGroupType,
 			m_radius,
-			m_localPosition
+			m_localPosition,
+			m_extrudedRate
 			);
 	}
 
@@ -37,6 +38,13 @@ namespace tktk
 	{
 		// 値を設定して自身の参照を返す
 		m_localPosition = value;
+		return *this;
+	}
+
+	CircleColliderMaker& CircleColliderMaker::extrudedRate(float value)
+	{
+		// 値を設定して自身の参照を返す
+		m_extrudedRate = value;
 		return *this;
 	}
 

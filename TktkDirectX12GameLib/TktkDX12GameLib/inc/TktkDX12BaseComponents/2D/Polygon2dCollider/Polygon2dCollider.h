@@ -1,8 +1,9 @@
 #ifndef POLYGON_2D_COLLIDER_H_
 #define POLYGON_2D_COLLIDER_H_
 
+#include <forward_list>
 #include <TktkMath/Structs/Vector2.h>
-#include <TktkCollision/2D/BoundingPolygon2d.h>
+#include <TktkCollision/2D/BoundingPolygon2D.h>
 #include "../../../TktkDX12Game/Component/ComponentBase.h"
 #include "../Transform2D/Transform2D.h"
 
@@ -18,34 +19,56 @@ namespace tktk
 		Polygon2dCollider(
 			int collisionGroupType,							// 当たり判定のグループ番号
 			const std::vector<tktkMath::Vector2>& vertexs,	// 当たり判定を構成する頂点の座標（時計回り）
-			const tktkMath::Vector2& localPosition			// 当たり判定のローカル座標
+			float extrudedRate								// 押し出されやすさ（割合）
 		);
 
 	public:
 
 		// <PolymorphismFunc>
 		void start();
-		void update();
 		bool isCollide(const ComponentBasePtr& other);
+		void afterCollide();
 
 	public:
 
 		// 当たり判定のクラスを取得
-		const tktkCollision::Body2dBase& getBodyBase() const;
+		const tktkCollision::BoundingPolygon2d& getBoundingPolygon2d() const;
 
-		// 直前の衝突判定の結果を取得
-		const tktkCollision::HitInfo2D& getHitInfo2D() const;
+		// 押し出されやすさを取得
+		float getExtrudedRate() const;
+
+		// 座標管理コンポーネントを取得
+		const ComponentPtr<Transform2D>& getTransform() const;
 
 	private:
 
-		// 衝突判定結果
-		tktkCollision::HitInfo2D m_hitInfo;
+		// 自身の押し出し処理
+		void extrusion();
+
+	private:
+
+		struct HitInfo
+		{
+			GameObjectPtr				otherObject;
+
+			float						otherExtrudedRate;
+
+			tktkCollision::HitInfo2D	hitInfo;
+		};
+
+	private:
 
 		// ２次元ポリゴンの衝突判定クラス
-		tktkCollision::BoundingPolygon2d m_boundingPolygon2d;
+		tktkCollision::BoundingPolygon2d	m_boundingPolygon2d;
+
+		// 押し出されやすさ（割合）
+		float								m_extrudedRate;
+
+		// 衝突相手と衝突結果を保持するリスト
+		std::forward_list<HitInfo>			m_hitInfo2dPairList;
 
 		// 自身の２次元座標コンポーネント
-		ComponentPtr<Transform2D> m_transform2D;
+		ComponentPtr<Transform2D>			m_transform2D;
 	};
 }
 #endif // !POLYGON_2D_COLLIDER_H_

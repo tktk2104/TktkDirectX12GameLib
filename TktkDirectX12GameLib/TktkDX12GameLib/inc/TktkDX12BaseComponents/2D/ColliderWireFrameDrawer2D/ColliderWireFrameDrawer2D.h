@@ -26,6 +26,13 @@ namespace tktk
 
 	private:
 
+		// 各衝突判定コンポーネント毎に二次元線描画コンポーネントを作る
+		void createCircleColliderWireFrameDrawer();
+		void createRectColliderWireFrameDrawer();
+		void createPolygon2dColliderWireFrameDrawer();
+
+	private:
+
 		float m_drawPriority;
 		tktkMath::Color m_lineColor;
 		std::vector<tktk::ComponentPtr<Line2DDrawer>> m_wireFrameDrawerArray;

@@ -35,6 +35,9 @@ namespace tktk
 		// 当たり判定のローカル座標を設定
 		RectColliderMaker& localPosition(const tktkMath::Vector2& value);
 
+		// 押し出されやすさを設定（割合）
+		RectColliderMaker& extrudedRate(float value);
+
 	private: /* 裏実装 */
 
 		RectColliderMaker& collisionGroupTypeImpl(int value);
@@ -51,6 +54,7 @@ namespace tktk
 		int					m_collisionGroupType{ 0 };
 		tktkMath::Vector2	m_rectSize			{ tktkMath::Vector2_v::one };
 		tktkMath::Vector2	m_localPosition		{ tktkMath::Vector2_v::zero };
+		float				m_extrudedRate		{ 0.0f };
 	};
 }
 #endif // !RECT_COLLIDER_MAKER_H_

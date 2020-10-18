@@ -1,51 +1,20 @@
 #include "TktkCollision/2D/BoundingCircle.h"
 
-#include "TktkCollision/2D/Body2dBase/CollisionSupport2D.h"
-
 namespace tktkCollision
 {
-	BoundingCircle::BoundingCircle(
-		float radius,
-		const tktkMath::Vector2& localPosition
-	)
-		: Body2dBase(
-			ShapeType2D::Circle,
-			tktkMath::Matrix3::createTranslation(localPosition)
-		)
-		, m_radius(radius)
+	BoundingCircle::BoundingCircle(float radius, const tktkMath::Vector2& centerPosition)
+		: m_radius(radius)
+		, m_centerPosition(centerPosition)
 	{
 	}
 
-	bool BoundingCircle::isCollide(const Body2dBase& other, HitInfo2D* hitinfo) const
+	float BoundingCircle::getRadius() const
 	{
-		switch (other.getShapeType())
-		{
-		case ShapeType2D::Circle:
-
-			return CollisionSupport2D::collideCircleToCircle(*this, other, hitinfo);
-
-		case ShapeType2D::Rect:
-
-			return CollisionSupport2D::collideCircleToRect(*this, other, hitinfo);
-
-		case ShapeType2D::Polygon:
-
-			return CollisionSupport2D::collideCircleToPolygon(*this, other, hitinfo);
-		}
-		return false;
+		return m_radius;
 	}
 
-	float BoundingCircle::calculateRadius() const
+	const tktkMath::Vector2& BoundingCircle::getCenterPosition() const
 	{
-		tktkMath::Matrix3 worldRadius = tktkMath::Matrix3::createScale(tktkMath::Vector2(m_radius, m_radius)) * calculatePose();
-
-		return worldRadius.calculateScale().x;
-	}
-
-	float BoundingCircle::calculateLocalRadius() const
-	{
-		tktkMath::Matrix3 localRadius = tktkMath::Matrix3::createScale(tktkMath::Vector2(m_radius, m_radius)) * getLocalMatrix();
-
-		return localRadius.calculateScale().x;
+		return m_centerPosition;
 	}
 }
