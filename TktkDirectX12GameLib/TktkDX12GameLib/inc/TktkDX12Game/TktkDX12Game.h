@@ -55,6 +55,10 @@ namespace tktk
 		template <class GameObjectTagType>
 		static std::forward_list<GameObjectPtr> findGameObjectsWithTag(GameObjectTagType tag);
 
+		// 引数のタグを持ったゲームオブジェクトを全て削除する
+		template<class GameObjectTagType>
+		void destroyGameObjectsWithTag(GameObjectTagType tag) { destroyGameObjectsWithTagImpl(static_cast<int>(tag)); }
+
 	//************************************************************
 	/* マウス入力関係の処理 */
 	public:
@@ -137,6 +141,7 @@ namespace tktk
 		static void sendMessageAllImpl(unsigned int messageId, const MessageAttachment& value);
 		static GameObjectPtr findGameObjectWithTagImpl(int tag);
 		static std::forward_list<GameObjectPtr> findGameObjectsWithTagImpl(int tag);
+		static void destroyGameObjectsWithTagImpl(int tag);
 	};
 //┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 //┃ここから下は関数の実装

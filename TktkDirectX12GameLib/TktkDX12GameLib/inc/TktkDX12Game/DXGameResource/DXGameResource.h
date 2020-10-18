@@ -33,6 +33,9 @@ namespace tktk
 		// シーンを作り、そのリソースのハンドルを返す
 		unsigned int createScene(const std::shared_ptr<SceneBase>& scenePtr, SceneVTable* vtablePtr);
 
+		// シーンの終了時に削除するゲームオブジェクトタグを設定する
+		void setSceneEndDestroyGameObjectTag(unsigned int handle, int tag);
+
 		// シーンを有効にする
 		void enableScene(unsigned int handle);
 

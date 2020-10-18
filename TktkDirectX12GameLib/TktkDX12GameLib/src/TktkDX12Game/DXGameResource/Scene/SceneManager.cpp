@@ -12,6 +12,11 @@ namespace tktk
 		return m_sceneArray.create(scenePtr, vtablePtr);
 	}
 
+	void SceneManager::setSceneEndDestroyGameObjectTag(unsigned int handle, int tag)
+	{
+		m_sceneArray.getMatchHandlePtr(handle)->setSceneEndDestroyGameObjectTag(tag);
+	}
+
 	void SceneManager::enable(unsigned int handle)
 	{
 		m_sceneArray.getMatchHandlePtr(handle)->enable();

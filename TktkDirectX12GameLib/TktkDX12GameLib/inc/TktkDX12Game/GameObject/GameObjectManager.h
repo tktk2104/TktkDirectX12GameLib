@@ -42,6 +42,9 @@ namespace tktk
 		// 引数のタグを持ったゲームオブジェクトを全て取得する
 		std::forward_list<GameObjectPtr> findGameObjectsWithTag(int tag) const;
 
+		// 引数のタグを持ったゲームオブジェクトを全て削除する
+		void destroyGameObjectsWithTag(int tag);
+
 	private:
 
 		std::forward_list<std::shared_ptr<GameObject>> m_gameObjectList;

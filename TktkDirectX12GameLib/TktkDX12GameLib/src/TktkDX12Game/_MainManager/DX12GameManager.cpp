@@ -1086,6 +1086,11 @@ namespace tktk
 		return m_gameObjectManager->findGameObjectsWithTag(tag);
 	}
 
+	void DX12GameManager::destroyGameObjectsWithTagImpl(int tag)
+	{
+		m_gameObjectManager->destroyGameObjectsWithTag(tag);
+	}
+
 	void DX12GameManager::addCollisionGroupImpl(int firstGroup, int secondGroup)
 	{
 		m_componentManager->addCollisionGroup(firstGroup, secondGroup);
@@ -1109,6 +1114,11 @@ namespace tktk
 	unsigned int DX12GameManager::createSceneImpl(const std::shared_ptr<SceneBase>& scenePtr, SceneVTable* vtablePtr)
 	{
 		return m_dxGameResource->createScene(scenePtr, vtablePtr);
+	}
+
+	void DX12GameManager::setSceneEndDestroyGameObjectTagImpl(unsigned int handle, int tag)
+	{
+		return m_dxGameResource->setSceneEndDestroyGameObjectTag(handle, tag);
 	}
 
 	void DX12GameManager::updateCopyBufferImpl(unsigned int handle, unsigned int bufferSize, const void* bufferDataTopPos)

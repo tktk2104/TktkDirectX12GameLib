@@ -65,6 +65,10 @@ namespace tktk
 		template<class SceneType, class IdType, class... Args>
 		static unsigned int addSceneAndAttachId(IdType id, Args&&... constructorArgs);
 
+		// シーンの終了時に削除するゲームオブジェクトタグを設定する
+		template<class SceneIdType, class ObjectTagType>
+		static void setSceneEndDestroyGameObjectTag(SceneIdType id, ObjectTagType tag) { setSceneEndDestroyGameObjectTagImpl(getSceneHandle(id), static_cast<int>(tag)); }
+
 		// シーンを有効にする
 		static void enableScene(unsigned int handle);
 
@@ -90,6 +94,10 @@ namespace tktk
 		// 引数のタグを持ったゲームオブジェクトを全て取得する
 		template<class TagType>
 		static std::forward_list<GameObjectPtr> findGameObjectsWithTag(TagType tag) { return findGameObjectsWithTagImpl(static_cast<int>(tag)); };
+
+		// 引数のタグを持ったゲームオブジェクトを全て削除する
+		template<class TagType>
+		static void destroyGameObjectsWithTag(TagType tag) { destroyGameObjectsWithTagImpl(static_cast<int>(tag)); };
 
 	//************************************************************
 	/* コンポーネントの処理 */
@@ -776,12 +784,14 @@ namespace tktk
 
 		static GameObjectPtr findGameObjectWithTagImpl(int tag);
 		static std::forward_list<GameObjectPtr> findGameObjectsWithTagImpl(int tag);
+		static void destroyGameObjectsWithTagImpl(int tag);
 		static void addCollisionGroupImpl(int firstGroup, int secondGroup);
 
 		static unsigned int createCopyBufferImpl(const CopyBufferInitParam& initParam);
 		static unsigned int createVertexBufferImpl(unsigned int vertexTypeSize, unsigned int vertexDataCount, const void* vertexDataTopPos);
 		static unsigned int createCbufferImpl(unsigned int constantBufferTypeSize, const void* constantBufferDataTopPos);
 		static unsigned int createSceneImpl(const std::shared_ptr<SceneBase>& scenePtr, SceneVTable* vtablePtr);
+		static void setSceneEndDestroyGameObjectTagImpl(unsigned int handle, int tag);
 		static void updateCopyBufferImpl(unsigned int handle, unsigned int bufferSize, const void* bufferDataTopPos);
 		static void addMaterialAppendParamImpl(unsigned int handle, unsigned int cbufferHandle, unsigned int dataSize, void* dataTopPos);
 		static void updateMaterialAppendParamImpl(unsigned int handle, unsigned int cbufferHandle, unsigned int dataSize, const void* dataTopPos);

@@ -133,4 +133,9 @@ namespace tktk
 	{
 		return DX12GameManager::findGameObjectsWithTag(tag);
 	}
+
+	void DX12Game::destroyGameObjectsWithTagImpl(int tag)
+	{
+		DX12GameManager::destroyGameObjectsWithTag(tag);
+	}
 }

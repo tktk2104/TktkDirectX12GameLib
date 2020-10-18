@@ -37,6 +37,11 @@ namespace tktk
 		return m_sceneManager->create(scenePtr, vtablePtr);
 	}
 
+	void DXGameResource::setSceneEndDestroyGameObjectTag(unsigned int handle, int tag)
+	{
+		m_sceneManager->setSceneEndDestroyGameObjectTag(handle, tag);
+	}
+
 	void DXGameResource::enableScene(unsigned int handle)
 	{
 		m_sceneManager->enable(handle);

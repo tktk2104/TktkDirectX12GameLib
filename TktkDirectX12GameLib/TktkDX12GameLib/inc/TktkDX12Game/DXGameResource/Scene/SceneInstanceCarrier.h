@@ -18,6 +18,9 @@ namespace tktk
 
 	public:
 
+		// シーンの終了時に削除するゲームオブジェクトタグを設定する
+		void setSceneEndDestroyGameObjectTag(int tag);
+
 		// シーンを有効にする
 		void enable();
 
@@ -35,6 +38,7 @@ namespace tktk
 		bool						m_isActive					{ false };
 		bool						m_nextFrameIsActive			{ false };
 		bool						m_runAfterChangeActiveFunc	{ false };
+		std::unique_ptr<int>		m_destroyGameObjectTag		{ nullptr };
 		std::shared_ptr<SceneBase>	m_scenePtr					{ nullptr };
 		SceneVTable*				m_vtablePtr					{ nullptr };
 	};

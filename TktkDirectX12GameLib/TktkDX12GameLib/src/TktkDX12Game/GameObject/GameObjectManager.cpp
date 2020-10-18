@@ -55,11 +55,21 @@ namespace tktk
 
 		for (const auto& node : m_gameObjectList)
 		{
-			if (node->containGameobjectTag(tag))
-			{
-				result.push_front(GameObjectPtr(node));
-			}
+			if (node->containGameobjectTag(tag)) result.push_front(GameObjectPtr(node));
 		}
 		return result;
+	}
+
+	void GameObjectManager::destroyGameObjectsWithTag(int tag)
+	{
+		for (const auto& node : m_newGameObjectList)
+		{
+			if (node->containGameobjectTag(tag)) node->destroy();
+		}
+
+		for (const auto& node : m_gameObjectList)
+		{
+			if (node->containGameobjectTag(tag)) node->destroy();
+		}
 	}
 }
