@@ -7,7 +7,6 @@
 #include "2D/CircleCollider/CircleColliderMaker.h"
 #include "2D/Polygon2dCollider/Polygon2dColliderMaker.h"
 #include "2D/RectCollider/RectColliderMaker.h"
-#include "2D/RectColliderExtrusion/RectColliderExtrusionMaker.h"
 #include "2D/ColliderWireFrameDrawer2D/ColliderWireFrameDrawer2DMaker.h"
 #include "2D/Line2dDrawer/Line2DDrawerMaker.h"
 #include "2D/SpriteDrawer/SpriteDrawerMaker.h"
@@ -66,9 +65,6 @@ namespace tktk
 
 		// 四角形の当たり判定コンポーネント
 		using C06 = RectCollider;
-
-		// 「RectCollider」の衝突時押し出しコンポーネント
-		using C07 = RectColliderExtrusion;
 
 		// ２次元衝突判定の境界を線描画するコンポーネント
 		using C08 = ColliderWireFrameDrawer2D;
