@@ -178,8 +178,6 @@
     <ClInclude Include="inc\TktkDX12BaseComponents\2D\Line2dDrawer\Line2DDrawerMaker.h" />
     <ClInclude Include="inc\TktkDX12BaseComponents\2D\Polygon2dCollider\Polygon2dCollider.h" />
     <ClInclude Include="inc\TktkDX12BaseComponents\2D\Polygon2dCollider\Polygon2dColliderMaker.h" />
-    <ClInclude Include="inc\TktkDX12BaseComponents\2D\RectColliderExtrusion\RectColliderExtrusion.h" />
-    <ClInclude Include="inc\TktkDX12BaseComponents\2D\RectColliderExtrusion\RectColliderExtrusionMaker.h" />
     <ClInclude Include="inc\TktkDX12BaseComponents\2D\RectCollider\RectCollider.h" />
     <ClInclude Include="inc\TktkDX12BaseComponents\2D\RectCollider\RectColliderMaker.h" />
     <ClInclude Include="inc\TktkDX12BaseComponents\2D\SpriteDrawer\SpriteClippingDrawer.h" />
@@ -378,8 +376,6 @@
     <ClCompile Include="src\TktkDX12BaseComponents\2D\Line2dDrawer\Line2DDrawerMaker.cpp" />
     <ClCompile Include="src\TktkDX12BaseComponents\2D\Polygon2dCollider\Polygon2dCollider.cpp" />
     <ClCompile Include="src\TktkDX12BaseComponents\2D\Polygon2dCollider\Polygon2dColliderMaker.cpp" />
-    <ClCompile Include="src\TktkDX12BaseComponents\2D\RectColliderExtrusion\RectColliderExtrusion.cpp" />
-    <ClCompile Include="src\TktkDX12BaseComponents\2D\RectColliderExtrusion\RectColliderExtrusionMaker.cpp" />
     <ClCompile Include="src\TktkDX12BaseComponents\2D\RectCollider\RectCollider.cpp" />
     <ClCompile Include="src\TktkDX12BaseComponents\2D\RectCollider\RectColliderMaker.cpp" />
     <ClCompile Include="src\TktkDX12BaseComponents\2D\SpriteDrawer\SpriteClippingDrawer.cpp" />

@@ -327,12 +327,6 @@
     <ClInclude Include="inc\TktkDX12BaseComponents\2D\RectCollider\RectColliderMaker.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="inc\TktkDX12BaseComponents\2D\RectColliderExtrusion\RectColliderExtrusion.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\TktkDX12BaseComponents\2D\RectColliderExtrusion\RectColliderExtrusionMaker.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="inc\TktkDX12BaseComponents\3D\InertialMovement3D\InertialMovement3D.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -837,12 +831,6 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="src\TktkDX12BaseComponents\2D\RectCollider\RectColliderMaker.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\TktkDX12BaseComponents\2D\RectColliderExtrusion\RectColliderExtrusion.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\TktkDX12BaseComponents\2D\RectColliderExtrusion\RectColliderExtrusionMaker.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="src\TktkDX12BaseComponents\3D\BoxCollider\BoxCollider.cpp">
