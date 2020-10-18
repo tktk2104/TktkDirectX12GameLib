@@ -8,6 +8,8 @@
 
 #include <TktkDX12BaseComponents/3D/Camera/OrthographicCameraControllerMaker.h>
 
+#include <TktkDX12BaseComponents/Components.h>
+
 struct CameraObject
 {
 	static tktk::GameObjectPtr create(const tktkMath::Vector3& position)
@@ -27,6 +29,16 @@ struct CameraObject
 		tktk::BasicCameraControllerMaker::makeStart(gameObject)
 			.initCameraFov(90.0f)
 			.create();
+
+		tktk::OrthographicCameraControllerMaker::makeStart(gameObject)
+			.initCameraWidth(100.0f)
+			.initCameraHeight(100.0f)
+			.initCameraHandle(tktk::DX12GameManager::getSystemHandle(tktk::SystemCameraType::DefaultShadowMapCamera))
+			.create();
+
+		/*tktk::PointLightControllerMaker::makeStart(gameObject)
+			.initDiffuse(tktkMath::Color_v::green)
+			.create();*/
 
 		return gameObject;
 	}

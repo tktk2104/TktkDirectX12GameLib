@@ -27,6 +27,10 @@ struct PointLightObject
 			.create();
 
 		tktk::PointLightControllerMaker::makeStart(gameObject)
+			.initAmbient({ 0.5f, 1.0f })
+			/*.initAmbient(tktkMath::Color_v::black)
+			.initSpeqular(tktkMath::Color_v::white)
+			.initDiffuse(tktkMath::Color_v::white)*/
 			.create();
 
 		return gameObject;

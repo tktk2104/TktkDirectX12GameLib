@@ -32,7 +32,7 @@ void MikuScript::update()
 		m_transform->lookAt(camera->getComponent<tktk::Transform3D>());
 	}
 
-	m_transform->addWorldEulerAngles({ 0.0f, 1.0f, 0.0f });
+	//m_transform->addWorldEulerAngles({ 0.0f, 1.0f, 0.0f });
 
 	/*if (tktk::DX12GameManager::isTrigger(tktk::KeybordKeyType::key_Space))
 	{

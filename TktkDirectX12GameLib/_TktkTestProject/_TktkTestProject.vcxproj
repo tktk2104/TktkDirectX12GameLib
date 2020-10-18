@@ -157,9 +157,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\GameObject\Collide3DTest\Collide3DTestScript.cpp" />
-    <ClCompile Include="src\GameObject\CollideTest\CollideTestScript.cpp" />
+    <ClCompile Include="src\GameObject\CollideTest\2D\CircleColliderTest\CircleColliderTest.cpp" />
+    <ClCompile Include="src\GameObject\CollideTest\2D\CircleColliderTest\CircleColliderTestScript.cpp" />
+    <ClCompile Include="src\GameObject\CollideTest\2D\RectColliderTest\RectColliderTest.cpp" />
+    <ClCompile Include="src\GameObject\CollideTest\2D\RectColliderTest\RectColliderTestScript.cpp" />
     <ClCompile Include="src\GameObject\Cursor\CursorScript.cpp" />
     <ClCompile Include="src\GameObject\Miku\MikuScript.cpp" />
+    <ClCompile Include="src\GameObject\SoundTest\SoundTestScript.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\ResourceHandleCarrier\ResourceHandleCarrier.cpp" />
     <ClCompile Include="src\Scene\LoadingScene.cpp" />
@@ -193,8 +197,10 @@
     <ClInclude Include="src\GameObject\Camera\CameraObject.h" />
     <ClInclude Include="src\GameObject\Collide3DTest\Collide3DTest.h" />
     <ClInclude Include="src\GameObject\Collide3DTest\Collide3DTestScript.h" />
-    <ClInclude Include="src\GameObject\CollideTest\CollideTest.h" />
-    <ClInclude Include="src\GameObject\CollideTest\CollideTestScript.h" />
+    <ClInclude Include="src\GameObject\CollideTest\2D\CircleColliderTest\CircleColliderTest.h" />
+    <ClInclude Include="src\GameObject\CollideTest\2D\CircleColliderTest\CircleColliderTestScript.h" />
+    <ClInclude Include="src\GameObject\CollideTest\2D\RectColliderTest\RectColliderTest.h" />
+    <ClInclude Include="src\GameObject\CollideTest\2D\RectColliderTest\RectColliderTestScript.h" />
     <ClInclude Include="src\GameObject\Cursor\Cursor.h" />
     <ClInclude Include="src\GameObject\Cursor\CursorScript.h" />
     <ClInclude Include="src\GameObject\GameObjectTag.h" />
@@ -203,6 +209,8 @@
     <ClInclude Include="src\GameObject\Miku\Miku.h" />
     <ClInclude Include="src\GameObject\Miku\MikuScript.h" />
     <ClInclude Include="src\GameObject\PostEffectObject\PostEffectObject.h" />
+    <ClInclude Include="src\GameObject\SoundTest\SoundTest.h" />
+    <ClInclude Include="src\GameObject\SoundTest\SoundTestScript.h" />
     <ClInclude Include="src\GameObject\SphereTest\SphereTest.h" />
     <ClInclude Include="src\ResourceHandleCarrier\ResourceHandleCarrier.h" />
     <ClInclude Include="src\Scene\LoadingScene.h" />

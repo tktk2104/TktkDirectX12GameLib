@@ -85,7 +85,7 @@ void LoadingScene::start()
 
 	// サウンドをロードする
 	{
-		tktk::DX12GameManager::loadSoundAndAttachId(SoundId::TestSe, "res/Sound/damage.wav");
+		tktk::DX12GameManager::loadSoundAndAttachId(SoundId::TestSe, "res/Sound/PlayerShot.wav");//Fier damage PlayerShot
 		tktk::DX12GameManager::loadSoundAndAttachId(SoundId::TestBgm, "res/Sound/kendo.wav");
 	}
 
