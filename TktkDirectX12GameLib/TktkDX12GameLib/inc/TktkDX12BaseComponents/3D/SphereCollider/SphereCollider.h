@@ -16,33 +16,56 @@ namespace tktk
 	public:
 
 		SphereCollider(
-			int collisionGroupType,			// 当たり判定のグループ番号
-			float radius,					// 当たり判定の半径
-			const tktkMath::Vector3& localPosition	// 当たり判定のローカル座標
+			int collisionGroupType,					// 当たり判定のグループ番号
+			float radius,							// 当たり判定の半径
+			const tktkMath::Vector3& localPosition,	// 当たり判定のローカル座標
+			float extrudedRate						// 押し出されやすさ（割合）
 		);
 
 	public:
 
 		// <PolymorphismFunc>
 		void start();
-		void update();
 		bool isCollide(const ComponentBasePtr& other);
+		void afterCollide();
 
 	public:
 
 		// 当たり判定のクラスを取得
-		const tktkCollision::Body3dBase& getBodyBase() const;
+		const tktkCollision::BoundingSphere& getBoundingSphere() const;
 
-		// 直前の衝突判定の結果を取得
-		const tktkCollision::HitInfo3D& getHitInfo3D() const;
+		// 押し出されやすさを取得
+		float getExtrudedRate() const;
+
+		// 座標管理コンポーネントを取得
+		const ComponentPtr<Transform3D>& getTransform() const;
 
 	private:
 
-		// 衝突判定結果
-		tktkCollision::HitInfo3D m_hitInfo;
+		// 自身の押し出し処理
+		void extrusion();
+
+	private:
+
+		struct HitInfo
+		{
+			GameObjectPtr				otherObject;
+
+			float						otherExtrudedRate;
+
+			tktkCollision::HitInfo3D	hitInfo;
+		};
+
+	private:
 
 		// 球体の衝突判定クラス
 		tktkCollision::BoundingSphere m_boundingSphere;
+
+		// 押し出されやすさ（割合）
+		float						m_extrudedRate;
+
+		// 衝突相手と衝突結果を保持するリスト
+		std::forward_list<HitInfo>	m_hitInfo3dPairList;
 
 		// 自身の３次元座標コンポーネント
 		ComponentPtr<Transform3D> m_transform3D;

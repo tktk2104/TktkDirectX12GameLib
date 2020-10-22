@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <TktkMath/MathHelper.h>
 #include "TktkDX12BaseComponents/3D/SphereCollider/SphereCollider.h"
+#include "TktkDX12BaseComponents/3D/BoxCollider/BoxCollider.h"
 
 namespace tktk
 {
@@ -19,15 +20,37 @@ namespace tktk
 
 		for (const auto& sphereCollider : circleColliderList)
 		{
-			const tktkCollision::BoundingSphere& boundingCircle = static_cast<const tktkCollision::BoundingSphere&>(sphereCollider->getBodyBase());
-
-			m_wireFrameDrawerArray.push_back(
+			m_sphereMeshWireFrameDrawerArray.push_back(
 				getGameObject()->createComponent<SphereMeshWireFrameDrawer>(
 					m_drawPriority,
-					boundingCircle.calculateRadius(),
-					boundingCircle.getLocalMatrix().calculateTranslation(),
+					sphereCollider->getBoundingSphere().getRadius(),
+					sphereCollider->getBoundingSphere().getCenterPosition(),
 					m_lineColor,
 					m_useResourceHandles
+					)
+			);
+		}
+
+		auto boxColliderList = getComponents<BoxCollider>();
+
+		BoxMeshDrawerUseResourceHandles boxMeshDrawerUseResourceHandles{};
+		boxMeshDrawerUseResourceHandles.rtvDescriptorHeapHandle = m_useResourceHandles.rtvDescriptorHeapHandle;
+		boxMeshDrawerUseResourceHandles.cameraHandle = m_useResourceHandles.cameraHandle;
+		boxMeshDrawerUseResourceHandles.shadowMapCameraHandle = m_useResourceHandles.shadowMapCameraHandle;
+		boxMeshDrawerUseResourceHandles.lightHandle = m_useResourceHandles.lightHandle;
+
+
+		for (const auto& boxCollider : boxColliderList)
+		{
+			auto firstVert = boxCollider->getBoundingMesh().getVertexs().at(0U);
+
+			m_boxMeshWireFrameDrawerArray.push_back(
+				getGameObject()->createComponent<BoxMeshWireFrameDrawer>(
+					m_drawPriority,
+					tktkMath::Vector3{ firstVert.x * -2.0f, firstVert.y * -2.0f, firstVert.z * -2.0f },
+					tktkMath::Vector3_v::zero,
+					m_lineColor,
+					boxMeshDrawerUseResourceHandles
 					)
 			);
 		}
@@ -36,18 +59,30 @@ namespace tktk
 	void ColliderWireFrameDrawer3D::onEnable()
 	{
 		std::for_each(
-			std::begin(m_wireFrameDrawerArray),
-			std::end(m_wireFrameDrawerArray),
+			std::begin(m_sphereMeshWireFrameDrawerArray),
+			std::end(m_sphereMeshWireFrameDrawerArray),
 			[](const ComponentPtr<SphereMeshWireFrameDrawer>& wireFrameDrawer) { wireFrameDrawer->setActive(true); }
+		);
+
+		std::for_each(
+			std::begin(m_boxMeshWireFrameDrawerArray),
+			std::end(m_boxMeshWireFrameDrawerArray),
+			[](const ComponentPtr<BoxMeshWireFrameDrawer>& wireFrameDrawer) { wireFrameDrawer->setActive(true); }
 		);
 	}
 
 	void ColliderWireFrameDrawer3D::onDisable()
 	{
 		std::for_each(
-			std::begin(m_wireFrameDrawerArray),
-			std::end(m_wireFrameDrawerArray),
+			std::begin(m_sphereMeshWireFrameDrawerArray),
+			std::end(m_sphereMeshWireFrameDrawerArray),
 			[](const ComponentPtr<SphereMeshWireFrameDrawer>& wireFrameDrawer) { wireFrameDrawer->setActive(false); }
+		);
+
+		std::for_each(
+			std::begin(m_boxMeshWireFrameDrawerArray),
+			std::end(m_boxMeshWireFrameDrawerArray),
+			[](const ComponentPtr<BoxMeshWireFrameDrawer>& wireFrameDrawer) { wireFrameDrawer->setActive(true); }
 		);
 	}
 }

@@ -166,21 +166,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="inc\TktkCollision\2D\Body2dBase\Body2dBase.h" />
-    <ClInclude Include="inc\TktkCollision\2D\Body2dBase\Body2dPtr.h" />
-    <ClInclude Include="inc\TktkCollision\2D\Body2dBase\CollisionSupport2D.h" />
-    <ClInclude Include="inc\TktkCollision\2D\Body2dBase\HitInfo2D.h" />
-    <ClInclude Include="inc\TktkCollision\2D\Body2dBase\ShapeType2D.h" />
+    <ClInclude Include="inc\TktkCollision\2D\Body2DType.h" />
+    <ClInclude Include="inc\TktkCollision\2D\Body2DTypeChecker.h" />
     <ClInclude Include="inc\TktkCollision\2D\BoundingCircle.h" />
     <ClInclude Include="inc\TktkCollision\2D\BoundingPolygon2d.h" />
-    <ClInclude Include="inc\TktkCollision\2D\BoundingRect.h" />
-    <ClInclude Include="inc\TktkCollision\3D\AxisAlignedBoundingBox.h" />
-    <ClInclude Include="inc\TktkCollision\3D\Body3dBase\Body3dBase.h" />
-    <ClInclude Include="inc\TktkCollision\3D\Body3dBase\Body3dPtr.h" />
-    <ClInclude Include="inc\TktkCollision\3D\Body3dBase\CollisionSupport3D.h" />
-    <ClInclude Include="inc\TktkCollision\3D\Body3dBase\HitInfo3D.h" />
-    <ClInclude Include="inc\TktkCollision\3D\Body3dBase\ShapeType3D.h" />
+    <ClInclude Include="inc\TktkCollision\2D\CollisionSupport2D.h" />
+    <ClInclude Include="inc\TktkCollision\2D\HitInfo2D.h" />
+    <ClInclude Include="inc\TktkCollision\3D\Body3DType.h" />
+    <ClInclude Include="inc\TktkCollision\3D\Body3DTypeChecker.h" />
+    <ClInclude Include="inc\TktkCollision\3D\BoundingMesh.h" />
     <ClInclude Include="inc\TktkCollision\3D\BoundingSphere.h" />
+    <ClInclude Include="inc\TktkCollision\3D\CollisionSupport3D.h" />
+    <ClInclude Include="inc\TktkCollision\3D\HitInfo3D.h" />
     <ClInclude Include="inc\TktkMath\Random.h" />
     <ClInclude Include="inc\TktkMath\Structs\Color.h" />
     <ClInclude Include="inc\TktkMath\MathHelper.h" />
@@ -191,15 +188,12 @@
     <ClInclude Include="inc\TktkMath\Structs\Vector3.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\TktkCollision\2D\Body2dBase\Body2dBase.cpp" />
-    <ClCompile Include="src\TktkCollision\2D\Body2dBase\CollisionSupport2D.cpp" />
     <ClCompile Include="src\TktkCollision\2D\BoundingCircle.cpp" />
     <ClCompile Include="src\TktkCollision\2D\BoundingPolygon2d.cpp" />
-    <ClCompile Include="src\TktkCollision\2D\BoundingRect.cpp" />
-    <ClCompile Include="src\TktkCollision\3D\AxisAlignedBoundingBox.cpp" />
-    <ClCompile Include="src\TktkCollision\3D\Body3dBase\Body3dBase.cpp" />
-    <ClCompile Include="src\TktkCollision\3D\Body3dBase\CollisionSupport3D.cpp" />
+    <ClCompile Include="src\TktkCollision\2D\CollisionSupport2D.cpp" />
+    <ClCompile Include="src\TktkCollision\3D\BoundingMesh.cpp" />
     <ClCompile Include="src\TktkCollision\3D\BoundingSphere.cpp" />
+    <ClCompile Include="src\TktkCollision\3D\CollisionSupport3D.cpp" />
     <ClCompile Include="src\TktkMath\MathHelper.cpp" />
     <ClCompile Include="src\TktkMath\Random.cpp" />
     <ClCompile Include="src\TktkMath\Structs\Color.cpp" />

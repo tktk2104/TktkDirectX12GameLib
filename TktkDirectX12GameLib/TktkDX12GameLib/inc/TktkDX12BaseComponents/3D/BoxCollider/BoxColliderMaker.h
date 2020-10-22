@@ -35,6 +35,9 @@ namespace tktk
 		// 当たり判定のローカル座標を設定
 		BoxColliderMaker& localPosition(const tktkMath::Vector3& value);
 
+		// 押し出されやすさを設定（割合）
+		BoxColliderMaker& extrudedRate(float value);
+
 	private: /* 裏実装 */
 
 		BoxColliderMaker& collisionGroupTypeImpl(int value);
@@ -47,10 +50,11 @@ namespace tktk
 	private:
 
 		// 作成用変数達
-		GameObjectPtr		m_user				{ };
+		GameObjectPtr		m_user{ };
 		int					m_collisionGroupType{ 0 };
-		tktkMath::Vector3	m_boxSize			{ tktkMath::Vector3_v::one };
-		tktkMath::Vector3	m_localPosition		{ tktkMath::Vector3_v::zero };
+		tktkMath::Vector3	m_boxSize{ tktkMath::Vector3_v::one };
+		tktkMath::Vector3	m_localPosition{ tktkMath::Vector3_v::zero };
+		float				m_extrudedRate{ 0.0f };
 	};
 }
 #endif // !BOX_COLLIDER_MAKER_H_

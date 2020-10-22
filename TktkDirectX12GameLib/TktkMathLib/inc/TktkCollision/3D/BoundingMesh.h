@@ -1,18 +1,19 @@
-#ifndef BOUNDING_SPHERE_H_
-#define BOUNDING_SPHERE_H_
+#ifndef BOUNDING_MESH_H_
+#define BOUNDING_MESH_H_
 
+#include <vector>
+#include <TktkMath/Structs/Vector3.h>
+#include <TktkMath/Structs/Matrix4.h>
 #include "Body3DTypeChecker.h"
 #include "CollisionSupport3D.h"
 
 namespace tktkCollision
 {
-	// 球体
-	// ※ｙ、ｚのスケール値は無視される
-	class BoundingSphere
+	class BoundingMesh
 	{
 	public:
 
-		BoundingSphere(float radius, const tktkMath::Vector3& centerPosition);
+		explicit BoundingMesh(const std::vector<tktkMath::Vector3>& vertexs);
 
 	public:
 
@@ -26,24 +27,17 @@ namespace tktkCollision
 
 	public:
 
-		// 半径を取得
-		float getRadius() const;
-
-		// 中心座標を取得
-		const tktkMath::Vector3& getCenterPosition() const;
+		const std::vector<tktkMath::Vector3>& getVertexs() const;
 
 	public:
 
-		// このクラスが球体の衝突判定である事の証明
-		static constexpr Body3DType ShapeType{ Body3DType::Sphere };
+		// このクラスがメッシュの衝突判定である事の証明
+		static constexpr Body3DType ShapeType{ Body3DType::Mesh };
 
 	private:
 
-		// 球体の半径
-		float				m_radius;
-
-		// 球体の中心座標
-		tktkMath::Vector3	m_centerPosition;
+		// ポリゴンを構成する頂点
+		std::vector<tktkMath::Vector3> m_vertexs;
 	};
 //┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 //┃ここから下はテンプレート関数の実装
@@ -51,16 +45,16 @@ namespace tktkCollision
 
 	// 球体との衝突判定処理
 	template<class OtherBody3DType, is_BoundingSphere<OtherBody3DType>>
-	inline HitInfo3D BoundingSphere::isCollide(const OtherBody3DType& otherBody, const tktkMath::Matrix4& selfWorldMatrix, const tktkMath::Matrix4& otherWorldMatrix) const
+	inline HitInfo3D BoundingMesh::isCollide(const OtherBody3DType& otherBody, const tktkMath::Matrix4& selfWorldMatrix, const tktkMath::Matrix4& otherWorldMatrix) const
 	{
 		return HitInfo3D();
 	}
-	
+
 	// メッシュとの衝突判定処理
 	template<class OtherBody3DType, is_BoundingMesh<OtherBody3DType>>
-	inline HitInfo3D BoundingSphere::isCollide(const OtherBody3DType& otherBody, const tktkMath::Matrix4& selfWorldMatrix, const tktkMath::Matrix4& otherWorldMatrix) const
+	inline HitInfo3D BoundingMesh::isCollide(const OtherBody3DType& otherBody, const tktkMath::Matrix4& selfWorldMatrix, const tktkMath::Matrix4& otherWorldMatrix) const
 	{
-		return HitInfo3D();
+		return CollisionSupport3D::meshCollisionWithMesh(*this, otherBody, selfWorldMatrix, otherWorldMatrix);
 	}
 }
-#endif // !BOUNDING_SPHERE_H_
+#endif // !BOUNDING_MESH_H_

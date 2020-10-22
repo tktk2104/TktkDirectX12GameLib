@@ -5,13 +5,40 @@
 
 namespace tktk
 {
+	// 立方体の頂点
+	constexpr std::array<tktkMath::Vector3, 8U> BoxVert{
+		tktkMath::Vector3{ -1.0f, -1.0f, -1.0f },
+		tktkMath::Vector3{  1.0f, -1.0f, -1.0f },
+		tktkMath::Vector3{ -1.0f,  1.0f, -1.0f },
+		tktkMath::Vector3{  1.0f,  1.0f, -1.0f },
+		tktkMath::Vector3{ -1.0f, -1.0f,  1.0f },
+		tktkMath::Vector3{  1.0f, -1.0f,  1.0f },
+		tktkMath::Vector3{ -1.0f,  1.0f,  1.0f },
+		tktkMath::Vector3{  1.0f,  1.0f,  1.0f }
+	};
+
 	BoxCollider::BoxCollider(
 		int collisionGroupType,
-		const tktkMath::Vector3 & boxSize,
-		const tktkMath::Vector3 & localPosition
+		const tktkMath::Vector3& boxSize,
+		const tktkMath::Vector3& localPosition,
+		float extrudedRate
 	)
 		: ComponentBase(0.0f, collisionGroupType)
-		, m_boundingBox(boxSize, localPosition)
+		, m_boundingMesh({
+			tktkMath::Vector3::scale(BoxVert.at(0U), boxSize / 2.0f), tktkMath::Vector3::scale(BoxVert.at(2U), boxSize / 2.0f), tktkMath::Vector3::scale(BoxVert.at(1U), boxSize / 2.0f),
+			tktkMath::Vector3::scale(BoxVert.at(1U), boxSize / 2.0f), tktkMath::Vector3::scale(BoxVert.at(2U), boxSize / 2.0f), tktkMath::Vector3::scale(BoxVert.at(3U), boxSize / 2.0f),
+			tktkMath::Vector3::scale(BoxVert.at(1U), boxSize / 2.0f), tktkMath::Vector3::scale(BoxVert.at(3U), boxSize / 2.0f), tktkMath::Vector3::scale(BoxVert.at(5U), boxSize / 2.0f),
+			tktkMath::Vector3::scale(BoxVert.at(5U), boxSize / 2.0f), tktkMath::Vector3::scale(BoxVert.at(3U), boxSize / 2.0f), tktkMath::Vector3::scale(BoxVert.at(7U), boxSize / 2.0f),
+			tktkMath::Vector3::scale(BoxVert.at(5U), boxSize / 2.0f), tktkMath::Vector3::scale(BoxVert.at(7U), boxSize / 2.0f), tktkMath::Vector3::scale(BoxVert.at(4U), boxSize / 2.0f),
+			tktkMath::Vector3::scale(BoxVert.at(4U), boxSize / 2.0f), tktkMath::Vector3::scale(BoxVert.at(7U), boxSize / 2.0f), tktkMath::Vector3::scale(BoxVert.at(6U), boxSize / 2.0f),
+			tktkMath::Vector3::scale(BoxVert.at(4U), boxSize / 2.0f), tktkMath::Vector3::scale(BoxVert.at(6U), boxSize / 2.0f), tktkMath::Vector3::scale(BoxVert.at(0U), boxSize / 2.0f),
+			tktkMath::Vector3::scale(BoxVert.at(0U), boxSize / 2.0f), tktkMath::Vector3::scale(BoxVert.at(6U), boxSize / 2.0f), tktkMath::Vector3::scale(BoxVert.at(2U), boxSize / 2.0f),
+			tktkMath::Vector3::scale(BoxVert.at(2U), boxSize / 2.0f), tktkMath::Vector3::scale(BoxVert.at(6U), boxSize / 2.0f), tktkMath::Vector3::scale(BoxVert.at(3U), boxSize / 2.0f),
+			tktkMath::Vector3::scale(BoxVert.at(3U), boxSize / 2.0f), tktkMath::Vector3::scale(BoxVert.at(6U), boxSize / 2.0f), tktkMath::Vector3::scale(BoxVert.at(7U), boxSize / 2.0f),
+			tktkMath::Vector3::scale(BoxVert.at(0U), boxSize / 2.0f), tktkMath::Vector3::scale(BoxVert.at(1U), boxSize / 2.0f), tktkMath::Vector3::scale(BoxVert.at(5U), boxSize / 2.0f),
+			tktkMath::Vector3::scale(BoxVert.at(0U), boxSize / 2.0f), tktkMath::Vector3::scale(BoxVert.at(5U), boxSize / 2.0f), tktkMath::Vector3::scale(BoxVert.at(4U), boxSize / 2.0f)
+			})
+		, m_extrudedRate(extrudedRate)
 	{
 	}
 
@@ -25,37 +52,74 @@ namespace tktk
 		}
 	}
 
-	void BoxCollider::update()
-	{
-		m_boundingBox.transform(m_transform3D->calculateWorldMatrix());
-	}
-
 	bool BoxCollider::isCollide(const ComponentBasePtr& other)
 	{
+		// 衝突相手のコンポーネントが「BoxCollider」だったら
 		if (other.canCast<BoxCollider>())
 		{
+			// 三次元メッシュと三次元メッシュで衝突判定を呼ぶ
 			auto otherCollider = other.castPtr<BoxCollider>();
+			auto hitInfo = m_boundingMesh.isCollide(otherCollider->getBoundingMesh(), m_transform3D->calculateWorldMatrix(), otherCollider->getTransform()->calculateWorldMatrix());
 
-			return m_boundingBox.isCollide(otherCollider->getBodyBase(), &m_hitInfo);
+			// 衝突相手情報と衝突結果をリストに追加する
+			m_hitInfo3dPairList.push_front({ other->getGameObject(), otherCollider->getExtrudedRate(), hitInfo });
+			return hitInfo.isHit;
 		}
 
+		// 衝突相手のコンポーネントが「SphereCollider」だったら
 		if (other.canCast<SphereCollider>())
 		{
+			// 三次元メッシュと球体で衝突判定を呼ぶ
 			auto otherCollider = other.castPtr<SphereCollider>();
+			auto hitInfo = m_boundingMesh.isCollide(otherCollider->getBoundingSphere(), m_transform3D->calculateWorldMatrix(), otherCollider->getTransform()->calculateWorldMatrix());
 
-			return m_boundingBox.isCollide(otherCollider->getBodyBase(), &m_hitInfo);
+			// 衝突相手情報と衝突結果をリストに追加する
+			m_hitInfo3dPairList.push_front({ other->getGameObject(), otherCollider->getExtrudedRate(), hitInfo });
+			return hitInfo.isHit;
 		}
-
 		return false;
 	}
 
-	const tktkCollision::Body3dBase & BoxCollider::getBodyBase() const
+	void BoxCollider::afterCollide()
 	{
-		return m_boundingBox;
+		extrusion();
+
+		m_hitInfo3dPairList.clear();
 	}
 
-	const tktkCollision::HitInfo3D & BoxCollider::getHitInfo3D() const
+	const tktkCollision::BoundingMesh& BoxCollider::getBoundingMesh() const
 	{
-		return m_hitInfo;
+		return m_boundingMesh;
+	}
+
+	float BoxCollider::getExtrudedRate() const
+	{
+		return m_extrudedRate;
+	}
+
+	const ComponentPtr<Transform3D>& BoxCollider::getTransform() const
+	{
+		return m_transform3D;
+	}
+
+	void BoxCollider::extrusion()
+	{
+		for (const auto& node : m_hitInfo3dPairList)
+		{
+			// 押し出されやすさの合計を求める
+			float sumExtrudedRate = m_extrudedRate + node.otherExtrudedRate;
+
+			// ゼロで割ろうとしたら緊急回避
+			if (sumExtrudedRate == 0.0f) continue;
+
+			// 自身の押し出し処理を行う
+			m_transform3D->addWorldPosition(node.hitInfo.selfExtrudeVec * (m_extrudedRate / sumExtrudedRate));
+
+			// 相手の座標管理コンポーネントを取得
+			auto otherTransform = node.otherObject->getComponent<tktk::Transform3D>();
+
+			// 相手の押し出し処理を行う
+			otherTransform->addWorldPosition(-node.hitInfo.selfExtrudeVec * (node.otherExtrudedRate / sumExtrudedRate));
+		}
 	}
 }

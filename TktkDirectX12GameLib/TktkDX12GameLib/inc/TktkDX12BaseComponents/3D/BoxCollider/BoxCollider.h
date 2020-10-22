@@ -1,7 +1,7 @@
 #ifndef BOX_COLLIDER_H_
 #define BOX_COLLIDER_H_
 
-#include <TktkCollision/3D/AxisAlignedBoundingBox.h>
+#include <TktkCollision/3D/BoundingMesh.h>
 #include "../../../TktkDX12Game/Component/ComponentBase.h"
 #include "../Transform3D/Transform3D.h"
 
@@ -17,34 +17,57 @@ namespace tktk
 		BoxCollider(
 			int collisionGroupType,					// 当たり判定のグループ番号
 			const tktkMath::Vector3& boxSize,		// 当たり判定の大きさ
-			const tktkMath::Vector3& localPosition	// 当たり判定のローカル座標
+			const tktkMath::Vector3& localPosition,	// 当たり判定のローカル座標
+			float extrudedRate						// 押し出されやすさ（割合）
 		);
 
 	public:
 
 		// <PolymorphismFunc>
 		void start();
-		void update();
 		bool isCollide(const ComponentBasePtr& other);
+		void afterCollide();
 
 	public:
 
 		// 当たり判定のクラスを取得
-		const tktkCollision::Body3dBase& getBodyBase() const;
+		const tktkCollision::BoundingMesh& getBoundingMesh() const;
 
-		// 直前の衝突判定の結果を取得
-		const tktkCollision::HitInfo3D& getHitInfo3D() const;
+		// 押し出されやすさを取得
+		float getExtrudedRate() const;
+
+		// 座標管理コンポーネントを取得
+		const ComponentPtr<Transform3D>& getTransform() const;
 
 	private:
 
-		// 衝突判定結果
-		tktkCollision::HitInfo3D m_hitInfo;
+		// 自身の押し出し処理
+		void extrusion();
+
+	private:
+
+		struct HitInfo
+		{
+			GameObjectPtr				otherObject;
+
+			float						otherExtrudedRate;
+
+			tktkCollision::HitInfo3D	hitInfo;
+		};
+
+	private:
 
 		// AABBの衝突判定クラス
-		tktkCollision::AxisAlignedBoundingBox m_boundingBox;
+		tktkCollision::BoundingMesh	m_boundingMesh;
+
+		// 押し出されやすさ（割合）
+		float						m_extrudedRate;
+
+		// 衝突相手と衝突結果を保持するリスト
+		std::forward_list<HitInfo>	m_hitInfo3dPairList;
 
 		// 自身の３次元座標コンポーネント
-		ComponentPtr<Transform3D> m_transform3D;
+		ComponentPtr<Transform3D>	m_transform3D;
 	};
 }
 #endif // !BOX_COLLIDER_H_

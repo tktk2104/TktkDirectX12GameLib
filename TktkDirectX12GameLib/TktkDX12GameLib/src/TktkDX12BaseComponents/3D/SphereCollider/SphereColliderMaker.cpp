@@ -4,7 +4,7 @@ namespace tktk
 {
 	SphereColliderMaker SphereColliderMaker::m_self;
 
-	SphereColliderMaker & SphereColliderMaker::makeStart(GameObjectPtr user)
+	SphereColliderMaker& SphereColliderMaker::makeStart(GameObjectPtr user)
 	{
 		// 変数を初期化する
 		m_self = SphereColliderMaker();
@@ -22,21 +22,29 @@ namespace tktk
 		return m_user->createComponent<SphereCollider>(
 			m_collisionGroupType,
 			m_radius,
-			m_localPosition
+			m_localPosition,
+			m_extrudedRate
 			);
 	}
 
-	SphereColliderMaker & SphereColliderMaker::radius(float value)
+	SphereColliderMaker& SphereColliderMaker::radius(float value)
 	{
 		// 値を設定して自身の参照を返す
 		m_radius = value;
 		return *this;
 	}
 
-	SphereColliderMaker & SphereColliderMaker::localPosition(const tktkMath::Vector3 & value)
+	SphereColliderMaker& SphereColliderMaker::localPosition(const tktkMath::Vector3& value)
 	{
 		// 値を設定して自身の参照を返す
 		m_localPosition = value;
+		return *this;
+	}
+
+	SphereColliderMaker& SphereColliderMaker::extrudedRate(float value)
+	{
+		// 値を設定して自身の参照を返す
+		m_extrudedRate = value;
 		return *this;
 	}
 

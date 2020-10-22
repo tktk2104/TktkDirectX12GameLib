@@ -32,7 +32,7 @@ namespace tktk
 	public:
 
 		// 当たり判定のクラスを取得
-		const tktkCollision::BoundingPolygon2d& getBoundingPolygon2d() const;
+		const tktkCollision::BoundingPolygon2D& getBoundingPolygon2d() const;
 
 		// 押し出されやすさを取得
 		float getExtrudedRate() const;
@@ -59,7 +59,7 @@ namespace tktk
 	private:
 
 		// ２次元ポリゴンの衝突判定クラス
-		tktkCollision::BoundingPolygon2d	m_boundingPolygon2d;
+		tktkCollision::BoundingPolygon2D	m_boundingPolygon2d;
 
 		// 押し出されやすさ（割合）
 		float								m_extrudedRate;

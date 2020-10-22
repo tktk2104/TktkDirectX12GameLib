@@ -77,7 +77,7 @@ namespace tktk
 		m_hitInfo2dPairList.clear();
 	}
 
-	const tktkCollision::BoundingPolygon2d& Polygon2dCollider::getBoundingPolygon2d() const
+	const tktkCollision::BoundingPolygon2D& Polygon2dCollider::getBoundingPolygon2d() const
 	{
 		return m_boundingPolygon2d;
 	}
