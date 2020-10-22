@@ -30,9 +30,6 @@
     <ClCompile Include="src\GameObject\Miku\MikuScript.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="src\GameObject\Collide3DTest\Collide3DTestScript.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="src\ResourceHandleCarrier\ResourceHandleCarrier.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -49,6 +46,12 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="src\GameObject\CollideTest\2D\RectColliderTest\RectColliderTest.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\CollideTest\3D\BoxColliderTest\BoxColliderTestScript.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\CollideTest\3D\BoxColliderTest\BoxColliderTest.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -149,12 +152,6 @@
     <ClInclude Include="src\Enum\Line2DMaterialId.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="src\GameObject\Collide3DTest\Collide3DTest.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GameObject\Collide3DTest\Collide3DTestScript.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="src\ResourceHandleCarrier\ResourceHandleCarrier.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -186,6 +183,12 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="src\GameObject\CollideTest\2D\RectColliderTest\RectColliderTestScript.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\CollideTest\3D\BoxColliderTest\BoxColliderTest.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\CollideTest\3D\BoxColliderTest\BoxColliderTestScript.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

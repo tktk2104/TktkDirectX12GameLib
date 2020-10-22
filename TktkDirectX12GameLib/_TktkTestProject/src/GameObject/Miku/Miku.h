@@ -10,6 +10,7 @@
 
 #include "MikuScript.h"
 #include "../../ResourceHandleCarrier/ResourceHandleCarrier.h"
+#include "../../Enum/_ResourceIds/ResourceIds.h"
 
 struct Miku
 {

@@ -23,6 +23,8 @@ struct CameraObject
 			.create();
 
 		tktk::FirstPersonModuleMaker::makeStart(gameObject)
+			.rotateDegSpeedPerSec(30.0f)
+			.moveSpeedPerSec(10.0f)
 			.enableUpDownKey(true)
 			.create();
 
