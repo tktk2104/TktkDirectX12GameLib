@@ -7,14 +7,14 @@ namespace tktk
 {
 	// óßï˚ëÃÇÃí∏ì_
 	constexpr std::array<tktkMath::Vector3, 8U> BoxVert{
-		tktkMath::Vector3{ -1.0f, -1.0f, -1.0f },
-		tktkMath::Vector3{  1.0f, -1.0f, -1.0f },
-		tktkMath::Vector3{ -1.0f,  1.0f, -1.0f },
-		tktkMath::Vector3{  1.0f,  1.0f, -1.0f },
-		tktkMath::Vector3{ -1.0f, -1.0f,  1.0f },
-		tktkMath::Vector3{  1.0f, -1.0f,  1.0f },
-		tktkMath::Vector3{ -1.0f,  1.0f,  1.0f },
-		tktkMath::Vector3{  1.0f,  1.0f,  1.0f }
+		tktkMath::Vector3{ -1.0f, -1.0f, -1.0f }, // 0
+		tktkMath::Vector3{  1.0f, -1.0f, -1.0f }, // 1
+		tktkMath::Vector3{ -1.0f,  1.0f, -1.0f }, // 2
+		tktkMath::Vector3{  1.0f,  1.0f, -1.0f }, // 3
+		tktkMath::Vector3{ -1.0f, -1.0f,  1.0f }, // 4
+		tktkMath::Vector3{  1.0f, -1.0f,  1.0f }, // 5
+		tktkMath::Vector3{ -1.0f,  1.0f,  1.0f }, // 6
+		tktkMath::Vector3{  1.0f,  1.0f,  1.0f }  // 7
 	};
 
 	BoxCollider::BoxCollider(
@@ -24,19 +24,38 @@ namespace tktk
 		float extrudedRate
 	)
 		: ComponentBase(0.0f, collisionGroupType)
-		, m_boundingMesh({
+		, m_tempVerts({
 			tktkMath::Vector3::scale(BoxVert.at(0U), boxSize / 2.0f), tktkMath::Vector3::scale(BoxVert.at(2U), boxSize / 2.0f), tktkMath::Vector3::scale(BoxVert.at(1U), boxSize / 2.0f),
 			tktkMath::Vector3::scale(BoxVert.at(1U), boxSize / 2.0f), tktkMath::Vector3::scale(BoxVert.at(2U), boxSize / 2.0f), tktkMath::Vector3::scale(BoxVert.at(3U), boxSize / 2.0f),
+
 			tktkMath::Vector3::scale(BoxVert.at(1U), boxSize / 2.0f), tktkMath::Vector3::scale(BoxVert.at(3U), boxSize / 2.0f), tktkMath::Vector3::scale(BoxVert.at(5U), boxSize / 2.0f),
 			tktkMath::Vector3::scale(BoxVert.at(5U), boxSize / 2.0f), tktkMath::Vector3::scale(BoxVert.at(3U), boxSize / 2.0f), tktkMath::Vector3::scale(BoxVert.at(7U), boxSize / 2.0f),
+
 			tktkMath::Vector3::scale(BoxVert.at(5U), boxSize / 2.0f), tktkMath::Vector3::scale(BoxVert.at(7U), boxSize / 2.0f), tktkMath::Vector3::scale(BoxVert.at(4U), boxSize / 2.0f),
 			tktkMath::Vector3::scale(BoxVert.at(4U), boxSize / 2.0f), tktkMath::Vector3::scale(BoxVert.at(7U), boxSize / 2.0f), tktkMath::Vector3::scale(BoxVert.at(6U), boxSize / 2.0f),
+
 			tktkMath::Vector3::scale(BoxVert.at(4U), boxSize / 2.0f), tktkMath::Vector3::scale(BoxVert.at(6U), boxSize / 2.0f), tktkMath::Vector3::scale(BoxVert.at(0U), boxSize / 2.0f),
 			tktkMath::Vector3::scale(BoxVert.at(0U), boxSize / 2.0f), tktkMath::Vector3::scale(BoxVert.at(6U), boxSize / 2.0f), tktkMath::Vector3::scale(BoxVert.at(2U), boxSize / 2.0f),
+
 			tktkMath::Vector3::scale(BoxVert.at(2U), boxSize / 2.0f), tktkMath::Vector3::scale(BoxVert.at(6U), boxSize / 2.0f), tktkMath::Vector3::scale(BoxVert.at(3U), boxSize / 2.0f),
 			tktkMath::Vector3::scale(BoxVert.at(3U), boxSize / 2.0f), tktkMath::Vector3::scale(BoxVert.at(6U), boxSize / 2.0f), tktkMath::Vector3::scale(BoxVert.at(7U), boxSize / 2.0f),
+
 			tktkMath::Vector3::scale(BoxVert.at(0U), boxSize / 2.0f), tktkMath::Vector3::scale(BoxVert.at(1U), boxSize / 2.0f), tktkMath::Vector3::scale(BoxVert.at(5U), boxSize / 2.0f),
 			tktkMath::Vector3::scale(BoxVert.at(0U), boxSize / 2.0f), tktkMath::Vector3::scale(BoxVert.at(5U), boxSize / 2.0f), tktkMath::Vector3::scale(BoxVert.at(4U), boxSize / 2.0f)
+			})
+		, m_boundingMesh({
+			/* éËëOÇÃñ  */
+			{ tktkMath::Vector3::scale(BoxVert.at(0U), boxSize / 2.0f), tktkMath::Vector3::scale(BoxVert.at(2U), boxSize / 2.0f),  tktkMath::Vector3::scale(BoxVert.at(3U), boxSize / 2.0f), tktkMath::Vector3::scale(BoxVert.at(1U), boxSize / 2.0f)},
+			/* âEÇÃñ  */
+			{ tktkMath::Vector3::scale(BoxVert.at(1U), boxSize / 2.0f), tktkMath::Vector3::scale(BoxVert.at(3U), boxSize / 2.0f),  tktkMath::Vector3::scale(BoxVert.at(7U), boxSize / 2.0f), tktkMath::Vector3::scale(BoxVert.at(5U), boxSize / 2.0f)},
+			/* âúÇÃñ  */
+			{ tktkMath::Vector3::scale(BoxVert.at(5U), boxSize / 2.0f), tktkMath::Vector3::scale(BoxVert.at(7U), boxSize / 2.0f),  tktkMath::Vector3::scale(BoxVert.at(6U), boxSize / 2.0f), tktkMath::Vector3::scale(BoxVert.at(4U), boxSize / 2.0f)},
+			/* ç∂ÇÃñ  */
+			{ tktkMath::Vector3::scale(BoxVert.at(4U), boxSize / 2.0f), tktkMath::Vector3::scale(BoxVert.at(6U), boxSize / 2.0f),  tktkMath::Vector3::scale(BoxVert.at(2U), boxSize / 2.0f), tktkMath::Vector3::scale(BoxVert.at(0U), boxSize / 2.0f)},
+			/* è„ÇÃñ  */
+			{ tktkMath::Vector3::scale(BoxVert.at(2U), boxSize / 2.0f), tktkMath::Vector3::scale(BoxVert.at(6U), boxSize / 2.0f),  tktkMath::Vector3::scale(BoxVert.at(7U), boxSize / 2.0f), tktkMath::Vector3::scale(BoxVert.at(3U), boxSize / 2.0f)},
+			/* â∫ÇÃñ  */
+			{ tktkMath::Vector3::scale(BoxVert.at(0U), boxSize / 2.0f), tktkMath::Vector3::scale(BoxVert.at(1U), boxSize / 2.0f),  tktkMath::Vector3::scale(BoxVert.at(5U), boxSize / 2.0f), tktkMath::Vector3::scale(BoxVert.at(4U), boxSize / 2.0f)}
 			})
 		, m_extrudedRate(extrudedRate)
 	{
@@ -100,6 +119,11 @@ namespace tktk
 	const ComponentPtr<Transform3D>& BoxCollider::getTransform() const
 	{
 		return m_transform3D;
+	}
+
+	const std::vector<tktkMath::Vector3>& BoxCollider::getTempVerts() const
+	{
+		return m_tempVerts;
 	}
 
 	void BoxCollider::extrusion()

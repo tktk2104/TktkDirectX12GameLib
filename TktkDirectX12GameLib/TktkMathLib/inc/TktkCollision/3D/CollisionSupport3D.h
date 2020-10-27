@@ -18,34 +18,67 @@ namespace tktkCollision
 
 		struct LinePolygonHitInfo
 		{
-			// 衝突したかどうか？
-			bool				isHit{ false };
+			// ポリゴンと線分が“衝突”したかどうか？
+			bool				isHit				{ false };
 
-			// 線とポリゴンの交差点
-			tktkMath::Vector3	crossPos{ tktkMath::Vector3_v::zero };
+			// ポリゴンの“延長面上に”線分が“衝突”したかどうか？
+			bool				isExtensionPolyHit	{ false };
+
+			// ポリゴンの“辺上に”線分が“衝突”したかどうか？
+			bool				isPolyEdgeHit		{ false };
+
+			// ポリゴンの“延長面上に”線分が“交差”したかどうか？
+			bool				isExtensionPolyCross{ false };
+
+			// 線とポリゴンの衝突点
+			tktkMath::Vector3	hitPos				{ tktkMath::Vector3_v::zero };
 		};
 
 		// “ポリゴン”を使って“線”の衝突判定を行う
 		// ※衝突判定結果の形式が他と違う
-		static LinePolygonHitInfo lineCollisionWithPolygon(const tktkMath::Vector3& firstPos, const tktkMath::Vector3& secondPos, const std::array<tktkMath::Vector3, 3U>& otherVertexs);
+		static LinePolygonHitInfo lineCollisionWithPolygon(const tktkMath::Vector3& firstPos, const tktkMath::Vector3& secondPos, const std::vector<tktkMath::Vector3>& otherPolygon);
 
 	public:
+
+		// “メッシュ”を使って“点”の衝突判定を行う
+		// ※衝突判定結果の形式が他と違う
+		static bool pointCollisionWithMesh(const tktkMath::Vector3& point, const BoundingMesh& otherBody, const tktkMath::Matrix4& otherWorldMatrix);
+
+	public:
+
+		// 線とポリゴンの衝突情報
+		struct LinePolyHitData
+		{
+			// 線とポリゴンが交差しているか？
+			bool								isCross			{ false };
+
+			// 線とポリゴンの辺が衝突しているか？
+			bool								isPolyEdgeHit	{ false };
+
+			// 線とポリゴンの衝突点
+			tktkMath::Vector3					hitPos			{ tktkMath::Vector3_v::zero };
+
+			// 交差したポリゴンの頂点
+			std::vector<tktkMath::Vector3>		polyVert		{};
+		};
 
 		struct LineMeshHitInfo
 		{
 			// 衝突したかどうか？
 			bool								isHit{ false };
 
-			// 線とポリゴンの交差点
-			tktkMath::Vector3					crossPos{ tktkMath::Vector3_v::zero };
-
-			// 押し出しに使用したポリゴンを構成する頂点座標
-			std::array<tktkMath::Vector3, 3U>	otherVertexs{ tktkMath::Vector3_v::zero, tktkMath::Vector3_v::zero, tktkMath::Vector3_v::zero };
+			// 線とメッシュの交差点（基本１つだが、線が貫通していたりすると複数の結果となる）
+			std::vector<LinePolyHitData>		linePolyCrossDataArray;
 		};
 
 		// “メッシュ”を使って“線”の衝突判定を行う
 		// ※衝突判定結果の形式が他と違う
 		static LineMeshHitInfo lineCollisionWithMesh(const tktkMath::Vector3& firstPos, const tktkMath::Vector3& secondPos, const BoundingMesh& otherBody, const tktkMath::Matrix4& otherWorldMatrix);
+
+	public:
+
+		// “メッシュ”を使って“ポリゴン”の衝突判定を行う
+		static HitInfo3D polygonCollisionWithMesh(const std::vector<tktkMath::Vector3>& polygon, const BoundingMesh& otherBody, const tktkMath::Matrix4& otherWorldMatrix);
 
 	public:
 

@@ -42,7 +42,9 @@ namespace tktk
 
 		for (const auto& boxCollider : boxColliderList)
 		{
-			auto firstVert = boxCollider->getBoundingMesh().getVertexs().at(0U);
+			//auto firstVert = boxCollider->getBoundingMesh().getVertexs();
+
+			auto firstVert = boxCollider->getTempVerts().at(0U);
 
 			m_boxMeshWireFrameDrawerArray.push_back(
 				getGameObject()->createComponent<BoxMeshWireFrameDrawer>(

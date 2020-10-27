@@ -39,6 +39,9 @@ namespace tktk
 		// 座標管理コンポーネントを取得
 		const ComponentPtr<Transform3D>& getTransform() const;
 
+		// TODO : ３次元線分描画コンポーネントを作ってこの関数を不要にする
+		const std::vector<tktkMath::Vector3>& getTempVerts() const;
+
 	private:
 
 		// 自身の押し出し処理
@@ -56,6 +59,9 @@ namespace tktk
 		};
 
 	private:
+
+		// TODO : ３次元線分描画コンポーネントを作ってこの変数を不要にする
+		std::vector<tktkMath::Vector3> m_tempVerts;
 
 		// AABBの衝突判定クラス
 		tktkCollision::BoundingMesh	m_boundingMesh;

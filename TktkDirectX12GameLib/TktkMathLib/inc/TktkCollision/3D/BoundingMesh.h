@@ -13,7 +13,7 @@ namespace tktkCollision
 	{
 	public:
 
-		explicit BoundingMesh(const std::vector<tktkMath::Vector3>& vertexs);
+		explicit BoundingMesh(const std::vector<std::vector<tktkMath::Vector3>>& mesh);
 
 	public:
 
@@ -27,7 +27,7 @@ namespace tktkCollision
 
 	public:
 
-		const std::vector<tktkMath::Vector3>& getVertexs() const;
+		const std::vector<std::vector<tktkMath::Vector3>>& getVertexs() const;
 
 	public:
 
@@ -36,8 +36,8 @@ namespace tktkCollision
 
 	private:
 
-		// ポリゴンを構成する頂点
-		std::vector<tktkMath::Vector3> m_vertexs;
+		// メッシュを構成するポリゴンと、それを構成する頂点
+		std::vector<std::vector<tktkMath::Vector3>> m_mesh;
 	};
 //┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 //┃ここから下はテンプレート関数の実装

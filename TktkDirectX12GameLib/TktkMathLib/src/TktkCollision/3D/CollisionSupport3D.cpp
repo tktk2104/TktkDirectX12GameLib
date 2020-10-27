@@ -7,55 +7,25 @@
 
 namespace tktkCollision
 {
-	CollisionSupport3D::LinePolygonHitInfo CollisionSupport3D::lineCollisionWithPolygon(const tktkMath::Vector3& firstPos, const tktkMath::Vector3& secondPos, const std::array<tktkMath::Vector3, 3U>& otherVertexs)
+	CollisionSupport3D::LinePolygonHitInfo CollisionSupport3D::lineCollisionWithPolygon(const tktkMath::Vector3& firstPos, const tktkMath::Vector3& secondPos, const std::vector<tktkMath::Vector3>& otherPolygon)
 	{
+		// 相手のポリゴンの頂点が３つより少ない場合、判定不可
+		if (otherPolygon.size() < 3U) return LinePolygonHitInfo();
+
 		// 第一頂点から第二頂点へのベクトルを計算する
-		auto firstVertexToSecond = otherVertexs.at(1U) - otherVertexs.at(0U);
+		auto firstVertexToSecond = otherPolygon.at(1U) - otherPolygon.at(0U);
 
 		// 第一頂点から第三頂点へのベクトルを計算する
-		auto firstVertexToThird = otherVertexs.at(2U) - otherVertexs.at(0U);
+		auto firstVertexToThird = otherPolygon.at(2U) - otherPolygon.at(0U);
 
 		// ポリゴンの法線等を計算する
-		tktkMath::Vector3 normal = tktkMath::Vector3::cross(firstVertexToSecond, firstVertexToThird);
-
-		//tktkMath::Vector3 tangent;
-		//tktkMath::Vector3 binormal;
-		//tktkMath::Vector3::orthoNormalize(&normal, &tangent, &binormal);
-		//
-		//// ポリゴンの接空間に変換するための行列を計算する
-		//tktkMath::Matrix4 matTBN{
-		//	tangent.x,	binormal.x,	normal.x,	0.0f,
-		//	tangent.y,	binormal.y,	normal.y,	0.0f,
-		//	tangent.z,	binormal.z,	normal.z,	0.0f,
-		//	0.0f,		0.0f,		0.0f,		1.0f
-		//};
-		//
-		//// ポリゴンの接空間に変換するための行列を計算する
-		//tktkMath::Matrix4 matTBN{
-		//	tangent.x,	tangent.y,	tangent.z,	0.0f,
-		//	binormal.x, binormal.y, binormal.z, 0.0f,
-		//	normal.x,	normal.y,	normal.z,	0.0f,
-		//	0.0f,		0.0f,		0.0f,		1.0f
-		//};
-		//
-		//// 接空間に座標変換した線の開始座標
-		//auto tSpaceFirstPos = firstPos * matTBN;
-		//
-		//// 接空間に座標変換した線の終了座標
-		//auto tSpaceSecondPos = secondPos * matTBN;
-		//
-		//// 接空間に座標変換したポリゴンの頂点
-		//std::array<tktkMath::Vector3, 3U> tSpaceVertexs;
-		//for (size_t i = 0U; i < otherVertexs.size(); i++)
-		//{
-		//	tSpaceVertexs.at(i) = otherVertexs.at(i) * matTBN;
-		//}
+		tktkMath::Vector3 normal = tktkMath::Vector3::cross(firstVertexToSecond, firstVertexToThird).normalized();
 
 		// 第一頂点から線分の開始点へのベクトルを計算する
-		auto firstVertexToFirstPos = firstPos - otherVertexs.at(0U);
+		auto firstVertexToFirstPos = firstPos - otherPolygon.at(0U);
 
 		// 第一頂点から線分の終了点へのベクトルを計算する
-		auto firstVertexToSecondPos = secondPos - otherVertexs.at(0U);
+		auto firstVertexToSecondPos = secondPos - otherPolygon.at(0U);
 
 		// “第一頂点から線分の開始点へのベクトル”と“ポリゴンの法線”の内積
 		float firstVertToFirstPosNormalDot = tktkMath::Vector3::dot(firstVertexToFirstPos, normal);
@@ -63,86 +33,292 @@ namespace tktkCollision
 		// “第一頂点から線分の終了点へのベクトル”と“ポリゴンの法線”の内積
 		float firstVertToSecondPosNormalDot = tktkMath::Vector3::dot(firstVertexToSecondPos, normal);
 
-		// 計算で使用する“内分比”を計算する 
-		auto internalDivisionRatio = (normal * firstVertToFirstPosNormalDot).length() / ((normal * firstVertToFirstPosNormalDot).length() + (normal * firstVertToSecondPosNormalDot).length());
-
-		// 第一頂点から線分の交差点へのベクトルを計算する
-		auto firstVertexToCrossPos = (1 - internalDivisionRatio) * firstVertexToFirstPos + internalDivisionRatio * firstVertexToSecondPos;
+		// 線分がポリゴンの延長面上に接触していなければ処理を終える
+		if (firstVertToFirstPosNormalDot * firstVertToSecondPosNormalDot > 0.0f) return LinePolygonHitInfo();
 
 		LinePolygonHitInfo result;
 
-		// 線分の交差点を計算する
-		result.crossPos = otherVertexs.at(0U) + firstVertexToCrossPos;
+		// “ポリゴンの延長線上に”衝突しているフラグを立てる
+		result.isExtensionPolyHit = true;
 
-		// 線分がポリゴンの延長面上に接触していなければ処理を終える
-		if (firstVertToFirstPosNormalDot * firstVertToSecondPosNormalDot > 0.0f)
+		// もしも“線分”が完全に“ポリゴンの延長面”上に存在していたら
+		if (firstVertToFirstPosNormalDot == 0.0f && firstVertToSecondPosNormalDot == 0.0f)
 		{
-			result.crossPos = result.crossPos;// *matTBN.calculateInvert();
-			return result;
+			// 線分とポリゴンの交差点は“線分の中心点”
+			result.hitPos = firstPos + (secondPos - firstPos) / 2;
+		}
+		// もしも“線分の開始点”のみが“ポリゴンの延長面”上に存在していたら
+		else if (firstVertToFirstPosNormalDot == 0.0f)
+		{
+			// 線分とポリゴンの交差点は“線分の開始点”
+			result.hitPos = firstPos;
+		}
+		// もしも“線分の終了点”のみが“ポリゴンの延長面”上に存在していたら
+		else if (firstVertToSecondPosNormalDot == 0.0f)
+		{
+			// 線分とポリゴンの交差点は“線分の終了点”
+			result.hitPos = secondPos;
+		}
+		// もしも“線分”が“ポリゴンの延長面”と交差していたら
+		else
+		{
+			// “線分”と“ポリゴンの延長面”が交差しているフラグを立てる
+			result.isExtensionPolyCross = true;
+
+			// 計算で使用する“内分比”を計算する 
+			auto internalDivisionRatio = (normal * firstVertToFirstPosNormalDot).length() / ((normal * firstVertToFirstPosNormalDot).length() + (normal * firstVertToSecondPosNormalDot).length());
+
+			// 第一頂点から線分の交差点へのベクトルを計算する
+			auto firstVertexToCrossPos = (1 - internalDivisionRatio) * firstVertexToFirstPos + internalDivisionRatio * firstVertexToSecondPos;
+
+			// 線分の交差点を計算する
+			result.hitPos = otherPolygon.at(0U) + firstVertexToCrossPos;
 		}
 
-		for (size_t i = 0U; i < otherVertexs.size(); i++)
+		for (size_t i = 0U; i < otherPolygon.size(); i++)
 		{
 			// ポリゴンの辺を構成する頂点２つ
-			const auto& curVertPos = otherVertexs.at(i);
-			const auto& nextVertPos = otherVertexs.at((i + 1U) % otherVertexs.size());
+			const auto& curVertPos = otherPolygon.at(i);
+			const auto& nextVertPos = otherPolygon.at((i + 1U) % otherPolygon.size());
 
 			// 現在の頂点から次の頂点へのベクトルを計算する
 			auto curVertexToNext = nextVertPos - curVertPos;
 
-			// 次の頂点から線分の交差点へのベクトルを計算する
-			auto curVertexToCrossPos = result.crossPos - curVertPos;
+			// 現在の頂点から線分の交差点へのベクトルを計算する
+			auto curVertexToCrossPos = result.hitPos - curVertPos;
+
+			// “次の頂点から線分の交差点へのベクトル”がゼロベクトルか、上の２つのベクトルが真逆の方向だったらポリゴンの辺上に線分が衝突している
+			if (curVertexToCrossPos.length() < tktkMath::MathHelper::kEpsilon ||
+				(curVertexToNext.normalized() - curVertexToCrossPos.normalized()).length() < tktkMath::MathHelper::kEpsilon)
+			{
+				result.isPolyEdgeHit = true;
+			}
 
 			// 上２つのベクトルの外積を求める
 			auto testNormal = tktkMath::Vector3::cross(curVertexToNext, curVertexToCrossPos).normalized();
 
+			// 外積がゼロベクトルだった場合、線分の交差点はポリゴンの辺上に存在する
+			if (testNormal == tktkMath::Vector3_v::zero) continue;
+
+			// 外積がポリゴンの法線と一致した場合、線分の交差点はポリゴンの中に存在する
+			if (tktkMath::Vector3::distance(normal, testNormal) < tktkMath::MathHelper::kEpsilon) continue;
+
 			// 線分がポリゴンに接触していなければ処理を終える
-			if (!(testNormal.length() < tktkMath::MathHelper::kEpsilon || tktkMath::Vector3::distance(normal, testNormal) < 1.0f)) // <- float計算誤差の関係上遊びを大きめに
-			{
-				result.crossPos = result.crossPos;// *matTBN.calculateInvert();
-				return result;
-			}
+			return result;
+
+			//if (!(tktkMath::Vector3::distance(normal, testNormal) < tktkMath::MathHelper::kEpsilon)) return result; //testNormal.length() < tktkMath::MathHelper::kEpsilon || 
 		}
-		result.crossPos = result.crossPos;// *matTBN.calculateInvert();
+		// “完全に”衝突しているフラグを立てる
 		result.isHit = true;
 		return result;
+	}
+
+	bool CollisionSupport3D::pointCollisionWithMesh(const tktkMath::Vector3& point, const BoundingMesh& otherBody, const tktkMath::Matrix4& otherWorldMatrix)
+	{
+		// メッシュの頂点を計算する
+		std::vector<std::vector<tktkMath::Vector3>> otherMesh;
+		otherMesh.resize(otherBody.getVertexs().size());
+		for (size_t i = 0U; i < otherBody.getVertexs().size(); i++)
+		{
+			otherMesh.at(i).reserve(otherBody.getVertexs().at(i).size());
+
+			for (size_t j = 0U; j < otherBody.getVertexs().at(i).size(); j++)
+			{
+				otherMesh.at(i).push_back(otherBody.getVertexs().at(i).at(j) * otherWorldMatrix);
+			}
+		}
+
+		// 相手のポリゴンを巡回する
+		for (const auto& otherPoly : otherMesh)
+		{
+			// 相手のポリゴンの頂点が３つより少ない場合、判定不可なので次のポリゴンの判定へ
+			if (otherPoly.size() < 3U) continue;
+
+			// 第一頂点から第二頂点へのベクトルを計算する
+			auto firstVertexToSecond = otherPoly.at(1U) - otherPoly.at(0U);
+
+			// 第一頂点から第三頂点へのベクトルを計算する
+			auto firstVertexToThird = otherPoly.at(2U) - otherPoly.at(0U);
+
+			// ポリゴンの法線等を計算する
+			tktkMath::Vector3 normal = tktkMath::Vector3::cross(firstVertexToSecond, firstVertexToThird).normalized();
+
+			// 第一頂点から点へのベクトルを計算する
+			auto firstVertexToPoint = point - otherPoly.at(0U);
+
+			// “第一頂点から点へのベクトル”と“ポリゴンの法線”の内積
+			float firstVertToPointNormalDot = tktkMath::Vector3::dot(firstVertexToPoint, normal);
+
+			if (firstVertToPointNormalDot > 0.0f) return false;
+		}
+		return true;
 	}
 
 	CollisionSupport3D::LineMeshHitInfo CollisionSupport3D::lineCollisionWithMesh(const tktkMath::Vector3& firstPos, const tktkMath::Vector3& secondPos, const BoundingMesh& otherBody, const tktkMath::Matrix4& otherWorldMatrix)
 	{
 		// メッシュの頂点を計算する
-		std::vector<tktkMath::Vector3> otherVertexs;
-		otherVertexs.reserve(otherBody.getVertexs().size());
-		for (const auto& vertex : otherBody.getVertexs()) otherVertexs.push_back(vertex * otherWorldMatrix);
+		std::vector<std::vector<tktkMath::Vector3>> otherMesh;
+		otherMesh.resize(otherBody.getVertexs().size());
+		for (size_t i = 0U; i < otherBody.getVertexs().size(); i++)
+		{
+			otherMesh.at(i).reserve(otherBody.getVertexs().at(i).size());
 
-		float minDist = std::numeric_limits<float>::max();
+			for (size_t j = 0U; j < otherBody.getVertexs().at(i).size(); j++)
+			{
+				otherMesh.at(i).push_back(otherBody.getVertexs().at(i).at(j) * otherWorldMatrix);
+			}
+		}
 
 		LineMeshHitInfo result;
 
-		// ポリゴンごとに巡回
-		for (size_t i = 0U; i < otherVertexs.size(); i += 3U)
+		// 相手のポリゴンを巡回する
+		for (const auto& otherPoly : otherMesh)
 		{
-			// 配列外参照保険
-			if (i + 2U >= otherVertexs.size()) break;
-
-			// 判定するポリゴンの頂点を取得
-			std::array<tktkMath::Vector3, 3U> otherPolygon{ otherVertexs.at(i), otherVertexs.at(i + 1U), otherVertexs.at(i + 2U) };
+			// 相手のポリゴンの頂点が３つより少ない場合、判定不可なので次のポリゴンの判定へ
+			if (otherPoly.size() < 3U) continue;
 
 			// ポリゴンと線分で衝突判定を行う
-			auto polygonHitInfo = lineCollisionWithPolygon(firstPos, secondPos, otherPolygon);
-
-			// 線分の開始位置からポリゴンへの交差点へのベクトル
-			auto firstPosToCrossPos = polygonHitInfo.crossPos - firstPos;
+			auto polygonHitInfo = lineCollisionWithPolygon(firstPos, secondPos, otherPoly);
 
 			// ポリゴンと線分が衝突していれば衝突結果を返す
-			if (polygonHitInfo.isHit && firstPosToCrossPos.length() < minDist)
+			if (polygonHitInfo.isHit)
 			{
-				result.isHit		= true;
-				result.crossPos		= polygonHitInfo.crossPos;
-				result.otherVertexs = otherPolygon;
-				minDist				= firstPosToCrossPos.length();
+				result.isHit = true;
+				result.linePolyCrossDataArray.push_back({ polygonHitInfo.isExtensionPolyCross, polygonHitInfo.isPolyEdgeHit, polygonHitInfo.hitPos, otherPoly });
 			}
 		}
+		return result;
+	}
+
+	HitInfo3D CollisionSupport3D::polygonCollisionWithMesh(const std::vector<tktkMath::Vector3>& polygon, const BoundingMesh& otherBody, const tktkMath::Matrix4& otherWorldMatrix)
+	{
+		// 自身のポリゴンの頂点が３つより少ない場合、判定不可
+		if (polygon.size() < 3U) return HitInfo3D();
+
+		// メッシュの頂点を計算する
+		std::vector<std::vector<tktkMath::Vector3>> otherMesh;
+		otherMesh.resize(otherBody.getVertexs().size());
+		for (size_t i = 0U; i < otherBody.getVertexs().size(); i++)
+		{
+			otherMesh.at(i).reserve(otherBody.getVertexs().at(i).size());
+
+			for (size_t j = 0U; j < otherBody.getVertexs().at(i).size(); j++)
+			{
+				otherMesh.at(i).push_back(otherBody.getVertexs().at(i).at(j) * otherWorldMatrix);
+			}
+		}
+
+		// 自身のポリゴンの法線を計算する
+		tktkMath::Vector3 polygonNormal = tktkMath::Vector3::cross(polygon.at(1U) - polygon.at(0U), polygon.at(2U) - polygon.at(0)).normalized();
+
+		HitInfo3D result{};
+
+		// 自身のポリゴンから最も遠い相手の頂点までの距離
+		float mostFarOtherVertLen = 0.0f;
+
+		// 自身のポリゴンから最も遠い“押し出しに使用できる”相手の頂点までの距離
+		float mostFarCollideUseOtherVertLen = -1.0f;
+
+		// 相手のポリゴンを巡回する
+		for (const auto& otherPoly : otherMesh)
+		{
+			// 相手のポリゴンを構成する頂点を巡回する
+			for (const auto& otherVert : otherPoly)
+			{
+				// 相手の頂点を開始点とする自身のポリゴンの反転法線ベクトルの長さ
+				auto otherVertToExtensionPolyCrossVecLen = tktkMath::Vector3::dot(polygon.at(0U) - otherVert, polygonNormal);
+
+				// “相手の頂点を開始点とする自身のポリゴンの反転法線ベクトルの長さ”の絶対値
+				float absOtherVertToExtensionPolyCrossVecLen = std::abs(otherVertToExtensionPolyCrossVecLen);
+
+				// “自身のポリゴンから最も遠い相手の頂点までの距離”の遠さを更新していたら、基準値を更新する
+				if (absOtherVertToExtensionPolyCrossVecLen > mostFarOtherVertLen) mostFarOtherVertLen = absOtherVertToExtensionPolyCrossVecLen;
+
+				// 法線ベクトルの長さが０より小さい（自身のポリゴンと衝突していない）場合は次の頂点に
+				if (otherVertToExtensionPolyCrossVecLen < 0.0f) continue;
+
+				// “相手の頂点を開始点とする自身のポリゴンの反転法線ベクトル”と“自身のポリゴンの面”の交差点
+				auto crossPos = otherVert + (polygonNormal * otherVertToExtensionPolyCrossVecLen);
+
+				// “自身のポリゴン”に“相手の頂点を開始点とする自身のポリゴンの反転法線ベクトル”が衝突しているか？
+				bool isHitPolygon = true;
+
+				// 自身のポリゴンを巡回する
+				for (size_t i = 0U; i < polygon.size(); i++)
+				{
+					// 自身のポリゴンの辺を構成する頂点２つ
+					const auto& curVertPos	= polygon.at(i);
+					const auto& nextVertPos = polygon.at((i + 1U) % polygon.size());
+
+					// 現在の頂点から次の頂点へのベクトルを計算する
+					auto curVertexToNext = nextVertPos - curVertPos;
+
+					// 現在の頂点から線分の交差点へのベクトルを計算する
+					auto curVertexToCrossPos = crossPos - curVertPos;
+
+					if (curVertexToCrossPos.y < tktkMath::MathHelper::kEpsilon) curVertexToCrossPos.y = 0.0f;
+
+					// 上２つのベクトルの外積を求める
+					auto testNormal = tktkMath::Vector3::cross(curVertexToNext.normalized(), curVertexToCrossPos.normalized()).normalized();
+
+					// 外積がゼロベクトルだった場合、線分の交差点は自身のポリゴンの辺上に存在する
+					if (testNormal == tktkMath::Vector3_v::zero) continue;
+
+					// 外積が自身のポリゴンの法線と一致した場合、線分の交差点はポリゴンの中に存在する
+					if (tktkMath::Vector3::distance(polygonNormal, testNormal) < tktkMath::MathHelper::kEpsilon) continue;
+
+					// 線分がポリゴンに接触していない
+					isHitPolygon = false;
+				}
+
+				// “自身のポリゴン”に“相手の頂点を開始点とする自身のポリゴンの反転法線ベクトル”が衝突していない場合は次の頂点に
+				if (!isHitPolygon) continue;
+
+				// もし、“相手の頂点を開始点とする自身のポリゴンの反転法線ベクトルの長さ”の絶対値の大きさを更新していたら
+				if (otherVertToExtensionPolyCrossVecLen > mostFarCollideUseOtherVertLen)
+				{
+					// 衝突フラグを立てる
+					result.isHit = true;
+
+					// 基準値を更新
+					mostFarCollideUseOtherVertLen = otherVertToExtensionPolyCrossVecLen;
+
+					// 自身の押し出し方向を更新
+					result.selfExtrudeVec = polygonNormal * otherVertToExtensionPolyCrossVecLen;
+				}
+			}
+		}
+
+		// 自身のポリゴンを構成する頂点を巡回する
+		for (const auto& selfVert : polygon)
+		{
+			// “自身のポリゴンの頂点から自身のポリゴンの反転法線方向に延びた線分”と“相手のメッシュ”で衝突判定を行う
+			auto lineCrossResult = lineCollisionWithMesh(selfVert, selfVert - (polygonNormal * mostFarOtherVertLen), otherBody, otherWorldMatrix);
+
+			// “自身のポリゴンの頂点から自身のポリゴンの反転法線方向に延びた線分”と“相手のメッシュ”が衝突していなかったら次の頂点へ
+			if (!lineCrossResult.isHit) continue;
+
+			// “自身のポリゴンの頂点から自身のポリゴンの法線方向に延びた線分”と“相手のメッシュ”の衝突点を巡回する
+			for (const auto& linePolyCrossData : lineCrossResult.linePolyCrossDataArray)
+			{
+				// “自身のポリゴンの頂点から自身のポリゴンの法線方向に延びた線分と相手のメッシュの衝突点”から“自身のポリゴンの頂点”へのベクトル
+				auto hitPosToSelfVert = selfVert - linePolyCrossData.hitPos;
+
+				// もし、“相手の頂点を開始点とする自身のポリゴンの反転法線ベクトルの長さ”の絶対値の大きさを更新していたら
+				if (hitPosToSelfVert.length() > mostFarCollideUseOtherVertLen)
+				{
+					// 衝突フラグを立てる
+					result.isHit = true;
+
+					// 基準値を更新
+					mostFarCollideUseOtherVertLen = hitPosToSelfVert.length();
+
+					// 自身の押し出し方向を更新
+					result.selfExtrudeVec = hitPosToSelfVert;
+				}
+			}
+		}
+
 		return result;
 	}
 
@@ -153,189 +329,119 @@ namespace tktkCollision
 
 	HitInfo3D CollisionSupport3D::meshCollisionWithMesh(const BoundingMesh& selfBody, const BoundingMesh& otherBody, const tktkMath::Matrix4& selfWorldMatrix, const tktkMath::Matrix4& otherWorldMatrix)
 	{
-		// それぞれの衝突判定の座標を取得
-		auto selfPos = selfWorldMatrix.calculateTranslation();
-		auto otherPos = otherWorldMatrix.calculateTranslation();
+		// メッシュの頂点
+		std::vector<std::vector<tktkMath::Vector3>> selfVertexs;
+		std::vector<std::vector<tktkMath::Vector3>> otherVertexs;
 
 		// メッシュの頂点を計算する
-		std::vector<tktkMath::Vector3> selfVertexs;
-		selfVertexs.reserve(selfBody.getVertexs().size());
-		for (const auto& vertex : selfBody.getVertexs()) selfVertexs.push_back(vertex * selfWorldMatrix);
-		std::vector<tktkMath::Vector3> otherVertexs;
-		otherVertexs.reserve(otherBody.getVertexs().size());
-		for (const auto& vertex : otherBody.getVertexs()) otherVertexs.push_back(vertex * otherWorldMatrix);
-
-		// 衝突中に片方の中心座標がもう片方の辺から最も離れた時の距離を計算する
-		float mostFarDistance = 0.0f;
-		for (const auto& vertex : selfVertexs)
+		selfVertexs.resize(selfBody.getVertexs().size());
+		for (size_t i = 0U; i < selfBody.getVertexs().size(); i++)
 		{
-			float dist = tktkMath::Vector3::distance(selfWorldMatrix.calculateTranslation(), vertex);
-			if (dist > mostFarDistance) mostFarDistance = dist;
+			selfVertexs.at(i).reserve(selfBody.getVertexs().at(i).size());
+
+			for (size_t j = 0U; j < selfBody.getVertexs().at(i).size(); j++)
+			{
+				selfVertexs.at(i).push_back(selfBody.getVertexs().at(i).at(j) * selfWorldMatrix);
+			}
 		}
-		for (const auto& vertex : otherVertexs)
+		otherVertexs.resize(otherBody.getVertexs().size());
+		for (size_t i = 0U; i < otherBody.getVertexs().size(); i++)
 		{
-			float dist = tktkMath::Vector3::distance(otherWorldMatrix.calculateTranslation(), vertex);
-			if (dist > mostFarDistance) mostFarDistance = dist;
+			otherVertexs.at(i).reserve(otherBody.getVertexs().at(i).size());
+
+			for (size_t j = 0U; j < otherBody.getVertexs().at(i).size(); j++)
+			{
+				otherVertexs.at(i).push_back(otherBody.getVertexs().at(i).at(j) * otherWorldMatrix);
+			}
 		}
-
-		// “自身の座標から相手の座標の線”と“相手のメッシュ”で衝突判定を行う
-		// ※自身の座標が相手の衝突判定の中に入り込んでいる可能性を考慮して値が補正されている
-		auto selfPosColOtherMeshResult = lineCollisionWithMesh(
-			selfPos - (tktkMath::Vector3::normalize(otherPos - selfPos) * mostFarDistance),	// めり込み想定補正 
-			otherPos,
-			otherBody,
-			otherWorldMatrix
-		);
-
-		// 直前に行った衝突判定の結果が“衝突していない”だったら相手のポリゴンが閉じていない為、判定不可
-		if (!selfPosColOtherMeshResult.isHit) return HitInfo3D();
-
 
 		//**************************************************
-		// “相手の座標からの自身の座標の線”と“自身のメッシュ”で衝突判定を行う
-		// ※相手の座標が自身の衝突判定の中に入り込んでいる可能性を考慮して値が補正されている
-		auto otherPosColSelfMeshResult = lineCollisionWithMesh(
-			otherPos - (tktkMath::Vector3::normalize(selfPos - otherPos) * mostFarDistance),	// めり込み想定補正 
-			selfPos,
-			selfBody,
-			selfWorldMatrix
-		);
-
-		// 直前に行った衝突判定の結果が“衝突していない”だったら自身のポリゴンが閉じていない為、判定不可
-		if (!otherPosColSelfMeshResult.isHit) return HitInfo3D();
-		//**************************************************
-
-
-		// 自身の座標から最も近い相手の衝突判定の面から外側に垂直に伸びたベクトル（長さは１）を計算する
-		auto firstVertexToSecond = selfPosColOtherMeshResult.otherVertexs.at(1U) - selfPosColOtherMeshResult.otherVertexs.at(0U);
-		auto firstVertexToThird = selfPosColOtherMeshResult.otherVertexs.at(2U) - selfPosColOtherMeshResult.otherVertexs.at(0U);
-		tktkMath::Vector3 selfExtrudeDirection = tktkMath::Vector3::cross(firstVertexToSecond, firstVertexToThird);
-
-		//// “相手の衝突判定の面上の点から面を基準として内側に垂直に伸びた線”と“自身のメッシュ”で衝突判定を行う
-		//auto otherLineColSelfPolyResult = lineCollisionWithMesh(
-		//	selfPosColOtherMeshResult.crossPos - (otherColliderPolyVerticalLineDirection * mostFarDistance),	// めり込み想定補正
-		//	selfPosColOtherMeshResult.crossPos + (otherColliderPolyVerticalLineDirection * mostFarDistance),	// めり込み想定補正
-		//	selfBody,
-		//	selfWorldMatrix
-		//);
-		//
-		//// 直前に行った衝突判定の結果が“衝突していない”だったら相手のポリゴンと衝突していない
-		//if (!otherLineColSelfPolyResult.isHit) return HitInfo3D();
+		// 衝突相手のポリゴン内に接触している辺があるかどうかのフラグ
 
 		HitInfo3D result{};
+		result.selfExtrudeVec = { std::numeric_limits<float>::max() / 2.0f };
 
-		// 衝突判定で使用する自身のポリゴンの頂点をループする
-		for (const auto& selfVert : otherPosColSelfMeshResult.otherVertexs)
+		// 相手のポリゴンを巡回する
+		for (const auto& otherPoly : otherVertexs)
 		{
-			// 現在の自身の頂点から押し出し方向に向かったベクトルと相手のポリゴンで衝突判定を呼ぶ
-			auto lineCrossCheckResult = lineCollisionWithPolygon(
-				selfVert,
-				selfVert + (selfExtrudeDirection * mostFarDistance),
-				selfPosColOtherMeshResult.otherVertexs
-			);
+			// 相手のポリゴンの頂点が３つより少ない場合、判定不可なので次のポリゴンの判定へ
+			if (otherPoly.size() < 3U) continue;
 
-			// 直前に行った衝突判定が当たっている状態だったら
-			if (lineCrossCheckResult.isHit)
+			// 相手のポリゴンの中心座標を計算する
+			auto otherPolyCenterPos = tktkMath::Vector3_v::zero;
+			for (const auto& otherVert : otherPoly) otherPolyCenterPos += otherVert;
+			otherPolyCenterPos /= otherPoly.size();
+
+			// 相手のポリゴンの中心座標が自身のメッシュ内にあるか判定する
+			bool findInclusionLine = pointCollisionWithMesh(otherPolyCenterPos, selfBody, selfWorldMatrix);
+
+			// 相手のポリゴンを構成する頂点を巡回する
+			for (size_t vertIndex = 0; vertIndex < otherPoly.size(); vertIndex++)
 			{
-				// 今回の場合の押し出しベクトルを計算する
-				auto tempPushVec = lineCrossCheckResult.crossPos - selfVert;
+				// 自身のポリゴンの辺と相手のメッシュで衝突判定を行う
+				auto lineCollisionMeshResult = lineCollisionWithMesh(otherPoly.at(vertIndex), otherPoly.at((vertIndex + 1U) % otherPoly.size()), selfBody, selfWorldMatrix);
 
-				// 押し出しベクトルの長さを更新していて、方向が押し出し方向と一致した場合、
-				if (tempPushVec.length() > result.selfExtrudeVec.length() && tempPushVec.normalized().equals(selfExtrudeDirection))
-				{
-					// 新たな押し出しベクトルとして保持する
-					result.selfExtrudeVec = tempPushVec;
-				}
+				// もし“自身のポリゴンの辺と相手のメッシュ”が衝突していたら
+				if (lineCollisionMeshResult.isHit) findInclusionLine = true;
+			}
+
+			if (!findInclusionLine) continue;
+
+			result.isHit = true;
+
+			auto polyHitResult = polygonCollisionWithMesh(otherPoly, selfBody, selfWorldMatrix);
+
+			if (!polyHitResult.isHit) continue;
+
+			// 押し出し方向の距離の短さを更新していたら
+			if (polyHitResult.selfExtrudeVec.length() < result.selfExtrudeVec.length())
+			{
+				// 押し出し方向を更新する
+				result.selfExtrudeVec = polyHitResult.selfExtrudeVec;
 			}
 		}
 
-		// 衝突判定で使用する相手のポリゴンの頂点をループする
-		for (const auto& otherVert : selfPosColOtherMeshResult.otherVertexs)
+		// 自身のポリゴンを巡回する
+		for (const auto& selfPoly : selfVertexs)
 		{
-			// 現在の相手の頂点から押し出し方向と“真逆”に向かったベクトルと自身のポリゴンで衝突判定を呼ぶ
-			auto lineCrossCheckResult = lineCollisionWithPolygon(
-				otherVert,
-				otherVert - (selfExtrudeDirection * mostFarDistance),
-				otherPosColSelfMeshResult.otherVertexs
-			);
+			// 自身のポリゴンの頂点が３つより少ない場合、判定不可なので次のポリゴンの判定へ
+			if (selfPoly.size() < 3U) continue;
 
-			// 直前に行った衝突判定が当たっている状態だったら
-			if (lineCrossCheckResult.isHit)
+			// 自身のポリゴンの中心座標を計算する
+			auto selfPolyCenterPos = tktkMath::Vector3_v::zero;
+			for (const auto& selfVert : selfPoly) selfPolyCenterPos += selfVert;
+			selfPolyCenterPos /= selfPoly.size();
+
+			// 自身のポリゴンの中心座標が相手のメッシュ内にあるか判定する
+			bool findInclusionLine = pointCollisionWithMesh(selfPolyCenterPos, otherBody, otherWorldMatrix);
+
+			// 自身のポリゴンを構成する頂点を巡回する
+			for (size_t vertIndex = 0; vertIndex < selfPoly.size(); vertIndex++)
 			{
-				// 今回の場合の押し出しベクトルを計算する
-				auto tempPushVec = lineCrossCheckResult.crossPos - otherVert;
+				// 自身のポリゴンの辺と相手のメッシュで衝突判定を行う
+				auto lineCollisionMeshResult = lineCollisionWithMesh(selfPoly.at(vertIndex), selfPoly.at((vertIndex + 1U) % selfPoly.size()), otherBody, otherWorldMatrix);
 
-				// 押し出しベクトルの長さを更新していて、方向が押し出し方向の“真逆”と一致した場合、新たな押し出しベクトルとして保持する
-				if (tempPushVec.length() > result.selfExtrudeVec.length() && tempPushVec.normalized().equals(-selfExtrudeDirection))
-				{
-					// 新たな押し出しベクトルとして保持する
-					result.selfExtrudeVec = -tempPushVec;
-				}
+				// もし“自身のポリゴンの辺と相手のメッシュ”が衝突していたら
+				if (lineCollisionMeshResult.isHit) findInclusionLine = true;
+			}
+
+			if (!findInclusionLine) continue;
+
+			result.isHit = true;
+
+			auto polyHitResult = polygonCollisionWithMesh(selfPoly, otherBody, otherWorldMatrix);
+
+			if (!polyHitResult.isHit) continue;
+
+			// 押し出し方向の距離の短さを更新していたら
+			if (polyHitResult.selfExtrudeVec.length() < result.selfExtrudeVec.length())
+			{
+				// 押し出し方向を更新する
+				result.selfExtrudeVec = -polyHitResult.selfExtrudeVec;
 			}
 		}
 
-		//for (const auto& selfVertex : otherLineColSelfPolyResult.otherVertexs)
-		//{
-		//	// 自身の押し出しに使用する辺の一つ目の頂点を基準に押し出しをした時の押し出し座標を計算
-		//	auto lineCrossCheckResult = lineCollisionWithPolygon(
-		//		selfVertex,
-		//		selfVertex - (otherColliderPolyVerticalLineDirection * mostFarDistance),
-		//		selfPosColOtherMeshResult.otherVertexs
-		//	);
-		//
-		//	// 自身の押し出しに使用する辺の一つ目の頂点を基準に押し出しをした時の押し出しベクトルを計算する
-		//	auto tempPushVec = lineCrossCheckResult.crossPos - selfVertex;
-		//
-		//	// 自身を押し出す方向を表すベクトルが衝突相手のポリゴンの内側に向かっていなければ
-		//	if (result.selfExtrudeVec.length() < tempPushVec.length() && !tempPushVec.normalized().equals(otherColliderPolyVerticalLineDirection))
-		//	{
-		//		// 自身の押し出しに使用する辺の一つ目の頂点を基準に押し出しをした時の押し出しベクトルを計算し代入する
-		//		result.selfExtrudeVec = tempPushVec;
-		//	}
-		//}
-
-		//for (const auto& otherVertex : selfPosColOtherMeshResult.otherVertexs)
-		//{
-		//	// 自身の押し出しに使用する辺の一つ目の頂点を基準に押し出しをした時の押し出し座標を計算
-		//	auto lineCrossCheckResult = lineCollisionWithPolygon(
-		//		otherVertex - (otherColliderPolyVerticalLineDirection * mostFarDistance),
-		//		otherVertex + (otherColliderPolyVerticalLineDirection * mostFarDistance),
-		//		otherPosColSelfMeshResult.otherVertexs
-		//	);
-		//
-		//	// 自身の押し出しに使用する辺の一つ目の頂点を基準に押し出しをした時の押し出しベクトルを計算する
-		//	auto tempPushVec = lineCrossCheckResult.crossPos - otherVertex;
-		//
-		//	// 自身を押し出す方向を表すベクトルが衝突相手のポリゴンの内側に向かっていなければ
-		//	if (result.selfExtrudeVec.length() > tempPushVec.length() && !tempPushVec.normalized().equals(otherColliderPolyVerticalLineDirection))
-		//	{
-		//		// 自身の押し出しに使用する辺の一つ目の頂点を基準に押し出しをした時の押し出しベクトルを計算し代入する
-		//		result.selfExtrudeVec = tempPushVec;
-		//	}
-		//}
-		//
-		//for (const auto& selfVertex : otherPosColSelfMeshResult.otherVertexs)
-		//{
-		//	// 自身の押し出しに使用する辺の一つ目の頂点を基準に押し出しをした時の押し出し座標を計算
-		//	auto lineCrossCheckResult = lineCollisionWithPolygon(
-		//		selfVertex - (otherColliderPolyVerticalLineDirection * mostFarDistance),
-		//		selfVertex + (otherColliderPolyVerticalLineDirection * mostFarDistance),
-		//		selfPosColOtherMeshResult.otherVertexs
-		//	);
-		//
-		//	// 自身の押し出しに使用する辺の一つ目の頂点を基準に押し出しをした時の押し出しベクトルを計算する
-		//	auto tempPushVec = lineCrossCheckResult.crossPos - selfVertex;
-		//
-		//	// 自身を押し出す方向を表すベクトルが衝突相手のポリゴンの内側に向かっていなければ
-		//	if (result.selfExtrudeVec.length() > tempPushVec.length() && !tempPushVec.normalized().equals(otherColliderPolyVerticalLineDirection))
-		//	{
-		//		// 自身の押し出しに使用する辺の一つ目の頂点を基準に押し出しをした時の押し出しベクトルを計算し代入する
-		//		result.selfExtrudeVec = tempPushVec;
-		//	}
-		//}
-
-		// 押し出す距離がゼロでなければ衝突していると判断する
-		result.isHit = (!result.selfExtrudeVec.equals(tktkMath::Vector3_v::zero));
+		if (result.selfExtrudeVec == tktkMath::Vector3{ std::numeric_limits<float>::max() / 2.0f }) result.selfExtrudeVec = tktkMath::Vector3_v::zero;
 
 		return result;
 	}
