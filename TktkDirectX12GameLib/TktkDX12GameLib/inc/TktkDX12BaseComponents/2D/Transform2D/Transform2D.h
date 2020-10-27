@@ -114,21 +114,21 @@ namespace tktk
 	private:
 
 		// 親のTransformを追従しているか？
-		bool m_isTransformParent{ false };
+		bool m_isTransformParent			{ false };
 
 		// ローカルの座標
-		tktkMath::Vector2 m_localPosition{ tktkMath::vec2Zero };
+		tktkMath::Vector2 m_localPosition	{ tktkMath::Vector2_v::zero };
 		// ローカルのスケール
-		tktkMath::Vector2 m_localScaleRate{ tktkMath::vec2One };
+		tktkMath::Vector2 m_localScaleRate	{ tktkMath::Vector2_v::one };
 		// ローカルの回転（度数法）
-		float m_localRotationDeg{ 0.0f };
+		float m_localRotationDeg			{ 0.0f };
 
 		// ワールドの座標
-		tktkMath::Vector2 m_worldPosition{ tktkMath::vec2Zero };
+		tktkMath::Vector2 m_worldPosition	{ tktkMath::Vector2_v::zero };
 		// ワールドのスケール
-		tktkMath::Vector2 m_worldScaleRate{ tktkMath::vec2One };
+		tktkMath::Vector2 m_worldScaleRate	{ tktkMath::Vector2_v::one };
 		// ローカルの回転（度数法）
-		float m_worldRotationDeg{ 0.0f };
+		float m_worldRotationDeg			{ 0.0f };
 
 		// 親のTransform2Dとの関係性
 		TraceParentType m_traceType;

@@ -52,9 +52,9 @@ namespace tktk
 	private: /* ïœêîíB */
 
 		GameObjectPtr			m_user			{  };
-		tktkMath::Vector3		m_initPosition	{ tktkMath::vec3Zero };
-		tktkMath::Vector3		m_initScaleRate	{ tktkMath::vec3One };
-		tktkMath::Quaternion	m_initRotation	{ tktkMath::quaternionIdentity };
+		tktkMath::Vector3		m_initPosition	{ tktkMath::Vector3_v::zero };
+		tktkMath::Vector3		m_initScaleRate	{ tktkMath::Vector3_v::one };
+		tktkMath::Quaternion	m_initRotation	{ tktkMath::Quaternion_v::identity };
 		TraceParentType			m_traceType		{ TraceParentType::trace_All };
 	};
 }

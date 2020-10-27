@@ -187,23 +187,6 @@ namespace tktkMath
 		return m1;
 	}
 
-	Matrix3& operator*=(Matrix3& m, float s)
-	{
-		for (int i = 0; i < 3; ++i)
-		{
-			for (int j = 0; j < 3; ++j)
-			{
-				m.m[i][j] *= s;
-			}
-		}
-		return m;
-	}
-
-	Matrix3& operator/=(Matrix3& m, float s)
-	{
-		return m *= (1.0f / s);
-	}
-
 	Matrix3 operator+(Matrix3 m1, const Matrix3& m2)
 	{
 		return m1 += m2;
@@ -219,19 +202,14 @@ namespace tktkMath
 		return m1 *= m2;
 	}
 
-	Matrix3 operator*(Matrix3 m, float s)
+	Vector2 operator*(const Vector2& v, const Matrix3& m)
 	{
-		return m *= s;
+		return Vector2::transform(v, m);
 	}
 
-	Matrix3 operator*(float s, Matrix3 m)
+	Vector2& operator*=(Vector2& v, const Matrix3& m)
 	{
-		return m *= s;
-	}
-
-	Matrix3 operator/(Matrix3 m, float s)
-	{
-		return m /= s;
+		return v = v * m;
 	}
 
 	std::ostream& operator<<(std::ostream& os, const Matrix3& matrix)

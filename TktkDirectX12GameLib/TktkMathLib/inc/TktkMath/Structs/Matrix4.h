@@ -131,26 +131,35 @@ namespace tktkMath
 		};
 	};
 
-	// 定数達（非推奨：「Matrix4_v::」を使ってください）
-	constexpr Matrix4 mat4Zero		{ 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f };
-	constexpr Matrix4 mat4Identity	{ 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f };
-
 	// 演算子オーバーロード達
 	Matrix4			operator - (const Matrix4& v);
 	Matrix4&		operator += (Matrix4& m1, const Matrix4& m2);
 	Matrix4&		operator -= (Matrix4& m1, const Matrix4& m2);
 	Matrix4&		operator *= (Matrix4& m1, const Matrix4& m2);
-	Matrix4&		operator *= (Matrix4& m, float s);
-	Matrix4&		operator /= (Matrix4& m, float s);
-	Matrix4			operator * (Matrix4 m1, const Matrix4& m2);
-	Matrix4			operator * (Matrix4 m, float s);
-	Matrix4			operator * (Matrix4 s, float m);
-	Vector3			operator * (const Vector3& v, const Matrix4& m);
-	Matrix4			operator + (Matrix4 m1, const Matrix4& m2);
-	Matrix4			operator - (Matrix4 m1, const Matrix4& m2);
-	Matrix4			operator * (Matrix4 m, float s);
-	Matrix4			operator * (float s, Matrix4 m);
-	Matrix4			operator / (Matrix4 m, float s);
+	template <class T>
+	Matrix4&		operator *= (Matrix4& m, T s)
+	{
+		for (int i = 0; i < 4; ++i)
+		{
+			for (int j = 0; j < 4; ++j)
+			{
+				m.m[i][j] *= s;
+			}
+		}
+		return m;
+	}
+	template <class T>
+	Matrix4&		operator /= (Matrix4& m, T s)	{ return m *= (1.0f / s); };
+	Matrix4			operator + (Matrix4 m1,			const Matrix4& m2);
+	Matrix4			operator - (Matrix4 m1,			const Matrix4& m2);
+	Matrix4			operator * (Matrix4 m1,			const Matrix4& m2);
+	Vector3			operator * (const Vector3& v,	const Matrix4& m);
+	template <class T>
+	Matrix4			operator * (Matrix4 m, T s)		{ return m *= s; };
+	template <class T>
+	Matrix4			operator * (T s, Matrix4 m)		{ return m *= s; };
+	template <class T>
+	Matrix4			operator / (Matrix4 m, T s)		{ return m /= s; };
 	std::ostream&	operator<<(std::ostream& os, const Matrix4& matrix);
 }
 #endif // !MATRIX_4_H_

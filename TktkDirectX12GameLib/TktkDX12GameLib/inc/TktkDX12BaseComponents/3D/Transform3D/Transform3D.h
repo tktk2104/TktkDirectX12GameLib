@@ -183,18 +183,18 @@ namespace tktk
 	private:
 
 		// ローカルの座標
-		tktkMath::Vector3 m_localPosition{ tktkMath::vec3Zero };
+		tktkMath::Vector3 m_localPosition{ tktkMath::Vector3_v::zero };
 		// ローカルのスケール
-		tktkMath::Vector3 m_localScaleRate{ tktkMath::vec3One };
+		tktkMath::Vector3 m_localScaleRate{ tktkMath::Vector3_v::one };
 		// ローカルの回転
-		tktkMath::Quaternion m_localRotation{ tktkMath::quaternionIdentity };
+		tktkMath::Quaternion m_localRotation{ tktkMath::Quaternion_v::identity };
 
 		// ワールドの座標
-		tktkMath::Vector3 m_worldPosition{ tktkMath::vec3Zero };
+		tktkMath::Vector3 m_worldPosition{ tktkMath::Vector3_v::zero };
 		// ワールドのスケール
-		tktkMath::Vector3 m_worldScaleRate{ tktkMath::vec3One };
+		tktkMath::Vector3 m_worldScaleRate{ tktkMath::Vector3_v::one };
 		// ローカルの回転
-		tktkMath::Quaternion m_worldRotation{ tktkMath::quaternionIdentity };
+		tktkMath::Quaternion m_worldRotation{ tktkMath::Quaternion_v::identity };
 
 		// 親のTransform3Dとの関係性
 		TraceParentType m_traceType;

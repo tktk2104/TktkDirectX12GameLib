@@ -379,23 +379,6 @@ namespace tktkMath
 		q1.w -= q2.w;
 		return q1;
 	}
-	Quaternion& operator *= (Quaternion& q, float s)
-	{
-		q.x *= s;
-		q.y *= s;
-		q.z *= s;
-		q.w *= s;
-		return q;
-	}
-
-	Quaternion& operator /= (Quaternion& q, float s)
-	{
-		q.x /= s;
-		q.y /= s;
-		q.z /= s;
-		q.w /= s;
-		return q;
-	}
 
 	Quaternion& operator *= (Quaternion& q1, const Quaternion& q2)
 	{
@@ -421,21 +404,6 @@ namespace tktkMath
 	Quaternion operator * (Quaternion q1, const Quaternion& q2)
 	{
 		return q1 *= q2;
-	}
-
-	Quaternion operator * (Quaternion q, float s)
-	{
-		return q *= s;
-	}
-
-	Quaternion operator * (float s, Quaternion q)
-	{
-		return q *= s;
-	}
-
-	Quaternion operator / (Quaternion q, float s)
-	{
-		return q /= s;
 	}
 
 	Vector3 operator*(const Quaternion& rotation, const Vector3& point)

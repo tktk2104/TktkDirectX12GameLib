@@ -432,23 +432,6 @@ namespace tktkMath
 		return m1;
 	}
 
-	Matrix4& operator *= (Matrix4& m, float s)
-	{
-		for (int i = 0; i < 4; ++i)
-		{
-			for (int j = 0; j < 4; ++j)
-			{
-				m.m[i][j] *= s;
-			}
-		}
-		return m;
-	}
-
-	Matrix4& operator /= (Matrix4& m, float s)
-	{
-		return m *= (1.0f / s);
-	}
-
 	Matrix4 operator * (Matrix4 m1, const Matrix4& m2)
 	{
 		return m1 *= m2;
@@ -462,21 +445,6 @@ namespace tktkMath
 	Matrix4 operator - (Matrix4 m1, const Matrix4& m2)
 	{
 		return m1 -= m2;
-	}
-
-	Matrix4 operator*(Matrix4 m, float s)
-	{
-		return m *= s;
-	}
-
-	Matrix4 operator*(float s, Matrix4 m)
-	{
-		return m *= s;
-	}
-
-	Matrix4 operator/(Matrix4 m, float s)
-	{
-		return m /= s;
 	}
 
 	Vector3 operator * (const Vector3& v, const Matrix4& m)

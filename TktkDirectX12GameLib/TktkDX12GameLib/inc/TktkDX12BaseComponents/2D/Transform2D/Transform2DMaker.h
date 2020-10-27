@@ -46,8 +46,8 @@ namespace tktk
 	private: /* ïœêîíB */
 
 		GameObjectPtr		m_user				{  };
-		tktkMath::Vector2	m_initPosition		{ tktkMath::vec2Zero };
-		tktkMath::Vector2	m_initScaleRate		{ tktkMath::vec2One };
+		tktkMath::Vector2	m_initPosition		{ tktkMath::Vector2_v::zero };
+		tktkMath::Vector2	m_initScaleRate		{ tktkMath::Vector2_v::one };
 		float				m_initRotationDeg	{ 0.0f };
 		TraceParentType		m_traceType			{ TraceParentType::trace_All };
 	};

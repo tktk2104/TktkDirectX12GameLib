@@ -495,22 +495,6 @@ namespace tktkMath
 		return v1;
 	}
 
-	Vector3& operator *= (Vector3& v, float s)
-	{
-		v.x *= s;
-		v.y *= s;
-		v.z *= s;
-		return v;
-	}
-
-	Vector3& operator /= (Vector3& v, float s)
-	{
-		v.x /= s;
-		v.y /= s;
-		v.z /= s;
-		return v;
-	}
-
 	Vector3 operator + (Vector3 v1, const Vector3& v2)
 	{
 		return v1 += v2;
@@ -519,21 +503,6 @@ namespace tktkMath
 	Vector3 operator - (Vector3 v1, const Vector3& v2)
 	{
 		return v1 -= v2;
-	}
-
-	Vector3 operator * (Vector3 v, float s)
-	{
-		return v *= s;
-	}
-
-	Vector3 operator * (float s, Vector3 v)
-	{
-		return v *= s;
-	}
-
-	Vector3 operator / (Vector3 v, float s)
-	{
-		return v /= s;
 	}
 
 	bool operator==(const Vector3& lhs, const Vector3& rhs)

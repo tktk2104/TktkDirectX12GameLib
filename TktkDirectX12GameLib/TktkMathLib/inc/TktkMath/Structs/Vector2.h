@@ -100,27 +100,22 @@ namespace tktkMath
 		static constexpr Vector2 positiveInfinity	{  std::numeric_limits<float>::infinity() };
 	};
 
-	// 定数達（非推奨：「Vector2_v::」を使ってください）
-	constexpr Vector2 vec2Zero = { 0.0f };
-	constexpr Vector2 vec2One = { 1.0f };
-	constexpr Vector2 vec2Up = { 0.0f,  1.0f };
-	constexpr Vector2 vec2Down = { 0.0f, -1.0f };
-	constexpr Vector2 vec2Left = { -1.0f,  0.0f };
-	constexpr Vector2 vec2Right = { 1.0f,  0.0f };
-	constexpr Vector2 vec2NegativeInfinity = { -std::numeric_limits<float>::infinity() };
-	constexpr Vector2 vec2PositiveInfinity = { std::numeric_limits<float>::infinity() };
-
 	// 演算子オーバーロード達
 	Vector2			operator -  (const Vector2& v);
 	Vector2&		operator += (Vector2& v1, const Vector2& v2);
 	Vector2&		operator -= (Vector2& v1, const Vector2& v2);
-	Vector2&		operator *= (Vector2& v, float s);
-	Vector2&		operator /= (Vector2& v, float s);
+	template <class T>
+	Vector2&		operator *= (Vector2& v, T s)	{ v.x *= s; v.y *= s; return v; };
+	template <class T>
+	Vector2&		operator /= (Vector2& v, T s)	{ v.x /= s; v.y /= s; return v; };
 	Vector2			operator +  (Vector2 v1, const Vector2& v2);
 	Vector2			operator -  (Vector2 v1, const Vector2& v2);
-	Vector2			operator *  (Vector2 v, float s);
-	Vector2			operator *  (float s, Vector2 v);
-	Vector2			operator /  (Vector2 v, float s);
+	template <class T>
+	Vector2			operator *  (Vector2 v, T s)	{ return v *= s; };
+	template <class T>
+	Vector2			operator *  (T s, Vector2 v)	{ return v *= s; };
+	template <class T>
+	Vector2			operator /  (Vector2 v, T s)	{ return v /= s; };
 	bool			operator == (const Vector2& lhs, const Vector2& rhs);
 	bool			operator != (const Vector2& lhs, const Vector2& rhs);
 	std::ostream&	operator << (std::ostream& os, const Vector2& vector2);

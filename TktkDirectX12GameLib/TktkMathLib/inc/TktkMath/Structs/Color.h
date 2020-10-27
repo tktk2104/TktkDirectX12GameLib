@@ -48,25 +48,23 @@ namespace tktkMath
 		static constexpr Color blue		{ 0.0f, 0.0f, 1.0f, 1.0f };
 	};
 
-	// 定数達（非推奨：「Color_v::」を使ってください）
-	constexpr Color colorBlack	{ 0.0f, 1.0f };
-	constexpr Color colorWhite	{ 1.0f, 1.0f };
-	constexpr Color colorRed	{ 1.0f, 0.0f, 0.0f, 1.0f };
-	constexpr Color colorGreen	{ 0.0f, 1.0f, 0.0f, 1.0f };
-	constexpr Color colorBlue	{ 0.0f, 0.0f, 1.0f, 1.0f };
-
 	// 演算子オーバーロード達
 	Color&			operator += (Color& c1, const Color& c2);
 	Color&			operator -= (Color& c1, const Color& c2);
 	Color&			operator *= (Color& c1, const Color& c2);
-	Color&			operator *= (Color& c, float s);
-	Color&			operator /= (Color& c, float s);
+	template <class T>
+	Color&			operator *= (Color& c, T s) { c.r *= s; c.g *= s; c.b *= s; c.a *= s; return c; };
+	template <class T>
+	Color&			operator /= (Color& c, T s) { c.r /= s; c.g /= s; c.b /= s; c.a /= s; return c; };
 	Color			operator +  (Color c1, const Color& c2);
 	Color			operator -  (Color c1, const Color& c2);
 	Color			operator *  (Color c1, const Color& c2);
-	Color			operator *  (Color c, float s);
-	Color			operator *  (float s, Color c);
-	Color			operator /  (Color c, float s);
+	template <class T>
+	Color			operator *  (Color c, T s) { return c *= s; };
+	template <class T>
+	Color			operator *  (T s, Color c) { return c *= s; };
+	template <class T>
+	Color			operator /  (Color c, T s) { return c /= s; };
 	std::ostream&	operator << (std::ostream& os, const Color& color);
 }
 #endif
