@@ -603,6 +603,9 @@
     <ClInclude Include="inc\TktkDX12BaseComponents\Other\Sound\SoundPlayerMaker.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="inc\TktkDX12GameLib.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\TktkDX12Game\_MainManager\DX12GameManager.cpp">

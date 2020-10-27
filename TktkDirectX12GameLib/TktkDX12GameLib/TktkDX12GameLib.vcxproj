@@ -222,6 +222,7 @@
     <ClInclude Include="inc\TktkDX12BaseComponents\Other\ReceiveMessageToSelfDestroyer\ReceiveMessageToSelfDestroyerMaker.h" />
     <ClInclude Include="inc\TktkDX12BaseComponents\Other\Sound\SoundPlayer.h" />
     <ClInclude Include="inc\TktkDX12BaseComponents\Other\Sound\SoundPlayerMaker.h" />
+    <ClInclude Include="inc\TktkDX12GameLib.h" />
     <ClInclude Include="inc\TktkDX12GameLibDefinition.h" />
     <ClInclude Include="inc\TktkDX12Game\Component\ComponentBasePtr.h" />
     <ClInclude Include="inc\TktkDX12Game\Component\ComponentBase.h" />
