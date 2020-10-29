@@ -54,7 +54,7 @@ namespace tktkFileIo
 		std::vector<BoneNode*>	children;
 	};
 
-	void lodepmd::load(loadData* out, const std::string& fileName)
+	void lodepmd::load(lodepmd::loadData* out, const std::string& fileName)
 	{
 		FILE* fp;
 		fopen_s(&fp, fileName.c_str(), "rb");
