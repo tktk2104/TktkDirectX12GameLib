@@ -6,6 +6,7 @@
 #include "TktkDX12Game/DXGameResource/Mesh/BasicMesh/Mesh/BasicMesh.h"
 #include "TktkDX12Game/DXGameResource/Mesh/BasicMesh/Material/BasicMeshMaterial.h"
 #include "TktkDX12Game/DXGameResource/Mesh/BasicMesh/Loader/BasicMeshPmdLoader.h"
+#include "TktkDX12Game/DXGameResource/Mesh/BasicMesh/Loader/BasicMeshPmxLoader.h"
 
 namespace tktk
 {
@@ -118,5 +119,10 @@ namespace tktk
     BasicMeshLoadPmdReturnValue MeshResource::loadPmd(const BasicMeshLoadPmdArgs& args)
     {
         return BasicMeshPmdLoader::loadPmd(args);
+    }
+
+    BasicMeshLoadPmxReturnValue MeshResource::loadPmx(const BasicMeshLoadPmxArgs& args)
+    {
+        return BasicMeshPmxLoader::loadPmx(args);
     }
 }

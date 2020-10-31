@@ -207,6 +207,11 @@ namespace tktk
 		return m_meshResource->loadPmd(args);
 	}
 
+	BasicMeshLoadPmxReturnValue DXGameResource::loadPmx(const BasicMeshLoadPmxArgs& args)
+	{
+		return m_meshResource->loadPmx(args);
+	}
+
 	unsigned int DXGameResource::createSkeleton(const SkeletonInitParam& initParam)
 	{
 		return m_meshResource->createSkeleton(initParam);
