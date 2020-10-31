@@ -31,6 +31,7 @@
 #include "3D/MeshDrawer/BoxMeshDrawerMaker.h"
 #include "3D/MeshDrawer/BoxMeshWireFrameDrawerMaker.h"
 #include "3D/MeshAnimator/MeshAnimatorMaker.h"
+#include "3D/MeshAnimator/MotionChangerMaker.h"
 #include "3D/ShadowMapWriter/BasicMeshShadowMapWriterMaker.h"
 #include "3D/ShadowMapWriter/SphereMeshShadowMapWriterMaker.h"
 #include "3D/ShadowMapWriter/BoxMeshShadowMapWriterMaker.h"
@@ -140,14 +141,17 @@ namespace tktk
 		// メッシュのアニメーションコンポーネント
 		using C47 = MeshAnimator;
 
+		// モーション変更コンポーネント
+		using C48 = MotionChanger;
+
 		// メッシュのシャドウマップ描画コンポーネント
-		using C48 = BasicMeshShadowMapWriter;
+		using C49 = BasicMeshShadowMapWriter;
 
 		// 球体メッシュのシャドウマップ描画コンポーネント
-		using C49 = SphereMeshShadowMapWriter;
+		using C50 = SphereMeshShadowMapWriter;
 
 		// 立方体メッシュのシャドウマップ描画コンポーネント
-		using C50 = BoxMeshShadowMapWriter;
+		using C51 = BoxMeshShadowMapWriter;
 	//>
 
 

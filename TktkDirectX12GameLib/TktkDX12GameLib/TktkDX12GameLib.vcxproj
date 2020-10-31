@@ -201,6 +201,8 @@
     <ClInclude Include="inc\TktkDX12BaseComponents\3D\Light\DirectionalLightController.h" />
     <ClInclude Include="inc\TktkDX12BaseComponents\3D\Light\DirectionalLightControllerMaker.h" />
     <ClInclude Include="inc\TktkDX12BaseComponents\3D\Light\PointLightControllerMaker.h" />
+    <ClInclude Include="inc\TktkDX12BaseComponents\3D\MeshAnimator\MotionChanger.h" />
+    <ClInclude Include="inc\TktkDX12BaseComponents\3D\MeshAnimator\MotionChangerMaker.h" />
     <ClInclude Include="inc\TktkDX12BaseComponents\3D\MeshDrawer\BoxMeshDrawer.h" />
     <ClInclude Include="inc\TktkDX12BaseComponents\3D\MeshDrawer\BoxMeshDrawerMaker.h" />
     <ClInclude Include="inc\TktkDX12BaseComponents\3D\MeshDrawer\BoxMeshDrawerUseResourceHandles.h" />
@@ -245,6 +247,7 @@
     <ClInclude Include="inc\TktkDX12BaseComponents\2D\Transform2D\Transform2D.h" />
     <ClInclude Include="inc\TktkDX12BaseComponents\2D\Transform2D\Transform2DMaker.h" />
     <ClInclude Include="inc\TktkDX12Game\Component\DefaultComponents\StateMachine\CurStateTypeList.h" />
+    <ClInclude Include="inc\TktkDX12Game\Component\DefaultComponents\StateMachine\StateChangeTimer.h" />
     <ClInclude Include="inc\TktkDX12Game\Component\DefaultComponents\StateMachine\StateMachine.h" />
     <ClInclude Include="inc\TktkDX12Game\Component\DefaultComponents\StateMachine\StateMachineList.h" />
     <ClInclude Include="inc\TktkDX12Game\Component\DefaultComponents\StateMachine\StateMachineListInitParam.h" />
@@ -284,6 +287,9 @@
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\Line2D\Line2DMaterialData.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\Line2D\Line2DMaterialDrawFuncArgs.h" />
     <ClInclude Include="inc\TktkDX12BaseComponents\3D\MeshDrawer\BasicMeshDrawerUseResourceHandles.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Mesh\BasicMesh\Loader\BasicMeshLoadPmxArgs.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Mesh\BasicMesh\Loader\BasicMeshLoadPmxReturnValue.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Mesh\BasicMesh\Loader\BasicMeshPmxLoader.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\Mesh\BasicMesh\Maker\BoxMeshMaker.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\Mesh\BasicMesh\Structs\BasicMeshMaterialCbuffer.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\Mesh\BasicMesh\Structs\BasicMonoColorMeshCbuffer.h" />
@@ -357,6 +363,8 @@
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\Sound\Sound.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\Sound\SoundData.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\Sound\SoundPlayState.h" />
+    <ClInclude Include="inc\TktkDX12Game\Input\_InputManager\DirectionCommandType.h" />
+    <ClInclude Include="inc\TktkDX12Game\Input\_InputManager\InputManager.h" />
     <ClInclude Include="inc\TktkDX12Game\Time\ElapsedTimer.h" />
     <ClInclude Include="inc\TktkDX12Game\TktkDX12Game.h" />
     <ClInclude Include="inc\TktkDX12Game\_MainManager\DX12GameManager.h" />
@@ -400,6 +408,8 @@
     <ClCompile Include="src\TktkDX12BaseComponents\3D\Light\DirectionalLightController.cpp" />
     <ClCompile Include="src\TktkDX12BaseComponents\3D\Light\DirectionalLightControllerMaker.cpp" />
     <ClCompile Include="src\TktkDX12BaseComponents\3D\Light\PointLightControllerMaker.cpp" />
+    <ClCompile Include="src\TktkDX12BaseComponents\3D\MeshAnimator\MotionChanger.cpp" />
+    <ClCompile Include="src\TktkDX12BaseComponents\3D\MeshAnimator\MotionChangerMaker.cpp" />
     <ClCompile Include="src\TktkDX12BaseComponents\3D\MeshDrawer\BoxMeshDrawer.cpp" />
     <ClCompile Include="src\TktkDX12BaseComponents\3D\MeshDrawer\BoxMeshDrawerMaker.cpp" />
     <ClCompile Include="src\TktkDX12BaseComponents\3D\MeshDrawer\BoxMeshWireFrameDrawer.cpp" />
@@ -437,9 +447,9 @@
     <ClCompile Include="src\TktkDX12BaseComponents\2D\Transform2D\Transform2D.cpp" />
     <ClCompile Include="src\TktkDX12BaseComponents\2D\Transform2D\Transform2DMaker.cpp" />
     <ClCompile Include="src\TktkDX12Game\Component\DefaultComponents\StateMachine\CurStateTypeList.cpp" />
+    <ClCompile Include="src\TktkDX12Game\Component\DefaultComponents\StateMachine\StateChangeTimer.cpp" />
     <ClCompile Include="src\TktkDX12Game\Component\DefaultComponents\StateMachine\StateMachine.cpp" />
     <ClCompile Include="src\TktkDX12Game\Component\DefaultComponents\StateMachine\StateMachineList.cpp" />
-    <ClCompile Include="src\TktkDX12Game\Component\DefaultComponents\StateMachine\StateMachineListInitParam.cpp" />
     <ClCompile Include="src\TktkDX12Game\DXGameResource\Billboard\BillboardMaterial.cpp" />
     <ClCompile Include="src\TktkDX12Game\DXGameResource\Billboard\BillboardMaterialData.cpp" />
     <ClCompile Include="src\TktkDX12Game\DXGameResource\Camera\Camera.cpp" />
@@ -462,6 +472,7 @@
     <ClCompile Include="src\TktkDX12Game\DXGameResource\Line2D\Line2DMaterial.cpp" />
     <ClCompile Include="src\TktkDX12Game\DXGameResource\Line2D\Line2DMaterialData.cpp" />
     <ClCompile Include="src\TktkDX12Game\DXGameResource\Mesh\BasicMesh\Loader\BasicMeshPmdLoader.cpp" />
+    <ClCompile Include="src\TktkDX12Game\DXGameResource\Mesh\BasicMesh\Loader\BasicMeshPmxLoader.cpp" />
     <ClCompile Include="src\TktkDX12Game\DXGameResource\Mesh\BasicMesh\Maker\BoxMeshMaker.cpp" />
     <ClCompile Include="src\TktkDX12Game\DXGameResource\Mesh\BasicMesh\Maker\SphereMeshMaker.cpp" />
     <ClCompile Include="src\TktkDX12Game\DXGameResource\Mesh\BasicMesh\Material\BasicMeshMaterialAppendParam.cpp" />
@@ -494,6 +505,7 @@
     <ClCompile Include="src\TktkDX12Game\DXGameResource\Sound\CSoundCallback.cpp" />
     <ClCompile Include="src\TktkDX12Game\DXGameResource\Sound\Sound.cpp" />
     <ClCompile Include="src\TktkDX12Game\DXGameResource\Sound\SoundData.cpp" />
+    <ClCompile Include="src\TktkDX12Game\Input\_InputManager\InputManager.cpp" />
     <ClCompile Include="src\TktkDX12Game\Time\ElapsedTimer.cpp" />
     <ClCompile Include="src\TktkDX12Game\TktkDX12Game.cpp" />
     <ClCompile Include="src\TktkDX12Game\_MainManager\DX12GameManager.cpp" />
