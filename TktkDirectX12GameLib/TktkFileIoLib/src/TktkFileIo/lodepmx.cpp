@@ -153,7 +153,7 @@ namespace tktkFileIo
 			case 0:	//“BDEF1”形式
 
 				// ボーンインデックスを読み込む
-				switch (vertIndexSize)
+				switch (boneIndexSize)
 				{
 				case 1:
 
@@ -182,7 +182,7 @@ namespace tktkFileIo
 				for (size_t boneNoIndex = 0; boneNoIndex < 2U; boneNoIndex++)
 				{
 					// ボーンインデックスを読み込む
-					switch (vertIndexSize)
+					switch (boneIndexSize)
 					{
 					case 1:
 
@@ -213,7 +213,7 @@ namespace tktkFileIo
 				for (size_t boneNoIndex = 0; boneNoIndex < 4U; boneNoIndex++)
 				{
 					// ボーンインデックスを読み込む
-					switch (vertIndexSize)
+					switch (boneIndexSize)
 					{
 					case 1:
 
@@ -243,7 +243,7 @@ namespace tktkFileIo
 				for (size_t boneNoIndex = 0; boneNoIndex < 2U; boneNoIndex++)
 				{
 					// ボーンインデックスを読み込む
-					switch (vertIndexSize)
+					switch (boneIndexSize)
 					{
 					case 1:
 
@@ -342,10 +342,18 @@ namespace tktkFileIo
 		// 読み込み結果構造体のテクスチャー情報の配列のメモリを確保する
 		result.textureFilePaths.reserve(textureNum);
 
+		std::string baseTexturePath;
+		std::filesystem::path meshPath(fileName);
+		if (meshPath.has_parent_path())
+		{
+			baseTexturePath = meshPath.parent_path().string() + "/";
+		}
+
 		for (size_t textureIndex = 0; textureIndex < static_cast<size_t>(textureNum); textureIndex++)
 		{
 			// テクスチャパスを読み込んで保存する
-			result.textureFilePaths.push_back(loadString(fp));
+			auto textureFilePath = loadString(fp);
+			result.textureFilePaths.push_back((textureFilePath == "") ? "" : baseTexturePath + textureFilePath);
 		}
 
 		// マテリアル数を読み込む

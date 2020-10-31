@@ -15,7 +15,7 @@ namespace tktkFileIo
 	};
 #pragma pack(pop)
 
-	void lodevmd::load(loadData* out, const std::string& fileName)
+	void lodevmd::load(lodevmd::loadData* out, const std::string& fileName)
 	{
 		FILE* fp;
 		fopen_s(&fp, fileName.c_str(), "rb");
