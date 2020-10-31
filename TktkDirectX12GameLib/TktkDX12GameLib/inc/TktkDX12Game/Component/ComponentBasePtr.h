@@ -19,6 +19,9 @@ namespace tktk
 		template <class ComponentType>
 		ComponentBasePtr(const std::weak_ptr<ComponentType>& componentPtr);
 
+		template <class ComponentType>
+		ComponentBasePtr(const ComponentPtr<ComponentType>& componentPtr);
+
 	public:
 
 		// ƒ|ƒCƒ“ƒ^‚ðŽæ“¾
@@ -59,6 +62,13 @@ namespace tktk
 	inline ComponentBasePtr::ComponentBasePtr(const std::weak_ptr<ComponentType>& componentPtr)
 		: m_componentTypeId(ClassTypeChecker::getClassId<ComponentType>())
 		, m_componentPtr(componentPtr)
+	{
+	}
+
+	template<class ComponentType>
+	inline ComponentBasePtr::ComponentBasePtr(const ComponentPtr<ComponentType>& componentPtr)
+		: m_componentTypeId(ClassTypeChecker::getClassId<ComponentType>())
+		, m_componentPtr(componentPtr.m_componentPtr)
 	{
 	}
 

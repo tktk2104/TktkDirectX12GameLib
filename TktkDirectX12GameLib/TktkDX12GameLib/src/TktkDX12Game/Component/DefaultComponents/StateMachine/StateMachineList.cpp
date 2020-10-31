@@ -36,10 +36,10 @@ namespace tktk
 		getTarget(targetState)->addComponent(componentPtr);
 	}
 
-	void StateMachineList::createNode(StateMachineList::Node& parentNode, const StateMachineListInitParam::Node& nodeInitParam, const GameObjectPtr& user, const std::unique_ptr<GameObjectComponentList>& componentList)
+	void StateMachineList::createNode(StateMachineList::Node& parentNode, const StateMachineListInitParam::Node<int>& nodeInitParam, const GameObjectPtr& user, const std::unique_ptr<GameObjectComponentList>& componentList)
 	{
 		// 親の状態を持つステートマシンを作る
-		for (const auto& node : nodeInitParam.m_child)
+		for (const auto& node : nodeInitParam.m_children)
 		{
 			// ステートマシンを作って
 			auto createdComponent = DX12GameManager::createComponent<StateMachine>(user, node.m_id);
@@ -77,7 +77,7 @@ namespace tktk
 			}
 
 #ifdef _DEBUG
-			if (m_stateMachineList.count(node) == 0)  throw std::runtime_error("targetState fraud value");
+			if (curNodePtr->m_childNode.count(node) == 0)  throw std::runtime_error("targetState fraud value");
 #endif // _DEBUG
 
 			curNodePtr = &curNodePtr->m_childNode.at(node);

@@ -4,12 +4,12 @@
 
 namespace tktk
 {
-	void CurStateTypeList::addState(int stateType)
+	void CurStateTypeList::stateEnable(int stateType)
 	{
 		m_stateTypeList.push_front(stateType);
 	}
 
-	void CurStateTypeList::removeState(int stateType)
+	void CurStateTypeList::stateDisable(int stateType)
 	{
 		m_stateTypeList.remove(stateType);
 	}

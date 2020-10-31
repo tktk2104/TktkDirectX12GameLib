@@ -18,13 +18,31 @@ namespace tktk
 
 	ComponentPtr<SphereCollider>SphereColliderMaker::create()
 	{
-		// コンポーネントを作成してそのポインタを返す
-		return m_user->createComponent<SphereCollider>(
+		// 自身を追加する階層情報が空だったら普通に作成する
+		if (m_targetState.empty())
+		{
+			// コンポーネントを作成してそのポインタを返す
+			return m_user->createComponent<SphereCollider>(
+				m_collisionGroupType,
+				m_radius,
+				m_localPosition,
+				m_extrudedRate
+				);
+		}
+
+		// コンポーネントを作成する
+		auto createComponent = m_user->createComponent<SphereCollider>(
 			m_collisionGroupType,
 			m_radius,
 			m_localPosition,
 			m_extrudedRate
 			);
+
+		// 作成したコンポーネントを特定のステートに追加する
+		m_user->setComponentToStateMachine(m_targetState, createComponent);
+
+		// 作成したコンポーネントのポインタを返す
+		return createComponent;
 	}
 
 	SphereColliderMaker& SphereColliderMaker::radius(float value)

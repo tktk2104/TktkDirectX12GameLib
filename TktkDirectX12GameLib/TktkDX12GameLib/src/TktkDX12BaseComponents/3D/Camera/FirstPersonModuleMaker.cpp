@@ -18,12 +18,30 @@ namespace tktk
 
 	ComponentPtr<FirstPersonModule> FirstPersonModuleMaker::create()
 	{
-		return m_user->createComponent<FirstPersonModule>(
+		// 自身を追加する階層情報が空だったら普通に作成する
+		if (m_targetState.empty())
+		{
+			return m_user->createComponent<FirstPersonModule>(
+				m_rotateDegSpeedPerSec,
+				m_moveSpeedPerSec,
+				m_alwaysMoveForward,
+				m_enableUpDownKey
+				);
+		}
+
+		// コンポーネントを作成する
+		auto createComponent = m_user->createComponent<FirstPersonModule>(
 			m_rotateDegSpeedPerSec,
 			m_moveSpeedPerSec,
 			m_alwaysMoveForward,
 			m_enableUpDownKey
 			);
+
+		// 作成したコンポーネントを特定のステートに追加する
+		m_user->setComponentToStateMachine(m_targetState, createComponent);
+
+		// 作成したコンポーネントのポインタを返す
+		return createComponent;
 	}
 
 	FirstPersonModuleMaker & FirstPersonModuleMaker::rotateDegSpeedPerSec(float value)

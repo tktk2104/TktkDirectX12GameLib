@@ -43,7 +43,7 @@ namespace tktk
 	private:
 
 		// 親の状態を持つステートマシンを作る
-		void createNode(StateMachineList::Node& parentNode, const StateMachineListInitParam::Node& nodeInitParam, const GameObjectPtr& user, const std::unique_ptr<GameObjectComponentList>& componentList);
+		void createNode(StateMachineList::Node& parentNode, const StateMachineListInitParam::Node<int>& nodeInitParam, const GameObjectPtr& user, const std::unique_ptr<GameObjectComponentList>& componentList);
 
 		// int型の配列から指定のステートを取得する
 		ComponentPtr<StateMachine> getTarget(const std::vector<int>& targetState) const;

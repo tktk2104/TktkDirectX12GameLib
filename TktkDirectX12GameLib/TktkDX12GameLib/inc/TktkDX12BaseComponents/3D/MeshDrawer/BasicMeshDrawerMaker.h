@@ -20,6 +20,11 @@ namespace tktk
 		// 作成開始
 		static BasicMeshDrawerMaker& makeStart(GameObjectPtr user);
 
+		// ステートを指定し、作成を開始する
+		// ※「{ MOVE_STATE, WALK_STATE, BEGIN_MOVE_STATE }」で「“MOVE_STATE”内の“WALK_STATE”内の“BEGIN_MOVE_STATE”に追加」となる
+		template <class StateIdType>
+		static BasicMeshDrawerMaker& makeStart(std::initializer_list<StateIdType> targetState, GameObjectPtr user);
+
 	public:
 
 		// 作成完了
@@ -29,6 +34,12 @@ namespace tktk
 
 		// 描画優先度を設定する
 		BasicMeshDrawerMaker& drawPriority(float value);
+
+		// 基本のスケールを設定する
+		BasicMeshDrawerMaker& baseScale(const tktkMath::Vector3& value);
+
+		// 基本の回転を設定する
+		BasicMeshDrawerMaker& baseRotation(const tktkMath::Quaternion& value);
 
 		// 使用するレンダーターゲットのディスクリプタヒープハンドルを設定する
 		// ※初期パラメータはバックバッファー
@@ -90,7 +101,10 @@ namespace tktk
 	private: /* 変数達 */
 
 		GameObjectPtr						m_user				{  };
+		std::vector<int>					m_targetState		{  };
 		float								m_drawPriority		{ 0.0f };
+		tktkMath::Vector3					m_baseScale			{ tktkMath::Vector3_v::one };
+		tktkMath::Quaternion				m_baseRotation		{ tktkMath::Quaternion_v::identity };
 		BasicMeshDrawerUseResourceHandles	m_useResourceHandles{  };
 
 	public: /* 不正な型の引数が渡されそうになった時にコンパイルエラーにする為の仕組み */
@@ -110,5 +124,29 @@ namespace tktk
 		template<class IdType, std::enable_if_t<!is_idType_v<IdType>>* = nullptr>
 		BasicMeshDrawerMaker& lightId(IdType value) { static_assert(false, "LightId Fraud Type"); }
 	};
+//┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+//┃ここから下は関数の実装
+//┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+	// ステートを指定し、作成を開始する
+	// ※「{ MOVE_STATE, WALK_STATE, BEGIN_MOVE_STATE }」で「“MOVE_STATE”内の“WALK_STATE”内の“BEGIN_MOVE_STATE”に追加」となる
+	template<class StateIdType>
+	inline BasicMeshDrawerMaker& BasicMeshDrawerMaker::makeStart(std::initializer_list<StateIdType> targetState, GameObjectPtr user)
+	{
+		// 作成開始処理を行う
+		auto& result = makeStart(user);
+
+		// 初期化子リストを配列に変換
+		auto targetStateArray = std::vector<StateIdType>(targetState);
+
+		// 対象のステートの階層数分のメモリを確保
+		result.m_targetState.reserve(targetStateArray.size());
+
+		// 対象のステートの階層を設定する
+		for (const auto& node : targetStateArray) result.m_targetState.push_back(static_cast<int>(node));
+
+		// 自身の参照を返す
+		return result;
+	}
 }
 #endif // !BASIC_MESH_DRAWER_MAKER_H_

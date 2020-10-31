@@ -13,7 +13,7 @@ namespace tktk
 	{
 	public:
 
-		MeshAnimator(unsigned int initMotionHandle, bool isLoop);
+		MeshAnimator(unsigned int initMotionHandle, bool isLoop, float animFramePerSec);
 
 	public:
 
@@ -27,15 +27,15 @@ namespace tktk
 		// 新しいモーションIDを設定する
 		// ※内部で対応するリソースハンドルに変換される
 		template <class MotionIdType, is_idType<MotionIdType> = nullptr>
-		void setNewMotionId(MotionIdType motionId, float lerpTimeSec) { setNewMotionIdImpl(static_cast<int>(motionId), lerpTimeSec); }
+		void setNewMotionId(MotionIdType motionId, bool isLoop, float lerpTimeSec) { setNewMotionIdImpl(static_cast<int>(motionId), isLoop, lerpTimeSec); }
 
 		// 新しいモーションハンドルを設定する
-		void setNewMotionHandle(unsigned int motionHandle, float lerpTimeSec);
+		void setNewMotionHandle(unsigned int motionHandle, bool isLoop, float lerpTimeSec);
 
 	private:
 
 		// 裏実装
-		void setNewMotionIdImpl(int motionId, float lerpTimeSec);
+		void setNewMotionIdImpl(int motionId, bool isLoop, float lerpTimeSec);
 
 	private:
 
@@ -47,7 +47,7 @@ namespace tktk
 		float m_curFrame				{ 0.0f };
 		float m_preFrame				{ 0.0f };
 
-		float m_animFrameIntervalPerSec	{ 60.0f };
+		float m_animFramePerSec			{ 60.0f };	// １秒間に何フレーム分のアニメーションを再生するか？
 
 		float m_lerpTimer				{ 1.0f };
 		float m_increaseLerpTimePerSec	{ 0.0f };

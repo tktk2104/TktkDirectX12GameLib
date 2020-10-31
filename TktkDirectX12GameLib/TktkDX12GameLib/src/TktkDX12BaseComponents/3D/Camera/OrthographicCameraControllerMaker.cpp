@@ -21,13 +21,32 @@ namespace tktk
 
 	ComponentPtr<OrthographicCameraController> OrthographicCameraControllerMaker::create()
 	{
-		return m_user->createComponent<OrthographicCameraController>(
+		// 自身を追加する階層情報が空だったら普通に作成する
+		if (m_targetState.empty())
+		{
+			return m_user->createComponent<OrthographicCameraController>(
+				m_initCameraHandle,
+				m_initCameraWidth,
+				m_initCameraHeight,
+				m_initCameraNear,
+				m_initCameraFar
+				);
+		}
+		
+		// コンポーネントを作成する
+		auto createComponent = m_user->createComponent<OrthographicCameraController>(
 			m_initCameraHandle,
 			m_initCameraWidth,
 			m_initCameraHeight,
 			m_initCameraNear,
 			m_initCameraFar
 			);
+
+		// 作成したコンポーネントを特定のステートに追加する
+		m_user->setComponentToStateMachine(m_targetState, createComponent);
+
+		// 作成したコンポーネントのポインタを返す
+		return createComponent;
 	}
 
 	OrthographicCameraControllerMaker& OrthographicCameraControllerMaker::initCameraHandle(unsigned int value)

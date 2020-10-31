@@ -80,10 +80,10 @@ namespace tktk
 	{
 		tktkMath::Vector3 rotationEuler = m_transform->calculateWorldEulerAngles();
 
-		if (DX12GameManager::isPush(KeybordKeyType::key_Left))	rotationEuler.y -= m_rotateDegSpeedPerSec * DX12GameManager::deltaTime();
-		if (DX12GameManager::isPush(KeybordKeyType::key_Right))	rotationEuler.y += m_rotateDegSpeedPerSec * DX12GameManager::deltaTime();
-		if (DX12GameManager::isPush(KeybordKeyType::key_Up))	rotationEuler.x -= m_rotateDegSpeedPerSec * DX12GameManager::deltaTime();
-		if (DX12GameManager::isPush(KeybordKeyType::key_Down))	rotationEuler.x += m_rotateDegSpeedPerSec * DX12GameManager::deltaTime();
+		if (DX12GameManager::isKeybordPush(KeybordKeyType::key_Left))	rotationEuler.y -= m_rotateDegSpeedPerSec * DX12GameManager::deltaTime();
+		if (DX12GameManager::isKeybordPush(KeybordKeyType::key_Right))	rotationEuler.y += m_rotateDegSpeedPerSec * DX12GameManager::deltaTime();
+		if (DX12GameManager::isKeybordPush(KeybordKeyType::key_Up))	rotationEuler.x -= m_rotateDegSpeedPerSec * DX12GameManager::deltaTime();
+		if (DX12GameManager::isKeybordPush(KeybordKeyType::key_Down))	rotationEuler.x += m_rotateDegSpeedPerSec * DX12GameManager::deltaTime();
 
 		if (rotationEuler.x > 89.0f && rotationEuler.x < 180.0f)	rotationEuler.x = 89.0f;
 		if (rotationEuler.x > 180.0f && rotationEuler.x < 271.0f)	rotationEuler.x = 271.0f;
@@ -111,10 +111,10 @@ namespace tktk
 		}
 		tktkMath::Vector3 moveVel = tktkMath::Vector3_v::zero;
 
-		if (DX12GameManager::isPush(KeybordKeyType::key_W))	moveVel =  worldMat.calculateForwardLH();
-		if (DX12GameManager::isPush(KeybordKeyType::key_S))	moveVel = -worldMat.calculateForwardLH();
-		if (DX12GameManager::isPush(KeybordKeyType::key_A))	moveVel = -worldMat.calculateRight();
-		if (DX12GameManager::isPush(KeybordKeyType::key_D))	moveVel =  worldMat.calculateRight();
+		if (DX12GameManager::isKeybordPush(KeybordKeyType::key_W))	moveVel =  worldMat.calculateForwardLH();
+		if (DX12GameManager::isKeybordPush(KeybordKeyType::key_S))	moveVel = -worldMat.calculateForwardLH();
+		if (DX12GameManager::isKeybordPush(KeybordKeyType::key_A))	moveVel = -worldMat.calculateRight();
+		if (DX12GameManager::isKeybordPush(KeybordKeyType::key_D))	moveVel =  worldMat.calculateRight();
 
 		moveVel *= m_moveSpeedPerSec * DX12GameManager::deltaTime();
 		m_transform->addWorldPosition(moveVel);
@@ -124,8 +124,8 @@ namespace tktk
 	{
 		float verticalMoveVel = 0.0f;
 
-		if (DX12GameManager::isPush(KeybordKeyType::key_Space)) verticalMoveVel = 1.0f;
-		if (DX12GameManager::isPush(KeybordKeyType::key_Lshift) || DX12GameManager::isPush(KeybordKeyType::key_Rshift)) verticalMoveVel = -1.0f;
+		if (DX12GameManager::isKeybordPush(KeybordKeyType::key_Space)) verticalMoveVel = 1.0f;
+		if (DX12GameManager::isKeybordPush(KeybordKeyType::key_Lshift) || DX12GameManager::isKeybordPush(KeybordKeyType::key_Rshift)) verticalMoveVel = -1.0f;
 
 		verticalMoveVel *= m_moveSpeedPerSec * DX12GameManager::deltaTime();
 		m_transform->addWorldPosition({ 0.0f, verticalMoveVel, 0.0f });

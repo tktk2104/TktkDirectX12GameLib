@@ -18,11 +18,27 @@ namespace tktk
 
 	ComponentPtr<InertialRotatement2D> InertialRotatement2DMaker::create()
 	{
-		// コンポーネントを作成してそのポインタを返す
-		return m_user->createComponent<InertialRotatement2D>(
+		// 自身を追加する階層情報が空だったら普通に作成する
+		if (m_targetState.empty())
+		{
+			// コンポーネントを作成してそのポインタを返す
+			return m_user->createComponent<InertialRotatement2D>(
+				m_decelerationPerSec,
+				m_initVelocity
+				);
+		}
+
+		// コンポーネントを作成する
+		auto createComponent = m_user->createComponent<InertialRotatement2D>(
 			m_decelerationPerSec,
 			m_initVelocity
 			);
+
+		// 作成したコンポーネントを特定のステートに追加する
+		m_user->setComponentToStateMachine(m_targetState, createComponent);
+
+		// 作成したコンポーネントのポインタを返す
+		return createComponent;
 	}
 
 	InertialRotatement2DMaker & InertialRotatement2DMaker::decelerationPerSec(float value)

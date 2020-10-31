@@ -16,7 +16,7 @@ namespace tktk
 	{
 	public:
 
-		BasicMeshDrawer(float drawPriority, const BasicMeshDrawerUseResourceHandles& useResourceHandles);
+		BasicMeshDrawer(float drawPriority, const tktkMath::Vector3& baseScale, const tktkMath::Quaternion& baseRotation, const BasicMeshDrawerUseResourceHandles& useResourceHandles);
 
 	public:
 
@@ -34,12 +34,14 @@ namespace tktk
 
 	private:
 
-		unsigned int m_createCopyTransformCbufferHandle{ 0U };
-		unsigned int m_createCopyShadowMapCbufferHandle{ 0U };
-		unsigned int m_createCopyBoneMatrixCbufferHandle{ 0U };
-		BasicMeshDrawerUseResourceHandles	m_useResourceHandles;
-		ComponentPtr<Transform3D>			m_transform{ };
-		ComponentPtr<MeshAnimator>			m_animator{ };
+		unsigned int m_createCopyTransformCbufferHandle				{ 0U };
+		unsigned int m_createCopyShadowMapCbufferHandle				{ 0U };
+		unsigned int m_createCopyBoneMatrixCbufferHandle			{ 0U };
+		tktkMath::Vector3					m_baseScale				{ tktkMath::Vector3_v::one };
+		tktkMath::Quaternion				m_baseRotation			{ tktkMath::Quaternion_v::identity };
+		BasicMeshDrawerUseResourceHandles	m_useResourceHandles	{ };
+		ComponentPtr<Transform3D>			m_transform				{ };
+		ComponentPtr<MeshAnimator>			m_animator				{ };
 	};
 }
 #endif // !BASIC_MESH_DRAWER_H_

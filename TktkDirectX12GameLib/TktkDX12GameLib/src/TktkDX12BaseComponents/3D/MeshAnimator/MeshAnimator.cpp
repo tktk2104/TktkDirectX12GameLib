@@ -2,16 +2,17 @@
 
 namespace tktk
 {
-	MeshAnimator::MeshAnimator(unsigned int initMotionHandle, bool isLoop)
+	MeshAnimator::MeshAnimator(unsigned int initMotionHandle, bool isLoop, float animFramePerSec)
 		: m_isLoop(isLoop)
 		, m_curMotionHandle(initMotionHandle)
 		, m_preMotionHandle(initMotionHandle)
+		, m_animFramePerSec(animFramePerSec)
 	{
 	}
 
 	void MeshAnimator::update()
 	{
-		m_curFrame += m_animFrameIntervalPerSec * DX12GameManager::deltaTime();
+		m_curFrame += m_animFramePerSec * DX12GameManager::deltaTime();
 
 		if (m_curFrame > static_cast<float>(DX12GameManager::getMotionEndFrameNo(m_curMotionHandle)))
 		{
@@ -49,8 +50,10 @@ namespace tktk
 		}
 	}
 
-	void MeshAnimator::setNewMotionHandle(unsigned int motionHandle, float lerpTimeSec)
+	void MeshAnimator::setNewMotionHandle(unsigned int motionHandle, bool isLoop, float lerpTimeSec)
 	{
+		m_isLoop = isLoop;
+
 		m_preMotionHandle = m_curMotionHandle;
 		m_curMotionHandle = motionHandle;
 
@@ -61,8 +64,8 @@ namespace tktk
 		m_increaseLerpTimePerSec = 1.0f / lerpTimeSec;
 	}
 
-	void MeshAnimator::setNewMotionIdImpl(int motionId, float lerpTimeSec)
+	void MeshAnimator::setNewMotionIdImpl(int motionId, bool isLoop, float lerpTimeSec)
 	{
-		setNewMotionHandle(DX12GameManager::getMotionHandle(motionId), lerpTimeSec);
+		setNewMotionHandle(DX12GameManager::getMotionHandle(motionId), isLoop, lerpTimeSec);
 	}
 }

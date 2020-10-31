@@ -16,13 +16,13 @@ namespace tktk
 
 	public:
 
-		// ステートを追加する
-		void addState(int stateType);
+		// ステートを有効にする
+		void stateEnable(int stateType);
 
-		// ステートを削除する
-		void removeState(int stateType);
+		// ステートを無効にする
+		void stateDisable(int stateType);
 
-		// 全てのステートを削除する
+		// 全てのステートを無効にする
 		void clearState();
 
 		// 引数のステートを持っているか？

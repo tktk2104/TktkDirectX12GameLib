@@ -2,8 +2,10 @@
 
 namespace tktk
 {
-	BasicMeshDrawer::BasicMeshDrawer(float drawPriority, const BasicMeshDrawerUseResourceHandles& useResourceHandles)
+	BasicMeshDrawer::BasicMeshDrawer(float drawPriority, const tktkMath::Vector3& baseScale, const tktkMath::Quaternion& baseRotation, const BasicMeshDrawerUseResourceHandles& useResourceHandles)
 		: ComponentBase(drawPriority)
+		, m_baseScale(baseScale)
+		, m_baseRotation(baseRotation)
 		, m_useResourceHandles(useResourceHandles)
 	{
 	}
@@ -77,7 +79,11 @@ namespace tktk
 		MeshTransformCbuffer transformBufferData{};
 
 		// Transform3Dからワールド行列を取得
-		transformBufferData.worldMatrix = m_transform->calculateWorldMatrix();
+		transformBufferData.worldMatrix = tktkMath::Matrix4::createTRS(
+			m_transform->getWorldPosition(),
+			m_baseRotation * m_transform->getWorldRotation(),
+			tktkMath::Vector3::scale(m_baseScale, m_transform->getWorldScaleRate())
+		);
 
 		// 使用するカメラのビュー行列
 		transformBufferData.viewMatrix = DX12GameManager::getViewMatrix(m_useResourceHandles.cameraHandle);

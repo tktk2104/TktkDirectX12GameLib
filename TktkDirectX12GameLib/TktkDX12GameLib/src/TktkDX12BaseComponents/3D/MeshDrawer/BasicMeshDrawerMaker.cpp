@@ -30,14 +30,41 @@ namespace tktk
 
 	ComponentPtr<BasicMeshDrawer> BasicMeshDrawerMaker::create()
 	{
-		// コンポーネントを作成してそのポインタを返す
-		return m_user->createComponent<BasicMeshDrawer>(m_drawPriority, m_useResourceHandles);
+		// 自身を追加する階層情報が空だったら普通に作成する
+		if (m_targetState.empty())
+		{
+			// コンポーネントを作成してそのポインタを返す
+			return m_user->createComponent<BasicMeshDrawer>(m_drawPriority, m_baseScale, m_baseRotation, m_useResourceHandles);
+		}
+		
+		// コンポーネントを作成する
+		auto createComponent = m_user->createComponent<BasicMeshDrawer>(m_drawPriority, m_baseScale, m_baseRotation, m_useResourceHandles);
+
+		// 作成したコンポーネントを特定のステートに追加する
+		m_user->setComponentToStateMachine(m_targetState, createComponent);
+
+		// 作成したコンポーネントのポインタを返す
+		return createComponent;
 	}
 
 	BasicMeshDrawerMaker& BasicMeshDrawerMaker::drawPriority(float value)
 	{
 		// 値を設定して自身の参照を返す
 		m_drawPriority = value;
+		return *this;
+	}
+
+	BasicMeshDrawerMaker& BasicMeshDrawerMaker::baseScale(const tktkMath::Vector3& value)
+	{
+		// 値を設定して自身の参照を返す
+		m_baseScale = value;
+		return *this;
+	}
+
+	BasicMeshDrawerMaker& BasicMeshDrawerMaker::baseRotation(const tktkMath::Quaternion& value)
+	{
+		// 値を設定して自身の参照を返す
+		m_baseRotation = value;
 		return *this;
 	}
 

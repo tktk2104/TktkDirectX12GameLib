@@ -25,23 +25,23 @@ namespace tktk
 	)
 		: ComponentBase(0.0f, collisionGroupType)
 		, m_tempVerts({
-			tktkMath::Vector3::scale(BoxVert.at(0U), boxSize / 2.0f), tktkMath::Vector3::scale(BoxVert.at(2U), boxSize / 2.0f), tktkMath::Vector3::scale(BoxVert.at(1U), boxSize / 2.0f),
-			tktkMath::Vector3::scale(BoxVert.at(1U), boxSize / 2.0f), tktkMath::Vector3::scale(BoxVert.at(2U), boxSize / 2.0f), tktkMath::Vector3::scale(BoxVert.at(3U), boxSize / 2.0f),
+			tktkMath::Vector3::scale(BoxVert.at(0U), boxSize / 2.0f) + localPosition, tktkMath::Vector3::scale(BoxVert.at(2U), boxSize / 2.0f) + localPosition, tktkMath::Vector3::scale(BoxVert.at(1U), boxSize / 2.0f) + localPosition,
+			tktkMath::Vector3::scale(BoxVert.at(1U), boxSize / 2.0f) + localPosition, tktkMath::Vector3::scale(BoxVert.at(2U), boxSize / 2.0f) + localPosition, tktkMath::Vector3::scale(BoxVert.at(3U), boxSize / 2.0f) + localPosition,
 
-			tktkMath::Vector3::scale(BoxVert.at(1U), boxSize / 2.0f), tktkMath::Vector3::scale(BoxVert.at(3U), boxSize / 2.0f), tktkMath::Vector3::scale(BoxVert.at(5U), boxSize / 2.0f),
-			tktkMath::Vector3::scale(BoxVert.at(5U), boxSize / 2.0f), tktkMath::Vector3::scale(BoxVert.at(3U), boxSize / 2.0f), tktkMath::Vector3::scale(BoxVert.at(7U), boxSize / 2.0f),
+			tktkMath::Vector3::scale(BoxVert.at(1U), boxSize / 2.0f) + localPosition, tktkMath::Vector3::scale(BoxVert.at(3U), boxSize / 2.0f) + localPosition, tktkMath::Vector3::scale(BoxVert.at(5U), boxSize / 2.0f) + localPosition,
+			tktkMath::Vector3::scale(BoxVert.at(5U), boxSize / 2.0f) + localPosition, tktkMath::Vector3::scale(BoxVert.at(3U), boxSize / 2.0f) + localPosition, tktkMath::Vector3::scale(BoxVert.at(7U), boxSize / 2.0f) + localPosition,
 
-			tktkMath::Vector3::scale(BoxVert.at(5U), boxSize / 2.0f), tktkMath::Vector3::scale(BoxVert.at(7U), boxSize / 2.0f), tktkMath::Vector3::scale(BoxVert.at(4U), boxSize / 2.0f),
-			tktkMath::Vector3::scale(BoxVert.at(4U), boxSize / 2.0f), tktkMath::Vector3::scale(BoxVert.at(7U), boxSize / 2.0f), tktkMath::Vector3::scale(BoxVert.at(6U), boxSize / 2.0f),
+			tktkMath::Vector3::scale(BoxVert.at(5U), boxSize / 2.0f) + localPosition, tktkMath::Vector3::scale(BoxVert.at(7U), boxSize / 2.0f) + localPosition, tktkMath::Vector3::scale(BoxVert.at(4U), boxSize / 2.0f) + localPosition,
+			tktkMath::Vector3::scale(BoxVert.at(4U), boxSize / 2.0f) + localPosition, tktkMath::Vector3::scale(BoxVert.at(7U), boxSize / 2.0f) + localPosition, tktkMath::Vector3::scale(BoxVert.at(6U), boxSize / 2.0f) + localPosition,
 
-			tktkMath::Vector3::scale(BoxVert.at(4U), boxSize / 2.0f), tktkMath::Vector3::scale(BoxVert.at(6U), boxSize / 2.0f), tktkMath::Vector3::scale(BoxVert.at(0U), boxSize / 2.0f),
-			tktkMath::Vector3::scale(BoxVert.at(0U), boxSize / 2.0f), tktkMath::Vector3::scale(BoxVert.at(6U), boxSize / 2.0f), tktkMath::Vector3::scale(BoxVert.at(2U), boxSize / 2.0f),
+			tktkMath::Vector3::scale(BoxVert.at(4U), boxSize / 2.0f) + localPosition, tktkMath::Vector3::scale(BoxVert.at(6U), boxSize / 2.0f) + localPosition, tktkMath::Vector3::scale(BoxVert.at(0U), boxSize / 2.0f) + localPosition,
+			tktkMath::Vector3::scale(BoxVert.at(0U), boxSize / 2.0f) + localPosition, tktkMath::Vector3::scale(BoxVert.at(6U), boxSize / 2.0f) + localPosition, tktkMath::Vector3::scale(BoxVert.at(2U), boxSize / 2.0f) + localPosition,
 
-			tktkMath::Vector3::scale(BoxVert.at(2U), boxSize / 2.0f), tktkMath::Vector3::scale(BoxVert.at(6U), boxSize / 2.0f), tktkMath::Vector3::scale(BoxVert.at(3U), boxSize / 2.0f),
-			tktkMath::Vector3::scale(BoxVert.at(3U), boxSize / 2.0f), tktkMath::Vector3::scale(BoxVert.at(6U), boxSize / 2.0f), tktkMath::Vector3::scale(BoxVert.at(7U), boxSize / 2.0f),
+			tktkMath::Vector3::scale(BoxVert.at(2U), boxSize / 2.0f) + localPosition, tktkMath::Vector3::scale(BoxVert.at(6U), boxSize / 2.0f) + localPosition, tktkMath::Vector3::scale(BoxVert.at(3U), boxSize / 2.0f) + localPosition,
+			tktkMath::Vector3::scale(BoxVert.at(3U), boxSize / 2.0f) + localPosition, tktkMath::Vector3::scale(BoxVert.at(6U), boxSize / 2.0f) + localPosition, tktkMath::Vector3::scale(BoxVert.at(7U), boxSize / 2.0f) + localPosition,
 
-			tktkMath::Vector3::scale(BoxVert.at(0U), boxSize / 2.0f), tktkMath::Vector3::scale(BoxVert.at(1U), boxSize / 2.0f), tktkMath::Vector3::scale(BoxVert.at(5U), boxSize / 2.0f),
-			tktkMath::Vector3::scale(BoxVert.at(0U), boxSize / 2.0f), tktkMath::Vector3::scale(BoxVert.at(5U), boxSize / 2.0f), tktkMath::Vector3::scale(BoxVert.at(4U), boxSize / 2.0f)
+			tktkMath::Vector3::scale(BoxVert.at(0U), boxSize / 2.0f) + localPosition, tktkMath::Vector3::scale(BoxVert.at(1U), boxSize / 2.0f) + localPosition, tktkMath::Vector3::scale(BoxVert.at(5U), boxSize / 2.0f) + localPosition,
+			tktkMath::Vector3::scale(BoxVert.at(0U), boxSize / 2.0f) + localPosition, tktkMath::Vector3::scale(BoxVert.at(5U), boxSize / 2.0f) + localPosition, tktkMath::Vector3::scale(BoxVert.at(4U), boxSize / 2.0f) + localPosition
 			})
 		, m_boundingMesh({
 			/* Žè‘O‚Ì–Ê */
@@ -56,7 +56,8 @@ namespace tktk
 			{ tktkMath::Vector3::scale(BoxVert.at(2U), boxSize / 2.0f), tktkMath::Vector3::scale(BoxVert.at(6U), boxSize / 2.0f),  tktkMath::Vector3::scale(BoxVert.at(7U), boxSize / 2.0f), tktkMath::Vector3::scale(BoxVert.at(3U), boxSize / 2.0f)},
 			/* ‰º‚Ì–Ê */
 			{ tktkMath::Vector3::scale(BoxVert.at(0U), boxSize / 2.0f), tktkMath::Vector3::scale(BoxVert.at(1U), boxSize / 2.0f),  tktkMath::Vector3::scale(BoxVert.at(5U), boxSize / 2.0f), tktkMath::Vector3::scale(BoxVert.at(4U), boxSize / 2.0f)}
-			})
+			},
+			localPosition)
 		, m_extrudedRate(extrudedRate)
 	{
 	}

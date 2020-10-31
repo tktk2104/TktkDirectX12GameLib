@@ -24,13 +24,32 @@ namespace tktk
 
 	ComponentPtr<BasicCameraController> BasicCameraControllerMaker::create()
 	{
-		return m_user->createComponent<BasicCameraController>(
+		// 自身を追加する階層情報が空だったら普通に作成する
+		if (m_targetState.empty())
+		{
+			return m_user->createComponent<BasicCameraController>(
+				m_initCameraHandle,
+				m_initCameraFov,
+				m_initCameraAspect,
+				m_initCameraNear,
+				m_initCameraFar
+				);
+		}
+
+		// コンポーネントを作成する
+		auto createComponent = m_user->createComponent<BasicCameraController>(
 			m_initCameraHandle,
 			m_initCameraFov,
 			m_initCameraAspect,
 			m_initCameraNear,
 			m_initCameraFar
 			);
+
+		// 作成したコンポーネントを特定のステートに追加する
+		m_user->setComponentToStateMachine(m_targetState, createComponent);
+
+		// 作成したコンポーネントのポインタを返す
+		return createComponent;
 	}
 
 	BasicCameraControllerMaker& BasicCameraControllerMaker::initCameraHandle(unsigned int value)

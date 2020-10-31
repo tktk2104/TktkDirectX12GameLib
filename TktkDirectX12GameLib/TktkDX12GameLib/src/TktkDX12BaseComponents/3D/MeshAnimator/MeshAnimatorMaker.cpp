@@ -18,8 +18,21 @@ namespace tktk
 
 	ComponentPtr<MeshAnimator> MeshAnimatorMaker::create()
 	{
-		// コンポーネントを作成してそのポインタを返す
-		return m_user->createComponent<MeshAnimator>(m_initMotionHandle, m_isLoop);
+		// 自身を追加する階層情報が空だったら普通に作成する
+		if (m_targetState.empty())
+		{
+			// コンポーネントを作成してそのポインタを返す
+			return m_user->createComponent<MeshAnimator>(m_initMotionHandle, m_isLoop, m_animFramePerSec);
+		}
+
+		// コンポーネントを作成する
+		auto createComponent = m_user->createComponent<MeshAnimator>(m_initMotionHandle, m_isLoop, m_animFramePerSec);
+
+		// 作成したコンポーネントを特定のステートに追加する
+		m_user->setComponentToStateMachine(m_targetState, createComponent);
+
+		// 作成したコンポーネントのポインタを返す
+		return createComponent;
 	}
 
 	MeshAnimatorMaker& MeshAnimatorMaker::isLoop(bool value)
@@ -33,6 +46,13 @@ namespace tktk
 	{
 		// 値を設定して自身の参照を返す
 		m_initMotionHandle = value;
+		return *this;
+	}
+
+	MeshAnimatorMaker& MeshAnimatorMaker::animFramePerSec(float value)
+	{
+		// 値を設定して自身の参照を返す
+		m_animFramePerSec = value;
 		return *this;
 	}
 

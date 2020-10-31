@@ -16,6 +16,7 @@ namespace tktk
 	class StateMachineList;
 	class ParentChildManager;
 	class CurStateTypeList;
+	class StateChangeTimer;
 	
 	// ゲームオブジェクトクラス
 	class GameObject
@@ -128,65 +129,41 @@ namespace tktk
 		// ステートの種類を引数として渡し、ステートマシンの操作に必要なコンポーネントを準備する
 		void setupStateMachine(const StateMachineListInitParam& initParam);
 
-		/**************************************************
-		【setupStateMachine()の引数の作成例】
+		// ステートを有効にする
+		template <class StateIdType>
+		void stateEnable(StateIdType stateType) { stateEnableImpl(static_cast<int>(stateType)); };
 
-		StateMachineListInitParam stateList = 
-		{
-			{
-				MOVE_STATE, 
-				{
-					{
-						WALK_STATE,
-						{
-							{ BEGIN_MOVE_STATE },	// “RUN_STATE”の“BEGIN_MOVE_STATE”と同一のステートで“WALK_STATE”状態の時にisActive = trueになる
-							{ MOVING_STATE },
-							{ END_MOVE_STATE }
-						}
-					},
-					{
-						RUN_STATE,
-						{
-							{ BEGIN_MOVE_STATE },	// “RUN_STATE”の“BEGIN_MOVE_STATE”と同一のステートで“RUN_STATE”状態の時にisActive = trueになる
-							{ MOVING_STATE },
-							{ END_MOVE_STATE }
-						}
-					}
+		// ステートを無効にする
+		template <class StateIdType>
+		void stateDisable(StateIdType stateType) { stateDisableImpl(static_cast<int>(stateType)); };
 
-				}
-			},
-			{
-				JUMP_STATE,
-				{
-					{ BEGIN_JUMP_STATE },
-					{ JUMPING_STATE },
-					{ END_JUMP_STATE },
-				}
-			},
-			{ DEAD_STATE }
-		}
-		**************************************************/
-
-		// ステートを追加する
-		void addState(int stateType);
-
-		// ステートを削除する
-		void removeState(int stateType);
-
-		// 全てのステートを削除する
+		// 全てのステートを無効にする
 		void clearState();
 
 		// 引数のステートを持っているか？
-		bool containState(int stateType);
+		template <class StateIdType>
+		bool containState(StateIdType stateType) { return containStateImpl(static_cast<int>(stateType)); };
 
-		// int型の配列でステートを指定し、子要素を追加する
+		// ステートを指定し、子要素を追加する
 		// ※「{ MOVE_STATE, WALK_STATE, BEGIN_MOVE_STATE }」で「“MOVE_STATE”内の“WALK_STATE”内の“BEGIN_MOVE_STATE”に追加」となる
-		void addChild(const std::vector<int>& targetState, const GameObjectPtr& child);
+		template <class StateIdType>
+		void addChild(std::initializer_list<StateIdType> targetState, const GameObjectPtr& child);
 
-		// int型の配列でステートを指定し、テンプレート引数の型のコンポーネントを引数の値を使って作る
+		// ステートを指定し、テンプレート引数の型のコンポーネントを引数の値を使って作る
 		//  ※「{ MOVE_STATE, WALK_STATE, BEGIN_MOVE_STATE }」で「“MOVE_STATE”内の“WALK_STATE”内の“BEGIN_MOVE_STATE”に追加」となる
-		template <class ComponentType, class... Args>
-		ComponentPtr<ComponentType> createComponent(const std::vector<int>& targetState, Args&&... args);
+		template <class StateIdType, class ComponentType, class... Args>
+		ComponentPtr<ComponentType> createComponent(std::initializer_list<StateIdType> targetState, Args&&... args);
+
+		// ステートを指定し、ステートを変更するタイマーを作る
+		//  ※「{ MOVE_STATE, WALK_STATE, BEGIN_MOVE_STATE }」で「“MOVE_STATE”内の“WALK_STATE”内の“BEGIN_MOVE_STATE”に追加」となる
+		template <class StateIdType>
+		ComponentPtr<StateChangeTimer> createStateChangeTimer(std::initializer_list<StateIdType> targetState, float stateChangeTimeSec, std::initializer_list<StateIdType> enableStates, std::initializer_list<StateIdType> disableStates);
+
+		// 子要素を指定のステートに追加する（※addChild(targetState, child)の内部実装）
+		void setChildToStateMachine(const std::vector<int>& targetState, const GameObjectPtr& child);
+
+		// コンポーネントを指定のステートに追加する（※createComponent<ComponentType>(targetState, args...)の内部実装）
+		void setComponentToStateMachine(const std::vector<int>& targetState, const ComponentBasePtr& componentPtr);
 
 	private:
 
@@ -195,7 +172,10 @@ namespace tktk
 		bool containGameobjectTagImpl(int tag) const;
 		GameObjectPtr findChildWithTagImpl(int tag) const;
 		std::forward_list<GameObjectPtr> findChildrenWithTagImpl(int tag) const;
-		void createComponentImpl(const std::vector<int>& targetState, const ComponentBasePtr& componentPtr);
+		void stateEnableImpl(int stateType);
+		void stateDisableImpl(int stateType);
+		bool containStateImpl(int stateType);
+		ComponentPtr<StateChangeTimer> createStateChangeTimerImpl(const std::vector<int>& targetState, float stateChangeTimeSec, const std::vector<int>& enableStateArray, const std::vector<int>& disableStateArray);
 
 	private:
 
@@ -228,15 +208,61 @@ namespace tktk
 //┃ここから下は関数の実装
 //┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-	// int型の配列でステートを指定し、テンプレート引数の型のコンポーネントを引数の値を使って作る
-	//  ※「{ MOVE_STATE, WALK_STATE, BEGIN_MOVE_STATE }」で「“MOVE_STATE”内の“WALK_STATE”内の“BEGIN_MOVE_STATE”に追加」となる
-	template<class ComponentType, class ...Args>
-	inline ComponentPtr<ComponentType> GameObject::createComponent(const std::vector<int>& targetState, Args&& ...args)
+	// ステートを指定し、子要素を追加する
+	// ※「{ MOVE_STATE, WALK_STATE, BEGIN_MOVE_STATE }」で「“MOVE_STATE”内の“WALK_STATE”内の“BEGIN_MOVE_STATE”に追加」となる
+	template<class StateIdType>
+	inline void GameObject::addChild(std::initializer_list<StateIdType> targetState, const GameObjectPtr& child)
 	{
-		auto createdComponent = DX12GameManager::createComponent<ComponentType>(std::forward<Args>(args)...);
+		// 指定したステートをint型にキャストする
+		auto targetStateArray		= std::vector<StateIdType>(targetState);
+		auto intTargetStateArray	= std::vector<int>();
+		intTargetStateArray.reserve(targetStateArray.size());
+		for (const auto& node : targetStateArray) intTargetStateArray.push_back(static_cast<int>(node));
+
+		setChildToStateMachine(intTargetStateArray, child);
+	}
+
+	// ステートを指定し、テンプレート引数の型のコンポーネントを引数の値を使って作る
+	//  ※「{ MOVE_STATE, WALK_STATE, BEGIN_MOVE_STATE }」で「“MOVE_STATE”内の“WALK_STATE”内の“BEGIN_MOVE_STATE”に追加」となる
+	template<class StateIdType, class ComponentType, class ...Args>
+	inline ComponentPtr<ComponentType> GameObject::createComponent(std::initializer_list<StateIdType> targetState, Args&& ...args)
+	{
+		// 指定したステートをint型にキャストする
+		auto targetStateArray = std::vector<StateIdType>(targetState);
+		auto intTargetStateArray = std::vector<int>();
+		intTargetStateArray.reserve(targetStateArray.size());
+		for (const auto& node : targetStateArray) intTargetStateArray.push_back(static_cast<int>(node));
+
+		auto createdComponent = DX12GameManager::createComponent<ComponentType>(GameObjectPtr(weak_from_this()), std::forward<Args>(args)...);
 		createdComponent.lock()->setUser(GameObjectPtr(weak_from_this()));
-		createComponentImpl(targetState, ComponentBasePtr(createdComponent));
+		setComponentToStateMachine(intTargetStateArray, ComponentBasePtr(createdComponent));
 		return m_componentList->add<ComponentType>(createdComponent);
+	}
+
+	// ステートを指定し、ステートを変更するタイマーを作る
+	//  ※「{ MOVE_STATE, WALK_STATE, BEGIN_MOVE_STATE }」で「“MOVE_STATE”内の“WALK_STATE”内の“BEGIN_MOVE_STATE”に追加」となる
+	template<class StateIdType>
+	inline ComponentPtr<StateChangeTimer> GameObject::createStateChangeTimer(std::initializer_list<StateIdType> targetState, float stateChangeTimeSec, std::initializer_list<StateIdType> enableStates, std::initializer_list<StateIdType> disableStates)
+	{
+		// 指定したステートをint型にキャストする
+		auto targetStateArray = std::vector<StateIdType>(targetState);
+		auto intTargetStateArray = std::vector<int>();
+		intTargetStateArray.reserve(targetStateArray.size());
+		for (const auto& node : targetStateArray) intTargetStateArray.push_back(static_cast<int>(node));
+
+		// 有効にするステートをint型にキャストする
+		auto enableStateArray	= std::vector<StateIdType>(enableStates);
+		auto intEnableStateArray = std::vector<int>();
+		intEnableStateArray.reserve(enableStateArray.size());
+		for (const auto& node : enableStateArray) intEnableStateArray.push_back(static_cast<int>(node));
+
+		// 無効にするステートをint型にキャスト
+		auto disableStateArray = std::vector<StateIdType>(disableStates);
+		auto intDisableStateArray = std::vector<int>();
+		intDisableStateArray.reserve(disableStateArray.size());
+		for (const auto& node : disableStateArray) intDisableStateArray.push_back(static_cast<int>(node));
+
+		return createStateChangeTimerImpl(intTargetStateArray, stateChangeTimeSec, intEnableStateArray, intDisableStateArray);
 	}
 }
 #endif // !GAME_OBJECT_H_

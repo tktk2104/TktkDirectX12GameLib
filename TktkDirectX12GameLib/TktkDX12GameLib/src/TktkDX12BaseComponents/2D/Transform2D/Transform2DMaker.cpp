@@ -18,13 +18,31 @@ namespace tktk
 
 	ComponentPtr<Transform2D> Transform2DMaker::create()
 	{
-		// コンポーネントを作成してそのポインタを返す
-		return m_user->createComponent<Transform2D>(
+		// 自身を追加する階層情報が空だったら普通に作成する
+		if (m_targetState.empty())
+		{
+			// コンポーネントを作成してそのポインタを返す
+			return m_user->createComponent<Transform2D>(
+				m_initPosition,
+				m_initScaleRate,
+				m_initRotationDeg,
+				m_traceType
+				);
+		}
+
+		// コンポーネントを作成する
+		auto createComponent = m_user->createComponent<Transform2D>(
 			m_initPosition,
 			m_initScaleRate,
 			m_initRotationDeg,
 			m_traceType
 			);
+
+		// 作成したコンポーネントを特定のステートに追加する
+		m_user->setComponentToStateMachine(m_targetState, createComponent);
+
+		// 作成したコンポーネントのポインタを返す
+		return createComponent;
 	}
 
 	Transform2DMaker& Transform2DMaker::initPosition(const tktkMath::Vector2& value)

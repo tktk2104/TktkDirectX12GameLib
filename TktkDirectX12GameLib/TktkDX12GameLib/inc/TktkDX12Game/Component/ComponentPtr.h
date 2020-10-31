@@ -9,6 +9,9 @@ namespace tktk
 	template <class ComponentType>
 	class ComponentPtr
 	{
+		// ComponentBasePtrはフレンドクラス
+		friend class ComponentBasePtr;
+
 	public:
 
 		ComponentPtr() = default;

@@ -24,7 +24,22 @@ namespace tktk
 
 	ComponentPtr<BillboardClippingDrawer> BillboardClippingDrawerMaker::create()
 	{
-		return m_user->createComponent<BillboardClippingDrawer>(
+		// 自身を追加する階層情報が空だったら普通に作成する
+		if (m_targetState.empty())
+		{
+			return m_user->createComponent<BillboardClippingDrawer>(
+				m_drawPriority,
+				m_billboardMaterialHandle,
+				m_useRtvDescriptorHeapHandle,
+				m_cameraHandle,
+				m_centerRate,
+				m_blendRate,
+				m_clippingParam
+				);
+		}
+
+		// コンポーネントを作成する
+		auto createComponent = m_user->createComponent<BillboardClippingDrawer>(
 			m_drawPriority,
 			m_billboardMaterialHandle,
 			m_useRtvDescriptorHeapHandle,
@@ -33,6 +48,12 @@ namespace tktk
 			m_blendRate,
 			m_clippingParam
 			);
+
+		// 作成したコンポーネントを特定のステートに追加する
+		m_user->setComponentToStateMachine(m_targetState, createComponent);
+
+		// 作成したコンポーネントのポインタを返す
+		return createComponent;
 	}
 
 	BillboardClippingDrawerMaker& BillboardClippingDrawerMaker::drawPriority(float value)

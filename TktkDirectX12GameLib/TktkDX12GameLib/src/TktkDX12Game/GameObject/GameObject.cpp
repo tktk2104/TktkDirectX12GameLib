@@ -9,6 +9,7 @@
 #include "TktkDX12Game/Component/DefaultComponents/StateMachine/StateMachine.h"
 #include "TktkDX12Game/Component/DefaultComponents/StateMachine/StateMachineList.h"
 #include "TktkDX12Game/Component/DefaultComponents/StateMachine/CurStateTypeList.h"
+#include "TktkDX12Game/Component/DefaultComponents/StateMachine/StateChangeTimer.h"
 
 namespace tktk
 {
@@ -181,29 +182,9 @@ namespace tktk
 		m_stateMachineList	= std::make_unique<StateMachineList>(initParam, GameObjectPtr(weak_from_this()), m_componentList);
 	}
 
-	void GameObject::addState(int stateType)
-	{
-		m_stateTypeList->addState(stateType);
-	}
-
-	void GameObject::removeState(int stateType)
-	{
-		m_stateTypeList->removeState(stateType);
-	}
-
 	void GameObject::clearState()
 	{
 		m_stateTypeList->clearState();
-	}
-
-	bool GameObject::containState(int stateType)
-	{
-		return m_stateTypeList->contain(stateType);
-	}
-
-	void GameObject::addChild(const std::vector<int>& targetState, const GameObjectPtr& child)
-	{
-		m_stateMachineList->addChild(targetState, child);
 	}
 
 	void GameObject::addGameObjectTagImpl(int tag)
@@ -231,7 +212,35 @@ namespace tktk
 		return m_parentChildManager->findGameObjectsWithTag(tag);
 	}
 
-	void GameObject::createComponentImpl(const std::vector<int>& targetState, const ComponentBasePtr& componentPtr)
+	void GameObject::stateEnableImpl(int stateType)
+	{
+		m_stateTypeList->stateEnable(stateType);
+	}
+
+	void GameObject::stateDisableImpl(int stateType)
+	{
+		m_stateTypeList->stateDisable(stateType);
+	}
+
+	bool GameObject::containStateImpl(int stateType)
+	{
+		return m_stateTypeList->contain(stateType);
+	}
+
+	ComponentPtr<StateChangeTimer> GameObject::createStateChangeTimerImpl(const std::vector<int>& targetState, float stateChangeTimeSec, const std::vector<int>& enableStateArray, const std::vector<int>& disableStateArray)
+	{
+		auto createdComponent = DX12GameManager::createComponent<StateChangeTimer>(GameObjectPtr(weak_from_this()), stateChangeTimeSec, enableStateArray, disableStateArray);
+		createdComponent.lock()->setUser(GameObjectPtr(weak_from_this()));
+		setComponentToStateMachine(targetState, ComponentBasePtr(createdComponent));
+		return m_componentList->add<StateChangeTimer>(createdComponent);;
+	}
+
+	void GameObject::setChildToStateMachine(const std::vector<int>& targetState, const GameObjectPtr& child)
+	{
+		m_stateMachineList->addChild(targetState, child);
+	}
+
+	void GameObject::setComponentToStateMachine(const std::vector<int>& targetState, const ComponentBasePtr& componentPtr)
 	{
 		m_stateMachineList->addComponent(targetState, componentPtr);
 	}
