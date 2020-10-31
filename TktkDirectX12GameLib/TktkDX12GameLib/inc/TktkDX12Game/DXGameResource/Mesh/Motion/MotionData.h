@@ -3,7 +3,7 @@
 
 #include <string>
 #include <vector>
-#include <unordered_map>
+#include <map>
 #include <TktkMath/Structs/Vector3.h>
 #include <TktkMath/Structs/Quaternion.h>
 #include <TktkMath/Structs/Matrix4.h>
@@ -52,7 +52,7 @@ namespace tktk
 		unsigned int  m_endFrameNo;
 
 		// ボーンごとのキーフレームの配列を管理する連想配列
-		std::unordered_map<std::string, std::vector<KeyFrame>> m_boneKeyFrames;
+		std::map<std::string, std::vector<KeyFrame>> m_boneKeyFrames;
 	};
 }
 #endif // !MOTION_DATA_H_

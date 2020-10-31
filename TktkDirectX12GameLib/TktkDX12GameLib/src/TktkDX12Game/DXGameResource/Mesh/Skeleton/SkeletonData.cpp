@@ -85,6 +85,8 @@ namespace tktk
 		// ボーン毎の座標変換行列の配列を巡回する
 		for (const auto& node : transformMatrices)
 		{
+			if (m_boneNodeMap.count(node.boneName) == 0U) continue;
+
 			// ボーンの名前からボーン情報を取得する
 			const auto& boneNode = m_boneNodeMap.at(node.boneName);
 
@@ -97,7 +99,14 @@ namespace tktk
 		}
 
 		// ボーンの親子間での座標変換を行う
-		transform(&m_boneNodeMap.at("センター"), tktkMath::Matrix4_v::identity);
+		if (m_boneNodeMap.count("センター") != 0U)
+		{
+			transform(&m_boneNodeMap.at("センター"), tktkMath::Matrix4_v::identity);
+		}
+		else if (m_boneNodeMap.count("Hips") != 0U)
+		{
+			transform(&m_boneNodeMap.at("Hips"), tktkMath::Matrix4_v::identity);
+		}
 	}
 
 	void SkeletonData::updateBoneMatrixCbuffer(unsigned int copyBufferHandle) const
