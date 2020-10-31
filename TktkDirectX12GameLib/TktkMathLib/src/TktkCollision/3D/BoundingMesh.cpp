@@ -2,7 +2,7 @@
 
 namespace tktkCollision
 {
-    BoundingMesh::BoundingMesh(const std::vector<std::vector<tktkMath::Vector3>>& mesh)
+    BoundingMesh::BoundingMesh(const std::vector<std::vector<tktkMath::Vector3>>& mesh, const tktkMath::Vector3& centerPos)
         : m_mesh(mesh)
     {
         for (auto& polygon : m_mesh)
@@ -15,8 +15,13 @@ namespace tktkCollision
             for (const auto& vertex : polygon) polyCenterPos += vertex;
             polyCenterPos /= polygon.size();
 
-            // ‘¼‚Ì–Ê‚Æ”í‚ç‚È‚¢‚æ‚¤‚Éƒ|ƒŠƒSƒ“‚ğ­‚µk¬‚·‚é
-            for (auto& vertex : polygon) vertex += (polyCenterPos - vertex).normalized() * 0.01f;
+            for (auto& vertex : polygon)
+            {
+                vertex += centerPos;
+
+                // ‘¼‚Ì–Ê‚Æ”í‚ç‚È‚¢‚æ‚¤‚Éƒ|ƒŠƒSƒ“‚ğ­‚µk¬‚·‚é
+                vertex += (polyCenterPos - vertex).normalized() * 0.01f;
+            }
         }
     }
 

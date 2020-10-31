@@ -13,7 +13,7 @@ namespace tktkCollision
 	{
 	public:
 
-		explicit BoundingMesh(const std::vector<std::vector<tktkMath::Vector3>>& mesh);
+		BoundingMesh(const std::vector<std::vector<tktkMath::Vector3>>& mesh, const tktkMath::Vector3& centerPos);
 
 	public:
 
