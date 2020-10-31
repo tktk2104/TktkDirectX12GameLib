@@ -95,6 +95,9 @@ namespace tktk
 		// pmdファイルをロードしてゲームの各種リソースクラスを作る
 		BasicMeshLoadPmdReturnValue loadPmd(const BasicMeshLoadPmdArgs& args);
 
+		// pmxファイルをロードしてゲームの各種リソースクラスを作る
+		BasicMeshLoadPmxReturnValue loadPmx(const BasicMeshLoadPmxArgs& args);
+
 	private:
 
 		std::unique_ptr<Skeleton>			m_skeleton;
