@@ -7,5 +7,6 @@
 #include "../Input/DirectInputWrapper/GamePad/GamePadBtnType.h"
 #include "../Input/DirectInputWrapper/Keyboard/KeybordKeyType.h"
 #include "../Input/Mouse/MouseButtonType.h"
+#include "../Input/_InputManager/DirectionCommandType.h"
 
 #endif // !DX12_GAME_MANAGER_FUNC_ARGS_INCLUDER_H_

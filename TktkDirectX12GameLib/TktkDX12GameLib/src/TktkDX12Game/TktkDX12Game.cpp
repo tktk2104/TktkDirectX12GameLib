@@ -14,49 +14,19 @@ namespace tktk
 		return DX12GameManager::createGameObject();
 	}
 
-	bool DX12Game::isPush(MouseButtonType buttonType)
+	const tktkMath::Vector2& DX12Game::moveVec()
 	{
-		return DX12GameManager::isPush(buttonType);
+		return DX12GameManager::moveVec();
 	}
 
-	bool DX12Game::isTrigger(MouseButtonType buttonType)
+	const tktkMath::Vector2& DX12Game::lookVec()
 	{
-		return DX12GameManager::isTrigger(buttonType);
+		return DX12GameManager::lookVec();
 	}
 
 	tktkMath::Vector2 DX12Game::mousePos()
 	{
 		return DX12GameManager::mousePos();
-	}
-
-	bool DX12Game::isPush(KeybordKeyType keyType)
-	{
-		return DX12GameManager::isPush(keyType);
-	}
-
-	bool DX12Game::isTrigger(KeybordKeyType keyType)
-	{
-		return DX12GameManager::isTrigger(keyType);
-	}
-
-	tktkMath::Vector2 DX12Game::getLstick()
-	{
-		return DX12GameManager::getLstick();
-	}
-
-	tktkMath::Vector2 DX12Game::getRstick()
-	{
-		return DX12GameManager::getRstick();
-	}
-
-	bool DX12Game::isPush(GamePadBtnType buttonType)
-	{
-		return DX12GameManager::isPush(buttonType);
-	}
-
-	bool DX12Game::isTrigger(GamePadBtnType buttonType)
-	{
-		return DX12GameManager::isTrigger(buttonType);
 	}
 
 	void DX12Game::resetElapsedTime()
@@ -137,5 +107,45 @@ namespace tktk
 	void DX12Game::destroyGameObjectsWithTagImpl(int tag)
 	{
 		DX12GameManager::destroyGameObjectsWithTag(tag);
+	}
+
+	bool DX12Game::isPushImpl(int commandId)
+	{
+		return DX12GameManager::isPushCommand(commandId);
+	}
+
+	bool DX12Game::isPushImpl(MouseButtonType buttonType)
+	{
+		return DX12GameManager::isMousePush(buttonType);
+	}
+
+	bool DX12Game::isPushImpl(KeybordKeyType keyType)
+	{
+		return DX12GameManager::isKeybordPush(keyType);
+	}
+
+	bool DX12Game::isPushImpl(GamePadBtnType btnType)
+	{
+		return DX12GameManager::isPadPush(btnType);
+	}
+
+	bool DX12Game::isTriggerImpl(int commandId)
+	{
+		return DX12GameManager::isTriggerCommand(commandId);
+	}
+
+	bool DX12Game::isTriggerImpl(MouseButtonType buttonType)
+	{
+		return DX12GameManager::isMouseTrigger(buttonType);
+	}
+
+	bool DX12Game::isTriggerImpl(KeybordKeyType keyType)
+	{
+		return DX12GameManager::isKeybordTrigger(keyType);
+	}
+
+	bool DX12Game::isTriggerImpl(GamePadBtnType btnType)
+	{
+		return DX12GameManager::isPadTrigger(btnType);
 	}
 }

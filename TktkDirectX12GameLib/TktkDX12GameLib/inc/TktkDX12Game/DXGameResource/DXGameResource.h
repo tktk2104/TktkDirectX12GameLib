@@ -148,6 +148,9 @@ namespace tktk
 		// pmdファイルをロードしてゲームの各種リソースクラスを作る
 		BasicMeshLoadPmdReturnValue loadPmd(const BasicMeshLoadPmdArgs& args);
 
+		// pmxファイルをロードしてゲームの各種リソースクラスを作る
+		BasicMeshLoadPmxReturnValue loadPmx(const BasicMeshLoadPmxArgs& args);
+
 	public: /* スケルトン関連の処理 */
 
 		// スケルトンを作り、そのリソースのハンドルを返す

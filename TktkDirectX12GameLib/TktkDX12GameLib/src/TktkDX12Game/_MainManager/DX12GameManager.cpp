@@ -10,6 +10,7 @@
 #include "TktkDX12Game/DXGameResource/_HandleGetter/SystemDXGameResourceHandleGetter.h"
 #include "TktkDX12Game/Input/Mouse/Mouse.h"
 #include "TktkDX12Game/Input/DirectInputWrapper/DirectInputWrapper.h"
+#include "TktkDX12Game/Input/_InputManager/InputManager.h"
 #include "TktkDX12Game/Time/ElapsedTimer.h"
 
 #include "TktkDX12Game/DXGameResource/Mesh/BasicMesh/Maker/BoxMeshMaker.h"
@@ -27,6 +28,7 @@ namespace tktk
 	std::unique_ptr<SystemDXGameResourceHandleGetter>	DX12GameManager::m_systemDXGameResourceHandleGetter;
 	std::unique_ptr<DirectInputWrapper>					DX12GameManager::m_directInputWrapper;
 	std::unique_ptr<Mouse>								DX12GameManager::m_mouse;
+	std::unique_ptr<InputManager>						DX12GameManager::m_inputManager;
 	std::unique_ptr<ElapsedTimer>						DX12GameManager::m_elapsedTimer;
 
 	void DX12GameManager::initialize(const DX12GameManagerInitParam& gameManagerInitParam)
@@ -602,6 +604,11 @@ namespace tktk
 		return m_dxGameResource->loadPmd(args);
 	}
 
+	BasicMeshLoadPmxReturnValue DX12GameManager::loadPmx(const BasicMeshLoadPmxArgs& args)
+	{
+		return m_dxGameResource->loadPmx(args);
+	}
+
 	unsigned int DX12GameManager::createSkeleton(const SkeletonInitParam& initParam)
 	{
 		return m_dxGameResource->createSkeleton(initParam);
@@ -746,12 +753,62 @@ namespace tktk
 		m_dxGameResource->setMasterVolume(volume);
 	}
 
-	bool DX12GameManager::isPush(MouseButtonType buttonType)
+	bool DX12GameManager::isPushCommand(int commandId)
+	{
+		return m_inputManager->isPush(commandId);
+	}
+
+	bool DX12GameManager::isTriggerCommand(int commandId)
+	{
+		return m_inputManager->isTrigger(commandId);
+	}
+
+	const tktkMath::Vector2& DX12GameManager::moveVec()
+	{
+		return m_inputManager->moveVec();
+	}
+
+	const tktkMath::Vector2& DX12GameManager::lookVec()
+	{
+		return m_inputManager->lookVec();
+	}
+
+	void DX12GameManager::addCommand(int commandId, KeybordKeyType keyType)
+	{
+		m_inputManager->addCommand(commandId, keyType);
+	}
+
+	void DX12GameManager::addCommand(int commandId, GamePadBtnType btnType)
+	{
+		m_inputManager->addCommand(commandId, btnType);
+	}
+
+	void DX12GameManager::addCommand(int commandId, MouseButtonType btnType)
+	{
+		m_inputManager->addCommand(commandId, btnType);
+	}
+
+	void DX12GameManager::addDirectionCommand(DirectionCommandType directionCommand, KeybordKeyType keyType)
+	{
+		m_inputManager->addDirectionCommand(directionCommand, keyType);
+	}
+
+	void DX12GameManager::addDirectionCommand(DirectionCommandType directionCommand, GamePadBtnType btnType)
+	{
+		m_inputManager->addDirectionCommand(directionCommand, btnType);
+	}
+
+	void DX12GameManager::addDirectionCommand(DirectionCommandType directionCommand, MouseButtonType btnType)
+	{
+		m_inputManager->addDirectionCommand(directionCommand, btnType);
+	}
+
+	bool DX12GameManager::isMousePush(MouseButtonType buttonType)
 	{
 		return m_mouse->isPush(buttonType);
 	}
 
-	bool DX12GameManager::isTrigger(MouseButtonType buttonType)
+	bool DX12GameManager::isMouseTrigger(MouseButtonType buttonType)
 	{
 		return m_mouse->isTrigger(buttonType);
 	}
@@ -761,12 +818,12 @@ namespace tktk
 		return m_mouse->mousePos(m_window->getHWND());
 	}
 
-	bool DX12GameManager::isPush(KeybordKeyType keyType)
+	bool DX12GameManager::isKeybordPush(KeybordKeyType keyType)
 	{
 		return m_directInputWrapper->isPush(keyType);
 	}
 
-	bool DX12GameManager::isTrigger(KeybordKeyType keyType)
+	bool DX12GameManager::isKeybordTrigger(KeybordKeyType keyType)
 	{
 		return m_directInputWrapper->isTrigger(keyType);
 	}
@@ -781,12 +838,12 @@ namespace tktk
 		return m_directInputWrapper->getRstick();
 	}
 
-	bool DX12GameManager::isPush(GamePadBtnType btnType)
+	bool DX12GameManager::isPadPush(GamePadBtnType btnType)
 	{
 		return m_directInputWrapper->isPush(btnType);
 	}
 
-	bool DX12GameManager::isTrigger(GamePadBtnType btnType)
+	bool DX12GameManager::isPadTrigger(GamePadBtnType btnType)
 	{
 		return m_directInputWrapper->isTrigger(btnType);
 	}

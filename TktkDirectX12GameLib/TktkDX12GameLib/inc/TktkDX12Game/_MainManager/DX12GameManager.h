@@ -28,6 +28,7 @@ namespace tktk
 	class DirectInputWrapper;
 	class ElapsedTimer;
 	class Mouse;
+	class InputManager;
 
 	// ゲームフレームワークのメインマネージャー
 	// ※簡略版マネージャーは「tktk::DX12Game」です
@@ -470,6 +471,9 @@ namespace tktk
 		// pmdファイルをロードしてゲームの各種リソースクラスを作る
 		static BasicMeshLoadPmdReturnValue loadPmd(const BasicMeshLoadPmdArgs& args);
 
+		// pmxファイルをロードしてゲームの各種リソースクラスを作る
+		static BasicMeshLoadPmxReturnValue loadPmx(const BasicMeshLoadPmxArgs& args);
+
 	//************************************************************
 	/* スケルトン関連の処理 */
 	public:
@@ -618,14 +622,56 @@ namespace tktk
 		static void setMasterVolume(float volume);
 
 	//************************************************************
+	/* 入力関係共通の処理 */
+	public:
+
+		// 特定の入力が押されているかを始める
+		// 「対応する入力：MouseButtonType, KeybordKeyType, GamePadBtnType」
+		// 上記以外の引数の型の場合、InputManagerを使った入力検知になる
+		template <class T>
+		static bool isPush(T type);
+
+		// 特定の入力が押され始めたかを始める
+		// 「対応する入力：MouseButtonType, KeybordKeyType, GamePadBtnType」
+		// 上記以外の引数の型の場合、InputManagerを使った入力検知になる
+		template <class T>
+		static bool isTrigger(T type);
+
+	//************************************************************
+	/* インプットマネージャーの処理 */
+	public:
+
+		// IDに対応した入力が押されているかを判定
+		static bool isPushCommand(int commandId);
+
+		// IDに対応した入力が押され始めたかを判定
+		static bool isTriggerCommand(int commandId);
+
+		// 移動方向を取得
+		static const tktkMath::Vector2& moveVec();
+
+		// 視点移動方向を取得
+		static const tktkMath::Vector2& lookVec();
+
+		// 各種入力とIDを結びつける
+		static void addCommand(int commandId, KeybordKeyType keyType);
+		static void addCommand(int commandId, GamePadBtnType btnType);
+		static void addCommand(int commandId, MouseButtonType btnType);
+
+		// 各種入力と移動コマンドを結びつける
+		static void addDirectionCommand(DirectionCommandType directionCommand, KeybordKeyType keyType);
+		static void addDirectionCommand(DirectionCommandType directionCommand, GamePadBtnType btnType);
+		static void addDirectionCommand(DirectionCommandType directionCommand, MouseButtonType btnType);
+
+	//************************************************************
 	/* マウス入力関係の処理 */
 	public:
 
 		// 指定のボタンが押されているか
-		static bool isPush(MouseButtonType buttonType);
+		static bool isMousePush(MouseButtonType buttonType);
 
 		// 指定のボタンが押され始めたかを判定
-		static bool isTrigger(MouseButtonType buttonType);
+		static bool isMouseTrigger(MouseButtonType buttonType);
 
 		// マウスカーソルの座標を取得する
 		static tktkMath::Vector2 mousePos();
@@ -635,10 +681,10 @@ namespace tktk
 	public:
 
 		// 指定のキーが押されているかを判定
-		static bool isPush(KeybordKeyType keyType);
+		static bool isKeybordPush(KeybordKeyType keyType);
 
 		// 指定のキーが押され始めたかを判定
-		static bool isTrigger(KeybordKeyType keyType);
+		static bool isKeybordTrigger(KeybordKeyType keyType);
 
 	//************************************************************
 	/* ゲームパッド入力関係の処理 */
@@ -651,10 +697,10 @@ namespace tktk
 		static tktkMath::Vector2 getRstick();
 
 		// 指定のボタンが押されているかを判定
-		static bool isPush(GamePadBtnType btnType);
+		static bool isPadPush(GamePadBtnType btnType);
 
 		// 指定のボタンが押され始めたかを判定
-		static bool isTrigger(GamePadBtnType btnType);
+		static bool isPadTrigger(GamePadBtnType btnType);
 
 	//************************************************************
 	/* タイム関係の処理 */
@@ -822,6 +868,7 @@ namespace tktk
 		static std::unique_ptr<SystemDXGameResourceHandleGetter>m_systemDXGameResourceHandleGetter;
 		static std::unique_ptr<DirectInputWrapper>				m_directInputWrapper;
 		static std::unique_ptr<Mouse>							m_mouse;
+		static std::unique_ptr<InputManager>					m_inputManager;
 		static std::unique_ptr<ElapsedTimer>					m_elapsedTimer;
 	};
 //┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -952,6 +999,61 @@ namespace tktk
 		unsigned int createdHandle = loadSound(fileName);
 		setSoundHandle(static_cast<int>(id), createdHandle);
 		return createdHandle;
+	}
+
+	// IDに対応した入力が押されているかを判定
+	template<class T>
+	inline bool DX12GameManager::isPush(T type)
+	{
+		return isPushCommand(static_cast<int>(type));
+	}
+
+	// 指定のマウスボタンが押されているか
+	template<>
+	inline bool DX12GameManager::isPush(MouseButtonType type)
+	{
+		return isMousePush(type);
+	}
+
+	// 指定のキーが押されているかを判定
+	template<>
+	inline bool DX12GameManager::isPush(KeybordKeyType type)
+	{
+		return isKeybordPush(type);
+	}
+
+	// 指定のパッドボタンが押されているかを判定
+	template<>
+	inline bool DX12GameManager::isPush(GamePadBtnType type)
+	{
+		return isPadPush(type);
+	}
+
+	template<class T>
+	inline bool DX12GameManager::isTrigger(T type)
+	{
+		return isTriggerCommand(static_cast<int>(type));
+	}
+
+	// 指定のマウスボタンが押され始めたかを判定
+	template<>
+	inline bool DX12GameManager::isTrigger(MouseButtonType type)
+	{
+		return isMouseTrigger(type);
+	}
+
+	// 指定のキーが押され始めたかを判定
+	template<>
+	inline bool DX12GameManager::isTrigger(KeybordKeyType type)
+	{
+		return isKeybordTrigger(type);
+	}
+
+	// 指定のパッドボタンが押され始めたかを判定
+	template<>
+	inline bool DX12GameManager::isTrigger(GamePadBtnType type)
+	{
+		return isPadTrigger(type);
 	}
 }
 #endif // !DX12_GAME_MANAGER_H_

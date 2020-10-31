@@ -60,43 +60,29 @@ namespace tktk
 		void destroyGameObjectsWithTag(GameObjectTagType tag) { destroyGameObjectsWithTagImpl(static_cast<int>(tag)); }
 
 	//************************************************************
-	/* マウス入力関係の処理 */
+	/* 入力関係の処理 */
 	public:
 
-		// 指定のボタンが押されているか
-		static bool isPush(MouseButtonType buttonType);
+		// 特定の入力が押されているかを始める
+		// 「対応する入力：MouseButtonType, KeybordKeyType, GamePadBtnType」
+		// 上記以外の引数の型の場合、InputManagerを使った入力検知になる
+		template <class T>
+		static bool isPush(T type);
 
-		// 指定のボタンが押され始めたかを判定
-		static bool isTrigger(MouseButtonType buttonType);
+		// 特定の入力が押され始めたかを始める
+		// 「対応する入力：MouseButtonType, KeybordKeyType, GamePadBtnType」
+		// 上記以外の引数の型の場合、InputManagerを使った入力検知になる
+		template <class T>
+		static bool isTrigger(T type);
+
+		// 移動方向を取得
+		static const tktkMath::Vector2& moveVec();
+
+		// 視点移動方向を取得
+		static const tktkMath::Vector2& lookVec();
 
 		// マウスカーソルの座標を取得する
 		static tktkMath::Vector2 mousePos();
-
-	//************************************************************
-	/* キーボード入力関係の処理 */
-	public:
-
-		// 指定のキーが押されているかを判定
-		static bool isPush(KeybordKeyType keyType);
-
-		// 指定のキーが押され始めたかを判定
-		static bool isTrigger(KeybordKeyType keyType);
-
-	//************************************************************
-	/* ゲームパッド入力関係の処理 */
-	public:
-
-		// 左スティックの傾きを取得（-1.0～1.0の間）
-		static tktkMath::Vector2 getLstick();
-
-		// 右スティックの傾きを取得（-1.0～1.0の間）
-		static tktkMath::Vector2 getRstick();
-
-		// 指定のボタンが押されているかを判定
-		static bool isPush(GamePadBtnType buttonType);
-
-		// 指定のボタンが押され始めたかを判定
-		static bool isTrigger(GamePadBtnType buttonType);
 
 	//************************************************************
 	/* タイム関係の処理 */
@@ -142,6 +128,16 @@ namespace tktk
 		static GameObjectPtr findGameObjectWithTagImpl(int tag);
 		static std::forward_list<GameObjectPtr> findGameObjectsWithTagImpl(int tag);
 		static void destroyGameObjectsWithTagImpl(int tag);
+
+		static bool isPushImpl(int commandId);
+		static bool isPushImpl(MouseButtonType buttonType);
+		static bool isPushImpl(KeybordKeyType keyType);
+		static bool isPushImpl(GamePadBtnType btnType);
+
+		static bool isTriggerImpl(int commandId);
+		static bool isTriggerImpl(MouseButtonType buttonType);
+		static bool isTriggerImpl(KeybordKeyType keyType);
+		static bool isTriggerImpl(GamePadBtnType btnType);
 	};
 //┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 //┃ここから下は関数の実装
@@ -183,6 +179,61 @@ namespace tktk
 	inline std::forward_list<GameObjectPtr> DX12Game::findGameObjectsWithTag(GameObjectTagType tag)
 	{
 		return findGameObjectsWithTagImpl(static_cast<int>(tag));
+	}
+
+	// IDに対応した入力が押されているかを判定
+	template<class T>
+	inline bool DX12Game::isPush(T type)
+	{
+		return isPushImpl(static_cast<int>(type));
+	}
+
+	// 指定のマウスボタンが押されているか
+	template<>
+	inline bool DX12Game::isPush(MouseButtonType type)
+	{
+		return isPushImpl(type);
+	}
+
+	// 指定のキーが押されているかを判定
+	template<>
+	inline bool DX12Game::isPush(KeybordKeyType type)
+	{
+		return isPushImpl(type);
+	}
+
+	// 指定のパッドボタンが押されているかを判定
+	template<>
+	inline bool DX12Game::isPush(GamePadBtnType type)
+	{
+		return isPushImpl(type);
+	}
+
+	template<class T>
+	inline bool DX12Game::isTrigger(T type)
+	{
+		return isTriggerImpl(static_cast<int>(type));
+	}
+
+	// 指定のマウスボタンが押され始めたかを判定
+	template<>
+	inline bool DX12Game::isTrigger(MouseButtonType type)
+	{
+		return isTriggerImpl(type);
+	}
+
+	// 指定のキーが押され始めたかを判定
+	template<>
+	inline bool DX12Game::isTrigger(KeybordKeyType type)
+	{
+		return isTriggerImpl(type);
+	}
+
+	// 指定のパッドボタンが押され始めたかを判定
+	template<>
+	inline bool DX12Game::isTrigger(GamePadBtnType type)
+	{
+		return isTriggerImpl(type);
 	}
 }
 #endif // !TKTK_DX12_GAME_H_
