@@ -247,6 +247,7 @@
     <ClInclude Include="inc\TktkDX12BaseComponents\2D\Transform2D\Transform2D.h" />
     <ClInclude Include="inc\TktkDX12BaseComponents\2D\Transform2D\Transform2DMaker.h" />
     <ClInclude Include="inc\TktkDX12Game\Component\DefaultComponents\StateMachine\CurStateTypeList.h" />
+    <ClInclude Include="inc\TktkDX12Game\Component\DefaultComponents\StateMachine\MessageStateChanger.h" />
     <ClInclude Include="inc\TktkDX12Game\Component\DefaultComponents\StateMachine\StateChangeTimer.h" />
     <ClInclude Include="inc\TktkDX12Game\Component\DefaultComponents\StateMachine\StateMachine.h" />
     <ClInclude Include="inc\TktkDX12Game\Component\DefaultComponents\StateMachine\StateMachineList.h" />
@@ -447,6 +448,7 @@
     <ClCompile Include="src\TktkDX12BaseComponents\2D\Transform2D\Transform2D.cpp" />
     <ClCompile Include="src\TktkDX12BaseComponents\2D\Transform2D\Transform2DMaker.cpp" />
     <ClCompile Include="src\TktkDX12Game\Component\DefaultComponents\StateMachine\CurStateTypeList.cpp" />
+    <ClCompile Include="src\TktkDX12Game\Component\DefaultComponents\StateMachine\MessageStateChanger.cpp" />
     <ClCompile Include="src\TktkDX12Game\Component\DefaultComponents\StateMachine\StateChangeTimer.cpp" />
     <ClCompile Include="src\TktkDX12Game\Component\DefaultComponents\StateMachine\StateMachine.cpp" />
     <ClCompile Include="src\TktkDX12Game\Component\DefaultComponents\StateMachine\StateMachineList.cpp" />

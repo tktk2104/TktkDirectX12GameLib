@@ -17,6 +17,7 @@ namespace tktk
 	class ParentChildManager;
 	class CurStateTypeList;
 	class StateChangeTimer;
+	class MessageStateChanger;
 	
 	// ゲームオブジェクトクラス
 	class GameObject
@@ -159,6 +160,11 @@ namespace tktk
 		template <class StateIdType>
 		ComponentPtr<StateChangeTimer> createStateChangeTimer(std::initializer_list<StateIdType> targetState, float stateChangeTimeSec, std::initializer_list<StateIdType> enableStates, std::initializer_list<StateIdType> disableStates);
 
+		// ステートを指定し、メッセージ受信時にステートを変更するコンポーネントを作る
+		//  ※「{ MOVE_STATE, WALK_STATE, BEGIN_MOVE_STATE }」で「“MOVE_STATE”内の“WALK_STATE”内の“BEGIN_MOVE_STATE”に追加」となる
+		template <class MessageType, class StateIdType>
+		ComponentPtr<MessageStateChanger> createMessageStateChanger(std::initializer_list<StateIdType> targetState, MessageType messageType, std::initializer_list<StateIdType> enableStates, std::initializer_list<StateIdType> disableStates);
+
 		// 子要素を指定のステートに追加する（※addChild(targetState, child)の内部実装）
 		void setChildToStateMachine(const std::vector<int>& targetState, const GameObjectPtr& child);
 
@@ -176,6 +182,7 @@ namespace tktk
 		void stateDisableImpl(int stateType);
 		bool containStateImpl(int stateType);
 		ComponentPtr<StateChangeTimer> createStateChangeTimerImpl(const std::vector<int>& targetState, float stateChangeTimeSec, const std::vector<int>& enableStateArray, const std::vector<int>& disableStateArray);
+		ComponentPtr<MessageStateChanger> createMessageStateChanger(const std::vector<int>& targetState, unsigned int messageType, const std::vector<int>& enableStateArray, const std::vector<int>& disableStateArray);
 
 	private:
 
@@ -263,6 +270,34 @@ namespace tktk
 		for (const auto& node : disableStateArray) intDisableStateArray.push_back(static_cast<int>(node));
 
 		return createStateChangeTimerImpl(intTargetStateArray, stateChangeTimeSec, intEnableStateArray, intDisableStateArray);
+	}
+
+	// ステートを指定し、メッセージ受信時にステートを変更するコンポーネントを作る
+		//  ※「{ MOVE_STATE, WALK_STATE, BEGIN_MOVE_STATE }」で「“MOVE_STATE”内の“WALK_STATE”内の“BEGIN_MOVE_STATE”に追加」となる
+	template<class MessageType, class StateIdType>
+	inline ComponentPtr<MessageStateChanger> GameObject::createMessageStateChanger(std::initializer_list<StateIdType> targetState, MessageType stateChangeTimeSec, std::initializer_list<StateIdType> enableStates, std::initializer_list<StateIdType> disableStates)
+	{
+		// 指定したステートをint型にキャストする
+		auto targetStateArray = std::vector<StateIdType>(targetState);
+		auto intTargetStateArray = std::vector<int>();
+		intTargetStateArray.reserve(targetStateArray.size());
+		for (const auto& node : targetStateArray) intTargetStateArray.push_back(static_cast<int>(node));
+
+		// 有効にするステートをint型にキャストする
+		auto enableStateArray = std::vector<StateIdType>(enableStates);
+		auto intEnableStateArray = std::vector<int>();
+		intEnableStateArray.reserve(enableStateArray.size());
+		for (const auto& node : enableStateArray) intEnableStateArray.push_back(static_cast<int>(node));
+
+		// 無効にするステートをint型にキャスト
+		auto disableStateArray = std::vector<StateIdType>(disableStates);
+		auto intDisableStateArray = std::vector<int>();
+		intDisableStateArray.reserve(disableStateArray.size());
+		for (const auto& node : disableStateArray) intDisableStateArray.push_back(static_cast<int>(node));
+
+		return createStateChangeTimerImpl(intTargetStateArray, stateChangeTimeSec, intEnableStateArray, intDisableStateArray);
+
+		return ComponentPtr<StateChangeTimer>();
 	}
 }
 #endif // !GAME_OBJECT_H_

@@ -10,6 +10,7 @@
 #include "TktkDX12Game/Component/DefaultComponents/StateMachine/StateMachineList.h"
 #include "TktkDX12Game/Component/DefaultComponents/StateMachine/CurStateTypeList.h"
 #include "TktkDX12Game/Component/DefaultComponents/StateMachine/StateChangeTimer.h"
+#include "TktkDX12Game/Component/DefaultComponents/StateMachine/MessageStateChanger.h"
 
 namespace tktk
 {
@@ -232,7 +233,15 @@ namespace tktk
 		auto createdComponent = DX12GameManager::createComponent<StateChangeTimer>(GameObjectPtr(weak_from_this()), stateChangeTimeSec, enableStateArray, disableStateArray);
 		createdComponent.lock()->setUser(GameObjectPtr(weak_from_this()));
 		setComponentToStateMachine(targetState, ComponentBasePtr(createdComponent));
-		return m_componentList->add<StateChangeTimer>(createdComponent);;
+		return m_componentList->add(createdComponent);
+	}
+
+	ComponentPtr<MessageStateChanger> GameObject::createMessageStateChanger(const std::vector<int>& targetState, unsigned int messageType, const std::vector<int>& enableStateArray, const std::vector<int>& disableStateArray)
+	{
+		auto createdComponent = DX12GameManager::createComponent<MessageStateChanger>(GameObjectPtr(weak_from_this()), messageType, enableStateArray, disableStateArray);
+		createdComponent.lock()->setUser(GameObjectPtr(weak_from_this()));
+		setComponentToStateMachine(targetState, ComponentBasePtr(createdComponent));
+		return m_componentList->add(createdComponent);
 	}
 
 	void GameObject::setChildToStateMachine(const std::vector<int>& targetState, const GameObjectPtr& child)
