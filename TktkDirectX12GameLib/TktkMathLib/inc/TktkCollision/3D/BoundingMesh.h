@@ -47,7 +47,7 @@ namespace tktkCollision
 	template<class OtherBody3DType, is_BoundingSphere<OtherBody3DType>>
 	inline HitInfo3D BoundingMesh::isCollide(const OtherBody3DType& otherBody, const tktkMath::Matrix4& selfWorldMatrix, const tktkMath::Matrix4& otherWorldMatrix) const
 	{
-		return HitInfo3D();
+		return CollisionSupport3D::meshCollisionWithSphere(*this, otherBody, selfWorldMatrix, otherWorldMatrix);
 	}
 
 	// ƒƒbƒVƒ…‚Æ‚ÌÕ“Ë”»’èˆ—

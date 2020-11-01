@@ -53,14 +53,14 @@ namespace tktkCollision
 	template<class OtherBody3DType, is_BoundingSphere<OtherBody3DType>>
 	inline HitInfo3D BoundingSphere::isCollide(const OtherBody3DType& otherBody, const tktkMath::Matrix4& selfWorldMatrix, const tktkMath::Matrix4& otherWorldMatrix) const
 	{
-		return HitInfo3D();
+		return CollisionSupport3D::sphereCollisionWithSphere(*this, otherBody, selfWorldMatrix, otherWorldMatrix);
 	}
 	
 	// ƒƒbƒVƒ…‚Æ‚ÌÕ“Ë”»’èˆ—
 	template<class OtherBody3DType, is_BoundingMesh<OtherBody3DType>>
 	inline HitInfo3D BoundingSphere::isCollide(const OtherBody3DType& otherBody, const tktkMath::Matrix4& selfWorldMatrix, const tktkMath::Matrix4& otherWorldMatrix) const
 	{
-		return HitInfo3D();
+		return CollisionSupport3D::sphereCollisionWithMesh(*this, otherBody, selfWorldMatrix, otherWorldMatrix);
 	}
 }
 #endif // !BOUNDING_SPHERE_H_
