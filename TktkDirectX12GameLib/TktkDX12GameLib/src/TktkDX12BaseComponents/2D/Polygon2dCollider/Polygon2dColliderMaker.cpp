@@ -25,6 +25,7 @@ namespace tktk
 			return m_user->createComponent<Polygon2dCollider>(
 				m_collisionGroupType,
 				m_vertexs,
+				m_isExtrude,
 				m_extrudedRate
 				);
 		}
@@ -33,6 +34,7 @@ namespace tktk
 		auto createComponent = m_user->createComponent<Polygon2dCollider>(
 			m_collisionGroupType,
 			m_vertexs,
+			m_isExtrude,
 			m_extrudedRate
 			);
 
@@ -47,6 +49,13 @@ namespace tktk
 	{
 		// 値を設定して自身の参照を返す
 		m_vertexs = value;
+		return *this;
+	}
+
+	Polygon2dColliderMaker& Polygon2dColliderMaker::isExtrude(bool value)
+	{
+		// 値を設定して自身の参照を返す
+		m_isExtrude = value;
 		return *this;
 	}
 

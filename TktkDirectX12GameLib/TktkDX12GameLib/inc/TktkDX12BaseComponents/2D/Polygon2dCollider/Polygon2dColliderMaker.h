@@ -37,6 +37,9 @@ namespace tktk
 		// 当たり判定の大きさを設定
 		Polygon2dColliderMaker& vertexs(const std::vector<tktkMath::Vector2>& value);
 
+		// 衝突相手を押し出す処理を行うか？
+		Polygon2dColliderMaker& isExtrude(bool value);
+
 		// 押し出されやすさを設定（割合）
 		Polygon2dColliderMaker& extrudedRate(float value);
 
@@ -56,6 +59,7 @@ namespace tktk
 		std::vector<int>				m_targetState			{  };
 		int								m_collisionGroupType	{ 0 };
 		std::vector<tktkMath::Vector2>	m_vertexs				{};
+		bool							m_isExtrude				{ false };
 		float							m_extrudedRate			{ 0.0f };
 	};
 //┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

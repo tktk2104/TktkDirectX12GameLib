@@ -19,6 +19,7 @@ namespace tktk
 		Polygon2dCollider(
 			int collisionGroupType,							// 当たり判定のグループ番号
 			const std::vector<tktkMath::Vector2>& vertexs,	// 当たり判定を構成する頂点の座標（時計回り）
+			bool isExtrude,									// 衝突相手を押し出す処理を行うか？
 			float extrudedRate								// 押し出されやすさ（割合）
 		);
 
@@ -33,6 +34,9 @@ namespace tktk
 
 		// 当たり判定のクラスを取得
 		const tktkCollision::BoundingPolygon2D& getBoundingPolygon2d() const;
+
+		// 衝突相手を押し出す処理を行うか？
+		bool isExtrud() const;
 
 		// 押し出されやすさを取得
 		float getExtrudedRate() const;
@@ -51,6 +55,8 @@ namespace tktk
 		{
 			GameObjectPtr				otherObject;
 
+			bool						isExtrude;
+
 			float						otherExtrudedRate;
 
 			tktkCollision::HitInfo2D	hitInfo;
@@ -60,6 +66,9 @@ namespace tktk
 
 		// ２次元ポリゴンの衝突判定クラス
 		tktkCollision::BoundingPolygon2D	m_boundingPolygon2d;
+
+		// 衝突相手を押し出す処理を行うか？
+		bool								m_isExtrude;
 
 		// 押し出されやすさ（割合）
 		float								m_extrudedRate;

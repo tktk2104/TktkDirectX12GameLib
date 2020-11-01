@@ -40,6 +40,9 @@ namespace tktk
 		// 当たり判定のローカル座標を設定
 		BoxColliderMaker& localPosition(const tktkMath::Vector3& value);
 
+		// 衝突相手を押し出す処理を行うか？
+		BoxColliderMaker& isExtrude(bool value);
+
 		// 押し出されやすさを設定（割合）
 		BoxColliderMaker& extrudedRate(float value);
 
@@ -60,6 +63,7 @@ namespace tktk
 		int					m_collisionGroupType	{ 0 };
 		tktkMath::Vector3	m_boxSize				{ tktkMath::Vector3_v::one };
 		tktkMath::Vector3	m_localPosition			{ tktkMath::Vector3_v::zero };
+		bool				m_isExtrude				{ false };
 		float				m_extrudedRate			{ 0.0f };
 	};
 //┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

@@ -26,6 +26,7 @@ namespace tktk
 				m_collisionGroupType,
 				m_boxSize,
 				m_localPosition,
+				m_isExtrude,
 				m_extrudedRate
 				);
 		}
@@ -35,6 +36,7 @@ namespace tktk
 			m_collisionGroupType,
 			m_boxSize,
 			m_localPosition,
+			m_isExtrude,
 			m_extrudedRate
 			);
 
@@ -56,6 +58,13 @@ namespace tktk
 	{
 		// 値を設定して自身の参照を返す
 		m_localPosition = value;
+		return *this;
+	}
+
+	BoxColliderMaker& BoxColliderMaker::isExtrude(bool value)
+	{
+		// 値を設定して自身の参照を返す
+		m_isExtrude = value;
 		return *this;
 	}
 

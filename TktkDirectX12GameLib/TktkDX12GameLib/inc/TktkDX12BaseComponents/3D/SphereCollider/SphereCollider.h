@@ -19,6 +19,7 @@ namespace tktk
 			int collisionGroupType,					// 当たり判定のグループ番号
 			float radius,							// 当たり判定の半径
 			const tktkMath::Vector3& localPosition,	// 当たり判定のローカル座標
+			bool isExtrude,							// 衝突相手を押し出す処理を行うか？
 			float extrudedRate						// 押し出されやすさ（割合）
 		);
 
@@ -33,6 +34,9 @@ namespace tktk
 
 		// 当たり判定のクラスを取得
 		const tktkCollision::BoundingSphere& getBoundingSphere() const;
+
+		// 衝突相手を押し出す処理を行うか？
+		bool isExtrud() const;
 
 		// 押し出されやすさを取得
 		float getExtrudedRate() const;
@@ -51,6 +55,8 @@ namespace tktk
 		{
 			GameObjectPtr				otherObject;
 
+			bool						isExtrude;
+
 			float						otherExtrudedRate;
 
 			tktkCollision::HitInfo3D	hitInfo;
@@ -60,6 +66,9 @@ namespace tktk
 
 		// 球体の衝突判定クラス
 		tktkCollision::BoundingSphere m_boundingSphere;
+
+		// 衝突相手を押し出す処理を行うか？
+		bool						m_isExtrude;
 
 		// 押し出されやすさ（割合）
 		float						m_extrudedRate;

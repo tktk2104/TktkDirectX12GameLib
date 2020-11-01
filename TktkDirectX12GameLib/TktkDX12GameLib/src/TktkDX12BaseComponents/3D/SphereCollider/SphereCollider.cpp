@@ -9,10 +9,12 @@ namespace tktk
 		int collisionGroupType,
 		float radius,
 		const tktkMath::Vector3& localPosition,
+		bool isExtrude,
 		float extrudedRate
 	)
 		: ComponentBase(0.0f, collisionGroupType)
 		, m_boundingSphere(radius, localPosition)
+		, m_isExtrude(isExtrude)
 		, m_extrudedRate(extrudedRate)
 	{
 	}
@@ -37,7 +39,7 @@ namespace tktk
 			auto hitInfo = m_boundingSphere.isCollide(otherCollider->getBoundingMesh(), m_transform3D->calculateWorldMatrix(), otherCollider->getTransform()->calculateWorldMatrix());
 
 			// 衝突相手情報と衝突結果をリストに追加する
-			m_hitInfo3dPairList.push_front({ other->getGameObject(), otherCollider->getExtrudedRate(), hitInfo });
+			m_hitInfo3dPairList.push_front({ other->getGameObject(), otherCollider->isExtrud(), otherCollider->getExtrudedRate(), hitInfo });
 			return hitInfo.isHit;
 		}
 
@@ -49,7 +51,7 @@ namespace tktk
 			auto hitInfo = m_boundingSphere.isCollide(otherCollider->getBoundingSphere(), m_transform3D->calculateWorldMatrix(), otherCollider->getTransform()->calculateWorldMatrix());
 
 			// 衝突相手情報と衝突結果をリストに追加する
-			m_hitInfo3dPairList.push_front({ other->getGameObject(), otherCollider->getExtrudedRate(), hitInfo });
+			m_hitInfo3dPairList.push_front({ other->getGameObject(), otherCollider->isExtrud(), otherCollider->getExtrudedRate(), hitInfo });
 			return hitInfo.isHit;
 		}
 		return false;
@@ -67,6 +69,11 @@ namespace tktk
 		return m_boundingSphere;
 	}
 
+	bool SphereCollider::isExtrud() const
+	{
+		return m_isExtrude;
+	}
+
 	float SphereCollider::getExtrudedRate() const
 	{
 		return m_extrudedRate;
@@ -81,20 +88,26 @@ namespace tktk
 	{
 		for (const auto& node : m_hitInfo3dPairList)
 		{
+			// 相手が自身を押し出そうとしていたら、自身の押し出されやすさを適応する
+			float selfExtrudedRate = (node.isExtrude) ? m_extrudedRate : 0.0f;
+
+			// 相手を押し出す設定の場合、相手の押し出されやすさを適応する
+			float otherExtrudedRate = (m_isExtrude) ? node.otherExtrudedRate : 0.0f;
+
 			// 押し出されやすさの合計を求める
-			float sumExtrudedRate = m_extrudedRate + node.otherExtrudedRate;
+			float sumExtrudedRate = selfExtrudedRate + otherExtrudedRate;
 
 			// ゼロで割ろうとしたら緊急回避
 			if (sumExtrudedRate == 0.0f) continue;
 
 			// 自身の押し出し処理を行う
-			m_transform3D->addWorldPosition(node.hitInfo.selfExtrudeVec * (m_extrudedRate / sumExtrudedRate));
+			m_transform3D->addWorldPosition(node.hitInfo.selfExtrudeVec * (selfExtrudedRate / sumExtrudedRate));
 
 			// 相手の座標管理コンポーネントを取得
 			auto otherTransform = node.otherObject->getComponent<tktk::Transform3D>();
 
 			// 相手の押し出し処理を行う
-			otherTransform->addWorldPosition(-node.hitInfo.selfExtrudeVec * (node.otherExtrudedRate / sumExtrudedRate));
+			otherTransform->addWorldPosition(-node.hitInfo.selfExtrudeVec * (otherExtrudedRate / sumExtrudedRate));
 		}
 	}
 }
