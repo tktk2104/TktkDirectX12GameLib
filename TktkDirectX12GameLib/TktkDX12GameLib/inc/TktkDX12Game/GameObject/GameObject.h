@@ -152,7 +152,7 @@ namespace tktk
 
 		// ステートを指定し、テンプレート引数の型のコンポーネントを引数の値を使って作る
 		//  ※「{ MOVE_STATE, WALK_STATE, BEGIN_MOVE_STATE }」で「“MOVE_STATE”内の“WALK_STATE”内の“BEGIN_MOVE_STATE”に追加」となる
-		template <class StateIdType, class ComponentType, class... Args>
+		template <class ComponentType, class StateIdType, class... Args>
 		ComponentPtr<ComponentType> createComponent(std::initializer_list<StateIdType> targetState, Args&&... args);
 
 		// ステートを指定し、ステートを変更するタイマーを作る
@@ -231,7 +231,7 @@ namespace tktk
 
 	// ステートを指定し、テンプレート引数の型のコンポーネントを引数の値を使って作る
 	//  ※「{ MOVE_STATE, WALK_STATE, BEGIN_MOVE_STATE }」で「“MOVE_STATE”内の“WALK_STATE”内の“BEGIN_MOVE_STATE”に追加」となる
-	template<class StateIdType, class ComponentType, class ...Args>
+	template<class ComponentType, class StateIdType, class ...Args>
 	inline ComponentPtr<ComponentType> GameObject::createComponent(std::initializer_list<StateIdType> targetState, Args&& ...args)
 	{
 		// 指定したステートをint型にキャストする
