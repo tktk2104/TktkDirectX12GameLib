@@ -75,5 +75,11 @@
     <ClInclude Include="inc\TktkTemplateMetaLib\HasFuncCheck\CreatedStruct\HasHandleMessageChecker.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="inc\TktkTemplateMetaLib\TypeCheck\isCastSignedInt32.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\TktkTemplateMetaLib\TypeCheck\isCastUnsignedInt32.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

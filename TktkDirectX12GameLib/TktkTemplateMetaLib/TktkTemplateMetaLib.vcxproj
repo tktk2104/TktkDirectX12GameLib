@@ -168,6 +168,8 @@
     <ClInclude Include="inc\TktkTemplateMetaLib\HasFuncCheck\HasFuncCheckMacro.h" />
     <ClInclude Include="inc\TktkTemplateMetaLib\HasValueCheck\HasValueCheckMacro.h" />
     <ClInclude Include="inc\TktkTemplateMetaLib\IsAllOf\IsAllOf.h" />
+    <ClInclude Include="inc\TktkTemplateMetaLib\TypeCheck\isCastSignedInt32.h" />
+    <ClInclude Include="inc\TktkTemplateMetaLib\TypeCheck\isCastUnsignedInt32.h" />
     <ClInclude Include="inc\TktkTemplateMetaLib\TypeCheck\isIdType.h" />
     <ClInclude Include="inc\TktkTemplateMetaLib\TypeCheck\IsNumber.h" />
   </ItemGroup>
