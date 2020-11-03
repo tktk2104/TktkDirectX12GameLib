@@ -28,10 +28,37 @@ namespace tktk
 		return m_self;
 	}
 
+	ColliderWireFrameDrawer3DMaker& ColliderWireFrameDrawer3DMaker::makeStart(const StateTypeHierarchy& targetState, GameObjectPtr user)
+	{
+		// 変数を初期化する
+		m_self = ColliderWireFrameDrawer3DMaker();
+
+		// 引数のユーザーを設定
+		m_self.m_user = user;
+
+		// 引数の追加階層を設定
+		m_self.m_targetState = targetState;
+
+		// 使用するカメラハンドルのデフォルト値はデフォルト通常カメラ
+		m_self.m_useResourceHandles.cameraHandle = DX12GameManager::getSystemHandle(SystemCameraType::DefaultCamera);
+
+		// 使用するシャドウマップカメラハンドルのデフォルト値はデフォルトシャドウマップカメラ
+		m_self.m_useResourceHandles.shadowMapCameraHandle = DX12GameManager::getSystemHandle(SystemCameraType::DefaultShadowMapCamera);
+
+		// 使用するライトハンドルのデフォルト値はデフォルトライト
+		m_self.m_useResourceHandles.lightHandle = DX12GameManager::getSystemHandle(SystemLightType::DefaultLight);
+
+		// 使用するレンダーターゲットのディスクリプタヒープハンドルのデフォルト値はバックバッファ
+		m_self.m_useResourceHandles.rtvDescriptorHeapHandle = DX12GameManager::getSystemHandle(SystemRtvDescriptorHeapType::BackBuffer);
+
+		// 自身の参照を返す
+		return m_self;
+	}
+
 	ComponentPtr<ColliderWireFrameDrawer3D> ColliderWireFrameDrawer3DMaker::create()
 	{
 		// 自身を追加する階層情報が空だったら普通に作成する
-		if (m_targetState.empty())
+		if (m_targetState.hierarchy.empty())
 		{
 			// コンポーネントを作成してそのポインタを返す
 			return m_user->createComponent<ColliderWireFrameDrawer3D>(

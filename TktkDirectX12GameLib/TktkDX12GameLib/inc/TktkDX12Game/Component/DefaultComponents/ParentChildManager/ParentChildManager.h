@@ -42,17 +42,18 @@ namespace tktk
 		const std::forward_list<GameObjectPtr>& getChildren() const;
 
 		// 自身の子要素から引数のタグを持ったゲームオブジェクトを取得する
+		// ※該当オブジェクトが無かった場合、空のGameObjectPtrを取得する
 		// ※複数該当オブジェクトがあった場合、最初に見つけた１つを取得する
-		GameObjectPtr findGameObjectWithTag(int tag) const;
+		GameObjectPtr findGameObjectWithTag(GameObjectTagCarrier tag) const;
 
 		// 自身の子要素から引数のタグを持ったゲームオブジェクトを全て取得する
-		std::forward_list<GameObjectPtr> findGameObjectsWithTag(int tag) const;
+		std::forward_list<GameObjectPtr> findGameObjectsWithTag(GameObjectTagCarrier tag) const;
 
 		// 子要素を追加する
 		void addChild(const GameObjectPtr& child);
 
 		// 全ての子要素にメッセージを送信する
-		void sendMessage(unsigned int messageId, const MessageAttachment& value);
+		void sendMessage(MessageTypeCarrier type, const MessageAttachment& attachment);
 
 	public:
 

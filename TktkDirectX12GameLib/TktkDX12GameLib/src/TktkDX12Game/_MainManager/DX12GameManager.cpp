@@ -244,14 +244,29 @@ namespace tktk
 		m_dxGameResource->disableScene(handle);
 	}
 
-	void DX12GameManager::sendMessageAll(unsigned int messageId, const MessageAttachment& value)
+	void DX12GameManager::sendMessageAll(MessageTypeCarrier type, const MessageAttachment& attachment)
 	{
-		m_gameObjectManager->runHandleMessageAll(messageId, value);
+		m_gameObjectManager->runHandleMessageAll(type, attachment);
 	}
 
 	GameObjectPtr DX12GameManager::createGameObject()
 	{
 		return m_gameObjectManager->createGameObject();
+	}
+
+	GameObjectPtr DX12GameManager::findGameObjectWithTag(GameObjectTagCarrier tag)
+	{
+		return m_gameObjectManager->findGameObjectWithTag(tag);
+	}
+
+	std::forward_list<GameObjectPtr> DX12GameManager::findGameObjectsWithTag(GameObjectTagCarrier tag)
+	{
+		return m_gameObjectManager->findGameObjectsWithTag(tag);
+	}
+
+	void DX12GameManager::destroyGameObjectsWithTag(GameObjectTagCarrier tag)
+	{
+		m_gameObjectManager->destroyGameObjectsWithTag(tag);
 	}
 
 	void DX12GameManager::executeCommandList()
@@ -1131,21 +1146,6 @@ namespace tktk
 	void DX12GameManager::setSystemHandle(SystemPostEffectMaterialType type, unsigned int handle)
 	{
 		m_systemDXGameResourceHandleGetter->setSystemHandle(type, handle);
-	}
-
-	GameObjectPtr DX12GameManager::findGameObjectWithTagImpl(int tag)
-	{
-		return m_gameObjectManager->findGameObjectWithTag(tag);
-	}
-
-	std::forward_list<GameObjectPtr> DX12GameManager::findGameObjectsWithTagImpl(int tag)
-	{
-		return m_gameObjectManager->findGameObjectsWithTag(tag);
-	}
-
-	void DX12GameManager::destroyGameObjectsWithTagImpl(int tag)
-	{
-		m_gameObjectManager->destroyGameObjectsWithTag(tag);
 	}
 
 	void DX12GameManager::addCollisionGroupImpl(int firstGroup, int secondGroup)

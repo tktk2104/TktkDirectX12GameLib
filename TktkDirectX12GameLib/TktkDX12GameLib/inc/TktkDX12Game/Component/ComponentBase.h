@@ -18,11 +18,12 @@ namespace tktk
 	void onDestroy();			// 削除フラグが立った瞬間（デストラクタが呼ばれる前）に呼ばれる
 	void update();				// 毎フレーム呼ばれる
 
-	void handleMessage		(unsigned int messageId, const tktk::MessageAttachment& value);	// イベントメッセージを受け取った時に呼ばれる
-	void afterChangeParent	(const tktk::GameObjectPtr& beforParent);						// 子要素が変更された後に呼ばれる
-	void onCollisionEnter	(const tktk::GameObjectPtr& other);								// 衝突開始時に呼ばれる
-	void onCollisionStay	(const tktk::GameObjectPtr& other);								// 衝突中に呼ばれる
-	void onCollisionExit	(const tktk::GameObjectPtr& other);								// 衝突終了時に呼ばれる
+	void afterChangeParent	(const tktk::GameObjectPtr& beforParent);	// 子要素が変更された後に呼ばれる
+	void onCollisionEnter	(const tktk::GameObjectPtr& other);			// 衝突開始時に呼ばれる
+	void onCollisionStay	(const tktk::GameObjectPtr& other);			// 衝突中に呼ばれる
+	void onCollisionExit	(const tktk::GameObjectPtr& other);			// 衝突終了時に呼ばれる
+
+	void handleMessage		(tktk::MessageTypeCarrier type, const tktk::MessageAttachment& attachment);	// メッセージを受け取った時に呼ばれる
 	*/
 	class ComponentBase
 	{

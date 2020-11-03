@@ -9,9 +9,29 @@ namespace tktk
 		return DX12GameManager::getWindowSize();
 	}
 
+	void DX12Game::sendMessageAll(MessageTypeCarrier type, const MessageAttachment& attachment)
+	{
+		DX12GameManager::sendMessageAll(type, attachment);
+	}
+
 	GameObjectPtr DX12Game::createGameObject()
 	{
 		return DX12GameManager::createGameObject();
+	}
+
+	GameObjectPtr DX12Game::findGameObjectWithTag(GameObjectTagCarrier tag)
+	{
+		return DX12GameManager::findGameObjectWithTag(tag);
+	}
+
+	std::forward_list<GameObjectPtr> DX12Game::findGameObjectsWithTag(GameObjectTagCarrier tag)
+	{
+		return DX12GameManager::findGameObjectsWithTag(tag);
+	}
+
+	void DX12Game::destroyGameObjectsWithTag(GameObjectTagCarrier tag)
+	{
+		DX12GameManager::destroyGameObjectsWithTag(tag);
 	}
 
 	const tktkMath::Vector2& DX12Game::moveVec()
@@ -87,26 +107,6 @@ namespace tktk
 	void DX12Game::disableSceneImpl(int id)
 	{
 		DX12GameManager::disableScene(DX12GameManager::getSceneHandle(id));
-	}
-
-	void DX12Game::sendMessageAllImpl(unsigned int messageId, const MessageAttachment& value)
-	{
-		DX12GameManager::sendMessageAll(messageId, value);
-	}
-
-	GameObjectPtr DX12Game::findGameObjectWithTagImpl(int tag)
-	{
-		return DX12GameManager::findGameObjectWithTag(tag);
-	}
-
-	std::forward_list<GameObjectPtr> DX12Game::findGameObjectsWithTagImpl(int tag)
-	{
-		return DX12GameManager::findGameObjectsWithTag(tag);
-	}
-
-	void DX12Game::destroyGameObjectsWithTagImpl(int tag)
-	{
-		DX12GameManager::destroyGameObjectsWithTag(tag);
 	}
 
 	bool DX12Game::isPushImpl(int commandId)

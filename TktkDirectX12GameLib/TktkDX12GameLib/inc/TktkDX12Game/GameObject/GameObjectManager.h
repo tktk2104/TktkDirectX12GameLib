@@ -4,7 +4,10 @@
 #include <memory>
 #include <forward_list>
 #include "GameObjectPtr.h"
+#include "GameObjectTagCarrier.h"
+#include "../EventMessage/MessageTypeCarrier.h"
 #include "../EventMessage/MessageAttachment.h"
+
 
 namespace tktk
 {
@@ -30,20 +33,20 @@ namespace tktk
 	public:
 
 		// 全てのGameObjectにメッセージを送信する
-		void runHandleMessageAll(unsigned int messageId, const MessageAttachment& value);
+		void runHandleMessageAll(MessageTypeCarrier type, const MessageAttachment& attachment);
 
 		// ゲームオブジェクトを作成し、そのポインタを返す
 		GameObjectPtr createGameObject();
 
 		// 引数のタグを持ったゲームオブジェクトを取得する
 		// ※複数該当オブジェクトがあった場合、最初に見つけた１つを取得する
-		GameObjectPtr findGameObjectWithTag(int tag) const;
+		GameObjectPtr findGameObjectWithTag(GameObjectTagCarrier tag) const;
 
 		// 引数のタグを持ったゲームオブジェクトを全て取得する
-		std::forward_list<GameObjectPtr> findGameObjectsWithTag(int tag) const;
+		std::forward_list<GameObjectPtr> findGameObjectsWithTag(GameObjectTagCarrier tag) const;
 
 		// 引数のタグを持ったゲームオブジェクトを全て削除する
-		void destroyGameObjectsWithTag(int tag);
+		void destroyGameObjectsWithTag(GameObjectTagCarrier tag);
 
 	private:
 

@@ -15,7 +15,7 @@ namespace tktk
 		return m_childList;
 	}
 
-	GameObjectPtr ChildList::findGameObjectWithTag(int tag) const
+	GameObjectPtr ChildList::findGameObjectWithTag(GameObjectTagCarrier tag) const
 	{
 		for (const auto& node : m_childList)
 		{
@@ -30,7 +30,7 @@ namespace tktk
 		return GameObjectPtr();
 	}
 
-	std::forward_list<GameObjectPtr> ChildList::findGameObjectsWithTag(int tag) const
+	std::forward_list<GameObjectPtr> ChildList::findGameObjectsWithTag(GameObjectTagCarrier tag) const
 	{
 		std::forward_list<GameObjectPtr> result;
 
@@ -72,11 +72,11 @@ namespace tktk
 		}
 	}
 
-	void ChildList::sendMessage(unsigned int messageId, const MessageAttachment& value)
+	void ChildList::sendMessage(MessageTypeCarrier type, const MessageAttachment& attachment)
 	{
 		for (const auto& node : m_childList)
 		{
-			node->sendMessage(messageId, value);
+			node->sendMessage(type, attachment);
 		}
 	}
 }

@@ -23,11 +23,11 @@ namespace tktk
 		m_gameObjectList.remove_if([](const auto& node) { return node->isDead(); });
 	}
 
-	void GameObjectManager::runHandleMessageAll(unsigned int messageId, const MessageAttachment& value)
+	void GameObjectManager::runHandleMessageAll(MessageTypeCarrier type, const MessageAttachment& attachment)
 	{
 		for (const auto& node : m_gameObjectList)
 		{
-			node->runHandleMessageAll(messageId, value);
+			node->runHandleMessageAll(type, attachment);
 		}
 	}
 
@@ -40,7 +40,7 @@ namespace tktk
 		return GameObjectPtr(gameObject);
 	}
 
-	GameObjectPtr GameObjectManager::findGameObjectWithTag(int tag) const
+	GameObjectPtr GameObjectManager::findGameObjectWithTag(GameObjectTagCarrier tag) const
 	{
 		for (const auto& node : m_gameObjectList)
 		{
@@ -49,7 +49,7 @@ namespace tktk
 		return GameObjectPtr();
 	}
 
-	std::forward_list<GameObjectPtr> GameObjectManager::findGameObjectsWithTag(int tag) const
+	std::forward_list<GameObjectPtr> GameObjectManager::findGameObjectsWithTag(GameObjectTagCarrier tag) const
 	{
 		std::forward_list<GameObjectPtr> result;
 
@@ -60,7 +60,7 @@ namespace tktk
 		return result;
 	}
 
-	void GameObjectManager::destroyGameObjectsWithTag(int tag)
+	void GameObjectManager::destroyGameObjectsWithTag(GameObjectTagCarrier tag)
 	{
 		for (const auto& node : m_newGameObjectList)
 		{

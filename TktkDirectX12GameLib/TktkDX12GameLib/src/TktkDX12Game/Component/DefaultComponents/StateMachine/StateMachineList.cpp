@@ -26,17 +26,28 @@ namespace tktk
 		}
 	}
 
-	void StateMachineList::addChild(const std::vector<int>& targetState, const GameObjectPtr& child)
+	void StateMachineList::addChild(const StateTypeHierarchy& targetState, const GameObjectPtr& child)
 	{
-		getTarget(targetState)->addChild(child);
+		(*getTarget(targetState)).m_stateMachine->addChild(child);
 	}
 
-	void StateMachineList::addComponent(const std::vector<int>& targetState, const ComponentBasePtr& componentPtr)
+	void StateMachineList::addComponent(const StateTypeHierarchy& targetState, const ComponentBasePtr& componentPtr)
 	{
-		getTarget(targetState)->addComponent(componentPtr);
+		(*getTarget(targetState)).m_stateMachine->addComponent(componentPtr);
 	}
 
-	void StateMachineList::createNode(StateMachineList::Node& parentNode, const StateMachineListInitParam::Node<int>& nodeInitParam, const GameObjectPtr& user, const std::unique_ptr<GameObjectComponentList>& componentList)
+	StateTypeList StateMachineList::getChildNode(const StateTypeHierarchy& targetState) const
+	{
+		// 結果を返すためのコンテナ（重複しないようにsetを使う）
+		auto result = StateTypeList();
+
+		// 引数のステートを取得し、再帰関数を呼ぶ
+		getChildNodeImpl(&result, getTarget(targetState));
+
+		return result;
+	}
+
+	void StateMachineList::createNode(StateMachineList::Node& parentNode, const StateMachineListInitParam::Node& nodeInitParam, const GameObjectPtr& user, const std::unique_ptr<GameObjectComponentList>& componentList)
 	{
 		// 親の状態を持つステートマシンを作る
 		for (const auto& node : nodeInitParam.m_children)
@@ -55,15 +66,17 @@ namespace tktk
 		}
 	}
 
-	ComponentPtr<StateMachine> StateMachineList::getTarget(const std::vector<int>& targetState) const
+	const StateMachineList::Node* StateMachineList::getTarget(const StateTypeHierarchy& targetState) const
 	{
 #ifdef _DEBUG
-		if (targetState.size() == 0)  throw std::runtime_error("targetState fraud value");
+		if (targetState.hierarchy.size() == 0)  throw std::runtime_error("targetState fraud value");
 #endif // _DEBUG
 
+		// 現在の階層を表すポインタ
 		const StateMachineList::Node* curNodePtr = nullptr;
 
-		for (int node : targetState)
+		// 対象のステートの階層をループする
+		for (const auto& node : targetState.hierarchy)
 		{
 			// ※初回ループ時のみアルゴリズムが違う
 			if (curNodePtr == nullptr)
@@ -72,7 +85,10 @@ namespace tktk
 				if (m_stateMachineList.count(node) == 0)  throw std::runtime_error("targetState fraud value");
 #endif // _DEBUG
 
+				// 一番上の階層を取得する
 				curNodePtr = &m_stateMachineList.at(node);
+
+				// 次の要素へ移行する
 				continue;
 			}
 
@@ -80,14 +96,28 @@ namespace tktk
 			if (curNodePtr->m_childNode.count(node) == 0)  throw std::runtime_error("targetState fraud value");
 #endif // _DEBUG
 
+			// 次の要素の階層を取得する
 			curNodePtr = &curNodePtr->m_childNode.at(node);
 		}
 
-		if (curNodePtr != nullptr) return curNodePtr->m_stateMachine;
+		// 現在の階層が不正ではなければその値を返す
+		if (curNodePtr != nullptr) return curNodePtr;
 
 #ifdef _DEBUG
 		else  throw std::runtime_error("targetState fraud value");
 #endif // _DEBUG
-		return ComponentPtr<StateMachine>();
+		return nullptr;
+	}
+
+	void StateMachineList::getChildNodeImpl(StateTypeList* result, const StateMachineList::Node* target) const
+	{
+		// 子ステートを巡回する
+		for (const auto& node : target->m_childNode)
+		{
+			result->list.insert(node.first);
+
+			// さらなる孫ステートを巡回するための再帰処理
+			getChildNodeImpl(result, &node.second);
+		}
 	}
 }

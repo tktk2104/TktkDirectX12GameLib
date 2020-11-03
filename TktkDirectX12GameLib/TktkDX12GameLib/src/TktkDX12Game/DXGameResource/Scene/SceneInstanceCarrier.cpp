@@ -19,7 +19,7 @@ namespace tktk
 
 		if (m_destroyGameObjectTag != nullptr)
 		{
-			DX12GameManager::destroyGameObjectsWithTagImpl(*m_destroyGameObjectTag);
+			DX12GameManager::destroyGameObjectsWithTag(*m_destroyGameObjectTag);
 		}
 	}
 

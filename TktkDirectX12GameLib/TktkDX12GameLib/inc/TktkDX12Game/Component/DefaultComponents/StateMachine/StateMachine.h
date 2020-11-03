@@ -3,6 +3,7 @@
 
 #include <forward_list>
 #include "../../ComponentBase.h"
+#include "StateTypeCarrier.h"
 
 namespace tktk
 {
@@ -15,7 +16,7 @@ namespace tktk
 	{
 	public:
 
-		StateMachine(int stateType);
+		StateMachine(StateTypeCarrier stateType);
 
 	public:
 
@@ -35,7 +36,7 @@ namespace tktk
 	private:
 
 		// 自身のステートの種類
-		int m_selfStateType;
+		StateTypeCarrier m_selfStateType;
 
 		// 自身の現在のステートの種類のコンポーネント
 		ComponentPtr<CurStateTypeList> m_curStateTypeList;

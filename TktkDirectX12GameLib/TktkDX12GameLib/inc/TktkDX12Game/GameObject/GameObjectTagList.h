@@ -2,6 +2,7 @@
 #define GAME_OBJECT_TAG_LIST_H_
 
 #include <unordered_set>
+#include "GameObjectTagCarrier.h"
 
 namespace tktk
 {
@@ -16,17 +17,17 @@ namespace tktk
 	public:
 
 		// 引数のタグを追加する
-		void addTag(int tag);
+		void addTag(GameObjectTagCarrier tag);
 
 		// 引数のタグを削除する
-		void removeTag(int tag);
+		void removeTag(GameObjectTagCarrier tag);
 
 		// 引数のタグを所持しているかを判定する
-		bool contain(int tag) const;
+		bool contain(GameObjectTagCarrier tag) const;
 
 	private:
 
-		std::unordered_set<unsigned int> m_tagList;
+		std::unordered_set<GameObjectTagCarrier> m_tags;
 	};
 }
 #endif // !GAME_OBJECT_TAG_LIST_H_

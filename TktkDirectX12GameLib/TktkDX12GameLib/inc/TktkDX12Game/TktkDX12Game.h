@@ -3,8 +3,10 @@
 
 #include <forward_list>
 #include <TktkTemplateMetaLib/TypeCheck/isIdType.h>
+#include "EventMessage/MessageTypeCarrier.h"
 #include "EventMessage/MessageAttachment.h"
 #include "GameObject/GameObjectPtr.h"
+#include "GameObject/GameObjectTagCarrier.h"
 #include "_MainManager/DX12GameManagerFuncArgsIncluder.h"
 
 namespace tktk
@@ -39,8 +41,7 @@ namespace tktk
 	public:
 
 		// 全てのGameObjectにメッセージを送信する
-		template <class MessageIdType>
-		static void sendMessageAll(MessageIdType messageId, const MessageAttachment& value = {});
+		static void sendMessageAll(MessageTypeCarrier type, const MessageAttachment& attachment = {});
 
 		// ゲームオブジェクトを作成し、そのポインタを返す
 		static GameObjectPtr createGameObject();
@@ -48,16 +49,13 @@ namespace tktk
 		// 引数のタグを持ったゲームオブジェクトを取得する
 		// ※該当オブジェクトが無かった場合、空のGameObjectPtrを取得する
 		// ※複数該当オブジェクトがあった場合、最初に見つけた１つを取得する
-		template <class GameObjectTagType>
-		static GameObjectPtr findGameObjectWithTag(GameObjectTagType tag);
+		static GameObjectPtr findGameObjectWithTag(GameObjectTagCarrier tag);
 
 		// 引数のタグを持ったゲームオブジェクトを全て取得する
-		template <class GameObjectTagType>
-		static std::forward_list<GameObjectPtr> findGameObjectsWithTag(GameObjectTagType tag);
+		static std::forward_list<GameObjectPtr> findGameObjectsWithTag(GameObjectTagCarrier tag);
 
 		// 引数のタグを持ったゲームオブジェクトを全て削除する
-		template<class GameObjectTagType>
-		void destroyGameObjectsWithTag(GameObjectTagType tag) { destroyGameObjectsWithTagImpl(static_cast<int>(tag)); }
+		static void destroyGameObjectsWithTag(GameObjectTagCarrier tag);
 
 	//************************************************************
 	/* 入力関係の処理 */
@@ -124,10 +122,6 @@ namespace tktk
 
 		static void enableSceneImpl(int id);
 		static void disableSceneImpl(int id);
-		static void sendMessageAllImpl(unsigned int messageId, const MessageAttachment& value);
-		static GameObjectPtr findGameObjectWithTagImpl(int tag);
-		static std::forward_list<GameObjectPtr> findGameObjectsWithTagImpl(int tag);
-		static void destroyGameObjectsWithTagImpl(int tag);
 
 		static bool isPushImpl(int commandId);
 		static bool isPushImpl(MouseButtonType buttonType);
@@ -157,28 +151,6 @@ namespace tktk
 	inline void DX12Game::disableScene(SceneType id)
 	{
 		disableSceneImpl(static_cast<int>(id));
-	}
-
-	// 全てのGameObjectにメッセージを送信する
-	template<class MessageIdType>
-	inline void DX12Game::sendMessageAll(MessageIdType messageId, const MessageAttachment& value)
-	{
-		sendMessageAllImpl(static_cast<unsigned int>(messageId), value);
-	}
-
-	// 引数のタグを持ったゲームオブジェクトを取得する
-	// ※複数該当オブジェクトがあった場合、最初に見つけた１つを取得する
-	template<class GameObjectTagType>
-	inline GameObjectPtr DX12Game::findGameObjectWithTag(GameObjectTagType tag)
-	{
-		return findGameObjectWithTagImpl(static_cast<int>(tag));
-	}
-
-	// 引数のタグを持ったゲームオブジェクトを全て取得する
-	template<class GameObjectTagType>
-	inline std::forward_list<GameObjectPtr> DX12Game::findGameObjectsWithTag(GameObjectTagType tag)
-	{
-		return findGameObjectsWithTagImpl(static_cast<int>(tag));
 	}
 
 	// IDに対応した入力が押されているかを判定

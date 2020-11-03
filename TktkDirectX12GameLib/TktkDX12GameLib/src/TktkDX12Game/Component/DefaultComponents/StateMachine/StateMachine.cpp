@@ -5,7 +5,7 @@
 
 namespace tktk
 {
-	StateMachine::StateMachine(int stateType)
+	StateMachine::StateMachine(StateTypeCarrier stateType)
 		: m_selfStateType(stateType)
 	{
 	}

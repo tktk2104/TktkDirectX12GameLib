@@ -16,10 +16,25 @@ namespace tktk
 		return m_self;
 	}
 
+	Transform2DMaker& Transform2DMaker::makeStart(const StateTypeHierarchy& targetState, GameObjectPtr user)
+	{
+		// 変数を初期化する
+		m_self = Transform2DMaker();
+
+		// 引数のユーザーを設定
+		m_self.m_user = user;
+
+		// 引数の追加階層を設定
+		m_self.m_targetState = targetState;
+
+		// 自身の参照を返す
+		return m_self;
+	}
+
 	ComponentPtr<Transform2D> Transform2DMaker::create()
 	{
 		// 自身を追加する階層情報が空だったら普通に作成する
-		if (m_targetState.empty())
+		if (m_targetState.hierarchy.empty())
 		{
 			// コンポーネントを作成してそのポインタを返す
 			return m_user->createComponent<Transform2D>(

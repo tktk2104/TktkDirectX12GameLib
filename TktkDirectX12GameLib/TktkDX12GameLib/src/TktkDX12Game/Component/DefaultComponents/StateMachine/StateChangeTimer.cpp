@@ -4,7 +4,7 @@
 
 namespace tktk
 {
-	StateChangeTimer::StateChangeTimer(float stateChangeTimeSec, const std::vector<int>& enableStateArray, const std::vector<int>& disableStateArray)
+	StateChangeTimer::StateChangeTimer(float stateChangeTimeSec, const StateTypeList& enableStateArray, const StateTypeList& disableStateArray)
 		: m_stateChangeTimeSec(stateChangeTimeSec)
 		, m_enableStateArray(enableStateArray)
 		, m_disableStateArray(disableStateArray)
@@ -25,12 +25,12 @@ namespace tktk
 
 		if (m_stateChangeTimer > m_stateChangeTimeSec)
 		{
-			for (int enableState : m_enableStateArray)
+			for (const auto& enableState : m_enableStateArray.list)
 			{
 				getGameObject()->stateEnable(enableState);
 			}
 
-			for (int disableState : m_disableStateArray)
+			for (const auto& disableState : m_disableStateArray.list)
 			{
 				getGameObject()->stateDisable(disableState);
 			}

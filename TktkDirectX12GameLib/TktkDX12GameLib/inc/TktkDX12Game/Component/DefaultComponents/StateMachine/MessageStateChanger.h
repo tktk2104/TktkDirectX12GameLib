@@ -1,8 +1,9 @@
 #ifndef MESSAGE_STATE_CHANGER_H_
 #define MESSAGE_STATE_CHANGER_H_
 
-#include <vector>
 #include "../../ComponentBase.h"
+#include "StateTypeList.h"
+#include "../../../EventMessage/MessageTypeCarrier.h"
 
 namespace tktk
 {
@@ -12,17 +13,17 @@ namespace tktk
 	{
 	public:
 
-		MessageStateChanger(unsigned int messageType, const std::vector<int>& enableStateArray, const std::vector<int>& disableStateArray);
+		MessageStateChanger(MessageTypeCarrier type, const StateTypeList& enableStateArray, const StateTypeList& disableStateArray);
 
 	public:
 
-		void handleMessage(unsigned int messageId, const tktk::MessageAttachment& value);
+		void handleMessage(MessageTypeCarrier type, const tktk::MessageAttachment& value);
 
 	private:
 
-		unsigned int		m_messageType;
-		std::vector<int>	m_enableStateArray;
-		std::vector<int>	m_disableStateArray;
+		MessageTypeCarrier	m_messageType;
+		StateTypeList			m_enableStateArray;
+		StateTypeList			m_disableStateArray;
 	};
 }
 #endif // !MESSAGE_STATE_CHANGER_H_

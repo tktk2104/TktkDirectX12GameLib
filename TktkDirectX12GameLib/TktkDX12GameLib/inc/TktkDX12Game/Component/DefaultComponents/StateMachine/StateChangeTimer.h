@@ -3,6 +3,7 @@
 
 #include <vector>
 #include "../../ComponentBase.h"
+#include "StateTypeList.h"
 
 namespace tktk
 {
@@ -12,7 +13,7 @@ namespace tktk
 	{
 	public:
 
-		StateChangeTimer(float stateChangeTimeSec, const std::vector<int>& enableStateArray, const std::vector<int>& disableStateArray);
+		StateChangeTimer(float stateChangeTimeSec, const StateTypeList& enableStateArray, const StateTypeList& disableStateArray);
 
 	public:
 
@@ -22,11 +23,11 @@ namespace tktk
 
 	private:
 
-		float				m_stateChangeTimer	{ 0.0f };
-		bool				m_afterChange		{ false };
-		float				m_stateChangeTimeSec;
-		std::vector<int>	m_enableStateArray;
-		std::vector<int>	m_disableStateArray;
+		float		m_stateChangeTimer	{ 0.0f };
+		bool		m_afterChange		{ false };
+		float		m_stateChangeTimeSec;
+		StateTypeList	m_enableStateArray;
+		StateTypeList	m_disableStateArray;
 	};
 }
 #endif // !STATE_CHANGE_TIMER_H_

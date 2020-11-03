@@ -41,12 +41,12 @@ namespace tktk
 		return m_childList.getChildren();
 	}
 
-	GameObjectPtr ParentChildManager::findGameObjectWithTag(int tag) const
+	GameObjectPtr ParentChildManager::findGameObjectWithTag(GameObjectTagCarrier tag) const
 	{
 		return m_childList.findGameObjectWithTag(tag);
 	}
 
-	std::forward_list<GameObjectPtr> ParentChildManager::findGameObjectsWithTag(int tag) const
+	std::forward_list<GameObjectPtr> ParentChildManager::findGameObjectsWithTag(GameObjectTagCarrier tag) const
 	{
 		return m_childList.findGameObjectsWithTag(tag);
 	}
@@ -56,8 +56,8 @@ namespace tktk
 		m_childList.addChild(child);
 	}
 
-	void ParentChildManager::sendMessage(unsigned int messageId, const MessageAttachment& value)
+	void ParentChildManager::sendMessage(MessageTypeCarrier type, const MessageAttachment& attachment)
 	{
-		m_childList.sendMessage(messageId, value);
+		m_childList.sendMessage(type, attachment);
 	}
 }

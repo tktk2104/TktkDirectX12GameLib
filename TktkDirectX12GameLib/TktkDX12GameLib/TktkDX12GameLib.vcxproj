@@ -249,9 +249,12 @@
     <ClInclude Include="inc\TktkDX12Game\Component\DefaultComponents\StateMachine\CurStateTypeList.h" />
     <ClInclude Include="inc\TktkDX12Game\Component\DefaultComponents\StateMachine\MessageStateChanger.h" />
     <ClInclude Include="inc\TktkDX12Game\Component\DefaultComponents\StateMachine\StateChangeTimer.h" />
+    <ClInclude Include="inc\TktkDX12Game\Component\DefaultComponents\StateMachine\StateTypeList.h" />
     <ClInclude Include="inc\TktkDX12Game\Component\DefaultComponents\StateMachine\StateMachine.h" />
     <ClInclude Include="inc\TktkDX12Game\Component\DefaultComponents\StateMachine\StateMachineList.h" />
     <ClInclude Include="inc\TktkDX12Game\Component\DefaultComponents\StateMachine\StateMachineListInitParam.h" />
+    <ClInclude Include="inc\TktkDX12Game\Component\DefaultComponents\StateMachine\StateTypeHierarchy.h" />
+    <ClInclude Include="inc\TktkDX12Game\Component\DefaultComponents\StateMachine\StateTypeCarrier.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\Billboard\BillboardClippingParam.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\Billboard\BillboardDrawFuncBaseArgs.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\Billboard\BillboardMaterial.h" />
@@ -342,9 +345,11 @@
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\_HandleGetter\SystemDXGameResourceHandleGetter.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\_HandleGetter\SystemDXGameResourceType.h" />
     <ClInclude Include="inc\TktkDX12Game\EventMessage\MessageAttachment.h" />
+    <ClInclude Include="inc\TktkDX12Game\EventMessage\MessageTypeCarrier.h" />
     <ClInclude Include="inc\TktkDX12Game\GameObject\GameObject.h" />
     <ClInclude Include="inc\TktkDX12Game\GameObject\GameObjectManager.h" />
     <ClInclude Include="inc\TktkDX12Game\GameObject\GameObjectPtr.h" />
+    <ClInclude Include="inc\TktkDX12Game\GameObject\GameObjectTagCarrier.h" />
     <ClInclude Include="inc\TktkDX12Game\GameObject\GameObjectTagList.h" />
     <ClInclude Include="inc\TktkDX12Game\Input\DirectInputWrapper\DirectInputIncluder.h" />
     <ClInclude Include="inc\TktkDX12Game\Input\DirectInputWrapper\DirectInputWrapper.h" />
@@ -452,6 +457,7 @@
     <ClCompile Include="src\TktkDX12Game\Component\DefaultComponents\StateMachine\StateChangeTimer.cpp" />
     <ClCompile Include="src\TktkDX12Game\Component\DefaultComponents\StateMachine\StateMachine.cpp" />
     <ClCompile Include="src\TktkDX12Game\Component\DefaultComponents\StateMachine\StateMachineList.cpp" />
+    <ClCompile Include="src\TktkDX12Game\Component\DefaultComponents\StateMachine\StateMachineListInitParam.cpp" />
     <ClCompile Include="src\TktkDX12Game\DXGameResource\Billboard\BillboardMaterial.cpp" />
     <ClCompile Include="src\TktkDX12Game\DXGameResource\Billboard\BillboardMaterialData.cpp" />
     <ClCompile Include="src\TktkDX12Game\DXGameResource\Camera\Camera.cpp" />

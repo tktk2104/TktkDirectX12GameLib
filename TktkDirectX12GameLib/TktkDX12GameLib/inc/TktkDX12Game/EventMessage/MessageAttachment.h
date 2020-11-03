@@ -48,6 +48,7 @@ namespace tktk
 //┃ここから下は関数の実装
 //┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
+	// 意図的に「explicit」を外している
 	template<class T>
 	inline MessageAttachment::MessageAttachment(T&& value)
 	{

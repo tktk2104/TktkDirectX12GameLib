@@ -2,18 +2,18 @@
 
 namespace tktk
 {
-	void GameObjectTagList::addTag(int tag)
+	void GameObjectTagList::addTag(GameObjectTagCarrier tag)
 	{
-		m_tagList.insert(tag);
+		m_tags.insert(tag);
 	}
 
-	void GameObjectTagList::removeTag(int tag)
+	void GameObjectTagList::removeTag(GameObjectTagCarrier tag)
 	{
-		m_tagList.erase(tag);
+		m_tags.erase(tag);
 	}
 
-	bool GameObjectTagList::contain(int tag) const
+	bool GameObjectTagList::contain(GameObjectTagCarrier tag) const
 	{
-		return (m_tagList.find(tag) != std::end(m_tagList));
+		return (m_tags.find(tag) != std::end(m_tags));
 	}
 }

@@ -21,9 +21,7 @@ namespace tktk
 		static PostEffectDrawerMaker& makeStart(GameObjectPtr user);
 
 		// ステートを指定し、作成を開始する
-		// ※「{ MOVE_STATE, WALK_STATE, BEGIN_MOVE_STATE }」で「“MOVE_STATE”内の“WALK_STATE”内の“BEGIN_MOVE_STATE”に追加」となる
-		template <class StateIdType>
-		static PostEffectDrawerMaker& makeStart(std::initializer_list<StateIdType> targetState, GameObjectPtr user);
+		static PostEffectDrawerMaker& makeStart(const StateTypeHierarchy& targetState, GameObjectPtr user);
 
 	public:
 
@@ -57,7 +55,7 @@ namespace tktk
 	private: /* 変数達 */
 
 		GameObjectPtr		m_user							{  };
-		std::vector<int>	m_targetState					{  };
+		StateTypeHierarchy		m_targetState					{  };
 		float				m_drawPriority					{ 0.0f };
 		unsigned int		m_useRtvDescriptorHeapHandle	{  }; // ※初期パラメータはバックバッファー
 		unsigned int		m_postEffectMaterialHandle		{ 0U };
@@ -76,27 +74,6 @@ namespace tktk
 	inline PostEffectDrawerMaker& PostEffectDrawerMaker::postEffectMaterialId(IdType value)
 	{
 		return postEffectMaterialIdImpl(static_cast<int>(value));
-	}
-
-	// ステートを指定し、作成を開始する
-	// ※「{ MOVE_STATE, WALK_STATE, BEGIN_MOVE_STATE }」で「“MOVE_STATE”内の“WALK_STATE”内の“BEGIN_MOVE_STATE”に追加」となる
-	template<class StateIdType>
-	inline PostEffectDrawerMaker& PostEffectDrawerMaker::makeStart(std::initializer_list<StateIdType> targetState, GameObjectPtr user)
-	{
-		// 作成開始処理を行う
-		auto& result = makeStart(user);
-
-		// 初期化子リストを配列に変換
-		auto targetStateArray = std::vector<StateIdType>(targetState);
-
-		// 対象のステートの階層数分のメモリを確保
-		result.m_targetState.reserve(targetStateArray.size());
-
-		// 対象のステートの階層を設定する
-		for (const auto& node : targetStateArray) result.m_targetState.push_back(static_cast<int>(node));
-
-		// 自身の参照を返す
-		return result;
 	}
 }
 #endif // !POST_EFFECT_DRAWER_MAKER_H_

@@ -2,11 +2,11 @@
 
 namespace tktk
 {
-	void GameObjectComponentList::runHandleMessageAll(unsigned int messageId, const MessageAttachment& value) const
+	void GameObjectComponentList::runHandleMessageAll(MessageTypeCarrier type, const MessageAttachment& attachment) const
 	{
 		for (const auto& component : m_componentList)
 		{
-			component.runHandleMessage(value, messageId);
+			component.runHandleMessage(type, attachment);
 		}
 	}
 

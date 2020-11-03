@@ -2,23 +2,25 @@
 
 namespace tktk
 {
-	MessageStateChanger::MessageStateChanger(unsigned int messageType, const std::vector<int>& enableStateArray, const std::vector<int>& disableStateArray)
-		: m_messageType(messageType)
+	MessageStateChanger::MessageStateChanger(MessageTypeCarrier type, const StateTypeList& enableStateArray, const StateTypeList& disableStateArray)
+		: m_messageType(type)
 		, m_enableStateArray(enableStateArray)
 		, m_disableStateArray(disableStateArray)
 	{
 	}
 
-	void MessageStateChanger::handleMessage(unsigned int messageId, const tktk::MessageAttachment& value)
+	void MessageStateChanger::handleMessage(MessageTypeCarrier type, const tktk::MessageAttachment& value)
 	{
-		if (messageId == m_messageType)
+		if (!isActive()) return;
+
+		if (type == m_messageType)
 		{
-			for (int enableState : m_enableStateArray)
+			for (const auto& enableState : m_enableStateArray.list)
 			{
 				getGameObject()->stateEnable(enableState);
 			}
 
-			for (int disableState : m_disableStateArray)
+			for (const auto& disableState : m_disableStateArray.list)
 			{
 				getGameObject()->stateDisable(disableState);
 			}

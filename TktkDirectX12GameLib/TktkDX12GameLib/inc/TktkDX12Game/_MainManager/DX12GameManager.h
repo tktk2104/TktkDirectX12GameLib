@@ -9,7 +9,9 @@
 #include <TktkMath/Structs/Color.h>
 #include <TktkMath/Structs/Vector3.h>
 #include "../GameObject/GameObjectPtr.h"			// ゲームオブジェクトを扱う時に使用する
+#include "../GameObject/GameObjectTagCarrier.h"
 #include "../Component/ComponentManager.h"			// テンプレート引数に型情報を渡す必要がある為隠蔽できない
+#include "../EventMessage/MessageTypeCarrier.h"
 #include "../EventMessage/MessageAttachment.h"		// メッセージを送信する時に好きな型の変数を添付する
 #include "../DXGameResource/Scene/SceneVTable.h"	// シーンマネージャークラスを隠蔽する為にテンプレート関連のみ分離
 #include "DX12GameManagerInitParam.h"
@@ -81,7 +83,7 @@ namespace tktk
 	public:
 
 		// 全てのGameObjectにメッセージを送信する
-		static void sendMessageAll(unsigned int messageId, const MessageAttachment& value = {});
+		static void sendMessageAll(MessageTypeCarrier type, const MessageAttachment& attachment = {});
 
 		// ゲームオブジェクトを作成し、そのポインタを返す
 		static GameObjectPtr createGameObject();
@@ -89,16 +91,13 @@ namespace tktk
 		// 引数のタグを持ったゲームオブジェクトを取得する
 		// ※該当オブジェクトが無かった場合、空のGameObjectPtrを取得する
 		// ※複数該当オブジェクトがあった場合、最初に見つけた１つを取得する
-		template<class TagType>
-		static GameObjectPtr findGameObjectWithTag(TagType tag) { return findGameObjectWithTagImpl(static_cast<int>(tag)); };
+		static GameObjectPtr findGameObjectWithTag(GameObjectTagCarrier tag);
 		
 		// 引数のタグを持ったゲームオブジェクトを全て取得する
-		template<class TagType>
-		static std::forward_list<GameObjectPtr> findGameObjectsWithTag(TagType tag) { return findGameObjectsWithTagImpl(static_cast<int>(tag)); };
+		static std::forward_list<GameObjectPtr> findGameObjectsWithTag(GameObjectTagCarrier tag);
 
 		// 引数のタグを持ったゲームオブジェクトを全て削除する
-		template<class TagType>
-		static void destroyGameObjectsWithTag(TagType tag) { destroyGameObjectsWithTagImpl(static_cast<int>(tag)); };
+		static void destroyGameObjectsWithTag(GameObjectTagCarrier tag);
 
 	//************************************************************
 	/* コンポーネントの処理 */
@@ -828,9 +827,6 @@ namespace tktk
 	/* 裏実装 */
 	public:
 
-		static GameObjectPtr findGameObjectWithTagImpl(int tag);
-		static std::forward_list<GameObjectPtr> findGameObjectsWithTagImpl(int tag);
-		static void destroyGameObjectsWithTagImpl(int tag);
 		static void addCollisionGroupImpl(int firstGroup, int secondGroup);
 
 		static unsigned int createCopyBufferImpl(const CopyBufferInitParam& initParam);

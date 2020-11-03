@@ -8,6 +8,7 @@
 #include <TktkTemplateMetaLib/HasFuncCheck/CreatedStruct/HasOnCollisionExitChecker.h>
 #include "../../GameObject/GameObjectPtr.h"
 #include "../ComponentBasePtr.h"
+#include "../../EventMessage/MessageTypeCarrier.h"
 #include "../../EventMessage/MessageAttachment.h"
 
 namespace tktk
@@ -26,7 +27,7 @@ namespace tktk
 		const ComponentBasePtr& getComponentBasePtr() const;
 
 		// メッセージ取得関数を呼ぶ
-		void runHandleMessage(const MessageAttachment& value, unsigned int messageId) const;
+		void runHandleMessage(MessageTypeCarrier type, const MessageAttachment& attachment) const;
 
 		// コンポーネントの親要素が変わった時関数を呼ぶ
 		void runAfterChangeParent(const GameObjectPtr& beforParent) const;
@@ -50,7 +51,7 @@ namespace tktk
 
 		struct VTable
 		{
-			void(*runHandleMessage)		(const ComponentBasePtr&, unsigned int, const MessageAttachment&);
+			void(*runHandleMessage)		(const ComponentBasePtr&, MessageTypeCarrier, const MessageAttachment&);
 			void(*runAfterChangeParent)	(const ComponentBasePtr&, const GameObjectPtr&);
 			void(*runOnCollisionEnter)	(const ComponentBasePtr&, const GameObjectPtr&);
 			void(*runOnCollisionStay)	(const ComponentBasePtr&, const GameObjectPtr&);
@@ -61,7 +62,7 @@ namespace tktk
 		struct VTableInitializer
 		{
 			// メッセージ取得関数を持っていたら呼ぶ
-			static void runHandleMessage(const ComponentBasePtr& self, unsigned int messageId, const MessageAttachment& value);
+			static void runHandleMessage(const ComponentBasePtr& self, MessageTypeCarrier type, const MessageAttachment& attachment);
 
 			// 親要素が変わった時関数を持っていたら呼ぶ
 			static void runAfterChangeParent(const ComponentBasePtr& self, const GameObjectPtr& beforParent);
@@ -106,9 +107,9 @@ namespace tktk
 
 	// メッセージ取得関数を持っていたら呼ぶ
 	template<class ComponentType>
-	inline void ComponentGameObjectFuncRunner::VTableInitializer<ComponentType>::runHandleMessage(const ComponentBasePtr& self, unsigned int messageId, const MessageAttachment& value)
+	inline void ComponentGameObjectFuncRunner::VTableInitializer<ComponentType>::runHandleMessage(const ComponentBasePtr& self, MessageTypeCarrier type, const MessageAttachment& attachment)
 	{
-		handleMessage_runner<void, unsigned int, const MessageAttachment&>::checkAndRun(self.castPtr<ComponentType>(), messageId, value);
+		handleMessage_runner<void, MessageTypeCarrier, const MessageAttachment&>::checkAndRun(self.castPtr<ComponentType>(), type, attachment);
 	}
 
 	// 親要素が変わった時関数を持っていたら呼ぶ

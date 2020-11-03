@@ -19,10 +19,28 @@ namespace tktk
 		return m_self;
 	}
 
+	OrthographicCameraControllerMaker& OrthographicCameraControllerMaker::makeStart(const StateTypeHierarchy& targetState, GameObjectPtr user)
+	{
+		// 変数を初期化する
+		m_self = OrthographicCameraControllerMaker();
+
+		// 引数のユーザーを設定
+		m_self.m_user = user;
+
+		// 引数の追加階層を設定
+		m_self.m_targetState = targetState;
+
+		// 使用するカメラハンドルのデフォルト値はデフォルト通常カメラ
+		m_self.m_initCameraHandle = DX12GameManager::getSystemHandle(SystemCameraType::DefaultCamera);
+
+		// 自身の参照を返す
+		return m_self;
+	}
+
 	ComponentPtr<OrthographicCameraController> OrthographicCameraControllerMaker::create()
 	{
 		// 自身を追加する階層情報が空だったら普通に作成する
-		if (m_targetState.empty())
+		if (m_targetState.hierarchy.empty())
 		{
 			return m_user->createComponent<OrthographicCameraController>(
 				m_initCameraHandle,

@@ -65,9 +65,24 @@ namespace tktk
 		return m_isDead;
 	}
 
-	void GameObject::runHandleMessageAll(unsigned int messageId, const MessageAttachment& value)
+	void GameObject::addGameObjectTag(GameObjectTagCarrier tag)
 	{
-		m_componentList->runHandleMessageAll(messageId, value);
+		m_tagList->addTag(tag);
+	}
+
+	void GameObject::removeGameobjectTag(GameObjectTagCarrier tag)
+	{
+		m_tagList->removeTag(tag);
+	}
+
+	bool GameObject::containGameobjectTag(GameObjectTagCarrier tag) const
+	{
+		return m_tagList->contain(tag);
+	}
+
+	void GameObject::runHandleMessageAll(MessageTypeCarrier type, const MessageAttachment& attachment)
+	{
+		m_componentList->runHandleMessageAll(type, attachment);
 	}
 
 	void GameObject::runAfterChangeParentAll(const GameObjectPtr& beforParent)
@@ -112,6 +127,16 @@ namespace tktk
 		if (m_parentChildManager.expired()) throw std::runtime_error("not found ParentChildManager");
 #endif
 		return m_parentChildManager->getChildren();
+	}
+
+	GameObjectPtr GameObject::findChildWithTag(GameObjectTagCarrier tag) const
+	{
+		return m_parentChildManager->findGameObjectWithTag(tag);
+	}
+
+	std::forward_list<GameObjectPtr> GameObject::findChildrenWithTag(GameObjectTagCarrier tag) const
+	{
+		return m_parentChildManager->findGameObjectsWithTag(tag);
 	}
 
 	void GameObject::addChild(const GameObjectPtr& child)
@@ -162,16 +187,16 @@ namespace tktk
 		child->m_componentList->runAfterChangeParentAll(GameObjectPtr(weak_from_this()));
 	}
 
-	void GameObject::sendMessage(unsigned int messageId, const MessageAttachment& value)
+	void GameObject::sendMessage(MessageTypeCarrier type, const MessageAttachment& attachment)
 	{
 		// 自身のメッセージ受信処理を呼ぶ
-		runHandleMessageAll(messageId, value);
+		runHandleMessageAll(type, attachment);
 
 #ifdef _DEBUG
 		if (m_parentChildManager.expired()) throw std::runtime_error("not found ParentChildManager");
 #endif
 		// 自身の子要素のメッセージ受信処理を呼ぶ
-		m_parentChildManager->sendMessage(messageId, value);
+		m_parentChildManager->sendMessage(type, attachment);
 	}
 
 	void GameObject::setupStateMachine(const StateMachineListInitParam& initParam)
@@ -183,73 +208,64 @@ namespace tktk
 		m_stateMachineList	= std::make_unique<StateMachineList>(initParam, GameObjectPtr(weak_from_this()), m_componentList);
 	}
 
+	void GameObject::stateEnable(StateTypeCarrier stateType)
+	{
+		m_stateTypeList->stateEnable(stateType);
+	}
+
+	void GameObject::stateDisable(StateTypeCarrier stateType)
+	{
+		m_stateTypeList->stateDisable(stateType);
+	}
+
+	void GameObject::childStateEnable(const StateTypeHierarchy& targetState)
+	{
+		for (const auto& stateType : m_stateMachineList->getChildNode(targetState).list)
+		{
+			m_stateTypeList->stateEnable(stateType);
+		}
+	}
+
+	void GameObject::childStateDisable(const StateTypeHierarchy& targetState)
+	{
+		for (const auto& stateType : m_stateMachineList->getChildNode(targetState).list)
+		{
+			m_stateTypeList->stateDisable(stateType);
+		}
+	}
+
 	void GameObject::clearState()
 	{
 		m_stateTypeList->clearState();
 	}
 
-	void GameObject::addGameObjectTagImpl(int tag)
-	{
-		m_tagList->addTag(tag);
-	}
-
-	void GameObject::removeGameobjectTagImpl(int tag)
-	{
-		m_tagList->removeTag(tag);
-	}
-
-	bool GameObject::containGameobjectTagImpl(int tag) const
-	{
-		return m_tagList->contain(tag);
-	}
-
-	GameObjectPtr GameObject::findChildWithTagImpl(int tag) const
-	{
-		return m_parentChildManager->findGameObjectWithTag(tag);
-	}
-
-	std::forward_list<GameObjectPtr> GameObject::findChildrenWithTagImpl(int tag) const
-	{
-		return m_parentChildManager->findGameObjectsWithTag(tag);
-	}
-
-	void GameObject::stateEnableImpl(int stateType)
-	{
-		m_stateTypeList->stateEnable(stateType);
-	}
-
-	void GameObject::stateDisableImpl(int stateType)
-	{
-		m_stateTypeList->stateDisable(stateType);
-	}
-
-	bool GameObject::containStateImpl(int stateType)
+	bool GameObject::containState(StateTypeCarrier stateType)
 	{
 		return m_stateTypeList->contain(stateType);
 	}
 
-	ComponentPtr<StateChangeTimer> GameObject::createStateChangeTimerImpl(const std::vector<int>& targetState, float stateChangeTimeSec, const std::vector<int>& enableStateArray, const std::vector<int>& disableStateArray)
-	{
-		auto createdComponent = DX12GameManager::createComponent<StateChangeTimer>(GameObjectPtr(weak_from_this()), stateChangeTimeSec, enableStateArray, disableStateArray);
-		createdComponent.lock()->setUser(GameObjectPtr(weak_from_this()));
-		setComponentToStateMachine(targetState, ComponentBasePtr(createdComponent));
-		return m_componentList->add(createdComponent);
-	}
-
-	ComponentPtr<MessageStateChanger> GameObject::createMessageStateChanger(const std::vector<int>& targetState, unsigned int messageType, const std::vector<int>& enableStateArray, const std::vector<int>& disableStateArray)
-	{
-		auto createdComponent = DX12GameManager::createComponent<MessageStateChanger>(GameObjectPtr(weak_from_this()), messageType, enableStateArray, disableStateArray);
-		createdComponent.lock()->setUser(GameObjectPtr(weak_from_this()));
-		setComponentToStateMachine(targetState, ComponentBasePtr(createdComponent));
-		return m_componentList->add(createdComponent);
-	}
-
-	void GameObject::setChildToStateMachine(const std::vector<int>& targetState, const GameObjectPtr& child)
+	void GameObject::addChild(const StateTypeHierarchy& targetState, const GameObjectPtr& child)
 	{
 		m_stateMachineList->addChild(targetState, child);
 	}
 
-	void GameObject::setComponentToStateMachine(const std::vector<int>& targetState, const ComponentBasePtr& componentPtr)
+	ComponentPtr<StateChangeTimer> GameObject::createStateChangeTimer(const StateTypeHierarchy& targetState, float stateChangeTimeSec, const StateTypeList& enableStates, const StateTypeList& disableStates)
+	{
+		auto createdComponent = DX12GameManager::createComponent<StateChangeTimer>(GameObjectPtr(weak_from_this()), stateChangeTimeSec, enableStates, disableStates);
+		createdComponent.lock()->setUser(GameObjectPtr(weak_from_this()));
+		setComponentToStateMachine(targetState, ComponentBasePtr(createdComponent));
+		return m_componentList->add(createdComponent);
+	}
+
+	ComponentPtr<MessageStateChanger> GameObject::createMessageStateChanger(const StateTypeHierarchy& targetState, MessageTypeCarrier messageType, const StateTypeList& enableStates, const StateTypeList& disableStates)
+	{
+		auto createdComponent = DX12GameManager::createComponent<MessageStateChanger>(GameObjectPtr(weak_from_this()), messageType, enableStates, disableStates);
+		createdComponent.lock()->setUser(GameObjectPtr(weak_from_this()));
+		setComponentToStateMachine(targetState, ComponentBasePtr(createdComponent));
+		return m_componentList->add(createdComponent);
+	}
+
+	void GameObject::setComponentToStateMachine(const StateTypeHierarchy& targetState, const ComponentBasePtr& componentPtr)
 	{
 		m_stateMachineList->addComponent(targetState, componentPtr);
 	}

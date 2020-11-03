@@ -16,10 +16,25 @@ namespace tktk
 		return m_self;
 	}
 
+	ReceiveMessageToSelfDestroyerMaker& ReceiveMessageToSelfDestroyerMaker::makeStart(const StateTypeHierarchy& targetState, GameObjectPtr user)
+	{
+		// •Ï”‚ğ‰Šú‰»‚·‚é
+		m_self = ReceiveMessageToSelfDestroyerMaker();
+
+		// ˆø”‚Ìƒ†[ƒU[‚ğİ’è
+		m_self.m_user = user;
+
+		// ˆø”‚Ì’Ç‰ÁŠK‘w‚ğİ’è
+		m_self.m_targetState = targetState;
+
+		// ©g‚ÌQÆ‚ğ•Ô‚·
+		return m_self;
+	}
+
 	ComponentPtr<ReceiveMessageToSelfDestroyer> ReceiveMessageToSelfDestroyerMaker::create()
 	{
 		// ©g‚ğ’Ç‰Á‚·‚éŠK‘wî•ñ‚ª‹ó‚¾‚Á‚½‚ç•’Ê‚Éì¬‚·‚é
-		if (m_targetState.empty())
+		if (m_targetState.hierarchy.empty())
 		{
 			return m_user->createComponent<ReceiveMessageToSelfDestroyer>(m_destroyMessegeType);
 		}

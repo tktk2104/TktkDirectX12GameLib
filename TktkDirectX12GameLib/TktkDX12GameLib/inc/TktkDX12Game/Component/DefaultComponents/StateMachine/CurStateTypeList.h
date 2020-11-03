@@ -3,6 +3,7 @@
 
 #include <forward_list>
 #include "../../ComponentBase.h"
+#include "StateTypeCarrier.h"
 
 namespace tktk
 {
@@ -17,21 +18,21 @@ namespace tktk
 	public:
 
 		// ステートを有効にする
-		void stateEnable(int stateType);
+		void stateEnable(StateTypeCarrier stateType);
 
 		// ステートを無効にする
-		void stateDisable(int stateType);
+		void stateDisable(StateTypeCarrier stateType);
 
 		// 全てのステートを無効にする
 		void clearState();
 
 		// 引数のステートを持っているか？
-		bool contain(int stateType) const;
+		bool contain(StateTypeCarrier stateType) const;
 
 	private:
 
 		// 現在のステートのリスト
-		std::forward_list<int> m_stateTypeList;
+		std::forward_list<StateTypeCarrier> m_stateTypeList;
 	};
 }
 #endif // !CUR_STATE_TYPE_LIST_H_
