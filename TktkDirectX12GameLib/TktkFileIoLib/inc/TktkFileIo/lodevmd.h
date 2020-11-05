@@ -17,7 +17,7 @@ namespace tktkFileIo
 			struct OutMotionData
 			{
 				std::string				boneName;
-				unsigned int			frameNo;
+				size_t					frameNo;
 				tktkMath::Vector3		location;
 				tktkMath::Quaternion	rotation;
 				unsigned char			bezier[64];
