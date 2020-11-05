@@ -15,12 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="inc\TktkContainer\HeapArray\HeapArray.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\TktkContainer\HeapArray\HeapArrayIterator.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="inc\TktkContainer\ResourceContainer\ResourceContainer.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -34,6 +28,18 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="inc\TktkContainer\ResourceContainer\ResourceContainerConstIterator.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\TktkContainer\ResourceHandleManager\ResourceHandleCarrier.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\TktkContainer\PreAllocContainer\UseNodeCheckBitFlagArrayPtr.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\TktkContainer\PreAllocContainer\PreAllocContainer.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\TktkContainer\PreAllocContainer\PreAllocContainerIterator.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

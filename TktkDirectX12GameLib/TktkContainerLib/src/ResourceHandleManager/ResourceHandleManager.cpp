@@ -2,9 +2,9 @@
 
 namespace tktkContainer
 {
-	unsigned int ResourceHandleManager::createHandle()
+	size_t ResourceHandleManager::createHandle()
 	{
-		unsigned int handle = 0U;
+		size_t handle = 0U;
 
 		if (m_endUseHandles.empty())
 		{
@@ -18,14 +18,14 @@ namespace tktkContainer
 		return handle;
 	}
 
-	void ResourceHandleManager::endUseHandle(unsigned int deleteHandle)
+	void ResourceHandleManager::endUseHandle(size_t deleteHandle)
 	{
 		m_endUseHandles.push(deleteHandle);
 	}
 
 	void ResourceHandleManager::reset()
 	{
-		m_endUseHandles = std::queue<unsigned int>();
-		m_nextUseHandle = std::numeric_limits<unsigned int>::max();
+		m_endUseHandles = std::queue<size_t>();
+		m_nextUseHandle = std::numeric_limits<size_t>::max();
 	}
 }

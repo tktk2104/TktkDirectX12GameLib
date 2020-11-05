@@ -5,7 +5,7 @@
 #include <iterator>
 #include <memory>
 #include <list>
-#include "../HeapArray/HeapArrayIterator.h"
+#include "../PreAllocContainer/PreAllocContainerIterator.h"
 
 namespace tktkContainer
 {
@@ -28,8 +28,8 @@ namespace tktkContainer
 		// プライベートコンストラクタ達
 		ResourceContainerIterator(
 			bool isStatic,
-			const HeapArrayIterator<NodeType>& curHeapArrayItr,
-			const HeapArrayIterator<NodeType>& endHeapArrayItr,
+			const PreAllocContainerIterator<NodeType>& curHeapArrayItr,
+			const PreAllocContainerIterator<NodeType>& endHeapArrayItr,
 			const typename std::list<NodeType>::iterator& curListItr,
 			const typename std::list<NodeType>::iterator& endListItr
 		);
@@ -54,8 +54,8 @@ namespace tktkContainer
 
 		bool							m_isStatic;
 
-		HeapArrayIterator<NodeType>		m_curHeapArrayItr;
-		HeapArrayIterator<NodeType>		m_endHeapArrayItr;
+		PreAllocContainerIterator<NodeType>		m_curHeapArrayItr;
+		PreAllocContainerIterator<NodeType>		m_endHeapArrayItr;
 
 		typename std::list<NodeType>::iterator	m_curListItr;
 		typename std::list<NodeType>::iterator	m_endListItr;
@@ -68,8 +68,8 @@ namespace tktkContainer
 	template<class NodeType>
 	inline ResourceContainerIterator<NodeType>::ResourceContainerIterator(
 		bool isStatic,
-		const HeapArrayIterator<NodeType>& curHeapArrayItr,
-		const HeapArrayIterator<NodeType>& endHeapArrayItr,
+		const PreAllocContainerIterator<NodeType>& curHeapArrayItr,
+		const PreAllocContainerIterator<NodeType>& endHeapArrayItr,
 		const typename std::list<NodeType>::iterator& curListItr,
 		const typename std::list<NodeType>::iterator& endListItr
 	)
@@ -119,7 +119,7 @@ namespace tktkContainer
 	template<class NodeType>
 	inline ResourceContainerIterator<NodeType> ResourceContainerIterator<NodeType>::operator++(int)
 	{
-		HeapArrayIterator result = *this;
+		ResourceContainerIterator<NodeType> result = *this;
 
 		if (m_isStatic)
 		{

@@ -73,23 +73,25 @@
     <LinkIncremental>true</LinkIncremental>
     <TargetName>$(ProjectName)_mtd</TargetName>
     <OutDir>$(SolutionDir)lib\x86\</OutDir>
+    <IncludePath>$(SolutionDir)TktkTemplateMetaLib\inc;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(SolutionDir)lib\x64\</OutDir>
     <TargetName>$(ProjectName)_mtd</TargetName>
-    <IncludePath>$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)TktkTemplateMetaLib\inc;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)lib\x86\</OutDir>
     <TargetName>$(ProjectName)_mt</TargetName>
+    <IncludePath>$(SolutionDir)TktkTemplateMetaLib\inc;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(SolutionDir)lib\x64\</OutDir>
     <TargetName>$(ProjectName)_mt</TargetName>
-    <IncludePath>$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)TktkTemplateMetaLib\inc;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -164,12 +166,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="inc\TktkContainer\HeapArray\HeapArray.h" />
-    <ClInclude Include="inc\TktkContainer\HeapArray\HeapArrayIterator.h" />
+    <ClInclude Include="inc\TktkContainer\PreAllocContainer\PreAllocContainer.h" />
+    <ClInclude Include="inc\TktkContainer\PreAllocContainer\PreAllocContainerIterator.h" />
+    <ClInclude Include="inc\TktkContainer\PreAllocContainer\UseNodeCheckBitFlagArrayPtr.h" />
     <ClInclude Include="inc\TktkContainer\ResourceContainer\ResourceContainer.h" />
     <ClInclude Include="inc\TktkContainer\ResourceContainer\ResourceContainerConstIterator.h" />
     <ClInclude Include="inc\TktkContainer\ResourceContainer\ResourceContainerInitParam.h" />
     <ClInclude Include="inc\TktkContainer\ResourceContainer\ResourceContainerIterator.h" />
+    <ClInclude Include="inc\TktkContainer\ResourceHandleManager\ResourceHandleCarrier.h" />
     <ClInclude Include="inc\TktkContainer\ResourceHandleManager\ResourceHandleManager.h" />
   </ItemGroup>
   <ItemGroup>

@@ -17,10 +17,10 @@ namespace tktkContainer
 
 		// 新たなハンドルを取得する
 		// ※以前使っていて今使っていない番号があったらそれを取得する
-		unsigned int createHandle();
+		size_t createHandle();
 
 		// 引数のハンドルを使用済みとして
-		void endUseHandle(unsigned int deleteHandle);
+		void endUseHandle(size_t deleteHandle);
 
 		// ハンドルの作成状況を初期化する
 		void reset();
@@ -28,10 +28,10 @@ namespace tktkContainer
 	private:
 
 		// 使用済みのハンドルを保存するキュー
-		std::queue<unsigned int>	m_endUseHandles;
+		std::queue<size_t>	m_endUseHandles;
 
 		// 次に使用するハンドル
-		unsigned int				m_nextUseHandle	{ std::numeric_limits<unsigned int>::max() };
+		size_t				m_nextUseHandle	{ std::numeric_limits<size_t>::max() };
 	};
 }
 #endif // !RESOURCE_HANDLE_MANAGER_H_

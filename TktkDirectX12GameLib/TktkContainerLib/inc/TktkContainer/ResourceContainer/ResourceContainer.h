@@ -5,7 +5,7 @@
 #include <list>
 #include <forward_list>
 #include <unordered_map>
-#include "../HeapArray/HeapArray.h"
+#include "../PreAllocContainer/PreAllocContainer.h"
 #include "../ResourceHandleManager/ResourceHandleManager.h"
 #include "ResourceContainerIterator.h"
 #include "ResourceContainerConstIterator.h"
@@ -43,14 +43,14 @@ namespace tktkContainer
 
 		// コンストラクタ引数を渡してインスタンスを作り、そのハンドルを返す
 		template <class... ConstructorArgs>
-		unsigned int create(ConstructorArgs&&... args);
+		size_t create(ConstructorArgs&&... args);
 
 		// ハンドルを引数に対応するポインタを取得する
 		// ※ハンドルに対応したリソースが無かった場合、nullptrを返す
-		NodeType* getMatchHandlePtr(unsigned int handle) const;
+		NodeType* getMatchHandlePtr(size_t handle) const;
 
 		// 引数のハンドルのインスタンスを削除（メモリ解放）する
-		void erase(unsigned int handle);
+		void erase(size_t handle);
 
 		// 全てのインスタンスを削除（メモリ解放）する
 		void clear();
@@ -66,16 +66,16 @@ namespace tktkContainer
 	private:
 
 		// １フレームで初期化時確保メモリに移動できる要素数
-		unsigned int m_moveNodeMaxNumPerFrame;
+		size_t m_moveNodeMaxNumPerFrame;
 
 		// リソースを管理するためのハンドルを作るクラス
 		ResourceHandleManager m_resourceHandleManager;
 
 		// ハンドルから要素のポインタにアクセスするためのコンテナ
-		std::unordered_map<unsigned int, ResourceNode> m_connectNodeMap;
+		std::unordered_map<size_t, ResourceNode> m_connectNodeMap;
 
 		// 初期化時に確保したメモリにインスタンスを作るコンテナ
-		HeapArray<NodeType, Allocator> m_staticNode;
+		PreAllocContainer<NodeType, Allocator> m_staticNode;
 
 		// 動的にメモリを確保してインスタンスを作るコンテナ
 		std::list<NodeType, Allocator> m_dynamicNode;
@@ -99,16 +99,16 @@ namespace tktkContainer
 		std::forward_list<std::pair<NodeType*, NodeType*>> movingNodeList;
 
 		// 1フレームでの初期化時確保メモリに移動できる要素数分ループする
-		for (unsigned int i = 0; i < m_moveNodeMaxNumPerFrame; ++i)
+		for (size_t i = 0; i < m_moveNodeMaxNumPerFrame; ++i)
 		{
 			// 自作のコンテナにメモリの空きが無かったら関数を抜ける
-			if (!m_staticNode.canCreateNode()) return;
+			if (!m_staticNode.canCreateInstance()) return;
 
 			// 移動前（std::listの最後尾）でのポインタを取得
 			NodeType* beforePtr = &(*--std::end(m_dynamicNode));
 
 			// std::listの最後尾から要素を自作コンテナにムーブする
-			HeapArrayIndexPtrPair<NodeType> createResult = m_staticNode.create(std::move(*beforePtr));
+			typename PreAllocContainer<NodeType, Allocator>::IndexPtrPair  createResult = m_staticNode.create(std::move(*beforePtr));
 
 			// 移動前、移送先のポインタのペアをリストに追加
 			movingNodeList.push_front(std::make_pair(beforePtr, createResult.ptr));
@@ -134,16 +134,16 @@ namespace tktkContainer
 	// コンストラクタ引数を渡してインスタンスを作り、そのハンドルを返す
 	template<class NodeType, class Allocator>
 	template<class ...ConstructorArgs>
-	inline unsigned int ResourceContainer<NodeType, Allocator>::create(ConstructorArgs && ...args)
+	inline size_t ResourceContainer<NodeType, Allocator>::create(ConstructorArgs && ...args)
 	{
 		// 未使用のハンドルを取得する
-		unsigned int handle = m_resourceHandleManager.createHandle();
+		size_t handle = m_resourceHandleManager.createHandle();
 
 		// 自作のコンテナにメモリの空きがあったら
-		if (m_staticNode.canCreateNode())
+		if (m_staticNode.canCreateInstance())
 		{
 			// 自作のコンテナに要素を作成し、作成した要素の情報を取得する
-			HeapArrayIndexPtrPair<NodeType> createdNode = m_staticNode.emplace(std::forward<ConstructorArgs>(args)...);
+			typename PreAllocContainer<NodeType, Allocator>::IndexPtrPair createdNode = m_staticNode.emplace(std::forward<ConstructorArgs>(args)...);
 
 			// ハンドルから要素にアクセスするためのコンテナの要素を作る
 			ResourceNode tempNode{ createdNode.ptr, true };
@@ -166,7 +166,7 @@ namespace tktkContainer
 	// ハンドルを引数に対応するポインタを取得する
 	// ※ハンドルに対応したリソースが無かった場合、nullptrを返す
 	template<class NodeType, class Allocator>
-	inline NodeType* ResourceContainer<NodeType, Allocator>::getMatchHandlePtr(unsigned int handle) const
+	inline NodeType* ResourceContainer<NodeType, Allocator>::getMatchHandlePtr(size_t handle) const
 	{
 		if (m_connectNodeMap.count(handle) == 0U) return nullptr;
 
@@ -175,7 +175,7 @@ namespace tktkContainer
 
 	// 引数のハンドルのインスタンスを削除（メモリ解放）する
 	template<class NodeType, class Allocator>
-	inline void ResourceContainer<NodeType, Allocator>::erase(unsigned int handle)
+	inline void ResourceContainer<NodeType, Allocator>::erase(size_t handle)
 	{
 		// 引数のハンドルに対応したリソースが無かったら何もしない
 		if (m_connectNodeMap.count(handle) == 0) return;
