@@ -1,7 +1,9 @@
 #ifndef BUFFER_RESOURCE_INIT_PARAM_INCLUDER_H_
 #define BUFFER_RESOURCE_INIT_PARAM_INCLUDER_H_
 
-#include "Copy/CopyBufferInitParam.h"
+#include "CopySourceDataCarrier.h"
+#include "Upload/UploadBufferInitParam.h"
+#include "Vertex/VertexDataCarrier.h"
 #include "DepthStencil/DepthStencilBufferInitParam.h"
 #include "Texture/TextureBufferInitParam.h"
 

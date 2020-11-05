@@ -17,17 +17,17 @@ namespace tktk
 	public:
 
 		// 「PipeLineStateData」のインスタンスを作り、そのリソースのハンドルを返す
-		unsigned int create(ID3D12Device* device, const PipeLineStateInitParam& initParam, const ShaderFilePaths& shaderFilePath, ID3D12RootSignature* rootSignaturePtr);
+		size_t create(ID3D12Device* device, const PipeLineStateInitParam& initParam, const ShaderFilePaths& shaderFilePath, ID3D12RootSignature* rootSignaturePtr);
 
 		// 指定のパイプラインステートを削除する
 		// ※引数のハンドルに対応するリソースが無かったら何もしない
-		void erase(unsigned int handle);
+		void erase(size_t handle);
 
 		// 指定したパイプラインステートが使用しているルートシグネチャのハンドルを取得する
-		unsigned int getUseRootSignatureIndex(unsigned int handle) const;
+		size_t getUseRootSignatureIndex(size_t handle) const;
 
 		// 指定したパイプラインステートをコマンドリストに登録する
-		void set(unsigned int handle, ID3D12GraphicsCommandList* commandList) const;
+		void set(size_t handle, ID3D12GraphicsCommandList* commandList) const;
 
 	private:
 

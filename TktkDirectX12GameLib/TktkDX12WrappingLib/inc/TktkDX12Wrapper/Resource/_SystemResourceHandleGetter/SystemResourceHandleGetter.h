@@ -15,51 +15,51 @@ namespace tktk
 
 	public:
 
-		unsigned int getSystemHandle(SystemViewportType type)				const;
-		unsigned int getSystemHandle(SystemScissorRectType type)			const;
-		unsigned int getSystemHandle(SystemVertexBufferType type)			const;
-		unsigned int getSystemHandle(SystemIndexBufferType type)			const;
-		unsigned int getSystemHandle(SystemCBufferType type)				const;
-		unsigned int getSystemHandle(SystemTextureBufferType type)			const;
-		unsigned int getSystemHandle(SystemRtBufferType type)				const;
-		unsigned int getSystemHandle(SystemDsBufferType type)				const;
-		unsigned int getSystemHandle(SystemBasicDescriptorHeapType type)	const;
-		unsigned int getSystemHandle(SystemRtvDescriptorHeapType type)		const;
-		unsigned int getSystemHandle(SystemDsvDescriptorHeapType type)		const;
-		unsigned int getSystemHandle(SystemRootSignatureType type)			const;
-		unsigned int getSystemHandle(SystemPipeLineStateType type)			const;
+		size_t getSystemHandle(SystemViewportType type)				const;
+		size_t getSystemHandle(SystemScissorRectType type)			const;
+		size_t getSystemHandle(SystemVertexBufferType type)			const;
+		size_t getSystemHandle(SystemIndexBufferType type)			const;
+		size_t getSystemHandle(SystemCBufferType type)				const;
+		size_t getSystemHandle(SystemTextureBufferType type)		const;
+		size_t getSystemHandle(SystemRtBufferType type)				const;
+		size_t getSystemHandle(SystemDsBufferType type)				const;
+		size_t getSystemHandle(SystemBasicDescriptorHeapType type)	const;
+		size_t getSystemHandle(SystemRtvDescriptorHeapType type)	const;
+		size_t getSystemHandle(SystemDsvDescriptorHeapType type)	const;
+		size_t getSystemHandle(SystemRootSignatureType type)		const;
+		size_t getSystemHandle(SystemPipeLineStateType type)		const;
 
 	public:
 
-		void setSystemHandle(SystemViewportType type,				unsigned int handle);
-		void setSystemHandle(SystemScissorRectType type,			unsigned int handle);
-		void setSystemHandle(SystemVertexBufferType type,			unsigned int handle);
-		void setSystemHandle(SystemIndexBufferType type,			unsigned int handle);
-		void setSystemHandle(SystemCBufferType type,				unsigned int handle);
-		void setSystemHandle(SystemTextureBufferType type,			unsigned int handle);
-		void setSystemHandle(SystemRtBufferType type,				unsigned int handle);
-		void setSystemHandle(SystemDsBufferType type,				unsigned int handle);
-		void setSystemHandle(SystemBasicDescriptorHeapType type,	unsigned int handle);
-		void setSystemHandle(SystemRtvDescriptorHeapType type,		unsigned int handle);
-		void setSystemHandle(SystemDsvDescriptorHeapType type,		unsigned int handle);
-		void setSystemHandle(SystemRootSignatureType type,			unsigned int handle);
-		void setSystemHandle(SystemPipeLineStateType type,			unsigned int handle);
+		void setSystemHandle(SystemViewportType type,				size_t handle);
+		void setSystemHandle(SystemScissorRectType type,			size_t handle);
+		void setSystemHandle(SystemVertexBufferType type,			size_t handle);
+		void setSystemHandle(SystemIndexBufferType type,			size_t handle);
+		void setSystemHandle(SystemCBufferType type,				size_t handle);
+		void setSystemHandle(SystemTextureBufferType type,			size_t handle);
+		void setSystemHandle(SystemRtBufferType type,				size_t handle);
+		void setSystemHandle(SystemDsBufferType type,				size_t handle);
+		void setSystemHandle(SystemBasicDescriptorHeapType type,	size_t handle);
+		void setSystemHandle(SystemRtvDescriptorHeapType type,		size_t handle);
+		void setSystemHandle(SystemDsvDescriptorHeapType type,		size_t handle);
+		void setSystemHandle(SystemRootSignatureType type,			size_t handle);
+		void setSystemHandle(SystemPipeLineStateType type,			size_t handle);
 
 	private:
 
-		std::unordered_map<SystemViewportType, unsigned int>			m_systemViewportHandleMap;
-		std::unordered_map<SystemScissorRectType, unsigned int>			m_systemScissorRectHandleMap;
-		std::unordered_map<SystemVertexBufferType, unsigned int>		m_systemVertexBufferHandleMap;
-		std::unordered_map<SystemIndexBufferType, unsigned int>			m_systemIndexBufferHandleMap;
-		std::unordered_map<SystemCBufferType, unsigned int>				m_systemCBufferHandleMap;
-		std::unordered_map<SystemTextureBufferType, unsigned int>		m_systemTextureBufferHandleMap;
-		std::unordered_map<SystemRtBufferType, unsigned int>			m_systemRtBufferHandleMap;
-		std::unordered_map<SystemDsBufferType, unsigned int>			m_systemDsBufferHandleMap;
-		std::unordered_map<SystemBasicDescriptorHeapType, unsigned int> m_systemBasicDescriptorHeapHandleMap;
-		std::unordered_map<SystemRtvDescriptorHeapType, unsigned int>	m_systemRtvDescriptorHeapHandleMap;
-		std::unordered_map<SystemDsvDescriptorHeapType, unsigned int>	m_systemDsvDescriptorHeapHandleMap;
-		std::unordered_map<SystemRootSignatureType, unsigned int>		m_systemRootSignatureHandleMap;
-		std::unordered_map<SystemPipeLineStateType, unsigned int>		m_systemPipeLineStateHandleMap;
+		std::unordered_map<SystemViewportType,				size_t>	m_systemViewportHandleMap;
+		std::unordered_map<SystemScissorRectType,			size_t>	m_systemScissorRectHandleMap;
+		std::unordered_map<SystemVertexBufferType,			size_t>	m_systemVertexBufferHandleMap;
+		std::unordered_map<SystemIndexBufferType,			size_t>	m_systemIndexBufferHandleMap;
+		std::unordered_map<SystemCBufferType,				size_t>	m_systemCBufferHandleMap;
+		std::unordered_map<SystemTextureBufferType,			size_t>	m_systemTextureBufferHandleMap;
+		std::unordered_map<SystemRtBufferType,				size_t>	m_systemRtBufferHandleMap;
+		std::unordered_map<SystemDsBufferType,				size_t>	m_systemDsBufferHandleMap;
+		std::unordered_map<SystemBasicDescriptorHeapType,	size_t>	m_systemBasicDescriptorHeapHandleMap;
+		std::unordered_map<SystemRtvDescriptorHeapType,		size_t>	m_systemRtvDescriptorHeapHandleMap;
+		std::unordered_map<SystemDsvDescriptorHeapType,		size_t>	m_systemDsvDescriptorHeapHandleMap;
+		std::unordered_map<SystemRootSignatureType,			size_t>	m_systemRootSignatureHandleMap;
+		std::unordered_map<SystemPipeLineStateType,			size_t>	m_systemPipeLineStateHandleMap;
 	};
 }
 #endif // !SYSTEM_RESOURCE_HANDLE_GETTER_H_

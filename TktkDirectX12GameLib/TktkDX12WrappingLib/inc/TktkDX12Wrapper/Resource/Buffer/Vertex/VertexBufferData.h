@@ -3,6 +3,7 @@
 
 #include <forward_list>
 #include "../../../Includer/D3d12Includer.h"
+#include "VertexDataCarrier.h"
 
 namespace tktk
 {
@@ -11,7 +12,7 @@ namespace tktk
 	{
 	public:
 
-		VertexBufferData(ID3D12Device* device, unsigned int vertexTypeSize, unsigned int vertexDataCount, const void* vertexDataTopPos);
+		VertexBufferData(ID3D12Device* device, const VertexDataCarrier& vertexData);
 		~VertexBufferData();
 
 		// ムーブコンストラクタ

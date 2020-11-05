@@ -6,7 +6,7 @@ namespace tktk
 	// システムで使用しているインデックスバッファの種類
 	enum class SystemIndexBufferType
 	{
-		Sprite = 0U,
+		Sprite,
 		Sphere,
 		Box,
 	};

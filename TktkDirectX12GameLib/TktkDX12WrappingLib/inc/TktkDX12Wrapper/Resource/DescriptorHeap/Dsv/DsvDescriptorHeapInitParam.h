@@ -15,7 +15,7 @@ namespace tktk
 	struct DsvDescriptorParam
 	{
 		DsvDescriptorType	type;
-		unsigned int		handle;
+		size_t				handle;
 	};
 
 	// 深度ステンシルビュー用のディスクリプタヒープを作る時に必要な変数

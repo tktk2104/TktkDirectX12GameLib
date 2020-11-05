@@ -25,7 +25,7 @@ namespace tktk
 		std::vector<D3D12_CPU_DESCRIPTOR_HANDLE> getCpuHeapHandleArray(ID3D12Device* device) const;
 
 		// 各ビューが参照している深度ステンシルバッファのIDの配列を取得する
-		const std::vector<unsigned int>& getDsBufferIdArray() const;
+		const std::vector<size_t>& getDsBufferHandleArray() const;
 
 		// ディスクリプタヒープをまとめてコマンドリストに登録するためにあるゲッター
 		ID3D12DescriptorHeap* getPtr() const;
@@ -41,8 +41,8 @@ namespace tktk
 
 	private:
 
-		std::vector<unsigned int>	m_dsBufferIdArray	{};
-		ID3D12DescriptorHeap*		m_descriptorHeap	{ nullptr };
+		std::vector<size_t>		m_dsBufferHandleArray	{};
+		ID3D12DescriptorHeap*	m_descriptorHeap		{ nullptr };
 	};
 }
 #endif // !DSV_DESCRIPTOR_HEAP_DATA_H_

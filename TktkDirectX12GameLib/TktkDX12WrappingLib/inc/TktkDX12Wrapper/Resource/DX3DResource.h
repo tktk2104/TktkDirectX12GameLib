@@ -31,130 +31,130 @@ namespace tktk
 	public: /* 作成、ロード処理 */
 
 		// ビューポートを作り、そのリソースのハンドルを返す
-		unsigned int createViewport(const std::vector<ViewportInitParam>& initParamArray);
+		size_t createViewport(const std::vector<ViewportInitParam>& initParamArray);
 
 		// シザー矩形を作り、そのリソースのハンドルを返す
-		unsigned int createScissorRect(const std::vector<ScissorRectInitParam>& initParamArray);
+		size_t createScissorRect(const std::vector<ScissorRectInitParam>& initParamArray);
 
 		// ルートシグネチャを作り、そのリソースのハンドルを返す
-		unsigned int createRootSignature(ID3D12Device* device, const RootSignatureInitParam& initParam);
+		size_t createRootSignature(ID3D12Device* device, const RootSignatureInitParam& initParam);
 
 		// パイプラインステートを作り、そのリソースのハンドルを返す
-		unsigned int createPipeLineState(ID3D12Device* device, const PipeLineStateInitParam& initParam, const ShaderFilePaths& shaderFilePath);
+		size_t createPipeLineState(ID3D12Device* device, const PipeLineStateInitParam& initParam, const ShaderFilePaths& shaderFilePath);
 
-		// コピーバッファを作り、そのリソースのハンドルを返す
-		unsigned int createCopyBuffer(ID3D12Device* device, const CopyBufferInitParam& initParam);
+		// アップロードバッファを作り、そのリソースのハンドルを返す
+		size_t createUploadBuffer(ID3D12Device* device, const UploadBufferInitParam& initParam);
 
-		// コピーバッファのコピーを作り、そのリソースのハンドルを返す
-		unsigned int copyCopyBuffer(ID3D12Device* device, unsigned int originalHandle);
+		// アップロードバッファのコピーを作り、そのリソースのハンドルを返す
+		size_t duplicateUploadBuffer(ID3D12Device* device, size_t originalHandle);
 
 		// 頂点バッファを作り、そのリソースのハンドルを返す
-		unsigned int createVertexBuffer(ID3D12Device* device, unsigned int vertexTypeSize, unsigned int vertexDataCount, const void* vertexDataTopPos);
+		size_t createVertexBuffer(ID3D12Device* device, const VertexDataCarrier& vertexData);
 
 		// インデックスバッファを作り、そのリソースのハンドルを返す
-		unsigned int createIndexBuffer(ID3D12Device* device, const std::vector<unsigned short>& indices);
+		size_t createIndexBuffer(ID3D12Device* device, const std::vector<unsigned short>& indices);
 
 		// 定数バッファを作り、そのリソースのハンドルを返す
-		unsigned int createCBuffer(ID3D12Device* device, unsigned int constantBufferTypeSize, const void* constantBufferDataTopPos);
+		size_t createCBuffer(ID3D12Device* device, const CopySourceDataCarrier& constantBufferData);
 
 		// レンダーターゲットバッファを作り、そのリソースのハンドルを返す
-		unsigned int createRtBuffer(ID3D12Device* device, const tktkMath::Vector2& renderTargetSize, const tktkMath::Color& clearColor);
+		size_t createRtBuffer(ID3D12Device* device, const tktkMath::Vector2& renderTargetSize, const tktkMath::Color& clearColor);
 
 		// スワップチェーンからレンダーターゲットバッファを取得し、そのリソースのハンドルを返す
-		unsigned int createRtBuffer(IDXGISwapChain1* swapChain, unsigned int backBufferIndex);
+		size_t createRtBuffer(IDXGISwapChain1* swapChain, unsigned int backBufferIndex);
 
 		// 深度ステンシルバッファを作り、そのリソースのハンドルを返す
-		unsigned int createDsBuffer(ID3D12Device* device, const DepthStencilBufferInitParam& initParam);
+		size_t createDsBuffer(ID3D12Device* device, const DepthStencilBufferInitParam& initParam);
 
 		// コマンドリストを使わずにテクスチャバッファを作り、そのリソースのハンドルを返す
-		unsigned int cpuPriorityCreateTextureBuffer(ID3D12Device* device, const TexBufFormatParam& formatParam, const TexBuffData& dataParam);
+		size_t cpuPriorityCreateTextureBuffer(ID3D12Device* device, const TexBufFormatParam& formatParam, const TexBuffData& dataParam);
 
 		// コマンドリストを使ってテクスチャバッファを作り、そのリソースのハンドルを返す（※GPU命令なので「executeCommandList()」を呼ばないとロードが完了しません）
-		unsigned int gpuPriorityCreateTextureBuffer(ID3D12Device* device, ID3D12GraphicsCommandList* commandList, const TexBufFormatParam& formatParam, const TexBuffData& dataParam);
+		size_t gpuPriorityCreateTextureBuffer(ID3D12Device* device, ID3D12GraphicsCommandList* commandList, const TexBufFormatParam& formatParam, const TexBuffData& dataParam);
 
 		// コマンドリストを使わずにテクスチャをロードしてバッファを作り、そのリソースのハンドルを返す
-		unsigned int cpuPriorityLoadTextureBuffer(ID3D12Device* device, const std::string& texDataPath);
+		size_t cpuPriorityLoadTextureBuffer(ID3D12Device* device, const std::string& texDataPath);
 
 		// コマンドリストを使ってテクスチャをロードしてバッファを作り、そのリソースのハンドルを返す（※GPU命令なので「executeCommandList()」を呼ばないとロードが完了しません）
-		unsigned int gpuPriorityLoadTextureBuffer(ID3D12Device* device, ID3D12GraphicsCommandList* commandList, const std::string& texDataPath);
+		size_t gpuPriorityLoadTextureBuffer(ID3D12Device* device, ID3D12GraphicsCommandList* commandList, const std::string& texDataPath);
 
 		// 定数、テクスチャのディスクリプタヒープを作り、そのリソースのハンドルを返す
-		unsigned int createBasicDescriptorHeap(ID3D12Device* device, const BasicDescriptorHeapInitParam& initParam);
+		size_t createBasicDescriptorHeap(ID3D12Device* device, const BasicDescriptorHeapInitParam& initParam);
 
 		// レンダーターゲットのディスクリプタヒープを作り、そのリソースのハンドルを返す
-		unsigned int createRtvDescriptorHeap(ID3D12Device* device, const RtvDescriptorHeapInitParam& initParam);
+		size_t createRtvDescriptorHeap(ID3D12Device* device, const RtvDescriptorHeapInitParam& initParam);
 
 		// 深度ステンシルのディスクリプタヒープを作り、そのリソースのハンドルを返す
-		unsigned int createDsvDescriptorHeap(ID3D12Device* device, const DsvDescriptorHeapInitParam& initParam);
+		size_t createDsvDescriptorHeap(ID3D12Device* device, const DsvDescriptorHeapInitParam& initParam);
 
 	public: /* リソース削除処理 */
 
 		// 指定のビューポートを削除する
 		// ※引数のハンドルに対応するリソースが無かったら何もしない
-		void eraseViewport(unsigned int handle);
+		void eraseViewport(size_t handle);
 
 		// 指定のシザー矩形を削除する
 		// ※引数のハンドルに対応するリソースが無かったら何もしない
-		void eraseScissorRect(unsigned int handle);
+		void eraseScissorRect(size_t handle);
 
 		// 指定のルートシグネチャを削除する
 		// ※引数のハンドルに対応するリソースが無かったら何もしない
-		void eraseRootSignature(unsigned int handle);
+		void eraseRootSignature(size_t handle);
 
 		// 指定のパイプラインステートを削除する
 		// ※引数のハンドルに対応するリソースが無かったら何もしない
-		void erasePipeLineState(unsigned int handle);
+		void erasePipeLineState(size_t handle);
 
-		// 指定のコピーバッファを削除する
+		// 指定のアップロードバッファを削除する
 		// ※引数のハンドルに対応するリソースが無かったら何もしない
-		void eraseCopyBuffer(unsigned int handle);
+		void eraseUploadBuffer(size_t handle);
 
 		// 指定の頂点バッファを削除する
 		// ※引数のハンドルに対応するリソースが無かったら何もしない
-		void eraseVertexBuffer(unsigned int handle);
+		void eraseVertexBuffer(size_t handle);
 
 		// 指定のインデックスバッファを削除する
 		// ※引数のハンドルに対応するリソースが無かったら何もしない
-		void eraseIndexBuffer(unsigned int handle);
+		void eraseIndexBuffer(size_t handle);
 
 		// 指定の定数バッファを削除する
 		// ※引数のハンドルに対応するリソースが無かったら何もしない
-		void eraseCBuffer(unsigned int handle);
+		void eraseCBuffer(size_t handle);
 
 		// 指定のテクスチャバッファを削除する
 		// ※引数のハンドルに対応するリソースが無かったら何もしない
-		void eraseTextureBuffer(unsigned int handle);
+		void eraseTextureBuffer(size_t handle);
 
 		// 指定の深度ステンシルバッファを削除する
 		// ※引数のハンドルに対応するリソースが無かったら何もしない
-		void eraseDsBuffer(unsigned int handle);
+		void eraseDsBuffer(size_t handle);
 
 		// 指定のレンダーターゲットバッファを削除する
 		// ※引数のハンドルに対応するリソースが無かったら何もしない
-		void eraseRtBuffer(unsigned int handle);
+		void eraseRtBuffer(size_t handle);
 
 		// 指定の通常のディスクリプタヒープを削除する
 		// ※引数のハンドルに対応するリソースが無かったら何もしない
-		void eraseBasicDescriptorHeap(unsigned int handle);
+		void eraseBasicDescriptorHeap(size_t handle);
 
 		// 指定のレンダーターゲット用のディスクリプタヒープを削除する
 		// ※引数のハンドルに対応するリソースが無かったら何もしない
-		void eraseRtvDescriptorHeap(unsigned int handle);
+		void eraseRtvDescriptorHeap(size_t handle);
 
 		// 指定の深度ステンシル用のディスクリプタヒープを削除する
 		// ※引数のハンドルに対応するリソースが無かったら何もしない
-		void eraseDsvDescriptorHeap(unsigned int handle);
+		void eraseDsvDescriptorHeap(size_t handle);
 
 	public: /* リソース更新系処理 */
 
-		// 引数のポインタのデータを指定のコピーバッファにコピーする
-		void updateCopyBuffer(unsigned int handle, unsigned int bufferSize, const void* bufferDataTopPos);
+		// 引数のポインタのデータを指定のアップロードバッファにコピーする
+		void updateUploadBuffer(size_t handle, const CopySourceDataCarrier& bufferData);
 
-		// 指定のコピーバッファの内容を設定したバッファにコピーするGPU命令を設定する
-		void copyBuffer(unsigned int handle, ID3D12GraphicsCommandList* commandList) const;
+		// 指定のアップロードバッファの内容を設定したバッファにアップロードするGPU命令を行う
+		void copyBuffer(size_t handle, ID3D12GraphicsCommandList* commandList) const;
 
 		// 指定のレンダーターゲットビューを指定の色でクリアする
-		void clearRtv(unsigned int handle, ID3D12Device* device, ID3D12GraphicsCommandList* commandList, unsigned int rtvLocationIndex, const tktkMath::Color& color) const;
+		void clearRtv(size_t handle, ID3D12Device* device, ID3D12GraphicsCommandList* commandList, size_t rtvLocationIndex, const tktkMath::Color& color) const;
 
 		// 全てのデプスステンシルビューをクリアする
 		void clearDsvAll(ID3D12Device* device, ID3D12GraphicsCommandList* commandList) const;
@@ -162,62 +162,62 @@ namespace tktk
 	public: /* リソース情報取得系処理 */
 
 		// 指定のバッファのテクスチャとしてのサイズを取得する（ピクセル）
-		const tktkMath::Vector3& getTextureBufferSizePx(unsigned int handle) const;
-		const tktkMath::Vector2& getDsBufferSizePx(unsigned int handle) const;
-		const tktkMath::Vector2& getRtBufferSizePx(unsigned int handle) const;
+		const tktkMath::Vector3& getTextureBufferSizePx(size_t handle) const;
+		const tktkMath::Vector2& getDsBufferSizePx(size_t handle) const;
+		const tktkMath::Vector2& getRtBufferSizePx(size_t handle) const;
 
 		// 指定のレンダーターゲット用のディスクリプタヒープが使用しているレンダーターゲットバッファーのIDを取得する
-		const std::vector<unsigned int>& getRtvDescriptorHeapUseBufferIdArray(unsigned int handle) const;
+		const std::vector<size_t>& getRtvDescriptorHeapUseBufferHandleArray(size_t handle) const;
 
 		// 指定の深度書き込み用のディスクリプタヒープが使用している深度バッファーのIDを取得する
-		const std::vector<unsigned int>& getDsvDescriptorHeapUseBufferIdArray(unsigned int handle) const;
+		const std::vector<size_t>& getDsvDescriptorHeapUseBufferHandleArray(size_t handle) const;
 
 	public: /* 描画準備 */
 
 		// レンダーターゲットビューをコマンドリストに設定する
-		void setRtv(unsigned int rtvDescriptorHeapHandle, ID3D12Device* device, ID3D12GraphicsCommandList* commandList, unsigned int startRtvLocationIndex, unsigned int rtvCount) const;
+		void setRtv(size_t rtvDescriptorHeapHandle, ID3D12Device* device, ID3D12GraphicsCommandList* commandList, size_t startRtvLocationIndex, size_t rtvCount) const;
 
 		// レンダーターゲットビューと深度ステンシルビューをコマンドリストに設定する
-		void setRtvAndDsv(unsigned int rtvDescriptorHeapHandle, unsigned int dsvDescriptorHeapHandle, ID3D12Device* device, ID3D12GraphicsCommandList* commandList, unsigned int startRtvLocationIndex, unsigned int rtvCount) const;
+		void setRtvAndDsv(size_t rtvDescriptorHeapHandle, size_t dsvDescriptorHeapHandle, ID3D12Device* device, ID3D12GraphicsCommandList* commandList, size_t startRtvLocationIndex, size_t rtvCount) const;
 
 		// 深度ステンシルビューをコマンドリストに設定する
 		// ※レンダーターゲットビューは設定できない
-		void setOnlyDsv(unsigned int handle, ID3D12Device* device, ID3D12GraphicsCommandList* commandList) const;
+		void setOnlyDsv(size_t handle, ID3D12Device* device, ID3D12GraphicsCommandList* commandList) const;
 
 		// バックバッファービューを設定する
 		void setBackBufferView(ID3D12Device* device, ID3D12GraphicsCommandList* commandList, unsigned int backBufferIndex) const;
 
 		// バックバッファービューと深度ステンシルビューを設定する
-		void setBackBufferViewAndDsv(unsigned int dsvDescriptorHeapHandle, ID3D12Device* device, ID3D12GraphicsCommandList* commandList, unsigned int backBufferIndex) const;
+		void setBackBufferViewAndDsv(size_t dsvDescriptorHeapHandle, ID3D12Device* device, ID3D12GraphicsCommandList* commandList, unsigned int backBufferIndex) const;
 
 		// 指定のレンダーターゲット用のディスクリプタヒープが使用しているレンダーターゲットバッファの書き込み後処理を行う
-		void unSetRtv(unsigned int rtvDescriptorHeapHandle, ID3D12GraphicsCommandList* commandList, unsigned int startRtvLocationIndex, unsigned int rtvCount) const;
+		void unSetRtv(size_t rtvDescriptorHeapHandle, ID3D12GraphicsCommandList* commandList, size_t startRtvLocationIndex, size_t rtvCount) const;
 
 		// 指定の深度書き込み用のディスクリプタヒープが使用している深度バッファの書き込み後処理を行う
-		void unSetDsv(unsigned int dsvDescriptorHeapHandle, ID3D12GraphicsCommandList* commandList) const;
+		void unSetDsv(size_t dsvDescriptorHeapHandle, ID3D12GraphicsCommandList* commandList) const;
 
 		// バックバッファをレンダーターゲット状態にする
 		// TODO : 「unsigned int id」を「unsigned int backBufferIndex」に変更する
-		void beginWriteBackBuffer(unsigned int handle, ID3D12GraphicsCommandList* commandList) const;
+		void beginWriteBackBuffer(size_t handle, ID3D12GraphicsCommandList* commandList) const;
 
 		// バックバッファをプリセット状態にする
 		// TODO : 「unsigned int id」を「unsigned int backBufferIndex」に変更する
-		void endWriteBackBuffer(unsigned int handle, ID3D12GraphicsCommandList* commandList) const;
+		void endWriteBackBuffer(size_t handle, ID3D12GraphicsCommandList* commandList) const;
 
 		// 指定のビューポートをコマンドリストに設定する
-		void setViewport(unsigned int handle, ID3D12GraphicsCommandList* commandList) const;
+		void setViewport(size_t handle, ID3D12GraphicsCommandList* commandList) const;
 
 		// 指定のシザー矩形をコマンドリストに設定する
-		void setScissorRect(unsigned int handle, ID3D12GraphicsCommandList* commandList) const;
+		void setScissorRect(size_t handle, ID3D12GraphicsCommandList* commandList) const;
 
 		// 指定のパイプラインステートをコマンドリストに設定する
-		void setPipeLineState(unsigned int handle, ID3D12GraphicsCommandList* commandList) const;
+		void setPipeLineState(size_t handle, ID3D12GraphicsCommandList* commandList) const;
 
 		// 指定の頂点バッファをコマンドリストに設定する
-		void setVertexBuffer(unsigned int handle, ID3D12GraphicsCommandList* commandList) const;
+		void setVertexBuffer(size_t handle, ID3D12GraphicsCommandList* commandList) const;
 
 		// 指定のインデックスバッファをコマンドリストに設定する
-		void setIndexBuffer(unsigned int handle, ID3D12GraphicsCommandList* commandList) const;
+		void setIndexBuffer(size_t handle, ID3D12GraphicsCommandList* commandList) const;
 
 		// 指定のディスクリプタヒープの配列をコマンドリストに設定する
 		void setDescriptorHeap(ID3D12Device* device, ID3D12GraphicsCommandList* commandList, const std::vector<DescriptorHeapParam>& heapParamArray) const;
@@ -225,59 +225,59 @@ namespace tktk
 	public: /* システムのリソースを使うためのハンドルを取得する */
 
 		// システムのビューポートハンドルを取得する
-		unsigned int getSystemHandle(SystemViewportType type) const;
+		size_t getSystemHandle(SystemViewportType type) const;
 
 		// システムのシザー矩形ハンドルを取得する
-		unsigned int getSystemHandle(SystemScissorRectType type) const;
+		size_t getSystemHandle(SystemScissorRectType type) const;
 
 		// システムの頂点バッファハンドルを取得する
-		unsigned int getSystemHandle(SystemVertexBufferType type) const;
+		size_t getSystemHandle(SystemVertexBufferType type) const;
 
 		// システムのインデックスバッファハンドルを取得する
-		unsigned int getSystemHandle(SystemIndexBufferType type) const;
+		size_t getSystemHandle(SystemIndexBufferType type) const;
 
 		// システムの定数バッファハンドルを取得する
-		unsigned int getSystemHandle(SystemCBufferType type) const;
+		size_t getSystemHandle(SystemCBufferType type) const;
 
 		// システムのテクスチャバッファハンドルを取得する
-		unsigned int getSystemHandle(SystemTextureBufferType type) const;
+		size_t getSystemHandle(SystemTextureBufferType type) const;
 
 		// システムのレンダーターゲットバッファハンドルを取得する
-		unsigned int getSystemHandle(SystemRtBufferType type) const;
+		size_t getSystemHandle(SystemRtBufferType type) const;
 
 		// システムの深度ステンシルバッファハンドルを取得する
-		unsigned int getSystemHandle(SystemDsBufferType type) const;
+		size_t getSystemHandle(SystemDsBufferType type) const;
 
 		// システムの通常のディスクリプタヒープハンドルを取得する
-		unsigned int getSystemHandle(SystemBasicDescriptorHeapType type) const;
+		size_t getSystemHandle(SystemBasicDescriptorHeapType type) const;
 
 		// システムのレンダーターゲット用のディスクリプタヒープハンドルを取得する
-		unsigned int getSystemHandle(SystemRtvDescriptorHeapType type) const;
+		size_t getSystemHandle(SystemRtvDescriptorHeapType type) const;
 
 		// システムの深度ステンシル用のディスクリプタヒープハンドルを取得する
-		unsigned int getSystemHandle(SystemDsvDescriptorHeapType type) const;
+		size_t getSystemHandle(SystemDsvDescriptorHeapType type) const;
 
 		// システムのルートシグネチャハンドルを取得する
-		unsigned int getSystemHandle(SystemRootSignatureType type) const;
+		size_t getSystemHandle(SystemRootSignatureType type) const;
 
 		// システムのパイプラインステートハンドルを取得する
-		unsigned int getSystemHandle(SystemPipeLineStateType type) const;
+		size_t getSystemHandle(SystemPipeLineStateType type) const;
 
 	public: /* システムのリソースを使うためのハンドルとシステムのリソースの種類を結びつける */
 
-		void setSystemHandle(SystemViewportType type,				unsigned int handle);
-		void setSystemHandle(SystemScissorRectType type,			unsigned int handle);
-		void setSystemHandle(SystemVertexBufferType type,			unsigned int handle);
-		void setSystemHandle(SystemIndexBufferType type,			unsigned int handle);
-		void setSystemHandle(SystemCBufferType type,				unsigned int handle);
-		void setSystemHandle(SystemTextureBufferType type,			unsigned int handle);
-		void setSystemHandle(SystemRtBufferType type,				unsigned int handle);
-		void setSystemHandle(SystemDsBufferType type,				unsigned int handle);
-		void setSystemHandle(SystemBasicDescriptorHeapType type,	unsigned int handle);
-		void setSystemHandle(SystemRtvDescriptorHeapType type,		unsigned int handle);
-		void setSystemHandle(SystemDsvDescriptorHeapType type,		unsigned int handle);
-		void setSystemHandle(SystemRootSignatureType type,			unsigned int handle);
-		void setSystemHandle(SystemPipeLineStateType type,			unsigned int handle);
+		void setSystemHandle(SystemViewportType type,				size_t handle);
+		void setSystemHandle(SystemScissorRectType type,			size_t handle);
+		void setSystemHandle(SystemVertexBufferType type,			size_t handle);
+		void setSystemHandle(SystemIndexBufferType type,			size_t handle);
+		void setSystemHandle(SystemCBufferType type,				size_t handle);
+		void setSystemHandle(SystemTextureBufferType type,			size_t handle);
+		void setSystemHandle(SystemRtBufferType type,				size_t handle);
+		void setSystemHandle(SystemDsBufferType type,				size_t handle);
+		void setSystemHandle(SystemBasicDescriptorHeapType type,	size_t handle);
+		void setSystemHandle(SystemRtvDescriptorHeapType type,		size_t handle);
+		void setSystemHandle(SystemDsvDescriptorHeapType type,		size_t handle);
+		void setSystemHandle(SystemRootSignatureType type,			size_t handle);
+		void setSystemHandle(SystemPipeLineStateType type,			size_t handle);
 
 	private:
 

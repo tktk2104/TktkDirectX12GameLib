@@ -10,7 +10,7 @@ namespace tktk
 	{
 	}
 
-	unsigned int PipeLineState::create(ID3D12Device* device, const PipeLineStateInitParam& initParam, const ShaderFilePaths& shaderFilePath, ID3D12RootSignature* rootSignaturePtr)
+	size_t PipeLineState::create(ID3D12Device* device, const PipeLineStateInitParam& initParam, const ShaderFilePaths& shaderFilePath, ID3D12RootSignature* rootSignaturePtr)
 	{
 		// 頂点シェーダーを読み込む
 		std::vector<char> vsByteArray;
@@ -69,17 +69,17 @@ namespace tktk
 		);
 	}
 
-	void PipeLineState::erase(unsigned int handle)
+	void PipeLineState::erase(size_t handle)
 	{
 		m_pipeLineStateDataArray.erase(handle);
 	}
 
-	unsigned int PipeLineState::getUseRootSignatureIndex(unsigned int handle) const
+	size_t PipeLineState::getUseRootSignatureIndex(size_t handle) const
 	{
 		return m_pipeLineStateDataArray.getMatchHandlePtr(handle)->getUseRootSignatureHandle();
 	}
 
-	void PipeLineState::set(unsigned int handle, ID3D12GraphicsCommandList* commandList) const
+	void PipeLineState::set(size_t handle, ID3D12GraphicsCommandList* commandList) const
 	{
 		m_pipeLineStateDataArray.getMatchHandlePtr(handle)->set(commandList);
 	}

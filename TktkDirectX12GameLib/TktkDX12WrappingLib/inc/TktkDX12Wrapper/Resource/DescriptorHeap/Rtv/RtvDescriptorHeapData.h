@@ -25,7 +25,7 @@ namespace tktk
 		std::vector<D3D12_CPU_DESCRIPTOR_HANDLE> getCpuHeapHandleArray(ID3D12Device* device) const;
 
 		// 各ビューが参照しているレンダーターゲットバッファのIDの配列を取得する
-		const std::vector<unsigned int>& getRtBufferIdArray() const;
+		const std::vector<size_t>& getRtBufferHandleArray() const;
 
 		// ディスクリプタヒープをまとめてコマンドリストに登録するためにあるゲッター
 		ID3D12DescriptorHeap* getPtr() const;
@@ -34,16 +34,16 @@ namespace tktk
 		void setRootDescriptorTable(ID3D12Device* device, ID3D12GraphicsCommandList* commandList) const;
 
 		// 指定数のレンダーターゲットビューと引数の深度ステンシルビューをコマンドリストに登録する
-		void setRtv(ID3D12Device* device, ID3D12GraphicsCommandList* commandList, unsigned int startRtvLocationIndex, unsigned int rtvCount, const D3D12_CPU_DESCRIPTOR_HANDLE* useDsvHandle) const;
+		void setRtv(ID3D12Device* device, ID3D12GraphicsCommandList* commandList, size_t startRtvLocationIndex, unsigned int rtvCount, const D3D12_CPU_DESCRIPTOR_HANDLE* useDsvHandle) const;
 
 		// 指定のレンダーターゲットビューをクリアする
 		// TODO : クリアカラーをRenderTargetBufferから取得するように変更
-		void clearRtv(ID3D12Device* device, ID3D12GraphicsCommandList* commandList, unsigned int rtvLocationIndex, const tktkMath::Color& color) const;
+		void clearRtv(ID3D12Device* device, ID3D12GraphicsCommandList* commandList, size_t rtvLocationIndex, const tktkMath::Color& color) const;
 
 	private:
 
-		std::vector<unsigned int>	m_rtBufferIdArray	{};
-		ID3D12DescriptorHeap*		m_descriptorHeap	{ nullptr };
+		std::vector<size_t>			m_rtBufferHandleArray	{};
+		ID3D12DescriptorHeap*		m_descriptorHeap		{ nullptr };
 	};
 }
 #endif // !RTV_DESCRIPTOR_HEAP_DATA_H_

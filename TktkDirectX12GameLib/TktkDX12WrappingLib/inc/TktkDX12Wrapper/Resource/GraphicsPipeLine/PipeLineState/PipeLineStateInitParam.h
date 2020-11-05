@@ -19,7 +19,7 @@ namespace tktk
 		bool									useDepth				{ false };
 		bool									writeDepth				{ false };
 		D3D12_COMPARISON_FUNC					depthFunc				{};
-		int										rootSignatureHandle		{ 0 };
+		size_t									rootSignatureHandle		{ 0 };
 	};
 
 	// シェーダーのファイルパス

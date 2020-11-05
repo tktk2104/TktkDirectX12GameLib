@@ -70,23 +70,23 @@ namespace tktk
 		}
 	}
 
-	void DescriptorHeap::setRtv(unsigned int rtvHandle, ID3D12Device* device, ID3D12GraphicsCommandList* commandList, unsigned int startRtvLocationIndex, unsigned int rtvCount) const
+	void DescriptorHeap::setRtv(size_t rtvHandle, ID3D12Device* device, ID3D12GraphicsCommandList* commandList, size_t startRtvLocationIndex, unsigned int rtvCount) const
 	{
 		m_rtvDescriptorHeap->setRtv(rtvHandle, device, commandList, startRtvLocationIndex, rtvCount, nullptr);
 	}
 
-	void DescriptorHeap::setRtvAndDsv(unsigned int rtvHandle, unsigned int dsvHandle, ID3D12Device* device, ID3D12GraphicsCommandList* commandList, unsigned int startRtvLocation, unsigned int rtvCount) const
+	void DescriptorHeap::setRtvAndDsv(size_t rtvHandle, size_t dsvHandle, ID3D12Device* device, ID3D12GraphicsCommandList* commandList, size_t startRtvLocation, unsigned int rtvCount) const
 	{
 		auto cpuHeapHandleArray = m_dsvDescriptorHeap->getCpuHeapHandleArray(dsvHandle, device);
 		m_rtvDescriptorHeap->setRtv(rtvHandle, device, commandList, startRtvLocation, rtvCount, cpuHeapHandleArray.data());
 	}
 
-	void DescriptorHeap::setOnlyDsv(unsigned int handle, ID3D12Device* device, ID3D12GraphicsCommandList* commandList) const
+	void DescriptorHeap::setOnlyDsv(size_t handle, ID3D12Device* device, ID3D12GraphicsCommandList* commandList) const
 	{
 		m_dsvDescriptorHeap->setOnlyDsv(handle, device, commandList);
 	}
 
-	void DescriptorHeap::clearRtv(unsigned int handle, ID3D12Device* device, ID3D12GraphicsCommandList* commandList, unsigned int rtvLocationIndex, const tktkMath::Color& color) const
+	void DescriptorHeap::clearRtv(size_t handle, ID3D12Device* device, ID3D12GraphicsCommandList* commandList, size_t rtvLocationIndex, const tktkMath::Color& color) const
 	{
 		m_rtvDescriptorHeap->clearRtv(handle, device, commandList, rtvLocationIndex, color);
 	}
@@ -96,58 +96,58 @@ namespace tktk
 		m_dsvDescriptorHeap->clearDsvAll(device, commandList);
 	}
 
-	unsigned int DescriptorHeap::createBasicDescriptorHeap(ID3D12Device* device, const BasicDescriptorHeapInitParam& initParam)
+	size_t DescriptorHeap::createBasicDescriptorHeap(ID3D12Device* device, const BasicDescriptorHeapInitParam& initParam)
 	{
 		return m_basicDescriptorHeap->create(device, initParam);
 	}
 
-	unsigned int DescriptorHeap::createRtvDescriptorHeap(ID3D12Device* device, const RtvDescriptorHeapInitParam& initParam)
+	size_t DescriptorHeap::createRtvDescriptorHeap(ID3D12Device* device, const RtvDescriptorHeapInitParam& initParam)
 	{
 		return m_rtvDescriptorHeap->create(device, initParam);
 	}
 
-	unsigned int DescriptorHeap::createDsvDescriptorHeap(ID3D12Device* device, const DsvDescriptorHeapInitParam& initParam)
+	size_t DescriptorHeap::createDsvDescriptorHeap(ID3D12Device* device, const DsvDescriptorHeapInitParam& initParam)
 	{
 		return m_dsvDescriptorHeap->create(device, initParam);
 	}
 
-	void DescriptorHeap::eraseBasicDescriptorHeap(unsigned int handle)
+	void DescriptorHeap::eraseBasicDescriptorHeap(size_t handle)
 	{
 		m_basicDescriptorHeap->erase(handle);
 	}
 
-	void DescriptorHeap::eraseRtvDescriptorHeap(unsigned int handle)
+	void DescriptorHeap::eraseRtvDescriptorHeap(size_t handle)
 	{
 		m_rtvDescriptorHeap->erase(handle);
 	}
 
-	void DescriptorHeap::eraseDsvDescriptorHeap(unsigned int handle)
+	void DescriptorHeap::eraseDsvDescriptorHeap(size_t handle)
 	{
 		m_dsvDescriptorHeap->erase(handle);
 	}
 
-	std::vector<D3D12_CPU_DESCRIPTOR_HANDLE> DescriptorHeap::getCpuBasicHeapHandleArray(unsigned int handle, ID3D12Device* device) const
+	std::vector<D3D12_CPU_DESCRIPTOR_HANDLE> DescriptorHeap::getCpuBasicHeapHandleArray(size_t handle, ID3D12Device* device) const
 	{
 		return m_basicDescriptorHeap->getCpuHeapHandleArray(handle, device);
 	}
 
-	std::vector<D3D12_CPU_DESCRIPTOR_HANDLE> DescriptorHeap::getCpuRtvHeapHandleArray(unsigned int handle, ID3D12Device* device) const
+	std::vector<D3D12_CPU_DESCRIPTOR_HANDLE> DescriptorHeap::getCpuRtvHeapHandleArray(size_t handle, ID3D12Device* device) const
 	{
 		return m_rtvDescriptorHeap->getCpuHeapHandleArray(handle, device);
 	}
 
-	std::vector<D3D12_CPU_DESCRIPTOR_HANDLE> DescriptorHeap::getCpuDsvHeapHandleArray(unsigned int handle, ID3D12Device* device) const
+	std::vector<D3D12_CPU_DESCRIPTOR_HANDLE> DescriptorHeap::getCpuDsvHeapHandleArray(size_t handle, ID3D12Device* device) const
 	{
 		return m_dsvDescriptorHeap->getCpuHeapHandleArray(handle, device);
 	}
 
-	const std::vector<unsigned int>& DescriptorHeap::getRtvDescriptorHeapUseBufferIdArray(unsigned int handle) const
+	const std::vector<size_t>& DescriptorHeap::getRtvDescriptorHeapUseBufferHandleArray(size_t handle) const
 	{
-		return m_rtvDescriptorHeap->getRtBufferIdArray(handle);
+		return m_rtvDescriptorHeap->getRtBufferHandleArray(handle);
 	}
 
-	const std::vector<unsigned int>& DescriptorHeap::getDsvDescriptorHeapUseBufferIdArray(unsigned int handle) const
+	const std::vector<size_t>& DescriptorHeap::getDsvDescriptorHeapUseBufferHandleArray(size_t handle) const
 	{
-		return m_dsvDescriptorHeap->getDsBufferIdArray(handle);
+		return m_dsvDescriptorHeap->getDsBufferHandleArray(handle);
 	}
 }

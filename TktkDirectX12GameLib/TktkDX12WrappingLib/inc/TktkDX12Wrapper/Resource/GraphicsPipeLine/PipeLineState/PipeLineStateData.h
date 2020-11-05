@@ -26,14 +26,14 @@ namespace tktk
 	public:
 
 		// 使用しているルートシグネチャのIDを取得する
-		unsigned int getUseRootSignatureHandle() const;
+		size_t getUseRootSignatureHandle() const;
 
 		// 自身をコマンドリストに登録する
 		void set(ID3D12GraphicsCommandList* commandList) const;
 
 	private:
 
-		int						m_rootSignatureHandle	{};
+		size_t					m_rootSignatureHandle	{};
 		ID3D12PipelineState*	m_pipeLineState			{ nullptr };
 	};
 }

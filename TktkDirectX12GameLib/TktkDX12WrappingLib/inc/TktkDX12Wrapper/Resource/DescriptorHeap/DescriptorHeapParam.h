@@ -13,7 +13,7 @@ namespace tktk
 	struct DescriptorHeapParam
 	{
 		DescriptorHeapType	type;
-		unsigned int		handle;
+		size_t				handle;
 	};
 }
 #endif // !DESCRIPTOR_HEAP_PARAM_H_

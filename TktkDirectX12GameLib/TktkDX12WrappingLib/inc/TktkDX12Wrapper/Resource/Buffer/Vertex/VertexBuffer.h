@@ -17,17 +17,17 @@ namespace tktk
 	public:
 
 		// 「VertexBufferData」のインスタンスを作り、そのリソースのハンドルを返す
-		unsigned int create(ID3D12Device* device, unsigned int vertexTypeSize, unsigned int vertexDataCount, const void* vertexDataTopPos);
+		size_t create(ID3D12Device* device, const VertexDataCarrier& vertexData);
 
 		// 指定の頂点バッファを削除する
 		// ※引数のハンドルに対応するリソースが無かったら何もしない
-		void erase(unsigned int handle);
+		void erase(size_t handle);
 
 		// コマンドリストに指定の頂点バッファを登録する
-		void set(unsigned int handle, ID3D12GraphicsCommandList* commandList) const;
+		void set(size_t handle, ID3D12GraphicsCommandList* commandList) const;
 
 		// 指定の頂点バッファのポインタを取得する
-		ID3D12Resource* getBufferPtr(unsigned int handle) const;
+		ID3D12Resource* getBufferPtr(size_t handle) const;
 
 	private:
 

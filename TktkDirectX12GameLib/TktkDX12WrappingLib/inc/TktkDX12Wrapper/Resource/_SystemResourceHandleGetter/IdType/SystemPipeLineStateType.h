@@ -3,13 +3,10 @@
 
 namespace tktk
 {
-	// システムで使用しているパイプラインステートの数
-	constexpr unsigned int SystemPipeLineStateNum = 13U;
-
 	// システムで使用しているパイプラインステートの種類
 	enum class SystemPipeLineStateType
 	{
-		PostEffectMonochrome = 0U,
+		PostEffectMonochrome,
 		PostEffectNegative,
 		PostEffectSimpleBlur,
 		PostEffectEmbossing,

@@ -3,6 +3,7 @@
 
 #include <forward_list>
 #include "../../../Includer/D3d12Includer.h"
+#include "../CopySourceDataCarrier.h"
 
 namespace tktk
 {
@@ -11,7 +12,7 @@ namespace tktk
 	{
 	public:
 
-		ConstantBufferData(ID3D12Device* device, unsigned int constantBufferTypeSize, const void* constantBufferDataTopPos);
+		ConstantBufferData(ID3D12Device* device, const CopySourceDataCarrier& constantBufferData);
 		~ConstantBufferData();
 
 		// ムーブコンストラクタ

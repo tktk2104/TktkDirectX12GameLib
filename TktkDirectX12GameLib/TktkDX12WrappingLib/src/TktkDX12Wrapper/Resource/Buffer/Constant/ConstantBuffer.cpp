@@ -7,22 +7,22 @@ namespace tktk
 	{
 	}
 
-	unsigned int ConstantBuffer::create(ID3D12Device* device, unsigned int constantBufferTypeSize, const void* constantBufferDataTopPos)
+	size_t ConstantBuffer::create(ID3D12Device* device, const CopySourceDataCarrier& constantBufferData)
 	{
-		return m_constantBufferDataArray.create(device, constantBufferTypeSize, constantBufferDataTopPos);
+		return m_constantBufferDataArray.create(device, constantBufferData);
 	}
 
-	void ConstantBuffer::erase(unsigned int handle)
+	void ConstantBuffer::erase(size_t handle)
 	{
 		m_constantBufferDataArray.erase(handle);
 	}
 
-	void ConstantBuffer::createCbv(unsigned int handle, ID3D12Device* device, D3D12_CPU_DESCRIPTOR_HANDLE heapHandle) const
+	void ConstantBuffer::createCbv(size_t handle, ID3D12Device* device, D3D12_CPU_DESCRIPTOR_HANDLE heapHandle) const
 	{
 		m_constantBufferDataArray.getMatchHandlePtr(handle)->createCbv(device, heapHandle);
 	}
 
-	ID3D12Resource* ConstantBuffer::getBufferPtr(unsigned int handle) const
+	ID3D12Resource* ConstantBuffer::getBufferPtr(size_t handle) const
 	{
 		return m_constantBufferDataArray.getMatchHandlePtr(handle)->getBufferPtr();
 	}

@@ -16,7 +16,7 @@ namespace tktk
 	struct RtvDescriptorParam
 	{
 		RtvDescriptorType	type;
-		unsigned int		handle;
+		size_t				handle;
 	};
 
 	// レンダーターゲットビュー用のディスクリプタヒープを作る時に必要な変数

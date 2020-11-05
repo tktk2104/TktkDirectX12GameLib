@@ -9,9 +9,9 @@ namespace tktk
 
 		// ディスクリプタヒープを作る
 		D3D12_DESCRIPTOR_HEAP_DESC descHeapDesc{};
-		descHeapDesc.Flags = (initParam.shaderVisible) ? D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE : D3D12_DESCRIPTOR_HEAP_FLAG_NONE;
-		descHeapDesc.NodeMask = 0U;
-		descHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
+		descHeapDesc.Flags			= (initParam.shaderVisible) ? D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE : D3D12_DESCRIPTOR_HEAP_FLAG_NONE;
+		descHeapDesc.NodeMask		= 0U;
+		descHeapDesc.Type			= D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
 		descHeapDesc.NumDescriptors = 0U; /* 値の初期化のみ */
 
 		// ディスクリプタテーブルの数だけループする
@@ -20,19 +20,15 @@ namespace tktk
 #ifdef _M_AMD64 /* x64ビルドなら */
 			// ディスクリプタの数をディスクリプタテーブルが管理している数分加算する
 			descHeapDesc.NumDescriptors += static_cast<unsigned int>(node.descriptorParamArray.size());
-
-			// ディスクリプタテーブル毎のディスクリプタの数を記録する
-			m_descriptorTableSizeArray.push_back(static_cast<unsigned int>(node.descriptorParamArray.size()));
 #else
 			// ディスクリプタの数をディスクリプタテーブルが管理している数分加算する
 			descHeapDesc.NumDescriptors += node.descriptorParamArray.size();
+#endif // WIN64
 
 			// ディスクリプタテーブル毎のディスクリプタの数を記録する
 			m_descriptorTableSizeArray.push_back(node.descriptorParamArray.size());
-#endif // WIN64
-
-			
 		}
+
 		device->CreateDescriptorHeap(&descHeapDesc, IID_PPV_ARGS(&m_descriptorHeap));
 	}
 

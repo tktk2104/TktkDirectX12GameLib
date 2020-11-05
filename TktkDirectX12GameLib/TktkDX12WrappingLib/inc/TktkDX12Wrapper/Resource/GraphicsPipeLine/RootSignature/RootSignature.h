@@ -17,17 +17,17 @@ namespace tktk
 	public:
 
 		// 「RootSignatureData」のインスタンスを作り、そのリソースのハンドルを返す
-		unsigned int create(ID3D12Device* device, const RootSignatureInitParam& initParam);
+		size_t create(ID3D12Device* device, const RootSignatureInitParam& initParam);
 
 		// 指定のルートシグネチャを削除する
 		// ※引数のハンドルに対応するリソースが無かったら何もしない
-		void erase(unsigned int handle);
+		void erase(size_t handle);
 
 		// 指定したルートシグネチャのポインタを取得する
-		ID3D12RootSignature* getPtr(unsigned int handle) const;
+		ID3D12RootSignature* getPtr(size_t handle) const;
 
 		// 指定したルートシグネチャをコマンドリストに登録する
-		void set(unsigned int handle, ID3D12GraphicsCommandList* commandList) const;
+		void set(size_t handle, ID3D12GraphicsCommandList* commandList) const;
 
 	private:
 

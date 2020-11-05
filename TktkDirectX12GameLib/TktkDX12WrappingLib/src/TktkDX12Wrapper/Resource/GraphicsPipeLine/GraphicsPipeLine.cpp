@@ -14,27 +14,27 @@ namespace tktk
 	// デストラクタを非インライン化する
 	GraphicsPipeLine::~GraphicsPipeLine() = default;
 
-	unsigned int GraphicsPipeLine::createRootSignature(ID3D12Device* device, const RootSignatureInitParam& initParam)
+	size_t GraphicsPipeLine::createRootSignature(ID3D12Device* device, const RootSignatureInitParam& initParam)
 	{
 		return m_rootSignature->create(device, initParam);
 	}
 
-	void GraphicsPipeLine::eraseRootSignature(unsigned int handle)
+	void GraphicsPipeLine::eraseRootSignature(size_t handle)
 	{
 		m_rootSignature->erase(handle);
 	}
 
-	unsigned int GraphicsPipeLine::createPipeLineState(ID3D12Device* device, const PipeLineStateInitParam& initParam, const ShaderFilePaths& shaderFilePath)
+	size_t GraphicsPipeLine::createPipeLineState(ID3D12Device* device, const PipeLineStateInitParam& initParam, const ShaderFilePaths& shaderFilePath)
 	{
 		return m_pipeLineState->create(device, initParam, shaderFilePath, m_rootSignature->getPtr(initParam.rootSignatureHandle));
 	}
 
-	void GraphicsPipeLine::erasePipeLineState(unsigned int handle)
+	void GraphicsPipeLine::erasePipeLineState(size_t handle)
 	{
 		m_pipeLineState->erase(handle);
 	}
 
-	void GraphicsPipeLine::set(unsigned int handle, ID3D12GraphicsCommandList* commandList) const
+	void GraphicsPipeLine::set(size_t handle, ID3D12GraphicsCommandList* commandList) const
 	{
 		m_rootSignature->set(m_pipeLineState->getUseRootSignatureIndex(handle), commandList);
 		m_pipeLineState->set(handle, commandList);

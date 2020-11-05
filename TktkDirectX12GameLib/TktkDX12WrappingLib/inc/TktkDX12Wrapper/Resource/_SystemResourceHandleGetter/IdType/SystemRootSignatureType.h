@@ -3,13 +3,10 @@
 
 namespace tktk
 {
-	// システムで使用しているルートシグネチャの数
-	constexpr unsigned int SystemRootSignatureNum = 11U;
-
 	// システムで使用しているルートシグネチャの種類
 	enum class SystemRootSignatureType
 	{
-		PostEffectMonochrome	= 0U,
+		PostEffectMonochrome,
 		PostEffectNegative,
 		PostEffectSimpleBlur,
 		PostEffectEmbossing,

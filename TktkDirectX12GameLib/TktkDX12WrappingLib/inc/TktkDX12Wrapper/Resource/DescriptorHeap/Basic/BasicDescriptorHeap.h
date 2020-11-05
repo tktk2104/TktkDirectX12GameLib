@@ -18,20 +18,20 @@ namespace tktk
 	public:
 
 		// 「BasicDescriptorHeapData」のインスタンスを作り、そのリソースのハンドルを返す
-		unsigned int create(ID3D12Device* device, const BasicDescriptorHeapInitParam& initParam);
+		size_t create(ID3D12Device* device, const BasicDescriptorHeapInitParam& initParam);
 
 		// 指定のディスクリプタヒープを削除する
 		// ※引数のハンドルに対応するリソースが無かったら何もしない
-		void erase(unsigned int handle);
+		void erase(size_t handle);
 
 		// 指定したディスクリプタヒープの各ビューのCPUアドレスの配列を取得する
-		std::vector<D3D12_CPU_DESCRIPTOR_HANDLE> getCpuHeapHandleArray(unsigned int handle, ID3D12Device* device) const;
+		std::vector<D3D12_CPU_DESCRIPTOR_HANDLE> getCpuHeapHandleArray(size_t handle, ID3D12Device* device) const;
 
 		// 指定したディスクリプタヒープのポインタを取得する
-		ID3D12DescriptorHeap* getPtr(unsigned int handle) const;
+		ID3D12DescriptorHeap* getPtr(size_t handle) const;
 
 		// 指定したディスクリプタヒープの各ビューのGPUアドレスをコマンドリストに登録する
-		void setRootDescriptorTable(unsigned int handle, ID3D12Device* device, ID3D12GraphicsCommandList* commandList) const;
+		void setRootDescriptorTable(size_t handle, ID3D12Device* device, ID3D12GraphicsCommandList* commandList) const;
 
 	private:
 

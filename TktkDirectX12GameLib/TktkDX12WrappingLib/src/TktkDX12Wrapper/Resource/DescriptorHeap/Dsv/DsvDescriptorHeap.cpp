@@ -7,37 +7,37 @@ namespace tktk
 	{
 	}
 
-	unsigned int DsvDescriptorHeap::create(ID3D12Device* device, const DsvDescriptorHeapInitParam& initParam)
+	size_t DsvDescriptorHeap::create(ID3D12Device* device, const DsvDescriptorHeapInitParam& initParam)
 	{
 		return m_dsvDescriptorHeapDataArray.create(device, initParam);
 	}
 
-	void DsvDescriptorHeap::erase(unsigned int handle)
+	void DsvDescriptorHeap::erase(size_t handle)
 	{
 		m_dsvDescriptorHeapDataArray.erase(handle);
 	}
 
-	std::vector<D3D12_CPU_DESCRIPTOR_HANDLE> DsvDescriptorHeap::getCpuHeapHandleArray(unsigned int handle, ID3D12Device* device) const
+	std::vector<D3D12_CPU_DESCRIPTOR_HANDLE> DsvDescriptorHeap::getCpuHeapHandleArray(size_t handle, ID3D12Device* device) const
 	{
 		return m_dsvDescriptorHeapDataArray.getMatchHandlePtr(handle)->getCpuHeapHandleArray(device);
 	}
 
-	const std::vector<unsigned int>& DsvDescriptorHeap::getDsBufferIdArray(unsigned int handle) const
+	const std::vector<size_t>& DsvDescriptorHeap::getDsBufferHandleArray(size_t handle) const
 	{
-		return m_dsvDescriptorHeapDataArray.getMatchHandlePtr(handle)->getDsBufferIdArray();
+		return m_dsvDescriptorHeapDataArray.getMatchHandlePtr(handle)->getDsBufferHandleArray();
 	}
 
-	ID3D12DescriptorHeap* DsvDescriptorHeap::getPtr(unsigned int handle) const
+	ID3D12DescriptorHeap* DsvDescriptorHeap::getPtr(size_t handle) const
 	{
 		return m_dsvDescriptorHeapDataArray.getMatchHandlePtr(handle)->getPtr();
 	}
 
-	void DsvDescriptorHeap::setRootDescriptorTable(unsigned int handle, ID3D12Device* device, ID3D12GraphicsCommandList* commandList) const
+	void DsvDescriptorHeap::setRootDescriptorTable(size_t handle, ID3D12Device* device, ID3D12GraphicsCommandList* commandList) const
 	{
 		m_dsvDescriptorHeapDataArray.getMatchHandlePtr(handle)->setRootDescriptorTable(device, commandList);
 	}
 
-	void DsvDescriptorHeap::setOnlyDsv(unsigned int handle, ID3D12Device* device, ID3D12GraphicsCommandList* commandList) const
+	void DsvDescriptorHeap::setOnlyDsv(size_t handle, ID3D12Device* device, ID3D12GraphicsCommandList* commandList) const
 	{
 		m_dsvDescriptorHeapDataArray.getMatchHandlePtr(handle)->setOnlyDsv(device, commandList);
 	}

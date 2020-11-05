@@ -6,7 +6,7 @@ namespace tktk
 	// システムで使用している頂点バッファの種類
 	enum class SystemVertexBufferType
 	{
-		Sprite = 0U,
+		Sprite,
 		Sphere,
 		Box,
 	};

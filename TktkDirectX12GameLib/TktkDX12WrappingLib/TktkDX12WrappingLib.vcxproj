@@ -172,10 +172,12 @@
     <ClInclude Include="inc\TktkDX12Wrapper\Resource\Buffer\BufferResourceInitParamIncluder.h" />
     <ClInclude Include="inc\TktkDX12Wrapper\Resource\Buffer\BufferResourceNum.h" />
     <ClInclude Include="inc\TktkDX12Wrapper\Resource\Buffer\BufferType.h" />
-    <ClInclude Include="inc\TktkDX12Wrapper\Resource\Buffer\Copy\CopyBuffer.h" />
-    <ClInclude Include="inc\TktkDX12Wrapper\Resource\Buffer\Copy\CopyBufferData.h" />
-    <ClInclude Include="inc\TktkDX12Wrapper\Resource\Buffer\Copy\CopyBufferInitParam.h" />
+    <ClInclude Include="inc\TktkDX12Wrapper\Resource\Buffer\CopySourceDataCarrier.h" />
+    <ClInclude Include="inc\TktkDX12Wrapper\Resource\Buffer\Upload\UploadBuffer.h" />
+    <ClInclude Include="inc\TktkDX12Wrapper\Resource\Buffer\Upload\UploadBufferData.h" />
+    <ClInclude Include="inc\TktkDX12Wrapper\Resource\Buffer\Upload\UploadBufferInitParam.h" />
     <ClInclude Include="inc\TktkDX12Wrapper\Resource\Buffer\DepthStencil\DepthStencilBufferInitParam.h" />
+    <ClInclude Include="inc\TktkDX12Wrapper\Resource\Buffer\Vertex\VertexDataCarrier.h" />
     <ClInclude Include="inc\TktkDX12Wrapper\Resource\DescriptorHeap\Basic\BasicDescriptorHeap.h" />
     <ClInclude Include="inc\TktkDX12Wrapper\Resource\DescriptorHeap\Basic\BasicDescriptorHeapData.h" />
     <ClInclude Include="inc\TktkDX12Wrapper\Resource\DescriptorHeap\Basic\BasicDescriptorHeapInitParam.h" />
@@ -247,8 +249,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\TktkDX12Wrapper\Resource\Buffer\BufferResource.cpp" />
-    <ClCompile Include="src\TktkDX12Wrapper\Resource\Buffer\Copy\CopyBuffer.cpp" />
-    <ClCompile Include="src\TktkDX12Wrapper\Resource\Buffer\Copy\CopyBufferData.cpp" />
+    <ClCompile Include="src\TktkDX12Wrapper\Resource\Buffer\Upload\UploadBuffer.cpp" />
+    <ClCompile Include="src\TktkDX12Wrapper\Resource\Buffer\Upload\UploadBufferData.cpp" />
     <ClCompile Include="src\TktkDX12Wrapper\Resource\DescriptorHeap\Basic\BasicDescriptorHeap.cpp" />
     <ClCompile Include="src\TktkDX12Wrapper\Resource\DescriptorHeap\Basic\BasicDescriptorHeapData.cpp" />
     <ClCompile Include="src\TktkDX12Wrapper\Resource\Buffer\Constant\ConstantBuffer.cpp" />

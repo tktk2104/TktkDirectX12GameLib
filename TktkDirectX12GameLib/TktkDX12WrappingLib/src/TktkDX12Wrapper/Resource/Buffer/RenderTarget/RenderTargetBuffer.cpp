@@ -7,57 +7,57 @@ namespace tktk
 	{
 	}
 
-	unsigned int RenderTargetBuffer::create(ID3D12Device* device, const tktkMath::Vector2& renderTargetSize, const tktkMath::Color& clearColor)
+	size_t RenderTargetBuffer::create(ID3D12Device* device, const tktkMath::Vector2& renderTargetSize, const tktkMath::Color& clearColor)
 	{
 		return m_renderTargetBufferDataArray.create(device, renderTargetSize, clearColor);
 	}
 
-	unsigned int RenderTargetBuffer::create(IDXGISwapChain1* swapChain, unsigned int backBufferIndex)
+	size_t RenderTargetBuffer::create(IDXGISwapChain1* swapChain, unsigned int backBufferIndex)
 	{
 		return m_renderTargetBufferDataArray.create(swapChain, backBufferIndex);
 	}
 
-	void RenderTargetBuffer::erase(unsigned int handle)
+	void RenderTargetBuffer::erase(size_t handle)
 	{
 		m_renderTargetBufferDataArray.erase(handle);
 	}
 
-	void RenderTargetBuffer::beginWriteBasicRtBuffer(unsigned int handle, ID3D12GraphicsCommandList* commandList) const
+	void RenderTargetBuffer::beginWriteBasicRtBuffer(size_t handle, ID3D12GraphicsCommandList* commandList) const
 	{
 		m_renderTargetBufferDataArray.getMatchHandlePtr(handle)->beginWriteBasicRtBuffer(commandList);
 	}
 
-	void RenderTargetBuffer::endWriteBasicRtBuffer(unsigned int handle, ID3D12GraphicsCommandList* commandList) const
+	void RenderTargetBuffer::endWriteBasicRtBuffer(size_t handle, ID3D12GraphicsCommandList* commandList) const
 	{
 		m_renderTargetBufferDataArray.getMatchHandlePtr(handle)->endWriteBasicRtBuffer(commandList);
 	}
 
-	void RenderTargetBuffer::beginWriteBackBuffer(unsigned int handle, ID3D12GraphicsCommandList* commandList) const
+	void RenderTargetBuffer::beginWriteBackBuffer(size_t handle, ID3D12GraphicsCommandList* commandList) const
 	{
 		m_renderTargetBufferDataArray.getMatchHandlePtr(handle)->beginWriteBackBuffer(commandList);
 	}
 
-	void RenderTargetBuffer::endWriteBackBuffer(unsigned int handle, ID3D12GraphicsCommandList* commandList) const
+	void RenderTargetBuffer::endWriteBackBuffer(size_t handle, ID3D12GraphicsCommandList* commandList) const
 	{
 		m_renderTargetBufferDataArray.getMatchHandlePtr(handle)->endWriteBackBuffer(commandList);
 	}
 
-	void RenderTargetBuffer::createRtv(unsigned int handle, ID3D12Device* device, D3D12_CPU_DESCRIPTOR_HANDLE heapHandle) const
+	void RenderTargetBuffer::createRtv(size_t handle, ID3D12Device* device, D3D12_CPU_DESCRIPTOR_HANDLE heapHandle) const
 	{
 		m_renderTargetBufferDataArray.getMatchHandlePtr(handle)->createRtv(device, heapHandle);
 	}
 
-	void RenderTargetBuffer::createSrv(unsigned int handle, ID3D12Device* device, D3D12_CPU_DESCRIPTOR_HANDLE heapHandle) const
+	void RenderTargetBuffer::createSrv(size_t handle, ID3D12Device* device, D3D12_CPU_DESCRIPTOR_HANDLE heapHandle) const
 	{
 		m_renderTargetBufferDataArray.getMatchHandlePtr(handle)->createSrv(device, heapHandle);
 	}
 
-	const tktkMath::Vector2& RenderTargetBuffer::getRenderTargetSizePx(unsigned int handle) const
+	const tktkMath::Vector2& RenderTargetBuffer::getRenderTargetSizePx(size_t handle) const
 	{
 		return m_renderTargetBufferDataArray.getMatchHandlePtr(handle)->getRenderTargetSizePx();
 	}
 
-	ID3D12Resource* RenderTargetBuffer::getBufferPtr(unsigned int handle) const
+	ID3D12Resource* RenderTargetBuffer::getBufferPtr(size_t handle) const
 	{
 		return m_renderTargetBufferDataArray.getMatchHandlePtr(handle)->getBufferPtr();
 	}
