@@ -25,9 +25,9 @@ namespace tktk
 
 	private:
 
-		unsigned int m_usePipeLineStateHandle;
-		unsigned int m_useDescriptorHeapHandle;
-		std::vector<unsigned int> m_autoClearRtvDescriptorHeapHandleArray;
+		size_t m_usePipeLineStateHandle;
+		size_t m_useDescriptorHeapHandle;
+		std::vector<size_t> m_autoClearRtvDescriptorHeapHandleArray;
 	};
 }
 #endif // !POST_EFFECT_MATERIAL_DATA_H_

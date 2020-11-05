@@ -11,7 +11,7 @@
 namespace tktk
 {
 	RectCollider::RectCollider(
-		int collisionGroupType,
+		CollisionGroupTypeCarrier collisionGroupType,
 		const tktkMath::Vector2& rectSize,
 		const tktkMath::Vector2& localPosition,
 		bool isExtrude,

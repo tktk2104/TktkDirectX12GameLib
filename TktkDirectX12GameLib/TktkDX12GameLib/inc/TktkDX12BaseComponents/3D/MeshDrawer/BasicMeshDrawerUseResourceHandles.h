@@ -5,12 +5,12 @@ namespace tktk
 {
 	struct BasicMeshDrawerUseResourceHandles
 	{
-		unsigned int rtvDescriptorHeapHandle;
-		unsigned int meshHandle;
-		unsigned int skeletonHandle;
-		unsigned int cameraHandle;
-		unsigned int shadowMapCameraHandle;
-		unsigned int lightHandle;
+		size_t rtvDescriptorHeapHandle;
+		size_t meshHandle;
+		size_t skeletonHandle;
+		size_t cameraHandle;
+		size_t shadowMapCameraHandle;
+		size_t lightHandle;
 	};
 }
 #endif // !BASIC_MESH_DRAWER_USE_RESOURCE_H_

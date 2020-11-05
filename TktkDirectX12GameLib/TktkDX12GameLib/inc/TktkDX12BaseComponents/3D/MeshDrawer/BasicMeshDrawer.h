@@ -34,9 +34,9 @@ namespace tktk
 
 	private:
 
-		unsigned int m_createCopyTransformCbufferHandle				{ 0U };
-		unsigned int m_createCopyShadowMapCbufferHandle				{ 0U };
-		unsigned int m_createCopyBoneMatrixCbufferHandle			{ 0U };
+		size_t								m_createUploadTransformCbufferHandle			{ 0U };
+		size_t								m_createUploadShadowMapCbufferHandle			{ 0U };
+		size_t								m_createUploadBoneMatrixCbufferHandle			{ 0U };
 		tktkMath::Vector3					m_baseScale				{ tktkMath::Vector3_v::one };
 		tktkMath::Quaternion				m_baseRotation			{ tktkMath::Quaternion_v::identity };
 		BasicMeshDrawerUseResourceHandles	m_useResourceHandles	{ };

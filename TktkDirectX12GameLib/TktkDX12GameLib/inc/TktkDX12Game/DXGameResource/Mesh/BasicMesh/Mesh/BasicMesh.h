@@ -18,19 +18,19 @@ namespace tktk
 	public:
 
 		// 「BasicMeshData」のインスタンスを作り、そのリソースのハンドルを返す
-		unsigned int craete(const BasicMeshInitParam& initParam);
+		size_t craete(const BasicMeshInitParam& initParam);
 
 		// 指定の「BasicMeshData」のインスタンスのコピーを作り、そのリソースのハンドルを返す
-		unsigned int copy(unsigned int originalHandle);
+		size_t copy(size_t originalHandle);
 
 		// 使用しているマテリアルを更新する
-		void setMaterialHandle(unsigned int meshHandle, unsigned int materialSlot, unsigned int materialHandle);
+		void setMaterialHandle(size_t meshHandle, size_t materialSlot, size_t materialHandle);
 
 		// 指定の通常メッシュでシャドウマップを書き込む
-		void writeShadowMap(unsigned int handle) const;
+		void writeShadowMap(size_t handle) const;
 
 		// 指定の通常メッシュを描画する
-		void drawMesh(unsigned int handle, const MeshDrawFuncBaseArgs& baseArgs) const;
+		void drawMesh(size_t handle, const MeshDrawFuncBaseArgs& baseArgs) const;
 
 	private:
 

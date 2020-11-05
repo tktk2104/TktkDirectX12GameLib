@@ -7,7 +7,7 @@
 namespace tktk
 {
 	CircleCollider::CircleCollider(
-		int collisionGroupType,
+		CollisionGroupTypeCarrier collisionGroupType,
 		float radius,
 		const tktkMath::Vector2 & localPosition,
 		bool isExtrude,

@@ -29,8 +29,7 @@ namespace tktk
 		ComponentPtr<CircleCollider> create();
 
 		// 当たり判定のグループを設定
-		template <class CollisionGroupType, is_idType<CollisionGroupType> = nullptr>
-		CircleColliderMaker& collisionGroupType(CollisionGroupType value) { return collisionGroupTypeImpl(static_cast<int>(value)); }
+		CircleColliderMaker& collisionGroupType(CollisionGroupTypeCarrier value);
 
 		// 当たり判定の半径を設定
 		CircleColliderMaker& radius(float value);
@@ -44,10 +43,6 @@ namespace tktk
 		// 押し出されやすさを設定（割合）
 		CircleColliderMaker& extrudedRate(float value);
 
-	private: /* 裏実装 */
-
-		CircleColliderMaker& collisionGroupTypeImpl(int value);
-
 	private: /* 自身のインスタンスは静的な存在として扱う */
 
 		// 自身のポインタ
@@ -55,13 +50,13 @@ namespace tktk
 
 	private: /* 変数達 */
 
-		GameObjectPtr		m_user					{ };
-		StateTypeHierarchy		m_targetState			{  };
-		int					m_collisionGroupType	{ 0 };
-		float				m_radius				{ 1.0f };
-		tktkMath::Vector2	m_localPosition			{ tktkMath::Vector2_v::zero };
-		bool				m_isExtrude				{ false };
-		float				m_extrudedRate			{ 0.0f };
+		GameObjectPtr				m_user					{ };
+		StateTypeHierarchy			m_targetState			{  };
+		CollisionGroupTypeCarrier	m_collisionGroupType	{ 0 };
+		float						m_radius				{ 1.0f };
+		tktkMath::Vector2			m_localPosition			{ tktkMath::Vector2_v::zero };
+		bool						m_isExtrude				{ false };
+		float						m_extrudedRate			{ 0.0f };
 	};
 }
 #endif // !CIRCLE_COLLIDER_MAKER_H_

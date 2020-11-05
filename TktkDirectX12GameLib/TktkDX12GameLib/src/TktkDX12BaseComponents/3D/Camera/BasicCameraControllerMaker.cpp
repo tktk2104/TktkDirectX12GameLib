@@ -73,10 +73,17 @@ namespace tktk
 		return createComponent;
 	}
 
-	BasicCameraControllerMaker& BasicCameraControllerMaker::initCameraHandle(unsigned int value)
+	BasicCameraControllerMaker& BasicCameraControllerMaker::initCameraHandle(size_t value)
 	{
 		// 値を設定して自身の参照を返す
 		m_initCameraHandle = value;
+		return *this;
+	}
+
+	BasicCameraControllerMaker& BasicCameraControllerMaker::initCameraId(ResourceIdCarrier value)
+	{
+		// 値を設定して自身の参照を返す
+		m_initCameraHandle = DX12GameManager::getCameraHandle(value);
 		return *this;
 	}
 
@@ -105,13 +112,6 @@ namespace tktk
 	{
 		// 値を設定して自身の参照を返す
 		m_initCameraFar = value;
-		return *this;
-	}
-
-	BasicCameraControllerMaker& BasicCameraControllerMaker::initCameraIdImpl(int value)
-	{
-		// 値を設定して自身の参照を返す
-		m_initCameraHandle = DX12GameManager::getCameraHandle(value);
 		return *this;
 	}
 }

@@ -57,9 +57,15 @@ namespace tktk
 		return createComponent;
 	}
 
-	SoundPlayerMaker& SoundPlayerMaker::soundHandle(unsigned int value)
+	SoundPlayerMaker& SoundPlayerMaker::soundHandle(size_t value)
 	{
 		m_soundHandle = value;
+		return *this;
+	}
+
+	SoundPlayerMaker& SoundPlayerMaker::soundId(ResourceIdCarrier value)
+	{
+		m_soundHandle = DX12GameManager::getSoundHandle(value);
 		return *this;
 	}
 
@@ -72,12 +78,6 @@ namespace tktk
 	SoundPlayerMaker& SoundPlayerMaker::startToPlay(bool value)
 	{
 		m_startToPlay = value;
-		return *this;
-	}
-
-	SoundPlayerMaker& SoundPlayerMaker::soundIdImpl(int value)
-	{
-		m_soundHandle = DX12GameManager::getSoundHandle(value);
 		return *this;
 	}
 }

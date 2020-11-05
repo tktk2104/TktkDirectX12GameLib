@@ -42,7 +42,7 @@ namespace tktk
 
 		// ì¬—p•Ï”’B
 		GameObjectPtr		m_user				{ };
-		StateTypeHierarchy		m_targetState		{  };
+		StateTypeHierarchy	m_targetState		{  };
 		float				m_decelerationPerSec{ 64.0f };
 		tktkMath::Vector3	m_initVelocity		{ tktkMath::Vector3_v::zero };
 	};

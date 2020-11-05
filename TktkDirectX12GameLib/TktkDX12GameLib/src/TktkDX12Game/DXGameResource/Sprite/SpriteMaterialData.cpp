@@ -70,8 +70,8 @@ namespace tktk
 
 		m_createDescriptorHeapHandle = DX12GameManager::createBasicDescriptorHeap(descriptorHeapInitParam);
 
-		// コピー用バッファを作り、そのハンドルを取得する
-		m_createCopyBufferHandle = DX12GameManager::createCopyBuffer(BufferType::constant, DX12GameManager::getSystemHandle(SystemCBufferType::SpriteMaterial), SpriteMaterialCbufferData());
+		// アップロード用バッファを作り、そのハンドルを取得する
+		m_createUploadBufferHandle = DX12GameManager::createUploadBuffer(UploadBufferInitParam::create(BufferType::constant, DX12GameManager::getSystemHandle(SystemCBufferType::SpriteMaterial), SpriteMaterialCbufferData()));
 	}
 
 	SpriteMaterialData::~SpriteMaterialData()
@@ -79,30 +79,30 @@ namespace tktk
 		// 作ったディスクリプタヒープを削除する
 		DX12GameManager::eraseBasicDescriptorHeap(m_createDescriptorHeapHandle);
 
-		// コピー用バッファを削除する
-		DX12GameManager::eraseCopyBuffer(m_createCopyBufferHandle);
+		// アップロード用バッファを削除する
+		DX12GameManager::eraseUploadBuffer(m_createUploadBufferHandle);
 	}
 
 	SpriteMaterialData::SpriteMaterialData(SpriteMaterialData&& other) noexcept
 		: m_createDescriptorHeapHandle(other.m_createDescriptorHeapHandle)
-		, m_createCopyBufferHandle(other.m_createCopyBufferHandle)
+		, m_createUploadBufferHandle(other.m_createUploadBufferHandle)
 		, m_blendRate(other.m_blendRate)
 		, m_textureUvOffset(other.m_textureUvOffset)
 		, m_textureUvMulRate(other.m_textureUvMulRate)
 		, m_textureSize(other.m_textureSize)
 	{
 		other.m_createDescriptorHeapHandle = 0U;
-		other.m_createCopyBufferHandle = 0U;
+		other.m_createUploadBufferHandle = 0U;
 	}
 
 	void SpriteMaterialData::drawSprite(const SpriteMaterialDrawFuncArgs& drawFuncArgs) const
 	{
-		// 定数バッファのコピー用バッファを更新する
+		// 定数バッファのアップロード用バッファを更新する
 		// TODO : 前フレームと定数バッファに変化がない場合、更新しない処理を作る
 		updateCopyBuffer();
 
-		// スプライト用定数バッファにコピーバッファの情報をコピーする
-		DX12GameManager::copyBuffer(m_createCopyBufferHandle);
+		// スプライト用定数バッファにアップロードバッファの情報をコピーする
+		DX12GameManager::copyBuffer(m_createUploadBufferHandle);
 
 		// ビューポートを設定する
 		DX12GameManager::setViewport(drawFuncArgs.viewportHandle);
@@ -148,12 +148,12 @@ namespace tktk
 		}
 	}
 
-	void SpriteMaterialData::updateTransformCbuffer(unsigned int copyBufferHandle, const tktkMath::Matrix3& worldMatrix, const tktkMath::Vector2& spriteCenterRate) const
+	void SpriteMaterialData::updateTransformCbuffer(size_t copyBufferHandle, const tktkMath::Matrix3& worldMatrix, const tktkMath::Vector2& spriteCenterRate) const
 	{
 		// スプライトの座標変換用定数バッファ形式
 		SpriteTransformCbuffer transformBufferData{};
 
-		for (unsigned int i = 0; i < 12; i++)
+		for (size_t i = 0; i < 12; i++)
 		{
 			if (i % 4U == 3) continue;
 			transformBufferData.worldMatrix[i] = worldMatrix.m[i / 4U][i % 4U];
@@ -163,20 +163,20 @@ namespace tktk
 		transformBufferData.textureSize			= m_textureSize;
 		transformBufferData.spriteCenterRate	= spriteCenterRate;
 
-		// 定数バッファのコピー用バッファを更新する
+		// 定数バッファのアップロード用バッファを更新する
 		// TODO : 前フレームと定数バッファに変化がない場合、更新しない処理を作る
-		DX12GameManager::updateCopyBuffer(copyBufferHandle, transformBufferData);
+		DX12GameManager::updateUploadBuffer(copyBufferHandle, transformBufferData);
 
-		// 座標変換用の定数バッファにコピーバッファの情報をコピーする
+		// 座標変換用の定数バッファにアップロードバッファの情報をコピーする
 		DX12GameManager::copyBuffer(copyBufferHandle);
 	}
 
-	void SpriteMaterialData::updateTransformCbufferUseClippingParam(unsigned int copyBufferHandle, const tktkMath::Matrix3& worldMatrix, const tktkMath::Vector2& spriteCenterRate, const SpriteClippingParam& clippingParam) const
+	void SpriteMaterialData::updateTransformCbufferUseClippingParam(size_t copyBufferHandle, const tktkMath::Matrix3& worldMatrix, const tktkMath::Vector2& spriteCenterRate, const SpriteClippingParam& clippingParam) const
 	{
 		// スプライトの座標変換用定数バッファ形式
 		SpriteTransformCbuffer transformBufferData{};
 
-		for (unsigned int i = 0; i < 12; i++)
+		for (size_t i = 0; i < 12; i++)
 		{
 			if (i % 4U == 3) continue;
 			transformBufferData.worldMatrix[i] = worldMatrix.m[i / 4U][i % 4U];
@@ -186,21 +186,21 @@ namespace tktk
 		transformBufferData.textureSize			= clippingParam.size;
 		transformBufferData.spriteCenterRate	= spriteCenterRate;
 
-		// 定数バッファのコピー用バッファを更新する
+		// 定数バッファのアップロード用バッファを更新する
 		// TODO : 前フレームと定数バッファに変化がない場合、更新しない処理を作る
-		DX12GameManager::updateCopyBuffer(copyBufferHandle, transformBufferData);
+		DX12GameManager::updateUploadBuffer(copyBufferHandle, transformBufferData);
 
-		// 座標変換用の定数バッファにコピーバッファの情報をコピーする
+		// 座標変換用の定数バッファにアップロードバッファの情報をコピーする
 		DX12GameManager::copyBuffer(copyBufferHandle);
 	}
 
-	// 定数バッファのコピー用バッファを更新する
+	// 定数バッファのアップロード用バッファを更新する
 	void SpriteMaterialData::updateCopyBuffer() const
 	{
 		SpriteMaterialCbufferData constantBufferData;
 		constantBufferData.blendRate		= m_blendRate;
 		constantBufferData.screenSize		= DX12GameManager::getWindowSize();
 
-		DX12GameManager::updateCopyBuffer(m_createCopyBufferHandle, constantBufferData);
+		DX12GameManager::updateUploadBuffer(m_createUploadBufferHandle, constantBufferData);
 	}
 }

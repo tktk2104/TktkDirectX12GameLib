@@ -10,7 +10,7 @@ namespace tktk
 	{
 	public:
 
-		BasicMeshMaterialAppendParam(unsigned int cbufferHandle, unsigned int dataSize, void* dataTopPos);
+		BasicMeshMaterialAppendParam(size_t cbufferHandle, size_t dataSize, void* dataTopPos);
 		~BasicMeshMaterialAppendParam();
 
 		// ムーブコンストラクタ
@@ -19,7 +19,7 @@ namespace tktk
 	public:
 
 		// 定数バッファを更新する内容の変数を書き換える
-		void updateParam(unsigned int dataSize, const void* dataTopPos);
+		void updateParam(size_t dataSize, const void* dataTopPos);
 
 		// 定数バッファを更新する
 		void updateCbuffer() const;
@@ -32,13 +32,13 @@ namespace tktk
 	private:
 
 		// 定数バッファにコピーする為のバッファハンドル
-		unsigned int	m_createCopyBufferHandle{ 0U };
+		size_t	m_createUploadBufferHandle{ 0U };
 
 		// 変更対象の定数バッファハンドル
-		unsigned int	m_cbufferHandle;
+		size_t	m_cbufferHandle;
 
 		// 定数バッファの大きさ
-		unsigned int	m_dataSize;
+		size_t	m_dataSize;
 
 		// 定数バッファを更新する内容の変数のポインタ
 		std::shared_ptr<void> m_dataTopPos;

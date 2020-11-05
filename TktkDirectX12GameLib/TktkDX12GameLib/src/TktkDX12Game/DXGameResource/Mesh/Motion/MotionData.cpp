@@ -43,12 +43,12 @@ namespace tktk
     {
     }
 
-    unsigned int MotionData::getEndFrameNo() const
+    size_t MotionData::getEndFrameNo() const
     {
         return m_endFrameNo;
     }
 
-    std::vector<MotionBoneParam> MotionData::calculateBoneTransformMatrices(unsigned int frame) const
+    std::vector<MotionBoneParam> MotionData::calculateBoneTransformMatrices(size_t frame) const
     {
         // ボーン毎の座標変換行列の配列
         std::vector<MotionBoneParam> result{};
@@ -71,12 +71,12 @@ namespace tktk
         return result;
     }
 
-    MotionData::KeyFrame MotionData::calculateKeyFrame(const std::vector<MotionData::KeyFrame, std::allocator<MotionData::KeyFrame>>& keyFrames, unsigned int frame) const
+    MotionData::KeyFrame MotionData::calculateKeyFrame(const std::vector<MotionData::KeyFrame, std::allocator<MotionData::KeyFrame>>& keyFrames, size_t frame) const
     {
         // 始まりのインデックス
-        unsigned int startKey   = 0;
+        size_t startKey   = 0;
         // 終わりのインデックス
-        unsigned int endKey     = static_cast<int>(keyFrames.size() - 1);
+        size_t endKey     = keyFrames.size() - 1;
 
         // もしも現在のフレームが始まりのキーのフレームよりも前であれば
         if (keyFrames.at(startKey).frameNo >= frame)
@@ -96,7 +96,7 @@ namespace tktk
         while ((startKey + 1) < endKey)
         {
             // 始まりと終わりのインデックスの中間点を求める
-            const unsigned int mid = (startKey + endKey) / 2;
+            const size_t mid = (startKey + endKey) / 2;
 
             // もしも現在のフレームが中間のキーのフレームと一緒であれば
             if (keyFrames.at(mid).frameNo == frame)

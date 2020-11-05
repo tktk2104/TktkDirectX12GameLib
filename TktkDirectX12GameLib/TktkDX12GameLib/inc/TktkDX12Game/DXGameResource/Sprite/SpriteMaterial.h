@@ -18,16 +18,16 @@ namespace tktk
 	public:
 
 		// 「SpriteMaterialData」のインスタンスを作り、そのリソースのハンドルを返す
-		unsigned int create(const SpriteMaterialInitParam& initParam);
+		size_t create(const SpriteMaterialInitParam& initParam);
 
 		// 指定したスプライトを描画する
-		void drawSprite(unsigned int handle, const SpriteMaterialDrawFuncArgs& drawFuncArgs) const;
+		void drawSprite(size_t handle, const SpriteMaterialDrawFuncArgs& drawFuncArgs) const;
 
 		// 引数が表すコピーバッファを使って座標変換情報を管理する定数バッファを更新する
-		void updateTransformCbuffer(unsigned int handle, unsigned int copyBufferHandle, const tktkMath::Matrix3& worldMatrix, const tktkMath::Vector2& spriteCenterRate) const;
+		void updateTransformCbuffer(size_t handle, size_t copyBufferHandle, const tktkMath::Matrix3& worldMatrix, const tktkMath::Vector2& spriteCenterRate) const;
 
 		// 引数が表すコピーバッファを使って座標変換情報を管理する定数バッファを更新する（切り抜き範囲指定版）
-		void updateTransformCbufferUseClippingParam(unsigned int handle, unsigned int copyBufferHandle, const tktkMath::Matrix3& worldMatrix, const tktkMath::Vector2& spriteCenterRate, const SpriteClippingParam& clippingParam) const;
+		void updateTransformCbufferUseClippingParam(size_t handle, size_t copyBufferHandle, const tktkMath::Matrix3& worldMatrix, const tktkMath::Vector2& spriteCenterRate, const SpriteClippingParam& clippingParam) const;
 
 	private:
 

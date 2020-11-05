@@ -9,13 +9,13 @@ namespace tktk
 	struct PostEffectMaterialInitParam
 	{
 		// 使用するパイプラインステートハンドル
-		unsigned int usePipeLineStateHandle;
+		size_t usePipeLineStateHandle;
 
 		// 使用するディスクリプタヒープハンドル
-		unsigned int useDescriptorHeapHandle;
+		size_t useDescriptorHeapHandle;
 
 		// 描画後自動でクリアするレンダーターゲットビュー用のディスクリプタヒープハンドルの配列
-		std::vector<unsigned int> autoClearRtvDescriptorHeapHandleArray;
+		std::vector<size_t> autoClearRtvDescriptorHeapHandleArray;
 	};
 }
 #endif // !POST_EFFECT_MATERIAL_INIT_PARAM_H_

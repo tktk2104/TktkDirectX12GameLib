@@ -6,7 +6,7 @@ namespace tktk
 	// システムで使用している通常のポストエフェクトマテリアルの種類
 	enum class SystemPostEffectMaterialType
 	{
-		Monochrome	= 0U,
+		Monochrome,
 		Negative,
 		SimpleBlur,
 		Embossing,

@@ -2,7 +2,7 @@
 
 namespace tktk
 {
-	BasicMeshShadowMapWriter::BasicMeshShadowMapWriter(float drawPriority, const tktkMath::Vector3& baseScale, const tktkMath::Quaternion& baseRotation, unsigned int meshHandle, unsigned int skeletonHandle, unsigned int cameraHandle)
+	BasicMeshShadowMapWriter::BasicMeshShadowMapWriter(float drawPriority, const tktkMath::Vector3& baseScale, const tktkMath::Quaternion& baseRotation, size_t meshHandle, size_t skeletonHandle, size_t cameraHandle)
 		: ComponentBase(drawPriority)
 		, m_meshHandle(meshHandle)
 		, m_skeletonHandle(skeletonHandle)
@@ -21,22 +21,22 @@ namespace tktk
 			throw std::runtime_error("BasicMeshShadowMapWriter not found Transform3D");
 		}
 
-		// コピー用バッファを作り、そのハンドルを取得する
-		m_createCopyTransformCbufferHandle = DX12GameManager::createCopyBuffer(BufferType::constant, DX12GameManager::getSystemHandle(SystemCBufferType::MeshTransform), MeshTransformCbuffer());
-		m_createCopyBoneMatrixCbufferHandle = DX12GameManager::createSkeletonCopyBufferHandle(m_skeletonHandle);
+		// アップロード用バッファを作り、そのハンドルを取得する
+		m_createUploadTransformCbufferHandle = DX12GameManager::createUploadBuffer(UploadBufferInitParam::create(BufferType::constant, DX12GameManager::getSystemHandle(SystemCBufferType::MeshTransform), MeshTransformCbuffer()));
+		m_createUploadBoneMatrixCbufferHandle = DX12GameManager::createSkeletonUploadBufferHandle(m_skeletonHandle);
 	}
 
 	void BasicMeshShadowMapWriter::onDestroy()
 	{
-		// コピー用バッファを削除する
-		DX12GameManager::eraseCopyBuffer(m_createCopyTransformCbufferHandle);
-		DX12GameManager::eraseCopyBuffer(m_createCopyBoneMatrixCbufferHandle);
+		// アップロード用バッファを削除する
+		DX12GameManager::eraseUploadBuffer(m_createUploadTransformCbufferHandle);
+		DX12GameManager::eraseUploadBuffer(m_createUploadBoneMatrixCbufferHandle);
 	}
 
 	void BasicMeshShadowMapWriter::draw() const
 	{
 		// ボーン行列の定数バッファを更新する
-		DX12GameManager::updateBoneMatrixCbuffer(m_skeletonHandle, m_createCopyBoneMatrixCbufferHandle);
+		DX12GameManager::updateBoneMatrixCbuffer(m_skeletonHandle, m_createUploadBoneMatrixCbufferHandle);
 
 		// 座標変換用の定数バッファの更新を行う
 		updateTransformCbuffer();
@@ -63,11 +63,11 @@ namespace tktk
 		// 使用するカメラのプロジェクション行列
 		transformBufferData.projectionMatrix = DX12GameManager::getProjectionMatrix(m_cameraHandle);
 
-		// 定数バッファのコピー用バッファを更新する
+		// 定数バッファのアップロード用バッファを更新する
 		// TODO : 前フレームと定数バッファに変化がない場合、更新しない処理を作る
-		DX12GameManager::updateCopyBuffer(m_createCopyTransformCbufferHandle, transformBufferData);
+		DX12GameManager::updateUploadBuffer(m_createUploadTransformCbufferHandle, transformBufferData);
 
-		// 座標変換用の定数バッファにコピーバッファの情報をコピーする
-		DX12GameManager::copyBuffer(m_createCopyTransformCbufferHandle);
+		// 座標変換用の定数バッファにアップロード用バッファの情報をコピーする
+		DX12GameManager::copyBuffer(m_createUploadTransformCbufferHandle);
 	}
 }

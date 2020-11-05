@@ -49,7 +49,7 @@ namespace tktk
 		return createComponent;
 	}
 
-	ReceiveMessageToSelfDestroyerMaker& ReceiveMessageToSelfDestroyerMaker::destroyMessegeTypeImpl(unsigned int value)
+	ReceiveMessageToSelfDestroyerMaker& ReceiveMessageToSelfDestroyerMaker::destroyMessegeType(MessageTypeCarrier value)
 	{
 		m_destroyMessegeType = value;
 		return *this;

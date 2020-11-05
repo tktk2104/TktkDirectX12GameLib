@@ -41,12 +41,7 @@ namespace tktk
 
 		// 使用するカメラIDを設定する（列挙型を含む整数型のidが渡された場合のみビルド可で、関数内で対応するリソースハンドルに変換される）
 		// ※初期パラメータはデフォルトシャドウマップカメラ
-		template<class IdType, is_idType<IdType> = nullptr>
-		SphereMeshShadowMapWriterMaker& cameraId(IdType value) { return cameraIdImpl(static_cast<int>(value)); }
-
-	private: /* 各種id指定系の関数の実装 */
-
-		SphereMeshShadowMapWriterMaker& cameraIdImpl(int value);
+		SphereMeshShadowMapWriterMaker& cameraId(ResourceIdCarrier value);
 
 	private: /* 自身のインスタンスは静的な存在として扱う */
 
@@ -55,16 +50,11 @@ namespace tktk
 	private: /* 変数達 */
 
 		GameObjectPtr		m_user			{  };
-		StateTypeHierarchy		m_targetState	{  };
+		StateTypeHierarchy	m_targetState	{  };
 		float				m_drawPriority	{ 0.0f };
 		float				m_radius		{ 0.5f };
 		tktkMath::Vector3	m_localPosition	{ tktkMath::Vector3_v::zero };
-		unsigned int		m_cameraHandle	{ 0U };
-
-	public: /* 不正な型の引数が渡されそうになった時にコンパイルエラーにする為の仕組み */
-
-		template<class IdType, is_not_idType<IdType> = nullptr>
-		SphereMeshShadowMapWriterMaker& cameraId(IdType value) { static_assert(false, "CameraId Fraud Type"); }
+		size_t				m_cameraHandle	{ 0U };
 	};
 }
 #endif // !SPHERE_MESH_SHADOW_MAP_WRITER_MAKER_H_

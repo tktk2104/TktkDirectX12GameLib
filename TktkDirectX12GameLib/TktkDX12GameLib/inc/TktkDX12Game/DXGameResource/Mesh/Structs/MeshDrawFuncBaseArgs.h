@@ -14,19 +14,19 @@ namespace tktk
 	struct MeshDrawFuncBaseArgs
 	{
 		// 使用するビューポートのハンドル
-		unsigned int			viewportHandle;
+		size_t			viewportHandle;
 
 		// 使用するシザー矩形のハンドル
-		unsigned int			scissorRectHandle;
+		size_t			scissorRectHandle;
 
 		// 使用するレンダーターゲット用のディスクリプタヒープハンドル
-		unsigned int			rtvDescriptorHeapHandle;
+		size_t			rtvDescriptorHeapHandle;
 
 		// 使用する深度ステンシル用のディスクリプタヒープハンドル
-		unsigned int			dsvDescriptorHeapHandle;
+		size_t			dsvDescriptorHeapHandle;
 
 		// 使用するライトID
-		unsigned int			lightHandle;
+		size_t			lightHandle;
 	};
 }
 #endif // !MESH_DRAW_FUNC_BASE_ARGS_H_

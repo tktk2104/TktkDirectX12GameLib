@@ -17,7 +17,7 @@ namespace tktk
 	public:
 
 		// 「LightData」のインスタンスを作り、そのリソースのハンドルを返す
-		unsigned int create(
+		size_t create(
 			const tktkMath::Color& ambient,
 			const tktkMath::Color& diffuse,
 			const tktkMath::Color& speqular,
@@ -25,19 +25,19 @@ namespace tktk
 		);
 
 		// ライト情報の定数バッファを更新する
-		void updateLightCBuffer(unsigned int handle) const;
+		void updateLightCBuffer(size_t handle) const;
 
 		// 指定のライトの環境光を設定する
-		void setAmbient(unsigned int handle, const tktkMath::Color& ambient);
+		void setAmbient(size_t handle, const tktkMath::Color& ambient);
 
 		// 指定のライトの拡散反射光を設定する
-		void setDiffuse(unsigned int handle, const tktkMath::Color& diffuse);
+		void setDiffuse(size_t handle, const tktkMath::Color& diffuse);
 
 		// 指定のライトの鏡面反射光を設定する
-		void setSpeqular(unsigned int handle, const tktkMath::Color& speqular);
+		void setSpeqular(size_t handle, const tktkMath::Color& speqular);
 
 		// 指定のライトの座標を設定する
-		void setPosition(unsigned int handle, const tktkMath::Vector3& position);
+		void setPosition(size_t handle, const tktkMath::Vector3& position);
 
 	private:
 

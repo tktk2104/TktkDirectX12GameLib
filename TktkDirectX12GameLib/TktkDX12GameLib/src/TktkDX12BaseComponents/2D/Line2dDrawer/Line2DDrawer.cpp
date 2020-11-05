@@ -11,7 +11,7 @@ namespace tktk
 		const std::vector<tktkMath::Vector2>& lineVertexArray,
 		const tktkMath::Color& lineColor,
 		const tktkMath::Color& blendRate,
-		unsigned int useRtvDescriptorHeapHandle
+		size_t useRtvDescriptorHeapHandle
 	)
 		: ComponentBase(drawPriority)
 		, m_useLine2DMaterialHandle(DX12GameManager::createLine2DMaterial())
@@ -35,8 +35,8 @@ namespace tktk
 
 	void Line2DDrawer::onDestroy()
 	{
-		// コピー用バッファを削除する
-		DX12GameManager::eraseCopyBuffer(m_useLine2DMaterialHandle);
+		// ラインマテリアルを削除する
+		DX12GameManager::eraseLine(m_useLine2DMaterialHandle);
 	}
 
 	void Line2DDrawer::draw() const

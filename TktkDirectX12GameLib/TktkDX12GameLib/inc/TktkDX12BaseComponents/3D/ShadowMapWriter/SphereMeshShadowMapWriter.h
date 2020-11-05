@@ -14,7 +14,7 @@ namespace tktk
 	{
 	public:
 
-		SphereMeshShadowMapWriter(float drawPriority, float radius, const tktkMath::Vector3& localPosition, unsigned int cameraHandle);
+		SphereMeshShadowMapWriter(float drawPriority, float radius, const tktkMath::Vector3& localPosition, size_t cameraHandle);
 
 	public:
 
@@ -31,8 +31,8 @@ namespace tktk
 
 		float				m_radius;
 		tktkMath::Vector3	m_localPosition;
-		unsigned int		m_createCopyTransformCbufferHandle{ 0U };
-		unsigned int		m_cameraHandle;
+		size_t				m_createUploadTransformCbufferHandle{ 0U };
+		size_t				m_cameraHandle;
 		ComponentPtr<Transform3D>	m_transform{ };
 	};
 }

@@ -31,28 +31,28 @@ namespace tktk
 		}
 	}
 
-	unsigned int BasicMesh::craete(const BasicMeshInitParam& initParam)
+	size_t BasicMesh::craete(const BasicMeshInitParam& initParam)
 	{
 		return m_basicMeshArray.create(initParam);
 	}
 
-	unsigned int BasicMesh::copy(unsigned int originalHandle)
+	size_t BasicMesh::copy(size_t originalHandle)
 	{
 		return m_basicMeshArray.create(*m_basicMeshArray.getMatchHandlePtr(originalHandle));
 	}
 
-	void BasicMesh::setMaterialHandle(unsigned int meshHandle, unsigned int materialSlot, unsigned int materialHandle)
+	void BasicMesh::setMaterialHandle(size_t meshHandle, size_t materialSlot, size_t materialHandle)
 	{
 		m_basicMeshArray.getMatchHandlePtr(meshHandle)->setMaterialHandle(materialSlot, materialHandle);
 	}
 
-	void BasicMesh::writeShadowMap(unsigned int handle) const
+	void BasicMesh::writeShadowMap(size_t handle) const
 	{
 		// シャドウマップへの書き込みを行う
 		m_basicMeshArray.getMatchHandlePtr(handle)->writeShadowMap();
 	}
 
-	void BasicMesh::drawMesh(unsigned int handle, const MeshDrawFuncBaseArgs& baseArgs) const
+	void BasicMesh::drawMesh(size_t handle, const MeshDrawFuncBaseArgs& baseArgs) const
 	{
 		// メッシュのライティングに使用するライト情報を定数バッファに書き込む
 		DX12GameManager::updateLightCBuffer(baseArgs.lightHandle);

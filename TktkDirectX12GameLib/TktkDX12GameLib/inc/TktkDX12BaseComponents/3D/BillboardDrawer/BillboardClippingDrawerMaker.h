@@ -35,23 +35,21 @@ namespace tktk
 
 		// 使用するレンダーターゲットのディスクリプタヒープハンドルを設定する
 		// ※初期パラメータはバックバッファー
-		BillboardClippingDrawerMaker& useRtvDescriptorHeapHandle(unsigned int value);
+		BillboardClippingDrawerMaker& useRtvDescriptorHeapHandle(size_t value);
 
 		// 使用するビルボードマテリアルハンドルを設定する
-		BillboardClippingDrawerMaker& billboardMaterialHandle(unsigned int value);
+		BillboardClippingDrawerMaker& billboardMaterialHandle(size_t value);
 
 		// 使用するカメラハンドルを設定する
 		// ※初期パラメータはデフォルト通常カメラ
-		BillboardClippingDrawerMaker& cameraHandle(unsigned int value);
+		BillboardClippingDrawerMaker& cameraHandle(size_t value);
 
 		// 使用するカメラIDを設定する（列挙型を含む整数型のidが渡された場合のみビルド可で、関数内で対応するリソースハンドルに変換される）
 		// ※初期パラメータはデフォルト通常カメラ
-		template<class IdType, is_idType<IdType> = nullptr>
-		BillboardClippingDrawerMaker& cameraId(IdType value) { return cameraIdImpl(static_cast<int>(value)); }
+		BillboardClippingDrawerMaker& cameraId(ResourceIdCarrier value);
 
-		// 使用するビルボードマテリアルIDを設定する（列挙型を含む整数型のidが渡された場合のみビルド可で、関数内で対応するリソースハンドルに変換される）
-		template<class IdType, is_idType<IdType> = nullptr>
-		BillboardClippingDrawerMaker& billboardMaterialId(IdType value) { return billboardMaterialIdImpl(static_cast<int>(value)); }
+		// 使用するビルボードマテリアルIDを設定する（列挙型を含む整数型のidが渡された場合のみビルド可で、関数内で対応するリソースハンドルに変換される
+		BillboardClippingDrawerMaker& billboardMaterialId(ResourceIdCarrier value);
 
 		// ビルボードの中心位置の割合を設定する
 		BillboardClippingDrawerMaker& centerRate(const tktkMath::Vector2 & value);
@@ -65,11 +63,6 @@ namespace tktk
 		// 切り取る範囲の大きさを設定する（テクセル）
 		BillboardClippingDrawerMaker& clippingSize(const tktkMath::Vector2& value);
 
-	private: /* 各種id指定系の関数の実装 */
-
-		BillboardClippingDrawerMaker& billboardMaterialIdImpl(int value);
-		BillboardClippingDrawerMaker& cameraIdImpl(int value);
-
 	private: /* 自身のインスタンスは静的な存在として扱う */
 
 		static BillboardClippingDrawerMaker m_self;
@@ -77,19 +70,14 @@ namespace tktk
 	private: /* 変数達 */
 
 		GameObjectPtr			m_user						{  };
-		StateTypeHierarchy			m_targetState				{  };
+		StateTypeHierarchy		m_targetState				{  };
 		float					m_drawPriority				{ 0.0f };
-		unsigned int			m_useRtvDescriptorHeapHandle{  };
-		unsigned int			m_cameraHandle				{ 0U };
-		unsigned int			m_billboardMaterialHandle	{ 0U };
+		size_t					m_useRtvDescriptorHeapHandle{  };
+		size_t					m_cameraHandle				{ 0U };
+		size_t					m_billboardMaterialHandle	{ 0U };
 		tktkMath::Vector2		m_centerRate				{ 0.5f, 0.5f };
 		tktkMath::Color			m_blendRate					{ tktkMath::Color_v::white };
 		BillboardClippingParam	m_clippingParam				{  };
-
-	public: /* 不正な型の引数が渡されそうになった時にコンパイルエラーにする為の仕組み */
-
-		template<class IdType, std::enable_if_t<!is_idType_v<IdType>>* = nullptr>
-		BillboardClippingDrawerMaker& billboardMaterialId(IdType value) { static_assert(false, "BillboardMaterialId Fraud Type"); }
 	};
 }
 #endif // !BILLBOARD_CLIPPING_DRAWER_MAKER_H_

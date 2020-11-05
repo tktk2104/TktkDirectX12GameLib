@@ -44,40 +44,31 @@ namespace tktk
 
 		// 使用するレンダーターゲットのディスクリプタヒープハンドルを設定する
 		// ※初期パラメータはバックバッファー
-		SphereMeshWireFrameDrawerMaker& useRtvDescriptorHeapHandle(unsigned int value);
+		SphereMeshWireFrameDrawerMaker& useRtvDescriptorHeapHandle(size_t value);
 
 		// 使用するカメラハンドルを設定する
 		// ※初期パラメータはデフォルト通常カメラ
-		SphereMeshWireFrameDrawerMaker& cameraHandle(unsigned int value);
+		SphereMeshWireFrameDrawerMaker& cameraHandle(size_t value);
 
 		// 使用するカメラIDを設定する（列挙型を含む整数型のidが渡された場合のみビルド可で、関数内で対応するリソースハンドルに変換される）
 		// ※初期パラメータはデフォルト通常カメラ
-		template<class IdType, is_idType<IdType> = nullptr>
-		SphereMeshWireFrameDrawerMaker& cameraId(IdType value) { return cameraIdImpl(static_cast<int>(value)); }
+		SphereMeshWireFrameDrawerMaker& cameraId(ResourceIdCarrier value);
 
 		// 使用するシャドウマップカメラハンドルを設定する
 		// ※初期パラメータはデフォルトシャドウマップカメラ
-		SphereMeshWireFrameDrawerMaker& shadowMapCameraHandle(unsigned int value);
+		SphereMeshWireFrameDrawerMaker& shadowMapCameraHandle(size_t value);
 
 		// 使用するシャドウマップカメラIDを設定する（列挙型を含む整数型のidが渡された場合のみビルド可で、関数内で対応するリソースハンドルに変換される）
 		// ※初期パラメータはデフォルトシャドウマップカメラ
-		template<class IdType, is_idType<IdType> = nullptr>
-		SphereMeshWireFrameDrawerMaker& shadowMapCameraId(IdType value) { return shadowMapCameraIdImpl(static_cast<int>(value)); }
+		SphereMeshWireFrameDrawerMaker& shadowMapCameraId(ResourceIdCarrier value);
 
 		// 使用するライトハンドルを設定する
 		// ※初期パラメータはデフォルトライト
-		SphereMeshWireFrameDrawerMaker& lightHandle(unsigned int value);
+		SphereMeshWireFrameDrawerMaker& lightHandle(size_t value);
 
 		// 使用するライトIDを設定する（列挙型を含む整数型のidが渡された場合のみビルド可で、関数内で対応するリソースハンドルに変換される）
 		// ※初期パラメータはデフォルトライト
-		template<class IdType, is_idType<IdType> = nullptr>
-		SphereMeshWireFrameDrawerMaker& lightId(IdType value) { return lightIdImpl(static_cast<int>(value)); }
-
-	private: /* 各種id指定系の関数の実装 */
-
-		SphereMeshWireFrameDrawerMaker& cameraIdImpl(int value);
-		SphereMeshWireFrameDrawerMaker& shadowMapCameraIdImpl(int value);
-		SphereMeshWireFrameDrawerMaker& lightIdImpl(int value);
+		SphereMeshWireFrameDrawerMaker& lightId(ResourceIdCarrier value);
 
 	private: /* 自身のインスタンスは静的な存在として扱う */
 
@@ -86,23 +77,12 @@ namespace tktk
 	private: /* 変数達 */
 
 		GameObjectPtr						m_user				{  };
-		StateTypeHierarchy						m_targetState		{  };
+		StateTypeHierarchy					m_targetState		{  };
 		float								m_drawPriority		{ 0.0f };
 		float								m_radius			{ 0.5f };
 		tktkMath::Vector3					m_localPosition		{ tktkMath::Vector3_v::zero };
 		tktkMath::Color						m_albedoColor		{ tktkMath::Color_v::white };
 		SphereMeshDrawerUseResourceHandles	m_useResourceHandles{  };
-
-	public: /* 不正な型の引数が渡されそうになった時にコンパイルエラーにする為の仕組み */
-
-		template<class IdType, is_not_idType<IdType> = nullptr>
-		SphereMeshWireFrameDrawerMaker& cameraId(IdType value) { static_assert(false, "CameraId Fraud Type"); }
-
-		template<class IdType, is_not_idType<IdType> = nullptr>
-		SphereMeshWireFrameDrawerMaker& shadowMapCameraId(IdType value) { static_assert(false, "ShadowMapCameraId Fraud Type"); }
-
-		template<class IdType, is_not_idType<IdType> = nullptr>
-		SphereMeshWireFrameDrawerMaker& lightId(IdType value) { static_assert(false, "LightId Fraud Type"); }
 	};
 }
 #endif // !SPHERE_MESH_WIRE_FRAME_DRAWER_MAKER_H_

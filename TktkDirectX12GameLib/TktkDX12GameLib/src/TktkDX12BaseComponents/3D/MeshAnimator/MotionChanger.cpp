@@ -2,7 +2,7 @@
 
 namespace tktk
 {
-	MotionChanger::MotionChanger(unsigned int changeMotionHandle, bool isLoop, float lerpTimeSec)
+	MotionChanger::MotionChanger(size_t changeMotionHandle, bool isLoop, float lerpTimeSec)
 		: m_changeMotionHandle(changeMotionHandle)
 		, m_isLoop(isLoop)
 		, m_lerpTimeSec(lerpTimeSec)

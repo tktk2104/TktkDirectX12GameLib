@@ -57,7 +57,7 @@ namespace tktk
 		}
 	}
 
-	unsigned int Sound::load(const std::string& fileName)
+	size_t Sound::load(const std::string& fileName)
 	{
 		return m_assets.create(fileName, m_xAudioPtr, m_soundEvent);
 	}
@@ -67,12 +67,12 @@ namespace tktk
 		m_assets.clear();
 	}
 
-	void Sound::play(unsigned int handle, bool loopPlay)
+	void Sound::play(size_t handle, bool loopPlay)
 	{
 		m_assets.getMatchHandlePtr(handle)->playSound(loopPlay);
 	}
 
-	void Sound::stop(unsigned int handle)
+	void Sound::stop(size_t handle)
 	{
 		if (m_assets.getMatchHandlePtr(handle)->isPlaySound())
 		{
@@ -80,7 +80,7 @@ namespace tktk
 		}
 	}
 
-	void Sound::pause(unsigned int handle)
+	void Sound::pause(size_t handle)
 	{
 		if (m_assets.getMatchHandlePtr(handle)->isPlaySound())
 		{

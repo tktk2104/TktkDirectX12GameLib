@@ -9,13 +9,13 @@ namespace tktk
 	public:
 
 		// 使用するマテリアルのID
-		unsigned int useMaterialHandle;
+		size_t useMaterialHandle;
 
 		// インデックスバッファの使用開始位置
-		unsigned int indexBufferStartPos;
+		size_t indexBufferStartPos;
 
 		// インデックスバッファの使用幅
-		unsigned int indexBufferUseCount;
+		size_t indexBufferUseCount;
 	};
 }
 #endif // !SUBSET_H_

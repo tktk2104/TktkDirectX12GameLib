@@ -228,6 +228,7 @@
     <ClInclude Include="inc\TktkDX12GameLibDefinition.h" />
     <ClInclude Include="inc\TktkDX12Game\Component\ComponentBasePtr.h" />
     <ClInclude Include="inc\TktkDX12Game\Component\ComponentBase.h" />
+    <ClInclude Include="inc\TktkDX12Game\Component\ComponentCollisionFunc\CollisionGroupTypeCarrier.h" />
     <ClInclude Include="inc\TktkDX12Game\Component\ComponentCollisionFunc\ComponentCollisionFuncRunner.h" />
     <ClInclude Include="inc\TktkDX12Game\Component\ComponentCollisionFunc\ComponentCollisionList.h" />
     <ClInclude Include="inc\TktkDX12Game\Component\ComponentDrawFunc\ComponentDrawList.h" />
@@ -331,6 +332,7 @@
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\PostEffect\PostEffectMaterialInitParam.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\PostEffect\PostEffectShaderFilePaths.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\Scene\SceneBase.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Scene\SceneDataInitParam.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\Scene\SceneVTable.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\Sprite\SpriteClippingParam.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\Sprite\SpriteMaterialCbufferData.h" />
@@ -342,6 +344,7 @@
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\_HandleGetter\IdType\SystemCameraType.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\_HandleGetter\IdType\SystemLightType.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\_HandleGetter\IdType\SystemPostEffectMaterialType.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\_HandleGetter\ResourceIdCarrier.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\_HandleGetter\SystemDXGameResourceHandleGetter.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\_HandleGetter\SystemDXGameResourceType.h" />
     <ClInclude Include="inc\TktkDX12Game\EventMessage\MessageAttachment.h" />
@@ -373,6 +376,7 @@
     <ClInclude Include="inc\TktkDX12Game\Input\_InputManager\InputManager.h" />
     <ClInclude Include="inc\TktkDX12Game\Time\ElapsedTimer.h" />
     <ClInclude Include="inc\TktkDX12Game\TktkDX12Game.h" />
+    <ClInclude Include="inc\TktkDX12Game\PrimitiveTypeWrapper\SignedInt32Wrapper.h" />
     <ClInclude Include="inc\TktkDX12Game\_MainManager\DX12GameManager.h" />
     <ClInclude Include="inc\TktkDX12Game\_MainManager\DX12GameManagerFuncArgsIncluder.h" />
     <ClInclude Include="inc\TktkDX12Game\_MainManager\DX12GameManagerInitParam.h" />

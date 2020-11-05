@@ -15,7 +15,7 @@ namespace tktk
 		boneNameArray.reserve(initParam.boneDataArray.size());
 
 		// 引数の骨情報の配列の要素数だけループする
-		for (unsigned int i = 0; i < initParam.boneDataArray.size(); i++)
+		for (size_t i = 0; i < initParam.boneDataArray.size(); i++)
 		{
 			// 現在の骨情報
 			const auto& bonedata = initParam.boneDataArray.at(i);
@@ -72,9 +72,9 @@ namespace tktk
 	{
 	}
 
-	unsigned int SkeletonData::createCopyBufferHandle() const
+	size_t SkeletonData::createUploadBufferHandle() const
 	{
-		return DX12GameManager::createCopyBuffer(BufferType::constant, DX12GameManager::getSystemHandle(SystemCBufferType::BoneMatCbuffer), BoneMatrixCbufferData());
+		return DX12GameManager::createUploadBuffer(UploadBufferInitParam::create(BufferType::constant, DX12GameManager::getSystemHandle(SystemCBufferType::BoneMatCbuffer), BoneMatrixCbufferData()));
 	}
 
 	void SkeletonData::transform(const std::vector<MotionBoneParam>& transformMatrices)
@@ -109,7 +109,7 @@ namespace tktk
 		}
 	}
 
-	void SkeletonData::updateBoneMatrixCbuffer(unsigned int copyBufferHandle) const
+	void SkeletonData::updateBoneMatrixCbuffer(size_t copyBufferHandle) const
 	{
 		// 定数バッファのコピー用バッファを更新する
 		// TODO : 前フレームと定数バッファに変化がない場合、更新しない処理を作る
@@ -132,12 +132,12 @@ namespace tktk
 		}
 	}
 
-	void SkeletonData::updateCopyBuffer(unsigned int copyBufferHandle) const
+	void SkeletonData::updateCopyBuffer(size_t copyBufferHandle) const
 	{
 		BoneMatrixCbufferData boneMatBuf;
 
 		// 定数バッファ上の骨行列の上限値分ループする
-		for (unsigned int i = 0; i < 128U; i++)
+		for (size_t i = 0; i < 128U; i++)
 		{
 			// 骨行列を最後まで書き込んでいたらループを終了する
 			if (i >= m_boneMatrixArray.size()) break;
@@ -146,6 +146,6 @@ namespace tktk
 			boneMatBuf.boneMatrix[i] = m_boneMatrixArray.at(i);
 		}
 
-		DX12GameManager::updateCopyBuffer(copyBufferHandle, boneMatBuf);
+		DX12GameManager::updateUploadBuffer(copyBufferHandle, boneMatBuf);
 	}
 }

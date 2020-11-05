@@ -1,6 +1,7 @@
 #ifndef DX_GAME_RESOURCE_INIT_PARAM_INCLUDER_H_
 #define DX_GAME_RESOURCE_INIT_PARAM_INCLUDER_H_
 
+#include "Scene/SceneDataInitParam.h"
 #include "PostEffect/PostEffectMaterialInitParam.h"
 #include "Sprite/SpriteMaterialInitParam.h"
 #include "Billboard/BillboardMaterialInitParam.h"

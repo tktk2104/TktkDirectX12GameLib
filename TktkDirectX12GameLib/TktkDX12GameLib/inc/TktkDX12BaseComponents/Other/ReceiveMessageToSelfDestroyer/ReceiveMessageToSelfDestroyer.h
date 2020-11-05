@@ -11,17 +11,17 @@ namespace tktk
 	{
 	public:
 
-		ReceiveMessageToSelfDestroyer(unsigned int destroyMessegeType);
+		ReceiveMessageToSelfDestroyer(MessageTypeCarrier destroyMessegeType);
 
 	public:
 
 		// <PolymorphismFunc>
-		void handleMessage(unsigned int messageId, const tktk::MessageAttachment& value);
+		void handleMessage(MessageTypeCarrier messageId, const tktk::MessageAttachment& value);
 
 	private:
 
 		// 自身を削除するメッセージの種類
-		unsigned int m_destroyMessegeType;
+		MessageTypeCarrier m_destroyMessegeType;
 	};
 }
 #endif // !RECEIVE_MESSAGE_TO_SELF_DESTROYER_H_

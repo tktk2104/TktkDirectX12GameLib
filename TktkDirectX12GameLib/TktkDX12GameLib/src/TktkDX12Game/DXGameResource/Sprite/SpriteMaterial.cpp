@@ -17,7 +17,7 @@ namespace tktk
 		createGraphicsPipeLineState(shaderFilePaths);
 
 		// スプライト用の頂点バッファを作る
-		DX12GameManager::setSystemHandle(SystemVertexBufferType::Sprite, DX12GameManager::createVertexBuffer<tktkMath::Vector2>({ tktkMath::Vector2_v::zero, tktkMath::Vector2_v::right, tktkMath::Vector2_v::up, tktkMath::Vector2_v::one }));
+		DX12GameManager::setSystemHandle(SystemVertexBufferType::Sprite, DX12GameManager::createVertexBuffer(std::vector<tktkMath::Vector2>{ tktkMath::Vector2_v::zero, tktkMath::Vector2_v::right, tktkMath::Vector2_v::up, tktkMath::Vector2_v::one }));
 
 		// スプライト用のインデックスバッファを作る
 		DX12GameManager::setSystemHandle(SystemIndexBufferType::Sprite, DX12GameManager::createIndexBuffer({ 0U, 1U, 2U, 3U }));
@@ -27,22 +27,22 @@ namespace tktk
 		DX12GameManager::setSystemHandle(SystemCBufferType::SpriteMaterial, DX12GameManager::createCBuffer(SpriteMaterialCbufferData()));
 	}
 
-	unsigned int SpriteMaterial::create(const SpriteMaterialInitParam& initParam)
+	size_t SpriteMaterial::create(const SpriteMaterialInitParam& initParam)
 	{
 		return m_spriteMaterialArray.create(initParam);
 	}
 
-	void SpriteMaterial::drawSprite(unsigned int handle, const SpriteMaterialDrawFuncArgs& drawFuncArgs) const
+	void SpriteMaterial::drawSprite(size_t handle, const SpriteMaterialDrawFuncArgs& drawFuncArgs) const
 	{
 		m_spriteMaterialArray.getMatchHandlePtr(handle)->drawSprite(drawFuncArgs);
 	}
 
-	void SpriteMaterial::updateTransformCbuffer(unsigned int handle, unsigned int copyBufferHandle, const tktkMath::Matrix3& worldMatrix, const tktkMath::Vector2& spriteCenterRate) const
+	void SpriteMaterial::updateTransformCbuffer(size_t handle, size_t copyBufferHandle, const tktkMath::Matrix3& worldMatrix, const tktkMath::Vector2& spriteCenterRate) const
 	{
 		m_spriteMaterialArray.getMatchHandlePtr(handle)->updateTransformCbuffer(copyBufferHandle, worldMatrix, spriteCenterRate);
 	}
 
-	void SpriteMaterial::updateTransformCbufferUseClippingParam(unsigned int handle, unsigned int copyBufferHandle, const tktkMath::Matrix3& worldMatrix, const tktkMath::Vector2& spriteCenterRate, const SpriteClippingParam& clippingParam) const
+	void SpriteMaterial::updateTransformCbufferUseClippingParam(size_t handle, size_t copyBufferHandle, const tktkMath::Matrix3& worldMatrix, const tktkMath::Vector2& spriteCenterRate, const SpriteClippingParam& clippingParam) const
 	{
 		m_spriteMaterialArray.getMatchHandlePtr(handle)->updateTransformCbufferUseClippingParam(copyBufferHandle, worldMatrix, spriteCenterRate, clippingParam);
 	}

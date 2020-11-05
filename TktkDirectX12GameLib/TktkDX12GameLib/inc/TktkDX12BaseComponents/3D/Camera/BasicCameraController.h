@@ -14,7 +14,7 @@ namespace tktk
 	public:
 
 		BasicCameraController(
-			unsigned int cameraHandle,
+			size_t cameraHandle,
 			float camerafov,
 			float cameraAspect,
 			float cameraNear,
@@ -33,7 +33,7 @@ namespace tktk
 
 	private:
 
-		unsigned int				m_cameraHandle;
+		size_t						m_cameraHandle;
 		float						m_cameraFov;
 		float						m_cameraAspect;
 		float						m_cameraNear;

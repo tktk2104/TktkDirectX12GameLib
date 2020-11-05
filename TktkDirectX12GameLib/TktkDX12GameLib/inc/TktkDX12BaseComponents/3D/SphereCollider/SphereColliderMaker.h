@@ -29,8 +29,7 @@ namespace tktk
 		ComponentPtr<SphereCollider> create();
 
 		// 当たり判定のグループを設定
-		template <class CollisionGroupType, is_idType<CollisionGroupType> = nullptr>
-		SphereColliderMaker& collisionGroupType(CollisionGroupType value) { return collisionGroupTypeImpl(static_cast<int>(value)); }
+		SphereColliderMaker& collisionGroupType(CollisionGroupTypeCarrier value);
 
 		// 当たり判定の半径を設定
 		SphereColliderMaker& radius(float value);
@@ -44,10 +43,6 @@ namespace tktk
 		// 押し出されやすさを設定（割合）
 		SphereColliderMaker& extrudedRate(float value);
 
-	private: /* 裏実装 */
-
-		SphereColliderMaker& collisionGroupTypeImpl(int value);
-
 	private:
 
 		// 自身のポインタ
@@ -56,13 +51,13 @@ namespace tktk
 	private:
 
 		// 作成用変数達
-		GameObjectPtr		m_user				{ };
-		StateTypeHierarchy		m_targetState		{  };
-		int					m_collisionGroupType{ 0 };
-		float				m_radius			{ 1.0f };
-		tktkMath::Vector3	m_localPosition		{ tktkMath::Vector3_v::zero };
-		bool				m_isExtrude			{ false };
-		float				m_extrudedRate		{ 0.0f };
+		GameObjectPtr				m_user				{ };
+		StateTypeHierarchy			m_targetState		{  };
+		CollisionGroupTypeCarrier	m_collisionGroupType{ 0 };
+		float						m_radius			{ 1.0f };
+		tktkMath::Vector3			m_localPosition		{ tktkMath::Vector3_v::zero };
+		bool						m_isExtrude			{ false };
+		float						m_extrudedRate		{ 0.0f };
 	};
 }
 #endif // !SPHERE_COLLIDER_MAKER_H_

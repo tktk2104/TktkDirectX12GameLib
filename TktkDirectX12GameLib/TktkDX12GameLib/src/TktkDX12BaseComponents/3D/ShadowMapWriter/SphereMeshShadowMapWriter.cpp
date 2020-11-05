@@ -2,7 +2,7 @@
 
 namespace tktk
 {
-	SphereMeshShadowMapWriter::SphereMeshShadowMapWriter(float drawPriority, float radius, const tktkMath::Vector3& localPosition, unsigned int cameraHandle)
+	SphereMeshShadowMapWriter::SphereMeshShadowMapWriter(float drawPriority, float radius, const tktkMath::Vector3& localPosition, size_t cameraHandle)
 		: ComponentBase(drawPriority)
 		, m_radius(radius)
 		, m_localPosition(localPosition)
@@ -19,14 +19,14 @@ namespace tktk
 			throw std::runtime_error("SphereMeshShadowMapWriter not found Transform3D");
 		}
 
-		// コピー用バッファを作り、そのハンドルを取得する
-		m_createCopyTransformCbufferHandle = DX12GameManager::createCopyBuffer(BufferType::constant, DX12GameManager::getSystemHandle(SystemCBufferType::MeshTransform), MeshTransformCbuffer());
+		// アップロード用バッファを作り、そのハンドルを取得する
+		m_createUploadTransformCbufferHandle = DX12GameManager::createUploadBuffer(UploadBufferInitParam::create(BufferType::constant, DX12GameManager::getSystemHandle(SystemCBufferType::MeshTransform), MeshTransformCbuffer()));
 	}
 
 	void SphereMeshShadowMapWriter::onDestroy()
 	{
-		// コピー用バッファを削除する
-		DX12GameManager::eraseCopyBuffer(m_createCopyTransformCbufferHandle);
+		// アップロード用バッファを削除する
+		DX12GameManager::eraseUploadBuffer(m_createUploadTransformCbufferHandle);
 	}
 
 	void SphereMeshShadowMapWriter::draw() const
@@ -55,11 +55,11 @@ namespace tktk
 		// 使用するカメラのプロジェクション行列
 		transformBufferData.projectionMatrix = DX12GameManager::getProjectionMatrix(m_cameraHandle);
 
-		// 定数バッファのコピー用バッファを更新する
+		// 定数バッファのアップロード用バッファを更新する
 		// TODO : 前フレームと定数バッファに変化がない場合、更新しない処理を作る
-		DX12GameManager::updateCopyBuffer(m_createCopyTransformCbufferHandle, transformBufferData);
+		DX12GameManager::updateUploadBuffer(m_createUploadTransformCbufferHandle, transformBufferData);
 
-		// 座標変換用の定数バッファにコピーバッファの情報をコピーする
-		DX12GameManager::copyBuffer(m_createCopyTransformCbufferHandle);
+		// 座標変換用の定数バッファにアップロード用バッファの情報をコピーする
+		DX12GameManager::copyBuffer(m_createUploadTransformCbufferHandle);
 	}
 }

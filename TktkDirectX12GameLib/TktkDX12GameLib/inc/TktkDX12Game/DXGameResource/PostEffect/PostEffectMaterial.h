@@ -18,10 +18,10 @@ namespace tktk
 	public:
 
 		// 「PostEffectMaterialData」のインスタンスを作り、そのリソースのハンドルを返す
-		unsigned int create(const PostEffectMaterialInitParam& initParam);
+		size_t create(const PostEffectMaterialInitParam& initParam);
 
 		// 指定したポストエフェクトを描画する
-		void drawPostEffect(unsigned int handle, const PostEffectMaterialDrawFuncArgs& drawFuncArgs) const;
+		void drawPostEffect(size_t handle, const PostEffectMaterialDrawFuncArgs& drawFuncArgs) const;
 
 	private:
 

@@ -3,7 +3,7 @@
 namespace tktk
 {
 	BasicCameraController::BasicCameraController(
-		unsigned int cameraHandle,
+		size_t cameraHandle,
 		float camerafov,
 		float cameraAspect,
 		float cameraNear,

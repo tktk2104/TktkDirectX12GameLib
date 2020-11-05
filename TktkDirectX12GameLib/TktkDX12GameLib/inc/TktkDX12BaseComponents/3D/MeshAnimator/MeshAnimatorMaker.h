@@ -34,19 +34,14 @@ namespace tktk
 		MeshAnimatorMaker& isLoop(bool value);
 
 		// 使用する初期モーションハンドルを設定する
-		MeshAnimatorMaker& initMotionHandle(unsigned int value);
+		MeshAnimatorMaker& initMotionHandle(size_t value);
 
 		// 使用する初期モーションIDを設定する（列挙型を含む整数型のidが渡された場合のみビルド可）
 		// ※内部で対応するリソースハンドルに変換される
-		template<class IdType, is_idType<IdType> = nullptr>
-		MeshAnimatorMaker& initMotionId(IdType value);
+		MeshAnimatorMaker& initMotionId(ResourceIdCarrier value);
 
 		// １秒間に何フレーム分のアニメーションを再生するかを設定する
 		MeshAnimatorMaker& animFramePerSec(float value);
-
-	private: /* 各種id指定系の関数の実装 */
-
-		MeshAnimatorMaker& initMotionIdImpl(int value);
 
 	private: /* 自身のインスタンスは静的な存在として扱う */
 
@@ -54,26 +49,11 @@ namespace tktk
 
 	private: /* 変数達 */
 
-		GameObjectPtr	m_user				{  };
+		GameObjectPtr		m_user				{  };
 		StateTypeHierarchy	m_targetState		{  };
-		unsigned int	m_isLoop			{ true };
-		unsigned int	m_initMotionHandle	{ 0U };
-		float			m_animFramePerSec	{ 60.0f };
-
-	public: /* 不正な型の引数が渡されそうになった時にコンパイルエラーにする為の仕組み */
-
-		template<class IdType, std::enable_if_t<!is_idType_v<IdType>>* = nullptr>
-		MeshAnimatorMaker& initMotionId(IdType value) { static_assert(false, "MotionId Fraud Type"); }
+		bool				m_isLoop			{ true };
+		size_t				m_initMotionHandle	{ 0U };
+		float				m_animFramePerSec	{ 60.0f };
 	};
-//┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-//┃ここから下は関数の実装
-//┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-	// 使用する初期モーションIDを設定する（列挙型を含む整数型のidが渡された場合のみビルド可）
-	template<class IdType, is_idType<IdType>>
-	inline MeshAnimatorMaker& MeshAnimatorMaker::initMotionId(IdType value)
-	{
-		return initMotionIdImpl(static_cast<int>(value));
-	}
 }
 #endif // !MESH_ANIMATOR_MAKER_H_

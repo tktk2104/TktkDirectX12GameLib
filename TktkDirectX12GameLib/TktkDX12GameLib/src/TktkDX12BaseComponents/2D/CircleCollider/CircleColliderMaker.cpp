@@ -62,6 +62,13 @@ namespace tktk
 		return createComponent;
 	}
 
+	CircleColliderMaker& CircleColliderMaker::collisionGroupType(CollisionGroupTypeCarrier value)
+	{
+		// 値を設定して自身の参照を返す
+		m_collisionGroupType = value;
+		return *this;
+	}
+
 	CircleColliderMaker & CircleColliderMaker::radius(float value)
 	{
 		// 値を設定して自身の参照を返す
@@ -87,13 +94,6 @@ namespace tktk
 	{
 		// 値を設定して自身の参照を返す
 		m_extrudedRate = value;
-		return *this;
-	}
-
-	CircleColliderMaker& CircleColliderMaker::collisionGroupTypeImpl(int value)
-	{
-		// 値を設定して自身の参照を返す
-		m_collisionGroupType = value;
 		return *this;
 	}
 }

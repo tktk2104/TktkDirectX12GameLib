@@ -13,36 +13,30 @@ namespace tktk
 	{
 	public:
 
-		MeshAnimator(unsigned int initMotionHandle, bool isLoop, float animFramePerSec);
+		MeshAnimator(size_t initMotionHandle, bool isLoop, float animFramePerSec);
 
 	public:
 
 		void update();
 
 		// 引数のスケルトンを自身のモーションで変形させる
-		void transformSkeleton(unsigned int skeletonHandle);
+		void transformSkeleton(size_t skeletonHandle);
 
 	public:
 
 		// 新しいモーションIDを設定する
 		// ※内部で対応するリソースハンドルに変換される
-		template <class MotionIdType, is_idType<MotionIdType> = nullptr>
-		void setNewMotionId(MotionIdType motionId, bool isLoop, float lerpTimeSec) { setNewMotionIdImpl(static_cast<int>(motionId), isLoop, lerpTimeSec); }
+		void setNewMotionId(ResourceIdCarrier motionId, bool isLoop, float lerpTimeSec);
 
 		// 新しいモーションハンドルを設定する
-		void setNewMotionHandle(unsigned int motionHandle, bool isLoop, float lerpTimeSec);
-
-	private:
-
-		// 裏実装
-		void setNewMotionIdImpl(int motionId, bool isLoop, float lerpTimeSec);
+		void setNewMotionHandle(size_t motionHandle, bool isLoop, float lerpTimeSec);
 
 	private:
 
 		bool m_isLoop;
 
-		unsigned int m_preMotionHandle;
-		unsigned int m_curMotionHandle;
+		size_t m_preMotionHandle;
+		size_t m_curMotionHandle;
 
 		float m_curFrame				{ 0.0f };
 		float m_preFrame				{ 0.0f };

@@ -12,48 +12,48 @@ namespace tktk
     
         BoneMatrixCbufferData boneMatBuf;
 
-        // 骨情報の定数バッファを単位行列でクリアする為のコピーバッファを作りハンドルを取得する
-        for (unsigned int i = 0; i < 128U; i++)
+        // 骨情報の定数バッファを単位行列でクリアする為のアップロードバッファを作りハンドルを取得する
+        for (size_t i = 0; i < 128U; i++)
         {
             boneMatBuf.boneMatrix[i] = tktkMath::Matrix4_v::identity;
         }
-        m_resetBoneMatrixCopyBufferHandle = DX12GameManager::createCopyBuffer(BufferType::constant, DX12GameManager::getSystemHandle(SystemCBufferType::BoneMatCbuffer), boneMatBuf);
+        m_resetBoneMatrixUploadBufferHandle = DX12GameManager::createUploadBuffer(UploadBufferInitParam::create(BufferType::constant, DX12GameManager::getSystemHandle(SystemCBufferType::BoneMatCbuffer), boneMatBuf));
     }
 
     Skeleton::~Skeleton()
     {
-        // 骨情報の定数バッファを単位行列でクリアする為のコピーバッファを削除する
-        DX12GameManager::eraseCopyBuffer(m_resetBoneMatrixCopyBufferHandle);
+        // 骨情報の定数バッファを単位行列でクリアする為のアップロードバッファを削除する
+        DX12GameManager::eraseUploadBuffer(m_resetBoneMatrixUploadBufferHandle);
     }
 
-    unsigned int Skeleton::create(const SkeletonInitParam& initParam)
+    size_t Skeleton::create(const SkeletonInitParam& initParam)
     {
         return m_skeletonArray.create(initParam);
     }
 
-    unsigned int Skeleton::copy(unsigned int originalHandle)
+    size_t Skeleton::copy(size_t originalHandle)
     {
         return m_skeletonArray.create(*m_skeletonArray.getMatchHandlePtr(originalHandle));
     }
 
-    unsigned int Skeleton::createCopyBufferHandle(unsigned int handle) const
+    size_t Skeleton::createUploadBufferHandle(size_t handle) const
     {
-        return m_skeletonArray.getMatchHandlePtr(handle)->createCopyBufferHandle();
+        return m_skeletonArray.getMatchHandlePtr(handle)->createUploadBufferHandle();
     }
 
-    void Skeleton::transform(unsigned int handle, const std::vector<MotionBoneParam>& transformMatrices)
+    void Skeleton::transform(size_t handle, const std::vector<MotionBoneParam>& transformMatrices)
     {
         m_skeletonArray.getMatchHandlePtr(handle)->transform(transformMatrices);
     }
 
-    void Skeleton::updateBoneMatrixCbuffer(unsigned int handle, unsigned int copyBufferHandle) const
+    void Skeleton::updateBoneMatrixCbuffer(size_t handle, size_t copyBufferHandle) const
     {
         m_skeletonArray.getMatchHandlePtr(handle)->updateBoneMatrixCbuffer(copyBufferHandle);
     }
 
     void Skeleton::resetBoneMatrixCbuffer() const
     {
-        //  骨情報の定数バッファに単位行列コピーバッファの情報をコピーする
-        DX12GameManager::copyBuffer(m_resetBoneMatrixCopyBufferHandle);
+        //  骨情報の定数バッファに単位行列アップロードバッファの情報をコピーする
+        DX12GameManager::copyBuffer(m_resetBoneMatrixUploadBufferHandle);
     }
 }

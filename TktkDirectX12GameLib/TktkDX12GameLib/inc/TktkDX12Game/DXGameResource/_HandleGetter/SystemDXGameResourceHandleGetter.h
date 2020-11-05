@@ -15,27 +15,27 @@ namespace tktk
 
 	public:
 
-		unsigned int getSystemHandle(SystemCameraType type)					const;
-		unsigned int getSystemHandle(SystemLightType type)					const;
-		unsigned int getSystemHandle(SystemBasicMeshType type)				const;
-		unsigned int getSystemHandle(SystemBasicMeshMaterialType type)		const;
-		unsigned int getSystemHandle(SystemPostEffectMaterialType type)		const;
+		size_t getSystemHandle(SystemCameraType type)					const;
+		size_t getSystemHandle(SystemLightType type)					const;
+		size_t getSystemHandle(SystemBasicMeshType type)				const;
+		size_t getSystemHandle(SystemBasicMeshMaterialType type)		const;
+		size_t getSystemHandle(SystemPostEffectMaterialType type)		const;
 
 	public:
 
-		void setSystemHandle(SystemCameraType type,				unsigned int handle);
-		void setSystemHandle(SystemLightType type,				unsigned int handle);
-		void setSystemHandle(SystemBasicMeshType type,			unsigned int handle);
-		void setSystemHandle(SystemBasicMeshMaterialType type,	unsigned int handle);
-		void setSystemHandle(SystemPostEffectMaterialType type, unsigned int handle);
+		void setSystemHandle(SystemCameraType type,				size_t handle);
+		void setSystemHandle(SystemLightType type,				size_t handle);
+		void setSystemHandle(SystemBasicMeshType type,			size_t handle);
+		void setSystemHandle(SystemBasicMeshMaterialType type,	size_t handle);
+		void setSystemHandle(SystemPostEffectMaterialType type, size_t handle);
 
 	private:
 
-		std::unordered_map<SystemCameraType, unsigned int>				m_systemCameraHandleMap;
-		std::unordered_map<SystemLightType, unsigned int>				m_systemLightHandleMap;
-		std::unordered_map<SystemBasicMeshType, unsigned int>			m_systemBasicMeshHandleMap;
-		std::unordered_map<SystemBasicMeshMaterialType, unsigned int>	m_systemBasicMeshMaterialHandleMap;
-		std::unordered_map<SystemPostEffectMaterialType, unsigned int>	m_systemPostEffectMaterialHandleMap;
+		std::unordered_map<SystemCameraType,				size_t>	m_systemCameraHandleMap;
+		std::unordered_map<SystemLightType,					size_t>	m_systemLightHandleMap;
+		std::unordered_map<SystemBasicMeshType,				size_t>	m_systemBasicMeshHandleMap;
+		std::unordered_map<SystemBasicMeshMaterialType,		size_t>	m_systemBasicMeshMaterialHandleMap;
+		std::unordered_map<SystemPostEffectMaterialType,	size_t>	m_systemPostEffectMaterialHandleMap;
 	};
 }
 #endif // !SYSTEM_DX_GAME_RESOURCE_HANDLE_GETTER_H_

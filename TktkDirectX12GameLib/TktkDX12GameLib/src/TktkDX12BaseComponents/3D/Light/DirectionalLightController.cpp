@@ -2,7 +2,7 @@
 
 namespace tktk
 {
-	DirectionalLightController::DirectionalLightController(unsigned int lightHandle, const tktkMath::Color& ambient, const tktkMath::Color& diffuse, const tktkMath::Color& speqular)
+	DirectionalLightController::DirectionalLightController(size_t lightHandle, const tktkMath::Color& ambient, const tktkMath::Color& diffuse, const tktkMath::Color& speqular)
 		: m_lightHandle(lightHandle)
 		, m_ambient(ambient)
 		, m_diffuse(diffuse)

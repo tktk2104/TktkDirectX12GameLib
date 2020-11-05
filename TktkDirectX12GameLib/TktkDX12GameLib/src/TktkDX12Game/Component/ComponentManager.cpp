@@ -64,7 +64,7 @@ namespace tktk
 		m_drawList.runDrawFunc();
 	}
 
-	void ComponentManager::addCollisionGroup(int firstGroup, int secondGroup)
+	void ComponentManager::addCollisionGroup(CollisionGroupTypeCarrier firstGroup, CollisionGroupTypeCarrier secondGroup)
 	{
 		// Õ“Ë”»’è‚Ì‘g‚İ‡‚í‚¹‚ğ’Ç‰Á
 		m_collisionList.addCollisionGroup(firstGroup, secondGroup);

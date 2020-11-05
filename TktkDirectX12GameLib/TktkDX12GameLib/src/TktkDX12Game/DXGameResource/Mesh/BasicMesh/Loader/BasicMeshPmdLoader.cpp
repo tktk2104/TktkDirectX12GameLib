@@ -6,7 +6,7 @@
 namespace tktk
 {
 	// スケルトンを作る
-	inline void craeteSkeleton(unsigned int createSkeletonId, const std::vector<tktkFileIo::lodepmd::loadData::OutBone>& boneData);
+	inline void craeteSkeleton(int createSkeletonId, const std::vector<tktkFileIo::lodepmd::loadData::OutBone>& boneData);
 
 	// 読み込み関数
 	BasicMeshLoadPmdReturnValue BasicMeshPmdLoader::loadPmd(const BasicMeshLoadPmdArgs& args)
@@ -18,10 +18,10 @@ namespace tktk
 		tktkFileIo::lodepmd::load(&outData, args.filePath);
 
 		// 頂点バッファを作る
-		unsigned int createdVertexBufferHandle = DX12GameManager::createVertexBuffer(outData.vertexData);
+		size_t createdVertexBufferHandle = DX12GameManager::createVertexBuffer(outData.vertexData);
 
 		// インデックスバッファを作る
-		unsigned int createdIndexBufferHandle = DX12GameManager::createIndexBuffer(outData.indexData);
+		size_t createdIndexBufferHandle = DX12GameManager::createIndexBuffer(outData.indexData);
 
 		// 通常メッシュの作成に必要な情報
 		BasicMeshInitParam meshInitParam{};
@@ -38,10 +38,10 @@ namespace tktk
 		meshInitParam.materialSlots.reserve(outData.materialData.size());
 
 		// 現在のインデックス（インデックスバッファの位置）
-		unsigned int curIndex				= 0U;
+		size_t curIndex				= 0U;
 
 		// マテリアルの数だけループ
-		for (unsigned int i = 0; i < outData.materialData.size(); i++)
+		for (size_t i = 0; i < outData.materialData.size(); i++)
 		{
 			// マテリアルの作成に必要な情報
 			BasicMeshMaterialInitParam materialParam{};
@@ -49,7 +49,7 @@ namespace tktk
 			// デフォルトのパイプラインステートを使う
 			materialParam.usePipeLineStateHandle = DX12GameManager::getSystemHandle(SystemPipeLineStateType::BasicMesh);
 
-			unsigned int createdTextureBufferHandle = 0U;
+			size_t createdTextureBufferHandle = 0U;
 
 			// マテリアルにテクスチャが設定されていたら
 			if (outData.materialData.at(i).textureFilePath != "")
@@ -72,7 +72,7 @@ namespace tktk
 
 				TexBuffData dataParam{};
 
-				for (unsigned int j = 0; j < 16; j++)
+				for (size_t j = 0; j < 16; j++)
 				{
 					dataParam.textureData.push_back(static_cast<unsigned char>(255U * outData.materialData.at(i).ambient.r));
 					dataParam.textureData.push_back(static_cast<unsigned char>(255U * outData.materialData.at(i).ambient.g));
@@ -138,7 +138,7 @@ namespace tktk
 			}
 
 			// 通常メッシュのマテリアルを作る
-			unsigned int meshMaterialHandle = DX12GameManager::createBasicMeshMaterial(materialParam);
+			size_t meshMaterialHandle = DX12GameManager::createBasicMeshMaterial(materialParam);
 
 			// 通常メッシュのサブセット情報を更新
 			meshInitParam.materialSlots.push_back({ meshMaterialHandle, curIndex, outData.materialData.at(i).indexCount });
@@ -156,7 +156,7 @@ namespace tktk
 	}
 
 	// スケルトンを作る
-	void craeteSkeleton(unsigned int createSkeletonId, const std::vector<tktkFileIo::lodepmd::loadData::OutBone>& boneData)
+	void craeteSkeleton(int createSkeletonId, const std::vector<tktkFileIo::lodepmd::loadData::OutBone>& boneData)
 	{
 		// 骨情報の作成に必要な情報
 		SkeletonInitParam skeletonInitParam{};

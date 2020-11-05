@@ -17,11 +17,11 @@ namespace tktk
 	public:
 
 		RectCollider(
-			int collisionGroupType,					// 当たり判定のグループ番号
-			const tktkMath::Vector2& rectSize,		// 当たり判定の大きさ
-			const tktkMath::Vector2& localPosition,	// 当たり判定のローカル座標
-			bool isExtrude,							// 衝突相手を押し出す処理を行うか？
-			float extrudedRate						// 押し出されやすさ（割合）
+			CollisionGroupTypeCarrier collisionGroupType,	// 当たり判定のグループ番号
+			const tktkMath::Vector2& rectSize,				// 当たり判定の大きさ
+			const tktkMath::Vector2& localPosition,			// 当たり判定のローカル座標
+			bool isExtrude,									// 衝突相手を押し出す処理を行うか？
+			float extrudedRate								// 押し出されやすさ（割合）
 		);
 
 	public:

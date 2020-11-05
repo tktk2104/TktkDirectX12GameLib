@@ -35,21 +35,16 @@ namespace tktk
 
 		// 使用するレンダーターゲットのディスクリプタヒープハンドルを設定する
 		// ※初期パラメータはバックバッファー
-		SpriteDrawerMaker& useRtvDescriptorHeapHandle(unsigned int value);
+		SpriteDrawerMaker& useRtvDescriptorHeapHandle(size_t value);
 
 		// 使用するスプライトマテリアルハンドルを設定する
-		SpriteDrawerMaker& spriteMaterialHandle(unsigned int value);
+		SpriteDrawerMaker& spriteMaterialHandle(size_t value);
 
 		// 使用するスプライトマテリアルIDを設定する（列挙型を含む整数型のidが渡された場合のみビルド可で、関数内で対応するリソースハンドルに変換される）
-		template<class IdType, is_idType<IdType> = nullptr>
-		SpriteDrawerMaker& spriteMaterialId(IdType value) { return spriteMaterialIdImpl(static_cast<int>(value)); }
+		SpriteDrawerMaker& spriteMaterialId(ResourceIdCarrier value);
 
 		// スプライトの中心位置の割合を設定する
 		SpriteDrawerMaker& centerRate(const tktkMath::Vector2& value);
-
-	private: /* 各種id指定系の関数の実装 */
-
-		SpriteDrawerMaker& spriteMaterialIdImpl(int value);
 
 	private: /* 自身のインスタンスは静的な存在として扱う */
 
@@ -58,16 +53,11 @@ namespace tktk
 	private: /* 変数達 */
 
 		GameObjectPtr		m_user						{  };
-		StateTypeHierarchy		m_targetState				{  };
+		StateTypeHierarchy	m_targetState				{  };
 		float				m_drawPriority				{ 0.0f };
-		unsigned int		m_useRtvDescriptorHeapHandle{  };
-		unsigned int		m_spriteMaterialHandle		{ 0U };
+		size_t				m_useRtvDescriptorHeapHandle{  };
+		size_t				m_spriteMaterialHandle		{ 0U };
 		tktkMath::Vector2	m_centerRate				{ 0.5f, 0.5f };
-
-	public: /* 不正な型の引数が渡されそうになった時にコンパイルエラーにする為の仕組み */
-
-		template<class IdType, is_not_idType<IdType> = nullptr>
-		SpriteDrawerMaker& spriteMaterialId(IdType value) { static_assert(false, "SpriteMaterialId Fraud Type"); }
 	};
 }
 #endif // !SPRITE_DRAWER_MAKER_H_

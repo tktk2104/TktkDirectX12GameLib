@@ -17,19 +17,19 @@ namespace tktk
 	public:
 
 		// 「CameraData」のインスタンスを作り、そのリソースのハンドルを返す
-		unsigned int create();
+		size_t create();
 
 		// 指定のカメラのビュー行列を取得する
-		const tktkMath::Matrix4& getViewMatrix(unsigned int handle) const;
+		const tktkMath::Matrix4& getViewMatrix(size_t handle) const;
 
 		// 指定のカメラのビュー行列を設定する
-		void setViewMatrix(unsigned int handle, const tktkMath::Matrix4& view);
+		void setViewMatrix(size_t handle, const tktkMath::Matrix4& view);
 
 		// 指定のカメラのプロジェクション行列を取得する
-		const tktkMath::Matrix4& getProjectionMatrix(unsigned int handle) const;
+		const tktkMath::Matrix4& getProjectionMatrix(size_t handle) const;
 
 		// プ指定のカメラのロジェクション行列を設定する
-		void setProjectionMatrix(unsigned int handle, const tktkMath::Matrix4& projection);
+		void setProjectionMatrix(size_t handle, const tktkMath::Matrix4& projection);
 
 	private:
 

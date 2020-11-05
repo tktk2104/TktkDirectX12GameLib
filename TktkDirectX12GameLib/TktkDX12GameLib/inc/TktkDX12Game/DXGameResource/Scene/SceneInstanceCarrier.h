@@ -2,6 +2,7 @@
 #define SCENE_INSTANCE_CARRIER_H_
 
 #include "SceneVTable.h"
+#include "../../GameObject/GameObjectTagCarrier.h"
 
 namespace tktk
 {
@@ -19,7 +20,7 @@ namespace tktk
 	public:
 
 		// シーンの終了時に削除するゲームオブジェクトタグを設定する
-		void setSceneEndDestroyGameObjectTag(int tag);
+		void setSceneEndDestroyGameObjectTag(GameObjectTagCarrier tag);
 
 		// シーンを有効にする
 		void enable();
@@ -35,12 +36,12 @@ namespace tktk
 
 	private:
 
-		bool						m_isActive					{ false };
-		bool						m_nextFrameIsActive			{ false };
-		bool						m_runAfterChangeActiveFunc	{ false };
-		std::unique_ptr<int>		m_destroyGameObjectTag		{ nullptr };
-		std::shared_ptr<SceneBase>	m_scenePtr					{ nullptr };
-		SceneVTable*				m_vtablePtr					{ nullptr };
+		bool									m_isActive					{ false };
+		bool									m_nextFrameIsActive			{ false };
+		bool									m_runAfterChangeActiveFunc	{ false };
+		std::unique_ptr<GameObjectTagCarrier>	m_destroyGameObjectTag		{ nullptr };
+		std::shared_ptr<SceneBase>				m_scenePtr					{ nullptr };
+		SceneVTable*							m_vtablePtr					{ nullptr };
 	};
 }
 #endif // !SCENE_INSTANCE_CARRIER_H_

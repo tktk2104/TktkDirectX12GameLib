@@ -7,17 +7,17 @@ namespace tktk
 	{
 	}
 
-	unsigned int Motion::load(const std::string& motionFileName)
+	size_t Motion::load(const std::string& motionFileName)
 	{
 		return m_motionArray.create(motionFileName);
 	}
 
-	unsigned int Motion::getEndFrameNo(unsigned int handle) const
+	size_t Motion::getEndFrameNo(size_t handle) const
 	{
 		return m_motionArray.getMatchHandlePtr(handle)->getEndFrameNo();
 	}
 
-	std::vector<MotionBoneParam> Motion::calculateBoneTransformMatrices(unsigned int curHandle, unsigned int preHandle, unsigned int curFrame, unsigned int preFrame, float amount) const
+	std::vector<MotionBoneParam> Motion::calculateBoneTransformMatrices(size_t curHandle, size_t preHandle, size_t curFrame, size_t preFrame, float amount) const
 	{
 		// 今のフレームで使用していたモーションの座標変換行列配列を取得する
 		auto curMatrices = m_motionArray.getMatchHandlePtr(curHandle)->calculateBoneTransformMatrices(curFrame);
@@ -36,7 +36,7 @@ namespace tktk
 		result.reserve(curMatrices.size());
 
 		// モーションの座標変換行列配列を巡回する
-		for (unsigned int i = 0; i < curMatrices.size(); i++)
+		for (size_t i = 0; i < curMatrices.size(); i++)
 		{
 			MotionBoneParam boneParam{};
 

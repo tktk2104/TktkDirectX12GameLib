@@ -35,34 +35,27 @@ namespace tktk
 
 		// 使用するレンダーターゲットのディスクリプタヒープハンドルを設定する
 		// ※初期パラメータはバックバッファー
-		BillboardDrawerMaker& useRtvDescriptorHeapHandle(unsigned int value);
+		BillboardDrawerMaker& useRtvDescriptorHeapHandle(size_t value);
 
 		// 使用するビルボードマテリアルハンドルを設定する
-		BillboardDrawerMaker& billboardMaterialHandle(unsigned int value);
+		BillboardDrawerMaker& billboardMaterialHandle(size_t value);
 
 		// 使用するカメラハンドルを設定する
 		// ※初期パラメータはデフォルト通常カメラ
-		BillboardDrawerMaker& cameraHandle(unsigned int value);
+		BillboardDrawerMaker& cameraHandle(size_t value);
 
 		// 使用するカメラIDを設定する（列挙型を含む整数型のidが渡された場合のみビルド可で、関数内で対応するリソースハンドルに変換される）
 		// ※初期パラメータはデフォルト通常カメラ
-		template<class IdType, is_idType<IdType> = nullptr>
-		BillboardDrawerMaker& cameraId(IdType value) { return cameraIdImpl(static_cast<int>(value)); }
+		BillboardDrawerMaker& cameraId(ResourceIdCarrier value);
 
 		// 使用するビルボードマテリアルIDを設定する（列挙型を含む整数型のidが渡された場合のみビルド可で、関数内で対応するリソースハンドルに変換される）
-		template<class IdType, is_idType<IdType> = nullptr>
-		BillboardDrawerMaker& billboardMaterialId(IdType value) { return billboardMaterialIdImpl(static_cast<int>(value)); }
+		BillboardDrawerMaker& billboardMaterialId(ResourceIdCarrier value);
 
 		// ビルボードの中心位置の割合を設定する
 		BillboardDrawerMaker& centerRate(const tktkMath::Vector2 & value);
 
 		// ビルボードのブレンドレートを設定する
 		BillboardDrawerMaker& blendRate(const tktkMath::Color& value);
-
-	private: /* 各種id指定系の関数の実装 */
-
-		BillboardDrawerMaker& billboardMaterialIdImpl(int value);
-		BillboardDrawerMaker& cameraIdImpl(int value);
 
 	private: /* 自身のインスタンスは静的な存在として扱う */
 
@@ -71,18 +64,13 @@ namespace tktk
 	private: /* 変数達 */
 
 		GameObjectPtr		m_user						{  };
-		StateTypeHierarchy		m_targetState				{  };
+		StateTypeHierarchy	m_targetState				{  };
 		float				m_drawPriority				{ 0.0f };
-		unsigned int		m_useRtvDescriptorHeapHandle{  };
-		unsigned int		m_cameraHandle				{ 0U };
-		unsigned int		m_billboardMaterialHandle	{ 0U };
+		size_t				m_useRtvDescriptorHeapHandle{  };
+		size_t				m_cameraHandle				{ 0U };
+		size_t				m_billboardMaterialHandle	{ 0U };
 		tktkMath::Vector2	m_centerRate				{ 0.5f, 0.5f };
 		tktkMath::Color		m_blendRate					{ tktkMath::Color_v::white };
-
-	public: /* 不正な型の引数が渡されそうになった時にコンパイルエラーにする為の仕組み */
-
-		template<class IdType, std::enable_if_t<!is_idType_v<IdType>>* = nullptr>
-		BillboardDrawerMaker& billboardMaterialId(IdType value) { static_assert(false, "BillboardMaterialId Fraud Type"); }
 	};
 }
 #endif // !BILLBOARD_DRAWER_MAKER_H_

@@ -7,7 +7,7 @@
 #include "TktkDX12BaseComponents/2D/Polygon2dCollider/Polygon2dCollider.h"
 
 // ‰~‚ğ³‘½ŠpŒ`‚Å•\‚·‚Ì’¸“_”
-constexpr unsigned int CircleVertexNum{ 20U };
+constexpr size_t CircleVertexNum{ 20U };
 
 // ‰~‚ğ³‘½ŠpŒ`‚Å•\‚·‚ÌŠp‚ÌŠp“x
 constexpr float CircleCornerAngle{ 360.0f / CircleVertexNum };
@@ -59,7 +59,7 @@ namespace tktk
 			vertexArray.reserve(20U + 1U);
 
 			// Še’¸“_‚ğŒvZ‚·‚é
-			for (unsigned int i = 0; i < CircleVertexNum; i++)
+			for (size_t i = 0; i < CircleVertexNum; i++)
 			{
 				vertexArray.push_back(
 					tktkMath::Vector2(tktkMath::MathHelper::cos(CircleCornerAngle * i) * boundingCircle.getRadius(), tktkMath::MathHelper::sin(CircleCornerAngle * i) * boundingCircle.getRadius())

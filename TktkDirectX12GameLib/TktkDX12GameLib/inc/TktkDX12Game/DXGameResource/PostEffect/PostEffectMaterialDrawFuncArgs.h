@@ -7,13 +7,13 @@ namespace tktk
 	struct PostEffectMaterialDrawFuncArgs
 	{
 		// 使用するビューポートハンドル
-		unsigned int		viewportHandle;
+		size_t		viewportHandle;
 
 		// 使用するシザー矩形ハンドル
-		unsigned int		scissorRectHandle;
+		size_t		scissorRectHandle;
 
 		// 使用するレンダーターゲット用ディスクリプタヒープハンドル
-		unsigned int		rtvDescriptorHeapHandle;
+		size_t		rtvDescriptorHeapHandle;
 	};
 }
 #endif // !POST_EFFECT_MATERIAL_DRAW_FUNC_ARGS_H_

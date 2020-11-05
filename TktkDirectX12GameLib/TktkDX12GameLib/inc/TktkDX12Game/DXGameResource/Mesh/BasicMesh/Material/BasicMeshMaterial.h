@@ -18,19 +18,19 @@ namespace tktk
 	public:
 
 		// 「BasicMeshMaterialData」のインスタンスを作り、そのリソースのハンドルを返す
-		unsigned int create(const BasicMeshMaterialInitParam& initParam);
+		size_t create(const BasicMeshMaterialInitParam& initParam);
 
 		// 指定の「BasicMeshMaterialData」のインスタンスのコピーを作り、そのリソースのハンドルを返す
-		unsigned int copy(unsigned int originalHandle);
+		size_t copy(size_t originalHandle);
 
 		// 指定の通常メッシュのマテリアル情報をグラフィックパイプラインに設定する
-		void setMaterialData(unsigned int handle)  const;
+		void setMaterialData(size_t handle)  const;
 
 		// 指定の通常メッシュのマテリアルで追加で管理する定数バッファのハンドルと値を設定する
-		void addAppendParam(unsigned int handle, unsigned int cbufferHandle, unsigned int dataSize, void* dataTopPos);
+		void addAppendParam(size_t handle, size_t cbufferHandle, size_t dataSize, void* dataTopPos);
 
 		// 指定の通常メッシュのマテリアルで追加で管理する定数バッファのハンドルと値を更新する
-		void updateAppendParam(unsigned int handle, unsigned int cbufferHandle, unsigned int dataSize, const void* dataTopPos);
+		void updateAppendParam(size_t handle, size_t cbufferHandle, size_t dataSize, const void* dataTopPos);
 
 	private:
 

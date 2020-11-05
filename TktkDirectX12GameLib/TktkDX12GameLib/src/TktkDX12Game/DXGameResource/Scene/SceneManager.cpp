@@ -7,22 +7,22 @@ namespace tktk
 	{
 	}
 
-	unsigned int SceneManager::create(const std::shared_ptr<SceneBase>& scenePtr, SceneVTable* vtablePtr)
+	size_t SceneManager::create(const SceneDataInitParam& initParam)
 	{
-		return m_sceneArray.create(scenePtr, vtablePtr);
+		return m_sceneArray.create(initParam.scenePtr, initParam.vtablePtr);
 	}
 
-	void SceneManager::setSceneEndDestroyGameObjectTag(unsigned int handle, int tag)
+	void SceneManager::setSceneEndDestroyGameObjectTag(size_t handle, GameObjectTagCarrier tag)
 	{
 		m_sceneArray.getMatchHandlePtr(handle)->setSceneEndDestroyGameObjectTag(tag);
 	}
 
-	void SceneManager::enable(unsigned int handle)
+	void SceneManager::enable(size_t handle)
 	{
 		m_sceneArray.getMatchHandlePtr(handle)->enable();
 	}
 
-	void SceneManager::disable(unsigned int handle)
+	void SceneManager::disable(size_t handle)
 	{
 		m_sceneArray.getMatchHandlePtr(handle)->disable();
 	}

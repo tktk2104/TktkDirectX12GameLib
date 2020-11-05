@@ -7,8 +7,8 @@ namespace tktk
 {
 	Line2DMaterialData::Line2DMaterialData()
 	{
-		// コピー用バッファを作り、そのハンドルを取得する
-		m_createCopyCbufferHandle = DX12GameManager::createCopyBuffer(BufferType::constant, DX12GameManager::getSystemHandle(SystemCBufferType::Line2D), Line2DConstantBufferData());
+		// アップロード用バッファを作り、そのハンドルを取得する
+		m_createUploadCbufferHandle = DX12GameManager::createUploadBuffer(UploadBufferInitParam::create(BufferType::constant, DX12GameManager::getSystemHandle(SystemCBufferType::Line2D), Line2DConstantBufferData()));
 	}
 
 	Line2DMaterialData::~Line2DMaterialData()
@@ -17,16 +17,16 @@ namespace tktk
 		// ※１度も描画処理が呼ばれなかった場合は何もしない
 		DX12GameManager::eraseVertexBuffer(m_createdVertexBufferHandle);
 
-		// コピー用バッファを削除する
-		DX12GameManager::eraseCopyBuffer(m_createCopyCbufferHandle);
+		// アップロード用バッファを削除する
+		DX12GameManager::eraseUploadBuffer(m_createUploadCbufferHandle);
 	}
 
 	Line2DMaterialData::Line2DMaterialData(Line2DMaterialData&& other) noexcept
 		: m_createdVertexBufferHandle(other.m_createdVertexBufferHandle)
-		, m_createCopyCbufferHandle(other.m_createCopyCbufferHandle)
+		, m_createUploadCbufferHandle(other.m_createUploadCbufferHandle)
 	{
 		other.m_createdVertexBufferHandle	= 0U;
-		other.m_createCopyCbufferHandle		= 0U;
+		other.m_createUploadCbufferHandle	= 0U;
 	}
 
 	void Line2DMaterialData::drawLine(const Line2DMaterialDrawFuncArgs& drawFuncArgs)
@@ -42,8 +42,8 @@ namespace tktk
 		// TODO : 前フレームと定数バッファに変化がない場合、更新しない処理を作る
 		updateCopyCbuffer(drawFuncArgs);
 
-		// ライン用の定数バッファにコピーバッファの情報をコピーする
-		DX12GameManager::copyBuffer(m_createCopyCbufferHandle);
+		// ライン用の定数バッファにアップロードバッファの情報をコピーする
+		DX12GameManager::copyBuffer(m_createUploadCbufferHandle);
 
 		// ビューポートを設定する
 		DX12GameManager::setViewport(drawFuncArgs.viewportHandle);
@@ -77,14 +77,8 @@ namespace tktk
 		DX12GameManager::setVertexBuffer(m_createdVertexBufferHandle);
 		
 		// ドローコール
-#ifdef _M_AMD64 /* x64ビルドなら */
-		DX12GameManager::drawInstanced(static_cast<unsigned int>(drawFuncArgs.lineVertexArray.size()), 1U, 0U, 0U);
-#else
 		DX12GameManager::drawInstanced(drawFuncArgs.lineVertexArray.size(), 1U, 0U, 0U);
-#endif // _M_AMD64
 		
-		
-
 		// バックバッファ以外に描画していたら使用したレンダーターゲットバッファをシェーダーで使用する状態にする
 		if (drawFuncArgs.rtvDescriptorHeapHandle != DX12GameManager::getSystemHandle(SystemRtvDescriptorHeapType::BackBuffer))
 		{
@@ -92,7 +86,7 @@ namespace tktk
 		}
 	}
 
-	// 定数バッファのコピー用バッファを更新する
+	// 定数バッファのアップロード用バッファを更新する
 	void Line2DMaterialData::updateCopyCbuffer(const Line2DMaterialDrawFuncArgs& drawFuncArgs) const
 	{
 		Line2DConstantBufferData cbufferData{};
@@ -104,6 +98,6 @@ namespace tktk
 		cbufferData.lineColor = drawFuncArgs.lineColor;
 		cbufferData.screenSize = DX12GameManager::getWindowSize();
 
-		DX12GameManager::updateCopyBuffer(m_createCopyCbufferHandle, cbufferData);
+		DX12GameManager::updateUploadBuffer(m_createUploadCbufferHandle, cbufferData);
 	}
 }

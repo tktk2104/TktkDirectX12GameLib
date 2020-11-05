@@ -2,7 +2,7 @@
 
 namespace tktk
 {
-	MeshAnimator::MeshAnimator(unsigned int initMotionHandle, bool isLoop, float animFramePerSec)
+	MeshAnimator::MeshAnimator(size_t initMotionHandle, bool isLoop, float animFramePerSec)
 		: m_isLoop(isLoop)
 		, m_curMotionHandle(initMotionHandle)
 		, m_preMotionHandle(initMotionHandle)
@@ -35,7 +35,12 @@ namespace tktk
 		}
 	}
 
-	void MeshAnimator::transformSkeleton(unsigned int skeletonHandle)
+	void MeshAnimator::setNewMotionId(ResourceIdCarrier motionId, bool isLoop, float lerpTimeSec)
+	{
+		setNewMotionHandle(DX12GameManager::getMotionHandle(motionId), isLoop, lerpTimeSec);
+	}
+
+	void MeshAnimator::transformSkeleton(size_t skeletonHandle)
 	{
 		if (isActive())
 		{
@@ -50,7 +55,7 @@ namespace tktk
 		}
 	}
 
-	void MeshAnimator::setNewMotionHandle(unsigned int motionHandle, bool isLoop, float lerpTimeSec)
+	void MeshAnimator::setNewMotionHandle(size_t motionHandle, bool isLoop, float lerpTimeSec)
 	{
 		m_isLoop = isLoop;
 
@@ -62,10 +67,5 @@ namespace tktk
 
 		m_lerpTimer = 0.0f;
 		m_increaseLerpTimePerSec = 1.0f / lerpTimeSec;
-	}
-
-	void MeshAnimator::setNewMotionIdImpl(int motionId, bool isLoop, float lerpTimeSec)
-	{
-		setNewMotionHandle(DX12GameManager::getMotionHandle(motionId), isLoop, lerpTimeSec);
 	}
 }

@@ -114,49 +114,49 @@ namespace tktk
 		return *this;
 	}
 
-	SphereMeshWireFrameDrawerMaker& SphereMeshWireFrameDrawerMaker::useRtvDescriptorHeapHandle(unsigned int value)
+	SphereMeshWireFrameDrawerMaker& SphereMeshWireFrameDrawerMaker::useRtvDescriptorHeapHandle(size_t value)
 	{
 		// 値を設定して自身の参照を返す
 		m_useResourceHandles.rtvDescriptorHeapHandle = value;
 		return *this;
 	}
 
-	SphereMeshWireFrameDrawerMaker& SphereMeshWireFrameDrawerMaker::cameraHandle(unsigned int value)
+	SphereMeshWireFrameDrawerMaker& SphereMeshWireFrameDrawerMaker::cameraHandle(size_t value)
 	{
 		// 値を設定して自身の参照を返す
 		m_useResourceHandles.cameraHandle = value;
 		return *this;
 	}
 
-	SphereMeshWireFrameDrawerMaker& SphereMeshWireFrameDrawerMaker::shadowMapCameraHandle(unsigned int value)
-	{
-		// 値を設定して自身の参照を返す
-		m_useResourceHandles.shadowMapCameraHandle = value;
-		return *this;
-	}
-
-	SphereMeshWireFrameDrawerMaker& SphereMeshWireFrameDrawerMaker::lightHandle(unsigned int value)
-	{
-		// 値を設定して自身の参照を返す
-		m_useResourceHandles.lightHandle = value;
-		return *this;
-	}
-
-	SphereMeshWireFrameDrawerMaker& SphereMeshWireFrameDrawerMaker::cameraIdImpl(int value)
+	SphereMeshWireFrameDrawerMaker& SphereMeshWireFrameDrawerMaker::cameraId(ResourceIdCarrier value)
 	{
 		// 値を設定して自身の参照を返す
 		m_useResourceHandles.cameraHandle = DX12GameManager::getCameraHandle(value);
 		return *this;
 	}
 
-	SphereMeshWireFrameDrawerMaker& SphereMeshWireFrameDrawerMaker::shadowMapCameraIdImpl(int value)
+	SphereMeshWireFrameDrawerMaker& SphereMeshWireFrameDrawerMaker::shadowMapCameraHandle(size_t value)
+	{
+		// 値を設定して自身の参照を返す
+		m_useResourceHandles.shadowMapCameraHandle = value;
+		return *this;
+	}
+
+	SphereMeshWireFrameDrawerMaker& SphereMeshWireFrameDrawerMaker::shadowMapCameraId(ResourceIdCarrier value)
 	{
 		// 値を設定して自身の参照を返す
 		m_useResourceHandles.shadowMapCameraHandle = DX12GameManager::getCameraHandle(value);
 		return *this;
 	}
 
-	SphereMeshWireFrameDrawerMaker& SphereMeshWireFrameDrawerMaker::lightIdImpl(int value)
+	SphereMeshWireFrameDrawerMaker& SphereMeshWireFrameDrawerMaker::lightHandle(size_t value)
+	{
+		// 値を設定して自身の参照を返す
+		m_useResourceHandles.lightHandle = value;
+		return *this;
+	}
+
+	SphereMeshWireFrameDrawerMaker& SphereMeshWireFrameDrawerMaker::lightId(ResourceIdCarrier value)
 	{
 		// 値を設定して自身の参照を返す
 		m_useResourceHandles.lightHandle = DX12GameManager::getLightHandle(value);

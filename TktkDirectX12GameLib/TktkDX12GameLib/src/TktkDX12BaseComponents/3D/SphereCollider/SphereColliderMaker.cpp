@@ -62,6 +62,13 @@ namespace tktk
 		return createComponent;
 	}
 
+	SphereColliderMaker& SphereColliderMaker::collisionGroupType(CollisionGroupTypeCarrier value)
+	{
+		// 値を設定して自身の参照を返す
+		m_collisionGroupType = value;
+		return *this;
+	}
+
 	SphereColliderMaker& SphereColliderMaker::radius(float value)
 	{
 		// 値を設定して自身の参照を返す
@@ -87,13 +94,6 @@ namespace tktk
 	{
 		// 値を設定して自身の参照を返す
 		m_extrudedRate = value;
-		return *this;
-	}
-
-	SphereColliderMaker& SphereColliderMaker::collisionGroupTypeImpl(int value)
-	{
-		// 値を設定して自身の参照を返す
-		m_collisionGroupType = value;
 		return *this;
 	}
 }

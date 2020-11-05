@@ -20,17 +20,17 @@ namespace tktk
 		DX12GameManager::setSystemHandle(SystemCBufferType::BasicMonoColorMeshCbuffer, DX12GameManager::createCBuffer(BasicMonoColorMeshCbuffer()));
 	}
 
-	unsigned int BasicMeshMaterial::create(const BasicMeshMaterialInitParam& initParam)
+	size_t BasicMeshMaterial::create(const BasicMeshMaterialInitParam& initParam)
 	{
 		return m_basicMeshMaterialArray.create(initParam);
 	}
 
-	unsigned int BasicMeshMaterial::copy(unsigned int originalHandle)
+	size_t BasicMeshMaterial::copy(size_t originalHandle)
 	{
 		return m_basicMeshMaterialArray.create(*m_basicMeshMaterialArray.getMatchHandlePtr(originalHandle));
 	}
 
-	void BasicMeshMaterial::setMaterialData(unsigned int handle) const
+	void BasicMeshMaterial::setMaterialData(size_t handle) const
 	{
 		auto basicMeshPtr = m_basicMeshMaterialArray.getMatchHandlePtr(handle);
 
@@ -44,7 +44,7 @@ namespace tktk
 		basicMeshPtr->setMaterialData();
 	}
 
-	void BasicMeshMaterial::addAppendParam(unsigned int handle, unsigned int cbufferHandle, unsigned int dataSize, void* dataTopPos)
+	void BasicMeshMaterial::addAppendParam(size_t handle, size_t cbufferHandle, size_t dataSize, void* dataTopPos)
 	{
 		auto basicMeshPtr = m_basicMeshMaterialArray.getMatchHandlePtr(handle);
 
@@ -58,7 +58,7 @@ namespace tktk
 		basicMeshPtr->addAppendParam(cbufferHandle, dataSize, dataTopPos);
 	}
 
-	void BasicMeshMaterial::updateAppendParam(unsigned int handle, unsigned int cbufferHandle, unsigned int dataSize, const void* dataTopPos)
+	void BasicMeshMaterial::updateAppendParam(size_t handle, size_t cbufferHandle, size_t dataSize, const void* dataTopPos)
 	{
 		auto basicMeshPtr = m_basicMeshMaterialArray.getMatchHandlePtr(handle);
 

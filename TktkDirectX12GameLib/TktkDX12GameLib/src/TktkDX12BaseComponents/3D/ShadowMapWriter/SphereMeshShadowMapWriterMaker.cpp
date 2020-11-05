@@ -87,7 +87,7 @@ namespace tktk
 		return *this;
 	}
 
-	SphereMeshShadowMapWriterMaker& SphereMeshShadowMapWriterMaker::cameraIdImpl(int value)
+	SphereMeshShadowMapWriterMaker& SphereMeshShadowMapWriterMaker::cameraId(ResourceIdCarrier value)
 	{
 		// ’l‚ğİ’è‚µ‚Ä©g‚ÌQÆ‚ğ•Ô‚·
 		m_cameraHandle = DX12GameManager::getCameraHandle(value);

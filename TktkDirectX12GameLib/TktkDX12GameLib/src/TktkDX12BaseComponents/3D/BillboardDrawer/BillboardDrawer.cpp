@@ -5,7 +5,7 @@
 
 namespace tktk
 {
-	BillboardDrawer::BillboardDrawer(float drawPriority, unsigned int billboardMaterialHandle, unsigned int useRtvDescriptorHeapHandle, unsigned int cameraHandle, const tktkMath::Vector2& centerRate, const tktkMath::Color& blendRate)
+	BillboardDrawer::BillboardDrawer(float drawPriority, size_t billboardMaterialHandle, size_t useRtvDescriptorHeapHandle, size_t cameraHandle, const tktkMath::Vector2& centerRate, const tktkMath::Color& blendRate)
 		: ComponentBase(drawPriority)
 		, m_useRtvDescriptorHeapHandle(useRtvDescriptorHeapHandle)
 		, m_cameraHandle(cameraHandle)
@@ -24,14 +24,14 @@ namespace tktk
 			throw std::runtime_error("BillboardDrawer not found Transform3D");
 		}
 
-		// コピー用バッファを作り、そのハンドルを取得する
-		m_createCopyTransformCbufferHandle = DX12GameManager::createCopyBuffer(BufferType::constant, DX12GameManager::getSystemHandle(SystemCBufferType::Billboard), BillboardCbufferData());
+		// アップロード用バッファを作り、そのハンドルを取得する
+		m_createUploadTransformCbufferHandle = DX12GameManager::createUploadBuffer(UploadBufferInitParam::create(BufferType::constant, DX12GameManager::getSystemHandle(SystemCBufferType::Billboard), BillboardCbufferData()));
 	}
 
 	void BillboardDrawer::onDestroy()
 	{
-		// コピー用バッファを削除する
-		DX12GameManager::eraseCopyBuffer(m_createCopyTransformCbufferHandle);
+		// アップロード用バッファを削除する
+		DX12GameManager::eraseUploadBuffer(m_createUploadTransformCbufferHandle);
 	}
 
 	void BillboardDrawer::draw() const
@@ -47,7 +47,7 @@ namespace tktk
 		bufferDataUpdater.blendRate			= m_blendRate;
 
 		// 定数バッファの更新
-		DX12GameManager::updateBillboardCbuffer(m_billboardMaterialHandle, m_createCopyTransformCbufferHandle, bufferDataUpdater);
+		DX12GameManager::updateBillboardCbuffer(m_billboardMaterialHandle, m_createUploadTransformCbufferHandle, bufferDataUpdater);
 
 		BillboardDrawFuncBaseArgs drawFuncArgs{};
 		drawFuncArgs.viewportHandle				= DX12GameManager::getSystemHandle(SystemViewportType::Basic);
@@ -58,18 +58,18 @@ namespace tktk
 		DX12GameManager::drawBillboard(m_billboardMaterialHandle, drawFuncArgs);
 	}
 
-	void BillboardDrawer::setBillboardMaterialHandle(unsigned int handle)
+	void BillboardDrawer::setBillboardMaterialHandle(size_t handle)
 	{
 		m_billboardMaterialHandle = handle;
+	}
+
+	void BillboardDrawer::setBillboardMaterialId(ResourceIdCarrier id)
+	{
+		m_billboardMaterialHandle = DX12GameManager::getBillboardMaterialHandle(id);
 	}
 
 	void BillboardDrawer::setCenterRate(const tktkMath::Vector2& centerRate)
 	{
 		m_centerRate = centerRate;
-	}
-
-	void BillboardDrawer::setBillboardMaterialIdImpl(int id)
-	{
-		m_billboardMaterialHandle = DX12GameManager::getBillboardMaterialHandle(id);
 	}
 }

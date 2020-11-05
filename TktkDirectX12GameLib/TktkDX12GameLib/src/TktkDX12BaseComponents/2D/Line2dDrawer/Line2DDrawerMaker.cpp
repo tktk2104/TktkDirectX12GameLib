@@ -95,7 +95,7 @@ namespace tktk
 		return *this;
 	}
 
-	Line2DDrawerMaker& Line2DDrawerMaker::useRtvDescriptorHeapHandle(unsigned int value)
+	Line2DDrawerMaker& Line2DDrawerMaker::useRtvDescriptorHeapHandle(size_t value)
 	{
 		// ’l‚ğİ’è‚µ‚Ä©g‚ÌQÆ‚ğ•Ô‚·
 		m_useRtvDescriptorHeapHandle = value;

@@ -43,7 +43,7 @@ namespace tktk
 		Line2DDrawerMaker& blendRate(const tktkMath::Color& value);
 
 		// 使用するレンダーターゲットのディスクリプタヒープハンドルを設定する
-		Line2DDrawerMaker& useRtvDescriptorHeapHandle(unsigned int value);
+		Line2DDrawerMaker& useRtvDescriptorHeapHandle(size_t value);
 
 	private:
 
@@ -54,9 +54,9 @@ namespace tktk
 
 		// 作成用変数達
 		GameObjectPtr					m_user						{ };
-		StateTypeHierarchy					m_targetState				{ };
+		StateTypeHierarchy				m_targetState				{ };
 		float							m_drawPriority				{ 0.0f };
-		unsigned int					m_useRtvDescriptorHeapHandle{  }; // ※初期パラメータはバックバッファー
+		size_t							m_useRtvDescriptorHeapHandle{  }; // ※初期パラメータはバックバッファー
 		std::vector<tktkMath::Vector2>	m_lineVertexArray			{ };
 		tktkMath::Color					m_lineColor					{ tktkMath::Color_v::white };
 		tktkMath::Color					m_blendRate					{ 1.0f, 1.0f, 1.0f, 1.0f };

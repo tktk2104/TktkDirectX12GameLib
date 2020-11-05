@@ -40,10 +40,10 @@ namespace tktk
 
 	private: /* ïœêîíB */
 
-		GameObjectPtr	m_user					{ };
+		GameObjectPtr		m_user					{ };
 		StateTypeHierarchy	m_targetState			{  };
-		float			m_decelerationPerSec	{ 30.0f };
-		float			m_initVelocity			{ 0.0f };
+		float				m_decelerationPerSec	{ 30.0f };
+		float				m_initVelocity			{ 0.0f };
 	};
 }
 #endif // !INERTIAL_ROTATEMENT_2D_MAKER_H_

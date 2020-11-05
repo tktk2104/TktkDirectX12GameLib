@@ -35,14 +35,13 @@ namespace tktk
 
 		// 使用するレンダーターゲットのディスクリプタヒープハンドルを設定する
 		// ※初期パラメータはバックバッファー
-		SpriteClippingDrawerMaker& useRtvDescriptorHeapHandle(unsigned int value);
+		SpriteClippingDrawerMaker& useRtvDescriptorHeapHandle(size_t value);
 
 		// 使用するスプライトマテリアルハンドルを設定する
-		SpriteClippingDrawerMaker& spriteMaterialHandle(unsigned int value);
+		SpriteClippingDrawerMaker& spriteMaterialHandle(size_t value);
 
 		// 使用するスプライトマテリアルIDを設定する（列挙型を含む整数型のidが渡された場合のみビルド可で、関数内で対応するリソースハンドルに変換される）
-		template<class IdType, is_idType<IdType> = nullptr>
-		SpriteClippingDrawerMaker& spriteMaterialId(IdType value) { return spriteMaterialIdImpl(static_cast<int>(value)); }
+		SpriteClippingDrawerMaker& spriteMaterialId(ResourceIdCarrier value);
 
 		// スプライトの中心位置の割合を設定する
 		SpriteClippingDrawerMaker& centerRate(const tktkMath::Vector2& value);
@@ -53,10 +52,6 @@ namespace tktk
 		// 切り取る範囲の大きさを設定する（テクセル）
 		SpriteClippingDrawerMaker& clippingSize(const tktkMath::Vector2& value);
 
-	private: /* 各種id指定系の関数の実装 */
-
-		SpriteClippingDrawerMaker& spriteMaterialIdImpl(int value);
-
 	private: /* 自身のインスタンスは静的な存在として扱う */
 
 		static SpriteClippingDrawerMaker m_self;
@@ -64,17 +59,12 @@ namespace tktk
 	private: /* 変数達 */
 
 		GameObjectPtr		m_user						{  };
-		StateTypeHierarchy		m_targetState				{  };
+		StateTypeHierarchy	m_targetState				{  };
 		float				m_drawPriority				{ 0.0f };
-		unsigned int		m_useRtvDescriptorHeapHandle{  };
-		unsigned int		m_spriteMaterialHandle		{ 0U };
+		size_t				m_useRtvDescriptorHeapHandle{  };
+		size_t				m_spriteMaterialHandle		{ 0U };
 		tktkMath::Vector2	m_centerRate				{ 0.5f, 0.5f };
 		SpriteClippingParam	m_clippingParam				{  };
-
-	public: /* 不正な型の引数が渡されそうになった時にコンパイルエラーにする為の仕組み */
-
-		template<class IdType, std::enable_if_t<!is_idType_v<IdType>>* = nullptr>
-		SpriteClippingDrawerMaker& spriteMaterialId(IdType value) { static_assert(false, "SpriteMaterialId Fraud Type"); }
 	};
 }
 #endif // !SPRITE_CLIPPING_DRAWER_MAKER_H_

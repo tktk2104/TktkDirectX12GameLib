@@ -33,7 +33,7 @@ namespace tktk
 	{
 	}
 
-	void BasicMeshData::setMaterialHandle(unsigned int materialSlot, unsigned int materialHandle)
+	void BasicMeshData::setMaterialHandle(size_t materialSlot, size_t materialHandle)
 	{
 		m_materialSlots.at(materialSlot).useMaterialHandle = materialHandle;
 	}

@@ -57,10 +57,17 @@ namespace tktk
 		return *this;
 	}
 
-	MeshAnimatorMaker& MeshAnimatorMaker::initMotionHandle(unsigned int value)
+	MeshAnimatorMaker& MeshAnimatorMaker::initMotionHandle(size_t value)
 	{
 		// 値を設定して自身の参照を返す
 		m_initMotionHandle = value;
+		return *this;
+	}
+
+	MeshAnimatorMaker& MeshAnimatorMaker::initMotionId(ResourceIdCarrier value)
+	{
+		// 値を設定して自身の参照を返す
+		m_initMotionHandle = DX12GameManager::getMotionHandle(value);
 		return *this;
 	}
 
@@ -68,13 +75,6 @@ namespace tktk
 	{
 		// 値を設定して自身の参照を返す
 		m_animFramePerSec = value;
-		return *this;
-	}
-
-	MeshAnimatorMaker& MeshAnimatorMaker::initMotionIdImpl(int value)
-	{
-		// 値を設定して自身の参照を返す
-		m_initMotionHandle = DX12GameManager::getMotionHandle(value);
 		return *this;
 	}
 }

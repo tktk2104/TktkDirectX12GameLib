@@ -44,40 +44,31 @@ namespace tktk
 
 		// 使用するレンダーターゲットのディスクリプタヒープハンドルを設定する
 		// ※初期パラメータはバックバッファー
-		BoxMeshWireFrameDrawerMaker& useRtvDescriptorHeapHandle(unsigned int value);
+		BoxMeshWireFrameDrawerMaker& useRtvDescriptorHeapHandle(size_t value);
 
 		// 使用するカメラハンドルを設定する
 		// ※初期パラメータはデフォルト通常カメラ
-		BoxMeshWireFrameDrawerMaker& cameraHandle(unsigned int value);
+		BoxMeshWireFrameDrawerMaker& cameraHandle(size_t value);
 
 		// 使用するカメラIDを設定する（列挙型を含む整数型のidが渡された場合のみビルド可で、関数内で対応するリソースハンドルに変換される）
 		// ※初期パラメータはデフォルト通常カメラ
-		template<class IdType, is_idType<IdType> = nullptr>
-		BoxMeshWireFrameDrawerMaker& cameraId(IdType value) { return cameraIdImpl(static_cast<int>(value)); }
+		BoxMeshWireFrameDrawerMaker& cameraId(ResourceIdCarrier value);
 
 		// 使用するシャドウマップカメラハンドルを設定する
 		// ※初期パラメータはデフォルトシャドウマップカメラ
-		BoxMeshWireFrameDrawerMaker& shadowMapCameraHandle(unsigned int value);
+		BoxMeshWireFrameDrawerMaker& shadowMapCameraHandle(size_t value);
 
 		// 使用するシャドウマップカメラIDを設定する（列挙型を含む整数型のidが渡された場合のみビルド可で、関数内で対応するリソースハンドルに変換される）
 		// ※初期パラメータはデフォルトシャドウマップカメラ
-		template<class IdType, is_idType<IdType> = nullptr>
-		BoxMeshWireFrameDrawerMaker& shadowMapCameraId(IdType value) { return shadowMapCameraIdImpl(static_cast<int>(value)); }
+		BoxMeshWireFrameDrawerMaker& shadowMapCameraId(ResourceIdCarrier value);
 
 		// 使用するライトハンドルを設定する
 		// ※初期パラメータはデフォルトライト
-		BoxMeshWireFrameDrawerMaker& lightHandle(unsigned int value);
+		BoxMeshWireFrameDrawerMaker& lightHandle(size_t value);
 
 		// 使用するライトIDを設定する（列挙型を含む整数型のidが渡された場合のみビルド可で、関数内で対応するリソースハンドルに変換される）
 		// ※初期パラメータはデフォルトライト
-		template<class IdType, is_idType<IdType> = nullptr>
-		BoxMeshWireFrameDrawerMaker& lightId(IdType value) { return lightIdImpl(static_cast<int>(value)); }
-
-	private: /* 各種id指定系の関数の実装 */
-
-		BoxMeshWireFrameDrawerMaker& cameraIdImpl(int value);
-		BoxMeshWireFrameDrawerMaker& shadowMapCameraIdImpl(int value);
-		BoxMeshWireFrameDrawerMaker& lightIdImpl(int value);
+		BoxMeshWireFrameDrawerMaker& lightId(ResourceIdCarrier value);
 
 	private: /* 自身のインスタンスは静的な存在として扱う */
 
@@ -86,23 +77,12 @@ namespace tktk
 	private: /* 変数達 */
 
 		GameObjectPtr						m_user				{  };
-		StateTypeHierarchy						m_targetState		{  };
+		StateTypeHierarchy					m_targetState		{  };
 		float								m_drawPriority		{ 0.0f };
 		tktkMath::Vector3					m_boxSize			{ tktkMath::Vector3_v::one };
 		tktkMath::Vector3					m_localPosition		{ tktkMath::Vector3_v::zero };
 		tktkMath::Color						m_albedoColor		{ tktkMath::Color_v::white };
 		BoxMeshDrawerUseResourceHandles		m_useResourceHandles{  };
-
-	public: /* 不正な型の引数が渡されそうになった時にコンパイルエラーにする為の仕組み */
-
-		template<class IdType, std::enable_if_t<!is_idType_v<IdType>>* = nullptr>
-		BoxMeshWireFrameDrawerMaker& cameraId(IdType value) { static_assert(false, "CameraId Fraud Type"); }
-
-		template<class IdType, std::enable_if_t<!is_idType_v<IdType>>* = nullptr>
-		BoxMeshWireFrameDrawerMaker& shadowMapCameraId(IdType value) { static_assert(false, "ShadowMapCameraId Fraud Type"); }
-
-		template<class IdType, std::enable_if_t<!is_idType_v<IdType>>* = nullptr>
-		BoxMeshWireFrameDrawerMaker& lightId(IdType value) { static_assert(false, "LightId Fraud Type"); }
 	};
 }
 #endif // !BOX_MESH_WIRE_FRAME_DRAWER_MAKER_H_

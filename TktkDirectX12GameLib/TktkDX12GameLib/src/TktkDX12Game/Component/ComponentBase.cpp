@@ -2,7 +2,7 @@
 
 namespace tktk
 {
-	ComponentBase::ComponentBase(float drawPriority, const int collisionGroup)
+	ComponentBase::ComponentBase(float drawPriority, CollisionGroupTypeCarrier collisionGroup)
 		: m_drawPriority(drawPriority)
 		, m_collisionGroup(collisionGroup)
 	{
@@ -17,7 +17,7 @@ namespace tktk
 		return m_drawPriority;
 	}
 
-	int ComponentBase::getCollisionGroup() const
+	CollisionGroupTypeCarrier ComponentBase::getCollisionGroup() const
 	{
 		return m_collisionGroup;
 	}

@@ -4,6 +4,7 @@
 #include "ComponentPtr.h"
 #include "../GameObject/GameObject.h"
 #include "../GameObject/GameObjectPtr.h"
+#include "ComponentCollisionFunc/CollisionGroupTypeCarrier.h"
 
 namespace tktk
 {
@@ -29,7 +30,7 @@ namespace tktk
 	{
 	public:
 
-		ComponentBase(float drawPriority = 0.0f, const int collisionGroup = 0);
+		ComponentBase(float drawPriority = 0.0f, CollisionGroupTypeCarrier collisionGroup = 0);
 		virtual ~ComponentBase();
 
 	public:
@@ -38,7 +39,7 @@ namespace tktk
 		float getDrawPriority() const;
 
 		// 衝突判定グループを取得する
-		int getCollisionGroup() const;
+		CollisionGroupTypeCarrier getCollisionGroup() const;
 
 		// アクティブフラグを設定する
 		void setActive(bool activeFlag);
@@ -77,12 +78,12 @@ namespace tktk
 
 	private:
 
-		const float		m_drawPriority;
-		const int		m_collisionGroup;
-		bool			m_isActive			{ true };
-		bool			m_nextFrameActive	{ true };
-		bool			m_isDead			{ false };
-		GameObjectPtr	m_user				{ };
+		const float							m_drawPriority;
+		const CollisionGroupTypeCarrier		m_collisionGroup;
+		bool								m_isActive			{ true };
+		bool								m_nextFrameActive	{ true };
+		bool								m_isDead			{ false };
+		GameObjectPtr						m_user				{ };
 	};
 //┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 //┃ここから下は関数の実装

@@ -7,27 +7,27 @@ namespace tktk
 	{
 	}
 
-	unsigned int Camera::create()
+	size_t Camera::create()
 	{
 		return m_cameraArray.create();
 	}
 
-	const tktkMath::Matrix4& Camera::getViewMatrix(unsigned int handle) const
+	const tktkMath::Matrix4& Camera::getViewMatrix(size_t handle) const
 	{
 		return m_cameraArray.getMatchHandlePtr(handle)->getViewMatrix();
 	}
 
-	void Camera::setViewMatrix(unsigned int handle, const tktkMath::Matrix4& view)
+	void Camera::setViewMatrix(size_t handle, const tktkMath::Matrix4& view)
 	{
 		m_cameraArray.getMatchHandlePtr(handle)->setViewMatrix(view);
 	}
 
-	const tktkMath::Matrix4& Camera::getProjectionMatrix(unsigned int handle) const
+	const tktkMath::Matrix4& Camera::getProjectionMatrix(size_t handle) const
 	{
 		return m_cameraArray.getMatchHandlePtr(handle)->getProjectionMatrix();
 	}
 
-	void Camera::setProjectionMatrix(unsigned int handle, const tktkMath::Matrix4& projection)
+	void Camera::setProjectionMatrix(size_t handle, const tktkMath::Matrix4& projection)
 	{
 		m_cameraArray.getMatchHandlePtr(handle)->setProjectionMatrix(projection);
 	}

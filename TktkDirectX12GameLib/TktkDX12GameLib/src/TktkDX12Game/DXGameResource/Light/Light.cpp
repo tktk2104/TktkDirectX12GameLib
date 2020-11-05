@@ -11,7 +11,7 @@ namespace tktk
 		DX12GameManager::setSystemHandle(SystemCBufferType::Light, DX12GameManager::createCBuffer(LightCBuffer()));
 	}
 
-	unsigned int Light::create(
+	size_t Light::create(
 		const tktkMath::Color& ambient,
 		const tktkMath::Color& diffuse,
 		const tktkMath::Color& speqular,
@@ -21,27 +21,27 @@ namespace tktk
 		return m_lightArray.create(ambient, diffuse, speqular, position);
 	}
 
-	void Light::updateLightCBuffer(unsigned int handle) const
+	void Light::updateLightCBuffer(size_t handle) const
 	{
 		m_lightArray.getMatchHandlePtr(handle)->updateLightCBuffer();
 	}
 
-	void Light::setAmbient(unsigned int handle, const tktkMath::Color& ambient)
+	void Light::setAmbient(size_t handle, const tktkMath::Color& ambient)
 	{
 		m_lightArray.getMatchHandlePtr(handle)->setAmbient(ambient);
 	}
 
-	void Light::setDiffuse(unsigned int handle, const tktkMath::Color& diffuse)
+	void Light::setDiffuse(size_t handle, const tktkMath::Color& diffuse)
 	{
 		m_lightArray.getMatchHandlePtr(handle)->setDiffuse(diffuse);
 	}
 
-	void Light::setSpeqular(unsigned int handle, const tktkMath::Color& speqular)
+	void Light::setSpeqular(size_t handle, const tktkMath::Color& speqular)
 	{
 		m_lightArray.getMatchHandlePtr(handle)->setSpeqular(speqular);
 	}
 
-	void Light::setPosition(unsigned int handle, const tktkMath::Vector3& position)
+	void Light::setPosition(size_t handle, const tktkMath::Vector3& position)
 	{
 		m_lightArray.getMatchHandlePtr(handle)->setPosition(position);
 	}

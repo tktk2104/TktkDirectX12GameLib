@@ -73,17 +73,24 @@ namespace tktk
 		return *this;
 	}
 
-	SpriteDrawerMaker& SpriteDrawerMaker::useRtvDescriptorHeapHandle(unsigned int value)
+	SpriteDrawerMaker& SpriteDrawerMaker::useRtvDescriptorHeapHandle(size_t value)
 	{
 		// 値を設定して自身の参照を返す
 		m_useRtvDescriptorHeapHandle = value;
 		return *this;
 	}
 
-	SpriteDrawerMaker& SpriteDrawerMaker::spriteMaterialHandle(unsigned int value)
+	SpriteDrawerMaker& SpriteDrawerMaker::spriteMaterialHandle(size_t value)
 	{
 		// 値を設定して自身の参照を返す
 		m_spriteMaterialHandle = value;
+		return *this;
+	}
+
+	SpriteDrawerMaker& SpriteDrawerMaker::spriteMaterialId(ResourceIdCarrier value)
+	{
+		// 値を設定して自身の参照を返す
+		m_spriteMaterialHandle = DX12GameManager::getSpriteMaterialHandle(value);
 		return *this;
 	}
 
@@ -91,13 +98,6 @@ namespace tktk
 	{
 		// 値を設定して自身の参照を返す
 		m_centerRate = value;
-		return *this;
-	}
-
-	SpriteDrawerMaker& SpriteDrawerMaker::spriteMaterialIdImpl(int value)
-	{
-		// 値を設定して自身の参照を返す
-		m_spriteMaterialHandle = DX12GameManager::getSpriteMaterialHandle(value);
 		return *this;
 	}
 }

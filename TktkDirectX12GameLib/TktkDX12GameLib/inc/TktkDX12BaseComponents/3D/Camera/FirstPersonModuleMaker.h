@@ -50,7 +50,7 @@ namespace tktk
 
 		// ì¬—p•Ï”’B
 		GameObjectPtr		m_user					{ };
-		StateTypeHierarchy		m_targetState			{  };
+		StateTypeHierarchy	m_targetState			{  };
 		float				m_rotateDegSpeedPerSec	{ 100.0f };
 		float				m_moveSpeedPerSec		{ 100.0f };
 		bool				m_alwaysMoveForward		{ false };

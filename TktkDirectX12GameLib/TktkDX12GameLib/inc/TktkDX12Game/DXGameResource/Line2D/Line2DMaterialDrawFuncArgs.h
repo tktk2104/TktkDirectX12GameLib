@@ -12,13 +12,13 @@ namespace tktk
 	struct Line2DMaterialDrawFuncArgs
 	{
 		// 使用するビューポートハンドル
-		unsigned int		viewportHandle;
+		size_t		viewportHandle;
 
 		// 使用するシザー矩形ハンドル
-		unsigned int		scissorRectHandle;
+		size_t		scissorRectHandle;
 
 		// 使用するレンダーターゲット用のディスクリプタヒープハンドル
-		unsigned int		rtvDescriptorHeapHandle;
+		size_t		rtvDescriptorHeapHandle;
 
 		// ワールド行列
 		tktkMath::Matrix3	worldMatrix;

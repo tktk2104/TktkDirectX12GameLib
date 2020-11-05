@@ -1,9 +1,16 @@
 #ifndef GAME_OBJECT_MANAGER_H_
 #define GAME_OBJECT_MANAGER_H_
 
+/* std::shared_ptr */
 #include <memory>
+
+/* std::forward_list */
 #include <forward_list>
+
+/* GameObjectPtr */
 #include "GameObjectPtr.h"
+
+/* funcArgs */
 #include "GameObjectTagCarrier.h"
 #include "../EventMessage/MessageTypeCarrier.h"
 #include "../EventMessage/MessageAttachment.h"

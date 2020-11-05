@@ -82,24 +82,38 @@ namespace tktk
 		return *this;
 	}
 
-	BillboardDrawerMaker& BillboardDrawerMaker::useRtvDescriptorHeapHandle(unsigned int value)
+	BillboardDrawerMaker& BillboardDrawerMaker::useRtvDescriptorHeapHandle(size_t value)
 	{
 		// 値を設定して自身の参照を返す
 		m_useRtvDescriptorHeapHandle = value;
 		return *this;
 	}
 
-	BillboardDrawerMaker& BillboardDrawerMaker::billboardMaterialHandle(unsigned int value)
+	BillboardDrawerMaker& BillboardDrawerMaker::billboardMaterialHandle(size_t value)
 	{
 		// 値を設定して自身の参照を返す
 		m_billboardMaterialHandle = value;
 		return *this;
 	}
 
-	BillboardDrawerMaker& BillboardDrawerMaker::cameraHandle(unsigned int value)
+	BillboardDrawerMaker& BillboardDrawerMaker::cameraHandle(size_t value)
 	{
 		// 値を設定して自身の参照を返す
 		m_cameraHandle = value;
+		return *this;
+	}
+
+	BillboardDrawerMaker& BillboardDrawerMaker::cameraId(ResourceIdCarrier value)
+	{
+		// 値を設定して自身の参照を返す
+		m_cameraHandle = DX12GameManager::getCameraHandle(value);
+		return *this;
+	}
+
+	BillboardDrawerMaker& BillboardDrawerMaker::billboardMaterialId(ResourceIdCarrier value)
+	{
+		// 値を設定して自身の参照を返す
+		m_billboardMaterialHandle = DX12GameManager::getBillboardMaterialHandle(value);
 		return *this;
 	}
 
@@ -114,20 +128,6 @@ namespace tktk
 	{
 		// 値を設定して自身の参照を返す
 		m_blendRate = value;
-		return *this;
-	}
-
-	BillboardDrawerMaker& BillboardDrawerMaker::billboardMaterialIdImpl(int value)
-	{
-		// 値を設定して自身の参照を返す
-		m_billboardMaterialHandle = DX12GameManager::getBillboardMaterialHandle(value);
-		return *this;
-	}
-
-	BillboardDrawerMaker& BillboardDrawerMaker::cameraIdImpl(int value)
-	{
-		// 値を設定して自身の参照を返す
-		m_cameraHandle = DX12GameManager::getCameraHandle(value);
 		return *this;
 	}
 }

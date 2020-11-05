@@ -7,6 +7,8 @@
 #include "EventMessage/MessageAttachment.h"
 #include "GameObject/GameObjectPtr.h"
 #include "GameObject/GameObjectTagCarrier.h"
+#include "DXGameResource/_HandleGetter/ResourceIdCarrier.h"
+#include "Component/ComponentCollisionFunc/CollisionGroupTypeCarrier.h"
 #include "_MainManager/DX12GameManagerFuncArgsIncluder.h"
 
 namespace tktk
@@ -28,13 +30,11 @@ namespace tktk
 
 		// シーンを有効にする
 		// ※内部で対応するリソースハンドルに変換される
-		template <class SceneType>
-		static void enableScene(SceneType id);
+		static void enableScene(ResourceIdCarrier id);
 
 		// シーンを無効にする
 		// ※内部で対応するリソースハンドルに変換される
-		template <class SceneType>
-		static void disableScene(SceneType id);
+		static void disableScene(ResourceIdCarrier id);
 
 	//************************************************************
 	/* ゲームオブジェクトの処理 */
@@ -120,9 +120,6 @@ namespace tktk
 	/* 非テンプレート関数 */
 	private:
 
-		static void enableSceneImpl(int id);
-		static void disableSceneImpl(int id);
-
 		static bool isPushImpl(int commandId);
 		static bool isPushImpl(MouseButtonType buttonType);
 		static bool isPushImpl(KeybordKeyType keyType);
@@ -136,22 +133,6 @@ namespace tktk
 //┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 //┃ここから下は関数の実装
 //┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-	// シーンを有効にする
-	// ※内部で対応するリソースハンドルに変換される
-	template<class SceneType>
-	inline void DX12Game::enableScene(SceneType id)
-	{
-		enableSceneImpl(static_cast<int>(id));
-	}
-
-	// シーンを無効にする
-	// ※内部で対応するリソースハンドルに変換される
-	template<class SceneType>
-	inline void DX12Game::disableScene(SceneType id)
-	{
-		disableSceneImpl(static_cast<int>(id));
-	}
 
 	// IDに対応した入力が押されているかを判定
 	template<class T>

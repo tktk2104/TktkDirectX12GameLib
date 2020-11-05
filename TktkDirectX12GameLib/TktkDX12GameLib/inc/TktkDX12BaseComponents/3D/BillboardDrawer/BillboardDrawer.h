@@ -16,7 +16,7 @@ namespace tktk
 	{
 	public:
 
-		BillboardDrawer(float drawPriority, unsigned int billboardMaterialHandle, unsigned int useRtvDescriptorHeapHandle, unsigned int cameraHandle, const tktkMath::Vector2& centerRate, const tktkMath::Color& blendRate);
+		BillboardDrawer(float drawPriority, size_t billboardMaterialHandle, size_t useRtvDescriptorHeapHandle, size_t cameraHandle, const tktkMath::Vector2& centerRate, const tktkMath::Color& blendRate);
 
 	public:
 
@@ -27,35 +27,24 @@ namespace tktk
 	public:
 
 		// ビルボードマテリアルハンドルを再設定する
-		void setBillboardMaterialHandle(unsigned int handle);
+		void setBillboardMaterialHandle(size_t handle);
 
 		// ビルボードマテリアルIDを再設定する（列挙型を含む整数型のidが渡された場合のみビルド可）
 		// ※内部で対応するリソースハンドルに変換される
-		template <class IdType, is_idType<IdType> = nullptr>
-		void setBillboardMaterialId(IdType id) { setBillboardMaterialIdImpl(static_cast<unsigned int>(id)); }
+		void setBillboardMaterialId(ResourceIdCarrier id);
 
 		// ビルボードの中心位置の割合を設定する
 		void setCenterRate(const tktkMath::Vector2& centerRate);
 
 	private:
 
-		// 各種id指定系の関数の実装
-		void setBillboardMaterialIdImpl(int id);
-
-	private:
-
-		unsigned int				m_createCopyTransformCbufferHandle{ 0U };
-		unsigned int				m_useRtvDescriptorHeapHandle;
-		unsigned int				m_cameraHandle;
-		unsigned int				m_billboardMaterialHandle;
+		size_t						m_createUploadTransformCbufferHandle{ 0U };
+		size_t						m_useRtvDescriptorHeapHandle;
+		size_t						m_cameraHandle;
+		size_t						m_billboardMaterialHandle;
 		tktkMath::Vector2			m_centerRate;
 		tktkMath::Color				m_blendRate;
 		ComponentPtr<Transform3D>	m_transform;
-
-	public:
-
-		template <class IdType, is_not_idType<IdType> = nullptr>
-		void setBillboardMaterialId(IdType id) { static_assert(false, "BillboardMaterialId Fraud Type"); }
 	};
 }
 #endif // !BILLBOARD_DRAWER_H_

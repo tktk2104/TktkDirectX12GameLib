@@ -63,7 +63,7 @@ namespace tktk
 		}
 	}
 
-	void ComponentCollisionList::addCollisionGroup(int firstGroup, int secondGroup)
+	void ComponentCollisionList::addCollisionGroup(CollisionGroupTypeCarrier firstGroup, CollisionGroupTypeCarrier secondGroup)
 	{
 		// 新たな衝突判定グループを追加する
 		m_collisionGroupPairArray.push_back(std::make_pair(firstGroup, secondGroup));

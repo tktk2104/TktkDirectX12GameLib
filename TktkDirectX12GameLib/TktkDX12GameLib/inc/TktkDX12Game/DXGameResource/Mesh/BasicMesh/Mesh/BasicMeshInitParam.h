@@ -11,13 +11,13 @@ namespace tktk
 	struct BasicMeshInitParam
 	{
 		// 使う頂点バッファのハンドル
-		unsigned int useVertexBufferHandle;
+		size_t useVertexBufferHandle;
 
 		// 使うインデックスバッファのハンドル
-		unsigned int useIndexBufferHandle;
+		size_t useIndexBufferHandle;
 
 		// メッシュが持つインデックスの総数
-		unsigned int indexNum;
+		size_t indexNum;
 
 		MeshPrimitiveTopology primitiveTopology;
 

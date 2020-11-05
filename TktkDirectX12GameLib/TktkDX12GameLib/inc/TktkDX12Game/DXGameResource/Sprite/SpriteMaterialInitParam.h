@@ -14,7 +14,7 @@ namespace tktk
 		BufferType			srvBufferType;
 
 		// 描画するバッファーのID
-		unsigned int		useBufferHandle;
+		size_t				useBufferHandle;
 
 		// ブレンド値
 		tktkMath::Color		blendRate		{ 1.0f, 1.0f, 1.0f, 1.0f };

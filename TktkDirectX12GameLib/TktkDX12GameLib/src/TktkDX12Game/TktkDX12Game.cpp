@@ -9,6 +9,16 @@ namespace tktk
 		return DX12GameManager::getWindowSize();
 	}
 
+	void DX12Game::enableScene(ResourceIdCarrier id)
+	{
+		DX12GameManager::enableScene(DX12GameManager::getSceneHandle(id));
+	}
+
+	void DX12Game::disableScene(ResourceIdCarrier id)
+	{
+		DX12GameManager::disableScene(DX12GameManager::getSceneHandle(id));
+	}
+
 	void DX12Game::sendMessageAll(MessageTypeCarrier type, const MessageAttachment& attachment)
 	{
 		DX12GameManager::sendMessageAll(type, attachment);
@@ -97,16 +107,6 @@ namespace tktk
 	float DX12Game::fps()
 	{
 		return DX12GameManager::fps();
-	}
-
-	void DX12Game::enableSceneImpl(int id)
-	{
-		DX12GameManager::enableScene(DX12GameManager::getSceneHandle(id));
-	}
-
-	void DX12Game::disableSceneImpl(int id)
-	{
-		DX12GameManager::disableScene(DX12GameManager::getSceneHandle(id));
 	}
 
 	bool DX12Game::isPushImpl(int commandId)

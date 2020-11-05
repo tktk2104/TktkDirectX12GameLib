@@ -57,10 +57,17 @@ namespace tktk
 		return *this;
 	}
 
-	MotionChangerMaker& MotionChangerMaker::initMotionHandle(unsigned int value)
+	MotionChangerMaker& MotionChangerMaker::initMotionHandle(size_t value)
 	{
 		// 値を設定して自身の参照を返す
 		m_initMotionHandle = value;
+		return *this;
+	}
+
+	MotionChangerMaker& MotionChangerMaker::initMotionId(ResourceIdCarrier value)
+	{
+		// 値を設定して自身の参照を返す
+		m_initMotionHandle = DX12GameManager::getMotionHandle(value);
 		return *this;
 	}
 
@@ -68,13 +75,6 @@ namespace tktk
 	{
 		// 値を設定して自身の参照を返す
 		m_lerpTimeSec = value;
-		return *this;
-	}
-
-	MotionChangerMaker& MotionChangerMaker::initMotionIdImpl(int value)
-	{
-		// 値を設定して自身の参照を返す
-		m_initMotionHandle = DX12GameManager::getMotionHandle(value);
 		return *this;
 	}
 }

@@ -3,6 +3,8 @@
 
 #include <TktkContainer/ResourceContainer/ResourceContainer.h>
 #include "SceneInstanceCarrier.h"
+#include "SceneDataInitParam.h"
+#include "../../GameObject/GameObjectTagCarrier.h"
 
 namespace tktk
 {
@@ -17,16 +19,16 @@ namespace tktk
 	public:
 
 		// シーンを作り、そのリソースのハンドルを返す
-		unsigned int create(const std::shared_ptr<SceneBase>& scenePtr, SceneVTable* vtablePtr);
+		size_t create(const SceneDataInitParam& initParam);
 
 		// シーンの終了時に削除するゲームオブジェクトタグを設定する
-		void setSceneEndDestroyGameObjectTag(unsigned int handle, int tag);
+		void setSceneEndDestroyGameObjectTag(size_t handle, GameObjectTagCarrier tag);
 
 		// シーンを有効にする
-		void enable(unsigned int handle);
+		void enable(size_t handle);
 
 		// シーンを無効にする
-		void disable(unsigned int handle);
+		void disable(size_t handle);
 
 		// シーンの更新処理
 		void update();

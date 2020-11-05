@@ -65,10 +65,17 @@ namespace tktk
 		return createComponent;
 	}
 
-	DirectionalLightControllerMaker& DirectionalLightControllerMaker::initLightHandle(unsigned int value)
+	DirectionalLightControllerMaker& DirectionalLightControllerMaker::initLightHandle(size_t value)
 	{
 		// 値を設定して自身の参照を返す
 		m_initLightHandle = value;
+		return *this;
+	}
+
+	DirectionalLightControllerMaker& DirectionalLightControllerMaker::initLightId(ResourceIdCarrier value)
+	{
+		// 値を設定して自身の参照を返す
+		m_initLightHandle = DX12GameManager::getLightHandle(value);
 		return *this;
 	}
 
@@ -90,13 +97,6 @@ namespace tktk
 	{
 		// 値を設定して自身の参照を返す
 		m_initSpeqular = value;
-		return *this;
-	}
-
-	DirectionalLightControllerMaker& DirectionalLightControllerMaker::initLightIdImpl(int value)
-	{
-		// 値を設定して自身の参照を返す
-		m_initLightHandle = DX12GameManager::getLightHandle(value);
 		return *this;
 	}
 }

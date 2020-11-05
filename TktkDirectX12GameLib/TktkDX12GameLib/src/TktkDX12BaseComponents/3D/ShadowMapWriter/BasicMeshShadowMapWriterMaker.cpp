@@ -91,21 +91,21 @@ namespace tktk
 		return *this;
 	}
 
-	BasicMeshShadowMapWriterMaker& BasicMeshShadowMapWriterMaker::meshIdImpl(int value)
+	BasicMeshShadowMapWriterMaker& BasicMeshShadowMapWriterMaker::meshId(ResourceIdCarrier value)
 	{
 		// 値を設定して自身の参照を返す
 		m_meshHandle = DX12GameManager::getBasicMeshHandle(value);
 		return *this;
 	}
 
-	BasicMeshShadowMapWriterMaker& BasicMeshShadowMapWriterMaker::skeletonIdImpl(int value)
+	BasicMeshShadowMapWriterMaker& BasicMeshShadowMapWriterMaker::skeletonId(ResourceIdCarrier value)
 	{
 		// 値を設定して自身の参照を返す
 		m_skeletonHandle = DX12GameManager::getSkeletonHandle(value);
 		return *this;
 	}
 
-	BasicMeshShadowMapWriterMaker& BasicMeshShadowMapWriterMaker::cameraIdImpl(int value)
+	BasicMeshShadowMapWriterMaker& BasicMeshShadowMapWriterMaker::cameraId(ResourceIdCarrier value)
 	{
 		// 値を設定して自身の参照を返す
 		m_cameraHandle = DX12GameManager::getCameraHandle(value);

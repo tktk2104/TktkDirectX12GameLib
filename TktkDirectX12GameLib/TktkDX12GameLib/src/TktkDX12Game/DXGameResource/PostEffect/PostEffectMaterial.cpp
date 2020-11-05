@@ -67,12 +67,12 @@ namespace tktk
 		}
 	}
 
-	unsigned int PostEffectMaterial::create(const PostEffectMaterialInitParam& initParam)
+	size_t PostEffectMaterial::create(const PostEffectMaterialInitParam& initParam)
 	{
 		return m_postEffectMaterialArray.create(initParam);
 	}
 
-	void PostEffectMaterial::drawPostEffect(unsigned int handle, const PostEffectMaterialDrawFuncArgs& drawFuncArgs) const
+	void PostEffectMaterial::drawPostEffect(size_t handle, const PostEffectMaterialDrawFuncArgs& drawFuncArgs) const
 	{
 		m_postEffectMaterialArray.getMatchHandlePtr(handle)->drawPostEffect(drawFuncArgs);
 	}

@@ -114,49 +114,49 @@ namespace tktk
 		return *this;
 	}
 
-	SphereMeshDrawerMaker& SphereMeshDrawerMaker::useRtvDescriptorHeapHandle(unsigned int value)
+	SphereMeshDrawerMaker& SphereMeshDrawerMaker::useRtvDescriptorHeapHandle(size_t value)
 	{
 		// 値を設定して自身の参照を返す
 		m_useResourceHandles.rtvDescriptorHeapHandle = value;
 		return *this;
 	}
 
-	SphereMeshDrawerMaker& SphereMeshDrawerMaker::cameraHandle(unsigned int value)
+	SphereMeshDrawerMaker& SphereMeshDrawerMaker::cameraHandle(size_t value)
 	{
 		// 値を設定して自身の参照を返す
 		m_useResourceHandles.cameraHandle = value;
 		return *this;
 	}
 
-	SphereMeshDrawerMaker& SphereMeshDrawerMaker::shadowMapCameraHandle(unsigned int value)
-	{
-		// 値を設定して自身の参照を返す
-		m_useResourceHandles.shadowMapCameraHandle = value;
-		return *this;
-	}
-
-	SphereMeshDrawerMaker& SphereMeshDrawerMaker::lightHandle(unsigned int value)
-	{
-		// 値を設定して自身の参照を返す
-		m_useResourceHandles.lightHandle = value;
-		return *this;
-	}
-
-	SphereMeshDrawerMaker& SphereMeshDrawerMaker::cameraIdImpl(int value)
+	SphereMeshDrawerMaker& SphereMeshDrawerMaker::cameraId(ResourceIdCarrier value)
 	{
 		// 値を設定して自身の参照を返す
 		m_useResourceHandles.cameraHandle = DX12GameManager::getCameraHandle(value);
 		return *this;
 	}
 
-	SphereMeshDrawerMaker& SphereMeshDrawerMaker::shadowMapCameraIdImpl(int value)
+	SphereMeshDrawerMaker& SphereMeshDrawerMaker::shadowMapCameraHandle(size_t value)
+	{
+		// 値を設定して自身の参照を返す
+		m_useResourceHandles.shadowMapCameraHandle = value;
+		return *this;
+	}
+
+	SphereMeshDrawerMaker& SphereMeshDrawerMaker::shadowMapCameraId(ResourceIdCarrier value)
 	{
 		// 値を設定して自身の参照を返す
 		m_useResourceHandles.shadowMapCameraHandle = DX12GameManager::getCameraHandle(value);
 		return *this;
 	}
 
-	SphereMeshDrawerMaker& SphereMeshDrawerMaker::lightIdImpl(int value)
+	SphereMeshDrawerMaker& SphereMeshDrawerMaker::lightHandle(size_t value)
+	{
+		// 値を設定して自身の参照を返す
+		m_useResourceHandles.lightHandle = value;
+		return *this;
+	}
+
+	SphereMeshDrawerMaker& SphereMeshDrawerMaker::lightId(ResourceIdCarrier value)
 	{
 		// 値を設定して自身の参照を返す
 		m_useResourceHandles.lightHandle = DX12GameManager::getLightHandle(value);

@@ -2,6 +2,7 @@
 #define DX_GAME_RESOURCE_HANDLE_GETTER_H_
 
 #include <unordered_map>
+#include "ResourceIdCarrier.h"
 
 namespace tktk
 {
@@ -14,48 +15,48 @@ namespace tktk
 
 	public:
 
-		unsigned int getSceneHandle				(int id) const;
-		unsigned int getSoundHandle				(int id) const;
-		unsigned int getPostEffectMaterialHandle(int id) const;
-		unsigned int getSpriteMaterialHandle	(int id) const;
-		unsigned int getLine2DMaterialHandle	(int id) const;
-		unsigned int getBillboardMaterialHandle	(int id) const;
-		unsigned int getSkeletonHandle			(int id) const;
-		unsigned int getMotionHandle			(int id) const;
-		unsigned int getBasicMeshHandle			(int id) const;
-		unsigned int getBasicMeshMaterialHandle	(int id) const;
-		unsigned int getCameraHandle			(int id) const;
-		unsigned int getLightHandle				(int id) const;
+		size_t getSceneHandle				(ResourceIdCarrier id) const;
+		size_t getSoundHandle				(ResourceIdCarrier id) const;
+		size_t getPostEffectMaterialHandle(ResourceIdCarrier id) const;
+		size_t getSpriteMaterialHandle	(ResourceIdCarrier id) const;
+		size_t getLine2DMaterialHandle	(ResourceIdCarrier id) const;
+		size_t getBillboardMaterialHandle	(ResourceIdCarrier id) const;
+		size_t getSkeletonHandle			(ResourceIdCarrier id) const;
+		size_t getMotionHandle			(ResourceIdCarrier id) const;
+		size_t getBasicMeshHandle			(ResourceIdCarrier id) const;
+		size_t getBasicMeshMaterialHandle	(ResourceIdCarrier id) const;
+		size_t getCameraHandle			(ResourceIdCarrier id) const;
+		size_t getLightHandle				(ResourceIdCarrier id) const;
 
 	public:
 
-		void setSceneHandle				(int id, unsigned int handle);
-		void setSoundHandle				(int id, unsigned int handle);
-		void setPostEffectMaterialHandle(int id, unsigned int handle);
-		void setSpriteMaterialHandle	(int id, unsigned int handle);
-		void setLine2DMaterialHandle	(int id, unsigned int handle);
-		void setBillboardMaterialHandle	(int id, unsigned int handle);
-		void setSkeletonHandle			(int id, unsigned int handle);
-		void setMotionHandle			(int id, unsigned int handle);
-		void setBasicMeshHandle			(int id, unsigned int handle);
-		void setBasicMeshMaterialHandle	(int id, unsigned int handle);
-		void setCameraHandle			(int id, unsigned int handle);
-		void setLightHandle				(int id, unsigned int handle);
+		void setSceneHandle				(ResourceIdCarrier id, size_t handle);
+		void setSoundHandle				(ResourceIdCarrier id, size_t handle);
+		void setPostEffectMaterialHandle(ResourceIdCarrier id, size_t handle);
+		void setSpriteMaterialHandle	(ResourceIdCarrier id, size_t handle);
+		void setLine2DMaterialHandle	(ResourceIdCarrier id, size_t handle);
+		void setBillboardMaterialHandle	(ResourceIdCarrier id, size_t handle);
+		void setSkeletonHandle			(ResourceIdCarrier id, size_t handle);
+		void setMotionHandle			(ResourceIdCarrier id, size_t handle);
+		void setBasicMeshHandle			(ResourceIdCarrier id, size_t handle);
+		void setBasicMeshMaterialHandle	(ResourceIdCarrier id, size_t handle);
+		void setCameraHandle			(ResourceIdCarrier id, size_t handle);
+		void setLightHandle				(ResourceIdCarrier id, size_t handle);
 
 	private:
 
-		std::unordered_map<int, unsigned int>	m_sceneHandleMap;
-		std::unordered_map<int, unsigned int>	m_soundHandleMap;
-		std::unordered_map<int, unsigned int>	m_postEffectMaterialHandleMap;
-		std::unordered_map<int, unsigned int>	m_spriteMaterialHandleMap;
-		std::unordered_map<int, unsigned int>	m_line2DMaterialHandleMap;
-		std::unordered_map<int, unsigned int>	m_billboardMaterialHandleMap;
-		std::unordered_map<int, unsigned int>	m_skeletonHandleMap;
-		std::unordered_map<int, unsigned int>	m_motionHandleMap;
-		std::unordered_map<int, unsigned int>	m_basicMeshHandleMap;
-		std::unordered_map<int, unsigned int>	m_basicMeshMaterialHandleMap;
-		std::unordered_map<int, unsigned int>	m_cameraMap;
-		std::unordered_map<int, unsigned int>	m_lightMap;
+		std::unordered_map<ResourceIdCarrier, size_t>	m_sceneHandleMap;
+		std::unordered_map<ResourceIdCarrier, size_t>	m_soundHandleMap;
+		std::unordered_map<ResourceIdCarrier, size_t>	m_postEffectMaterialHandleMap;
+		std::unordered_map<ResourceIdCarrier, size_t>	m_spriteMaterialHandleMap;
+		std::unordered_map<ResourceIdCarrier, size_t>	m_line2DMaterialHandleMap;
+		std::unordered_map<ResourceIdCarrier, size_t>	m_billboardMaterialHandleMap;
+		std::unordered_map<ResourceIdCarrier, size_t>	m_skeletonHandleMap;
+		std::unordered_map<ResourceIdCarrier, size_t>	m_motionHandleMap;
+		std::unordered_map<ResourceIdCarrier, size_t>	m_basicMeshHandleMap;
+		std::unordered_map<ResourceIdCarrier, size_t>	m_basicMeshMaterialHandleMap;
+		std::unordered_map<ResourceIdCarrier, size_t>	m_cameraMap;
+		std::unordered_map<ResourceIdCarrier, size_t>	m_lightMap;
 	};
 }
 #endif // !DX_GAME_RESOURCE_HANDLE_GETTER_H_

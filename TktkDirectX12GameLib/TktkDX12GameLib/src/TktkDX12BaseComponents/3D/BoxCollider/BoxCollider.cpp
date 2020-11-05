@@ -18,7 +18,7 @@ namespace tktk
 	};
 
 	BoxCollider::BoxCollider(
-		int collisionGroupType,
+		CollisionGroupTypeCarrier collisionGroupType,
 		const tktkMath::Vector3& boxSize,
 		const tktkMath::Vector3& localPosition,
 		bool isExtrude,

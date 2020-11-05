@@ -17,7 +17,7 @@ namespace tktk
 	public:
 
 		Polygon2dCollider(
-			int collisionGroupType,							// 当たり判定のグループ番号
+			CollisionGroupTypeCarrier collisionGroupType,	// 当たり判定のグループ番号
 			const std::vector<tktkMath::Vector2>& vertexs,	// 当たり判定を構成する頂点の座標（時計回り）
 			bool isExtrude,									// 衝突相手を押し出す処理を行うか？
 			float extrudedRate								// 押し出されやすさ（割合）

@@ -5,7 +5,7 @@
 
 namespace tktk
 {
-	SpriteDrawer::SpriteDrawer(float drawPriority, unsigned int spriteMaterialHandle, unsigned int useRtvDescriptorHeapHandle, const tktkMath::Vector2& centerRate)
+	SpriteDrawer::SpriteDrawer(float drawPriority, size_t spriteMaterialHandle, size_t useRtvDescriptorHeapHandle, const tktkMath::Vector2& centerRate)
 		: ComponentBase(drawPriority)
 		, m_useRtvDescriptorHeapHandle(useRtvDescriptorHeapHandle)
 		, m_spriteMaterialHandle(spriteMaterialHandle)
@@ -22,20 +22,20 @@ namespace tktk
 			throw std::runtime_error("SpriteDrawer not found Transform2D");
 		}
 
-		// コピー用バッファを作り、そのハンドルを取得する
-		m_createCopyTransformCbufferHandle = DX12GameManager::createCopyBuffer(BufferType::constant, DX12GameManager::getSystemHandle(SystemCBufferType::SpriteTransform), SpriteTransformCbuffer());
+		// アップロード用バッファを作り、そのハンドルを取得する
+		m_createUploadTransformCbufferHandle = DX12GameManager::createUploadBuffer(UploadBufferInitParam::create(BufferType::constant, DX12GameManager::getSystemHandle(SystemCBufferType::SpriteTransform), SpriteTransformCbuffer()));
 	}
 
 	void SpriteDrawer::onDestroy()
 	{
-		// コピー用バッファを削除する
-		DX12GameManager::eraseCopyBuffer(m_createCopyTransformCbufferHandle);
+		// アップロード用バッファを削除する
+		DX12GameManager::eraseUploadBuffer(m_createUploadTransformCbufferHandle);
 	}
 
 	void SpriteDrawer::draw() const
 	{
 		// 座標変換用の定数バッファの更新
-		DX12GameManager::updateSpriteTransformCbuffer(m_spriteMaterialHandle, m_createCopyTransformCbufferHandle, m_transform->calculateWorldMatrix(), m_spriteCenterRate);
+		DX12GameManager::updateSpriteTransformCbuffer(m_spriteMaterialHandle, m_createUploadTransformCbufferHandle, m_transform->calculateWorldMatrix(), m_spriteCenterRate);
 
 		SpriteMaterialDrawFuncArgs drawFuncArgs{};
 		drawFuncArgs.viewportHandle				= DX12GameManager::getSystemHandle(SystemViewportType::Basic);
@@ -45,18 +45,18 @@ namespace tktk
 		DX12GameManager::drawSprite(m_spriteMaterialHandle, drawFuncArgs);
 	}
 
-	void SpriteDrawer::setSpriteMaterialHandle(unsigned int handle)
+	void SpriteDrawer::setSpriteMaterialHandle(size_t handle)
 	{
 		m_spriteMaterialHandle = handle;
+	}
+
+	void SpriteDrawer::setSpriteMaterialId(ResourceIdCarrier id)
+	{
+		m_spriteMaterialHandle = DX12GameManager::getSpriteMaterialHandle(id);
 	}
 
 	void SpriteDrawer::setCenterRate(const tktkMath::Vector2& centerRate)
 	{
 		m_spriteCenterRate = centerRate;
-	}
-
-	void SpriteDrawer::setSpriteMaterialIdImpl(int id)
-	{
-		m_spriteMaterialHandle = DX12GameManager::getSpriteMaterialHandle(id);
 	}
 }

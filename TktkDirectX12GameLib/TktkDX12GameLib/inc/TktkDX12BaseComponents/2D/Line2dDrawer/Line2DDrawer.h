@@ -22,7 +22,7 @@ namespace tktk
 			const std::vector<tktkMath::Vector2>& lineVertexArray,
 			const tktkMath::Color& lineColor,
 			const tktkMath::Color& blendRate,
-			unsigned int useRtvDescriptorHeapHandle
+			size_t useRtvDescriptorHeapHandle
 		);
 
 	public:
@@ -50,8 +50,8 @@ namespace tktk
 
 	private:
 
-		unsigned int					m_useLine2DMaterialHandle;
-		unsigned int					m_useRtvDescriptorHeapHandle;
+		size_t							m_useLine2DMaterialHandle;
+		size_t							m_useRtvDescriptorHeapHandle;
 		std::vector<tktkMath::Vector2>	m_lineVertexArray;
 		tktkMath::Color					m_lineColor{ tktkMath::Color_v::white };
 		tktkMath::Color					m_blendRate{ 1.0f, 1.0f, 1.0f, 1.0f };

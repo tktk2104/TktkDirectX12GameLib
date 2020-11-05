@@ -45,7 +45,7 @@ namespace tktk
 
 	private:
 
-		unsigned int		m_createCopyBufferHandle{ 0U };
+		size_t				m_createUploadBufferHandle{ 0U };
 		LightCBuffer		m_lightCBuffer;
 	};
 }

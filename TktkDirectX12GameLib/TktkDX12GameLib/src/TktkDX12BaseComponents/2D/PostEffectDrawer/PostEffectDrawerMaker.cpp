@@ -85,7 +85,7 @@ namespace tktk
 		return *this;
 	}
 
-	PostEffectDrawerMaker& PostEffectDrawerMaker::postEffectMaterialIdImpl(int value)
+	PostEffectDrawerMaker& PostEffectDrawerMaker::postEffectMaterialId(ResourceIdCarrier value)
 	{
 		// ’l‚ğİ’è‚µ‚Ä©g‚ÌQÆ‚ğ•Ô‚·
 		m_postEffectMaterialHandle = DX12GameManager::getPostEffectMaterialHandle(value);

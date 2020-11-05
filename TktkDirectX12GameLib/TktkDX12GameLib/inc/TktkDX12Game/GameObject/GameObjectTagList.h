@@ -1,7 +1,10 @@
 #ifndef GAME_OBJECT_TAG_LIST_H_
 #define GAME_OBJECT_TAG_LIST_H_
 
+/* std::unordered_set */
 #include <unordered_set>
+
+/* GameObjectTagCarrier */
 #include "GameObjectTagCarrier.h"
 
 namespace tktk

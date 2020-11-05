@@ -32,12 +32,11 @@ namespace tktk
 
 		// 使用する初期ライトハンドルを設定する
 		// ※初期パラメータはデフォルトライト
-		PointLightControllerMaker& initLightHandle(unsigned int value);
+		PointLightControllerMaker& initLightHandle(size_t value);
 
 		// 使用する初期ライトIDを設定する（列挙型を含む整数型のidが渡された場合のみビルド可で、関数内で対応するリソースハンドルに変換される）
 		// ※初期パラメータはデフォルトライト
-		template<class IdType, is_idType<IdType> = nullptr>
-		PointLightControllerMaker& initLightId(IdType value) { return initLightIdImpl(static_cast<int>(value)); }
+		PointLightControllerMaker& initLightId(ResourceIdCarrier value);
 
 		// 初期環境光を設定する
 		PointLightControllerMaker& initAmbient(const tktkMath::Color& value);
@@ -48,10 +47,6 @@ namespace tktk
 		// 初期鏡面反射光を設定する
 		PointLightControllerMaker& initSpeqular(const tktkMath::Color& value);
 
-	private: /* 各種id指定系の関数の実装 */
-
-		PointLightControllerMaker& initLightIdImpl(int value);
-
 	private: /* 自身のインスタンスは静的な存在として扱う */
 
 		static PointLightControllerMaker m_self;
@@ -59,16 +54,11 @@ namespace tktk
 	private: /* 変数達 */
 
 		GameObjectPtr		m_user				{  };
-		StateTypeHierarchy		m_targetState		{  };
-		unsigned int		m_initLightHandle	{ 0U };
+		StateTypeHierarchy	m_targetState		{  };
+		size_t				m_initLightHandle	{ 0U };
 		tktkMath::Color		m_initAmbient		{ 0.1f, 1.0f };
 		tktkMath::Color		m_initDiffuse		{ 1.0f, 1.0f };
 		tktkMath::Color		m_initSpeqular		{ 1.0f, 1.0f };
-
-	public: /* 不正な型の引数が渡されそうになった時にコンパイルエラーにする為の仕組み */
-
-		template<class IdType, std::enable_if_t<!is_idType_v<IdType>>* = nullptr>
-		PointLightControllerMaker& initLightId(IdType value) { static_assert(false, "LightId Fraud Type"); }
 	};
 }
 #endif // !POINT_LIGHT_CONTROLLER_MAKER_H_

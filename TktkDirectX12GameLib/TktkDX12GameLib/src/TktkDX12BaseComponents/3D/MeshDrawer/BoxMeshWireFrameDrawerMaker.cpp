@@ -114,49 +114,49 @@ namespace tktk
 		return *this;
 	}
 
-	BoxMeshWireFrameDrawerMaker& BoxMeshWireFrameDrawerMaker::useRtvDescriptorHeapHandle(unsigned int value)
+	BoxMeshWireFrameDrawerMaker& BoxMeshWireFrameDrawerMaker::useRtvDescriptorHeapHandle(size_t value)
 	{
 		// 値を設定して自身の参照を返す
 		m_useResourceHandles.rtvDescriptorHeapHandle = value;
 		return *this;
 	}
 
-	BoxMeshWireFrameDrawerMaker& BoxMeshWireFrameDrawerMaker::cameraHandle(unsigned int value)
+	BoxMeshWireFrameDrawerMaker& BoxMeshWireFrameDrawerMaker::cameraHandle(size_t value)
 	{
 		// 値を設定して自身の参照を返す
 		m_useResourceHandles.cameraHandle = value;
 		return *this;
 	}
 
-	BoxMeshWireFrameDrawerMaker& BoxMeshWireFrameDrawerMaker::shadowMapCameraHandle(unsigned int value)
-	{
-		// 値を設定して自身の参照を返す
-		m_useResourceHandles.shadowMapCameraHandle = value;
-		return *this;
-	}
-
-	BoxMeshWireFrameDrawerMaker& BoxMeshWireFrameDrawerMaker::lightHandle(unsigned int value)
-	{
-		// 値を設定して自身の参照を返す
-		m_useResourceHandles.lightHandle = value;
-		return *this;
-	}
-
-	BoxMeshWireFrameDrawerMaker& BoxMeshWireFrameDrawerMaker::cameraIdImpl(int value)
+	BoxMeshWireFrameDrawerMaker& BoxMeshWireFrameDrawerMaker::cameraId(ResourceIdCarrier value)
 	{
 		// 値を設定して自身の参照を返す
 		m_useResourceHandles.cameraHandle = DX12GameManager::getCameraHandle(value);
 		return *this;
 	}
 
-	BoxMeshWireFrameDrawerMaker& BoxMeshWireFrameDrawerMaker::shadowMapCameraIdImpl(int value)
+	BoxMeshWireFrameDrawerMaker& BoxMeshWireFrameDrawerMaker::shadowMapCameraHandle(size_t value)
+	{
+		// 値を設定して自身の参照を返す
+		m_useResourceHandles.shadowMapCameraHandle = value;
+		return *this;
+	}
+
+	BoxMeshWireFrameDrawerMaker& BoxMeshWireFrameDrawerMaker::shadowMapCameraId(ResourceIdCarrier value)
 	{
 		// 値を設定して自身の参照を返す
 		m_useResourceHandles.shadowMapCameraHandle = DX12GameManager::getCameraHandle(value);
 		return *this;
 	}
 
-	BoxMeshWireFrameDrawerMaker& BoxMeshWireFrameDrawerMaker::lightIdImpl(int value)
+	BoxMeshWireFrameDrawerMaker& BoxMeshWireFrameDrawerMaker::lightHandle(size_t value)
+	{
+		// 値を設定して自身の参照を返す
+		m_useResourceHandles.lightHandle = value;
+		return *this;
+	}
+
+	BoxMeshWireFrameDrawerMaker& BoxMeshWireFrameDrawerMaker::lightId(ResourceIdCarrier value)
 	{
 		// 値を設定して自身の参照を返す
 		m_useResourceHandles.lightHandle = DX12GameManager::getLightHandle(value);

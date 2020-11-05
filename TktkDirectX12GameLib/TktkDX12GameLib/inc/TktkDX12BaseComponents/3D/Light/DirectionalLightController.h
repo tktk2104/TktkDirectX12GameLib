@@ -14,7 +14,7 @@ namespace tktk
 	public:
 
 		DirectionalLightController(
-			unsigned int lightHandle,
+			size_t lightHandle,
 			const tktkMath::Color& ambient,
 			const tktkMath::Color& diffuse,
 			const tktkMath::Color& speqular
@@ -43,7 +43,7 @@ namespace tktk
 
 	private:
 
-		unsigned int				m_lightHandle;
+		size_t						m_lightHandle;
 		tktkMath::Color				m_ambient;
 		tktkMath::Color				m_diffuse;
 		tktkMath::Color				m_speqular;

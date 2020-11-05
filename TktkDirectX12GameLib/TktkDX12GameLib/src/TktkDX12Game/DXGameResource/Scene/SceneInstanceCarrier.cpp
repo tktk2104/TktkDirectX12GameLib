@@ -33,9 +33,9 @@ namespace tktk
 		other.m_scenePtr = nullptr;
 	}
 
-	void SceneInstanceCarrier::setSceneEndDestroyGameObjectTag(int tag)
+	void SceneInstanceCarrier::setSceneEndDestroyGameObjectTag(GameObjectTagCarrier tag)
 	{
-		m_destroyGameObjectTag = std::make_unique<int>(tag);
+		m_destroyGameObjectTag = std::make_unique<GameObjectTagCarrier>(tag);
 	}
 
 	void SceneInstanceCarrier::enable()

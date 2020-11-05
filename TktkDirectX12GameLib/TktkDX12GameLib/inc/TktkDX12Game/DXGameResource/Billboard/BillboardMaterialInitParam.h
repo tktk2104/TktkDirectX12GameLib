@@ -13,7 +13,7 @@ namespace tktk
 		BufferType			srvBufferType;
 
 		// 描画するバッファーのID
-		unsigned int		useBufferHandle;
+		size_t				useBufferHandle;
 
 		// テクスチャUVのオフセット
 		tktkMath::Vector2	textureUvOffset{ 0.0f, 0.0f };

@@ -2,7 +2,7 @@
 
 namespace tktk
 {
-	PointLightController::PointLightController(unsigned int lightHandle, const tktkMath::Color& ambient, const tktkMath::Color& diffuse, const tktkMath::Color& speqular)
+	PointLightController::PointLightController(size_t lightHandle, const tktkMath::Color& ambient, const tktkMath::Color& diffuse, const tktkMath::Color& speqular)
 		: m_lightHandle(lightHandle)
 		, m_ambient(ambient)
 		, m_diffuse(diffuse)

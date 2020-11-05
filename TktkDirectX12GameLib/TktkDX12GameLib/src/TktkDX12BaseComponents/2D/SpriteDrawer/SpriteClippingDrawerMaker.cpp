@@ -75,17 +75,24 @@ namespace tktk
 		return *this;
 	}
 
-	SpriteClippingDrawerMaker& SpriteClippingDrawerMaker::useRtvDescriptorHeapHandle(unsigned int value)
+	SpriteClippingDrawerMaker& SpriteClippingDrawerMaker::useRtvDescriptorHeapHandle(size_t value)
 	{
 		// 値を設定して自身の参照を返す
 		m_useRtvDescriptorHeapHandle = value;
 		return *this;
 	}
 
-	SpriteClippingDrawerMaker& SpriteClippingDrawerMaker::spriteMaterialHandle(unsigned int value)
+	SpriteClippingDrawerMaker& SpriteClippingDrawerMaker::spriteMaterialHandle(size_t value)
 	{
 		// 値を設定して自身の参照を返す
 		m_spriteMaterialHandle = value;
+		return *this;
+	}
+
+	SpriteClippingDrawerMaker& SpriteClippingDrawerMaker::spriteMaterialId(ResourceIdCarrier value)
+	{
+		// 値を設定して自身の参照を返す
+		m_spriteMaterialHandle = DX12GameManager::getSpriteMaterialHandle(value);
 		return *this;
 	}
 
@@ -107,13 +114,6 @@ namespace tktk
 	{
 		// 値を設定して自身の参照を返す
 		m_clippingParam.size = value;
-		return *this;
-	}
-
-	SpriteClippingDrawerMaker& SpriteClippingDrawerMaker::spriteMaterialIdImpl(int value)
-	{
-		// 値を設定して自身の参照を返す
-		m_spriteMaterialHandle = DX12GameManager::getSpriteMaterialHandle(value);
 		return *this;
 	}
 }

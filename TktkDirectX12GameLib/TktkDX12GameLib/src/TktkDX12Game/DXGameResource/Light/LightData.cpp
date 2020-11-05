@@ -7,27 +7,27 @@ namespace tktk
 	LightData::LightData(const tktkMath::Color& ambient, const tktkMath::Color& diffuse, const tktkMath::Color& speqular, const tktkMath::Vector3& position)
 		: m_lightCBuffer({ ambient, diffuse, speqular, position })
 	{
-		// コピー用バッファを作り、そのハンドルを取得する
-		m_createCopyBufferHandle = DX12GameManager::createCopyBuffer(BufferType::constant, DX12GameManager::getSystemHandle(SystemCBufferType::Light), LightCBuffer());
+		// アップロード用バッファを作り、そのハンドルを取得する
+		m_createUploadBufferHandle = DX12GameManager::createUploadBuffer(UploadBufferInitParam::create(BufferType::constant, DX12GameManager::getSystemHandle(SystemCBufferType::Light), LightCBuffer()));
 	}
 
 	LightData::~LightData()
 	{
-		DX12GameManager::eraseCopyBuffer(m_createCopyBufferHandle);
+		DX12GameManager::eraseUploadBuffer(m_createUploadBufferHandle);
 	}
 
 	LightData::LightData(LightData&& other) noexcept
 		: m_lightCBuffer(other.m_lightCBuffer)
-		, m_createCopyBufferHandle(other.m_createCopyBufferHandle)
+		, m_createUploadBufferHandle(other.m_createUploadBufferHandle)
 	{
-		other.m_createCopyBufferHandle = 0U;
+		other.m_createUploadBufferHandle = 0U;
 	}
 
 	void LightData::updateLightCBuffer() const
 	{
 		updateCopyBuffer();
 
-		DX12GameManager::copyBuffer(m_createCopyBufferHandle);
+		DX12GameManager::copyBuffer(m_createUploadBufferHandle);
 	}
 
 	void LightData::setAmbient(const tktkMath::Color& ambient)
@@ -52,6 +52,6 @@ namespace tktk
 
 	void LightData::updateCopyBuffer() const
 	{
-		tktk::DX12GameManager::updateCopyBuffer(m_createCopyBufferHandle, m_lightCBuffer);
+		tktk::DX12GameManager::updateUploadBuffer(m_createUploadBufferHandle, m_lightCBuffer);
 	}
 }

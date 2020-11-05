@@ -29,8 +29,7 @@ namespace tktk
 		ComponentPtr<BoxCollider> create();
 
 		// 当たり判定のグループを設定
-		template <class CollisionGroupType, is_idType<CollisionGroupType> = nullptr>
-		BoxColliderMaker& collisionGroupType(CollisionGroupType value) { return collisionGroupTypeImpl(static_cast<int>(value)); }
+		BoxColliderMaker& collisionGroupType(CollisionGroupTypeCarrier value);
 
 		// 当たり判定の大きさを設定
 		BoxColliderMaker& boxSize(const tktkMath::Vector3& value);
@@ -44,10 +43,6 @@ namespace tktk
 		// 押し出されやすさを設定（割合）
 		BoxColliderMaker& extrudedRate(float value);
 
-	private: /* 裏実装 */
-
-		BoxColliderMaker& collisionGroupTypeImpl(int value);
-
 	private:
 
 		// 自身のポインタ
@@ -56,13 +51,13 @@ namespace tktk
 	private:
 
 		// 作成用変数達
-		GameObjectPtr		m_user					{ };
-		StateTypeHierarchy		m_targetState			{  };
-		int					m_collisionGroupType	{ 0 };
-		tktkMath::Vector3	m_boxSize				{ tktkMath::Vector3_v::one };
-		tktkMath::Vector3	m_localPosition			{ tktkMath::Vector3_v::zero };
-		bool				m_isExtrude				{ false };
-		float				m_extrudedRate			{ 0.0f };
+		GameObjectPtr				m_user					{ };
+		StateTypeHierarchy			m_targetState			{  };
+		CollisionGroupTypeCarrier	m_collisionGroupType	{ 0 };
+		tktkMath::Vector3			m_boxSize				{ tktkMath::Vector3_v::one };
+		tktkMath::Vector3			m_localPosition			{ tktkMath::Vector3_v::zero };
+		bool						m_isExtrude				{ false };
+		float						m_extrudedRate			{ 0.0f };
 	};
 }
 #endif // !BOX_COLLIDER_MAKER_H_

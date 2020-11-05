@@ -27,7 +27,7 @@ namespace tktk
 	public:
 
 		// 使用しているマテリアルを更新する
-		void setMaterialHandle(unsigned int materialSlot, unsigned int materialHandle);
+		void setMaterialHandle(size_t materialSlot, size_t materialHandle);
 
 		// シャドウマップを書き込む
 		void writeShadowMap() const;
@@ -37,10 +37,10 @@ namespace tktk
 
 	private:
 
-		unsigned int m_useVertexBufferHandle{ 0U };
-		unsigned int m_useIndexBufferHandle{ 0U };
+		size_t m_useVertexBufferHandle{ 0U };
+		size_t m_useIndexBufferHandle{ 0U };
 
-		unsigned int m_indexNum;
+		size_t m_indexNum;
 
 		MeshPrimitiveTopology m_primitiveTopology;
 

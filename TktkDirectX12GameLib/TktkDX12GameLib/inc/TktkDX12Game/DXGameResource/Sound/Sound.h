@@ -28,19 +28,19 @@ namespace tktk
 
 		// 新たなサウンドをロードし、そのリソースのハンドルを返す
 		// ※この関数で読み込めるサウンドの形式は「.wav」のみ
-		unsigned int load(const std::string& fileName);
+		size_t load(const std::string& fileName);
 
 		// 全てのサウンドを削除する
 		void clear();
 
 		// 指定したサウンドを再生する
-		void play(unsigned int handle, bool loopPlay);
+		void play(size_t handle, bool loopPlay);
 
 		// 指定したサウンドを停止する
-		void stop(unsigned int handle);
+		void stop(size_t handle);
 
 		// 指定したサウンドを一時停止する
-		void pause(unsigned int handle);
+		void pause(size_t handle);
 
 		// 大元の音量を変更する（0.0f～1.0f）
 		void setMasterVolume(float volume);

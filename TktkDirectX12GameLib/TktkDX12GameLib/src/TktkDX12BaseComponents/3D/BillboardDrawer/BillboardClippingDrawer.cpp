@@ -5,7 +5,7 @@
 
 namespace tktk
 {
-	BillboardClippingDrawer::BillboardClippingDrawer(float drawPriority, unsigned int billboardMaterialHandle, unsigned int useRtvDescriptorHeapHandle, unsigned int cameraHandle, const tktkMath::Vector2& centerRate, const tktkMath::Color& blendRate, const BillboardClippingParam& clippingParam)
+	BillboardClippingDrawer::BillboardClippingDrawer(float drawPriority, size_t billboardMaterialHandle, size_t useRtvDescriptorHeapHandle, size_t cameraHandle, const tktkMath::Vector2& centerRate, const tktkMath::Color& blendRate, const BillboardClippingParam& clippingParam)
 		: ComponentBase(drawPriority)
 		, m_useRtvDescriptorHeapHandle(useRtvDescriptorHeapHandle)
 		, m_cameraHandle(cameraHandle)
@@ -25,14 +25,14 @@ namespace tktk
 			throw std::runtime_error("BillboardClippingDrawer not found Transform3D");
 		}
 
-		// コピー用バッファを作り、そのハンドルを取得する
-		m_createCopyTransformCbufferHandle = DX12GameManager::createCopyBuffer(BufferType::constant, DX12GameManager::getSystemHandle(SystemCBufferType::Billboard), BillboardCbufferData());
+		// アップロード用バッファを作り、そのハンドルを取得する
+		m_createUploadTransformCbufferHandle = DX12GameManager::createUploadBuffer(UploadBufferInitParam::create(BufferType::constant, DX12GameManager::getSystemHandle(SystemCBufferType::Billboard), BillboardCbufferData()));
 	}
 
 	void BillboardClippingDrawer::onDestroy()
 	{
-		// コピー用バッファを削除する
-		DX12GameManager::eraseCopyBuffer(m_createCopyTransformCbufferHandle);
+		// アップロード用用バッファを削除する
+		DX12GameManager::eraseUploadBuffer(m_createUploadTransformCbufferHandle);
 	}
 
 	void BillboardClippingDrawer::draw() const
@@ -48,7 +48,7 @@ namespace tktk
 		bufferDataUpdater.blendRate			= m_blendRate;
 
 		// 定数バッファの更新
-		DX12GameManager::updateBillboardCbufferUseClippingParam(m_billboardMaterialHandle, m_createCopyTransformCbufferHandle, bufferDataUpdater, m_clippingParam);
+		DX12GameManager::updateBillboardCbufferUseClippingParam(m_billboardMaterialHandle, m_createUploadTransformCbufferHandle, bufferDataUpdater, m_clippingParam);
 
 		BillboardDrawFuncBaseArgs drawFuncArgs{};
 		drawFuncArgs.viewportHandle				= DX12GameManager::getSystemHandle(SystemViewportType::Basic);
@@ -59,9 +59,14 @@ namespace tktk
 		DX12GameManager::drawBillboard(m_billboardMaterialHandle, drawFuncArgs);
 	}
 
-	void BillboardClippingDrawer::setBillboardMaterialHandle(unsigned int handle)
+	void BillboardClippingDrawer::setBillboardMaterialHandle(size_t handle)
 	{
 		m_billboardMaterialHandle = handle;
+	}
+
+	void BillboardClippingDrawer::setBillboardMaterialId(ResourceIdCarrier id)
+	{
+		m_billboardMaterialHandle = DX12GameManager::getBillboardMaterialHandle(id);
 	}
 
 	void BillboardClippingDrawer::setCenterRate(const tktkMath::Vector2& centerRate)
@@ -77,10 +82,5 @@ namespace tktk
 	void BillboardClippingDrawer::setClippingSize(const tktkMath::Vector2& size)
 	{
 		m_clippingParam.size = size;
-	}
-
-	void BillboardClippingDrawer::setBillboardMaterialIdImpl(int id)
-	{
-		m_billboardMaterialHandle = DX12GameManager::getBillboardMaterialHandle(id);
 	}
 }

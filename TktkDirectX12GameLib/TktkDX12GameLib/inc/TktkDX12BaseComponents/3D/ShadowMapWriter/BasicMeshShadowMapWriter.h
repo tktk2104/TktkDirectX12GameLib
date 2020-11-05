@@ -14,7 +14,7 @@ namespace tktk
 	{
 	public:
 
-		BasicMeshShadowMapWriter(float drawPriority, const tktkMath::Vector3& baseScale, const tktkMath::Quaternion& baseRotation, unsigned int meshHandle, unsigned int skeletonHandle, unsigned int cameraHandle);
+		BasicMeshShadowMapWriter(float drawPriority, const tktkMath::Vector3& baseScale, const tktkMath::Quaternion& baseRotation, size_t meshHandle, size_t skeletonHandle, size_t cameraHandle);
 
 	public:
 
@@ -29,13 +29,13 @@ namespace tktk
 
 	private:
 
-		unsigned int				m_createCopyTransformCbufferHandle{ 0U };
-		unsigned int				m_createCopyBoneMatrixCbufferHandle{ 0U };
+		size_t						m_createUploadTransformCbufferHandle{ 0U };
+		size_t						m_createUploadBoneMatrixCbufferHandle{ 0U };
 		tktkMath::Vector3			m_baseScale		{ tktkMath::Vector3_v::one };
 		tktkMath::Quaternion		m_baseRotation	{ tktkMath::Quaternion_v::identity };
-		unsigned int				m_meshHandle;
-		unsigned int				m_skeletonHandle;
-		unsigned int				m_cameraHandle;
+		size_t						m_meshHandle;
+		size_t						m_skeletonHandle;
+		size_t						m_cameraHandle;
 		ComponentPtr<Transform3D>	m_transform		{ };
 	};
 }

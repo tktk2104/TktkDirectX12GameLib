@@ -55,7 +55,7 @@ namespace tktk
 	private: /* •Ï”’B */
 
 		GameObjectPtr			m_user			{  };
-		StateTypeHierarchy			m_targetState	{  };
+		StateTypeHierarchy		m_targetState	{  };
 		tktkMath::Vector3		m_initPosition	{ tktkMath::Vector3_v::zero };
 		tktkMath::Vector3		m_initScaleRate	{ tktkMath::Vector3_v::one };
 		tktkMath::Quaternion	m_initRotation	{ tktkMath::Quaternion_v::identity };

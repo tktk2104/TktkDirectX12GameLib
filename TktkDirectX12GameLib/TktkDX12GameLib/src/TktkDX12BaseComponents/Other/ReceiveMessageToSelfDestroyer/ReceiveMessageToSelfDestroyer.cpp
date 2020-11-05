@@ -2,12 +2,12 @@
 
 namespace tktk
 {
-	ReceiveMessageToSelfDestroyer::ReceiveMessageToSelfDestroyer(unsigned int destroyMessegeType)
+	ReceiveMessageToSelfDestroyer::ReceiveMessageToSelfDestroyer(MessageTypeCarrier destroyMessegeType)
 		: m_destroyMessegeType(destroyMessegeType)
 	{
 	}
 
-	void ReceiveMessageToSelfDestroyer::handleMessage(unsigned int messageId, const tktk::MessageAttachment& value)
+	void ReceiveMessageToSelfDestroyer::handleMessage(MessageTypeCarrier messageId, const tktk::MessageAttachment& value)
 	{
 		if (messageId == m_destroyMessegeType)
 		{

@@ -4,36 +4,31 @@
 
 namespace tktk
 {
-	BasicMeshMaterialAppendParam::BasicMeshMaterialAppendParam(unsigned int cbufferHandle, unsigned int dataSize, void* dataTopPos)
+	BasicMeshMaterialAppendParam::BasicMeshMaterialAppendParam(size_t cbufferHandle, size_t dataSize, void* dataTopPos)
 		: m_cbufferHandle(cbufferHandle)
 		, m_dataSize(dataSize)
 	{
 		m_dataTopPos = std::shared_ptr<void>(dataTopPos);
 
-		// コピー用バッファを作り、そのハンドルを取得する
-		CopyBufferInitParam initParam{};
-		initParam.targetBufferType		= BufferType::constant;
-		initParam.targetBufferHandle	= m_cbufferHandle;
-		initParam.bufferWidth = dataSize;
-		initParam.dataTopPos = dataTopPos;
-		m_createCopyBufferHandle = DX12GameManager::createCopyBufferImpl(initParam);
+		// アップロード用バッファを作り、そのハンドルを取得する
+		m_createUploadBufferHandle = DX12GameManager::createUploadBuffer({ BufferType::constant, m_cbufferHandle, dataSize, dataTopPos });
 	}
 
 	BasicMeshMaterialAppendParam::~BasicMeshMaterialAppendParam()
 	{
-		DX12GameManager::eraseCopyBuffer(m_createCopyBufferHandle);
+		DX12GameManager::eraseUploadBuffer(m_createUploadBufferHandle);
 	}
 
 	BasicMeshMaterialAppendParam::BasicMeshMaterialAppendParam(BasicMeshMaterialAppendParam&& other) noexcept
-		: m_createCopyBufferHandle(other.m_createCopyBufferHandle)
+		: m_createUploadBufferHandle(other.m_createUploadBufferHandle)
 		, m_cbufferHandle(other.m_cbufferHandle)
 		, m_dataSize(other.m_dataSize)
 		, m_dataTopPos(std::move(other.m_dataTopPos))
 	{
-		other.m_createCopyBufferHandle = 0U;
+		other.m_createUploadBufferHandle = 0U;
 	}
 
-	void BasicMeshMaterialAppendParam::updateParam(unsigned int dataSize, const void* dataTopPos)
+	void BasicMeshMaterialAppendParam::updateParam(size_t dataSize, const void* dataTopPos)
 	{
 		if (m_dataSize == dataSize) memcpy(m_dataTopPos.get(), dataTopPos, dataSize);
 	}
@@ -45,11 +40,11 @@ namespace tktk
 		updateCopyBuffer();
 
 		// 定数バッファにコピーバッファの情報をコピーする
-		DX12GameManager::copyBuffer(m_createCopyBufferHandle);
+		DX12GameManager::copyBuffer(m_createUploadBufferHandle);
 	}
 
 	void BasicMeshMaterialAppendParam::updateCopyBuffer() const
 	{
-		DX12GameManager::updateCopyBufferImpl(m_createCopyBufferHandle, m_dataSize, m_dataTopPos.get());
+		DX12GameManager::updateUploadBuffer(m_createUploadBufferHandle, CopySourceDataCarrier(m_dataSize, m_dataTopPos.get()));
 	}
 }

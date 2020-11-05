@@ -10,7 +10,7 @@
 namespace tktk
 {
 	Polygon2dCollider::Polygon2dCollider(
-		int collisionGroupType,
+		CollisionGroupTypeCarrier collisionGroupType,
 		const std::vector<tktkMath::Vector2>& vertexs,
 		bool isExtrude,
 		float extrudedRate

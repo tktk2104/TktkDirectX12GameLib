@@ -6,6 +6,7 @@
 #include <unordered_map>
 #include <TktkTemplateMetaLib/HasFuncCheck/CreatedStruct/HasIsCollideChecker.h>
 #include "ComponentCollisionFuncRunner.h"
+#include "CollisionGroupTypeCarrier.h"
 
 namespace tktk
 {
@@ -35,7 +36,7 @@ namespace tktk
 		void removeDeadComponent();
 
 		// Õ“Ë”»’è‚Ì‘g‚İ‡‚í‚¹‚ğ’Ç‰Á‚·‚é
-		void addCollisionGroup(int firstGroup, int secondGroup);
+		void addCollisionGroup(CollisionGroupTypeCarrier firstGroup, CollisionGroupTypeCarrier secondGroup);
 
 	public:
 
@@ -47,9 +48,9 @@ namespace tktk
 
 	private:
 
-		std::vector<std::pair<int, int>>								m_collisionGroupPairArray;
-		std::unordered_multimap<int, ComponentCollisionFuncRunner>		m_collisionList;
-		std::forward_list<std::pair<int, ComponentCollisionFuncRunner>>	m_nextFrameAddNodeList;
+		std::vector<std::pair<CollisionGroupTypeCarrier, CollisionGroupTypeCarrier>>			m_collisionGroupPairArray;
+		std::unordered_multimap<CollisionGroupTypeCarrier, ComponentCollisionFuncRunner>		m_collisionList;
+		std::forward_list<std::pair<CollisionGroupTypeCarrier, ComponentCollisionFuncRunner>>	m_nextFrameAddNodeList;
 	};
 //„¬„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª„ª
 //„«‚±‚±‚©‚ç‰º‚ÍŠÖ”‚ÌÀ‘•

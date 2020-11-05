@@ -6,7 +6,7 @@
 namespace tktk
 {
 	SphereCollider::SphereCollider(
-		int collisionGroupType,
+		CollisionGroupTypeCarrier collisionGroupType,
 		float radius,
 		const tktkMath::Vector3& localPosition,
 		bool isExtrude,

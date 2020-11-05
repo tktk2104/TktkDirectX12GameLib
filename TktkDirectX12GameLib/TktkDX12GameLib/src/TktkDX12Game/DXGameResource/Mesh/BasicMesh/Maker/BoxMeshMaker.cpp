@@ -119,13 +119,7 @@ namespace tktk
 		BasicMeshInitParam meshInitParam{};
 		meshInitParam.useVertexBufferHandle	= DX12GameManager::getSystemHandle(SystemVertexBufferType::Box);
 		meshInitParam.useIndexBufferHandle	= DX12GameManager::getSystemHandle(SystemIndexBufferType::Box);
-
-#ifdef _M_AMD64 /* x64ビルドなら */
-		meshInitParam.indexNum = static_cast<unsigned int>(indices.size());
-#else
-		meshInitParam.indexNum = indices.size();
-#endif // _M_AMD64
-		
+		meshInitParam.indexNum				= indices.size();
 		meshInitParam.primitiveTopology		= MeshPrimitiveTopology::TriangleList;
 
 		{
@@ -199,16 +193,6 @@ namespace tktk
 			DX12GameManager::setSystemHandle(SystemBasicMeshMaterialType::BoxWireFrame, DX12GameManager::createBasicMeshMaterial(materialParam));
 		}
 
-#ifdef _M_AMD64 /* x64ビルドなら */
-
-		// 立方体メッシュを作る
-		meshInitParam.materialSlots = { { DX12GameManager::getSystemHandle(SystemBasicMeshMaterialType::Box), 0, static_cast<unsigned int>(indices.size()) } };
-		DX12GameManager::setSystemHandle(SystemBasicMeshType::Box, DX12GameManager::createBasicMesh(meshInitParam));
-
-		// 立方体メッシュワイヤーフレームを作る
-		meshInitParam.materialSlots = { { DX12GameManager::getSystemHandle(SystemBasicMeshMaterialType::BoxWireFrame), 0, static_cast<unsigned int>(indices.size()) } };
-		DX12GameManager::setSystemHandle(SystemBasicMeshType::BoxWireFrame, DX12GameManager::createBasicMesh(meshInitParam));
-#else
 		// 立方体メッシュを作る
 		meshInitParam.materialSlots = { { DX12GameManager::getSystemHandle(SystemBasicMeshMaterialType::Box), 0, indices.size() } };
 		DX12GameManager::setSystemHandle(SystemBasicMeshType::Box, DX12GameManager::createBasicMesh(meshInitParam));
@@ -216,6 +200,5 @@ namespace tktk
 		// 立方体メッシュワイヤーフレームを作る
 		meshInitParam.materialSlots = { { DX12GameManager::getSystemHandle(SystemBasicMeshMaterialType::BoxWireFrame), 0, indices.size() } };
 		DX12GameManager::setSystemHandle(SystemBasicMeshType::BoxWireFrame, DX12GameManager::createBasicMesh(meshInitParam));
-#endif // _M_AMD64
 	}
 }

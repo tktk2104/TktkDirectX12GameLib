@@ -25,10 +25,10 @@ namespace tktk
 		void drawSprite(const SpriteMaterialDrawFuncArgs& drawFuncArgs) const;
 
 		// 引数が表すコピーバッファを使って座標変換情報を管理する定数バッファを更新する
-		void updateTransformCbuffer(unsigned int copyBufferHandle, const tktkMath::Matrix3& worldMatrix, const tktkMath::Vector2& spriteCenterRate) const;
+		void updateTransformCbuffer(size_t copyBufferHandle, const tktkMath::Matrix3& worldMatrix, const tktkMath::Vector2& spriteCenterRate) const;
 
 		// 引数が表すコピーバッファを使って座標変換情報を管理する定数バッファを更新する（切り抜き範囲指定版）
-		void updateTransformCbufferUseClippingParam(unsigned int copyBufferHandle, const tktkMath::Matrix3& worldMatrix, const tktkMath::Vector2& spriteCenterRate, const SpriteClippingParam& clippingParam) const;
+		void updateTransformCbufferUseClippingParam(size_t copyBufferHandle, const tktkMath::Matrix3& worldMatrix, const tktkMath::Vector2& spriteCenterRate, const SpriteClippingParam& clippingParam) const;
 
 	private:
 
@@ -37,8 +37,8 @@ namespace tktk
 
 	private:
 
-		unsigned int		m_createDescriptorHeapHandle { 0U };
-		unsigned int		m_createCopyBufferHandle{ 0U };
+		size_t				m_createDescriptorHeapHandle { 0U };
+		size_t				m_createUploadBufferHandle{ 0U };
 		tktkMath::Color		m_blendRate;
 		tktkMath::Vector2	m_textureUvOffset;
 		tktkMath::Vector2	m_textureUvMulRate;

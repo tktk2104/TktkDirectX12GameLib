@@ -16,7 +16,7 @@ namespace tktk
 	{
 	public:
 
-		SpriteDrawer(float drawPriority, unsigned int spriteMaterialHandle, unsigned int useRtvDescriptorHeapHandle, const tktkMath::Vector2& centerRate);
+		SpriteDrawer(float drawPriority, size_t spriteMaterialHandle, size_t useRtvDescriptorHeapHandle, const tktkMath::Vector2& centerRate);
 
 	public:
 
@@ -27,33 +27,22 @@ namespace tktk
 	public:
 
 		// スプライトマテリアルハンドルを再設定する
-		void setSpriteMaterialHandle(unsigned int handle);
+		void setSpriteMaterialHandle(size_t handle);
 
 		// スプライトマテリアルIDを再設定する（列挙型を含む整数型のidが渡された場合のみビルド可）
 		// ※内部で対応するリソースハンドルに変換される
-		template <class IdType, is_idType<IdType> = nullptr>
-		void setSpriteMaterialId(IdType id) { setSpriteMaterialIdImpl(static_cast<unsigned int>(id)); }
+		void setSpriteMaterialId(ResourceIdCarrier id);
 		
 		// スプライトの中心位置の割合を設定する
 		void setCenterRate(const tktkMath::Vector2& centerRate);
 
 	private:
 
-		// 各種id指定系の関数の実装
-		void setSpriteMaterialIdImpl(int id);
-
-	private:
-
-		unsigned int				m_createCopyTransformCbufferHandle{ 0U };
-		unsigned int				m_useRtvDescriptorHeapHandle;
-		unsigned int				m_spriteMaterialHandle;
+		size_t						m_createUploadTransformCbufferHandle{ 0U };
+		size_t						m_useRtvDescriptorHeapHandle;
+		size_t						m_spriteMaterialHandle;
 		tktkMath::Vector2			m_spriteCenterRate;
 		ComponentPtr<Transform2D>	m_transform;
-
-	public:
-
-		template <class IdType, is_not_idType<IdType> = nullptr>
-		void setSpriteMaterialId(IdType id) { static_assert(false, "SpriteMaterialId Fraud Type"); }
 	};
 }
 #endif // !SPRITE_DRAWER_H_

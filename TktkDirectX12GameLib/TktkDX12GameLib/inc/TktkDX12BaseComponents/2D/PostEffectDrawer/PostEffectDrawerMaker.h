@@ -41,12 +41,7 @@ namespace tktk
 
 		// 使用するポストエフェクトマテリアルIDを設定する（列挙型を含む整数型のidが渡された場合のみビルド可）
 		// ※内部で対応するリソースハンドルに変換される
-		template<class IdType, is_idType<IdType> = nullptr>
-		PostEffectDrawerMaker& postEffectMaterialId(IdType value);
-
-	private: /* 各種id指定系の関数の実装 */
-
-		PostEffectDrawerMaker& postEffectMaterialIdImpl(int value);
+		PostEffectDrawerMaker& postEffectMaterialId(ResourceIdCarrier value);
 
 	private: /* 自身のインスタンスは静的な存在として扱う */
 
@@ -55,25 +50,10 @@ namespace tktk
 	private: /* 変数達 */
 
 		GameObjectPtr		m_user							{  };
-		StateTypeHierarchy		m_targetState					{  };
+		StateTypeHierarchy	m_targetState					{  };
 		float				m_drawPriority					{ 0.0f };
-		unsigned int		m_useRtvDescriptorHeapHandle	{  }; // ※初期パラメータはバックバッファー
-		unsigned int		m_postEffectMaterialHandle		{ 0U };
-
-	public: /* 不正な型の引数が渡されそうになった時にコンパイルエラーにする為の仕組み */
-
-		template<class IdType, std::enable_if_t<!is_idType_v<IdType>>* = nullptr>
-		PostEffectDrawerMaker& postEffectMaterialId(IdType value) { static_assert(false, "PostEffectMaterialId Fraud Type"); }
+		size_t				m_useRtvDescriptorHeapHandle	{  }; // ※初期パラメータはバックバッファー
+		size_t				m_postEffectMaterialHandle		{ 0U };
 	};
-//┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-//┃ここから下は関数の実装
-//┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-	// 使用するポストエフェクトマテリアルIDを設定する（列挙型を含む整数型のidが渡された場合のみビルド可）
-	template<class IdType, is_idType<IdType>>
-	inline PostEffectDrawerMaker& PostEffectDrawerMaker::postEffectMaterialId(IdType value)
-	{
-		return postEffectMaterialIdImpl(static_cast<int>(value));
-	}
 }
 #endif // !POST_EFFECT_DRAWER_MAKER_H_

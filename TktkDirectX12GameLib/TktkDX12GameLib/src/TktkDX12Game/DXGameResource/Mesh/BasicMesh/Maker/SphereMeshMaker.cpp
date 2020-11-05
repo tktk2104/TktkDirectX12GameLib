@@ -22,21 +22,16 @@ namespace tktk
 
 	void SphereMeshMaker::make()
 	{
-		unsigned int uMax = 24;
-		unsigned int vMax = 12;
+		size_t uMax = 24;
+		size_t vMax = 12;
 
 		std::vector<VertexData> vertices;
 
-#ifdef _M_AMD64 /* x64ビルドなら */
-
-		vertices.resize(static_cast<unsigned long long>(uMax) * static_cast<unsigned long long>(vMax + 1LLU));
-#else
 		vertices.resize(uMax * (vMax + 1));
-#endif // _M_AMD64
 		
-		for (unsigned int v = 0U; v <= vMax; v++)
+		for (size_t v = 0U; v <= vMax; v++)
 		{
-			for (unsigned int u = 0U; u < uMax; u++)
+			for (size_t u = 0U; u < uMax; u++)
 			{
 				VertexData tempVertexData;
 
@@ -70,27 +65,27 @@ namespace tktk
 			}
 		}
 
-		int i = 0;
+		size_t i = 0U;
 
 		std::vector<unsigned short> indices;
 		indices.resize(2 * vMax * (uMax + 1));
 
-		for (unsigned int v = 0; v < vMax; v++)
+		for (size_t v = 0; v < vMax; v++)
 		{
-			for (unsigned int u = 0; u <= uMax; u++)
+			for (size_t u = 0; u <= uMax; u++)
 			{
 				if (u == uMax)
 				{
-					indices.at(i) = v * uMax;
+					indices.at(i) = static_cast<unsigned short>(v * uMax);
 					i++;
-					indices.at(i) = (v + 1) * uMax;
+					indices.at(i) = static_cast<unsigned short>((v + 1) * uMax);
 					i++;
 				}
 				else
 				{
-					indices.at(i) = (v * uMax) + u;
+					indices.at(i) = static_cast<unsigned short>((v * uMax) + u);
 					i++;
-					indices.at(i) = indices.at(i - 1) + uMax;
+					indices.at(i) = static_cast<unsigned short>(indices.at(i - 1U) + uMax);
 					i++;
 				}
 			}
@@ -106,13 +101,7 @@ namespace tktk
 		BasicMeshInitParam meshInitParam{};
 		meshInitParam.useVertexBufferHandle = DX12GameManager::getSystemHandle(SystemVertexBufferType::Sphere);
 		meshInitParam.useIndexBufferHandle	= DX12GameManager::getSystemHandle(SystemIndexBufferType::Sphere);
-
-#ifdef _M_AMD64 /* x64ビルドなら */
-		meshInitParam.indexNum = static_cast<unsigned int>(indices.size());
-#else
-		meshInitParam.indexNum = indices.size();
-#endif // _M_AMD64
-		
+		meshInitParam.indexNum				= indices.size();
 		meshInitParam.primitiveTopology		= MeshPrimitiveTopology::TriangleStrip;
 
 		{
@@ -186,16 +175,6 @@ namespace tktk
 			DX12GameManager::setSystemHandle(SystemBasicMeshMaterialType::SphereWireFrame, DX12GameManager::createBasicMeshMaterial(materialParam));
 		}
 
-#ifdef _M_AMD64 /* x64ビルドなら */
-
-		// 球体メッシュを作る
-		meshInitParam.materialSlots = { { DX12GameManager::getSystemHandle(SystemBasicMeshMaterialType::Sphere), 0, static_cast<unsigned int>(indices.size()) } };
-		DX12GameManager::setSystemHandle(SystemBasicMeshType::Sphere, DX12GameManager::createBasicMesh(meshInitParam));
-
-		// 球体メッシュワイヤーフレームを作る
-		meshInitParam.materialSlots = { { DX12GameManager::getSystemHandle(SystemBasicMeshMaterialType::SphereWireFrame), 0, static_cast<unsigned int>(indices.size()) } };
-		DX12GameManager::setSystemHandle(SystemBasicMeshType::SphereWireFrame, DX12GameManager::createBasicMesh(meshInitParam));
-#else
 		// 球体メッシュを作る
 		meshInitParam.materialSlots = { { DX12GameManager::getSystemHandle(SystemBasicMeshMaterialType::Sphere), 0, indices.size() } };
 		DX12GameManager::setSystemHandle(SystemBasicMeshType::Sphere, DX12GameManager::createBasicMesh(meshInitParam));
@@ -203,6 +182,5 @@ namespace tktk
 		// 球体メッシュワイヤーフレームを作る
 		meshInitParam.materialSlots = { { DX12GameManager::getSystemHandle(SystemBasicMeshMaterialType::SphereWireFrame), 0, indices.size() } };
 		DX12GameManager::setSystemHandle(SystemBasicMeshType::SphereWireFrame, DX12GameManager::createBasicMesh(meshInitParam));
-#endif // _M_AMD64
 	}
 }

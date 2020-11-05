@@ -40,10 +40,10 @@ namespace tktk
 	private:
 
 		// ì¬—p•Ï”’B
-		GameObjectPtr	m_user			{ };
+		GameObjectPtr		m_user			{ };
 		StateTypeHierarchy	m_targetState	{ };
-		float			m_drawPriority	{ 0.0f };
-		tktkMath::Color	m_lineColor		{ tktkMath::Color_v::white };
+		float				m_drawPriority	{ 0.0f };
+		tktkMath::Color		m_lineColor		{ tktkMath::Color_v::white };
 	};
 }
 #endif // !COLLIDER_WIRE_FRAME_DRAWER_2D_MAKER_H_

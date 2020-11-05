@@ -3,7 +3,7 @@
 namespace tktk
 {
 	OrthographicCameraController::OrthographicCameraController(
-		unsigned int cameraHandle,
+		size_t cameraHandle,
 		float cameraWidth,
 		float cameraHeight,
 		float cameraNear,

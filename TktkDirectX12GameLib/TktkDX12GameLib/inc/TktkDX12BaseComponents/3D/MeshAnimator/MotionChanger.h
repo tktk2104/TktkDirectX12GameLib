@@ -13,7 +13,7 @@ namespace tktk
 	{
 	public:
 
-		MotionChanger(unsigned int changeMotionHandle, bool isLoop, float lerpTimeSec);
+		MotionChanger(size_t changeMotionHandle, bool isLoop, float lerpTimeSec);
 
 	public:
 
@@ -21,7 +21,7 @@ namespace tktk
 
 	private:
 
-		unsigned int				m_changeMotionHandle;
+		size_t						m_changeMotionHandle;
 		bool						m_isLoop;
 		float						m_lerpTimeSec;
 		ComponentPtr<MeshAnimator>	m_meshAnimator;

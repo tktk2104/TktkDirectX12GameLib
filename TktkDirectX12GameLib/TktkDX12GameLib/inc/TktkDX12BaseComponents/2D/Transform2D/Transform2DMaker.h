@@ -49,7 +49,7 @@ namespace tktk
 	private: /* •Ï”’B */
 
 		GameObjectPtr		m_user				{  };
-		StateTypeHierarchy		m_targetState		{  };
+		StateTypeHierarchy	m_targetState		{  };
 		tktkMath::Vector2	m_initPosition		{ tktkMath::Vector2_v::zero };
 		tktkMath::Vector2	m_initScaleRate		{ tktkMath::Vector2_v::one };
 		float				m_initRotationDeg	{ 0.0f };

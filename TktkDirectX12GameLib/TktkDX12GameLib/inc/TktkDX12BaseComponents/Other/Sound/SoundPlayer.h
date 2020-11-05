@@ -12,7 +12,7 @@ namespace tktk
 	{
 	public:
 
-		SoundPlayer(unsigned int soundHandle, bool isLoop, bool startToPlay);
+		SoundPlayer(size_t soundHandle, bool isLoop, bool startToPlay);
 
 	public:
 
@@ -23,11 +23,10 @@ namespace tktk
 		void pauseSound();
 
 		// 新たなサウンドハンドルを設定し、再生する
-		void changeSoundHandle(unsigned int soundHandle);
+		void changeSoundHandle(size_t soundHandle);
 
 		// 新たなサウンドIDを設定し、再生する（列挙型を含む整数型のidが渡された場合のみビルド可で、関数内で対応するリソースハンドルに変換される）
-		template<class IdType, is_idType<IdType> = nullptr>
-		void changeSoundId(IdType soundId) { return changeSoundIdImpl(static_cast<int>(soundId)); }
+		void changeSoundId(ResourceIdCarrier soundId);
 
 	public:
 
@@ -41,18 +40,9 @@ namespace tktk
 
 	private:
 
-		void changeSoundIdImpl(int soundId);
-
-	private:
-
-		unsigned int	m_soundHandle;
-		bool			m_isLoop;
-		bool			m_startToPlay;
-
-	public: /* 不正な型の引数が渡されそうになった時にコンパイルエラーにする為の仕組み */
-
-		template<class IdType, is_not_idType<IdType> = nullptr>
-		void changeSoundId(IdType soundId) { static_assert(false, "SoundId Fraud Type"); }
+		size_t	m_soundHandle;
+		bool	m_isLoop;
+		bool	m_startToPlay;
 	};
 }
 #endif // !SOUND_PLAYER_H_

@@ -47,7 +47,7 @@ namespace tktk
 		void addUpdatePriority(float priority);
 
 		// 衝突判定の組み合わせを追加する
-		void addCollisionGroup(int firstGroup, int secondGroup);
+		void addCollisionGroup(CollisionGroupTypeCarrier firstGroup, CollisionGroupTypeCarrier secondGroup);
 
 		// テンプレート引数の型のコンポーネントを引数の値を使って作る
 		template <class ComponentType, class... Args>

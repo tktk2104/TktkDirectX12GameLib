@@ -6,6 +6,7 @@
 #include "DXGameBaseShaderFilePaths.h"
 #include "DXGameResourceInitParamIncluder.h"
 #include "DXGameResourceFuncArgsIncluder.h"
+#include "../GameObject/GameObjectTagCarrier.h"
 
 namespace tktk
 {
@@ -31,16 +32,16 @@ namespace tktk
 	public: /* シーン関係の処理 */
 
 		// シーンを作り、そのリソースのハンドルを返す
-		unsigned int createScene(const std::shared_ptr<SceneBase>& scenePtr, SceneVTable* vtablePtr);
+		size_t createScene(const SceneDataInitParam& initParam);
 
 		// シーンの終了時に削除するゲームオブジェクトタグを設定する
-		void setSceneEndDestroyGameObjectTag(unsigned int handle, int tag);
+		void setSceneEndDestroyGameObjectTag(size_t handle, GameObjectTagCarrier tag);
 
 		// シーンを有効にする
-		void enableScene(unsigned int handle);
+		void enableScene(size_t handle);
 
 		// シーンを無効にする
-		void disableScene(unsigned int handle);
+		void disableScene(size_t handle);
 
 		// 有効になっているシーンを更新する
 		void updateScene();
@@ -55,16 +56,16 @@ namespace tktk
 
 		// 新しいサウンドを読み込み、そのリソースのハンドルを返す
 		// ※この関数で読み込めるサウンドの形式は「.wav」のみ
-		unsigned int loadSound(const std::string& fileName);
+		size_t loadSound(const std::string& fileName);
 
 		// 指定したサウンドを再生する
-		void playSound(unsigned int handle, bool loopPlay);
+		void playSound(size_t handle, bool loopPlay);
 
 		// 指定したサウンドを停止する
-		void stopSound(unsigned int handle);
+		void stopSound(size_t handle);
 
 		// 指定したサウンドを一時停止する
-		void pauseSound(unsigned int handle);
+		void pauseSound(size_t handle);
 
 		// 大元の音量を変更する（0.0f～1.0f）
 		void setMasterVolume(float volume);
@@ -72,78 +73,82 @@ namespace tktk
 	public: /* ポストエフェクト関係の処理 */
 
 		// ポストエフェクトのマテリアルを作り、そのリソースのハンドルを返す
-		unsigned int createPostEffectMaterial(const PostEffectMaterialInitParam& initParam);
+		size_t createPostEffectMaterial(const PostEffectMaterialInitParam& initParam);
 
 		// 指定のポストエフェクトを描画する
-		void drawPostEffect(unsigned int handle, const PostEffectMaterialDrawFuncArgs& drawFuncArgs) const;
+		void drawPostEffect(size_t handle, const PostEffectMaterialDrawFuncArgs& drawFuncArgs) const;
 
 	public: /* スプライト関係の処理 */
 
 		// スプライトマテリアルを作り、そのリソースのハンドルを返す
-		unsigned int createSpriteMaterial(const SpriteMaterialInitParam& initParam);
+		size_t createSpriteMaterial(const SpriteMaterialInitParam& initParam);
 
 		// 指定したスプライトを描画する
-		void drawSprite(unsigned int handle, const SpriteMaterialDrawFuncArgs& drawFuncArgs) const;
+		void drawSprite(size_t handle, const SpriteMaterialDrawFuncArgs& drawFuncArgs) const;
 
 		// 引数が表すコピーバッファを使って座標変換情報を管理する定数バッファを更新する
-		void updateSpriteTransformCbuffer(unsigned int handle, unsigned int copyBufferHandle, const tktkMath::Matrix3& worldMatrix, const tktkMath::Vector2& spriteCenterRate) const;
+		void updateSpriteTransformCbuffer(size_t handle, size_t copyBufferHandle, const tktkMath::Matrix3& worldMatrix, const tktkMath::Vector2& spriteCenterRate) const;
 
 		// 引数が表すコピーバッファを使って座標変換情報を管理する定数バッファを更新する（切り抜き範囲指定版）
-		void updateSpriteTransformCbufferUseClippingParam(unsigned int handle, unsigned int copyBufferHandle, const tktkMath::Matrix3& worldMatrix, const tktkMath::Vector2& spriteCenterRate, const SpriteClippingParam& clippingParam) const;
+		void updateSpriteTransformCbufferUseClippingParam(size_t handle, size_t copyBufferHandle, const tktkMath::Matrix3& worldMatrix, const tktkMath::Vector2& spriteCenterRate, const SpriteClippingParam& clippingParam) const;
 	
 	public: /* 2Dライン関係の処理 */
 
 		// ２Ｄラインを作り、そのリソースのハンドルを返す
-		unsigned int createLine();
+		size_t createLine();
+
+		// ２Ｄラインを削除する
+		// ※引数のハンドルに対応するリソースが無かったら何もしない
+		void eraseLine(size_t handle);
 
 		// 線を描画する
-		void drawLine(unsigned int handle, const Line2DMaterialDrawFuncArgs& drawFuncArgs);
+		void drawLine(size_t handle, const Line2DMaterialDrawFuncArgs& drawFuncArgs);
 
 	public: /* ビルボード関係の処理 */
 
 		// ビルボードマテリアルを作り、そのリソースのハンドルを返す
-		unsigned int createBillboardMaterial(const BillboardMaterialInitParam& initParam);
+		size_t createBillboardMaterial(const BillboardMaterialInitParam& initParam);
 
 		// 指定したビルボードを描画する
-		void drawBillboard(unsigned int handle, const BillboardDrawFuncBaseArgs& drawFuncArgs) const;
+		void drawBillboard(size_t handle, const BillboardDrawFuncBaseArgs& drawFuncArgs) const;
 
 		// 引数が表すコピーバッファを使って定数バッファを更新する
-		void updateBillboardCbuffer(unsigned int handle, unsigned int copyBufferHandle, const BillboardCbufferUpdateFuncArgs& updateArgs) const;
+		void updateBillboardCbuffer(size_t handle, size_t copyBufferHandle, const BillboardCbufferUpdateFuncArgs& updateArgs) const;
 
 		// 引数が表すコピーバッファを使って定数バッファを更新する（切り抜き範囲指定版）
-		void updateBillboardCbufferUseClippingParam(unsigned int handle, unsigned int copyBufferHandle, const BillboardCbufferUpdateFuncArgs& updateArgs, const BillboardClippingParam& clippingParam) const;
+		void updateBillboardCbufferUseClippingParam(size_t handle, size_t copyBufferHandle, const BillboardCbufferUpdateFuncArgs& updateArgs, const BillboardClippingParam& clippingParam) const;
 
 	public: /* メッシュ関係の処理 */
 
 		// 通常メッシュを作り、そのリソースのハンドルを返す
-		unsigned int createBasicMesh(const BasicMeshInitParam& initParam);
+		size_t createBasicMesh(const BasicMeshInitParam& initParam);
 
 		// 通常メッシュのコピーを作り、そのリソースのハンドルを返す
-		unsigned int copyBasicMesh(unsigned int originalHandle);
+		size_t copyBasicMesh(size_t originalHandle);
 
 		// 通常メッシュマテリアルを作り、そのリソースのハンドルを返す
-		unsigned int createBasicMeshMaterial(const BasicMeshMaterialInitParam& initParam);
+		size_t createBasicMeshMaterial(const BasicMeshMaterialInitParam& initParam);
 
 		// 通常メッシュマテリアルのコピーを作り、そのリソースのハンドルを返す
-		unsigned int copyBasicMeshMaterial(unsigned int originalHandle);
+		size_t copyBasicMeshMaterial(size_t originalHandle);
 
 		// 通常メッシュが使用しているマテリアルを更新する
-		void setMaterialHandle(unsigned int meshHandle, unsigned int materialSlot, unsigned int materialHandle);
+		void setMaterialHandle(size_t meshHandle, size_t materialSlot, size_t materialHandle);
 
 		// 指定の通常メッシュでシャドウマップを書き込む
-		void writeBasicMeshShadowMap(unsigned int handle) const;
+		void writeBasicMeshShadowMap(size_t handle) const;
 
 		// 指定の通常メッシュのマテリアル情報をグラフィックパイプラインに設定する
-		void setMaterialData(unsigned int handle) const;
+		void setMaterialData(size_t handle) const;
 
 		// 指定の通常メッシュのマテリアルで追加で管理する定数バッファのIDと値を設定する
-		void addMaterialAppendParam(unsigned int handle, unsigned int cbufferHandle, unsigned int dataSize, void* dataTopPos);
+		void addMaterialAppendParam(size_t handle, size_t cbufferHandle, size_t dataSize, void* dataTopPos);
 
 		// 指定の通常メッシュのマテリアルで追加で管理する定数バッファのIDと値を更新する
-		void updateMaterialAppendParam(unsigned int handle, unsigned int cbufferHandle, unsigned int dataSize, const void* dataTopPos);
+		void updateMaterialAppendParam(size_t handle, size_t cbufferHandle, size_t dataSize, const void* dataTopPos);
 
 		// 指定の通常メッシュを描画する
-		void drawBasicMesh(unsigned int handle, const MeshDrawFuncBaseArgs& baseArgs) const;
+		void drawBasicMesh(size_t handle, const MeshDrawFuncBaseArgs& baseArgs) const;
 
 		// pmdファイルをロードしてゲームの各種リソースクラスを作る
 		BasicMeshLoadPmdReturnValue loadPmd(const BasicMeshLoadPmdArgs& args);
@@ -154,17 +159,17 @@ namespace tktk
 	public: /* スケルトン関連の処理 */
 
 		// スケルトンを作り、そのリソースのハンドルを返す
-		unsigned int createSkeleton(const SkeletonInitParam& initParam);
+		size_t createSkeleton(const SkeletonInitParam& initParam);
 
 		// スケルトンのコピーを作り、そのリソースのハンドルを返す
-		unsigned int copySkeleton(unsigned int originalHandle);
+		size_t copySkeleton(size_t originalHandle);
 
-		// 指定のスケルトンの骨情報の定数バッファの値にコピーするためのバッファを作り、そのハンドルを返す
-		// ※この関数で取得したハンドルは使用後に「DX12GameManager::eraseCopyBuffer(handle)」を必ず読んでバッファを削除してください
-		unsigned int createSkeletonCopyBufferHandle(unsigned int handle) const;
+		// 指定のスケルトンの骨情報の定数バッファの値にアップロードするためのバッファを作り、そのハンドルを返す
+		// ※この関数で取得したハンドルは使用後に「DX12GameManager::eraseUploadBuffer(handle)」を必ず読んでバッファを削除してください
+		size_t createSkeletonUploadBufferHandle(size_t handle) const;
 
 		// 指定のスケルトンを使って引数が表すコピーバッファを使い骨情報を管理する定数バッファを更新する
-		void updateBoneMatrixCbuffer(unsigned int handle, unsigned int copyBufferHandle) const;
+		void updateBoneMatrixCbuffer(size_t handle, size_t copyBufferHandle) const;
 
 		// 骨情報を管理する定数バッファに単位行列を設定する
 		void resetBoneMatrixCbuffer() const;
@@ -172,43 +177,43 @@ namespace tktk
 	public: /* モーション関係の処理 */
 
 		// vmdファイルを読み込んで「MotionData」のインスタンスを作り、そのリソースのハンドルを返す
-		unsigned int loadMotion(const std::string& motionFileName);
+		size_t loadMotion(const std::string& motionFileName);
 
 		// 指定のモーションの終了キーの番号を取得する
-		unsigned int getMotionEndFrameNo(unsigned int handle) const;
+		size_t getMotionEndFrameNo(size_t handle) const;
 
 		// 2種類のモーション情報を線形補完してスケルトンを更新する
 		// ※補完割合の値は「0.0fでpreFrame100%」、「1.0fでcurFrame100%」となる
 		void updateMotion(
-			unsigned int skeletonHandle,
-			unsigned int curMotionHandle,
-			unsigned int preMotionHandle,
-			unsigned int curFrame,
-			unsigned int preFrame,
+			size_t skeletonHandle,
+			size_t curMotionHandle,
+			size_t preMotionHandle,
+			size_t curFrame,
+			size_t preFrame,
 			float amount
 		);
 
 	public: /* カメラ関係の処理 */
 
 		// カメラを作り、そのリソースのハンドルを返す
-		unsigned int createCamera();
+		size_t createCamera();
 
 		// 指定のカメラのビュー行列を取得する
-		const tktkMath::Matrix4& getViewMatrix(unsigned int cameraHandle) const;
+		const tktkMath::Matrix4& getViewMatrix(size_t cameraHandle) const;
 
 		// 指定のカメラのビュー行列を設定する
-		void setViewMatrix(unsigned int cameraHandle, const tktkMath::Matrix4& view);
+		void setViewMatrix(size_t cameraHandle, const tktkMath::Matrix4& view);
 
 		// 指定のカメラのプロジェクション行列を取得する
-		const tktkMath::Matrix4& getProjectionMatrix(unsigned int cameraHandle) const;
+		const tktkMath::Matrix4& getProjectionMatrix(size_t cameraHandle) const;
 
 		// 指定のカメラのプロジェクション行列を設定する
-		void setProjectionMatrix(unsigned int cameraHandle, const tktkMath::Matrix4& projection);
+		void setProjectionMatrix(size_t cameraHandle, const tktkMath::Matrix4& projection);
 
 	public: /* ライト関係の処理 */
 
 		// ライトを作り、そのリソースのハンドルを返す
-		unsigned int createLight(
+		size_t createLight(
 			const tktkMath::Color& ambient,
 			const tktkMath::Color& diffuse,
 			const tktkMath::Color& speqular,
@@ -216,19 +221,19 @@ namespace tktk
 		);
 
 		// ライト情報の定数バッファを更新する
-		void updateLightCBuffer(unsigned int handle) const;
+		void updateLightCBuffer(size_t handle) const;
 
 		// 指定のライトの環境光を設定する
-		void setLightAmbient(unsigned int handle, const tktkMath::Color& ambient);
+		void setLightAmbient(size_t handle, const tktkMath::Color& ambient);
 
 		// 指定のライトの拡散反射光を設定する
-		void setLightDiffuse(unsigned int handle, const tktkMath::Color& diffuse);
+		void setLightDiffuse(size_t handle, const tktkMath::Color& diffuse);
 
 		// 指定のライトの鏡面反射光を設定する
-		void setLightSpeqular(unsigned int handle, const tktkMath::Color& speqular);
+		void setLightSpeqular(size_t handle, const tktkMath::Color& speqular);
 
 		// 指定のライトの座標を設定する
-		void setLightPosition(unsigned int handle, const tktkMath::Vector3& position);
+		void setLightPosition(size_t handle, const tktkMath::Vector3& position);
 
 	private:
 

@@ -9,10 +9,10 @@ namespace tktk
 	struct BasicMeshMaterialInitParam
 	{
 		// 使うパイプラインステートのハンドル
-		unsigned int						usePipeLineStateHandle;
+		size_t								usePipeLineStateHandle;
 
 		// 使うディスクリプタヒープのハンドル
-		unsigned int						useDescriptorHeapHandle;
+		size_t								useDescriptorHeapHandle;
 
 		// マテリアルの環境光
 		tktkMath::Color						materialAmbient		{ 0.25f, 1.0f };

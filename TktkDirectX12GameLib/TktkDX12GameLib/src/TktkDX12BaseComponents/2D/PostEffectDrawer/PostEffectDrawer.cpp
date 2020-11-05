@@ -4,7 +4,7 @@
 
 namespace tktk
 {
-	PostEffectDrawer::PostEffectDrawer(float drawPriority, unsigned int postEffectMaterialHandle, unsigned int useRtvDescriptorHeapHandle)
+	PostEffectDrawer::PostEffectDrawer(float drawPriority, size_t postEffectMaterialHandle, size_t useRtvDescriptorHeapHandle)
 		: ComponentBase(drawPriority)
 		, m_useRtvDescriptorHeapHandle(useRtvDescriptorHeapHandle)
 		, m_postEffectMaterialHandle(postEffectMaterialHandle)

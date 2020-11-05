@@ -29,8 +29,8 @@ namespace tktk
 
 	private:
 
-		unsigned int m_createCopyCbufferHandle{ 0U };
-		unsigned int m_createdVertexBufferHandle{ 0U };
+		size_t m_createUploadCbufferHandle{ 0U };
+		size_t m_createdVertexBufferHandle{ 0U };
 	};
 }
 

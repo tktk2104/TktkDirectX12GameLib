@@ -1,19 +1,28 @@
 #ifndef GAME_OBJECT_H_
 #define GAME_OBJECT_H_
 
-#include <memory>	// std::unique_ptr<T>
+/* std::unique_ptr */
+#include <memory>
+
+/* std::forward */
+#include <utility>
+
+/* createComponent() */
+#include "../_MainManager/DX12GameManager.h"
+
+/* use templateFunc */
+#include "../Component/ComponentGameObjectFunc/GameObjectComponentList.h"
+
+/* funcArgs */
 #include "GameObjectTagCarrier.h"
 #include "../EventMessage/MessageTypeCarrier.h"
-#include "../Component/DefaultComponents/StateMachine/StateTypeCarrier.h"
-
-
-#include <utility>	// std::forward
-#include "../Component/ComponentGameObjectFunc/GameObjectComponentList.h"
-#include "../_MainManager/DX12GameManager.h"
-#include "../Component/ComponentPtr.h"
 #include "../Component/DefaultComponents/StateMachine/StateMachineListInitParam.h"
+#include "../Component/DefaultComponents/StateMachine/StateTypeCarrier.h"
 #include "../Component/DefaultComponents/StateMachine/StateTypeHierarchy.h"
 #include "../Component/DefaultComponents/StateMachine/StateTypeList.h"
+
+/* ComponentPtr */
+#include "../Component/ComponentPtr.h"
 
 namespace tktk
 {
@@ -70,16 +79,16 @@ namespace tktk
 		// テンプレート引数の型のコンポーネントを引数の値を使って作る
 		// ※作ったコンポーネントは次のフレームの頭に追加される
 		template <class ComponentType, class... Args>
-		ComponentPtr<ComponentType> createComponent(Args&&... args) { return m_componentList->add<ComponentType>(DX12GameManager::createComponent<ComponentType>(GameObjectPtr(weak_from_this()), std::forward<Args>(args)...)); }
+		ComponentPtr<ComponentType> createComponent(Args&&... args)				{ return m_componentList->add<ComponentType>(DX12GameManager::createComponent<ComponentType>(GameObjectPtr(weak_from_this()), std::forward<Args>(args)...)); }
 
 		// テンプレート引数の型のコンポーネントを持っていたら取得し、持っていなかったらnullptrを返す
 		// ※複数同じ型のコンポーネントを所持していた場合、最初に見つけた１つを取得する
 		template <class ComponentType>
-		ComponentPtr<ComponentType> getComponent() const { return m_componentList->find<ComponentType>(); }
+		ComponentPtr<ComponentType> getComponent() const						{ return m_componentList->find<ComponentType>(); }
 
 		// テンプレート引数の型のコンポーネントを全て取得する
 		template <class ComponentType>
-		std::forward_list<ComponentPtr<ComponentType>> getComponents() const { return m_componentList->findAll<ComponentType>(); }
+		std::forward_list<ComponentPtr<ComponentType>> getComponents() const	{ return m_componentList->findAll<ComponentType>(); }
 
 	public: /* コンポーネント関数呼び出し処理 */
 
@@ -156,7 +165,12 @@ namespace tktk
 		// ステートを指定し、テンプレート引数の型のコンポーネントを引数の値を使って作る
 		//  ※「{ MOVE_STATE, WALK_STATE, BEGIN_MOVE_STATE }」で「“MOVE_STATE”内の“WALK_STATE”内の“BEGIN_MOVE_STATE”に追加」となる
 		template <class ComponentType, class... Args>
-		ComponentPtr<ComponentType> createComponentAndSetToState(const StateTypeHierarchy& targetState, Args&&... args);
+		ComponentPtr<ComponentType> createComponentAndSetToState(const StateTypeHierarchy& targetState, Args&&... args)
+		{
+			auto createdComponent = createComponent<ComponentType>(std::forward<Args>(args)...);
+			setComponentToStateMachine(targetState, createdComponent);
+			return createdComponent;
+		}
 
 		// ステートを指定し、ステートを変更するタイマーを作る
 		//  ※「{ MOVE_STATE, WALK_STATE, BEGIN_MOVE_STATE }」で「“MOVE_STATE”内の“WALK_STATE”内の“BEGIN_MOVE_STATE”に追加」となる
@@ -182,19 +196,5 @@ namespace tktk
 		ComponentPtr<ParentChildManager>					m_parentChildManager	{};
 		ComponentPtr<CurStateTypeList>						m_stateTypeList			{};
 	};
-//┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-//┃ここから下は関数の実装
-//┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-	// ステートを指定し、テンプレート引数の型のコンポーネントを引数の値を使って作る
-	//  ※「{ MOVE_STATE, WALK_STATE, BEGIN_MOVE_STATE }」で「“MOVE_STATE”内の“WALK_STATE”内の“BEGIN_MOVE_STATE”に追加」となる
-	template<class ComponentType, class ...Args>
-	inline ComponentPtr<ComponentType> GameObject::createComponentAndSetToState(const StateTypeHierarchy& targetState, Args&& ...args)
-	{
-		auto createdComponent = DX12GameManager::createComponent<ComponentType>(GameObjectPtr(weak_from_this()), std::forward<Args>(args)...);
-		createdComponent.lock()->setUser(GameObjectPtr(weak_from_this()));
-		setComponentToStateMachine(targetState, ComponentBasePtr(createdComponent));
-		return m_componentList->add<ComponentType>(createdComponent);
-	}
 }
 #endif // !GAME_OBJECT_H_

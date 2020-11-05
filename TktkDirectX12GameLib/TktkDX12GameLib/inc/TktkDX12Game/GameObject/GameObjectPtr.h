@@ -1,6 +1,7 @@
 #ifndef GAME_OBJECT_PTR_H_
 #define GAME_OBJECT_PTR_H_
 
+/* std::weak_ptr */
 #include <memory>
 
 namespace tktk

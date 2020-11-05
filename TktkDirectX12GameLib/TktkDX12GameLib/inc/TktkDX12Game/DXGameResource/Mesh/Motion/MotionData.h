@@ -26,17 +26,17 @@ namespace tktk
 	public:
 
 		// モーションの終了キーの番号を取得する
-		unsigned int getEndFrameNo() const;
+		size_t getEndFrameNo() const;
 
 		// 指定のフレームのボーン毎の行列を取得する（キーが無い時は前後のキーから計算する）
-		std::vector<MotionBoneParam> calculateBoneTransformMatrices(unsigned int frame) const;
+		std::vector<MotionBoneParam> calculateBoneTransformMatrices(size_t frame) const;
 
 	private:
 
 		// キーフレーム情報
 		struct KeyFrame
 		{
-			unsigned int			frameNo;
+			size_t					frameNo;
 			tktkMath::Vector3		position;
 			tktkMath::Vector3		scale;
 			tktkMath::Quaternion	rotation;
@@ -45,11 +45,11 @@ namespace tktk
 	private:
 
 		// 現在のフレームに対応したキーフレームを求める
-		KeyFrame calculateKeyFrame(const std::vector<KeyFrame>& keyFrames, unsigned int frame) const;
+		KeyFrame calculateKeyFrame(const std::vector<KeyFrame>& keyFrames, size_t frame) const;
 
 	private:
 
-		unsigned int  m_endFrameNo;
+		size_t  m_endFrameNo;
 
 		// ボーンごとのキーフレームの配列を管理する連想配列
 		std::map<std::string, std::vector<KeyFrame>> m_boneKeyFrames;

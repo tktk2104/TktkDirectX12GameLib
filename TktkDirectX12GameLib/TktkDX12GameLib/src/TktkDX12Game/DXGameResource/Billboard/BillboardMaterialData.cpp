@@ -122,7 +122,7 @@ namespace tktk
 		DX12GameManager::unSetDsv(drawFuncArgs.dsvDescriptorHeapHandle);
 	}
 
-	void BillboardMaterialData::updateTransformCbuffer(unsigned int copyBufferHandle, const BillboardCbufferUpdateFuncArgs& updateArgs) const
+	void BillboardMaterialData::updateTransformCbuffer(size_t copyBufferHandle, const BillboardCbufferUpdateFuncArgs& updateArgs) const
 	{
 		// ビルボードの座標変換用定数バッファ形式
 		BillboardCbufferData transformBufferData{};
@@ -138,15 +138,15 @@ namespace tktk
 		transformBufferData.projectionMatrix	= updateArgs.projectionMatrix;
 		transformBufferData.blendRate			= updateArgs.blendRate;
 
-		// 定数バッファのコピー用バッファを更新する
+		// 定数バッファのアップロード用バッファを更新する
 		// TODO : 前フレームと定数バッファに変化がない場合、更新しない処理を作る
-		DX12GameManager::updateCopyBuffer(copyBufferHandle, transformBufferData);
+		DX12GameManager::updateUploadBuffer(copyBufferHandle, transformBufferData);
 
 		// 座標変換用の定数バッファにコピーバッファの情報をコピーする
 		DX12GameManager::copyBuffer(copyBufferHandle);
 	}
 
-	void BillboardMaterialData::updateTransformCbufferUseClippingParam(unsigned int copyBufferHandle, const BillboardCbufferUpdateFuncArgs& updateArgs, const BillboardClippingParam& clippingParam) const
+	void BillboardMaterialData::updateTransformCbufferUseClippingParam(size_t copyBufferHandle, const BillboardCbufferUpdateFuncArgs& updateArgs, const BillboardClippingParam& clippingParam) const
 	{
 		// ビルボードの座標変換用定数バッファ形式
 		BillboardCbufferData transformBufferData{};
@@ -162,9 +162,9 @@ namespace tktk
 		transformBufferData.projectionMatrix	= updateArgs.projectionMatrix;
 		transformBufferData.blendRate			= updateArgs.blendRate;
 
-		// 定数バッファのコピー用バッファを更新する
+		// 定数バッファのアップロード用バッファを更新する
 		// TODO : 前フレームと定数バッファに変化がない場合、更新しない処理を作る
-		DX12GameManager::updateCopyBuffer(copyBufferHandle, transformBufferData);
+		DX12GameManager::updateUploadBuffer(copyBufferHandle, transformBufferData);
 
 		// 座標変換用の定数バッファにコピーバッファの情報をコピーする
 		DX12GameManager::copyBuffer(copyBufferHandle);
