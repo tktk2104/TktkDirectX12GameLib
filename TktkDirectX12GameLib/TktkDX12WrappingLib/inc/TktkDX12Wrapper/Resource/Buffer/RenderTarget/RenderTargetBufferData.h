@@ -25,6 +25,9 @@ namespace tktk
 
 	public:
 
+		// クリアカラーを取得する
+		const tktkMath::Color& getClearColor() const;
+
 		// 自身のリソースバリアをレンダーターゲット状態に変更する
 		void beginWriteBasicRtBuffer(ID3D12GraphicsCommandList* commandList) const;
 
@@ -52,6 +55,7 @@ namespace tktk
 	private:
 
 		tktkMath::Vector2	m_renderTargetSize;
+		tktkMath::Color		m_clearColor;
 		ID3D12Resource*		m_renderTargetBuffer	{ nullptr };
 		bool				m_mustRelease			{ true };
 	};

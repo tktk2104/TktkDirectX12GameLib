@@ -80,10 +80,4 @@ namespace tktk
 		auto cpuHeapHandleArray = getCpuHeapHandleArray(device);
 		commandList->OMSetRenderTargets(rtvCount, &cpuHeapHandleArray.at(startRtvLocationIndex), true, useDsvHandle);
 	}
-
-	void RtvDescriptorHeapData::clearRtv(ID3D12Device* device, ID3D12GraphicsCommandList* commandList, size_t rtvLocationIndex, const tktkMath::Color& color) const
-	{
-		auto cpuHeapHandleArray = getCpuHeapHandleArray(device);
-		commandList->ClearRenderTargetView(cpuHeapHandleArray.at(rtvLocationIndex), (float*)&color, 0U, nullptr);
-	}
 }

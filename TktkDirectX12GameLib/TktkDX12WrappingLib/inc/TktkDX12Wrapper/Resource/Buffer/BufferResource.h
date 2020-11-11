@@ -158,6 +158,9 @@ namespace tktk
 		// 指定のレンダーターゲットバッファを使用して、引数のディスクリプタハンドルにシェーダーリソースビューを作る
 		void createRtSrv(size_t handle, ID3D12Device* device, D3D12_CPU_DESCRIPTOR_HANDLE heapHandle) const;
 
+		// 指定のレンダーターゲットバッファのクリアカラーを取得する
+		const tktkMath::Color& getRtBufferClearColor(size_t handle) const;
+
 		// 指定のレンダーターゲットバッファのリソースバリアをレンダーターゲット状態に変更する
 		void beginWriteBasicRtBuffer(size_t handle, ID3D12GraphicsCommandList* commandList) const;
 

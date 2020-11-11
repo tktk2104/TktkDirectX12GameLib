@@ -41,9 +41,6 @@ namespace tktk
 		
 	public: /* ディスクリプタヒープが持つ各ビューのクリア処理 */
 		
-		// 指定したレンダーターゲット用のディスクリプタヒープが持つ指定のレンダーターゲットビューをクリアする
-		void clearRtv(size_t handle, ID3D12Device* device, ID3D12GraphicsCommandList* commandList, size_t rtvLocationIndex, const tktkMath::Color& color) const;
-		
 		// 深度ステンシルビューを全てクリアする
 		void clearDsvAll(ID3D12Device* device, ID3D12GraphicsCommandList* commandList) const;
 

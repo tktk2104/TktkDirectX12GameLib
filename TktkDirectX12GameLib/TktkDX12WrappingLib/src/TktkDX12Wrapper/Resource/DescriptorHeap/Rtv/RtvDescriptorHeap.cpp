@@ -41,9 +41,4 @@ namespace tktk
 	{
 		m_rtvDescriptorHeapDataArray.getMatchHandlePtr(handle)->setRtv(device, commandList, startRtvLocationIndex, rtvCount, useDsvHandle);
 	}
-
-	void RtvDescriptorHeap::clearRtv(size_t handle, ID3D12Device* device, ID3D12GraphicsCommandList* commandList, size_t rtvLocationIndex, const tktkMath::Color& color) const
-	{
-		m_rtvDescriptorHeapDataArray.getMatchHandlePtr(handle)->clearRtv(device, commandList, rtvLocationIndex, color);
-	}
 }

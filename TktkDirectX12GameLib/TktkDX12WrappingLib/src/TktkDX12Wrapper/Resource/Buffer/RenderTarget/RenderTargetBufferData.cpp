@@ -4,6 +4,7 @@ namespace tktk
 {
 	RenderTargetBufferData::RenderTargetBufferData(ID3D12Device* device, const tktkMath::Vector2& renderTargetSize, const tktkMath::Color& clearColor)
 		: m_renderTargetSize(renderTargetSize)
+		, m_clearColor(clearColor)
 	{
 		D3D12_RESOURCE_DESC resDesc{};
 		resDesc.Dimension			= D3D12_RESOURCE_DIMENSION_TEXTURE2D;
@@ -45,7 +46,11 @@ namespace tktk
 		DXGI_SWAP_CHAIN_DESC1 desc{};
 		swapChain->GetDesc1(&desc);
 
+		DXGI_RGBA backGroundColor{};
+		swapChain->GetBackgroundColor(&backGroundColor);
+
 		m_renderTargetSize	= { static_cast<float>(desc.Width), static_cast<float>(desc.Height) };
+		m_clearColor		= { backGroundColor.r, backGroundColor.g, backGroundColor.b, backGroundColor.a };
 		m_mustRelease		= false;
 		swapChain->GetBuffer(backBufferIndex, IID_PPV_ARGS(&m_renderTargetBuffer));
 	}
@@ -64,6 +69,11 @@ namespace tktk
 		, m_renderTargetBuffer(other.m_renderTargetBuffer)
 	{
 		other.m_renderTargetBuffer = nullptr;
+	}
+
+	const tktkMath::Color& RenderTargetBufferData::getClearColor() const
+	{
+		return m_clearColor;
 	}
 
 	void RenderTargetBufferData::beginWriteBasicRtBuffer(ID3D12GraphicsCommandList* commandList) const

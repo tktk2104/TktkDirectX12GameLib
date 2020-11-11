@@ -36,10 +36,6 @@ namespace tktk
 		// 指定数のレンダーターゲットビューと引数の深度ステンシルビューをコマンドリストに登録する
 		void setRtv(ID3D12Device* device, ID3D12GraphicsCommandList* commandList, size_t startRtvLocationIndex, unsigned int rtvCount, const D3D12_CPU_DESCRIPTOR_HANDLE* useDsvHandle) const;
 
-		// 指定のレンダーターゲットビューをクリアする
-		// TODO : クリアカラーをRenderTargetBufferから取得するように変更
-		void clearRtv(ID3D12Device* device, ID3D12GraphicsCommandList* commandList, size_t rtvLocationIndex, const tktkMath::Color& color) const;
-
 	private:
 
 		std::vector<size_t>			m_rtBufferHandleArray	{};

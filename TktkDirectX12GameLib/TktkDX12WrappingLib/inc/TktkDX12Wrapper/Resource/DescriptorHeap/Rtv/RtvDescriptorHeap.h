@@ -39,9 +39,6 @@ namespace tktk
 		// 指定したディスクリプタヒープの指定数のレンダーターゲットビューと引数の深度ステンシルビューをコマンドリストに登録する
 		void setRtv(size_t handle, ID3D12Device* device, ID3D12GraphicsCommandList* commandList, size_t startRtvLocationIndex, unsigned int rtvCount, const D3D12_CPU_DESCRIPTOR_HANDLE* useDsvHandle) const;
 
-		// 指定したディスクリプタヒープが持つ指定のレンダーターゲットビューをクリアする
-		void clearRtv(size_t handle, ID3D12Device* device, ID3D12GraphicsCommandList* commandList, size_t rtvLocationIndex, const tktkMath::Color& color) const;
-
 	private:
 
 		tktkContainer::ResourceContainer<RtvDescriptorHeapData> m_rtvDescriptorHeapDataArray;

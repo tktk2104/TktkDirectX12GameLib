@@ -26,6 +26,9 @@ namespace tktk
 		// ※引数のハンドルに対応するリソースが無かったら何もしない
 		void erase(size_t handle);
 
+		// 指定のレンダーターゲットバッファのクリアカラーを取得する
+		const tktkMath::Color& getClearColor(size_t handle) const;
+
 		// 指定のレンダーターゲットバッファのリソースバリアをレンダーターゲット状態に変更する
 		void beginWriteBasicRtBuffer(size_t handle, ID3D12GraphicsCommandList* commandList) const;
 

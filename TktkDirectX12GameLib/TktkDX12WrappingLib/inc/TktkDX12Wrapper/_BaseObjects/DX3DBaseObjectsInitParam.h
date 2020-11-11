@@ -14,7 +14,6 @@ namespace tktk
 		DX3DResourceNum		resourceNum;
 		HWND				hwnd;
 		tktkMath::Vector2	windowSize;
-		tktkMath::Color		backGroundColor;
 		bool				craeteDebugLayer;
 	};
 }

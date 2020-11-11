@@ -4,7 +4,6 @@
 #include <stdexcept>
 #endif // _DEBUG
 
-#include "TktkDX12Wrapper/Resource/_SystemResourceHandleGetter/SystemResourceHandleGetter.h"
 #include "TktkDX12Wrapper/Resource/Viewport/Viewport.h"
 #include "TktkDX12Wrapper/Resource/ScissorRect/ScissorRect.h"
 #include "TktkDX12Wrapper/Resource/GraphicsPipeLine/GraphicsPipeLine.h"
@@ -15,7 +14,6 @@ namespace tktk
 {
 	DX3DResource::DX3DResource(const DX3DResourceNum& resNum)
 	{
-		m_sysResHandleGetter	= std::make_unique<SystemResourceHandleGetter>();
 		m_viewport				= std::make_unique<Viewport>(resNum.viewPortNum);
 		m_scissorRect			= std::make_unique<ScissorRect>(resNum.scissorRectNum);
 		m_graphicsPipeLine		= std::make_unique<GraphicsPipeLine>(resNum.graphicsPipeLineResourceNum);
@@ -260,9 +258,13 @@ namespace tktk
 		m_bufferResource->copyBuffer(handle, commandList);
 	}
 
-	void DX3DResource::clearRtv(size_t handle, ID3D12Device* device, ID3D12GraphicsCommandList* commandList, size_t rtvLocationIndex, const tktkMath::Color& color) const
+	void DX3DResource::clearRtv(size_t handle, ID3D12Device* device, ID3D12GraphicsCommandList* commandList, size_t rtvLocationIndex) const
 	{
-		m_descriptorHeap->clearRtv(handle, device, commandList, rtvLocationIndex, color);
+		const auto& rtBufferHandleArray = m_descriptorHeap->getRtvDescriptorHeapUseBufferHandleArray(handle);
+		const auto& clearColor = m_bufferResource->getRtBufferClearColor(rtBufferHandleArray.at(rtvLocationIndex));
+
+		auto cpuHeapHandleArray = m_descriptorHeap->getCpuRtvHeapHandleArray(handle, device);
+		commandList->ClearRenderTargetView(cpuHeapHandleArray.at(rtvLocationIndex), (float*)&clearColor, 0U, nullptr);
 	}
 
 	void DX3DResource::clearDsvAll(ID3D12Device* device, ID3D12GraphicsCommandList* commandList) const
@@ -345,13 +347,13 @@ namespace tktk
 		m_descriptorHeap->setOnlyDsv(handle, device, commandList);
 	}
 
-	void DX3DResource::setBackBufferView(ID3D12Device* device, ID3D12GraphicsCommandList* commandList, unsigned int backBufferIndex) const
+	void DX3DResource::setBackBufferView(size_t backBufferRtvDescriptorHeap, ID3D12Device* device, ID3D12GraphicsCommandList* commandList, unsigned int backBufferIndex) const
 	{
 		// バックバッファはフレームの初めに書き込み状態に設定されているのでそのまま ディスクリプタヒープを設定できる
-		m_descriptorHeap->setRtv(getSystemHandle(SystemRtvDescriptorHeapType::BackBuffer), device, commandList, backBufferIndex, 1U);
+		m_descriptorHeap->setRtv(backBufferRtvDescriptorHeap, device, commandList, backBufferIndex, 1U);
 	}
 
-	void DX3DResource::setBackBufferViewAndDsv(size_t dsvDescriptorHeapHandle, ID3D12Device* device, ID3D12GraphicsCommandList* commandList, unsigned int backBufferIndex) const
+	void DX3DResource::setBackBufferViewAndDsv(size_t backBufferRtvDescriptorHeap, size_t dsvDescriptorHeapHandle, ID3D12Device* device, ID3D12GraphicsCommandList* commandList, unsigned int backBufferIndex) const
 	{
 		// 使用する深度ステンシルバッファーを取得して、書き込み状態に設定する
 		auto dsvDescriptorHeapUseBufferIdArray = m_descriptorHeap->getDsvDescriptorHeapUseBufferHandleArray(dsvDescriptorHeapHandle);
@@ -361,7 +363,7 @@ namespace tktk
 		}
 
 		// 「バックバッファー用のディスクリプタヒープ」と「深度ステンシル用のディスクリプタヒープ」を設定する
-		m_descriptorHeap->setRtvAndDsv(getSystemHandle(SystemRtvDescriptorHeapType::BackBuffer), dsvDescriptorHeapHandle, device, commandList, backBufferIndex, 1U);
+		m_descriptorHeap->setRtvAndDsv(backBufferRtvDescriptorHeap, dsvDescriptorHeapHandle, device, commandList, backBufferIndex, 1U);
 	}
 
 	void DX3DResource::unSetRtv(size_t rtvDescriptorHeapHandle, ID3D12GraphicsCommandList* commandList, size_t startRtvLocationIndex, size_t rtvCount) const
@@ -422,136 +424,6 @@ namespace tktk
 	void DX3DResource::setDescriptorHeap(ID3D12Device* device, ID3D12GraphicsCommandList* commandList, const std::vector<DescriptorHeapParam>& heapParamArray) const
 	{
 		m_descriptorHeap->set(device, commandList, heapParamArray);
-	}
-
-	size_t DX3DResource::getSystemHandle(SystemViewportType type) const
-	{
-		return m_sysResHandleGetter->getSystemHandle(type);
-	}
-
-	size_t DX3DResource::getSystemHandle(SystemScissorRectType type) const
-	{
-		return m_sysResHandleGetter->getSystemHandle(type);
-	}
-
-	size_t DX3DResource::getSystemHandle(SystemVertexBufferType type) const
-	{
-		return m_sysResHandleGetter->getSystemHandle(type);
-	}
-
-	size_t DX3DResource::getSystemHandle(SystemIndexBufferType type) const
-	{
-		return m_sysResHandleGetter->getSystemHandle(type);
-	}
-
-	size_t DX3DResource::getSystemHandle(SystemCBufferType type) const
-	{
-		return m_sysResHandleGetter->getSystemHandle(type);
-	}
-
-	size_t DX3DResource::getSystemHandle(SystemTextureBufferType type) const
-	{
-		return m_sysResHandleGetter->getSystemHandle(type);
-	}
-
-	size_t DX3DResource::getSystemHandle(SystemRtBufferType type) const
-	{
-		return m_sysResHandleGetter->getSystemHandle(type);
-	}
-
-	size_t DX3DResource::getSystemHandle(SystemDsBufferType type) const
-	{
-		return m_sysResHandleGetter->getSystemHandle(type);
-	}
-
-	size_t DX3DResource::getSystemHandle(SystemBasicDescriptorHeapType type) const
-	{
-		return m_sysResHandleGetter->getSystemHandle(type);
-	}
-
-	size_t DX3DResource::getSystemHandle(SystemRtvDescriptorHeapType type) const
-	{
-		return m_sysResHandleGetter->getSystemHandle(type);
-	}
-
-	size_t DX3DResource::getSystemHandle(SystemDsvDescriptorHeapType type) const
-	{
-		return m_sysResHandleGetter->getSystemHandle(type);
-	}
-
-	size_t DX3DResource::getSystemHandle(SystemRootSignatureType type) const
-	{
-		return m_sysResHandleGetter->getSystemHandle(type);
-	}
-
-	size_t DX3DResource::getSystemHandle(SystemPipeLineStateType type) const
-	{
-		return m_sysResHandleGetter->getSystemHandle(type);
-	}
-
-	void DX3DResource::setSystemHandle(SystemViewportType type, size_t handle)
-	{
-		m_sysResHandleGetter->setSystemHandle(type, handle);
-	}
-
-	void DX3DResource::setSystemHandle(SystemScissorRectType type, size_t handle)
-	{
-		m_sysResHandleGetter->setSystemHandle(type, handle);
-	}
-
-	void DX3DResource::setSystemHandle(SystemVertexBufferType type, size_t handle)
-	{
-		m_sysResHandleGetter->setSystemHandle(type, handle);
-	}
-
-	void DX3DResource::setSystemHandle(SystemIndexBufferType type, size_t handle)
-	{
-		m_sysResHandleGetter->setSystemHandle(type, handle);
-	}
-
-	void DX3DResource::setSystemHandle(SystemCBufferType type, size_t handle)
-	{
-		m_sysResHandleGetter->setSystemHandle(type, handle);
-	}
-
-	void DX3DResource::setSystemHandle(SystemTextureBufferType type, size_t handle)
-	{
-		m_sysResHandleGetter->setSystemHandle(type, handle);
-	}
-
-	void DX3DResource::setSystemHandle(SystemRtBufferType type, size_t handle)
-	{
-		m_sysResHandleGetter->setSystemHandle(type, handle);
-	}
-
-	void DX3DResource::setSystemHandle(SystemDsBufferType type, size_t handle)
-	{
-		m_sysResHandleGetter->setSystemHandle(type, handle);
-	}
-
-	void DX3DResource::setSystemHandle(SystemBasicDescriptorHeapType type, size_t handle)
-	{
-		m_sysResHandleGetter->setSystemHandle(type, handle);
-	}
-
-	void DX3DResource::setSystemHandle(SystemRtvDescriptorHeapType type, size_t handle)
-	{
-		m_sysResHandleGetter->setSystemHandle(type, handle);
-	}
-
-	void DX3DResource::setSystemHandle(SystemDsvDescriptorHeapType type, size_t handle)
-	{
-		m_sysResHandleGetter->setSystemHandle(type, handle);
-	}
-
-	void DX3DResource::setSystemHandle(SystemRootSignatureType type, size_t handle)
-	{
-		m_sysResHandleGetter->setSystemHandle(type, handle);
-	}
-
-	void DX3DResource::setSystemHandle(SystemPipeLineStateType type, size_t handle)
-	{
-		m_sysResHandleGetter->setSystemHandle(type, handle);
 	}
 
 	void DX3DResource::createBasicDescriptorCbv(ID3D12Device* device, D3D12_CPU_DESCRIPTOR_HANDLE cpuHandle, const BasicDescriptorParam& useBufferParam) const

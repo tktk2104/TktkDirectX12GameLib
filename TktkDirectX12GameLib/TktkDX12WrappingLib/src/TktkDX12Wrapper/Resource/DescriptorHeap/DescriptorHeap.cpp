@@ -86,11 +86,6 @@ namespace tktk
 		m_dsvDescriptorHeap->setOnlyDsv(handle, device, commandList);
 	}
 
-	void DescriptorHeap::clearRtv(size_t handle, ID3D12Device* device, ID3D12GraphicsCommandList* commandList, size_t rtvLocationIndex, const tktkMath::Color& color) const
-	{
-		m_rtvDescriptorHeap->clearRtv(handle, device, commandList, rtvLocationIndex, color);
-	}
-
 	void DescriptorHeap::clearDsvAll(ID3D12Device* device, ID3D12GraphicsCommandList* commandList) const
 	{
 		m_dsvDescriptorHeap->clearDsvAll(device, commandList);

@@ -230,6 +230,11 @@ namespace tktk
 		m_renderTargetBuffer->createSrv(handle, device, heapHandle);
 	}
 
+	const tktkMath::Color& BufferResource::getRtBufferClearColor(size_t handle) const
+	{
+		return m_renderTargetBuffer->getClearColor(handle);
+	}
+
 	void BufferResource::beginWriteBasicRtBuffer(size_t handle, ID3D12GraphicsCommandList* commandList) const
 	{
 		m_renderTargetBuffer->beginWriteBasicRtBuffer(handle, commandList);

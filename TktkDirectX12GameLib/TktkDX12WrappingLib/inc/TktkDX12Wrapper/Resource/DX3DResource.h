@@ -13,7 +13,6 @@
 namespace tktk
 {
 	// 前方宣言達
-	class SystemResourceHandleGetter;
 	class Viewport;
 	class ScissorRect;
 	class GraphicsPipeLine;
@@ -153,8 +152,8 @@ namespace tktk
 		// 指定のアップロードバッファの内容を設定したバッファにアップロードするGPU命令を行う
 		void copyBuffer(size_t handle, ID3D12GraphicsCommandList* commandList) const;
 
-		// 指定のレンダーターゲットビューを指定の色でクリアする
-		void clearRtv(size_t handle, ID3D12Device* device, ID3D12GraphicsCommandList* commandList, size_t rtvLocationIndex, const tktkMath::Color& color) const;
+		// 指定のレンダーターゲットビューを事前に設定したクリアカラーでクリアする
+		void clearRtv(size_t handle, ID3D12Device* device, ID3D12GraphicsCommandList* commandList, size_t rtvLocationIndex) const;
 
 		// 全てのデプスステンシルビューをクリアする
 		void clearDsvAll(ID3D12Device* device, ID3D12GraphicsCommandList* commandList) const;
@@ -185,10 +184,10 @@ namespace tktk
 		void setOnlyDsv(size_t handle, ID3D12Device* device, ID3D12GraphicsCommandList* commandList) const;
 
 		// バックバッファービューを設定する
-		void setBackBufferView(ID3D12Device* device, ID3D12GraphicsCommandList* commandList, unsigned int backBufferIndex) const;
+		void setBackBufferView(size_t backBufferRtvDescriptorHeap, ID3D12Device* device, ID3D12GraphicsCommandList* commandList, unsigned int backBufferIndex) const;
 
 		// バックバッファービューと深度ステンシルビューを設定する
-		void setBackBufferViewAndDsv(size_t dsvDescriptorHeapHandle, ID3D12Device* device, ID3D12GraphicsCommandList* commandList, unsigned int backBufferIndex) const;
+		void setBackBufferViewAndDsv(size_t backBufferRtvDescriptorHeap, size_t dsvDescriptorHeapHandle, ID3D12Device* device, ID3D12GraphicsCommandList* commandList, unsigned int backBufferIndex) const;
 
 		// 指定のレンダーターゲット用のディスクリプタヒープが使用しているレンダーターゲットバッファの書き込み後処理を行う
 		void unSetRtv(size_t rtvDescriptorHeapHandle, ID3D12GraphicsCommandList* commandList, size_t startRtvLocationIndex, size_t rtvCount) const;
@@ -222,63 +221,6 @@ namespace tktk
 		// 指定のディスクリプタヒープの配列をコマンドリストに設定する
 		void setDescriptorHeap(ID3D12Device* device, ID3D12GraphicsCommandList* commandList, const std::vector<DescriptorHeapParam>& heapParamArray) const;
 
-	public: /* システムのリソースを使うためのハンドルを取得する */
-
-		// システムのビューポートハンドルを取得する
-		size_t getSystemHandle(SystemViewportType type) const;
-
-		// システムのシザー矩形ハンドルを取得する
-		size_t getSystemHandle(SystemScissorRectType type) const;
-
-		// システムの頂点バッファハンドルを取得する
-		size_t getSystemHandle(SystemVertexBufferType type) const;
-
-		// システムのインデックスバッファハンドルを取得する
-		size_t getSystemHandle(SystemIndexBufferType type) const;
-
-		// システムの定数バッファハンドルを取得する
-		size_t getSystemHandle(SystemCBufferType type) const;
-
-		// システムのテクスチャバッファハンドルを取得する
-		size_t getSystemHandle(SystemTextureBufferType type) const;
-
-		// システムのレンダーターゲットバッファハンドルを取得する
-		size_t getSystemHandle(SystemRtBufferType type) const;
-
-		// システムの深度ステンシルバッファハンドルを取得する
-		size_t getSystemHandle(SystemDsBufferType type) const;
-
-		// システムの通常のディスクリプタヒープハンドルを取得する
-		size_t getSystemHandle(SystemBasicDescriptorHeapType type) const;
-
-		// システムのレンダーターゲット用のディスクリプタヒープハンドルを取得する
-		size_t getSystemHandle(SystemRtvDescriptorHeapType type) const;
-
-		// システムの深度ステンシル用のディスクリプタヒープハンドルを取得する
-		size_t getSystemHandle(SystemDsvDescriptorHeapType type) const;
-
-		// システムのルートシグネチャハンドルを取得する
-		size_t getSystemHandle(SystemRootSignatureType type) const;
-
-		// システムのパイプラインステートハンドルを取得する
-		size_t getSystemHandle(SystemPipeLineStateType type) const;
-
-	public: /* システムのリソースを使うためのハンドルとシステムのリソースの種類を結びつける */
-
-		void setSystemHandle(SystemViewportType type,				size_t handle);
-		void setSystemHandle(SystemScissorRectType type,			size_t handle);
-		void setSystemHandle(SystemVertexBufferType type,			size_t handle);
-		void setSystemHandle(SystemIndexBufferType type,			size_t handle);
-		void setSystemHandle(SystemCBufferType type,				size_t handle);
-		void setSystemHandle(SystemTextureBufferType type,			size_t handle);
-		void setSystemHandle(SystemRtBufferType type,				size_t handle);
-		void setSystemHandle(SystemDsBufferType type,				size_t handle);
-		void setSystemHandle(SystemBasicDescriptorHeapType type,	size_t handle);
-		void setSystemHandle(SystemRtvDescriptorHeapType type,		size_t handle);
-		void setSystemHandle(SystemDsvDescriptorHeapType type,		size_t handle);
-		void setSystemHandle(SystemRootSignatureType type,			size_t handle);
-		void setSystemHandle(SystemPipeLineStateType type,			size_t handle);
-
 	private:
 
 		// 引数のバッファ情報が定数バッファであれば定数バッファビューを作り、そうでなければエラーを吐く
@@ -289,7 +231,6 @@ namespace tktk
 
 	private:
 
-		std::unique_ptr<SystemResourceHandleGetter>	m_sysResHandleGetter;
 		std::unique_ptr<Viewport>					m_viewport;
 		std::unique_ptr<ScissorRect>				m_scissorRect;
 		std::unique_ptr<GraphicsPipeLine>			m_graphicsPipeLine;

@@ -22,6 +22,11 @@ namespace tktk
 		m_renderTargetBufferDataArray.erase(handle);
 	}
 
+	const tktkMath::Color& RenderTargetBuffer::getClearColor(size_t handle) const
+	{
+		return m_renderTargetBufferDataArray.getMatchHandlePtr(handle)->getClearColor();
+	}
+
 	void RenderTargetBuffer::beginWriteBasicRtBuffer(size_t handle, ID3D12GraphicsCommandList* commandList) const
 	{
 		m_renderTargetBufferDataArray.getMatchHandlePtr(handle)->beginWriteBasicRtBuffer(commandList);

@@ -9,6 +9,7 @@
 #include "DX3DBaseObjectsInitParamIncluder.h"
 #include "DX3DBaseObjectsFuncArgsIncluder.h"
 #include "DX3DBaseObjectsInitParam.h"
+#include "PrimitiveTopology.h"
 
 namespace tktk
 {
@@ -25,15 +26,13 @@ namespace tktk
 		explicit DX3DBaseObjects(const DX3DBaseObjectsInitParam& initParam);
 		~DX3DBaseObjects();
 
-	public: /* 描画開始、終了処理 */
-
-		// 描画開始
-		void beginDraw();
-
-		// 描画終了
-		void endDraw();
-
 	public: /* リソース作成、ロード処理 */
+
+		// ビューポートを作り、そのリソースのハンドルを返す
+		size_t createViewport(const std::vector<ViewportInitParam>& initParamArray);
+
+		// シザー矩形を作り、そのリソースのハンドルを返す
+		size_t createScissorRect(const std::vector<ScissorRectInitParam>& initParamArray);
 
 		// ルートシグネチャを作り、そのリソースのハンドルを返す
 		size_t createRootSignature(const RootSignatureInitParam& initParam);
@@ -59,6 +58,9 @@ namespace tktk
 		// レンダーターゲットバッファを作り、そのリソースのハンドルを返す
 		size_t createRtBuffer(const tktkMath::Vector2& renderTargetSize, const tktkMath::Color& clearColor);
 
+		// バックバッファーを使ってレンダーターゲットバッファを作り、そのリソースのハンドルを返す
+		std::array<size_t, 2U> createBackBufferRtBuffer();
+
 		// 深度ステンシルバッファを作り、そのリソースのハンドルを返す
 		size_t createDsBuffer(const DepthStencilBufferInitParam& initParam);
 
@@ -67,6 +69,9 @@ namespace tktk
 
 		// レンダーターゲットのディスクリプタヒープを作り、そのリソースのハンドルを返す
 		size_t createRtvDescriptorHeap(const RtvDescriptorHeapInitParam& initParam);
+
+		// バックバッファーのレンダーターゲットディスクリプタヒープを作り、そのリソースのハンドルを返す
+		size_t createBackBufferRtvDescriptorHeap(const std::array<size_t, 2U>& backBufferRtBufferHandles);
 
 		// 深度ステンシルビューのディスクリプタヒープを作り、そのリソースのハンドルを返す
 		size_t createDsvDescriptorHeap(const DsvDescriptorHeapInitParam& initParam);
@@ -143,19 +148,22 @@ namespace tktk
 
 	public: /* リソース更新処理 */
 
-		// 背景色を設定する
-		void setBackGroundColor(const tktkMath::Color& backGroundColor);
-
 		// 引数のポインタのデータを指定のアップロードバッファにコピーする
 		void updateUploadBuffer(size_t handle, const CopySourceDataCarrier& bufferData);
 
 		// 指定のアップロードバッファの内容を設定したバッファにアップロードするGPU命令を行う
 		void copyBuffer(size_t handle) const;
 
-		// 指定のレンダーターゲットビューを指定の色でクリアする
-		void clearRtv(size_t handle, size_t rtvLocationIndex, const tktkMath::Color& color) const;
+		// 指定のレンダーターゲットビューを事前に設定したクリアカラーでクリアする
+		void clearRtv(size_t handle, size_t rtvLocationIndex) const;
+
+		// 全てのデプスステンシルビューをクリアする
+		void clearDsvAll();
 
 	public: /* リソース情報取得処理 */
+
+		// 現在のバックバッファーを識別するインデックスを取得する
+		unsigned int getCurBackBufferIndex() const;
 
 		// 指定のテクスチャのサイズを取得する（ピクセル）
 		const tktkMath::Vector3& getTextureBufferSizePx(size_t handle) const;
@@ -173,11 +181,11 @@ namespace tktk
 		// 指定の深度ステンシルビュー用のディスクリプタヒープをコマンドリストに設定する（※レンダーターゲットは設定できない）
 		void setOnlyDsv(size_t handle) const;
 
-		// バックバッファーを設定する
-		void setBackBufferView() const;
+		// バックバッファービューを設定する
+		void setBackBufferView(size_t backBufferRtvDescriptorHeap) const;
 
-		// バックバッファーと深度ステンシルビューを設定する
-		void setBackBufferViewAndDsv(size_t dsvDescriptorHeapHandle) const;
+		// バックバッファービューと深度ステンシルビューを設定する
+		void setBackBufferViewAndDsv(size_t backBufferRtvDescriptorHeap, size_t dsvDescriptorHeapHandle) const;
 
 		// 指定のレンダーターゲット用のディスクリプタヒープが使用しているレンダーターゲットバッファの書き込み後処理を行う
 		void unSetRtv(size_t rtvDescriptorHeapHandle, size_t startRtvLocationIndex, size_t rtvCount) const;
@@ -207,9 +215,15 @@ namespace tktk
 		void setBlendFactor(const std::array<float, 4>& blendFactor) const;
 
 		// プリミティブトポロジを設定する
-		void setPrimitiveTopology(D3D12_PRIMITIVE_TOPOLOGY topology) const;
+		void setPrimitiveTopology(PrimitiveTopology topology) const;
 
 	public: /* ドローコール、その他処理 */
+
+		// バックバッファを書き込み状態にする
+		void beginWriteBackBuffer(size_t backBufferHandle);
+
+		// バックバッファを描画状態にする
+		void endWriteBackBuffer(size_t backBufferHandle);
 
 		// インスタンス描画を行う
 		void drawInstanced(
@@ -231,62 +245,8 @@ namespace tktk
 		// コマンドリストを実行する
 		void executeCommandList();
 
-	public: /* システムのリソースを使うためのハンドルを取得する */
-
-		// システムのビューポートハンドルを取得する
-		size_t getSystemHandle(SystemViewportType type) const;
-
-		// システムのシザー矩形ハンドルを取得する
-		size_t getSystemHandle(SystemScissorRectType type) const;
-
-		// システムの頂点バッファハンドルを取得する
-		size_t getSystemHandle(SystemVertexBufferType type) const;
-
-		// システムのインデックスバッファハンドルを取得する
-		size_t getSystemHandle(SystemIndexBufferType type) const;
-
-		// システムの定数バッファハンドルを取得する
-		size_t getSystemHandle(SystemCBufferType type) const;
-
-		// システムのテクスチャバッファハンドルを取得する
-		size_t getSystemHandle(SystemTextureBufferType type) const;
-
-		// システムのレンダーターゲットバッファハンドルを取得する
-		size_t getSystemHandle(SystemRtBufferType type) const;
-
-		// システムの深度ステンシルバッファハンドルを取得する
-		size_t getSystemHandle(SystemDsBufferType type) const;
-
-		// システムの通常のディスクリプタヒープハンドルを取得する
-		size_t getSystemHandle(SystemBasicDescriptorHeapType type) const;
-
-		// システムのレンダーターゲット用のディスクリプタヒープハンドルを取得する
-		size_t getSystemHandle(SystemRtvDescriptorHeapType type) const;
-
-		// システムの深度ステンシル用のディスクリプタヒープハンドルを取得する
-		size_t getSystemHandle(SystemDsvDescriptorHeapType type) const;
-
-		// システムのルートシグネチャハンドルを取得する
-		size_t getSystemHandle(SystemRootSignatureType type) const;
-
-		// システムのパイプラインステートハンドルを取得する
-		size_t getSystemHandle(SystemPipeLineStateType type) const;
-
-	public: /* システムのリソースを使うためのハンドルとシステムのリソースの種類を結びつける */
-
-		void setSystemHandle(SystemViewportType type,				size_t handle);
-		void setSystemHandle(SystemScissorRectType type,			size_t handle);
-		void setSystemHandle(SystemVertexBufferType type,			size_t handle);
-		void setSystemHandle(SystemIndexBufferType type,			size_t handle);
-		void setSystemHandle(SystemCBufferType type,				size_t handle);
-		void setSystemHandle(SystemTextureBufferType type,			size_t handle);
-		void setSystemHandle(SystemRtBufferType type,				size_t handle);
-		void setSystemHandle(SystemDsBufferType type,				size_t handle);
-		void setSystemHandle(SystemBasicDescriptorHeapType type,	size_t handle);
-		void setSystemHandle(SystemRtvDescriptorHeapType type,		size_t handle);
-		void setSystemHandle(SystemDsvDescriptorHeapType type,		size_t handle);
-		void setSystemHandle(SystemRootSignatureType type,			size_t handle);
-		void setSystemHandle(SystemPipeLineStateType type,			size_t handle);
+		// 画面をフリップする
+		void flipScreen() const;
 
 	private:
 
@@ -298,7 +258,6 @@ namespace tktk
 		std::unique_ptr<SwapChain>		m_swapChain;
 		std::unique_ptr<Fence>			m_fence;
 		std::unique_ptr<DX3DResource>	m_dX3DResource;
-		tktkMath::Color					m_backGroundColor		{ tktkMath::Color_v::blue };
 	};
 }
 #endif // !DX3D_BASE_OBJECTS_H_
