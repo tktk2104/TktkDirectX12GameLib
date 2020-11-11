@@ -1,8 +1,10 @@
 #ifndef MESH_ANIMATOR_H_
 #define MESH_ANIMATOR_H_
 
-#include <TktkTemplateMetaLib/TypeCheck/isIdType.h>
-#include "../../../TktkDX12Game/Component/ComponentBase.h"
+/* base class */
+#include "../../../TktkDX12Game/DXGameResource/GameObjectResouse/Component/ComponentBase.h"
+
+#include "TktkDX12Game/UtilityProcessManager/ResourceHandleGetter/ResourceIdConverter/ResourceIdCarrier.h"
 
 namespace tktk
 {
@@ -13,7 +15,7 @@ namespace tktk
 	{
 	public:
 
-		MeshAnimator(size_t initMotionHandle, bool isLoop, float animFramePerSec);
+		MeshAnimator(size_t initMotionHandle, bool isLoop, float motionSpeedRate, float animFramePerSec);
 
 	public:
 
@@ -26,14 +28,16 @@ namespace tktk
 
 		// 新しいモーションIDを設定する
 		// ※内部で対応するリソースハンドルに変換される
-		void setNewMotionId(ResourceIdCarrier motionId, bool isLoop, float lerpTimeSec);
+		void setNewMotionId(ResourceIdCarrier motionId, bool isLoop, float motionSpeedRate, float lerpTimeSec);
 
 		// 新しいモーションハンドルを設定する
-		void setNewMotionHandle(size_t motionHandle, bool isLoop, float lerpTimeSec);
+		void setNewMotionHandle(size_t motionHandle, bool isLoop, float motionSpeedRate, float lerpTimeSec);
 
 	private:
 
 		bool m_isLoop;
+
+		float m_motionSpeedRate			{ 1.0f };
 
 		size_t m_preMotionHandle;
 		size_t m_curMotionHandle;

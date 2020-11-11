@@ -1,7 +1,6 @@
 #ifndef TRANSFORM_3D_MAKER_H_
 #define TRANSFORM_3D_MAKER_H_
 
-#include <TktkTemplateMetaLib/TypeCheck/isIdType.h>
 #include "Transform3D.h"
 
 namespace tktk
@@ -19,9 +18,6 @@ namespace tktk
 
 		// 作成開始
 		static Transform3DMaker& makeStart(GameObjectPtr user);
-
-		// ステートを指定し、作成を開始する
-		static Transform3DMaker& makeStart(const StateTypeHierarchy& targetState, GameObjectPtr user);
 
 	public:
 
@@ -55,7 +51,6 @@ namespace tktk
 	private: /* 変数達 */
 
 		GameObjectPtr			m_user			{  };
-		StateTypeHierarchy		m_targetState	{  };
 		tktkMath::Vector3		m_initPosition	{ tktkMath::Vector3_v::zero };
 		tktkMath::Vector3		m_initScaleRate	{ tktkMath::Vector3_v::one };
 		tktkMath::Quaternion	m_initRotation	{ tktkMath::Quaternion_v::identity };

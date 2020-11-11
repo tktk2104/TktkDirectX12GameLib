@@ -1,9 +1,14 @@
 #ifndef TRANSFORM_2D_H_
 #define TRANSFORM_2D_H_
 
+/* base class */
+#include "../../../TktkDX12Game/DXGameResource/GameObjectResouse/Component/ComponentBase.h"
+
+/* funcUseType */
 #include <TktkMath/Structs/Matrix3.h>
+
+/* class member */
 #include <TktkMath/Structs/Vector2.h>
-#include "../../../TktkDX12Game/Component/ComponentBase.h"
 #include "TraceParentType.h"
 
 namespace tktk

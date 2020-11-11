@@ -1,15 +1,21 @@
 #ifndef BASIC_MESH_DRAWER_H_
 #define BASIC_MESH_DRAWER_H_
 
-#include <TktkTemplateMetaLib/TypeCheck/isIdType.h>
-#include "../../../TktkDX12Game/Component/ComponentBase.h"
+/* base class */
+#include "../../../TktkDX12Game/DXGameResource/GameObjectResouse/Component/ComponentBase.h"
+
+/* class member */
+#include <TktkMath/Structs/Vector3.h>
+#include <TktkMath/Structs/Quaternion.h>
 #include "BasicMeshDrawerUseResourceHandles.h"
-#include "../Transform3D/Transform3D.h"
-#include "../MeshAnimator/MeshAnimator.h"
 
 namespace tktk
 {
-	// 通常メッシュ描画コンポーネント
+	/* class member */
+	class Transform3D;
+	class MeshAnimator;
+
+	// メッシュ描画コンポーネント
 	// 【必須コンポーネント：Transform3D】
 	class BasicMeshDrawer
 		: public ComponentBase

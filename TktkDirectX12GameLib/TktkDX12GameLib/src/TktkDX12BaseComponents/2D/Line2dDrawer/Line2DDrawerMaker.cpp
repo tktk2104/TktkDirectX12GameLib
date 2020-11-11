@@ -1,5 +1,8 @@
 #include "TktkDX12BaseComponents/2D/Line2dDrawer/Line2DDrawerMaker.h"
 
+#include "TktkDX12Game/_MainManager/DX12GameManager.h"
+#include "TktkDX12Game/DXGameResource/GameObjectResouse/GameObject/GameObject.h"
+
 namespace tktk
 {
 	Line2DDrawerMaker Line2DDrawerMaker::m_self;
@@ -19,53 +22,16 @@ namespace tktk
 		return m_self;
 	}
 
-	Line2DDrawerMaker& Line2DDrawerMaker::makeStart(const StateTypeHierarchy& targetState, GameObjectPtr user)
-	{
-		// 変数を初期化する
-		m_self = Line2DDrawerMaker();
-
-		// 引数のユーザーを設定
-		m_self.m_user = user;
-
-		// 引数の追加階層を設定
-		m_self.m_targetState = targetState;
-
-		// 使用するレンダーターゲットのディスクリプタヒープハンドルのデフォルト値はバックバッファ
-		m_self.m_useRtvDescriptorHeapHandle = DX12GameManager::getSystemHandle(SystemRtvDescriptorHeapType::BackBuffer);
-
-		// 自身の参照を返す
-		return m_self;
-	}
-
 	ComponentPtr<Line2DDrawer> Line2DDrawerMaker::create()
 	{
-		// 自身を追加する階層情報が空だったら普通に作成する
-		if (m_targetState.hierarchy.empty())
-		{
-			// コンポーネントを作成してそのポインタを返す
-			return m_user->createComponent<Line2DDrawer>(
-				m_drawPriority,
-				m_lineVertexArray,
-				m_lineColor,
-				m_blendRate,
-				m_useRtvDescriptorHeapHandle
-				);
-		}
-
 		// コンポーネントを作成する
-		auto createComponent = m_user->createComponent<Line2DDrawer>(
+		return m_user->createComponent<Line2DDrawer>(
 			m_drawPriority,
 			m_lineVertexArray,
 			m_lineColor,
 			m_blendRate,
 			m_useRtvDescriptorHeapHandle
 			);
-
-		// 作成したコンポーネントを特定のステートに追加する
-		m_user->setComponentToStateMachine(m_targetState, createComponent);
-
-		// 作成したコンポーネントのポインタを返す
-		return createComponent;
 	}
 
 	Line2DDrawerMaker & Line2DDrawerMaker::drawPriority(float value)

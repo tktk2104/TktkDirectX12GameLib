@@ -1,0 +1,45 @@
+#ifndef BILLBOARD_MATERIAL_DATA_H_
+#define BILLBOARD_MATERIAL_DATA_H_
+
+/* class member */
+#include <TktkMath/Structs/Vector2.h>
+
+namespace tktk
+{
+	/* funcUseType */
+	struct BillboardMaterialInitParam;
+	struct BillboardDrawFuncBaseArgs;
+	struct BillboardCbufferUpdateFuncArgs;
+	struct BillboardClippingParam;
+
+	// ビルボードマテリアルの情報を扱うクラス
+	class BillboardMaterialData
+	{
+	public:
+
+		explicit BillboardMaterialData(const BillboardMaterialInitParam& initParam);
+		~BillboardMaterialData();
+
+		// ムーブコンストラクタ
+		BillboardMaterialData(BillboardMaterialData&& other) noexcept;
+
+	public:
+
+		// ビルボードを描画する
+		void drawBillboard(const BillboardDrawFuncBaseArgs& drawFuncArgs) const;
+
+		// 引数が表すコピーバッファを使って座標変換情報を管理する定数バッファを更新する
+		void updateTransformCbuffer(size_t copyBufferHandle, const BillboardCbufferUpdateFuncArgs& updateArgs) const;
+
+		// 引数が表すコピーバッファを使って座標変換情報を管理する定数バッファを更新する（切り抜き範囲指定版）
+		void updateTransformCbufferUseClippingParam(size_t copyBufferHandle, const BillboardCbufferUpdateFuncArgs& updateArgs, const BillboardClippingParam& clippingParam) const;
+
+	private:
+
+		size_t				m_createDescriptorHeapHandle{ 0U };
+		tktkMath::Vector2	m_textureUvOffset;
+		tktkMath::Vector2	m_textureUvMulRate;
+		tktkMath::Vector2	m_textureSize;
+	};
+}
+#endif // !BILLBOARD_MATERIAL_DATA_H_

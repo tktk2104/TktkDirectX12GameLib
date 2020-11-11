@@ -1,7 +1,7 @@
 #ifndef DIRECTIONAL_LIGHT_CONTROLLER_MAKER_H_
 #define DIRECTIONAL_LIGHT_CONTROLLER_MAKER_H_
 
-#include <TktkTemplateMetaLib/TypeCheck/isIdType.h>
+#include "TktkDX12Game/UtilityProcessManager/ResourceHandleGetter/ResourceIdConverter/ResourceIdCarrier.h"
 #include "DirectionalLightController.h"
 
 namespace tktk
@@ -18,9 +18,6 @@ namespace tktk
 
 		// 作成開始
 		static DirectionalLightControllerMaker& makeStart(GameObjectPtr user);
-
-		// ステートを指定し、作成を開始する
-		static DirectionalLightControllerMaker& makeStart(const StateTypeHierarchy& targetState, GameObjectPtr user);
 
 	public:
 
@@ -53,7 +50,6 @@ namespace tktk
 	private: /* 変数達 */
 
 		GameObjectPtr		m_user				{  };
-		StateTypeHierarchy	m_targetState		{  };
 		size_t				m_initLightHandle	{ 0U };
 		tktkMath::Color		m_initAmbient		{ 0.1f, 1.0f };
 		tktkMath::Color		m_initDiffuse		{ 1.0f, 1.0f };

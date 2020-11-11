@@ -1,5 +1,8 @@
 #include "TktkDX12BaseComponents/3D/Light/DirectionalLightController.h"
 
+#include "TktkDX12BaseComponents/3D/Transform3D/Transform3D.h"
+#include "TktkDX12Game/_MainManager/DX12GameManager.h"
+
 namespace tktk
 {
 	DirectionalLightController::DirectionalLightController(size_t lightHandle, const tktkMath::Color& ambient, const tktkMath::Color& diffuse, const tktkMath::Color& speqular)

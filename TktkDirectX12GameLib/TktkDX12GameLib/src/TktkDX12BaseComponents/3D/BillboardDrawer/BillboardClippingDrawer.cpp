@@ -1,7 +1,8 @@
 #include "TktkDX12BaseComponents/3D/BillboardDrawer/BillboardClippingDrawer.h"
 
 #include <TktkDX12Game/_MainManager/DX12GameManager.h>
-#include "TktkDX12Game/DXGameResource/Billboard/BillboardCbufferData.h"
+#include "TktkDX12BaseComponents/3D/Transform3D/Transform3D.h"
+#include "TktkDX12Game/DXGameResource/DXGameShaderResouse/Billboard/BillboardCbufferData.h"
 
 namespace tktk
 {

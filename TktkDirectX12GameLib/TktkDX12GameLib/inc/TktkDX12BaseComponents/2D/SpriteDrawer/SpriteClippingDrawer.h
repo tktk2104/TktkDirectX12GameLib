@@ -1,15 +1,20 @@
 #ifndef SPRITE_CLIPPING_DRAWER_H_
 #define SPRITE_CLIPPING_DRAWER_H_
 
-#include <TktkTemplateMetaLib/TypeCheck/isIdType.h>
-#include <TktkMath/Structs/Color.h>
+/* base class */
+#include "../../../TktkDX12Game/DXGameResource/GameObjectResouse/Component/ComponentBase.h"
+
+/* funcUseType */
+#include "../../../TktkDX12Game/UtilityProcessManager/ResourceHandleGetter/ResourceIdConverter/ResourceIdCarrier.h"
+
+/* class member */
 #include <TktkMath/Structs/Vector2.h>
-#include "../../../TktkDX12Game/Component/ComponentBase.h"
-#include "../Transform2D/Transform2D.h"
-#include "../../../TktkDX12Game/DXGameResource/Sprite/SpriteClippingParam.h"
+#include "../../../TktkDX12Game/DXGameResource/DXGameShaderResouse/Sprite/SpriteClippingParam.h"
 
 namespace tktk
 {
+	class Transform2D;
+
 	// スプライト切り抜き描画コンポーネント
 	// 【必須コンポーネント：Transform2D】
 	class SpriteClippingDrawer

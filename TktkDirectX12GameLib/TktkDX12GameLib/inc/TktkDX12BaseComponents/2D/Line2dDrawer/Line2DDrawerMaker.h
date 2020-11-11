@@ -1,6 +1,6 @@
 #ifndef LINE_2D_DRAWER_MAKER_H_
 #define LINE_2D_DRAWER_MAKER_H_
-#include <TktkTemplateMetaLib/TypeCheck/isIdType.h>
+
 #include "Line2DDrawer.h"
 
 namespace tktk
@@ -18,9 +18,6 @@ namespace tktk
 
 		// インスタンス作成開始
 		static Line2DDrawerMaker& makeStart(GameObjectPtr user);
-
-		// ステートを指定し、作成を開始する
-		static Line2DDrawerMaker& makeStart(const StateTypeHierarchy& targetState, GameObjectPtr user);
 
 	public:
 
@@ -54,7 +51,6 @@ namespace tktk
 
 		// 作成用変数達
 		GameObjectPtr					m_user						{ };
-		StateTypeHierarchy				m_targetState				{ };
 		float							m_drawPriority				{ 0.0f };
 		size_t							m_useRtvDescriptorHeapHandle{  }; // ※初期パラメータはバックバッファー
 		std::vector<tktkMath::Vector2>	m_lineVertexArray			{ };

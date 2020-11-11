@@ -1,5 +1,7 @@
 #include "TktkDX12BaseComponents/Other/ReceiveMessageToSelfDestroyer/ReceiveMessageToSelfDestroyer.h"
 
+#include "TktkDX12Game/DXGameResource/GameObjectResouse/GameObject/GameObject.h"
+
 namespace tktk
 {
 	ReceiveMessageToSelfDestroyer::ReceiveMessageToSelfDestroyer(MessageTypeCarrier destroyMessegeType)

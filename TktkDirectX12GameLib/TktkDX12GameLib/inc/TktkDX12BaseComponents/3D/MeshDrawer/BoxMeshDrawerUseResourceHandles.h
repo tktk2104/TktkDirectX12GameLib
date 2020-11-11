@@ -3,6 +3,7 @@
 
 namespace tktk
 {
+	// 立方体メッシュ描画コンポーネントの作成に必要な変数
 	struct BoxMeshDrawerUseResourceHandles
 	{
 		size_t rtvDescriptorHeapHandle;

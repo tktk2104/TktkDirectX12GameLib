@@ -1,7 +1,10 @@
 #include "TktkDX12BaseComponents/3D/MeshDrawer/SphereMeshDrawer.h"
 
-#include "TktkDX12Game/DXGameResource/Mesh/BasicMesh/Structs/BasicMonoColorMeshCbuffer.h"
-
+#include "TktkDX12BaseComponents/3D/Transform3D/Transform3D.h"
+#include "TktkDX12Game/_MainManager/DX12GameManager.h"
+#include "TktkDX12Game/DXGameResource/DXGameShaderResouse/MeshResouse/Mesh/Structs/MeshTransformCbuffer.h"
+#include "TktkDX12Game/DXGameResource/DXGameShaderResouse/MeshResouse/Mesh/Structs/MeshShadowMapCBuffer.h"
+#include "TktkDX12Game/DXGameResource/DXGameShaderResouse/MeshResouse/MeshMaterial/Structs/MonoColorMeshCbuffer.h"
 namespace tktk
 {
 	SphereMeshDrawer::SphereMeshDrawer(float drawPriority, float radius, const tktkMath::Vector3& localPosition, const tktkMath::Color& albedoColor, const SphereMeshDrawerUseResourceHandles& useResourceHandles)
@@ -25,7 +28,7 @@ namespace tktk
 		// アップロード用バッファを作り、そのハンドルを取得する
 		m_createUploadTransformCbufferHandle		= DX12GameManager::createUploadBuffer(UploadBufferInitParam::create(BufferType::constant, DX12GameManager::getSystemHandle(SystemCBufferType::MeshTransform), MeshTransformCbuffer()));
 		m_createUploadShadowMapCbufferHandle		= DX12GameManager::createUploadBuffer(UploadBufferInitParam::create(BufferType::constant, DX12GameManager::getSystemHandle(SystemCBufferType::MeshShadowMap), MeshShadowMapCBuffer()));
-		m_createUploadMonoColorMeshCbufferHandle	= DX12GameManager::createUploadBuffer(UploadBufferInitParam::create(BufferType::constant, DX12GameManager::getSystemHandle(SystemCBufferType::BasicMonoColorMeshCbuffer), BasicMonoColorMeshCbuffer()));
+		m_createUploadMonoColorMeshCbufferHandle	= DX12GameManager::createUploadBuffer(UploadBufferInitParam::create(BufferType::constant, DX12GameManager::getSystemHandle(SystemCBufferType::BasicMonoColorMeshCbuffer), MonoColorMeshCbuffer()));
 	}
 
 	void SphereMeshDrawer::onDestroy()
@@ -43,7 +46,7 @@ namespace tktk
 
 		// 単色塗りつぶし色の定数バッファを更新する
 		{
-			BasicMonoColorMeshCbuffer tempCbufferData{};
+			MonoColorMeshCbuffer tempCbufferData{};
 			tempCbufferData.albedoColor = m_albedoColor;
 
 			DX12GameManager::updateUploadBuffer (m_createUploadMonoColorMeshCbufferHandle, tempCbufferData);
@@ -75,7 +78,7 @@ namespace tktk
 		baseArgs.lightHandle = m_useResourceHandles.lightHandle;
 
 		// メッシュを描画する
-		DX12GameManager::drawBasicMesh(DX12GameManager::getSystemHandle(SystemBasicMeshType::Sphere), baseArgs);
+		DX12GameManager::drawMesh(DX12GameManager::getSystemHandle(SystemBasicMeshType::Sphere), baseArgs);
 	}
 
 	const tktkMath::Color& SphereMeshDrawer::getAlbedoColor() const

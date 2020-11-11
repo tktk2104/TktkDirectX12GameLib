@@ -1,7 +1,6 @@
 #ifndef SPRITE_CLIPPING_DRAWER_MAKER_H_
 #define SPRITE_CLIPPING_DRAWER_MAKER_H_
 
-#include <TktkTemplateMetaLib/TypeCheck/isIdType.h>
 #include "SpriteClippingDrawer.h"
 
 namespace tktk
@@ -19,9 +18,6 @@ namespace tktk
 
 		// 作成開始
 		static SpriteClippingDrawerMaker& makeStart(GameObjectPtr user);
-
-		// ステートを指定し、作成を開始する
-		static SpriteClippingDrawerMaker& makeStart(const StateTypeHierarchy& targetState, GameObjectPtr user);
 
 	public:
 
@@ -59,7 +55,6 @@ namespace tktk
 	private: /* 変数達 */
 
 		GameObjectPtr		m_user						{  };
-		StateTypeHierarchy	m_targetState				{  };
 		float				m_drawPriority				{ 0.0f };
 		size_t				m_useRtvDescriptorHeapHandle{  };
 		size_t				m_spriteMaterialHandle		{ 0U };

@@ -1,14 +1,22 @@
 #ifndef BILLBOARD_DRAWER_H_
 #define BILLBOARD_DRAWER_H_
 
-#include <TktkTemplateMetaLib/TypeCheck/isIdType.h>
+/* base class */
+#include "../../../TktkDX12Game/DXGameResource/GameObjectResouse/Component/ComponentBase.h"
+
+/* funcUseType */
+#include "TktkDX12Game/UtilityProcessManager/ResourceHandleGetter/ResourceIdConverter/ResourceIdCarrier.h"
+
+/* class member */
 #include <TktkMath/Structs/Color.h>
 #include <TktkMath/Structs/Vector2.h>
-#include "../../../TktkDX12Game/Component/ComponentBase.h"
-#include "../Transform3D/Transform3D.h"
+
 
 namespace tktk
 {
+	/* class member */
+	class Transform3D;
+
 	// ビルボード描画コンポーネント
 	// 【必須コンポーネント：Transform3D（回転はｚ軸、スケールはｘｙ軸のみ参照します）】
 	class BillboardDrawer

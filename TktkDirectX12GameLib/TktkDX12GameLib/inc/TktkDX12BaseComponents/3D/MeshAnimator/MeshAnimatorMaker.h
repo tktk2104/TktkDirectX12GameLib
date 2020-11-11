@@ -1,7 +1,6 @@
 #ifndef MESH_ANIMATOR_MAKER_H_
 #define MESH_ANIMATOR_MAKER_H_
 
-#include <TktkTemplateMetaLib/TypeCheck/isIdType.h>
 #include "MeshAnimator.h"
 
 namespace tktk
@@ -20,9 +19,6 @@ namespace tktk
 		// 作成開始
 		static MeshAnimatorMaker& makeStart(GameObjectPtr user);
 
-		// ステートを指定し、作成を開始する
-		static MeshAnimatorMaker& makeStart(const StateTypeHierarchy& targetState, GameObjectPtr user);
-
 	public:
 
 		// 作成完了
@@ -32,6 +28,9 @@ namespace tktk
 
 		// モーションをループさせるかを設定する
 		MeshAnimatorMaker& isLoop(bool value);
+
+		// モーションの再生速度倍率を設定する
+		MeshAnimatorMaker& motionSpeedRate(float value);
 
 		// 使用する初期モーションハンドルを設定する
 		MeshAnimatorMaker& initMotionHandle(size_t value);
@@ -50,8 +49,8 @@ namespace tktk
 	private: /* 変数達 */
 
 		GameObjectPtr		m_user				{  };
-		StateTypeHierarchy	m_targetState		{  };
 		bool				m_isLoop			{ true };
+		float				m_motionSpeedRate	{ 1.0f };
 		size_t				m_initMotionHandle	{ 0U };
 		float				m_animFramePerSec	{ 60.0f };
 	};

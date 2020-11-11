@@ -44,6 +44,46 @@ namespace tktk
 		DX12GameManager::destroyGameObjectsWithTag(tag);
 	}
 
+	bool DX12Game::isPush(CommandIdCarrier commandId)
+	{
+		return DX12GameManager::isPush(commandId);
+	}
+
+	bool DX12Game::isTrigger(CommandIdCarrier commandId)
+	{
+		return DX12GameManager::isTrigger(commandId);
+	}
+
+	bool DX12Game::isPush(MouseBtnType btnType)
+	{
+		return DX12GameManager::isPush(btnType);
+	}
+
+	bool DX12Game::isTrigger(MouseBtnType btnType)
+	{
+		return DX12GameManager::isTrigger(btnType);
+	}
+
+	bool DX12Game::isPush(KeybordKeyType keyType)
+	{
+		return DX12GameManager::isPush(keyType);
+	}
+
+	bool DX12Game::isTrigger(KeybordKeyType keyType)
+	{
+		return DX12GameManager::isTrigger(keyType);
+	}
+
+	bool DX12Game::isPush(GamePadBtnType btnType)
+	{
+		return DX12GameManager::isPush(btnType);
+	}
+
+	bool DX12Game::isTrigger(GamePadBtnType btnType)
+	{
+		return DX12GameManager::isTrigger(btnType);
+	}
+
 	const tktkMath::Vector2& DX12Game::moveVec()
 	{
 		return DX12GameManager::moveVec();
@@ -109,43 +149,93 @@ namespace tktk
 		return DX12GameManager::fps();
 	}
 
-	bool DX12Game::isPushImpl(int commandId)
+	size_t DX12Game::getSystemHandle(SystemViewportType type)
 	{
-		return DX12GameManager::isPushCommand(commandId);
+		return DX12GameManager::getSystemHandle(type);
 	}
 
-	bool DX12Game::isPushImpl(MouseButtonType buttonType)
+	size_t DX12Game::getSystemHandle(SystemScissorRectType type)
 	{
-		return DX12GameManager::isMousePush(buttonType);
+		return DX12GameManager::getSystemHandle(type);
 	}
 
-	bool DX12Game::isPushImpl(KeybordKeyType keyType)
+	size_t DX12Game::getSystemHandle(SystemVertexBufferType type)
 	{
-		return DX12GameManager::isKeybordPush(keyType);
+		return DX12GameManager::getSystemHandle(type);
 	}
 
-	bool DX12Game::isPushImpl(GamePadBtnType btnType)
+	size_t DX12Game::getSystemHandle(SystemIndexBufferType type)
 	{
-		return DX12GameManager::isPadPush(btnType);
+		return DX12GameManager::getSystemHandle(type);
 	}
 
-	bool DX12Game::isTriggerImpl(int commandId)
+	size_t DX12Game::getSystemHandle(SystemCBufferType type)
 	{
-		return DX12GameManager::isTriggerCommand(commandId);
+		return DX12GameManager::getSystemHandle(type);
 	}
 
-	bool DX12Game::isTriggerImpl(MouseButtonType buttonType)
+	size_t DX12Game::getSystemHandle(SystemTextureBufferType type)
 	{
-		return DX12GameManager::isMouseTrigger(buttonType);
+		return DX12GameManager::getSystemHandle(type);
 	}
 
-	bool DX12Game::isTriggerImpl(KeybordKeyType keyType)
+	size_t DX12Game::getSystemHandle(SystemRtBufferType type)
 	{
-		return DX12GameManager::isKeybordTrigger(keyType);
+		return DX12GameManager::getSystemHandle(type);
 	}
 
-	bool DX12Game::isTriggerImpl(GamePadBtnType btnType)
+	size_t DX12Game::getSystemHandle(SystemDsBufferType type)
 	{
-		return DX12GameManager::isPadTrigger(btnType);
+		return DX12GameManager::getSystemHandle(type);
+	}
+
+	size_t DX12Game::getSystemHandle(SystemBasicDescriptorHeapType type)
+	{
+		return DX12GameManager::getSystemHandle(type);
+	}
+
+	size_t DX12Game::getSystemHandle(SystemRtvDescriptorHeapType type)
+	{
+		return DX12GameManager::getSystemHandle(type);
+	}
+
+	size_t DX12Game::getSystemHandle(SystemDsvDescriptorHeapType type)
+	{
+		return DX12GameManager::getSystemHandle(type);
+	}
+
+	size_t DX12Game::getSystemHandle(SystemRootSignatureType type)
+	{
+		return DX12GameManager::getSystemHandle(type);
+	}
+
+	size_t DX12Game::getSystemHandle(SystemPipeLineStateType type)
+	{
+		return DX12GameManager::getSystemHandle(type);
+	}
+
+	size_t DX12Game::getSystemHandle(SystemCameraType type)
+	{
+		return DX12GameManager::getSystemHandle(type);
+	}
+
+	size_t DX12Game::getSystemHandle(SystemLightType type)
+	{
+		return DX12GameManager::getSystemHandle(type);
+	}
+
+	size_t DX12Game::getSystemHandle(SystemBasicMeshType type)
+	{
+		return DX12GameManager::getSystemHandle(type);
+	}
+
+	size_t DX12Game::getSystemHandle(SystemBasicMeshMaterialType type)
+	{
+		return DX12GameManager::getSystemHandle(type);
+	}
+
+	size_t DX12Game::getSystemHandle(SystemPostEffectMaterialType type)
+	{
+		return DX12GameManager::getSystemHandle(type);
 	}
 }

@@ -1,5 +1,9 @@
 #include "TktkDX12BaseComponents/3D/ShadowMapWriter/BoxMeshShadowMapWriter.h"
 
+#include "TktkDX12BaseComponents/3D/Transform3D/Transform3D.h"
+#include "TktkDX12Game/_MainManager/DX12GameManager.h"
+#include "TktkDX12Game/DXGameResource/DXGameShaderResouse/MeshResouse/Mesh/Structs/MeshTransformCbuffer.h"
+
 namespace tktk
 {
 	BoxMeshShadowMapWriter::BoxMeshShadowMapWriter(float drawPriority, const tktkMath::Vector3& boxSize, const tktkMath::Vector3& localPosition, size_t cameraHandle)
@@ -38,7 +42,7 @@ namespace tktk
 		updateTransformCbuffer();
 
 		// シャドウマップを描画する
-		DX12GameManager::writeBasicMeshShadowMap(DX12GameManager::getSystemHandle(SystemBasicMeshType::Box));
+		DX12GameManager::writeMeshShadowMap(DX12GameManager::getSystemHandle(SystemBasicMeshType::Box));
 	}
 
 	void BoxMeshShadowMapWriter::updateTransformCbuffer() const

@@ -19,9 +19,6 @@ namespace tktk
 		// インスタンス作成開始
 		static InertialMovement2DMaker& makeStart(GameObjectPtr user);
 
-		// ステートを指定し、作成を開始する
-		static InertialMovement2DMaker& makeStart(const StateTypeHierarchy& targetState, GameObjectPtr user);
-
 	public:
 
 		// 作成する
@@ -41,7 +38,6 @@ namespace tktk
 	private: /* 変数達 */
 
 		GameObjectPtr		m_user					{ };
-		StateTypeHierarchy	m_targetState			{  };
 		float				m_decelerationPerSec	{ 64.0f };
 		tktkMath::Vector2	m_initVelocity			{ tktkMath::Vector2_v::zero };
 	};

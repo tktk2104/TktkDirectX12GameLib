@@ -2,8 +2,12 @@
 
 #include <algorithm>
 #include <TktkMath/MathHelper.h>
+#include "TktkDX12BaseComponents/3D/MeshDrawer/SphereMeshWireFrameDrawer.h"
+#include "TktkDX12BaseComponents/3D/MeshDrawer/BoxMeshWireFrameDrawer.h"
 #include "TktkDX12BaseComponents/3D/SphereCollider/SphereCollider.h"
 #include "TktkDX12BaseComponents/3D/BoxCollider/BoxCollider.h"
+#include "TktkDX12Game/DXGameResource/GameObjectResouse/GameObject/GameObject.h"
+#include "TktkDX12BaseComponents/3D/MeshDrawer/BoxMeshDrawerUseResourceHandles.h"
 
 namespace tktk
 {
@@ -35,9 +39,9 @@ namespace tktk
 
 		BoxMeshDrawerUseResourceHandles boxMeshDrawerUseResourceHandles{};
 		boxMeshDrawerUseResourceHandles.rtvDescriptorHeapHandle = m_useResourceHandles.rtvDescriptorHeapHandle;
-		boxMeshDrawerUseResourceHandles.cameraHandle = m_useResourceHandles.cameraHandle;
-		boxMeshDrawerUseResourceHandles.shadowMapCameraHandle = m_useResourceHandles.shadowMapCameraHandle;
-		boxMeshDrawerUseResourceHandles.lightHandle = m_useResourceHandles.lightHandle;
+		boxMeshDrawerUseResourceHandles.cameraHandle			= m_useResourceHandles.cameraHandle;
+		boxMeshDrawerUseResourceHandles.shadowMapCameraHandle	= m_useResourceHandles.shadowMapCameraHandle;
+		boxMeshDrawerUseResourceHandles.lightHandle				= m_useResourceHandles.lightHandle;
 
 
 		for (const auto& boxCollider : boxColliderList)

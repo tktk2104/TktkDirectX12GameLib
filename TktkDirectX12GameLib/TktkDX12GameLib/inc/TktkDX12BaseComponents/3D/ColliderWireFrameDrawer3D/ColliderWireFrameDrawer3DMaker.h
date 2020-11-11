@@ -1,7 +1,7 @@
 #ifndef COLLIDER_WIRE_FRAME_DRAWER_3D_MAKER_H_
 #define COLLIDER_WIRE_FRAME_DRAWER_3D_MAKER_H_
 
-#include <TktkTemplateMetaLib/TypeCheck/isIdType.h>
+#include "TktkDX12Game/UtilityProcessManager/ResourceHandleGetter/ResourceIdConverter/ResourceIdCarrier.h"
 #include "ColliderWireFrameDrawer3D.h"
 
 namespace tktk
@@ -19,9 +19,6 @@ namespace tktk
 
 		// 作成開始
 		static ColliderWireFrameDrawer3DMaker& makeStart(GameObjectPtr user);
-
-		// ステートを指定し、作成を開始する
-		static ColliderWireFrameDrawer3DMaker& makeStart(const StateTypeHierarchy& targetState, GameObjectPtr user);
 
 	public:
 
@@ -69,7 +66,6 @@ namespace tktk
 
 		// 作成用変数達
 		GameObjectPtr						m_user				{ };
-		StateTypeHierarchy					m_targetState		{ };
 		float								m_drawPriority		{ 0.0f };
 		tktkMath::Color						m_lineColor			{ tktkMath::Color_v::white };
 		SphereMeshDrawerUseResourceHandles	m_useResourceHandles{  }; // ※「RtvDescriptorHeap」の初期パラメータはバックバッファー

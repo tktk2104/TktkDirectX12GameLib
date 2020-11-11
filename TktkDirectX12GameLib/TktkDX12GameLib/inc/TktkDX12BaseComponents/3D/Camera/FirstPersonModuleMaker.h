@@ -19,9 +19,6 @@ namespace tktk
 		// インスタンス作成開始
 		static FirstPersonModuleMaker& makeStart(GameObjectPtr user);
 
-		// ステートを指定し、作成を開始する
-		static FirstPersonModuleMaker& makeStart(const StateTypeHierarchy& targetState, GameObjectPtr user);
-
 	public:
 
 		// 作成完了
@@ -50,7 +47,6 @@ namespace tktk
 
 		// 作成用変数達
 		GameObjectPtr		m_user					{ };
-		StateTypeHierarchy	m_targetState			{  };
 		float				m_rotateDegSpeedPerSec	{ 100.0f };
 		float				m_moveSpeedPerSec		{ 100.0f };
 		bool				m_alwaysMoveForward		{ false };

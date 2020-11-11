@@ -1,14 +1,23 @@
 #ifndef CIRCLE_COLLIDER_H_
 #define CIRCLE_COLLIDER_H_
 
+/* std::forward_list */
 #include <forward_list>
+
+/* funcUseType */
 #include <TktkMath/Structs/Vector2.h>
+
+/* class member */
 #include <TktkCollision/2D/BoundingCircle.h>
-#include "../../../TktkDX12Game/Component/ComponentBase.h"
-#include "../Transform2D/Transform2D.h"
+
+/* baseClass */
+#include "../../../TktkDX12Game/DXGameResource/GameObjectResouse/Component/ComponentBase.h"
 
 namespace tktk
 {
+	/* class member */
+	class Transform2D;
+
 	// 真円の当たり判定のコンポーネント
 	// 【前提コンポーネント：Transform2D】
 	class CircleCollider

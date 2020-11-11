@@ -1,13 +1,21 @@
 #ifndef COLLIDER_WIRE_FRAME_DRAWER_2D_H_
 #define COLLIDER_WIRE_FRAME_DRAWER_2D_H_
 
+/* std::vector */
 #include <vector>
+
+/* class member */
 #include <TktkMath/Structs/Color.h>
-#include <TktkDX12Game/Component/ComponentBase.h>
-#include "../Line2dDrawer/Line2DDrawer.h"
+
+/* baseClass */
+#include "../../../TktkDX12Game/DXGameResource/GameObjectResouse/Component/ComponentBase.h"
 
 namespace tktk
 {
+	/* class member */
+	class Line2DDrawer;
+
+	// 二次元衝突判定の境界線を描画するコンポーネント
 	class ColliderWireFrameDrawer2D
 		: public ComponentBase
 	{

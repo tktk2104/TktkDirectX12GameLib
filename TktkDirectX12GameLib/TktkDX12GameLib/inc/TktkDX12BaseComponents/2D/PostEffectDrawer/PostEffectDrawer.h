@@ -1,7 +1,8 @@
 #ifndef POST_EFFECT_DRAWER_H_
 #define POST_EFFECT_DRAWER_H_
 
-#include "../../../TktkDX12Game/Component/ComponentBase.h"
+/* base class */
+#include "../../../TktkDX12Game/DXGameResource/GameObjectResouse/Component/ComponentBase.h"
 
 namespace tktk
 {

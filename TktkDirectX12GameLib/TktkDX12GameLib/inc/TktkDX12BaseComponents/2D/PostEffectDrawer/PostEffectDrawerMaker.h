@@ -1,7 +1,7 @@
 #ifndef POST_EFFECT_DRAWER_MAKER_H_
 #define POST_EFFECT_DRAWER_MAKER_H_
 
-#include <TktkTemplateMetaLib/TypeCheck/isIdType.h>
+#include "TktkDX12Game/UtilityProcessManager/ResourceHandleGetter/ResourceIdConverter/ResourceIdCarrier.h"
 #include "PostEffectDrawer.h"
 
 namespace tktk
@@ -19,9 +19,6 @@ namespace tktk
 
 		// 作成開始
 		static PostEffectDrawerMaker& makeStart(GameObjectPtr user);
-
-		// ステートを指定し、作成を開始する
-		static PostEffectDrawerMaker& makeStart(const StateTypeHierarchy& targetState, GameObjectPtr user);
 
 	public:
 
@@ -50,7 +47,6 @@ namespace tktk
 	private: /* 変数達 */
 
 		GameObjectPtr		m_user							{  };
-		StateTypeHierarchy	m_targetState					{  };
 		float				m_drawPriority					{ 0.0f };
 		size_t				m_useRtvDescriptorHeapHandle	{  }; // ※初期パラメータはバックバッファー
 		size_t				m_postEffectMaterialHandle		{ 0U };

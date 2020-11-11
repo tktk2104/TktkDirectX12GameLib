@@ -1,7 +1,7 @@
 #ifndef SPHERE_MESH_WIRE_FRAME_DRAWER_MAKER_H_
 #define SPHERE_MESH_WIRE_FRAME_DRAWER_MAKER_H_
 
-#include <TktkTemplateMetaLib/TypeCheck/isIdType.h>
+#include "TktkDX12Game/UtilityProcessManager/ResourceHandleGetter/ResourceIdConverter/ResourceIdCarrier.h"
 #include "SphereMeshWireFrameDrawer.h"
 
 namespace tktk
@@ -19,9 +19,6 @@ namespace tktk
 
 		// 作成開始
 		static SphereMeshWireFrameDrawerMaker& makeStart(GameObjectPtr user);
-
-		// ステートを指定し、作成を開始する
-		static SphereMeshWireFrameDrawerMaker& makeStart(const StateTypeHierarchy& targetState, GameObjectPtr user);
 
 	public:
 
@@ -77,7 +74,6 @@ namespace tktk
 	private: /* 変数達 */
 
 		GameObjectPtr						m_user				{  };
-		StateTypeHierarchy					m_targetState		{  };
 		float								m_drawPriority		{ 0.0f };
 		float								m_radius			{ 0.5f };
 		tktkMath::Vector3					m_localPosition		{ tktkMath::Vector3_v::zero };

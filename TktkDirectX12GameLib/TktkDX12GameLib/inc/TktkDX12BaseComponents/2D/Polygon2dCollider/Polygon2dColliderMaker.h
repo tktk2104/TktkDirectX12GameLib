@@ -1,7 +1,6 @@
 #ifndef POLYGON_2D_COLLIDER_MAKER_H_
 #define POLYGON_2D_COLLIDER_MAKER_H_
 
-#include <TktkTemplateMetaLib/TypeCheck/isIdType.h>
 #include "Polygon2dCollider.h"
 
 namespace tktk
@@ -19,9 +18,6 @@ namespace tktk
 
 		// インスタンス作成開始
 		static Polygon2dColliderMaker& makeStart(GameObjectPtr user);
-
-		// ステートを指定し、作成を開始する
-		static Polygon2dColliderMaker& makeStart(const StateTypeHierarchy& targetState, GameObjectPtr user);
 
 	public:
 
@@ -49,7 +45,6 @@ namespace tktk
 
 		// 作成用変数達
 		GameObjectPtr					m_user					{ };
-		StateTypeHierarchy				m_targetState			{  };
 		CollisionGroupTypeCarrier		m_collisionGroupType	{ 0 };
 		std::vector<tktkMath::Vector2>	m_vertexs				{};
 		bool							m_isExtrude				{ false };

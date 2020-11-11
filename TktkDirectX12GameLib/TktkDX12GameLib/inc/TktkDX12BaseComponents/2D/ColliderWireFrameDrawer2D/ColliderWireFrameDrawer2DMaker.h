@@ -19,9 +19,6 @@ namespace tktk
 		// 作成開始
 		static ColliderWireFrameDrawer2DMaker& makeStart(GameObjectPtr user);
 
-		// ステートを指定し、作成を開始する
-		static ColliderWireFrameDrawer2DMaker& makeStart(const StateTypeHierarchy& targetState, GameObjectPtr user);
-
 	public:
 
 		// 作成する
@@ -41,7 +38,6 @@ namespace tktk
 
 		// 作成用変数達
 		GameObjectPtr		m_user			{ };
-		StateTypeHierarchy	m_targetState	{ };
 		float				m_drawPriority	{ 0.0f };
 		tktkMath::Color		m_lineColor		{ tktkMath::Color_v::white };
 	};

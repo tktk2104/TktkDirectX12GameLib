@@ -1,10 +1,15 @@
 #ifndef TRANSFORM_3D_H_
 #define TRANSFORM_3D_H_
 
+/* base class */
+#include "../../../TktkDX12Game/DXGameResource/GameObjectResouse/Component/ComponentBase.h"
+
+/* funcUseType */
 #include <TktkMath/Structs/Matrix4.h>
+
+/* class member */
 #include <TktkMath/Structs/Quaternion.h>
 #include <TktkMath/Structs/Vector3.h>
-#include "../../../TktkDX12Game/Component/ComponentBase.h"
 #include "../../2D/Transform2D/TraceParentType.h"
 
 namespace tktk

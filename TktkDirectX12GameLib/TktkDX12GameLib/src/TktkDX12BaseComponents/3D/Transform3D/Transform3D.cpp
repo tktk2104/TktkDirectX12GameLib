@@ -1,6 +1,8 @@
 #include "TktkDX12BaseComponents/3D/Transform3D/Transform3D.h"
 
 #include <algorithm>
+#include <TktkMath/Structs/Vector2.h>
+#include "TktkDX12Game/DXGameResource/GameObjectResouse/GameObject/GameObject.h"
 
 namespace tktk
 {

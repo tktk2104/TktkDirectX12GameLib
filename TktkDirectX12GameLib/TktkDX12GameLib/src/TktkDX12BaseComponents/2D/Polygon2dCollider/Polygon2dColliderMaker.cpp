@@ -1,5 +1,7 @@
 #include "TktkDX12BaseComponents/2D/Polygon2dCollider/Polygon2dColliderMaker.h"
 
+#include "TktkDX12Game/DXGameResource/GameObjectResouse/GameObject/GameObject.h"
+
 namespace tktk
 {
 	Polygon2dColliderMaker Polygon2dColliderMaker::m_self;
@@ -16,48 +18,15 @@ namespace tktk
 		return m_self;
 	}
 
-	Polygon2dColliderMaker& Polygon2dColliderMaker::makeStart(const StateTypeHierarchy& targetState, GameObjectPtr user)
-	{
-		// 変数を初期化する
-		m_self = Polygon2dColliderMaker();
-
-		// 引数のユーザーを設定
-		m_self.m_user = user;
-
-		// 引数の追加階層を設定
-		m_self.m_targetState = targetState;
-
-		// 自身の参照を返す
-		return m_self;
-	}
-
 	ComponentPtr<Polygon2dCollider> Polygon2dColliderMaker::create()
 	{
-		// 自身を追加する階層情報が空だったら普通に作成する
-		if (m_targetState.hierarchy.empty())
-		{
-			// コンポーネントを作成してそのポインタを返す
-			return m_user->createComponent<Polygon2dCollider>(
-				m_collisionGroupType,
-				m_vertexs,
-				m_isExtrude,
-				m_extrudedRate
-				);
-		}
-
 		// コンポーネントを作成する
-		auto createComponent = m_user->createComponent<Polygon2dCollider>(
+		return m_user->createComponent<Polygon2dCollider>(
 			m_collisionGroupType,
 			m_vertexs,
 			m_isExtrude,
 			m_extrudedRate
 			);
-
-		// 作成したコンポーネントを特定のステートに追加する
-		m_user->setComponentToStateMachine(m_targetState, createComponent);
-
-		// 作成したコンポーネントのポインタを返す
-		return createComponent;
 	}
 
 	Polygon2dColliderMaker& Polygon2dColliderMaker::collisionGroupType(CollisionGroupTypeCarrier value)

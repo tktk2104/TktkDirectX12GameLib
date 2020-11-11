@@ -1,13 +1,18 @@
 #ifndef SPHERE_COLLIDER_H_
 #define SPHERE_COLLIDER_H_
 
+/* base class */
+#include "../../../TktkDX12Game/DXGameResource/GameObjectResouse/Component/ComponentBase.h"
+
+/* funcUseType */
 #include <TktkMath/Structs/Vector3.h>
 #include <TktkCollision/3D/BoundingSphere.h>
-#include "../../../TktkDX12Game/Component/ComponentBase.h"
-#include "../Transform3D/Transform3D.h"
 
 namespace tktk
 {
+	/* funcUseType */
+	class Transform3D;
+
 	// 球体の当たり判定のコンポーネント
 	// 【前提コンポーネント：Transform3D】
 	class SphereCollider

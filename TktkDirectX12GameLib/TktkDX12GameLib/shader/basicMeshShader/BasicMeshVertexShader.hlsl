@@ -58,7 +58,7 @@ struct VS_OUTPUT
 	float4 Position     : SV_POSITION;
 	float2 TexCoord     : TEXCOORD0;
 	float3 View			: TEXCOORD1;
-	float3 Light		: TEXCOORD2;
+	float3 LightManager		: TEXCOORD2;
 	float4 LightBasePos : TEXCOORD3;
 };
 
@@ -112,7 +112,7 @@ VS_OUTPUT main(VS_INPUT Input)
 	// 接空間での「頂点→カメラのベクトル」を計算
 	Output.View				= mul(matTBN, -ViewPosition.xyz);
 	// 接空間での「頂点→ライトのベクトル」を計算
-	Output.Light			= mul(matTBN, (viewLight - ViewPosition.xyz));
+	Output.LightManager			= mul(matTBN, (viewLight - ViewPosition.xyz));
 	// シャドウマップの描画に使用した座標空間での頂点座標を計算
 	Output.LightBasePos		= mul(shadowMapViewProjMat, WorldPosition);
 

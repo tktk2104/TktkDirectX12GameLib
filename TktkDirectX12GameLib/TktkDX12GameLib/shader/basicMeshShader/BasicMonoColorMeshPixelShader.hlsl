@@ -32,7 +32,7 @@ struct PS_INPUT
 	float4 Position     : SV_POSITION;
 	float2 TexCoord     : TEXCOORD0;
 	float3 View			: TEXCOORD1;
-	float3 Light		: TEXCOORD2;
+	float3 LightManager		: TEXCOORD2;
 	float4 LightBasePos : TEXCOORD3;
 };
 
@@ -48,7 +48,7 @@ float4 main(PS_INPUT Input) : SV_TARGET
 {
 	float3 N = float3(0.0, 0.0, 1.0);//g_NormalMapTexture.Sample(g_NormalMapSampler, Input.TexCoord).xyz
 	float3 V = normalize(Input.View);
-	float3 L = normalize(Input.Light);
+	float3 L = normalize(Input.LightManager);
 	float3 H = normalize(L + V);
 
 	float diffuse = max(dot(L, N), 0.0);

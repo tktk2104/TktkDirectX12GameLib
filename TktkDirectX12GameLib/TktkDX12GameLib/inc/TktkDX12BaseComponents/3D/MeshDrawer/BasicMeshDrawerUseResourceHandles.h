@@ -3,6 +3,7 @@
 
 namespace tktk
 {
+	// 「BasicMeshDrawer」の作成に必要な変数
 	struct BasicMeshDrawerUseResourceHandles
 	{
 		size_t rtvDescriptorHeapHandle;

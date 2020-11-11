@@ -1,12 +1,17 @@
 #ifndef BASIC_MESH_SHADOW_MAP_WRITER_H_
 #define BASIC_MESH_SHADOW_MAP_WRITER_H_
 
-#include <TktkTemplateMetaLib/TypeCheck/isIdType.h>
-#include "../../../TktkDX12Game/Component/ComponentBase.h"
-#include "../Transform3D/Transform3D.h"
+/* base class */
+#include "../../../TktkDX12Game/DXGameResource/GameObjectResouse/Component/ComponentBase.h"
+
+#include <TktkMath/Structs/Vector3.h>
+#include <TktkMath/Structs/Quaternion.h>
 
 namespace tktk
 {
+	/* class member */
+	class Transform3D;
+
 	// 通常メッシュのシャドウマップ書き込みコンポーネント
 	// 【必須コンポーネント：Transform3D】
 	class BasicMeshShadowMapWriter

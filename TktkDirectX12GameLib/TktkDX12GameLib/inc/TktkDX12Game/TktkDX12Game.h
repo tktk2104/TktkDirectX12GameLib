@@ -1,15 +1,41 @@
 #ifndef TKTK_DX12_GAME_H_
 #define TKTK_DX12_GAME_H_
 
+/* std::forward_list */
 #include <forward_list>
-#include <TktkTemplateMetaLib/TypeCheck/isIdType.h>
+
+/* funcUseType */
+#include <TktkMath/Structs/Vector2.h>
 #include "EventMessage/MessageTypeCarrier.h"
 #include "EventMessage/MessageAttachment.h"
-#include "GameObject/GameObjectPtr.h"
-#include "GameObject/GameObjectTagCarrier.h"
-#include "DXGameResource/_HandleGetter/ResourceIdCarrier.h"
-#include "Component/ComponentCollisionFunc/CollisionGroupTypeCarrier.h"
-#include "_MainManager/DX12GameManagerFuncArgsIncluder.h"
+#include "DXGameResource/GameObjectResouse/GameObject/GameObject.h"
+#include "DXGameResource/GameObjectResouse/GameObject/GameObjectPtr.h"
+#include "DXGameResource/GameObjectResouse/GameObject/GameObjectTagCarrier.h"
+#include "DXGameResource/GameObjectResouse/Component/ComponentCollisionFunc/CollisionGroupTypeCarrier.h"
+#include "UtilityProcessManager/InputManager/InputGetter/MouseInputGetter/MouseBtnType.h"
+#include "UtilityProcessManager/InputManager/InputGetter/DirectInputWrapper/KeyboardInputGetter/KeybordKeyType.h"
+#include "UtilityProcessManager/InputManager/InputGetter/DirectInputWrapper/GamePadInputGetter/GamePadBtnType.h"
+#include "UtilityProcessManager/InputManager/CommandTypeManager/CommandIdCarrier.h"
+#include "UtilityProcessManager/InputManager/CommandTypeManager/DirectionCommandId.h"
+#include "UtilityProcessManager/ResourceHandleGetter/SystemResourceHandleGetter/IdType/SystemViewportType.h"
+#include "UtilityProcessManager/ResourceHandleGetter/SystemResourceHandleGetter/IdType/SystemScissorRectType.h"
+#include "UtilityProcessManager/ResourceHandleGetter/SystemResourceHandleGetter/IdType/SystemVertexBufferType.h"
+#include "UtilityProcessManager/ResourceHandleGetter/SystemResourceHandleGetter/IdType/SystemIndexBufferType.h"
+#include "UtilityProcessManager/ResourceHandleGetter/SystemResourceHandleGetter/IdType/SystemConstantBufferType.h"
+#include "UtilityProcessManager/ResourceHandleGetter/SystemResourceHandleGetter/IdType/SystemTextureBufferType.h"
+#include "UtilityProcessManager/ResourceHandleGetter/SystemResourceHandleGetter/IdType/SystemRenderTargetBufferType.h"
+#include "UtilityProcessManager/ResourceHandleGetter/SystemResourceHandleGetter/IdType/SystemDepthStencilBufferType.h"
+#include "UtilityProcessManager/ResourceHandleGetter/SystemResourceHandleGetter/IdType/SystemBasicDescriptorHeapType.h"
+#include "UtilityProcessManager/ResourceHandleGetter/SystemResourceHandleGetter/IdType/SystemRtvDescriptorHeapType.h"
+#include "UtilityProcessManager/ResourceHandleGetter/SystemResourceHandleGetter/IdType/SystemDsvDescriptorHeapType.h"
+#include "UtilityProcessManager/ResourceHandleGetter/SystemResourceHandleGetter/IdType/SystemRootSignatureType.h"
+#include "UtilityProcessManager/ResourceHandleGetter/SystemResourceHandleGetter/IdType/SystemPipeLineStateType.h"
+#include "UtilityProcessManager/ResourceHandleGetter/SystemResourceHandleGetter/IdType/SystemCameraType.h"
+#include "UtilityProcessManager/ResourceHandleGetter/SystemResourceHandleGetter/IdType/SystemLightType.h"
+#include "UtilityProcessManager/ResourceHandleGetter/SystemResourceHandleGetter/IdType/SystemBasicMeshType.h"
+#include "UtilityProcessManager/ResourceHandleGetter/SystemResourceHandleGetter/IdType/SystemBasicMeshMaterialType.h"
+#include "UtilityProcessManager/ResourceHandleGetter/SystemResourceHandleGetter/IdType/SystemPostEffectMaterialType.h"
+#include "UtilityProcessManager/ResourceHandleGetter/ResourceIdConverter/ResourceIdCarrier.h"
 
 namespace tktk
 {
@@ -61,17 +87,25 @@ namespace tktk
 	/* 入力関係の処理 */
 	public:
 
-		// 特定の入力が押されているかを始める
-		// 「対応する入力：MouseButtonType, KeybordKeyType, GamePadBtnType」
-		// 上記以外の引数の型の場合、InputManagerを使った入力検知になる
-		template <class T>
-		static bool isPush(T type);
+		// IDに対応した入力が押されているかを判定
+		static bool isPush(CommandIdCarrier commandId);
+		// IDに対応した入力が押され始めたかを判定
+		static bool isTrigger(CommandIdCarrier commandId);
 
-		// 特定の入力が押され始めたかを始める
-		// 「対応する入力：MouseButtonType, KeybordKeyType, GamePadBtnType」
-		// 上記以外の引数の型の場合、InputManagerを使った入力検知になる
-		template <class T>
-		static bool isTrigger(T type);
+		// 指定のボタンが押されているか
+		static bool isPush(MouseBtnType btnType);
+		// 指定のボタンが押され始めたかを判定
+		static bool isTrigger(MouseBtnType btnType);
+		
+		// 指定のキーが押されているかを判定
+		static bool isPush(KeybordKeyType keyType);
+		// 指定のキーが押され始めたかを判定
+		static bool isTrigger(KeybordKeyType keyType);
+
+		// 指定のボタンが押されているかを判定
+		static bool isPush(GamePadBtnType btnType);
+		// 指定のボタンが押され始めたかを判定
+		static bool isTrigger(GamePadBtnType btnType);
 
 		// 移動方向を取得
 		static const tktkMath::Vector2& moveVec();
@@ -117,76 +151,27 @@ namespace tktk
 		static float fps();
 
 	//************************************************************
-	/* 非テンプレート関数 */
-	private:
+	/* システムのリソースを使うためのハンドルを取得する */
+	public:
 
-		static bool isPushImpl(int commandId);
-		static bool isPushImpl(MouseButtonType buttonType);
-		static bool isPushImpl(KeybordKeyType keyType);
-		static bool isPushImpl(GamePadBtnType btnType);
-
-		static bool isTriggerImpl(int commandId);
-		static bool isTriggerImpl(MouseButtonType buttonType);
-		static bool isTriggerImpl(KeybordKeyType keyType);
-		static bool isTriggerImpl(GamePadBtnType btnType);
+		static size_t getSystemHandle(SystemViewportType type);
+		static size_t getSystemHandle(SystemScissorRectType type);
+		static size_t getSystemHandle(SystemVertexBufferType type);
+		static size_t getSystemHandle(SystemIndexBufferType type);
+		static size_t getSystemHandle(SystemCBufferType type);
+		static size_t getSystemHandle(SystemTextureBufferType type);
+		static size_t getSystemHandle(SystemRtBufferType type);
+		static size_t getSystemHandle(SystemDsBufferType type);
+		static size_t getSystemHandle(SystemBasicDescriptorHeapType type);
+		static size_t getSystemHandle(SystemRtvDescriptorHeapType type);
+		static size_t getSystemHandle(SystemDsvDescriptorHeapType type);
+		static size_t getSystemHandle(SystemRootSignatureType type);
+		static size_t getSystemHandle(SystemPipeLineStateType type);
+		static size_t getSystemHandle(SystemCameraType type);
+		static size_t getSystemHandle(SystemLightType type);
+		static size_t getSystemHandle(SystemBasicMeshType type);
+		static size_t getSystemHandle(SystemBasicMeshMaterialType type);
+		static size_t getSystemHandle(SystemPostEffectMaterialType type);
 	};
-//┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-//┃ここから下は関数の実装
-//┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-	// IDに対応した入力が押されているかを判定
-	template<class T>
-	inline bool DX12Game::isPush(T type)
-	{
-		return isPushImpl(static_cast<int>(type));
-	}
-
-	// 指定のマウスボタンが押されているか
-	template<>
-	inline bool DX12Game::isPush(MouseButtonType type)
-	{
-		return isPushImpl(type);
-	}
-
-	// 指定のキーが押されているかを判定
-	template<>
-	inline bool DX12Game::isPush(KeybordKeyType type)
-	{
-		return isPushImpl(type);
-	}
-
-	// 指定のパッドボタンが押されているかを判定
-	template<>
-	inline bool DX12Game::isPush(GamePadBtnType type)
-	{
-		return isPushImpl(type);
-	}
-
-	template<class T>
-	inline bool DX12Game::isTrigger(T type)
-	{
-		return isTriggerImpl(static_cast<int>(type));
-	}
-
-	// 指定のマウスボタンが押され始めたかを判定
-	template<>
-	inline bool DX12Game::isTrigger(MouseButtonType type)
-	{
-		return isTriggerImpl(type);
-	}
-
-	// 指定のキーが押され始めたかを判定
-	template<>
-	inline bool DX12Game::isTrigger(KeybordKeyType type)
-	{
-		return isTriggerImpl(type);
-	}
-
-	// 指定のパッドボタンが押され始めたかを判定
-	template<>
-	inline bool DX12Game::isTrigger(GamePadBtnType type)
-	{
-		return isTriggerImpl(type);
-	}
 }
 #endif // !TKTK_DX12_GAME_H_

@@ -1,9 +1,12 @@
 #include "TktkDX12BaseComponents/3D/MeshAnimator/MeshAnimator.h"
 
+#include "TktkDX12Game/_MainManager/DX12GameManager.h"
+
 namespace tktk
 {
-	MeshAnimator::MeshAnimator(size_t initMotionHandle, bool isLoop, float animFramePerSec)
+	MeshAnimator::MeshAnimator(size_t initMotionHandle, bool isLoop, float motionSpeedRate, float animFramePerSec)
 		: m_isLoop(isLoop)
+		, m_motionSpeedRate(motionSpeedRate)
 		, m_curMotionHandle(initMotionHandle)
 		, m_preMotionHandle(initMotionHandle)
 		, m_animFramePerSec(animFramePerSec)
@@ -12,7 +15,7 @@ namespace tktk
 
 	void MeshAnimator::update()
 	{
-		m_curFrame += m_animFramePerSec * DX12GameManager::deltaTime();
+		m_curFrame += m_animFramePerSec * DX12GameManager::deltaTime() * m_motionSpeedRate;
 
 		if (m_curFrame > static_cast<float>(DX12GameManager::getMotionEndFrameNo(m_curMotionHandle)))
 		{
@@ -35,9 +38,9 @@ namespace tktk
 		}
 	}
 
-	void MeshAnimator::setNewMotionId(ResourceIdCarrier motionId, bool isLoop, float lerpTimeSec)
+	void MeshAnimator::setNewMotionId(ResourceIdCarrier motionId, bool isLoop, float motionSpeedRate, float lerpTimeSec)
 	{
-		setNewMotionHandle(DX12GameManager::getMotionHandle(motionId), isLoop, lerpTimeSec);
+		setNewMotionHandle(DX12GameManager::getMotionHandle(motionId), isLoop, motionSpeedRate, lerpTimeSec);
 	}
 
 	void MeshAnimator::transformSkeleton(size_t skeletonHandle)
@@ -55,9 +58,11 @@ namespace tktk
 		}
 	}
 
-	void MeshAnimator::setNewMotionHandle(size_t motionHandle, bool isLoop, float lerpTimeSec)
+	void MeshAnimator::setNewMotionHandle(size_t motionHandle, bool isLoop, float motionSpeedRate, float lerpTimeSec)
 	{
 		m_isLoop = isLoop;
+
+		m_motionSpeedRate = motionSpeedRate;
 
 		m_preMotionHandle = m_curMotionHandle;
 		m_curMotionHandle = motionHandle;

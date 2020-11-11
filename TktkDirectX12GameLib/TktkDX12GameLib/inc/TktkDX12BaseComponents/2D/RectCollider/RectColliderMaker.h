@@ -1,7 +1,6 @@
 #ifndef RECT_COLLIDER_MAKER_H_
 #define RECT_COLLIDER_MAKER_H_
 
-#include <TktkTemplateMetaLib/TypeCheck/isIdType.h>
 #include "RectCollider.h"
 
 namespace tktk
@@ -19,9 +18,6 @@ namespace tktk
 
 		// インスタンス作成開始
 		static RectColliderMaker& makeStart(GameObjectPtr user);
-
-		// ステートを指定し、作成を開始する
-		static RectColliderMaker& makeStart(const StateTypeHierarchy& targetState, GameObjectPtr user);
 
 	public:
 
@@ -52,7 +48,6 @@ namespace tktk
 
 		// 作成用変数達
 		GameObjectPtr				m_user				{ };
-		StateTypeHierarchy			m_targetState		{  };
 		CollisionGroupTypeCarrier	m_collisionGroupType{ 0 };
 		tktkMath::Vector2			m_rectSize			{ tktkMath::Vector2_v::one };
 		tktkMath::Vector2			m_localPosition		{ tktkMath::Vector2_v::zero };

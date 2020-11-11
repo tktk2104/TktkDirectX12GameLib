@@ -1,5 +1,9 @@
 #include "TktkDX12BaseComponents/3D/Camera/OrthographicCameraController.h"
 
+#include <stdexcept>
+#include "TktkDX12BaseComponents/3D/Transform3D/Transform3D.h"
+#include "TktkDX12Game/_MainManager/DX12GameManager.h"
+
 namespace tktk
 {
 	OrthographicCameraController::OrthographicCameraController(

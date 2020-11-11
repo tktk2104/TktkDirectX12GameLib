@@ -1,7 +1,6 @@
 #ifndef CIRCLE_COLLIDER_MAKER_H_
 #define CIRCLE_COLLIDER_MAKER_H_
 
-#include <TktkTemplateMetaLib/TypeCheck/isIdType.h>
 #include "CircleCollider.h"
 
 namespace tktk
@@ -19,9 +18,6 @@ namespace tktk
 
 		// 作成開始
 		static CircleColliderMaker& makeStart(GameObjectPtr user);
-
-		// ステートを指定し、作成を開始する
-		static CircleColliderMaker& makeStart(const StateTypeHierarchy& targetState, GameObjectPtr user);
 
 	public:
 
@@ -51,7 +47,6 @@ namespace tktk
 	private: /* 変数達 */
 
 		GameObjectPtr				m_user					{ };
-		StateTypeHierarchy			m_targetState			{  };
 		CollisionGroupTypeCarrier	m_collisionGroupType	{ 0 };
 		float						m_radius				{ 1.0f };
 		tktkMath::Vector2			m_localPosition			{ tktkMath::Vector2_v::zero };

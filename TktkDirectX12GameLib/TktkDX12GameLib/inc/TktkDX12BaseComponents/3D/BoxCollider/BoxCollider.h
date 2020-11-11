@@ -1,12 +1,17 @@
 #ifndef BOX_COLLIDER_H_
 #define BOX_COLLIDER_H_
 
+/* base class */
+#include "../../../TktkDX12Game/DXGameResource/GameObjectResouse/Component/ComponentBase.h"
+
+/* class member */
 #include <TktkCollision/3D/BoundingMesh.h>
-#include "../../../TktkDX12Game/Component/ComponentBase.h"
-#include "../Transform3D/Transform3D.h"
 
 namespace tktk
 {
+	/* class member */
+	class Transform3D;
+
 	// AABBの当たり判定のコンポーネント
 	// 【前提コンポーネント：Transform3D】
 	class BoxCollider

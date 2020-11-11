@@ -1,5 +1,7 @@
 #include "TktkDX12BaseComponents/Other/Sound/SoundPlayer.h"
 
+#include "TktkDX12Game/_MainManager/DX12GameManager.h"
+
 namespace tktk
 {
 	SoundPlayer::SoundPlayer(size_t soundHandle, bool isLoop, bool startToPlay)

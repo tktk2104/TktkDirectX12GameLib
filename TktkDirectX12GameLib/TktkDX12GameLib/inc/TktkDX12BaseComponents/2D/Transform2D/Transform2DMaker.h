@@ -20,9 +20,6 @@ namespace tktk
 		// 作成開始
 		static Transform2DMaker& makeStart(GameObjectPtr user);
 
-		// ステートを指定し、作成を開始する
-		static Transform2DMaker& makeStart(const StateTypeHierarchy& targetState, GameObjectPtr user);
-
 	public:
 
 		// 作成完了
@@ -49,7 +46,6 @@ namespace tktk
 	private: /* 変数達 */
 
 		GameObjectPtr		m_user				{  };
-		StateTypeHierarchy	m_targetState		{  };
 		tktkMath::Vector2	m_initPosition		{ tktkMath::Vector2_v::zero };
 		tktkMath::Vector2	m_initScaleRate		{ tktkMath::Vector2_v::one };
 		float				m_initRotationDeg	{ 0.0f };

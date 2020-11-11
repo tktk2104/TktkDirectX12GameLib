@@ -1,14 +1,20 @@
 #ifndef SPRITE_DRAWER_H_
 #define SPRITE_DRAWER_H_
 
-#include <TktkTemplateMetaLib/TypeCheck/isIdType.h>
-#include <TktkMath/Structs/Color.h>
+/* class member */
 #include <TktkMath/Structs/Vector2.h>
-#include "../../../TktkDX12Game/Component/ComponentBase.h"
-#include "../Transform2D/Transform2D.h"
+
+/* funcUseType */
+#include "../../../TktkDX12Game/UtilityProcessManager/ResourceHandleGetter/ResourceIdConverter/ResourceIdCarrier.h"
+
+/* base class */
+#include "../../../TktkDX12Game/DXGameResource/GameObjectResouse/Component/ComponentBase.h"
 
 namespace tktk
 {
+	/* class member */
+	class Transform2D;
+
 	// スプライト描画コンポーネント
 	// 【必須コンポーネント：Transform2D】
 	class SpriteDrawer

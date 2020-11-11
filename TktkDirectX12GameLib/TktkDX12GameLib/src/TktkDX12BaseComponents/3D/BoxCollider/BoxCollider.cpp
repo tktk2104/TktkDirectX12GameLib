@@ -1,7 +1,10 @@
 #include "TktkDX12BaseComponents/3D/BoxCollider/BoxCollider.h"
 
 #include <stdexcept>
+#include "TktkDX12BaseComponents/3D/Transform3D/Transform3D.h"
 #include "TktkDX12BaseComponents/3D/SphereCollider/SphereCollider.h"
+
+#include "TktkDX12Game/DXGameResource/GameObjectResouse/GameObject/GameObject.h"
 
 namespace tktk
 {

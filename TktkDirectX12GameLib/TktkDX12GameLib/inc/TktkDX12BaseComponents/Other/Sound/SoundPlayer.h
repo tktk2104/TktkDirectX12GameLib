@@ -1,8 +1,10 @@
 #ifndef SOUND_PLAYER_H_
 #define SOUND_PLAYER_H_
 
-#include <TktkTemplateMetaLib/TypeCheck/isIdType.h>
-#include "../../../TktkDX12Game/Component/ComponentBase.h"
+/* base class */
+#include "../../../TktkDX12Game/DXGameResource/GameObjectResouse/Component/ComponentBase.h"
+
+#include "TktkDX12Game/UtilityProcessManager/ResourceHandleGetter/ResourceIdConverter/ResourceIdCarrier.h"
 
 namespace tktk
 {

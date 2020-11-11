@@ -1,5 +1,11 @@
 #include "TktkDX12BaseComponents/3D/MeshDrawer/BasicMeshDrawer.h"
 
+#include "TktkDX12BaseComponents/3D/Transform3D/Transform3D.h"
+#include "TktkDX12BaseComponents/3D/MeshAnimator/MeshAnimator.h"
+#include "TktkDX12Game/_MainManager/DX12GameManager.h"
+#include "TktkDX12Game/DXGameResource/DXGameShaderResouse/MeshResouse/Mesh/Structs/MeshTransformCbuffer.h"
+#include "TktkDX12Game/DXGameResource/DXGameShaderResouse/MeshResouse/Mesh/Structs/MeshShadowMapCBuffer.h"
+
 namespace tktk
 {
 	BasicMeshDrawer::BasicMeshDrawer(float drawPriority, const tktkMath::Vector3& baseScale, const tktkMath::Quaternion& baseRotation, const BasicMeshDrawerUseResourceHandles& useResourceHandles)
@@ -70,7 +76,7 @@ namespace tktk
 		baseArgs.lightHandle = m_useResourceHandles.lightHandle;
 
 		// ÉÅÉbÉVÉÖÇï`âÊÇ∑ÇÈ
-		DX12GameManager::drawBasicMesh(m_useResourceHandles.meshHandle, baseArgs);
+		DX12GameManager::drawMesh(m_useResourceHandles.meshHandle, baseArgs);
 	}
 
 	void BasicMeshDrawer::updateTransformCbuffer() const

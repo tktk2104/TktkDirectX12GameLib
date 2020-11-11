@@ -1,11 +1,16 @@
 #ifndef INERTIAL_MOVEMENT_3D_H_
 #define INERTIAL_MOVEMENT_3D_H_
 
-#include "../../../TktkDX12Game/Component/ComponentBase.h"
+/* base class */
+#include "../../../TktkDX12Game/DXGameResource/GameObjectResouse/Component/ComponentBase.h"
 #include "../Transform3D/Transform3D.h"
 
 namespace tktk
 {
+	/* class member */
+	class Transform3D;
+
+	// ３次元慣性移動コンポーネント
 	class InertialMovement3D
 		: public ComponentBase
 	{

@@ -1,7 +1,7 @@
 #ifndef BASIC_MESH_SHADOW_MAP_WRITER_MAKER_H_
 #define BASIC_MESH_SHADOW_MAP_WRITER_MAKER_H_
 
-#include <TktkTemplateMetaLib/TypeCheck/isIdType.h>
+#include "TktkDX12Game/UtilityProcessManager/ResourceHandleGetter/ResourceIdConverter/ResourceIdCarrier.h"
 #include "BasicMeshShadowMapWriter.h"
 
 namespace tktk
@@ -19,9 +19,6 @@ namespace tktk
 
 		// 作成開始
 		static BasicMeshShadowMapWriterMaker& makeStart(GameObjectPtr user);
-
-		// ステートを指定し、作成を開始する
-		static BasicMeshShadowMapWriterMaker& makeStart(const StateTypeHierarchy& targetState, GameObjectPtr user);
 
 	public:
 
@@ -56,7 +53,6 @@ namespace tktk
 	private: /* 変数達 */
 
 		GameObjectPtr			m_user			{  };
-		StateTypeHierarchy		m_targetState	{  };
 		float					m_drawPriority	{ 0.0f };
 		tktkMath::Vector3		m_baseScale{ tktkMath::Vector3_v::one };
 		tktkMath::Quaternion	m_baseRotation{ tktkMath::Quaternion_v::identity };

@@ -1,12 +1,17 @@
 #ifndef INERTIAL_MOVEMENT_2D_H_
 #define INERTIAL_MOVEMENT_2D_H_
 
+/* class member */
 #include <TktkMath/Structs/Vector2.h>
-#include "../../../TktkDX12Game/Component/ComponentBase.h"
-#include "../Transform2D/Transform2D.h"
+
+/* base class */
+#include "../../../TktkDX12Game/DXGameResource/GameObjectResouse/Component/ComponentBase.h"
 
 namespace tktk
 {
+	/* class member */
+	class Transform2D;
+
 	// ２次元の慣性移動コンポーネント
 	// 【前提コンポーネント：Transform2D】
 	class InertialMovement2D

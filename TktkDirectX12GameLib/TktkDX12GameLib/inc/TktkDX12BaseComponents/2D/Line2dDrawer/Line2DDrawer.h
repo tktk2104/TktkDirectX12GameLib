@@ -1,15 +1,21 @@
 #ifndef LINE_2D_DRAWER_H_
 #define LINE_2D_DRAWER_H_
 
+/* std::vector */
 #include <vector>
-#include <TktkTemplateMetaLib/TypeCheck/isIdType.h>
+
+/* class member */
 #include <TktkMath/Structs/Color.h>
 #include <TktkMath/Structs/Vector2.h>
-#include "../../../TktkDX12Game/Component/ComponentBase.h"
-#include "../Transform2D/Transform2D.h"
+
+/* base class */
+#include "../../../TktkDX12Game/DXGameResource/GameObjectResouse/Component/ComponentBase.h"
 
 namespace tktk
 {
+	/* class member */
+	class Transform2D;
+
 	// 2次元線分描画コンポーネント
 	// 【必須コンポーネント：Transform2D】
 	class Line2DDrawer

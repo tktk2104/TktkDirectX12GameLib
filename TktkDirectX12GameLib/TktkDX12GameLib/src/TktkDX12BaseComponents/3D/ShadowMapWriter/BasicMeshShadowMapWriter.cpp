@@ -1,5 +1,9 @@
 #include "TktkDX12BaseComponents/3D/ShadowMapWriter/BasicMeshShadowMapWriter.h"
 
+#include "TktkDX12BaseComponents/3D/Transform3D/Transform3D.h"
+#include "TktkDX12Game/_MainManager/DX12GameManager.h"
+#include "TktkDX12Game/DXGameResource/DXGameShaderResouse/MeshResouse/Mesh/Structs/MeshTransformCbuffer.h"
+
 namespace tktk
 {
 	BasicMeshShadowMapWriter::BasicMeshShadowMapWriter(float drawPriority, const tktkMath::Vector3& baseScale, const tktkMath::Quaternion& baseRotation, size_t meshHandle, size_t skeletonHandle, size_t cameraHandle)
@@ -42,7 +46,7 @@ namespace tktk
 		updateTransformCbuffer();
 
 		// シャドウマップを描画する
-		DX12GameManager::writeBasicMeshShadowMap(m_meshHandle);
+		DX12GameManager::writeMeshShadowMap(m_meshHandle);
 	}
 
 	void BasicMeshShadowMapWriter::updateTransformCbuffer() const

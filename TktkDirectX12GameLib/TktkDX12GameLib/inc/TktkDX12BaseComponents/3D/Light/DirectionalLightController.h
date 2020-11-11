@@ -1,11 +1,17 @@
 #ifndef DIRECTIONAL_LIGHT_CONTROLLER_H_
 #define DIRECTIONAL_LIGHT_CONTROLLER_H_
 
-#include "../../../TktkDX12Game/Component/ComponentBase.h"
-#include "../Transform3D/Transform3D.h"
+/* base class */
+#include "../../../TktkDX12Game/DXGameResource/GameObjectResouse/Component/ComponentBase.h"
+
+/* class member */
+#include <TktkMath/Structs/Color.h>
 
 namespace tktk
 {
+	/* class member */
+	class Transform3D;
+
 	// ディレクショナルライト制御コンポーネント
 	// 【必須コンポーネント：Transform3D】
 	class DirectionalLightController

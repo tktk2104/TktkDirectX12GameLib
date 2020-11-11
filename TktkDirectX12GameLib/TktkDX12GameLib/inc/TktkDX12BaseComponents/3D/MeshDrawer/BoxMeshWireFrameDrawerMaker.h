@@ -1,7 +1,7 @@
 #ifndef BOX_MESH_WIRE_FRAME_DRAWER_MAKER_H_
 #define BOX_MESH_WIRE_FRAME_DRAWER_MAKER_H_
 
-#include <TktkTemplateMetaLib/TypeCheck/isIdType.h>
+#include "TktkDX12Game/UtilityProcessManager/ResourceHandleGetter/ResourceIdConverter/ResourceIdCarrier.h"
 #include "BoxMeshWireFrameDrawer.h"
 
 namespace tktk
@@ -19,9 +19,6 @@ namespace tktk
 
 		// 作成開始
 		static BoxMeshWireFrameDrawerMaker& makeStart(GameObjectPtr user);
-
-		// ステートを指定し、作成を開始する
-		static BoxMeshWireFrameDrawerMaker& makeStart(const StateTypeHierarchy& targetState, GameObjectPtr user);
 
 	public:
 
@@ -77,7 +74,6 @@ namespace tktk
 	private: /* 変数達 */
 
 		GameObjectPtr						m_user				{  };
-		StateTypeHierarchy					m_targetState		{  };
 		float								m_drawPriority		{ 0.0f };
 		tktkMath::Vector3					m_boxSize			{ tktkMath::Vector3_v::one };
 		tktkMath::Vector3					m_localPosition		{ tktkMath::Vector3_v::zero };

@@ -2,6 +2,8 @@
 
 #include <stdexcept>
 #include <TktkMath/MathHelper.h>
+#include <TktkDX12BaseComponents/2D/Transform2D/Transform2D.h>
+#include <TktkDX12Game/_MainManager/DX12GameManager.h>
 
 namespace tktk
 {

@@ -1,7 +1,6 @@
 #ifndef BILLBOARD_DRAWER_MAKER_H_
 #define BILLBOARD_DRAWER_MAKER_H_
 
-#include <TktkTemplateMetaLib/TypeCheck/isIdType.h>
 #include "BillboardDrawer.h"
 
 namespace tktk
@@ -19,9 +18,6 @@ namespace tktk
 
 		// 作成開始
 		static BillboardDrawerMaker& makeStart(GameObjectPtr user);
-
-		// ステートを指定し、作成を開始する
-		static BillboardDrawerMaker& makeStart(const StateTypeHierarchy& targetState, GameObjectPtr user);
 
 	public:
 
@@ -64,7 +60,6 @@ namespace tktk
 	private: /* 変数達 */
 
 		GameObjectPtr		m_user						{  };
-		StateTypeHierarchy	m_targetState				{  };
 		float				m_drawPriority				{ 0.0f };
 		size_t				m_useRtvDescriptorHeapHandle{  };
 		size_t				m_cameraHandle				{ 0U };

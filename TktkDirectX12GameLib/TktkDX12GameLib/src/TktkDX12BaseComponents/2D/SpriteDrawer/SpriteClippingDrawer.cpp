@@ -1,7 +1,8 @@
 #include "TktkDX12BaseComponents/2D/SpriteDrawer/SpriteClippingDrawer.h"
 
-#include <TktkDX12Game/_MainManager/DX12GameManager.h>
-#include "TktkDX12Game/DXGameResource/Sprite/SpriteTransformCbuffer.h"
+#include "TktkDX12Game/_MainManager/DX12GameManager.h"
+#include "TktkDX12Game/DXGameResource/DXGameShaderResouse/Sprite/SpriteTransformCbuffer.h"
+#include "TktkDX12BaseComponents/2D/Transform2D/Transform2D.h"
 
 namespace tktk
 {
@@ -36,7 +37,11 @@ namespace tktk
 	void SpriteClippingDrawer::draw() const
 	{
 		// 座標変換用の定数バッファの更新
-		DX12GameManager::updateSpriteTransformCbufferUseClippingParam(m_spriteMaterialHandle, m_createUploadTransformCbufferHandle, m_transform->calculateWorldMatrix(), m_spriteCenterRate, m_clippingParam);
+		SpriteCbufferUpdateFuncArgs updateFuncArgs{};
+		updateFuncArgs.worldMatrix = m_transform->calculateWorldMatrix();
+		updateFuncArgs.spriteCenterRate = m_spriteCenterRate;
+
+		DX12GameManager::updateSpriteTransformCbufferUseClippingParam(m_spriteMaterialHandle, m_createUploadTransformCbufferHandle, updateFuncArgs, m_clippingParam);
 
 		SpriteMaterialDrawFuncArgs drawFuncArgs{};
 		drawFuncArgs.viewportHandle = DX12GameManager::getSystemHandle(SystemViewportType::Basic);

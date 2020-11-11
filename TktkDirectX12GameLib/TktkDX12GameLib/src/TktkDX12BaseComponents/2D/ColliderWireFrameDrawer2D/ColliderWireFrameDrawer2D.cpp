@@ -2,9 +2,12 @@
 
 #include <algorithm>
 #include <TktkMath/MathHelper.h>
+#include "TktkDX12BaseComponents/2D/Line2dDrawer/Line2DDrawer.h"
 #include "TktkDX12BaseComponents/2D/CircleCollider/CircleCollider.h"
 #include "TktkDX12BaseComponents/2D/RectCollider/RectCollider.h"
 #include "TktkDX12BaseComponents/2D/Polygon2dCollider/Polygon2dCollider.h"
+#include "TktkDX12Game/_MainManager/DX12GameManager.h"
+#include "TktkDX12Game/DXGameResource/GameObjectResouse/GameObject/GameObject.h"
 
 // â~Çê≥ëΩäpå`Ç≈ï\Ç∑éûÇÃí∏ì_êî
 constexpr size_t CircleVertexNum{ 20U };

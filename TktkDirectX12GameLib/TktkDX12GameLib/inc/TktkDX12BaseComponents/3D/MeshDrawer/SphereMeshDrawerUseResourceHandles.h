@@ -3,6 +3,7 @@
 
 namespace tktk
 {
+	// 球体描画コンポーネントの作成に必要な変数
 	struct SphereMeshDrawerUseResourceHandles
 	{
 		size_t rtvDescriptorHeapHandle;

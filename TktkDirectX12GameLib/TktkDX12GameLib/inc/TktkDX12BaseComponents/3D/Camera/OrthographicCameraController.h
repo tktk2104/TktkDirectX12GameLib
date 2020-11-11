@@ -1,11 +1,14 @@
 #ifndef ORTHOGRAPHIC_CAMERA_CONTROLLER_H_
 #define ORTHOGRAPHIC_CAMERA_CONTROLLER_H_
 
-#include "../../../TktkDX12Game/Component/ComponentBase.h"
-#include "../Transform3D/Transform3D.h"
+/* base class */
+#include "../../../TktkDX12Game/DXGameResource/GameObjectResouse/Component/ComponentBase.h"
 
 namespace tktk
 {
+	/* class member */
+	class Transform3D;
+
 	// 平行投射カメラ制御コンポーネント
 	// 【必須コンポーネント：Transform3D】
 	class OrthographicCameraController

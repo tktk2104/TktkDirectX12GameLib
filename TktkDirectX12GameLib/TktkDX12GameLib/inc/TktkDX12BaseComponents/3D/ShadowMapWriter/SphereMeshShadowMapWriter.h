@@ -1,12 +1,17 @@
 #ifndef SPHERE_MESH_SHADOW_MAP_WRITER_H_
 #define SPHERE_MESH_SHADOW_MAP_WRITER_H_
 
-#include <TktkTemplateMetaLib/TypeCheck/isIdType.h>
-#include "../../../TktkDX12Game/Component/ComponentBase.h"
-#include "../Transform3D/Transform3D.h"
+/* base class */
+#include "../../../TktkDX12Game/DXGameResource/GameObjectResouse/Component/ComponentBase.h"
+
+/* class member */
+#include <TktkMath/Structs/Vector3.h>
 
 namespace tktk
 {
+	/* class member */
+	class Transform3D;
+
 	// 球体メッシュのシャドウマップ書き込みコンポーネント
 	// 【必須コンポーネント：Transform3D】
 	class SphereMeshShadowMapWriter

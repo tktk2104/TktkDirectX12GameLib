@@ -1,7 +1,7 @@
 #ifndef ORTHOGRAPHIC_CAMERA_CONTROLLER_MAKER_H_
 #define ORTHOGRAPHIC_CAMERA_CONTROLLER_MAKER_H_
 
-#include <TktkTemplateMetaLib/TypeCheck/isIdType.h>
+#include "TktkDX12Game/UtilityProcessManager/ResourceHandleGetter/ResourceIdConverter/ResourceIdCarrier.h"
 #include "OrthographicCameraController.h"
 
 namespace tktk
@@ -19,9 +19,6 @@ namespace tktk
 
 		// 作成開始
 		static OrthographicCameraControllerMaker& makeStart(GameObjectPtr user);
-
-		// ステートを指定し、作成を開始する
-		static OrthographicCameraControllerMaker& makeStart(const StateTypeHierarchy& targetState, GameObjectPtr user);
 
 	public:
 
@@ -57,7 +54,6 @@ namespace tktk
 	private: /* 変数達 */
 
 		GameObjectPtr		m_user				{  };
-		StateTypeHierarchy	m_targetState		{  };
 		size_t				m_initCameraHandle	{ 0U };
 		float				m_initCameraWidth	{ 100.0f };
 		float				m_initCameraHeight	{ 100.0f };

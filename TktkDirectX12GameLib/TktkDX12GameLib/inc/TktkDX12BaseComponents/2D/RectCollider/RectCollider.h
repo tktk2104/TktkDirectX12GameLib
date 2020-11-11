@@ -1,14 +1,23 @@
 #ifndef RECT_COLLIDER_H_
 #define RECT_COLLIDER_H_
 
+/* std::forward_list */
 #include <forward_list>
+
+/* funcUseType */
 #include <TktkMath/Structs/Vector2.h>
+
+/* class member */
 #include <TktkCollision/2D/BoundingPolygon2D.h>
-#include "../../../TktkDX12Game/Component/ComponentBase.h"
-#include "../Transform2D/Transform2D.h"
+
+/* base class */
+#include "../../../TktkDX12Game/DXGameResource/GameObjectResouse/Component/ComponentBase.h"
 
 namespace tktk
 {
+	/* class member */
+	class Transform2D;
+
 	// 長方形の当たり判定のコンポーネント
 	// 【前提コンポーネント：Transform2D】
 	class RectCollider

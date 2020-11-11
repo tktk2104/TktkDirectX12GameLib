@@ -1,14 +1,19 @@
 #ifndef SPHERE_MESH_DRAWER_H_
 #define SPHERE_MESH_DRAWER_H_
 
+/* base class */
+#include "../../../TktkDX12Game/DXGameResource/GameObjectResouse/Component/ComponentBase.h"
+
+/* class member */
 #include <TktkMath/Structs/Color.h>
 #include <TktkMath/Structs/Vector3.h>
-#include "../../../TktkDX12Game/Component/ComponentBase.h"
 #include "SphereMeshDrawerUseResourceHandles.h"
-#include "../Transform3D/Transform3D.h"
 
 namespace tktk
 {
+	/* class member */
+	class Transform3D;
+
 	// 球体メッシュ描画コンポーネント
 	class SphereMeshDrawer
 		: public ComponentBase

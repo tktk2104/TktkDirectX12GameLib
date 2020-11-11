@@ -1,14 +1,26 @@
 #ifndef POLYGON_2D_COLLIDER_H_
 #define POLYGON_2D_COLLIDER_H_
 
+/* std::forward_list */
 #include <forward_list>
+
+/* std::vector */
+#include <vector>
+
+/* funcUseType */
 #include <TktkMath/Structs/Vector2.h>
+
+/* class member */
 #include <TktkCollision/2D/BoundingPolygon2D.h>
-#include "../../../TktkDX12Game/Component/ComponentBase.h"
-#include "../Transform2D/Transform2D.h"
+
+/* base class */
+#include "../../../TktkDX12Game/DXGameResource/GameObjectResouse/Component/ComponentBase.h"
 
 namespace tktk
 {
+	/* class member */
+	class Transform2D;
+
 	// 多角形の当たり判定のコンポーネント
 	// 【前提コンポーネント：Transform2D】
 	class Polygon2dCollider

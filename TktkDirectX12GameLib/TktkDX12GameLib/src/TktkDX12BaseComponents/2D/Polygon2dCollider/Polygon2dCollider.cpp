@@ -1,11 +1,10 @@
 #include "TktkDX12BaseComponents/2D/Polygon2dCollider/Polygon2dCollider.h"
 
-#include <vector>
 #include <stdexcept>
-#include <iterator>
-#include <algorithm>
+#include "TktkDX12BaseComponents/2D/Transform2D/Transform2D.h"
 #include "TktkDX12BaseComponents/2D/RectCollider/RectCollider.h"
 #include "TktkDX12BaseComponents/2D/CircleCollider/CircleCollider.h"
+#include "TktkDX12Game/DXGameResource/GameObjectResouse/GameObject/GameObject.h"
 
 namespace tktk
 {

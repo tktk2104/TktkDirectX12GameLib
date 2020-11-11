@@ -1,7 +1,7 @@
 #ifndef BASIC_CAMERA_CONTROLLER_MAKER_H_
 #define BASIC_CAMERA_CONTROLLER_MAKER_H_
 
-#include <TktkTemplateMetaLib/TypeCheck/isIdType.h>
+#include "TktkDX12Game/UtilityProcessManager/ResourceHandleGetter/ResourceIdConverter/ResourceIdCarrier.h"
 #include "BasicCameraController.h"
 
 namespace tktk
@@ -19,9 +19,6 @@ namespace tktk
 
 		// 作成開始
 		static BasicCameraControllerMaker& makeStart(GameObjectPtr user);
-
-		// ステートを指定し、作成を開始する
-		static BasicCameraControllerMaker& makeStart(const StateTypeHierarchy& targetState, GameObjectPtr user);
 
 	public:
 
@@ -57,7 +54,6 @@ namespace tktk
 	private: /* 変数達 */
 
 		GameObjectPtr		m_user				{  };
-		StateTypeHierarchy	m_targetState		{  };
 		size_t				m_initCameraHandle	{ 0U };
 		float				m_initCameraFov		{ 45.0f };
 		float				m_initCameraAspect	{};	// デフォルトはゲームスクリーンの比率

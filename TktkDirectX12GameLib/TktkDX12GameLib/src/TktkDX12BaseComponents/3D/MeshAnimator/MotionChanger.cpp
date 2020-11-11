@@ -1,10 +1,14 @@
 #include "TktkDX12BaseComponents/3D/MeshAnimator/MotionChanger.h"
 
+#include <stdexcept>
+#include "TktkDX12BaseComponents/3D/MeshAnimator/MeshAnimator.h"
+
 namespace tktk
 {
-	MotionChanger::MotionChanger(size_t changeMotionHandle, bool isLoop, float lerpTimeSec)
+	MotionChanger::MotionChanger(size_t changeMotionHandle, bool isLoop, float motionSpeedRate, float lerpTimeSec)
 		: m_changeMotionHandle(changeMotionHandle)
 		, m_isLoop(isLoop)
+		, m_motionSpeedRate(motionSpeedRate)
 		, m_lerpTimeSec(lerpTimeSec)
 	{
 	}
@@ -21,6 +25,6 @@ namespace tktk
 			}
 		}
 
-		m_meshAnimator->setNewMotionHandle(m_changeMotionHandle, m_isLoop, m_lerpTimeSec);
+		m_meshAnimator->setNewMotionHandle(m_changeMotionHandle, m_isLoop, m_motionSpeedRate, m_lerpTimeSec);
 	}
 }

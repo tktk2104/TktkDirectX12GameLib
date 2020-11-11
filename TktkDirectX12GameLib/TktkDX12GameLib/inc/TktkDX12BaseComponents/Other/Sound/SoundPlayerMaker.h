@@ -1,7 +1,6 @@
 #ifndef SOUND_PLAYER_MAKER_H_
 #define SOUND_PLAYER_MAKER_H_
 
-#include <TktkTemplateMetaLib/TypeCheck/isIdType.h>
 #include "SoundPlayer.h"
 
 namespace tktk
@@ -18,9 +17,6 @@ namespace tktk
 
 		// インスタンス作成開始
 		static SoundPlayerMaker& makeStart(GameObjectPtr user);
-
-		// ステートを指定し、作成を開始する
-		static SoundPlayerMaker& makeStart(const StateTypeHierarchy& targetState, GameObjectPtr user);
 
 	public:
 
@@ -50,7 +46,6 @@ namespace tktk
 
 		// 作成用変数達
 		GameObjectPtr		m_user			{ };
-		StateTypeHierarchy	m_targetState	{ };
 		size_t				m_soundHandle	{ 0U };
 		bool				m_isLoop		{ false };
 		bool				m_startToPlay	{ false };

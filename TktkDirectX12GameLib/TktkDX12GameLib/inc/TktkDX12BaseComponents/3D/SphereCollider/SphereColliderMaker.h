@@ -1,7 +1,7 @@
 #ifndef SPHERE_COLLIDER_MAKER_H_
 #define SPHERE_COLLIDER_MAKER_H_
 
-#include <TktkTemplateMetaLib/TypeCheck/isIdType.h>
+#include "TktkDX12Game/UtilityProcessManager/ResourceHandleGetter/ResourceIdConverter/ResourceIdCarrier.h"
 #include "SphereCollider.h"
 
 namespace tktk
@@ -19,9 +19,6 @@ namespace tktk
 
 		// インスタンス作成開始
 		static SphereColliderMaker& makeStart(GameObjectPtr user);
-
-		// ステートを指定し、作成を開始する
-		static SphereColliderMaker& makeStart(const StateTypeHierarchy& targetState, GameObjectPtr user);
 
 	public:
 
@@ -52,7 +49,6 @@ namespace tktk
 
 		// 作成用変数達
 		GameObjectPtr				m_user				{ };
-		StateTypeHierarchy			m_targetState		{  };
 		CollisionGroupTypeCarrier	m_collisionGroupType{ 0 };
 		float						m_radius			{ 1.0f };
 		tktkMath::Vector3			m_localPosition		{ tktkMath::Vector3_v::zero };
