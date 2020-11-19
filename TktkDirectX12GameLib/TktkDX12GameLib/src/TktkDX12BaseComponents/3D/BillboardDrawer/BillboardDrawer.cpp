@@ -2,17 +2,15 @@
 
 #include "TktkDX12Game/_MainManager/DX12GameManager.h"
 #include "TktkDX12BaseComponents/3D/Transform3D/Transform3D.h"
-#include "TktkDX12Game/DXGameResource/DXGameShaderResouse/Billboard/BillboardCbufferData.h"
 
 namespace tktk
 {
-	BillboardDrawer::BillboardDrawer(float drawPriority, size_t billboardMaterialHandle, size_t useRtvDescriptorHeapHandle, size_t cameraHandle, const tktkMath::Vector2& centerRate, const tktkMath::Color& blendRate)
-		: ComponentBase(drawPriority)
-		, m_useRtvDescriptorHeapHandle(useRtvDescriptorHeapHandle)
-		, m_cameraHandle(cameraHandle)
-		, m_billboardMaterialHandle(billboardMaterialHandle)
+	BillboardDrawer::BillboardDrawer(size_t billboardMaterialHandle, const tktkMath::Vector2& centerRate, const tktkMath::Color& blendRate, const tktkMath::Vector2& clippingLeftTopPos, const tktkMath::Vector2& clippingSize)
+		: m_billboardMaterialHandle(billboardMaterialHandle)
 		, m_centerRate(centerRate)
 		, m_blendRate(blendRate)
+		, m_clippingLeftTopPos(clippingLeftTopPos)
+		, m_clippingSize(clippingSize)
 	{
 	}
 
@@ -24,39 +22,23 @@ namespace tktk
 		{
 			throw std::runtime_error("BillboardDrawer not found Transform3D");
 		}
-
-		// アップロード用バッファを作り、そのハンドルを取得する
-		m_createUploadTransformCbufferHandle = DX12GameManager::createUploadBuffer(UploadBufferInitParam::create(BufferType::constant, DX12GameManager::getSystemHandle(SystemCBufferType::Billboard), BillboardCbufferData()));
 	}
 
-	void BillboardDrawer::onDestroy()
+	void BillboardDrawer::afterCollide()
 	{
-		// アップロード用バッファを削除する
-		DX12GameManager::eraseUploadBuffer(m_createUploadTransformCbufferHandle);
-	}
+		const auto& selfScale = m_transform->getWorldScaleRate();
 
-	void BillboardDrawer::draw() const
-	{
-		BillboardCbufferUpdateFuncArgs bufferDataUpdater{};
-		bufferDataUpdater.billboardPosition	= m_transform->getWorldPosition();
-		bufferDataUpdater.billboardAngle	= m_transform->calculateWorldEulerAngles().z;
-		auto selfScale = m_transform->getWorldScaleRate();
-		bufferDataUpdater.billboardScale	= { selfScale.x, selfScale.y };
-		bufferDataUpdater.textureCenterRate	= m_centerRate;
-		bufferDataUpdater.viewMatrix		= DX12GameManager::getViewMatrix(m_cameraHandle);
-		bufferDataUpdater.projectionMatrix	= DX12GameManager::getProjectionMatrix(m_cameraHandle);
-		bufferDataUpdater.blendRate			= m_blendRate;
+		BillboardMaterialInstanceVertData instanceVertData{};
+		instanceVertData.billboardPosition	= m_transform->getWorldPosition();
+		instanceVertData.billboardAngle		= m_transform->calculateWorldEulerAngles().z;
+		instanceVertData.billboardScale		= { selfScale.x, selfScale.y };;
+		instanceVertData.textureUvOffset	= tktkMath::Vector2(m_clippingLeftTopPos.x, m_clippingLeftTopPos.y);
+		instanceVertData.textureUvMulRate	= tktkMath::Vector2(m_clippingSize.x, m_clippingSize.y);
+		instanceVertData.textureCenterRate	= m_centerRate;
+		instanceVertData.blendRate			= m_blendRate;
 
-		// 定数バッファの更新
-		DX12GameManager::updateBillboardCbuffer(m_billboardMaterialHandle, m_createUploadTransformCbufferHandle, bufferDataUpdater);
-
-		BillboardDrawFuncBaseArgs drawFuncArgs{};
-		drawFuncArgs.viewportHandle				= DX12GameManager::getSystemHandle(SystemViewportType::Basic);
-		drawFuncArgs.scissorRectHandle			= DX12GameManager::getSystemHandle(SystemScissorRectType::Basic);
-		drawFuncArgs.rtvDescriptorHeapHandle	= m_useRtvDescriptorHeapHandle;
-		drawFuncArgs.dsvDescriptorHeapHandle	= DX12GameManager::getSystemHandle(SystemDsvDescriptorHeapType::Basic);
-
-		DX12GameManager::drawBillboard(m_billboardMaterialHandle, drawFuncArgs);
+		// 指定のビルボードをインスタンス描画する時に使用する値を追加する
+		DX12GameManager::addBillboardInstanceVertParam(m_billboardMaterialHandle, instanceVertData);
 	}
 
 	void BillboardDrawer::setBillboardMaterialHandle(size_t handle)
@@ -72,5 +54,15 @@ namespace tktk
 	void BillboardDrawer::setCenterRate(const tktkMath::Vector2& centerRate)
 	{
 		m_centerRate = centerRate;
+	}
+
+	void BillboardDrawer::setClippingLeftTopPos(const tktkMath::Vector2& leftTopPos)
+	{
+		m_clippingLeftTopPos = leftTopPos;
+	}
+
+	void BillboardDrawer::setClippingSize(const tktkMath::Vector2& size)
+	{
+		m_clippingSize = size;
 	}
 }

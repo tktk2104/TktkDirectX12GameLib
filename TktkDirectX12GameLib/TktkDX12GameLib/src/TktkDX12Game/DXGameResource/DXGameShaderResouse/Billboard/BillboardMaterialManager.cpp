@@ -2,11 +2,16 @@
 
 #include "TktkDX12Game/_MainManager/DX12GameManager.h"
 #include "TktkDX12Game/DXGameResource/DXGameShaderResouse/Billboard/BillboardMaterialData.h"
-#include "TktkDX12Game/DXGameResource/DXGameShaderResouse/Billboard/BillboardCbufferData.h"
 #include "TktkDX12Game/DXGameResource/DXGameShaderResouse/Billboard/BillboardMaterialManagerInitParam.h"
 
 namespace tktk
 {
+	// ビルボード描画用のルートシグネチャを作る
+	inline void createRootSignature();
+
+	// ビルボード描画用のパイプラインステートを作る
+	inline void createGraphicsPipeLineState(const ShaderFilePaths& shaderFilePaths);
+
 	BillboardMaterialManager::BillboardMaterialManager(const BillboardMaterialManagerInitParam& initParam)
 		: m_billboardMaterialArray(initParam.containerParam)
 	{
@@ -15,9 +20,6 @@ namespace tktk
 
 		// ビルボード用のグラフィックパイプラインステートを作る
 		createGraphicsPipeLineState(initParam.shaderFilePaths);
-
-		// スプライト用の定数バッファを作る
-		DX12GameManager::setSystemHandle(SystemCBufferType::Billboard, DX12GameManager::createCBuffer(BillboardCbufferData()));
 	}
 
 	// デストラクタを非インライン化する
@@ -28,37 +30,38 @@ namespace tktk
 		return m_billboardMaterialArray.create(initParam);
 	}
 
-	void BillboardMaterialManager::drawBillboard(size_t handle, const BillboardDrawFuncBaseArgs& drawFuncArgs) const
+	const tktkMath::Vector2& BillboardMaterialManager::getBillboardTextureSize(size_t handle) const
 	{
-		m_billboardMaterialArray.getMatchHandlePtr(handle)->drawBillboard(drawFuncArgs);
+		return m_billboardMaterialArray.getMatchHandlePtr(handle)->getBillboardTextureSize();
 	}
 
-	void BillboardMaterialManager::updateTransformCbuffer(size_t handle, size_t copyBufferHandle, const BillboardCbufferUpdateFuncArgs& updateArgs) const
+	void BillboardMaterialManager::clearInstanceParam(size_t handle)
 	{
-		m_billboardMaterialArray.getMatchHandlePtr(handle)->updateTransformCbuffer(copyBufferHandle, updateArgs);
+		m_billboardMaterialArray.getMatchHandlePtr(handle)->clearInstanceParam();
 	}
 
-	void BillboardMaterialManager::updateTransformCbufferUseClippingParam(size_t handle, size_t copyBufferHandle, const BillboardCbufferUpdateFuncArgs& updateArgs, const BillboardClippingParam& clippingParam) const
+	void BillboardMaterialManager::addInstanceVertParam(size_t handle, const BillboardMaterialInstanceVertData& instanceParam)
 	{
-		m_billboardMaterialArray.getMatchHandlePtr(handle)->updateTransformCbufferUseClippingParam(copyBufferHandle, updateArgs, clippingParam);
+		m_billboardMaterialArray.getMatchHandlePtr(handle)->addInstanceVertParam(instanceParam);
 	}
 
-	void BillboardMaterialManager::createRootSignature() const
+	void BillboardMaterialManager::draw(size_t handle, const BillboardDrawFuncBaseArgs& drawFuncArgs) const
+	{
+		m_billboardMaterialArray.getMatchHandlePtr(handle)->draw(drawFuncArgs);
+	}
+
+	void createRootSignature()
 	{
 		RootSignatureInitParam initParam{};
 		initParam.flag = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
 		initParam.rootParamArray.resize(2U);
 		{/* テクスチャ用のルートパラメータ */
 			initParam.rootParamArray.at(0U).shaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
-			initParam.rootParamArray.at(0U).descriptorTable = {
-				{ 1U, D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 0U }
-			};
+			initParam.rootParamArray.at(0U).descriptorTable = { { 1U, D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 0U } };
 		}
 		{/* 定数バッファ用のルートパラメータ */
-			initParam.rootParamArray.at(1U).shaderVisibility = D3D12_SHADER_VISIBILITY_ALL;
-			initParam.rootParamArray.at(1U).descriptorTable = {
-				{ 2U, D3D12_DESCRIPTOR_RANGE_TYPE_CBV, 0U }
-			};
+			initParam.rootParamArray.at(1U).shaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;
+			initParam.rootParamArray.at(1U).descriptorTable = { { 1U, D3D12_DESCRIPTOR_RANGE_TYPE_CBV, 0U } };
 		}
 		initParam.samplerDescArray.resize(1U);
 		{/* サンプラーの設定 */
@@ -75,7 +78,7 @@ namespace tktk
 		DX12GameManager::setSystemHandle(SystemRootSignatureType::Billboard, DX12GameManager::createRootSignature(initParam));
 	}
 
-	void BillboardMaterialManager::createGraphicsPipeLineState(const ShaderFilePaths& shaderFilePaths) const
+	void createGraphicsPipeLineState(const ShaderFilePaths& shaderFilePaths)
 	{
 		D3D12_RENDER_TARGET_BLEND_DESC renderTargetBlendDesc{};
 		renderTargetBlendDesc.BlendEnable			= true;
@@ -98,7 +101,17 @@ namespace tktk
 		initParam.blendDesc.IndependentBlendEnable	= false;
 		initParam.blendDesc.RenderTarget[0]			= renderTargetBlendDesc;
 		initParam.inputLayoutArray = {
-			{ "POSITION", 0, DXGI_FORMAT_R32G32_FLOAT, 0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 }
+			{ "POSITION",			0, DXGI_FORMAT_R32G32_FLOAT,		0, D3D12_APPEND_ALIGNED_ELEMENT,	D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA,	0 },
+
+			{ "BILLBOARDPOSITION",	0, DXGI_FORMAT_R32G32B32_FLOAT,		1, 0,								D3D12_INPUT_CLASSIFICATION_PER_INSTANCE_DATA,	1 },
+			{ "BILLBOARDANGLE",		0, DXGI_FORMAT_R32_FLOAT,			1, 12,								D3D12_INPUT_CLASSIFICATION_PER_INSTANCE_DATA,	1 },
+			{ "BILLBOARDSCALE",		0, DXGI_FORMAT_R32G32_FLOAT,		1, 16,								D3D12_INPUT_CLASSIFICATION_PER_INSTANCE_DATA,	1 },
+			{ "UVOFFSET",			0, DXGI_FORMAT_R32G32_FLOAT,		1, 24,								D3D12_INPUT_CLASSIFICATION_PER_INSTANCE_DATA,	1 },
+			{ "UVMULRATE",			0, DXGI_FORMAT_R32G32_FLOAT,		1, 32,								D3D12_INPUT_CLASSIFICATION_PER_INSTANCE_DATA,	1 },
+			{ "TEXTURESIZE",		0, DXGI_FORMAT_R32G32_FLOAT,		1, 40,								D3D12_INPUT_CLASSIFICATION_PER_INSTANCE_DATA,	1 },
+			{ "TEXTURECENTERRATE",	0, DXGI_FORMAT_R32G32_FLOAT,		1, 48,								D3D12_INPUT_CLASSIFICATION_PER_INSTANCE_DATA,	1 },
+			{ "PAD",				0, DXGI_FORMAT_R32G32_FLOAT,		1, 56,								D3D12_INPUT_CLASSIFICATION_PER_INSTANCE_DATA,	1 },
+			{ "BLENDRATE",			0, DXGI_FORMAT_R32G32B32A32_FLOAT,	1, 64,								D3D12_INPUT_CLASSIFICATION_PER_INSTANCE_DATA,	1 },
 		};
 		initParam.primitiveTopology					= D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
 		initParam.renderTargetFormatArray			= { DXGI_FORMAT_R8G8B8A8_UNORM };

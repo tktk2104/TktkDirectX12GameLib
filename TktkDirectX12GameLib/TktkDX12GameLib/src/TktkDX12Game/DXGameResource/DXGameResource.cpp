@@ -182,79 +182,124 @@ namespace tktk
 		return m_dxGameShaderResouse->createBillboardMaterial(initParam);
 	}
 
+	const tktkMath::Vector2& DXGameResource::getBillboardTextureSize(size_t handle) const
+	{
+		return m_dxGameShaderResouse->getBillboardTextureSize(handle);
+	}
+
+	void DXGameResource::clearBillboardInstanceParam(size_t handle)
+	{
+		m_dxGameShaderResouse->clearBillboardInstanceParam(handle);
+	}
+
+	void DXGameResource::addBillboardInstanceVertParam(size_t handle, const BillboardMaterialInstanceVertData& instanceParam)
+	{
+		m_dxGameShaderResouse->addBillboardInstanceVertParam(handle, instanceParam);
+	}
+
 	void DXGameResource::drawBillboard(size_t handle, const BillboardDrawFuncBaseArgs& drawFuncArgs) const
 	{
 		m_dxGameShaderResouse->drawBillboard(handle, drawFuncArgs);
 	}
 
-	void DXGameResource::updateBillboardCbuffer(size_t handle, size_t copyBufferHandle, const BillboardCbufferUpdateFuncArgs& updateArgs) const
+	void DXGameResource::createSystemMesh()
 	{
-		m_dxGameShaderResouse->updateBillboardCbuffer(handle, copyBufferHandle, updateArgs);
+		m_dxGameShaderResouse->createSystemMesh();
 	}
 
-	void DXGameResource::updateBillboardCbufferUseClippingParam(size_t handle, size_t copyBufferHandle, const BillboardCbufferUpdateFuncArgs& updateArgs, const BillboardClippingParam& clippingParam) const
+	size_t DXGameResource::createMesh(const MeshInitParam& initParam)
 	{
-		m_dxGameShaderResouse->updateBillboardCbufferUseClippingParam(handle, copyBufferHandle, updateArgs, clippingParam);
+		return m_dxGameShaderResouse->createMesh(initParam);
 	}
 
-	size_t DXGameResource::createBasicMesh(const MeshInitParam& initParam)
+	size_t DXGameResource::copyMesh(size_t originalHandle)
 	{
-		return m_dxGameShaderResouse->createBasicMesh(initParam);
+		return m_dxGameShaderResouse->copyMesh(originalHandle);
 	}
 
-	size_t DXGameResource::copyBasicMesh(size_t originalHandle)
+	size_t DXGameResource::createMeshMaterial(const MeshMaterialInitParam& initParam)
 	{
-		return m_dxGameShaderResouse->copyBasicMesh(originalHandle);
+		return m_dxGameShaderResouse->createMeshMaterial(initParam);
 	}
 
-	size_t DXGameResource::createBasicMeshMaterial(const MeshMaterialInitParam& initParam)
+	size_t DXGameResource::copyMeshMaterial(size_t originalHandle)
 	{
-		return m_dxGameShaderResouse->createBasicMeshMaterial(initParam);
+		return m_dxGameShaderResouse->copyMeshMaterial(originalHandle);
 	}
 
-	size_t DXGameResource::copyBasicMeshMaterial(size_t originalHandle)
+	size_t DXGameResource::makeBoxMesh(size_t albedoMapTextureHandle, const MeshDrawFuncRunnerInitParam& funcRunnerInitParam)
 	{
-		return m_dxGameShaderResouse->copyBasicMeshMaterial(originalHandle);
+		return m_dxGameShaderResouse->makeBoxMesh(albedoMapTextureHandle, funcRunnerInitParam);
 	}
 
-	void DXGameResource::setMaterialHandle(size_t meshHandle, size_t materialSlot, size_t materialHandle)
+	size_t DXGameResource::makeSkyBoxMesh(size_t skyBoxTextureHandle, const MeshDrawFuncRunnerInitParam& funcRunnerInitParam)
 	{
-		m_dxGameShaderResouse->setMaterialHandle(meshHandle, materialSlot, materialHandle);
+		return m_dxGameShaderResouse->makeSkyBoxMesh(skyBoxTextureHandle, funcRunnerInitParam);
 	}
 
-	void DXGameResource::writeBasicMeshShadowMap(size_t handle) const
+	MeshLoadPmdReturnValue DXGameResource::loadPmd(const MeshLoadPmdArgs& args, const MeshDrawFuncRunnerInitParam& funcRunnerInitParam)
 	{
-		m_dxGameShaderResouse->writeBasicMeshShadowMap(handle);
+		return m_dxGameShaderResouse->loadPmd(args, funcRunnerInitParam);
 	}
 
-	void DXGameResource::setMaterialData(size_t handle) const
+	MeshLoadPmxReturnValue DXGameResource::loadPmx(const MeshLoadPmxArgs& args, const MeshDrawFuncRunnerInitParam& funcRunnerInitParam)
 	{
-		m_dxGameShaderResouse->setMaterialData(handle);
+		return m_dxGameShaderResouse->loadPmx(args, funcRunnerInitParam);
 	}
 
-	void DXGameResource::addMaterialAppendParam(size_t handle, const MeshMaterialAppendParamInitParam& initParam)
+	void DXGameResource::setMeshMaterialHandle(size_t meshHandle, size_t materialSlot, size_t materialHandle)
 	{
-		m_dxGameShaderResouse->addMaterialAppendParam(handle, initParam);
+		m_dxGameShaderResouse->setMeshMaterialHandle(meshHandle, materialSlot, materialHandle);
 	}
 
-	void DXGameResource::updateMaterialAppendParam(size_t handle, const MeshMaterialAppendParamUpdateFuncArgs& updateFuncArgs)
+	void DXGameResource::setMeshMaterialData(size_t handle) const
 	{
-		m_dxGameShaderResouse->updateMaterialAppendParam(handle, updateFuncArgs);
+		m_dxGameShaderResouse->setMeshMaterialData(handle);
 	}
 
-	void DXGameResource::drawBasicMesh(size_t handle, const MeshDrawFuncBaseArgs& baseArgs) const
+	void DXGameResource::addMeshMaterialAppendParam(size_t handle, const MeshMaterialAppendParamInitParam& initParam)
 	{
-		m_dxGameShaderResouse->drawBasicMesh(handle, baseArgs);
+		m_dxGameShaderResouse->addMeshMaterialAppendParam(handle, initParam);
 	}
 
-	MeshLoadPmdReturnValue DXGameResource::loadPmd(const MeshLoadPmdArgs& args)
+	void DXGameResource::updateMeshMaterialAppendParam(size_t handle, const MeshMaterialAppendParamUpdateFuncArgs& updateFuncArgs)
 	{
-		return m_dxGameShaderResouse->loadPmd(args);
+		m_dxGameShaderResouse->updateMeshMaterialAppendParam(handle, updateFuncArgs);
 	}
 
-	MeshLoadPmxReturnValue DXGameResource::loadPmx(const MeshLoadPmxArgs& args)
+	void DXGameResource::clearMeshInstanceParam(size_t handle)
 	{
-		return m_dxGameShaderResouse->loadPmx(args);
+		m_dxGameShaderResouse->clearMeshInstanceParam(handle);
+	}
+
+	void DXGameResource::addMeshInstanceVertParam(size_t handle, const CopySourceDataCarrier& instanceParam)
+	{
+		m_dxGameShaderResouse->addMeshInstanceVertParam(handle, instanceParam);
+	}
+
+	void DXGameResource::addMeshInstanceBoneMatrix(size_t meshHandle, size_t skeletonHandle)
+	{
+		m_dxGameShaderResouse->addMeshInstanceBoneMatrix(meshHandle, skeletonHandle);
+	}
+
+	void DXGameResource::writeMeshShadowMap(size_t handle) const
+	{
+		m_dxGameShaderResouse->writeMeshShadowMap(handle);
+	}
+
+	void DXGameResource::writeMeshShadowMapUseBone(size_t handle) const
+	{
+		m_dxGameShaderResouse->writeMeshShadowMapUseBone(handle);
+	}
+
+	void DXGameResource::drawMesh(size_t handle, const MeshDrawFuncBaseArgs& baseArgs) const
+	{
+		m_dxGameShaderResouse->drawMesh(handle, baseArgs);
+	}
+
+	void DXGameResource::drawMeshUseBone(size_t handle, const MeshDrawFuncBaseArgs& baseArgs) const
+	{
+		m_dxGameShaderResouse->drawMeshUseBone(handle, baseArgs);
 	}
 
 	size_t DXGameResource::createSkeleton(const SkeletonInitParam& initParam)

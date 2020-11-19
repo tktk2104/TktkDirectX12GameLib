@@ -24,17 +24,12 @@
 #include "3D/Camera/OrthographicCameraControllerMaker.h"
 #include "3D/Camera/FirstPersonModuleMaker.h"
 #include "3D/BillboardDrawer/BillboardDrawerMaker.h"
-#include "3D/BillboardDrawer/BillboardClippingDrawerMaker.h"
-#include "3D/MeshDrawer/BasicMeshDrawerMaker.h"
-#include "3D/MeshDrawer/SphereMeshDrawerMaker.h"
-#include "3D/MeshDrawer/SphereMeshWireFrameDrawerMaker.h"
-#include "3D/MeshDrawer/BoxMeshDrawerMaker.h"
-#include "3D/MeshDrawer/BoxMeshWireFrameDrawerMaker.h"
+#include "3D/MeshDrawer/MeshDrawerMaker.h"
+#include "3D/MeshDrawer/MonoColorMeshDrawerMaker.h"
 #include "3D/MeshAnimator/MeshAnimatorMaker.h"
 #include "3D/MeshAnimator/MotionChangerMaker.h"
-#include "3D/ShadowMapWriter/BasicMeshShadowMapWriterMaker.h"
-#include "3D/ShadowMapWriter/SphereMeshShadowMapWriterMaker.h"
-#include "3D/ShadowMapWriter/BoxMeshShadowMapWriterMaker.h"
+#include "3D/Effects/BillboardShrinkEffect/BillboardShrinkEffectCreatorMaker.h"
+#include "3D/Effects/BillboardSpreadEffect/BillboardSpreadEffectCreatorMaker.h"
 
 #include "Other/ReceiveMessageToSelfDestroyer/ReceiveMessageToSelfDestroyerMaker.h"
 #include "Other/Sound/SoundPlayerMaker.h"
@@ -120,38 +115,23 @@ namespace tktk
 		// ビルボード描画コンポーネント
 		using C40 = BillboardDrawer;
 
-		// ビルボード切り抜き描画コンポーネント
-		using C41 = FirstPersonModule;
-
 		// メッシュの描画コンポーネント
-		using C42 = BasicMeshDrawer;
+		using C41 = MeshDrawer;
 
-		// 球体メッシュの描画コンポーネント
-		using C43 = SphereMeshDrawer;
-
-		// 球体メッシュワイヤーフレームの描画コンポーネント
-		using C44 = SphereMeshWireFrameDrawer;
-
-		// 立方体メッシュの描画コンポーネント
-		using C45 = BoxMeshDrawer;
-
-		// 立方体メッシュワイヤーフレームの描画コンポーネント
-		using C46 = BoxMeshWireFrameDrawer;
+		// 単色メッシュの描画コンポーネント
+		using C42 = MonoColorMeshDrawer;
 
 		// メッシュのアニメーションコンポーネント
-		using C47 = MeshAnimator;
+		using C43 = MeshAnimator;
 
 		// モーション変更コンポーネント
-		using C48 = MotionChanger;
+		using C44 = MotionChanger;
 
-		// メッシュのシャドウマップ描画コンポーネント
-		using C49 = BasicMeshShadowMapWriter;
+		// 収縮するビルボードエフェクトコンポーネント
+		using C45 = BillboardShrinkEffectCreator;
 
-		// 球体メッシュのシャドウマップ描画コンポーネント
-		using C50 = SphereMeshShadowMapWriter;
-
-		// 立方体メッシュのシャドウマップ描画コンポーネント
-		using C51 = BoxMeshShadowMapWriter;
+		// 拡散するビルボードエフェクトコンポーネント
+		using C46 = BillboardSpreadEffectCreator;
 	//>
 
 

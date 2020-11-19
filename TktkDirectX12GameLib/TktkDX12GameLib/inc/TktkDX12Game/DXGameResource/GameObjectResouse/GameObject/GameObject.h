@@ -183,8 +183,14 @@ namespace tktk
 		// ステートを有効にする
 		void stateEnable(StateTypeCarrier stateType);
 
+		// 複数のステートを有効にする
+		void statesEnable(const StateTypeList& stateList);
+
 		// ステートを無効にする
 		void stateDisable(StateTypeCarrier stateType);
+
+		// 複数のステートを無効にする
+		void statesDisable(const StateTypeList& stateList);
 
 		// 全てのステートを無効にする
 		void clearState();

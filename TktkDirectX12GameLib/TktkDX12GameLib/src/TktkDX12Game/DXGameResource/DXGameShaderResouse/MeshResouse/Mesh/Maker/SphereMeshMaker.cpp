@@ -6,6 +6,7 @@
 #include <TktkMath/Structs/Vector3.h>
 #include "TktkDX12Game/_MainManager/DX12GameManager.h"
 #include "TktkDX12Game/DXGameResource/DXGameShaderResouse/MeshResouse/Mesh/Structs/Subset.h"
+#include "TktkDX12Game/DXGameResource/DXGameShaderResouse/MeshResouse/Mesh/Structs/MonoColorInstanceVertData.h"
 #include "TktkDX12Game/DXGameResource/DXGameShaderResouse/MeshResouse/MeshMaterial/Structs/MonoColorMeshCbuffer.h"
 
 namespace tktk
@@ -21,15 +22,14 @@ namespace tktk
 		tktkMath::Vector3	binormal;
 	};
 
-	void SphereMeshMaker::make()
+	SphereMeshMaker::SphereMeshMaker()
 	{
 		size_t uMax = 24;
 		size_t vMax = 12;
 
+		// 頂点情報
 		std::vector<VertexData> vertices;
-
 		vertices.resize(uMax * (vMax + 1));
-		
 		for (size_t v = 0U; v <= vMax; v++)
 		{
 			for (size_t u = 0U; u < uMax; u++)
@@ -40,7 +40,7 @@ namespace tktk
 				float y = tktkMath::MathHelper::cos(180.0f * v / vMax);
 				float z = tktkMath::MathHelper::sin(180.0f * v / vMax) * tktkMath::MathHelper::sin(360.0f * u / uMax);
 
-				tempVertexData.point = tktkMath::Vector3(x, y, z);
+				tempVertexData.point = tktkMath::Vector3(x, y, z) / 2.0f;
 				tempVertexData.normal = tktkMath::Vector3::normalize(tempVertexData.point);
 
 				// TODO : 使用可能なUVになっているかチェックする
@@ -68,9 +68,9 @@ namespace tktk
 
 		size_t i = 0U;
 
+		// インデックス情報
 		std::vector<unsigned short> indices;
 		indices.resize(2 * vMax * (uMax + 1));
-
 		for (size_t v = 0; v < vMax; v++)
 		{
 			for (size_t u = 0; u <= uMax; u++)
@@ -97,91 +97,99 @@ namespace tktk
 
 		// インデックスバッファを作る
 		DX12GameManager::setSystemHandle(SystemIndexBufferType::Sphere, DX12GameManager::createIndexBuffer(indices));
+	}
+
+	// デストラクタを非インライン化する
+	SphereMeshMaker::~SphereMeshMaker() = default;
+
+	size_t SphereMeshMaker::makeSphereMeshWireFrame(const MeshDrawFuncRunnerInitParam& funcRunnerInitParam)
+	{
+		// マテリアルの作成に必要な情報
+		MeshMaterialInitParam materialParam{};
+
+		// 単色シンプルメッシュワイヤーフレームパイプラインステートを取得する
+		materialParam.usePipeLineStateHandle = DX12GameManager::getSystemHandle(SystemPipeLineStateType::MonoColorSimpleMeshWireFrame);
+
+		// ディスクリプタヒープを作る
+		{
+			BasicDescriptorHeapInitParam descriptorHeapInitParam{};
+			descriptorHeapInitParam.shaderVisible = true;
+			descriptorHeapInitParam.descriptorTableParamArray.resize(1U);
+
+			{ /* 頂点シェーダー用のコンスタントバッファービューのディスクリプタの情報 */
+				auto& cbufferViewDescriptorParam = descriptorHeapInitParam.descriptorTableParamArray.at(0U);
+				cbufferViewDescriptorParam.type = BasicDescriptorType::constantBuffer;
+
+				// カメラの１種類
+				cbufferViewDescriptorParam.descriptorParamArray = {
+					{ BufferType::constant,		DX12GameManager::getSystemHandle(SystemCBufferType::Camera)		}
+				};
+			}
+			materialParam.useDescriptorHeapHandle = DX12GameManager::createBasicDescriptorHeap(descriptorHeapInitParam);
+		}
+
+		// 単色のシンプル球体メッシュワイヤーフレームのマテリアルを作る
+		size_t sphereMeshMaterialhandle = DX12GameManager::createMeshMaterial(materialParam);
+
+		// システムハンドルと結びつける
+		DX12GameManager::setSystemHandle(SystemMeshMaterialType::SphereWireFrame, sphereMeshMaterialhandle);
+
+		// 球体メッシュの作成に必要な情報
+		MeshInitParam meshInitParam{};
+		meshInitParam.useVertexBufferHandle	= DX12GameManager::getSystemHandle(SystemVertexBufferType::Sphere);
+		meshInitParam.useIndexBufferHandle	= DX12GameManager::getSystemHandle(SystemIndexBufferType::Sphere);
+		meshInitParam.indexNum				= IndicesSize;
+		meshInitParam.primitiveTopology		= PrimitiveTopology::TriangleStrip;
+		meshInitParam.instanceVertParam		= std::vector<MonoColorInstanceVertData>(128U);
+		meshInitParam.materialSlots			= { { sphereMeshMaterialhandle, 0, IndicesSize } };
+
+		// 単色のシンプル球体メッシュワイヤーフレームを作り、そのハンドルを返す
+		return DX12GameManager::createMesh(meshInitParam, funcRunnerInitParam);
+	}
+
+	size_t SphereMeshMaker::makeMonoColorSphereMesh(const MeshDrawFuncRunnerInitParam& funcRunnerInitParam)
+	{
+		// マテリアルの作成に必要な情報
+		MeshMaterialInitParam materialParam{};
+
+		// 単色のパイプラインステートを使う
+		materialParam.usePipeLineStateHandle = DX12GameManager::getSystemHandle(SystemPipeLineStateType::MonoColorSkinningMesh);
+
+		// ディスクリプタヒープを作る
+		{
+			BasicDescriptorHeapInitParam descriptorHeapInitParam{};
+			descriptorHeapInitParam.shaderVisible = true;
+			descriptorHeapInitParam.descriptorTableParamArray.resize(1U);
+
+			{ /* 頂点シェーダー用のコンスタントバッファービューのディスクリプタの情報 */
+				auto& cbufferViewDescriptorParam = descriptorHeapInitParam.descriptorTableParamArray.at(0U);
+				cbufferViewDescriptorParam.type = BasicDescriptorType::constantBuffer;
+
+				// カメラの１種類
+				cbufferViewDescriptorParam.descriptorParamArray = {
+					{ BufferType::constant,		DX12GameManager::getSystemHandle(SystemCBufferType::Camera)		}
+				};
+			}
+
+			materialParam.useDescriptorHeapHandle = DX12GameManager::createBasicDescriptorHeap(descriptorHeapInitParam);
+		}
+
+		// 単色のシンプル球体メッシュのマテリアルを作る
+		size_t sphereMeshMaterialhandle = DX12GameManager::createMeshMaterial(materialParam);
+
+		// システムハンドルと結びつける
+		DX12GameManager::setSystemHandle(SystemMeshMaterialType::Sphere, sphereMeshMaterialhandle);
 
 		// 球体メッシュの作成に必要な情報
 		MeshInitParam meshInitParam{};
 		meshInitParam.useVertexBufferHandle = DX12GameManager::getSystemHandle(SystemVertexBufferType::Sphere);
 		meshInitParam.useIndexBufferHandle	= DX12GameManager::getSystemHandle(SystemIndexBufferType::Sphere);
-		meshInitParam.indexNum				= indices.size();
-		meshInitParam.primitiveTopology		= MeshPrimitiveTopology::TriangleStrip;
+		meshInitParam.indexNum				= IndicesSize;
+		meshInitParam.primitiveTopology		= PrimitiveTopology::TriangleStrip;
+		meshInitParam.instanceVertParam		= std::vector<MonoColorInstanceVertData>(128U);
+		meshInitParam.materialSlots			= { { sphereMeshMaterialhandle, 0, IndicesSize } };
 
-		{
-			// マテリアルの作成に必要な情報
-			MeshMaterialInitParam materialParam{};
-
-			// 単色のパイプラインステートを使う
-			materialParam.usePipeLineStateHandle = DX12GameManager::getSystemHandle(SystemPipeLineStateType::BasicMonoColorMesh);
-
-			materialParam.materialAmbient	= { 0.3f, 1.0f }; // ※マテリアルの環境光の値は定数値を設定する
-			materialParam.materialDiffuse	= tktkMath::Color_v::white;
-			materialParam.materialSpecular	= tktkMath::Color_v::white;
-			materialParam.materialEmissive	= { 0.1f, 1.0f };
-			materialParam.materialShiniess	= 1.0f;
-
-			// ディスクリプタヒープを作る
-			{
-				BasicDescriptorHeapInitParam descriptorHeapInitParam{};
-				descriptorHeapInitParam.shaderVisible = true;
-				descriptorHeapInitParam.descriptorTableParamArray.resize(3U);
-
-				{ /* シェーダーリソースビューのディスクリプタの情報 */
-					auto& srvDescriptorParam = descriptorHeapInitParam.descriptorTableParamArray.at(0U);
-					srvDescriptorParam.type = BasicDescriptorType::textureBuffer;
-
-					// シャドウマップの１種類
-					srvDescriptorParam.descriptorParamArray = {
-						{ BufferType::depthStencil, DX12GameManager::getSystemHandle(SystemDsBufferType::ShadowMap)	}
-					};
-				}
-
-				{ /* 頂点シェーダー用のコンスタントバッファービューのディスクリプタの情報 */
-					auto& cbufferViewDescriptorParam = descriptorHeapInitParam.descriptorTableParamArray.at(1U);
-					cbufferViewDescriptorParam.type = BasicDescriptorType::constantBuffer;
-
-					// 
-					cbufferViewDescriptorParam.descriptorParamArray = {
-						{ BufferType::constant,		DX12GameManager::getSystemHandle(SystemCBufferType::MeshTransform)		},
-						{ BufferType::constant,		DX12GameManager::getSystemHandle(SystemCBufferType::BoneMatCbuffer)		},
-						{ BufferType::constant,		DX12GameManager::getSystemHandle(SystemCBufferType::LightManager)				},
-						{ BufferType::constant,		DX12GameManager::getSystemHandle(SystemCBufferType::BasicMeshMaterial)	},
-						{ BufferType::constant,		DX12GameManager::getSystemHandle(SystemCBufferType::MeshShadowMap)		}
-					};
-				}
-
-				{ /* ピクセルシェーダー用のコンスタントバッファービューのディスクリプタの情報 */
-					auto& cbufferViewDescriptorParam = descriptorHeapInitParam.descriptorTableParamArray.at(2U);
-					cbufferViewDescriptorParam.type = BasicDescriptorType::constantBuffer;
-
-					// 
-					cbufferViewDescriptorParam.descriptorParamArray = {
-						{ BufferType::constant,		DX12GameManager::getSystemHandle(SystemCBufferType::LightManager)		},
-						{ BufferType::constant,		DX12GameManager::getSystemHandle(SystemCBufferType::BasicMeshMaterial)	},
-						{ BufferType::constant,		DX12GameManager::getSystemHandle(SystemCBufferType::BasicMonoColorMeshCbuffer)	}
-					};
-				}
-
-				materialParam.useDescriptorHeapHandle = DX12GameManager::createBasicDescriptorHeap(descriptorHeapInitParam);
-
-				// TODO : 「SystemBasicDescriptorHeapType::Sphere」この値が本当に必要か調べる
-				DX12GameManager::setSystemHandle(SystemBasicDescriptorHeapType::Sphere, materialParam.useDescriptorHeapHandle);
-			}
-
-			// 球体メッシュのマテリアルを作る
-			DX12GameManager::setSystemHandle(SystemBasicMeshMaterialType::Sphere, DX12GameManager::createMeshMaterial(materialParam));
-
-			// 単色ワイヤーフレーム用のパイプラインステートを取得する
-			materialParam.usePipeLineStateHandle = DX12GameManager::getSystemHandle(SystemPipeLineStateType::BasicMonoColorMeshWireFrame);
-
-			// 球体メッシュワイヤーフレームのマテリアルを作る
-			DX12GameManager::setSystemHandle(SystemBasicMeshMaterialType::SphereWireFrame, DX12GameManager::createMeshMaterial(materialParam));
-		}
-
-		// 球体メッシュを作る
-		meshInitParam.materialSlots = { { DX12GameManager::getSystemHandle(SystemBasicMeshMaterialType::Sphere), 0, indices.size() } };
-		DX12GameManager::setSystemHandle(SystemBasicMeshType::Sphere, DX12GameManager::createMesh(meshInitParam));
-
-		// 球体メッシュワイヤーフレームを作る
-		meshInitParam.materialSlots = { { DX12GameManager::getSystemHandle(SystemBasicMeshMaterialType::SphereWireFrame), 0, indices.size() } };
-		DX12GameManager::setSystemHandle(SystemBasicMeshType::SphereWireFrame, DX12GameManager::createMesh(meshInitParam));
+		// 単色のシンプル球体メッシュを作り、そのハンドルを返す
+		return DX12GameManager::createMesh(meshInitParam, funcRunnerInitParam);
 	}
 }

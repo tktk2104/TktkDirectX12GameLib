@@ -4,7 +4,7 @@
 namespace tktk
 {
 	// システムで使用している通常のメッシュマテリアルの種類
-	enum class SystemBasicMeshMaterialType
+	enum class SystemMeshMaterialType
 	{
 		Sphere,
 		Box,

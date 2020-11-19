@@ -54,18 +54,6 @@
     <ClInclude Include="inc\TktkDX12BaseComponents\3D\MeshAnimator\MeshAnimatorMaker.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="inc\TktkDX12BaseComponents\3D\MeshDrawer\BasicMeshDrawer.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\TktkDX12BaseComponents\3D\MeshDrawer\BasicMeshDrawerMaker.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\TktkDX12BaseComponents\3D\ShadowMapWriter\BasicMeshShadowMapWriter.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\TktkDX12BaseComponents\3D\ShadowMapWriter\BasicMeshShadowMapWriterMaker.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="inc\TktkDX12BaseComponents\3D\Transform3D\Transform3D.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -159,12 +147,6 @@
     <ClInclude Include="inc\TktkDX12BaseComponents\2D\Line2dDrawer\Line2DDrawerMaker.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="inc\TktkDX12BaseComponents\3D\MeshDrawer\SphereMeshDrawer.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\TktkDX12BaseComponents\3D\MeshDrawer\SphereMeshDrawerMaker.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="inc\TktkDX12BaseComponents\2D\ColliderWireFrameDrawer2D\ColliderWireFrameDrawer2D.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -174,12 +156,6 @@
     <ClInclude Include="inc\TktkDX12BaseComponents\Components.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="inc\TktkDX12BaseComponents\3D\MeshDrawer\SphereMeshWireFrameDrawer.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\TktkDX12BaseComponents\3D\MeshDrawer\SphereMeshWireFrameDrawerMaker.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="inc\TktkDX12BaseComponents\3D\ColliderWireFrameDrawer3D\ColliderWireFrameDrawer3D.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -187,18 +163,6 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="inc\TktkDX12Game\TktkDX12Game.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\TktkDX12BaseComponents\3D\MeshDrawer\BasicMeshDrawerUseResourceHandles.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\TktkDX12BaseComponents\3D\MeshDrawer\SphereMeshDrawerUseResourceHandles.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\TktkDX12BaseComponents\3D\ShadowMapWriter\SphereMeshShadowMapWriter.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\TktkDX12BaseComponents\3D\ShadowMapWriter\SphereMeshShadowMapWriterMaker.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="inc\TktkDX12BaseComponents\3D\Light\DirectionalLightController.h">
@@ -219,37 +183,10 @@
     <ClInclude Include="inc\TktkDX12BaseComponents\3D\BillboardDrawer\BillboardDrawerMaker.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="inc\TktkDX12BaseComponents\3D\BillboardDrawer\BillboardClippingDrawer.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\TktkDX12BaseComponents\3D\BillboardDrawer\BillboardClippingDrawerMaker.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="inc\TktkDX12BaseComponents\3D\BoxCollider\BoxCollider.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="inc\TktkDX12BaseComponents\3D\BoxCollider\BoxColliderMaker.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\TktkDX12BaseComponents\3D\MeshDrawer\BoxMeshDrawer.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\TktkDX12BaseComponents\3D\MeshDrawer\BoxMeshDrawerMaker.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\TktkDX12BaseComponents\3D\MeshDrawer\BoxMeshDrawerUseResourceHandles.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\TktkDX12BaseComponents\3D\MeshDrawer\BoxMeshWireFrameDrawer.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\TktkDX12BaseComponents\3D\MeshDrawer\BoxMeshWireFrameDrawerMaker.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\TktkDX12BaseComponents\3D\ShadowMapWriter\BoxMeshShadowMapWriter.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\TktkDX12BaseComponents\3D\ShadowMapWriter\BoxMeshShadowMapWriterMaker.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="inc\TktkDX12BaseComponents\Other\Sound\SoundPlayerMaker.h">
@@ -414,15 +351,6 @@
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\OtherResouse\OtherResouseInitParam.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\Billboard\BillboardCbufferData.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\Billboard\BillboardCbufferUpdateFuncArgs.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\Billboard\BillboardClippingParam.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\Billboard\BillboardDrawFuncBaseArgs.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -537,25 +465,16 @@
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\MeshResouse\MeshMaterial\MeshMaterialData.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\MeshResouse\Mesh\Structs\MeshPrimitiveTopology.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\MeshResouse\Mesh\Structs\MeshInitParam.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\MeshResouse\Mesh\Structs\MeshDrawFuncBaseArgs.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\MeshResouse\Mesh\Structs\MeshTransformCbuffer.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\MeshResouse\Mesh\Structs\MeshShadowMapCBuffer.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\MeshResouse\Mesh\MeshManager.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\MeshResouse\Mesh\Structs\MeshManagerInitParam.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\MeshResouse\MeshMaterial\Structs\MeshMaterialCbuffer.h">
@@ -571,9 +490,6 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\MeshResouse\MeshMaterial\MeshMaterialManager.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\MeshResouse\MeshMaterial\Structs\MeshMaterialManagerInitParam.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\MeshResouse\MeshMaterial\Structs\MonoColorMeshCbuffer.h">
@@ -738,6 +654,75 @@
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\Draw3DParameters\Light\LightManager.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="inc\TktkDX12Game\GraphicManager\Window\Window.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\TktkDX12Game\GraphicManager\Window\WindowInitParam.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\MeshResouse\Mesh\Structs\CameraCbuffer.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\MeshResouse\Structs\DrawMeshShaderFilePaths.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\TktkDX12BaseComponents\3D\MeshDrawer\MeshDrawer.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\TktkDX12BaseComponents\3D\MeshDrawer\MeshDrawerMaker.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\TktkDX12BaseComponents\3D\MeshDrawer\MeshDrawFuncRunner.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\TktkDX12BaseComponents\3D\MeshDrawer\MeshDrawFuncRunnerInitParam.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\TktkDX12BaseComponents\3D\ShadowMapWriter\WriteMeshShadowMapFuncRunner.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\MeshResouse\Mesh\Structs\MonoColorInstanceVertData.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\TktkDX12BaseComponents\3D\MeshDrawer\MonoColorMeshDrawer.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\TktkDX12BaseComponents\3D\MeshDrawer\MonoColorMeshDrawerMaker.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\Billboard\BillboardMaterialInstanceVertData.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\TktkDX12BaseComponents\3D\BillboardDrawer\BillboardDrawFuncRunner.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\TktkDX12BaseComponents\3D\BillboardDrawer\BillboardDrawFuncRunnerInitParam.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\TktkDX12BaseComponents\3D\Effects\BillboardSpreadEffect\BillboardSpreadEffectCreator.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\TktkDX12BaseComponents\3D\Effects\BillboardSpreadEffect\BillboardSpreadEffectParam.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\TktkDX12BaseComponents\3D\Effects\BillboardSpreadEffect\Particle\BillboardSpreadEffectParticle.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\TktkDX12BaseComponents\3D\Effects\BillboardSpreadEffect\BillboardSpreadEffectCreatorMaker.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\TktkDX12BaseComponents\3D\Effects\BillboardShrinkEffect\Particle\BillboardShrinkEffectParticle.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\TktkDX12BaseComponents\3D\Effects\BillboardShrinkEffect\BillboardShrinkEffectParam.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\TktkDX12BaseComponents\3D\Effects\BillboardShrinkEffect\BillboardShrinkEffectCreator.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\TktkDX12BaseComponents\3D\Effects\BillboardShrinkEffect\BillboardShrinkEffectCreatorMaker.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\TktkDX12Game\_MainManager\DX12GameManager.cpp">
@@ -768,18 +753,6 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="src\TktkDX12BaseComponents\3D\MeshAnimator\MeshAnimatorMaker.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\TktkDX12BaseComponents\3D\MeshDrawer\BasicMeshDrawer.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\TktkDX12BaseComponents\3D\MeshDrawer\BasicMeshDrawerMaker.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\TktkDX12BaseComponents\3D\ShadowMapWriter\BasicMeshShadowMapWriter.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\TktkDX12BaseComponents\3D\ShadowMapWriter\BasicMeshShadowMapWriterMaker.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="src\TktkDX12BaseComponents\3D\Transform3D\Transform3D.cpp">
@@ -875,22 +848,10 @@
     <ClCompile Include="src\TktkDX12BaseComponents\2D\Line2dDrawer\Line2DDrawerMaker.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="src\TktkDX12BaseComponents\3D\MeshDrawer\SphereMeshDrawer.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\TktkDX12BaseComponents\3D\MeshDrawer\SphereMeshDrawerMaker.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="src\TktkDX12BaseComponents\2D\ColliderWireFrameDrawer2D\ColliderWireFrameDrawer2D.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="src\TktkDX12BaseComponents\2D\ColliderWireFrameDrawer2D\ColliderWireFrameDrawer2DMaker.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\TktkDX12BaseComponents\3D\MeshDrawer\SphereMeshWireFrameDrawer.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\TktkDX12BaseComponents\3D\MeshDrawer\SphereMeshWireFrameDrawerMaker.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="src\TktkDX12BaseComponents\3D\ColliderWireFrameDrawer3D\ColliderWireFrameDrawer3D.cpp">
@@ -900,12 +861,6 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="src\TktkDX12Game\TktkDX12Game.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\TktkDX12BaseComponents\3D\ShadowMapWriter\SphereMeshShadowMapWriter.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\TktkDX12BaseComponents\3D\ShadowMapWriter\SphereMeshShadowMapWriterMaker.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="src\TktkDX12BaseComponents\3D\Light\DirectionalLightController.cpp">
@@ -924,30 +879,6 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="src\TktkDX12BaseComponents\3D\BillboardDrawer\BillboardDrawerMaker.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\TktkDX12BaseComponents\3D\BillboardDrawer\BillboardClippingDrawer.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\TktkDX12BaseComponents\3D\BillboardDrawer\BillboardClippingDrawerMaker.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\TktkDX12BaseComponents\3D\MeshDrawer\BoxMeshDrawer.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\TktkDX12BaseComponents\3D\MeshDrawer\BoxMeshDrawerMaker.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\TktkDX12BaseComponents\3D\MeshDrawer\BoxMeshWireFrameDrawer.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\TktkDX12BaseComponents\3D\MeshDrawer\BoxMeshWireFrameDrawerMaker.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\TktkDX12BaseComponents\3D\ShadowMapWriter\BoxMeshShadowMapWriter.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\TktkDX12BaseComponents\3D\ShadowMapWriter\BoxMeshShadowMapWriterMaker.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="src\TktkDX12BaseComponents\Other\Sound\SoundPlayerMaker.cpp">
@@ -1175,19 +1106,71 @@
     <ClCompile Include="src\TktkDX12Game\DXGameResource\Draw3DParameters\Light\LightManager.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="src\TktkDX12Game\GraphicManager\Window\Window.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TktkDX12BaseComponents\3D\MeshDrawer\MeshDrawer.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TktkDX12BaseComponents\3D\MeshDrawer\MeshDrawerMaker.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TktkDX12BaseComponents\3D\MeshDrawer\MeshDrawFuncRunner.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TktkDX12BaseComponents\3D\MeshDrawer\MeshDrawFuncRunnerInitParam.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TktkDX12BaseComponents\3D\ShadowMapWriter\WriteMeshShadowMapFuncRunner.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TktkDX12BaseComponents\3D\MeshDrawer\MonoColorMeshDrawer.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TktkDX12BaseComponents\3D\MeshDrawer\MonoColorMeshDrawerMaker.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TktkDX12BaseComponents\3D\BillboardDrawer\BillboardDrawFuncRunner.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TktkDX12BaseComponents\3D\BillboardDrawer\BillboardDrawFuncRunnerInitParam.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TktkDX12BaseComponents\3D\Effects\BillboardSpreadEffect\BillboardSpreadEffectCreator.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TktkDX12BaseComponents\3D\Effects\BillboardSpreadEffect\Particle\BillboardSpreadEffectParticle.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TktkDX12BaseComponents\3D\Effects\BillboardSpreadEffect\BillboardSpreadEffectCreatorMaker.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TktkDX12BaseComponents\3D\Effects\BillboardShrinkEffect\Particle\BillboardShrinkEffectParticle.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TktkDX12BaseComponents\3D\Effects\BillboardShrinkEffect\BillboardShrinkEffectCreator.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TktkDX12BaseComponents\3D\Effects\BillboardShrinkEffect\BillboardShrinkEffectCreatorMaker.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="shader\spriteShader\SpritePixelShader.hlsl" />
     <FxCompile Include="shader\spriteShader\SpriteVertexShader.hlsl" />
-    <FxCompile Include="shader\basicMeshShader\BasicMeshPixelShader.hlsl" />
-    <FxCompile Include="shader\basicMeshShader\BasicMeshVertexShader.hlsl" />
     <FxCompile Include="shader\postEffectShader\monochromeShader\MonochromePixelShader.hlsl" />
     <FxCompile Include="shader\postEffectShader\PostEffectVertexShader.hlsl" />
-    <FxCompile Include="shader\shadowMapShader\BasicMeshShadowVertexShader.hlsl" />
     <FxCompile Include="shader\line2DShader\Line2DPixelShader.hlsl" />
     <FxCompile Include="shader\line2DShader\Line2DVertexShader.hlsl" />
-    <FxCompile Include="shader\basicMeshShader\BasicMonoColorMeshPixelShader.hlsl" />
     <FxCompile Include="shader\billboardShader\BillboardPixelShader.hlsl" />
     <FxCompile Include="shader\billboardShader\BillboardVertexShader.hlsl" />
+    <FxCompile Include="shader\shadowMapShader\SkinningMeshShadowMapVertexShader.hlsl" />
+    <FxCompile Include="shader\basicMeshShader\SkinningMeshVertexShader.hlsl" />
+    <FxCompile Include="shader\basicMeshShader\SimpleMeshVertexShader.hlsl" />
+    <FxCompile Include="shader\shadowMapShader\SimpleMeshShadowMapVertexShader.hlsl" />
+    <FxCompile Include="shader\basicMeshShader\BasicMeshPixelShader.hlsl" />
+    <FxCompile Include="shader\monoColorMeshShader\MonoColorSimpleMeshVertexShader.hlsl" />
+    <FxCompile Include="shader\monoColorMeshShader\MonoColorSkinningMeshVertexShader.hlsl" />
+    <FxCompile Include="shader\monoColorMeshShader\MonoColorMeshPixelShader.hlsl" />
   </ItemGroup>
 </Project>

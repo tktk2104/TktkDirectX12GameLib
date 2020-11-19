@@ -111,6 +111,22 @@ namespace tktk
 		}
 	}
 
+	std::array<tktkMath::Matrix4, 128U> SkeletonData::getBoneMatrixArray() const
+	{
+		auto result = std::array<tktkMath::Matrix4, 128U>();
+
+		// 骨行列の上限値分ループする
+		for (size_t i = 0; i < 128U; i++)
+		{
+			// 骨行列を最後まで書き込んでいたらループを終了する
+			if (i >= m_boneMatrixArray.size()) break;
+
+			// 骨行列を書き込む
+			result.at(i) = m_boneMatrixArray.at(i);
+		}
+		return result;
+	}
+
 	void SkeletonData::updateBoneMatrixCbuffer(size_t copyBufferHandle) const
 	{
 		// 定数バッファのコピー用バッファを更新する

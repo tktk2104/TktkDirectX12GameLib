@@ -8,8 +8,6 @@ namespace tktk
     SkeletonManager::SkeletonManager(const tktkContainer::ResourceContainerInitParam& initParam)
         : m_skeletonArray(initParam)
     {
-        DX12GameManager::setSystemHandle(SystemCBufferType::BoneMatCbuffer, DX12GameManager::createCBuffer(BoneMatrixCbufferData()));
-    
         BoneMatrixCbufferData boneMatBuf;
 
         // 骨情報の定数バッファを単位行列でクリアする為のアップロードバッファを作りハンドルを取得する
@@ -44,6 +42,11 @@ namespace tktk
     void SkeletonManager::transform(size_t handle, const std::vector<MotionBoneParam>& transformMatrices)
     {
         m_skeletonArray.getMatchHandlePtr(handle)->transform(transformMatrices);
+    }
+
+    std::array<tktkMath::Matrix4, 128U> SkeletonManager::getBoneMatrixArray(size_t handle) const
+    {
+        return  m_skeletonArray.getMatchHandlePtr(handle)->getBoneMatrixArray();
     }
 
     void SkeletonManager::updateBoneMatrixCbuffer(size_t handle, size_t copyBufferHandle) const

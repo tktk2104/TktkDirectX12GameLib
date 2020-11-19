@@ -249,9 +249,25 @@ namespace tktk
 		m_stateTypeList->stateEnable(stateType);
 	}
 
+	void GameObject::statesEnable(const StateTypeList& stateList)
+	{
+		for (const auto& stateType : stateList.list)
+		{
+			m_stateTypeList->stateEnable(stateType);
+		}
+	}
+
 	void GameObject::stateDisable(StateTypeCarrier stateType)
 	{
 		m_stateTypeList->stateDisable(stateType);
+	}
+
+	void GameObject::statesDisable(const StateTypeList& stateList)
+	{
+		for (const auto& stateType : stateList.list)
+		{
+			m_stateTypeList->stateDisable(stateType);
+		}
 	}
 
 	void GameObject::clearState()

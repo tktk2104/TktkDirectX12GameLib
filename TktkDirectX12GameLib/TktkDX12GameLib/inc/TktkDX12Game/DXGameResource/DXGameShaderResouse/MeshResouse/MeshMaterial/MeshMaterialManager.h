@@ -9,10 +9,9 @@
 
 namespace tktk
 {
-	struct MeshMaterialManagerInitParam;
-	struct ShaderFilePaths;
-	struct MeshMaterialInitParam;
 	class MeshMaterialData;
+
+	struct MeshMaterialInitParam;
 	struct MeshMaterialAppendParamInitParam;
 	struct MeshMaterialAppendParamUpdateFuncArgs;
 
@@ -21,7 +20,7 @@ namespace tktk
 	{
 	public:
 
-		MeshMaterialManager(const MeshMaterialManagerInitParam& initParam);
+		explicit MeshMaterialManager(const tktkContainer::ResourceContainerInitParam& initParam);
 		~MeshMaterialManager();
 
 	public:
@@ -40,14 +39,6 @@ namespace tktk
 
 		// 指定の通常メッシュのマテリアルで追加で管理する定数バッファのハンドルと値を更新する
 		void updateAppendParam(size_t handle, const MeshMaterialAppendParamUpdateFuncArgs& updateFuncArgs);
-
-	private:
-
-		// 通常メッシュマテリアル描画用のルートシグネチャを作る
-		void createRootSignature() const;
-
-		// 通常メッシュマテリアル描画用のパイプラインステートを作る
-		void createGraphicsPipeLineState(const ShaderFilePaths& shaderFilePaths, const std::string& monoColorShaderPsFilePath) const;
 
 	private:
 

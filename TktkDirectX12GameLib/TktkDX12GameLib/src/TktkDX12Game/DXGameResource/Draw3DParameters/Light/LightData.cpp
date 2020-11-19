@@ -8,7 +8,7 @@ namespace tktk
 		: m_lightCBuffer({ ambient, diffuse, speqular, position })
 	{
 		// アップロード用バッファを作り、そのハンドルを取得する
-		m_createUploadBufferHandle = DX12GameManager::createUploadBuffer(UploadBufferInitParam::create(BufferType::constant, DX12GameManager::getSystemHandle(SystemCBufferType::LightManager), LightCBuffer()));
+		m_createUploadBufferHandle = DX12GameManager::createUploadBuffer(UploadBufferInitParam::create(BufferType::constant, DX12GameManager::getSystemHandle(SystemCBufferType::Light), LightCBuffer()));
 	}
 
 	LightData::~LightData()

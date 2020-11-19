@@ -3,13 +3,16 @@
 #include <TktkFileIo/lodepmx.h>
 #include "TktkDX12Game/_MainManager/DX12GameManager.h"
 #include "TktkDX12Game/DXGameResource/DXGameShaderResouse/MeshResouse/Mesh/Structs/Subset.h"
+#include "TktkDX12Game/DXGameResource/DXGameShaderResouse/MeshResouse/MeshMaterial/Structs/MeshMaterialCbuffer.h"
+
+#include "TktkDX12BaseComponents/3D/MeshDrawer/MeshDrawFuncRunnerInitParam.h"
 
 namespace tktk
 {
 	// スケルトンを作る
-	inline void craeteSkeleton(int createSkeletonId, const std::vector<tktkFileIo::lodepmx::loadData::OutBone>& boneData);
+	inline size_t craeteSkeleton(int createSkeletonId, const std::vector<tktkFileIo::lodepmx::loadData::OutBone>& boneData);
 
-	MeshLoadPmxReturnValue MeshPmxLoader::loadPmx(const MeshLoadPmxArgs& args)
+	MeshLoadPmxReturnValue MeshPmxLoader::loadPmx(const MeshLoadPmxArgs& args, const MeshDrawFuncRunnerInitParam& funcRunnerInitParam)
 	{
 		// ロードを行う
 		auto outData = tktkFileIo::lodepmx::load(args.filePath);
@@ -23,15 +26,10 @@ namespace tktk
 		// 通常メッシュの作成に必要な情報
 		MeshInitParam meshInitParam{};
 		meshInitParam.useVertexBufferHandle = createdVertexBufferHandle;
-		meshInitParam.useIndexBufferHandle = createdIndexBufferHandle;
-
-#ifdef _M_AMD64 /* x64ビルドなら */
-		meshInitParam.indexNum = static_cast<unsigned int>(outData.indexData.size());
-#else
-		meshInitParam.indexNum = outData.indexData.size();
-#endif // _M_AMD64
-
-		meshInitParam.primitiveTopology = MeshPrimitiveTopology::TriangleList;
+		meshInitParam.useIndexBufferHandle	= createdIndexBufferHandle;
+		meshInitParam.indexNum				= outData.indexData.size();
+		meshInitParam.primitiveTopology		= PrimitiveTopology::TriangleList;
+		meshInitParam.instanceVertParam		= std::vector<tktkMath::Matrix4>(128U);
 		meshInitParam.materialSlots.reserve(outData.materialData.size());
 
 		// 読み込んだテクスチャハンドルの配列
@@ -54,13 +52,7 @@ namespace tktk
 			MeshMaterialInitParam materialParam{};
 
 			// デフォルトのパイプラインステートを使う
-			materialParam.usePipeLineStateHandle = DX12GameManager::getSystemHandle(SystemPipeLineStateType::BasicMesh);
-
-			materialParam.materialAmbient = { 0.3f, 1.0f }; // ※マテリアルの環境光の値は定数値を設定する
-			materialParam.materialDiffuse = outData.materialData.at(i).diffuse;
-			materialParam.materialSpecular = outData.materialData.at(i).speqular;
-			materialParam.materialEmissive = outData.materialData.at(i).emissive;
-			materialParam.materialShiniess = outData.materialData.at(i).shiniess;
+			materialParam.usePipeLineStateHandle = DX12GameManager::getSystemHandle(SystemPipeLineStateType::SkinningMesh);
 
 			// ディスクリプタヒープを作る
 			{
@@ -83,13 +75,12 @@ namespace tktk
 					auto& cbufferViewDescriptorParam = descriptorHeapInitParam.descriptorTableParamArray.at(1U);
 					cbufferViewDescriptorParam.type = BasicDescriptorType::constantBuffer;
 
-					// 
+					// カメラ、ライト、シャドウマップ、ボーン行列の４つ
 					cbufferViewDescriptorParam.descriptorParamArray = {
-						{ BufferType::constant,		DX12GameManager::getSystemHandle(SystemCBufferType::MeshTransform)		},
-						{ BufferType::constant,		DX12GameManager::getSystemHandle(SystemCBufferType::BoneMatCbuffer)		},
-						{ BufferType::constant,		DX12GameManager::getSystemHandle(SystemCBufferType::LightManager)				},
-						{ BufferType::constant,		DX12GameManager::getSystemHandle(SystemCBufferType::BasicMeshMaterial)	},
-						{ BufferType::constant,		DX12GameManager::getSystemHandle(SystemCBufferType::MeshShadowMap)		}
+						{ BufferType::constant,		DX12GameManager::getSystemHandle(SystemCBufferType::Camera)			},
+						{ BufferType::constant,		DX12GameManager::getSystemHandle(SystemCBufferType::Light)			},
+						{ BufferType::constant,		DX12GameManager::getSystemHandle(SystemCBufferType::ShadowMap)		},
+						{ BufferType::constant,		DX12GameManager::getSystemHandle(SystemCBufferType::BoneMatCbuffer)	}
 					};
 				}
 
@@ -99,8 +90,8 @@ namespace tktk
 
 					// 
 					cbufferViewDescriptorParam.descriptorParamArray = {
-						{ BufferType::constant,		DX12GameManager::getSystemHandle(SystemCBufferType::LightManager)		},
-						{ BufferType::constant,		DX12GameManager::getSystemHandle(SystemCBufferType::BasicMeshMaterial)	}
+						{ BufferType::constant,		DX12GameManager::getSystemHandle(SystemCBufferType::Light)		},
+						{ BufferType::constant,		DX12GameManager::getSystemHandle(SystemCBufferType::MeshMaterial)	}
 					};
 				}
 				materialParam.useDescriptorHeapHandle = DX12GameManager::createBasicDescriptorHeap(descriptorHeapInitParam);
@@ -109,23 +100,44 @@ namespace tktk
 			// 通常メッシュのマテリアルを作る
 			size_t meshMaterialHandle = DX12GameManager::createMeshMaterial(materialParam);
 
+			// メッシュマテリアル定数バッファ
+			auto meshMaterialCbufferPtr = std::make_shared<MeshMaterialCbuffer>();
+
+			// “メッシュマテリアル定数バッファ”の値を初期化する
+			meshMaterialCbufferPtr->materialAmbient		= { 0.3f, 1.0f }; // ※マテリアルの環境光の値は定数値を設定する
+			meshMaterialCbufferPtr->materialDiffuse		= outData.materialData.at(i).diffuse;
+			meshMaterialCbufferPtr->materialSpecular	= outData.materialData.at(i).speqular;
+			meshMaterialCbufferPtr->materialEmissive	= outData.materialData.at(i).emissive;
+			meshMaterialCbufferPtr->materialShiniess	= outData.materialData.at(i).shiniess;
+
+			// 作った“メッシュマテリアル定数バッファ”をマテリアルに追加する
+			DX12GameManager::addMeshMaterialAppendParam(
+				meshMaterialHandle,
+				MeshMaterialAppendParamInitParam(DX12GameManager::getSystemHandle(SystemCBufferType::MeshMaterial), meshMaterialCbufferPtr)
+			);
+
 			// 通常メッシュのサブセット情報を更新
 			meshInitParam.materialSlots.push_back({ meshMaterialHandle, curIndex, outData.materialData.at(i).indexCount });
 
 			// 現在のインデックスを加算
 			curIndex += outData.materialData.at(i).indexCount;
 		}
-		DX12GameManager::createMeshAndAttachId(args.createBasicMeshId, meshInitParam);
 
 		// スケルトンを作る
-		craeteSkeleton(args.createSkeletonId, outData.boneData);
+		size_t skeletonHandle = craeteSkeleton(args.createSkeletonId, outData.boneData);
+
+		MeshDrawFuncRunnerInitParam temp = funcRunnerInitParam;
+
+		temp.m_skeletonHandle = skeletonHandle;
+
+		DX12GameManager::createMeshAndAttachId(args.createBasicMeshId, meshInitParam, temp);
 
 		// TODO : 作成したメッシュの情報を返す予定
-		return { };
+		return { skeletonHandle };
 	}
 
 	// スケルトンを作る
-	void craeteSkeleton(int createSkeletonId, const std::vector<tktkFileIo::lodepmx::loadData::OutBone>& boneData)
+	size_t craeteSkeleton(int createSkeletonId, const std::vector<tktkFileIo::lodepmx::loadData::OutBone>& boneData)
 	{
 		// 骨情報の作成に必要な情報
 		SkeletonInitParam skeletonInitParam{};
@@ -137,6 +149,6 @@ namespace tktk
 		}
 
 		// スケルトンを作成する
-		DX12GameManager::createSkeletonAndAttachId(createSkeletonId, skeletonInitParam);
+		return DX12GameManager::createSkeletonAndAttachId(createSkeletonId, skeletonInitParam);
 	}
 }

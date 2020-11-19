@@ -9,10 +9,10 @@ namespace tktk
 	MeshMaterialAppendParam::MeshMaterialAppendParam(const MeshMaterialAppendParamInitParam& initParam)
 		: m_cbufferHandle(initParam.cbufferHandle)
 		, m_dataSize(initParam.dataSize)
-		, m_dataTopPos(initParam.dataTopPos)
+		, m_dataTopPos(initParam.cbufferDataPtr)
 	{
 		// アップロード用バッファを作り、そのハンドルを取得する
-		m_createUploadBufferHandle = DX12GameManager::createUploadBuffer({ BufferType::constant, m_cbufferHandle, initParam.dataSize, initParam.dataTopPos.get() });
+		m_createUploadBufferHandle = DX12GameManager::createUploadBuffer({ BufferType::constant, m_cbufferHandle, initParam.dataSize, initParam.cbufferDataPtr.get() });
 	}
 
 	MeshMaterialAppendParam::~MeshMaterialAppendParam()

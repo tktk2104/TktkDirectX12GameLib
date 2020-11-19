@@ -42,8 +42,7 @@
 #include "../DXGameResource/DXGameShaderResouse/Line2D/Line2DMaterialDrawFuncArgs.h"
 #include "../DXGameResource/DXGameShaderResouse/Billboard/BillboardMaterialInitParam.h"
 #include "../DXGameResource/DXGameShaderResouse/Billboard/BillboardDrawFuncBaseArgs.h"
-#include "../DXGameResource/DXGameShaderResouse/Billboard/BillboardCbufferUpdateFuncArgs.h"
-#include "../DXGameResource/DXGameShaderResouse/Billboard/BillboardClippingParam.h"
+#include "../DXGameResource/DXGameShaderResouse/Billboard/BillboardMaterialInstanceVertData.h"
 #include "../DXGameResource/DXGameShaderResouse/MeshResouse/Mesh/Structs/MeshInitParam.h"
 #include "../DXGameResource/DXGameShaderResouse/MeshResouse/Mesh/Structs/MeshDrawFuncBaseArgs.h"
 #include "../DXGameResource/DXGameShaderResouse/MeshResouse/Mesh/Loader/MeshLoadPmdArgs.h"
@@ -87,6 +86,9 @@
 #include "../UtilityProcessManager/ResourceHandleGetter/SystemResourceHandleGetter/IdType/SystemBasicMeshMaterialType.h"
 #include "../UtilityProcessManager/ResourceHandleGetter/SystemResourceHandleGetter/IdType/SystemPostEffectMaterialType.h"
 #include "../UtilityProcessManager/ResourceHandleGetter/ResourceIdConverter/ResourceIdCarrier.h"
+
+#include "../../TktkDX12BaseComponents/3D/BillboardDrawer/BillboardDrawFuncRunnerInitParam.h"
+#include "../../TktkDX12BaseComponents/3D/MeshDrawer/MeshDrawFuncRunnerInitParam.h"
 
 namespace tktk
 {
@@ -180,7 +182,7 @@ namespace tktk
 	
 		// テンプレート引数の型のコンポーネントを引数の値を使って作る
 		template <class ComponentType, class... Args>
-		static std::weak_ptr<ComponentType> createComponent(const GameObjectPtr& user, Args&&... args)
+		static ComponentPtr<ComponentType> createComponent(const GameObjectPtr& user, Args&&... args)
 		{
 			auto basePtr = addComponent(typeid(ComponentType), &ComponentVTableInitializer<ComponentType>::m_componentVTableBundle, &ComponentListVTableInitializer<ComponentType>::m_componentListVTable, user, std::make_shared<ComponentType>(std::forward<Args>(args)...));
 			return basePtr.castPtr<ComponentType>();
@@ -229,6 +231,9 @@ namespace tktk
 		// 指定の頂点バッファをコマンドリストに設定する
 		static void setVertexBuffer(size_t handle);
 	
+		// コマンドリストに指定の頂点バッファを登録する（インスタンス描画用）
+		static void setVertexBuffer(size_t meshVertHandle, size_t instancingVertHandle);
+
 		// 指定のインデックスバッファをコマンドリストに設定する
 		static void setIndexBuffer(size_t handle);
 	
@@ -383,6 +388,9 @@ namespace tktk
 		// 引数のポインタのデータを指定のアップロードバッファにコピーする
 		static void updateUploadBuffer(size_t handle, const CopySourceDataCarrier& bufferData);
 		
+		// 指定の頂点バッファをコマンドリストを使わずに更新する
+		static void updateVertexBuffer(size_t handle, const VertexDataCarrier& vertexData);
+
 		// 指定のアップロードバッファの内容を設定したバッファにコピーするGPU命令を設定する
 		static void copyBuffer(size_t handle);
 	
@@ -434,35 +442,38 @@ namespace tktk
 	/* ビルボード関係の処理 */
 	
 		// ビルボードマテリアルを作り、そのリソースのハンドルを返す
-		static size_t createBillboardMaterial(const BillboardMaterialInitParam& initParam);
+		static size_t createBillboardMaterial(const BillboardMaterialInitParam& initParam, const BillboardDrawFuncRunnerInitParam& funcRunnerInitParam);
 	
 		// ビルボードマテリアルを作り、そのリソースのハンドルと引数のハンドルを結び付ける
-		static size_t createBillboardMaterialAndAttachId(ResourceIdCarrier id, const BillboardMaterialInitParam& initParam);
+		static size_t createBillboardMaterialAndAttachId(ResourceIdCarrier id, const BillboardMaterialInitParam& initParam, const BillboardDrawFuncRunnerInitParam& funcRunnerInitParam);
 	
+		// 指定したビルボードが使用するテクスチャのサイズを取得する
+		static const tktkMath::Vector2& getBillboardTextureSize(size_t handle);
+
+		// 指定したビルボードをインスタンス描画する時に使用する値を削除する
+		static void clearBillboardInstanceParam(size_t handle);
+
+		// 指定したビルボードをインスタンス描画する時に使用する値を追加する
+		static void addBillboardInstanceVertParam(size_t handle, const BillboardMaterialInstanceVertData& instanceParam);
+
 		// 指定したビルボードを描画する
 		static void drawBillboard(size_t handle, const BillboardDrawFuncBaseArgs& drawFuncArgs);
-	
-		// 引数が表すコピーバッファを使って定数バッファを更新する
-		static void updateBillboardCbuffer(size_t handle, size_t copyBufferHandle, const BillboardCbufferUpdateFuncArgs& updateArgs);
-	
-		// 引数が表すコピーバッファを使って定数バッファを更新する（切り抜き範囲指定版）
-		static void updateBillboardCbufferUseClippingParam(size_t handle, size_t copyBufferHandle, const BillboardCbufferUpdateFuncArgs& updateArgs, const BillboardClippingParam& clippingParam);
 	
 	//************************************************************
 	/* メッシュ関係の処理 */
 	public:
 	
 		// メッシュを作り、そのリソースのハンドルを返す
-		static size_t createMesh(const MeshInitParam& initParam);
+		static size_t createMesh(const MeshInitParam& meshInitParam, const MeshDrawFuncRunnerInitParam& funcRunnerInitParam);
 	
 		// メッシュを作り、そのリソースのハンドルと引数のハンドルを結び付ける
-		static size_t createMeshAndAttachId(ResourceIdCarrier id, const MeshInitParam& initParam);
+		static size_t createMeshAndAttachId(ResourceIdCarrier id, const MeshInitParam& meshInitParam, const MeshDrawFuncRunnerInitParam& funcRunnerInitParam);
 	
 		// メッシュのコピーを作り、そのリソースのハンドルを返す
-		static size_t copyMesh(size_t originalHandle);
+		static size_t copyMesh(size_t originalHandle, const MeshDrawFuncRunnerInitParam& funcRunnerInitParam);
 	
 		// メッシュのコピーを作り、そのリソースのハンドルと引数のハンドルを結び付ける
-		static size_t copyMeshAndAttachId(ResourceIdCarrier id, size_t originalHandle);
+		static size_t copyMeshAndAttachId(ResourceIdCarrier id, size_t originalHandle, const MeshDrawFuncRunnerInitParam& funcRunnerInitParam);
 	
 		// メッシュマテリアルを作り、そのリソースのハンドルを返す
 		static size_t createMeshMaterial(const MeshMaterialInitParam& initParam);
@@ -476,29 +487,56 @@ namespace tktk
 		// メッシュマテリアルのコピーを作り、そのリソースのハンドルと引数のハンドルを結び付ける
 		static size_t copyMeshMaterialAndAttachId(ResourceIdCarrier id, size_t originalHandle);
 	
+		// テクスチャを貼った立方体メッシュを作り、そのハンドルを返す
+		static size_t makeBoxMesh(size_t albedoMapTextureHandle, const MeshDrawFuncRunnerInitParam& funcRunnerInitParam);
+
+		// テクスチャを貼った立方体メッシュを作り、そのリソースのハンドルと引数のハンドルを結び付ける
+		static size_t makeBoxMeshAndAttachId(ResourceIdCarrier id, size_t albedoMapTextureHandle, const MeshDrawFuncRunnerInitParam& funcRunnerInitParam);
+
+		// スカイボックスメッシュを作り、そのハンドルを返す
+		static size_t makeSkyBoxMesh(size_t skyBoxTextureHandle, const MeshDrawFuncRunnerInitParam& funcRunnerInitParam);
+
+		// スカイボックスメッシュを作り、そのリソースのハンドルと引数のハンドルを結び付ける
+		static size_t makeSkyBoxMeshAndAttachId(ResourceIdCarrier id, size_t skyBoxTextureHandle, const MeshDrawFuncRunnerInitParam& funcRunnerInitParam);
+
+		// pmdファイルをロードしてゲームの各種リソースクラスを作る
+		static MeshLoadPmdReturnValue loadPmd(const MeshLoadPmdArgs& args, const MeshDrawFuncRunnerInitParam& funcRunnerInitParam);
+
+		// pmxファイルをロードしてゲームの各種リソースクラスを作る
+		static MeshLoadPmxReturnValue loadPmx(const MeshLoadPmxArgs& args, const MeshDrawFuncRunnerInitParam& funcRunnerInitParam);
+
 		// メッシュが使用しているマテリアルを更新する
-		static void setMaterialHandle(size_t handle, size_t materialSlot, size_t materialHandle);
-	
-		// 指定のメッシュでシャドウマップを書き込む
-		static void writeMeshShadowMap(size_t handle);
+		static void setMeshMaterialHandle(size_t handle, size_t materialSlot, size_t materialHandle);
 	
 		// 指定のメッシュのマテリアル情報をグラフィックパイプラインに設定する
-		static void setMaterialData(size_t handle);
+		static void setMeshMaterialData(size_t handle);
 	
 		// 指定のメッシュのマテリアルで追加で管理する定数バッファのIDと値を設定する
-		static void addMaterialAppendParam(size_t handle, const MeshMaterialAppendParamInitParam& initParam);
+		static void addMeshMaterialAppendParam(size_t handle, const MeshMaterialAppendParamInitParam& initParam);
 
 		// 指定のメッシュのマテリアルで追加で管理する定数バッファのIDと値を更新する
-		static void updateMaterialAppendParam(size_t handle, const MeshMaterialAppendParamUpdateFuncArgs& updateFuncArgs);
+		static void updateMeshMaterialAppendParam(size_t handle, const MeshMaterialAppendParamUpdateFuncArgs& updateFuncArgs);
 
-		// 指定のメッシュを描画する
+		// 指定のメッシュをインスタンス描画する時に使用する値を削除する
+		static void clearMeshInstanceParam(size_t handle);
+
+		// 指定のメッシュをインスタンス描画する時に使用する値を追加する
+		static void addMeshInstanceVertParam(size_t handle, const CopySourceDataCarrier& instanceParam);
+
+		// 指定のスキニングメッシュをインスタンス描画する時に使用する骨行列を追加する
+		static void addMeshInstanceBoneMatrix(size_t meshHandle, size_t skeletonHandle);
+		
+		// 指定のメッシュでシャドウマップを書き込む
+		static void writeMeshShadowMap(size_t handle);
+
+		// 指定のスキニングメッシュでシャドウマップを書き込む
+		static void writeMeshShadowMapUseBone(size_t handle);
+
+		// 指定のメッシュをインスタンス描画する
 		static void drawMesh(size_t handle, const MeshDrawFuncBaseArgs& baseArgs);
-	
-		// pmdファイルをロードしてゲームの各種リソースクラスを作る
-		static MeshLoadPmdReturnValue loadPmd(const MeshLoadPmdArgs& args);
-	
-		// pmxファイルをロードしてゲームの各種リソースクラスを作る
-		static MeshLoadPmxReturnValue loadPmx(const MeshLoadPmxArgs& args);
+
+		// スキニングメッシュをインスタンス描画する
+		static void drawMeshUseBone(size_t handle, const MeshDrawFuncBaseArgs& baseArgs);
 	
 	//************************************************************
 	/* スケルトン関連の処理 */
@@ -759,8 +797,8 @@ namespace tktk
 		static size_t getSystemHandle(SystemPipeLineStateType type);
 		static size_t getSystemHandle(SystemCameraType type);
 		static size_t getSystemHandle(SystemLightType type);
-		static size_t getSystemHandle(SystemBasicMeshType type);
-		static size_t getSystemHandle(SystemBasicMeshMaterialType type);
+		static size_t getSystemHandle(SystemMeshType type);
+		static size_t getSystemHandle(SystemMeshMaterialType type);
 		static size_t getSystemHandle(SystemPostEffectMaterialType type);
 	
 	//************************************************************
@@ -781,8 +819,8 @@ namespace tktk
 		static void setSystemHandle(SystemPipeLineStateType type,		size_t handle);
 		static void setSystemHandle(SystemCameraType type,				size_t handle);
 		static void setSystemHandle(SystemLightType type,				size_t handle);
-		static void setSystemHandle(SystemBasicMeshType type,			size_t handle);
-		static void setSystemHandle(SystemBasicMeshMaterialType type,	size_t handle);
+		static void setSystemHandle(SystemMeshType type,			size_t handle);
+		static void setSystemHandle(SystemMeshMaterialType type,	size_t handle);
 		static void setSystemHandle(SystemPostEffectMaterialType type,	size_t handle);
 	
 	//************************************************************

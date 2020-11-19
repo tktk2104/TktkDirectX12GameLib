@@ -2,15 +2,15 @@
 #define BILLBOARD_MATERIAL_DATA_H_
 
 /* class member */
+#include <forward_list>
 #include <TktkMath/Structs/Vector2.h>
+#include "BillboardMaterialInstanceVertData.h"
 
 namespace tktk
 {
 	/* funcUseType */
 	struct BillboardMaterialInitParam;
 	struct BillboardDrawFuncBaseArgs;
-	struct BillboardCbufferUpdateFuncArgs;
-	struct BillboardClippingParam;
 
 	// ビルボードマテリアルの情報を扱うクラス
 	class BillboardMaterialData
@@ -25,21 +25,40 @@ namespace tktk
 
 	public:
 
+		// ビルボードテクスチャのサイズを取得する
+		const tktkMath::Vector2& getBillboardTextureSize() const;
+
+		// ビルボードをインスタンス描画する時に使用する値を削除する
+		void clearInstanceParam();
+
+		// ビルボードをインスタンス描画する時に使用する値を追加する
+		void addInstanceVertParam(const BillboardMaterialInstanceVertData& instanceParam);
+
+		// インスタンス描画情報を扱う頂点バッファを更新する
+		void updateInstanceParamVertBuffer() const;
+
 		// ビルボードを描画する
-		void drawBillboard(const BillboardDrawFuncBaseArgs& drawFuncArgs) const;
-
-		// 引数が表すコピーバッファを使って座標変換情報を管理する定数バッファを更新する
-		void updateTransformCbuffer(size_t copyBufferHandle, const BillboardCbufferUpdateFuncArgs& updateArgs) const;
-
-		// 引数が表すコピーバッファを使って座標変換情報を管理する定数バッファを更新する（切り抜き範囲指定版）
-		void updateTransformCbufferUseClippingParam(size_t copyBufferHandle, const BillboardCbufferUpdateFuncArgs& updateArgs, const BillboardClippingParam& clippingParam) const;
+		void draw(const BillboardDrawFuncBaseArgs& drawFuncArgs) const;
 
 	private:
 
-		size_t				m_createDescriptorHeapHandle{ 0U };
-		tktkMath::Vector2	m_textureUvOffset;
-		tktkMath::Vector2	m_textureUvMulRate;
-		tktkMath::Vector2	m_textureSize;
+		// 作ったビルボードのディスクリプタヒープのハンドル
+		size_t m_createDescriptorHeapHandle	{ 0U };
+		
+		// インスタンス情報を扱う頂点バッファのハンドル
+		size_t m_instanceParamVertexBufferHandle{ 0U };
+
+		// テクスチャサイズ
+		tktkMath::Vector2 m_textureSize;
+
+		// インスタンス描画する時の最大インスタンス数
+		size_t m_maxInstanceCount;
+
+		// 一度に描画するインスタンス数
+		size_t m_instanceCount				{ 0U };
+
+		// インスタンス情報の配列
+		std::forward_list<BillboardMaterialInstanceVertData>	m_instanceVertParamList;
 	};
 }
 #endif // !BILLBOARD_MATERIAL_DATA_H_

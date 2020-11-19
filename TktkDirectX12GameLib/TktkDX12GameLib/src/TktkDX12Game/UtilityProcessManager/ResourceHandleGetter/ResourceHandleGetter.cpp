@@ -89,12 +89,12 @@ namespace tktk
         return m_systemResouseHandleGetter->getSystemHandle(type);
     }
 
-    size_t ResourceHandleGetter::getSystemHandle(SystemBasicMeshType type) const
+    size_t ResourceHandleGetter::getSystemHandle(SystemMeshType type) const
     {
         return m_systemResouseHandleGetter->getSystemHandle(type);
     }
 
-    size_t ResourceHandleGetter::getSystemHandle(SystemBasicMeshMaterialType type) const
+    size_t ResourceHandleGetter::getSystemHandle(SystemMeshMaterialType type) const
     {
         return m_systemResouseHandleGetter->getSystemHandle(type);
     }
@@ -179,12 +179,12 @@ namespace tktk
         m_systemResouseHandleGetter->setSystemHandle(type, handle);
     }
 
-    void ResourceHandleGetter::setSystemHandle(SystemBasicMeshType type, size_t handle)
+    void ResourceHandleGetter::setSystemHandle(SystemMeshType type, size_t handle)
     {
         m_systemResouseHandleGetter->setSystemHandle(type, handle);
     }
 
-    void ResourceHandleGetter::setSystemHandle(SystemBasicMeshMaterialType type, size_t handle)
+    void ResourceHandleGetter::setSystemHandle(SystemMeshMaterialType type, size_t handle)
     {
         m_systemResouseHandleGetter->setSystemHandle(type, handle);
     }
@@ -294,14 +294,14 @@ namespace tktk
         m_resourceIdConverter->setMotionHandle(id, handle);
     }
 
-    void ResourceHandleGetter::setBasicMeshHandle(ResourceIdCarrier id, size_t handle)
+    void ResourceHandleGetter::setMeshHandle(ResourceIdCarrier id, size_t handle)
     {
-        m_resourceIdConverter->setBasicMeshHandle(id, handle);
+        m_resourceIdConverter->setMeshHandle(id, handle);
     }
 
-    void ResourceHandleGetter::setBasicMeshMaterialHandle(ResourceIdCarrier id, size_t handle)
+    void ResourceHandleGetter::setMeshMaterialHandle(ResourceIdCarrier id, size_t handle)
     {
-        m_resourceIdConverter->setBasicMeshMaterialHandle(id, handle);
+        m_resourceIdConverter->setMeshMaterialHandle(id, handle);
     }
 
     void ResourceHandleGetter::setCameraHandle(ResourceIdCarrier id, size_t handle)

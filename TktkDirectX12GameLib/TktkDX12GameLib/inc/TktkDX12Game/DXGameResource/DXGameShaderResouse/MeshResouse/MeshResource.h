@@ -8,6 +8,8 @@
 #include <string>
 
 /* funcUseType */
+#include <TktkMath/Structs/Color.h>
+#include <TktkMath/Structs/Matrix4.h>
 #include "Mesh/Loader/MeshLoadPmdReturnValue.h"
 #include "Mesh/Loader/MeshLoadPmxReturnValue.h"
 
@@ -18,6 +20,8 @@ namespace tktk
 	class MotionManager;
 	class MeshManager;
 	class MeshMaterialManager;
+	class BoxMeshMaker;
+	class SphereMeshMaker;
 
 	struct MeshResourceInitParam;
 	struct SkeletonInitParam;
@@ -28,13 +32,15 @@ namespace tktk
 	struct MeshDrawFuncBaseArgs;
 	struct MeshLoadPmdArgs;
 	struct MeshLoadPmxArgs;
+	struct MeshDrawFuncRunnerInitParam;
+	struct CopySourceDataCarrier;
 
 	// メッシュ関係のリソースを管理するクラス
 	class MeshResource
 	{
 	public:
 
-		MeshResource(const MeshResourceInitParam& initParam);
+		explicit MeshResource(const MeshResourceInitParam& initParam);
 		~MeshResource();
 
 	public: /* スケルトン関係の処理 */
@@ -76,23 +82,35 @@ namespace tktk
 
 	public: /* メッシュ関係の処理 */
 
+		// 初期から存在するメッシュを作る
+		void createSystemMesh();
+
 		// メッシュを作り、そのリソースのハンドルを返す
-		size_t createBasicMesh(const MeshInitParam& initParam);
+		size_t createMesh(const MeshInitParam& initParam);
 
 		// メッシュのコピーを作り、そのリソースのハンドルを返す
-		size_t copyBasicMesh(size_t originalHandle);
+		size_t copyMesh(size_t originalHandle);
 
 		// メッシュマテリアルを作り、そのリソースのハンドルを返す
-		size_t createBasicMeshMaterial(const MeshMaterialInitParam& initParam);
+		size_t createMeshMaterial(const MeshMaterialInitParam& initParam);
 
 		// メッシュマテリアルのコピーを作り、そのリソースのハンドルを返す
-		size_t copyBasicMeshMaterial(size_t originalHandle);
+		size_t copyMeshMaterial(size_t originalHandle);
+
+		// テクスチャを貼った立方体メッシュを作り、そのハンドルを返す
+		size_t makeBoxMesh(size_t albedoMapTextureHandle, const MeshDrawFuncRunnerInitParam& funcRunnerInitParam);
+
+		// スカイボックスメッシュを作り、そのハンドルを返す
+		size_t makeSkyBoxMesh(size_t skyBoxTextureHandle, const MeshDrawFuncRunnerInitParam& funcRunnerInitParam);
+
+		// pmdファイルをロードしてゲームの各種リソースクラスを作る
+		MeshLoadPmdReturnValue loadPmd(const MeshLoadPmdArgs& args, const MeshDrawFuncRunnerInitParam& funcRunnerInitParam);
+
+		// pmxファイルをロードしてゲームの各種リソースクラスを作る
+		MeshLoadPmxReturnValue loadPmx(const MeshLoadPmxArgs& args, const MeshDrawFuncRunnerInitParam& funcRunnerInitParam);
 
 		// メッシュが使用しているマテリアルを更新する
 		void setMaterialHandle(size_t meshHandle , size_t materialSlot, size_t materialHandle);
-
-		// 指定のメッシュでシャドウマップを書き込む
-		void writeBasicMeshShadowMap(size_t handle) const;
 
 		// 指定のメッシュのマテリアル情報をグラフィックパイプラインに設定する
 		void setMaterialData(size_t handle) const;
@@ -103,21 +121,35 @@ namespace tktk
 		// 指定のメッシュのマテリアルで追加で管理する定数バッファのIDと値を更新する
 		void updateMaterialAppendParam(size_t handle, const MeshMaterialAppendParamUpdateFuncArgs& updateFuncArgs);
 
-		// 指定のメッシュを描画する
-		void drawBasicMesh(size_t handle, const MeshDrawFuncBaseArgs& baseArgs) const;
+		// 指定のメッシュをインスタンス描画する時に使用する値を削除する
+		void clearInstanceParam(size_t handle);
 
-		// pmdファイルをロードしてゲームの各種リソースクラスを作る
-		MeshLoadPmdReturnValue loadPmd(const MeshLoadPmdArgs& args);
+		// 指定のメッシュをインスタンス描画する時に使用する値を追加する
+		void addInstanceVertParam(size_t handle, const CopySourceDataCarrier& instanceParam);
 
-		// pmxファイルをロードしてゲームの各種リソースクラスを作る
-		MeshLoadPmxReturnValue loadPmx(const MeshLoadPmxArgs& args);
+		// スキニングメッシュをインスタンス描画する時に使用する骨行列を追加する
+		void addInstanceBoneMatrix(size_t meshHandle, size_t skeletonHandle);
+
+		// 指定のメッシュでシャドウマップを書き込む
+		void writeShadowMap(size_t handle) const;
+
+		// 指定のスキニングメッシュでシャドウマップを書き込む
+		void writeShadowMapUseBone(size_t handle) const;
+
+		// 指定のメッシュをインスタンス描画する
+		void draw(size_t handle, const MeshDrawFuncBaseArgs& baseArgs) const;
+
+		// スキニングメッシュをインスタンス描画する
+		void drawUseBone(size_t handle, const MeshDrawFuncBaseArgs& baseArgs) const;
 
 	private:
 
-		std::unique_ptr<SkeletonManager>				m_skeleton;
-		std::unique_ptr<MotionManager>					m_motion;
+		std::unique_ptr<SkeletonManager>		m_skeleton;
+		std::unique_ptr<MotionManager>			m_motion;
 		std::unique_ptr<MeshManager>			m_meshManager;
 		std::unique_ptr<MeshMaterialManager>	m_meshMaterialManager;
+		std::unique_ptr<BoxMeshMaker>			m_boxMeshMaker;
+		std::unique_ptr<SphereMeshMaker>		m_sphereMeshMaker;
 	};
 }
 #endif // !MESH_RESOURCE_H_

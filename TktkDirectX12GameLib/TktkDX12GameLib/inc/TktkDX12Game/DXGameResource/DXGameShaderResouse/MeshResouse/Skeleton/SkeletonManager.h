@@ -29,6 +29,9 @@ namespace tktk
 		// 引数のボーン毎の座標変換行列を使って指定のスケルトンを変形する
 		void transform(size_t handle, const std::vector<MotionBoneParam>& transformMatrices);
 
+		// 骨行列の配列を取得する
+		std::array<tktkMath::Matrix4, 128U> getBoneMatrixArray(size_t handle) const;
+
 		// 指定のスケルトンを使って引数が表すコピーバッファを使い骨情報を管理する定数バッファを更新する
 		void updateBoneMatrixCbuffer(size_t handle, size_t copyBufferHandle) const;
 

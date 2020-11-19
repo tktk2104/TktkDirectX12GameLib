@@ -6,18 +6,28 @@ namespace tktk
 	// システムで使用しているルートシグネチャの種類
 	enum class SystemRootSignatureType
 	{
+		/* ポストエフェクト */
 		PostEffectMonochrome,
 		PostEffectNegative,
 		PostEffectSimpleBlur,
 		PostEffectEmbossing,
 		PostEffectSharpness,
 		PostEffectGlassFilter,
-		ShadowMap,
+
+		/*  */
 		Sprite,
 		Line2D,
 		Billboard,
-		BasicMesh,
-		BasicMonoColorMesh
+
+		/* メッシュ描画 */
+		SimpleMesh,
+		SkinningMesh,
+		MonoColorSimpleMesh,
+		MonoColorSkinningMesh,
+
+		/* メッシュシャドウマップ描画 */
+		SimpleMeshShadowMap,
+		SkinningMeshShadowMap,
 	};
 }
 #endif // !SYSTEM_ROOT_SIGNATURE_TYPE_H_

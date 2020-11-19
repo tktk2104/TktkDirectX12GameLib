@@ -6,12 +6,15 @@
 
 /* funcUseType */
 #include <string>
+#include <TktkMath/Structs/Matrix4.h>
 
 namespace tktk
 {
-	struct MeshManagerInitParam;
 	class MeshData;
+
+	struct DrawMeshShaderFilePaths;
 	struct MeshInitParam;
+	struct CopySourceDataCarrier;
 	struct MeshDrawFuncBaseArgs;
 
 	// 「MeshData」を管理するクラス
@@ -19,7 +22,7 @@ namespace tktk
 	{
 	public:
 
-		MeshManager(const MeshManagerInitParam& initParam);
+		explicit MeshManager(const tktkContainer::ResourceContainerInitParam& initParam);
 		~MeshManager();
 	
 	public:
@@ -33,19 +36,26 @@ namespace tktk
 		// 使用しているマテリアルを更新する
 		void setMaterialHandle(size_t meshHandle, size_t materialSlot, size_t materialHandle);
 
-		// 指定の通常メッシュでシャドウマップを書き込む
+		// 指定のメッシュをインスタンス描画する時に使用する値を削除する
+		void clearInstanceParam(size_t handle);
+
+		// 指定のメッシュをインスタンス描画する時に使用する値を追加する
+		void addInstanceVertParam(size_t handle, const CopySourceDataCarrier& instanceParam);
+
+		// スキニングメッシュをインスタンス描画する時に使用する骨行列を追加する
+		void addInstanceBoneMatrix(size_t handle, const std::array<tktkMath::Matrix4, 128>& boneMatrix);
+
+		// 指定のメッシュでシャドウマップを書き込む
 		void writeShadowMap(size_t handle) const;
 
-		// 指定の通常メッシュを描画する
-		void drawMesh(size_t handle, const MeshDrawFuncBaseArgs& baseArgs) const;
+		// 指定のスキニングメッシュでシャドウマップを書き込む
+		void writeShadowMapUseBone(size_t handle) const;
 
-	private:
+		// 指定のメッシュをインスタンス描画する
+		void draw(size_t handle, const MeshDrawFuncBaseArgs& baseArgs) const;
 
-		// シャドウマップ書き込み用のルートシグネチャを作る
-		void createWriteShadowMapRootSignature() const;
-
-		// シャドウマップ書き込み用のパイプラインステートを作る
-		void createWriteShadowMapGraphicsPipeLineState(const std::string& writeShadowMapVsFilePath) const;
+		// スキニングメッシュをインスタンス描画する
+		void drawUseBone(size_t handle, const MeshDrawFuncBaseArgs& baseArgs) const;
 
 	private:
 

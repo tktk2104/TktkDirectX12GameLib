@@ -51,11 +51,11 @@ namespace tktk
 		size_t			m_usePipeLineStateHandle	{ 0U };
 		size_t			m_useDescriptorHeapHandle	{ 0U };
 		size_t			m_createUploadBufferHandle	{ 0U };
-		tktkMath::Color	m_materialAmbient;
-		tktkMath::Color	m_materialDiffuse;
-		tktkMath::Color	m_materialSpecular;
-		tktkMath::Color	m_materialEmissive;
-		float			m_materialShiniess;
+		//tktkMath::Color	m_materialAmbient;
+		//tktkMath::Color	m_materialDiffuse;
+		//tktkMath::Color	m_materialSpecular;
+		//tktkMath::Color	m_materialEmissive;
+		//float			m_materialShiniess;
 
 		std::unordered_map<size_t, MeshMaterialAppendParam> m_appendParamMap;
 	};

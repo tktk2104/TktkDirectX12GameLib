@@ -24,13 +24,18 @@ namespace tktk
 	{
 	public:
 
-		BillboardDrawer(float drawPriority, size_t billboardMaterialHandle, size_t useRtvDescriptorHeapHandle, size_t cameraHandle, const tktkMath::Vector2& centerRate, const tktkMath::Color& blendRate);
+		BillboardDrawer(
+			size_t billboardMaterialHandle,
+			const tktkMath::Vector2& centerRate,
+			const tktkMath::Color& blendRate,
+			const tktkMath::Vector2& clippingLeftTopPos,
+			const tktkMath::Vector2& clippingSize
+		);
 
 	public:
 
 		void start();
-		void onDestroy();
-		void draw() const;
+		void afterCollide();
 
 	public:
 
@@ -44,14 +49,19 @@ namespace tktk
 		// ビルボードの中心位置の割合を設定する
 		void setCenterRate(const tktkMath::Vector2& centerRate);
 
+		// 切り取る範囲のテクスチャ座標での左上座標を設定する（テクセル）
+		void setClippingLeftTopPos(const tktkMath::Vector2& leftTopPos);
+
+		// 切り取る範囲の大きさを設定する（テクセル）
+		void setClippingSize(const tktkMath::Vector2& size);
+
 	private:
 
-		size_t						m_createUploadTransformCbufferHandle{ 0U };
-		size_t						m_useRtvDescriptorHeapHandle;
-		size_t						m_cameraHandle;
 		size_t						m_billboardMaterialHandle;
 		tktkMath::Vector2			m_centerRate;
 		tktkMath::Color				m_blendRate;
+		tktkMath::Vector2			m_clippingLeftTopPos;
+		tktkMath::Vector2			m_clippingSize;
 		ComponentPtr<Transform3D>	m_transform;
 	};
 }

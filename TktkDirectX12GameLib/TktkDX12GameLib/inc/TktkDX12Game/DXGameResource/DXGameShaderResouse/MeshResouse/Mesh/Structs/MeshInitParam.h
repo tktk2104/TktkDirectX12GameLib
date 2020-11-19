@@ -3,7 +3,8 @@
 
 /* class member */
 #include <vector>
-#include "MeshPrimitiveTopology.h"
+#include <TktkDX12Wrapper/_BaseObjects/PrimitiveTopology.h>
+#include <TktkDX12Wrapper/Resource/Buffer/Vertex/VertexDataCarrier.h>
 
 namespace tktk
 {
@@ -22,10 +23,13 @@ namespace tktk
 		size_t indexNum;
 
 		// メッシュのポリゴンの頂点情報の法則
-		MeshPrimitiveTopology primitiveTopology;
+		PrimitiveTopology primitiveTopology;
 
 		// サブセット（使用するマテリアル情報）
 		std::vector<Subset> materialSlots;
+
+		// インスタンス描画時、インスタンス毎の頂点バッファ情報
+		VertexDataCarrier instanceVertParam { 0U, 0U, nullptr };
 	};
 }
 #endif // !MESH_INIT_PARAM_H_

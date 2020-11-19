@@ -5,7 +5,9 @@
 #include <memory>
 
 /* funcUseType */
+#include <TktkMath/Structs/Color.h>
 #include <TktkMath/Structs/Matrix3.h>
+#include <TktkMath/Structs/Matrix4.h>
 #include "MeshResouse/Mesh/Loader/MeshLoadPmdReturnValue.h"
 #include "MeshResouse/Mesh/Loader/MeshLoadPmxReturnValue.h"
 
@@ -28,8 +30,7 @@ namespace tktk
 	struct Line2DMaterialDrawFuncArgs;
 	struct BillboardMaterialInitParam;
 	struct BillboardDrawFuncBaseArgs;
-	struct BillboardCbufferUpdateFuncArgs;
-	struct BillboardClippingParam;
+	struct BillboardMaterialInstanceVertData;
 	struct MeshResourceInitParam;
 	struct SkeletonInitParam;
 	struct MeshInitParam;
@@ -39,6 +40,8 @@ namespace tktk
 	struct MeshDrawFuncBaseArgs;
 	struct MeshLoadPmdArgs;
 	struct MeshLoadPmxArgs;
+	struct MeshDrawFuncRunnerInitParam;
+	struct CopySourceDataCarrier;
 
 	// シェーダーのレジスタにぶち込む値を管理するクラス
 	class DXGameShaderResouse
@@ -87,52 +90,80 @@ namespace tktk
 		// ビルボードマテリアルを作り、そのリソースのハンドルを返す
 		size_t createBillboardMaterial(const BillboardMaterialInitParam& initParam);
 
+		// 指定したビルボードが使用するテクスチャのサイズを取得する
+		const tktkMath::Vector2& getBillboardTextureSize(size_t handle) const;
+
+		// 指定したビルボードをインスタンス描画する時に使用する値を削除する
+		void clearBillboardInstanceParam(size_t handle);
+
+		// 指定したビルボードをインスタンス描画する時に使用する値を追加する
+		void addBillboardInstanceVertParam(size_t handle, const BillboardMaterialInstanceVertData& instanceParam);
+
 		// 指定したビルボードを描画する
 		void drawBillboard(size_t handle, const BillboardDrawFuncBaseArgs& drawFuncArgs) const;
 
-		// 引数が表すコピーバッファを使って定数バッファを更新する
-		void updateBillboardCbuffer(size_t handle, size_t copyBufferHandle, const BillboardCbufferUpdateFuncArgs& updateArgs) const;
-
-		// 引数が表すコピーバッファを使って定数バッファを更新する（切り抜き範囲指定版）
-		void updateBillboardCbufferUseClippingParam(size_t handle, size_t copyBufferHandle, const BillboardCbufferUpdateFuncArgs& updateArgs, const BillboardClippingParam& clippingParam) const;
-
 	public: /* メッシュ関係の処理 */
 
+		// 初期から存在するメッシュを作る
+		void createSystemMesh();
+
+
 		// メッシュを作り、そのリソースのハンドルを返す
-		size_t createBasicMesh(const MeshInitParam& initParam);
+		size_t createMesh(const MeshInitParam& initParam);
 
 		// メッシュのコピーを作り、そのリソースのハンドルを返す
-		size_t copyBasicMesh(size_t originalHandle);
+		size_t copyMesh(size_t originalHandle);
 
 		// メッシュマテリアルを作り、そのリソースのハンドルを返す
-		size_t createBasicMeshMaterial(const MeshMaterialInitParam& initParam);
+		size_t createMeshMaterial(const MeshMaterialInitParam& initParam);
 
 		// メッシュマテリアルのコピーを作り、そのリソースのハンドルを返す
-		size_t copyBasicMeshMaterial(size_t originalHandle);
+		size_t copyMeshMaterial(size_t originalHandle);
 
-		// メッシュが使用しているマテリアルを更新する
-		void setMaterialHandle(size_t meshHandle, size_t materialSlot, size_t materialHandle);
+		// テクスチャを貼った立方体メッシュを作り、そのハンドルを返す
+		size_t makeBoxMesh(size_t albedoMapTextureHandle, const MeshDrawFuncRunnerInitParam& funcRunnerInitParam);
 
-		// 指定のメッシュでシャドウマップを書き込む
-		void writeBasicMeshShadowMap(size_t handle) const;
-
-		// 指定のメッシュのマテリアル情報をグラフィックパイプラインに設定する
-		void setMaterialData(size_t handle) const;
-
-		// 指定のメッシュのマテリアルで追加で管理する定数バッファのIDと値を設定する
-		void addMaterialAppendParam(size_t handle, const MeshMaterialAppendParamInitParam& initParam);
-
-		// 指定のメッシュのマテリアルで追加で管理する定数バッファのIDと値を更新する
-		void updateMaterialAppendParam(size_t handle, const MeshMaterialAppendParamUpdateFuncArgs& updateFuncArgs);
-
-		// 指定のメッシュを描画する
-		void drawBasicMesh(size_t handle, const MeshDrawFuncBaseArgs& baseArgs) const;
+		// スカイボックスメッシュを作り、そのハンドルを返す
+		size_t makeSkyBoxMesh(size_t skyBoxTextureHandle, const MeshDrawFuncRunnerInitParam& funcRunnerInitParam);
 
 		// pmdファイルをロードしてゲームの各種リソースクラスを作る
-		MeshLoadPmdReturnValue loadPmd(const MeshLoadPmdArgs& args);
+		MeshLoadPmdReturnValue loadPmd(const MeshLoadPmdArgs& args, const MeshDrawFuncRunnerInitParam& funcRunnerInitParam);
 
 		// pmxファイルをロードしてゲームの各種リソースクラスを作る
-		MeshLoadPmxReturnValue loadPmx(const MeshLoadPmxArgs& args);
+		MeshLoadPmxReturnValue loadPmx(const MeshLoadPmxArgs& args, const MeshDrawFuncRunnerInitParam& funcRunnerInitParam);
+
+		// メッシュが使用しているマテリアルを更新する
+		void setMeshMaterialHandle(size_t meshHandle, size_t materialSlot, size_t materialHandle);
+
+		// 指定のメッシュのマテリアル情報をグラフィックパイプラインに設定する
+		void setMeshMaterialData(size_t handle) const;
+
+		// 指定のメッシュのマテリアルで追加で管理する定数バッファのIDと値を設定する
+		void addMeshMaterialAppendParam(size_t handle, const MeshMaterialAppendParamInitParam& initParam);
+
+		// 指定のメッシュのマテリアルで追加で管理する定数バッファのIDと値を更新する
+		void updateMeshMaterialAppendParam(size_t handle, const MeshMaterialAppendParamUpdateFuncArgs& updateFuncArgs);
+
+		// 指定のメッシュをインスタンス描画する時に使用する値を削除する
+		void clearMeshInstanceParam(size_t handle);
+
+		// 指定のメッシュをインスタンス描画する時に使用する値を追加する
+		void addMeshInstanceVertParam(size_t handle, const CopySourceDataCarrier& instanceParam);
+
+		// スキニングメッシュをインスタンス描画する時に使用する骨行列を追加する
+		void addMeshInstanceBoneMatrix(size_t meshHandle, size_t skeletonHandle);
+
+		// 指定のメッシュでシャドウマップを書き込む
+		void writeMeshShadowMap(size_t handle) const;
+
+		// 指定のスキニングメッシュでシャドウマップを書き込む
+		void writeMeshShadowMapUseBone(size_t handle) const;
+
+		// 指定のメッシュをインスタンス描画する
+		void drawMesh(size_t handle, const MeshDrawFuncBaseArgs& baseArgs) const;
+
+		// スキニングメッシュをインスタンス描画する
+		void drawMeshUseBone(size_t handle, const MeshDrawFuncBaseArgs& baseArgs) const;
 
 	public: /* スケルトン関連の処理 */
 

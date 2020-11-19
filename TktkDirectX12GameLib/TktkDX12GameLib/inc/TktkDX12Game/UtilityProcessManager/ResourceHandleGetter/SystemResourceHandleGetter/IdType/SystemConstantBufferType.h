@@ -10,12 +10,12 @@ namespace tktk
 		SpriteMaterialManager,
 		Line2D,
 		Billboard,
-		MeshTransform,
-		MeshShadowMap,
+		Camera,
+		ShadowMap,
 		BoneMatCbuffer,
-		LightManager,
-		BasicMeshMaterial,
-		BasicMonoColorMeshCbuffer
+		Light,
+		MeshMaterial,
+		MonoColorMesh
 	};
 }
 #endif // !SYSTEM_CBUFFER_TYPE_H_

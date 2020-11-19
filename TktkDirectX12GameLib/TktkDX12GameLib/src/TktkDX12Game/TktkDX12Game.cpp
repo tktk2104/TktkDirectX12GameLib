@@ -224,12 +224,12 @@ namespace tktk
 		return DX12GameManager::getSystemHandle(type);
 	}
 
-	size_t DX12Game::getSystemHandle(SystemBasicMeshType type)
+	size_t DX12Game::getSystemHandle(SystemMeshType type)
 	{
 		return DX12GameManager::getSystemHandle(type);
 	}
 
-	size_t DX12Game::getSystemHandle(SystemBasicMeshMaterialType type)
+	size_t DX12Game::getSystemHandle(SystemMeshMaterialType type)
 	{
 		return DX12GameManager::getSystemHandle(type);
 	}

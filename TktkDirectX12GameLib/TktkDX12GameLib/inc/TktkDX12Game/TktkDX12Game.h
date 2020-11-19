@@ -169,8 +169,8 @@ namespace tktk
 		static size_t getSystemHandle(SystemPipeLineStateType type);
 		static size_t getSystemHandle(SystemCameraType type);
 		static size_t getSystemHandle(SystemLightType type);
-		static size_t getSystemHandle(SystemBasicMeshType type);
-		static size_t getSystemHandle(SystemBasicMeshMaterialType type);
+		static size_t getSystemHandle(SystemMeshType type);
+		static size_t getSystemHandle(SystemMeshMaterialType type);
 		static size_t getSystemHandle(SystemPostEffectMaterialType type);
 	};
 }

@@ -2,19 +2,15 @@
 
 #include <algorithm>
 #include <TktkMath/MathHelper.h>
-#include "TktkDX12BaseComponents/3D/MeshDrawer/SphereMeshWireFrameDrawer.h"
-#include "TktkDX12BaseComponents/3D/MeshDrawer/BoxMeshWireFrameDrawer.h"
+#include "TktkDX12Game/DXGameResource/GameObjectResouse/GameObject/GameObject.h"
 #include "TktkDX12BaseComponents/3D/SphereCollider/SphereCollider.h"
 #include "TktkDX12BaseComponents/3D/BoxCollider/BoxCollider.h"
-#include "TktkDX12Game/DXGameResource/GameObjectResouse/GameObject/GameObject.h"
-#include "TktkDX12BaseComponents/3D/MeshDrawer/BoxMeshDrawerUseResourceHandles.h"
+#include "TktkDX12BaseComponents/3D/MeshDrawer/MonoColorMeshDrawerMaker.h"
 
 namespace tktk
 {
-	ColliderWireFrameDrawer3D::ColliderWireFrameDrawer3D(float drawPriority, const tktkMath::Color& lineColor, const SphereMeshDrawerUseResourceHandles& useResourceHandles)
-		: m_drawPriority(drawPriority)
-		, m_lineColor(lineColor)
-		, m_useResourceHandles(useResourceHandles)
+	ColliderWireFrameDrawer3D::ColliderWireFrameDrawer3D(const tktkMath::Color& lineColor)
+		: m_lineColor(lineColor)
 	{
 	}
 
@@ -24,40 +20,37 @@ namespace tktk
 
 		for (const auto& sphereCollider : circleColliderList)
 		{
-			m_sphereMeshWireFrameDrawerArray.push_back(
-				getGameObject()->createComponent<SphereMeshWireFrameDrawer>(
-					m_drawPriority,
-					sphereCollider->getBoundingSphere().getRadius(),
-					sphereCollider->getBoundingSphere().getCenterPosition(),
-					m_lineColor,
-					m_useResourceHandles
-					)
+			m_wireFrameDrawerArray.push_back(
+				MonoColorMeshDrawerMaker::makeStart(getGameObject())
+				.setSphereMeshWireFrame()
+				.baseScale(sphereCollider->getBoundingSphere().getRadius() * 2)
+				.basePosition(sphereCollider->getBoundingSphere().getCenterPosition())
+				.albedoColor(m_lineColor)
+				.create()
 			);
 		}
 
 		auto boxColliderList = getComponents<BoxCollider>();
 
-		BoxMeshDrawerUseResourceHandles boxMeshDrawerUseResourceHandles{};
-		boxMeshDrawerUseResourceHandles.rtvDescriptorHeapHandle = m_useResourceHandles.rtvDescriptorHeapHandle;
-		boxMeshDrawerUseResourceHandles.cameraHandle			= m_useResourceHandles.cameraHandle;
-		boxMeshDrawerUseResourceHandles.shadowMapCameraHandle	= m_useResourceHandles.shadowMapCameraHandle;
-		boxMeshDrawerUseResourceHandles.lightHandle				= m_useResourceHandles.lightHandle;
-
-
 		for (const auto& boxCollider : boxColliderList)
 		{
-			//auto firstVert = boxCollider->getBoundingMesh().getVertexs();
+			const auto& firstVert = boxCollider->getTempVerts().at(0U);
+			const auto& secondVert = boxCollider->getTempVerts().at(11U);
+			auto centerPos = (firstVert + secondVert) / 2.0f;
 
-			auto firstVert = boxCollider->getTempVerts().at(0U);
+			auto scale = tktkMath::Vector3{
+				(centerPos.x - firstVert.x) / 0.5f,
+				(centerPos.y - firstVert.y) / 0.5f,
+				(centerPos.z - firstVert.z) / 0.5f
+			};
 
-			m_boxMeshWireFrameDrawerArray.push_back(
-				getGameObject()->createComponent<BoxMeshWireFrameDrawer>(
-					m_drawPriority,
-					tktkMath::Vector3{ firstVert.x * -2.0f, firstVert.y * -2.0f, firstVert.z * -2.0f },
-					tktkMath::Vector3_v::zero,
-					m_lineColor,
-					boxMeshDrawerUseResourceHandles
-					)
+			m_wireFrameDrawerArray.push_back(
+				MonoColorMeshDrawerMaker::makeStart(getGameObject())
+				.setBoxMeshWireFrame()
+				.baseScale(scale)
+				.basePosition(centerPos)
+				.albedoColor(m_lineColor)
+				.create()
 			);
 		}
 	}
@@ -65,30 +58,18 @@ namespace tktk
 	void ColliderWireFrameDrawer3D::onEnable()
 	{
 		std::for_each(
-			std::begin(m_sphereMeshWireFrameDrawerArray),
-			std::end(m_sphereMeshWireFrameDrawerArray),
-			[](const ComponentPtr<SphereMeshWireFrameDrawer>& wireFrameDrawer) { wireFrameDrawer->setActive(true); }
-		);
-
-		std::for_each(
-			std::begin(m_boxMeshWireFrameDrawerArray),
-			std::end(m_boxMeshWireFrameDrawerArray),
-			[](const ComponentPtr<BoxMeshWireFrameDrawer>& wireFrameDrawer) { wireFrameDrawer->setActive(true); }
+			std::begin(m_wireFrameDrawerArray),
+			std::end(m_wireFrameDrawerArray),
+			[](const ComponentPtr<MonoColorMeshDrawer>& wireFrameDrawer) { wireFrameDrawer->setActive(true); }
 		);
 	}
 
 	void ColliderWireFrameDrawer3D::onDisable()
 	{
 		std::for_each(
-			std::begin(m_sphereMeshWireFrameDrawerArray),
-			std::end(m_sphereMeshWireFrameDrawerArray),
-			[](const ComponentPtr<SphereMeshWireFrameDrawer>& wireFrameDrawer) { wireFrameDrawer->setActive(false); }
-		);
-
-		std::for_each(
-			std::begin(m_boxMeshWireFrameDrawerArray),
-			std::end(m_boxMeshWireFrameDrawerArray),
-			[](const ComponentPtr<BoxMeshWireFrameDrawer>& wireFrameDrawer) { wireFrameDrawer->setActive(true); }
+			std::begin(m_wireFrameDrawerArray),
+			std::end(m_wireFrameDrawerArray),
+			[](const ComponentPtr<MonoColorMeshDrawer>& wireFrameDrawer) { wireFrameDrawer->setActive(false); }
 		);
 	}
 }

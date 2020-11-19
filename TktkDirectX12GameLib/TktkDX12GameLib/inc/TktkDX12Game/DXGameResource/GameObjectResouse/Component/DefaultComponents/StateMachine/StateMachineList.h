@@ -37,7 +37,7 @@ namespace tktk
 		// ※今後この関数を再び呼ばれるまで追加するステートの階層が固定される
 		void setTargetHierarchy(const StateTypeHierarchy& targetHierarchy);
 
-		// コンポーネントを追加する階層が登録されている場合
+		// コンポーネントを追加する階層が登録されているか判定する
 		bool isSetTargetHierarchy() const;
 
 		// 事前に設定した階層に子要素を追加する

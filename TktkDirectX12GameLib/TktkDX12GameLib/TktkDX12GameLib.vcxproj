@@ -182,10 +182,10 @@
     <ClInclude Include="inc\TktkDX12BaseComponents\2D\RectCollider\RectColliderMaker.h" />
     <ClInclude Include="inc\TktkDX12BaseComponents\2D\SpriteDrawer\SpriteClippingDrawer.h" />
     <ClInclude Include="inc\TktkDX12BaseComponents\2D\SpriteDrawer\SpriteClippingDrawerMaker.h" />
-    <ClInclude Include="inc\TktkDX12BaseComponents\3D\BillboardDrawer\BillboardClippingDrawer.h" />
-    <ClInclude Include="inc\TktkDX12BaseComponents\3D\BillboardDrawer\BillboardClippingDrawerMaker.h" />
     <ClInclude Include="inc\TktkDX12BaseComponents\3D\BillboardDrawer\BillboardDrawer.h" />
     <ClInclude Include="inc\TktkDX12BaseComponents\3D\BillboardDrawer\BillboardDrawerMaker.h" />
+    <ClInclude Include="inc\TktkDX12BaseComponents\3D\BillboardDrawer\BillboardDrawFuncRunner.h" />
+    <ClInclude Include="inc\TktkDX12BaseComponents\3D\BillboardDrawer\BillboardDrawFuncRunnerInitParam.h" />
     <ClInclude Include="inc\TktkDX12BaseComponents\3D\BoxCollider\BoxCollider.h" />
     <ClInclude Include="inc\TktkDX12BaseComponents\3D\BoxCollider\BoxColliderMaker.h" />
     <ClInclude Include="inc\TktkDX12BaseComponents\3D\Camera\BasicCameraController.h" />
@@ -196,6 +196,14 @@
     <ClInclude Include="inc\TktkDX12BaseComponents\3D\Camera\OrthographicCameraControllerMaker.h" />
     <ClInclude Include="inc\TktkDX12BaseComponents\3D\ColliderWireFrameDrawer3D\ColliderWireFrameDrawer3D.h" />
     <ClInclude Include="inc\TktkDX12BaseComponents\3D\ColliderWireFrameDrawer3D\ColliderWireFrameDrawer3DMaker.h" />
+    <ClInclude Include="inc\TktkDX12BaseComponents\3D\Effects\BillboardShrinkEffect\BillboardShrinkEffectCreator.h" />
+    <ClInclude Include="inc\TktkDX12BaseComponents\3D\Effects\BillboardShrinkEffect\BillboardShrinkEffectCreatorMaker.h" />
+    <ClInclude Include="inc\TktkDX12BaseComponents\3D\Effects\BillboardShrinkEffect\BillboardShrinkEffectParam.h" />
+    <ClInclude Include="inc\TktkDX12BaseComponents\3D\Effects\BillboardShrinkEffect\Particle\BillboardShrinkEffectParticle.h" />
+    <ClInclude Include="inc\TktkDX12BaseComponents\3D\Effects\BillboardSpreadEffect\BillboardSpreadEffectCreator.h" />
+    <ClInclude Include="inc\TktkDX12BaseComponents\3D\Effects\BillboardSpreadEffect\BillboardSpreadEffectCreatorMaker.h" />
+    <ClInclude Include="inc\TktkDX12BaseComponents\3D\Effects\BillboardSpreadEffect\BillboardSpreadEffectParam.h" />
+    <ClInclude Include="inc\TktkDX12BaseComponents\3D\Effects\BillboardSpreadEffect\Particle\BillboardSpreadEffectParticle.h" />
     <ClInclude Include="inc\TktkDX12BaseComponents\3D\InertialMovement3D\InertialMovement3D.h" />
     <ClInclude Include="inc\TktkDX12BaseComponents\3D\InertialMovement3D\InertialMovement3DMaker.h" />
     <ClInclude Include="inc\TktkDX12BaseComponents\3D\Light\DirectionalLightController.h" />
@@ -203,20 +211,13 @@
     <ClInclude Include="inc\TktkDX12BaseComponents\3D\Light\PointLightControllerMaker.h" />
     <ClInclude Include="inc\TktkDX12BaseComponents\3D\MeshAnimator\MotionChanger.h" />
     <ClInclude Include="inc\TktkDX12BaseComponents\3D\MeshAnimator\MotionChangerMaker.h" />
-    <ClInclude Include="inc\TktkDX12BaseComponents\3D\MeshDrawer\BoxMeshDrawer.h" />
-    <ClInclude Include="inc\TktkDX12BaseComponents\3D\MeshDrawer\BoxMeshDrawerMaker.h" />
-    <ClInclude Include="inc\TktkDX12BaseComponents\3D\MeshDrawer\BoxMeshDrawerUseResourceHandles.h" />
-    <ClInclude Include="inc\TktkDX12BaseComponents\3D\MeshDrawer\BoxMeshWireFrameDrawer.h" />
-    <ClInclude Include="inc\TktkDX12BaseComponents\3D\MeshDrawer\BoxMeshWireFrameDrawerMaker.h" />
-    <ClInclude Include="inc\TktkDX12BaseComponents\3D\MeshDrawer\SphereMeshDrawer.h" />
-    <ClInclude Include="inc\TktkDX12BaseComponents\3D\MeshDrawer\SphereMeshDrawerMaker.h" />
-    <ClInclude Include="inc\TktkDX12BaseComponents\3D\MeshDrawer\SphereMeshDrawerUseResourceHandles.h" />
-    <ClInclude Include="inc\TktkDX12BaseComponents\3D\MeshDrawer\SphereMeshWireFrameDrawer.h" />
-    <ClInclude Include="inc\TktkDX12BaseComponents\3D\MeshDrawer\SphereMeshWireFrameDrawerMaker.h" />
-    <ClInclude Include="inc\TktkDX12BaseComponents\3D\ShadowMapWriter\BoxMeshShadowMapWriter.h" />
-    <ClInclude Include="inc\TktkDX12BaseComponents\3D\ShadowMapWriter\BoxMeshShadowMapWriterMaker.h" />
-    <ClInclude Include="inc\TktkDX12BaseComponents\3D\ShadowMapWriter\SphereMeshShadowMapWriter.h" />
-    <ClInclude Include="inc\TktkDX12BaseComponents\3D\ShadowMapWriter\SphereMeshShadowMapWriterMaker.h" />
+    <ClInclude Include="inc\TktkDX12BaseComponents\3D\MeshDrawer\MeshDrawer.h" />
+    <ClInclude Include="inc\TktkDX12BaseComponents\3D\MeshDrawer\MeshDrawerMaker.h" />
+    <ClInclude Include="inc\TktkDX12BaseComponents\3D\MeshDrawer\MeshDrawFuncRunner.h" />
+    <ClInclude Include="inc\TktkDX12BaseComponents\3D\MeshDrawer\MeshDrawFuncRunnerInitParam.h" />
+    <ClInclude Include="inc\TktkDX12BaseComponents\3D\MeshDrawer\MonoColorMeshDrawer.h" />
+    <ClInclude Include="inc\TktkDX12BaseComponents\3D\MeshDrawer\MonoColorMeshDrawerMaker.h" />
+    <ClInclude Include="inc\TktkDX12BaseComponents\3D\ShadowMapWriter\WriteMeshShadowMapFuncRunner.h" />
     <ClInclude Include="inc\TktkDX12BaseComponents\3D\SphereCollider\SphereCollider.h" />
     <ClInclude Include="inc\TktkDX12BaseComponents\3D\SphereCollider\SphereColliderMaker.h" />
     <ClInclude Include="inc\TktkDX12BaseComponents\Components.h" />
@@ -228,6 +229,9 @@
     <ClInclude Include="inc\TktkDX12GameLibDefinition.h" />
     <ClInclude Include="inc\TktkDX12GameLibInitializer.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameResourceInitParam.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\Billboard\BillboardMaterialInstanceVertData.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\MeshResouse\Mesh\Structs\MonoColorInstanceVertData.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\MeshResouse\Structs\DrawMeshShaderFilePaths.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\GameObjectResouse\Component\ComponentBasePtr.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\GameObjectResouse\Component\ComponentBase.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\GameObjectResouse\Component\ComponentCollisionFunc\CollisionGroupTypeCarrier.h" />
@@ -259,21 +263,14 @@
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\GameObjectResouse\Component\DefaultComponents\StateMachine\Structs\StateMachineListInitParam.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\GameObjectResouse\Component\DefaultComponents\StateMachine\Structs\StateTypeHierarchy.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\GameObjectResouse\Component\DefaultComponents\StateMachine\Structs\StateTypeCarrier.h" />
-    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\Billboard\BillboardClippingParam.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\Billboard\BillboardDrawFuncBaseArgs.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\Billboard\BillboardMaterialManager.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\Billboard\BillboardMaterialData.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\Billboard\BillboardMaterialInitParam.h" />
-    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\Billboard\BillboardCbufferData.h" />
-    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\Billboard\BillboardCbufferUpdateFuncArgs.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\Draw3DParameters\Camera\CameraManager.h" />
     <ClInclude Include="inc\TktkDX12BaseComponents\3D\Light\PointLightController.h" />
     <ClInclude Include="inc\TktkDX12BaseComponents\3D\MeshAnimator\MeshAnimator.h" />
     <ClInclude Include="inc\TktkDX12BaseComponents\3D\MeshAnimator\MeshAnimatorMaker.h" />
-    <ClInclude Include="inc\TktkDX12BaseComponents\3D\MeshDrawer\BasicMeshDrawer.h" />
-    <ClInclude Include="inc\TktkDX12BaseComponents\3D\MeshDrawer\BasicMeshDrawerMaker.h" />
-    <ClInclude Include="inc\TktkDX12BaseComponents\3D\ShadowMapWriter\BasicMeshShadowMapWriter.h" />
-    <ClInclude Include="inc\TktkDX12BaseComponents\3D\ShadowMapWriter\BasicMeshShadowMapWriterMaker.h" />
     <ClInclude Include="inc\TktkDX12BaseComponents\3D\Transform3D\Transform3D.h" />
     <ClInclude Include="inc\TktkDX12BaseComponents\3D\Transform3D\Transform3DMaker.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\GameObjectResouse\Component\DefaultComponents\ParentChildManager\ChildList.h" />
@@ -295,16 +292,13 @@
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\Line2D\Line2DConstantBufferData.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\Line2D\Line2DMaterialData.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\Line2D\Line2DMaterialDrawFuncArgs.h" />
-    <ClInclude Include="inc\TktkDX12BaseComponents\3D\MeshDrawer\BasicMeshDrawerUseResourceHandles.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\Line2D\Line2DMaterialManagerInitParam.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\MeshResouse\MeshMaterial\Structs\MeshMaterialAppendParamInitParam.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\MeshResouse\MeshMaterial\Structs\MeshMaterialAppendParamUpdateFuncArgs.h" />
-    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\MeshResouse\MeshMaterial\Structs\MeshMaterialManagerInitParam.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\MeshResouse\Mesh\Loader\MeshLoadPmxArgs.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\MeshResouse\Mesh\Loader\MeshLoadPmxReturnValue.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\MeshResouse\Mesh\Loader\MeshPmxLoader.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\MeshResouse\Mesh\Maker\BoxMeshMaker.h" />
-    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\MeshResouse\Mesh\Structs\MeshManagerInitParam.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\MeshResouse\MeshMaterial\Structs\MeshMaterialCbuffer.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\MeshResouse\MeshMaterial\Structs\MonoColorMeshCbuffer.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\MeshResouse\Mesh\Loader\MeshLoadPmdReturnValue.h" />
@@ -321,9 +315,8 @@
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\MeshResouse\Mesh\Structs\Subset.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\MeshResouse\MeshResource.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\MeshResouse\Mesh\Structs\MeshDrawFuncBaseArgs.h" />
-    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\MeshResouse\Mesh\Structs\MeshPrimitiveTopology.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\MeshResouse\Mesh\Structs\MeshShadowMapCBuffer.h" />
-    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\MeshResouse\Mesh\Structs\MeshTransformCbuffer.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\MeshResouse\Mesh\Structs\CameraCbuffer.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\MeshResouse\Motion\MotionManager.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\MeshResouse\Motion\MotionBoneParam.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\MeshResouse\Motion\MotionData.h" />
@@ -350,6 +343,8 @@
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\Sprite\SpriteMaterialDrawFuncArgs.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\Sprite\SpriteTransformCbuffer.h" />
     <ClInclude Include="inc\TktkDX12Game\GraphicManager\GraphicManager.h" />
+    <ClInclude Include="inc\TktkDX12Game\GraphicManager\Window\Window.h" />
+    <ClInclude Include="inc\TktkDX12Game\GraphicManager\Window\WindowInitParam.h" />
     <ClInclude Include="inc\TktkDX12Game\UtilityProcessManager\ResourceHandleGetter\ResourceHandleGetter.h" />
     <ClInclude Include="inc\TktkDX12Game\UtilityProcessManager\ResourceHandleGetter\ResourceIdConverter\ResourceIdConverter.h" />
     <ClInclude Include="inc\TktkDX12Game\UtilityProcessManager\ResourceHandleGetter\SystemResourceHandleGetter\IdType\SystemBasicDescriptorHeapType.h" />
@@ -425,10 +420,10 @@
     <ClCompile Include="src\TktkDX12BaseComponents\2D\RectCollider\RectColliderMaker.cpp" />
     <ClCompile Include="src\TktkDX12BaseComponents\2D\SpriteDrawer\SpriteClippingDrawer.cpp" />
     <ClCompile Include="src\TktkDX12BaseComponents\2D\SpriteDrawer\SpriteClippingDrawerMaker.cpp" />
-    <ClCompile Include="src\TktkDX12BaseComponents\3D\BillboardDrawer\BillboardClippingDrawerMaker.cpp" />
     <ClCompile Include="src\TktkDX12BaseComponents\3D\BillboardDrawer\BillboardDrawer.cpp" />
     <ClCompile Include="src\TktkDX12BaseComponents\3D\BillboardDrawer\BillboardDrawerMaker.cpp" />
-    <ClCompile Include="src\TktkDX12BaseComponents\3D\BillboardDrawer\BillboardClippingDrawer.cpp" />
+    <ClCompile Include="src\TktkDX12BaseComponents\3D\BillboardDrawer\BillboardDrawFuncRunner.cpp" />
+    <ClCompile Include="src\TktkDX12BaseComponents\3D\BillboardDrawer\BillboardDrawFuncRunnerInitParam.cpp" />
     <ClCompile Include="src\TktkDX12BaseComponents\3D\BoxCollider\BoxCollider.cpp" />
     <ClCompile Include="src\TktkDX12BaseComponents\3D\BoxCollider\BoxColliderMaker.cpp" />
     <ClCompile Include="src\TktkDX12BaseComponents\3D\Camera\BasicCameraController.cpp" />
@@ -439,6 +434,12 @@
     <ClCompile Include="src\TktkDX12BaseComponents\3D\Camera\OrthographicCameraControllerMaker.cpp" />
     <ClCompile Include="src\TktkDX12BaseComponents\3D\ColliderWireFrameDrawer3D\ColliderWireFrameDrawer3D.cpp" />
     <ClCompile Include="src\TktkDX12BaseComponents\3D\ColliderWireFrameDrawer3D\ColliderWireFrameDrawer3DMaker.cpp" />
+    <ClCompile Include="src\TktkDX12BaseComponents\3D\Effects\BillboardShrinkEffect\BillboardShrinkEffectCreator.cpp" />
+    <ClCompile Include="src\TktkDX12BaseComponents\3D\Effects\BillboardShrinkEffect\BillboardShrinkEffectCreatorMaker.cpp" />
+    <ClCompile Include="src\TktkDX12BaseComponents\3D\Effects\BillboardShrinkEffect\Particle\BillboardShrinkEffectParticle.cpp" />
+    <ClCompile Include="src\TktkDX12BaseComponents\3D\Effects\BillboardSpreadEffect\BillboardSpreadEffectCreator.cpp" />
+    <ClCompile Include="src\TktkDX12BaseComponents\3D\Effects\BillboardSpreadEffect\BillboardSpreadEffectCreatorMaker.cpp" />
+    <ClCompile Include="src\TktkDX12BaseComponents\3D\Effects\BillboardSpreadEffect\Particle\BillboardSpreadEffectParticle.cpp" />
     <ClCompile Include="src\TktkDX12BaseComponents\3D\InertialMovement3D\InertialMovement3D.cpp" />
     <ClCompile Include="src\TktkDX12BaseComponents\3D\InertialMovement3D\InertialMovement3DMaker.cpp" />
     <ClCompile Include="src\TktkDX12BaseComponents\3D\Light\DirectionalLightController.cpp" />
@@ -446,18 +447,13 @@
     <ClCompile Include="src\TktkDX12BaseComponents\3D\Light\PointLightControllerMaker.cpp" />
     <ClCompile Include="src\TktkDX12BaseComponents\3D\MeshAnimator\MotionChanger.cpp" />
     <ClCompile Include="src\TktkDX12BaseComponents\3D\MeshAnimator\MotionChangerMaker.cpp" />
-    <ClCompile Include="src\TktkDX12BaseComponents\3D\MeshDrawer\BoxMeshDrawer.cpp" />
-    <ClCompile Include="src\TktkDX12BaseComponents\3D\MeshDrawer\BoxMeshDrawerMaker.cpp" />
-    <ClCompile Include="src\TktkDX12BaseComponents\3D\MeshDrawer\BoxMeshWireFrameDrawer.cpp" />
-    <ClCompile Include="src\TktkDX12BaseComponents\3D\MeshDrawer\BoxMeshWireFrameDrawerMaker.cpp" />
-    <ClCompile Include="src\TktkDX12BaseComponents\3D\MeshDrawer\SphereMeshDrawer.cpp" />
-    <ClCompile Include="src\TktkDX12BaseComponents\3D\MeshDrawer\SphereMeshDrawerMaker.cpp" />
-    <ClCompile Include="src\TktkDX12BaseComponents\3D\MeshDrawer\SphereMeshWireFrameDrawer.cpp" />
-    <ClCompile Include="src\TktkDX12BaseComponents\3D\MeshDrawer\SphereMeshWireFrameDrawerMaker.cpp" />
-    <ClCompile Include="src\TktkDX12BaseComponents\3D\ShadowMapWriter\BoxMeshShadowMapWriter.cpp" />
-    <ClCompile Include="src\TktkDX12BaseComponents\3D\ShadowMapWriter\BoxMeshShadowMapWriterMaker.cpp" />
-    <ClCompile Include="src\TktkDX12BaseComponents\3D\ShadowMapWriter\SphereMeshShadowMapWriter.cpp" />
-    <ClCompile Include="src\TktkDX12BaseComponents\3D\ShadowMapWriter\SphereMeshShadowMapWriterMaker.cpp" />
+    <ClCompile Include="src\TktkDX12BaseComponents\3D\MeshDrawer\MeshDrawer.cpp" />
+    <ClCompile Include="src\TktkDX12BaseComponents\3D\MeshDrawer\MeshDrawerMaker.cpp" />
+    <ClCompile Include="src\TktkDX12BaseComponents\3D\MeshDrawer\MeshDrawFuncRunner.cpp" />
+    <ClCompile Include="src\TktkDX12BaseComponents\3D\MeshDrawer\MeshDrawFuncRunnerInitParam.cpp" />
+    <ClCompile Include="src\TktkDX12BaseComponents\3D\MeshDrawer\MonoColorMeshDrawer.cpp" />
+    <ClCompile Include="src\TktkDX12BaseComponents\3D\MeshDrawer\MonoColorMeshDrawerMaker.cpp" />
+    <ClCompile Include="src\TktkDX12BaseComponents\3D\ShadowMapWriter\WriteMeshShadowMapFuncRunner.cpp" />
     <ClCompile Include="src\TktkDX12BaseComponents\3D\SphereCollider\SphereCollider.cpp" />
     <ClCompile Include="src\TktkDX12BaseComponents\3D\SphereCollider\SphereColliderMaker.cpp" />
     <ClCompile Include="src\TktkDX12BaseComponents\Other\ReceiveMessageToSelfDestroyer\ReceiveMessageToSelfDestroyer.cpp" />
@@ -493,10 +489,6 @@
     <ClCompile Include="src\TktkDX12BaseComponents\3D\Light\PointLightController.cpp" />
     <ClCompile Include="src\TktkDX12BaseComponents\3D\MeshAnimator\MeshAnimator.cpp" />
     <ClCompile Include="src\TktkDX12BaseComponents\3D\MeshAnimator\MeshAnimatorMaker.cpp" />
-    <ClCompile Include="src\TktkDX12BaseComponents\3D\MeshDrawer\BasicMeshDrawer.cpp" />
-    <ClCompile Include="src\TktkDX12BaseComponents\3D\MeshDrawer\BasicMeshDrawerMaker.cpp" />
-    <ClCompile Include="src\TktkDX12BaseComponents\3D\ShadowMapWriter\BasicMeshShadowMapWriter.cpp" />
-    <ClCompile Include="src\TktkDX12BaseComponents\3D\ShadowMapWriter\BasicMeshShadowMapWriterMaker.cpp" />
     <ClCompile Include="src\TktkDX12BaseComponents\3D\Transform3D\Transform3D.cpp" />
     <ClCompile Include="src\TktkDX12BaseComponents\3D\Transform3D\Transform3DMaker.cpp" />
     <ClCompile Include="src\TktkDX12Game\DXGameResource\GameObjectResouse\Component\DefaultComponents\ParentChildManager\ChildList.cpp" />
@@ -529,6 +521,7 @@
     <ClCompile Include="src\TktkDX12Game\DXGameResource\DXGameShaderResouse\PostEffect\PostEffectMaterialManager.cpp" />
     <ClCompile Include="src\TktkDX12Game\DXGameResource\DXGameShaderResouse\PostEffect\PostEffectMaterialData.cpp" />
     <ClCompile Include="src\TktkDX12Game\GraphicManager\GraphicManager.cpp" />
+    <ClCompile Include="src\TktkDX12Game\GraphicManager\Window\Window.cpp" />
     <ClCompile Include="src\TktkDX12Game\UtilityProcessManager\ResourceHandleGetter\ResourceIdConverter\ResourceIdConverter.cpp" />
     <ClCompile Include="src\TktkDX12Game\UtilityProcessManager\ResourceHandleGetter\ResourceHandleGetter.cpp" />
     <ClCompile Include="src\TktkDX12Game\UtilityProcessManager\ResourceHandleGetter\SystemResourceHandleGetter\SystemResourceHandleGetter.cpp" />
@@ -570,21 +563,7 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
     </FxCompile>
-    <FxCompile Include="shader\basicMeshShader\BasicMeshVertexShader.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">5.0</ShaderModel>
-      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)compiledShader\x86\%(Filename).cso</ObjectFileOutput>
-      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)compiledShader\x86\%(Filename).cso</ObjectFileOutput>
-      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)compiledShader\x64\%(Filename).cso</ObjectFileOutput>
-      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)compiledShader\x64\%(Filename).cso</ObjectFileOutput>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
-    </FxCompile>
-    <FxCompile Include="shader\basicMeshShader\BasicMonoColorMeshPixelShader.hlsl">
+    <FxCompile Include="shader\monoColorMeshShader\MonoColorMeshPixelShader.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
@@ -596,6 +575,20 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="shader\basicMeshShader\SimpleMeshVertexShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">5.0</ShaderModel>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)compiledShader\x86\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)compiledShader\x86\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)compiledShader\x64\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)compiledShader\x64\%(Filename).cso</ObjectFileOutput>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
     </FxCompile>
     <FxCompile Include="shader\billboardShader\BillboardPixelShader.hlsl">
@@ -626,6 +619,20 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
     </FxCompile>
+    <FxCompile Include="shader\basicMeshShader\SkinningMeshVertexShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">5.0</ShaderModel>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)compiledShader\x86\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)compiledShader\x86\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)compiledShader\x64\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)compiledShader\x64\%(Filename).cso</ObjectFileOutput>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+    </FxCompile>
     <FxCompile Include="shader\line2DShader\Line2DPixelShader.hlsl">
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">5.0</ShaderModel>
@@ -653,6 +660,34 @@
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="shader\monoColorMeshShader\MonoColorSimpleMeshVertexShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">5.0</ShaderModel>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)compiledShader\x86\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)compiledShader\x86\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)compiledShader\x64\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)compiledShader\x64\%(Filename).cso</ObjectFileOutput>
+    </FxCompile>
+    <FxCompile Include="shader\monoColorMeshShader\MonoColorSkinningMeshVertexShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)compiledShader\x86\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)compiledShader\x86\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)compiledShader\x64\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)compiledShader\x64\%(Filename).cso</ObjectFileOutput>
     </FxCompile>
     <FxCompile Include="shader\postEffectShader\monochromeShader\MonochromePixelShader.hlsl">
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
@@ -682,7 +717,21 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
     </FxCompile>
-    <FxCompile Include="shader\shadowMapShader\BasicMeshShadowVertexShader.hlsl">
+    <FxCompile Include="shader\shadowMapShader\SimpleMeshShadowMapVertexShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)compiledShader\x86\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)compiledShader\x86\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)compiledShader\x64\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)compiledShader\x64\%(Filename).cso</ObjectFileOutput>
+    </FxCompile>
+    <FxCompile Include="shader\shadowMapShader\SkinningMeshShadowMapVertexShader.hlsl">
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">5.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>

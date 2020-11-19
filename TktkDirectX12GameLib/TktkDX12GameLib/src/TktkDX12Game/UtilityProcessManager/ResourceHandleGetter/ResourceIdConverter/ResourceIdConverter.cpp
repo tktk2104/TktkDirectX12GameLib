@@ -105,12 +105,12 @@ namespace tktk
         m_motionHandleMap.emplace(id, handle);
     }
 
-    void ResourceIdConverter::setBasicMeshHandle(ResourceIdCarrier id, size_t handle)
+    void ResourceIdConverter::setMeshHandle(ResourceIdCarrier id, size_t handle)
     {
         m_basicMeshHandleMap.emplace(id, handle);
     }
 
-    void ResourceIdConverter::setBasicMeshMaterialHandle(ResourceIdCarrier id, size_t handle)
+    void ResourceIdConverter::setMeshMaterialHandle(ResourceIdCarrier id, size_t handle)
     {
         m_basicMeshMaterialHandleMap.emplace(id, handle);
     }

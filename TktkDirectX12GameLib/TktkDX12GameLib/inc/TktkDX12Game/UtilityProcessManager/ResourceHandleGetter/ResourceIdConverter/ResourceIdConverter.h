@@ -42,8 +42,8 @@ namespace tktk
 		void setBillboardMaterialHandle	(ResourceIdCarrier id, size_t handle);
 		void setSkeletonHandle			(ResourceIdCarrier id, size_t handle);
 		void setMotionHandle			(ResourceIdCarrier id, size_t handle);
-		void setBasicMeshHandle			(ResourceIdCarrier id, size_t handle);
-		void setBasicMeshMaterialHandle	(ResourceIdCarrier id, size_t handle);
+		void setMeshHandle			(ResourceIdCarrier id, size_t handle);
+		void setMeshMaterialHandle	(ResourceIdCarrier id, size_t handle);
 		void setCameraHandle			(ResourceIdCarrier id, size_t handle);
 		void setLightHandle				(ResourceIdCarrier id, size_t handle);
 

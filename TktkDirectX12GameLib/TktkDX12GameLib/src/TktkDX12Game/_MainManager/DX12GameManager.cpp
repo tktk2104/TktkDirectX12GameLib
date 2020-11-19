@@ -8,9 +8,13 @@
 #include "TktkDX12Game/GraphicManager/GraphicManager.h"
 #include "TktkDX12Game/DXGameResource/DXGameResource.h"
 #include "TktkDX12Game/UtilityProcessManager/UtilityProcessManager.h"
-#include "TktkDX12Game/DXGameResource/DXGameShaderResouse/MeshResouse/Mesh/Maker/BoxMeshMaker.h"
-#include "TktkDX12Game/DXGameResource/DXGameShaderResouse/MeshResouse/Mesh/Maker/SphereMeshMaker.h"
+
 #include "TktkDX12Game/DXGameResource/GameObjectResouse/Component/DefaultComponents/StateMachine/StateMachine.h"
+#include "TktkDX12BaseComponents/3D/BillboardDrawer/BillboardDrawer.h"
+#include "TktkDX12BaseComponents/3D/BillboardDrawer/BillboardDrawFuncRunner.h"
+#include "TktkDX12BaseComponents/3D/MeshDrawer/MeshDrawer.h"
+#include "TktkDX12BaseComponents/3D/MeshDrawer/MeshDrawFuncRunner.h"
+#include "TktkDX12BaseComponents/3D/ShadowMapWriter/WriteMeshShadowMapFuncRunner.h"
 
 namespace tktk
 {
@@ -124,8 +128,8 @@ namespace tktk
 		shaderResInit.line2DMatMgrParam.containerParam				= gameManagerInitParam.line2DMatContainerParam;
 		shaderResInit.spriteMatMgrParam.containerParam				= gameManagerInitParam.spriteMatContainerParam;
 		shaderResInit.billboardMatMgrParam.containerParam			= gameManagerInitParam.billboardMatContainerParam;
-		shaderResInit.meshResParam.meshMgrParam.containerParam		= gameManagerInitParam.meshContainerParam;
-		shaderResInit.meshResParam.meshMatMgrParam.containerParam	= gameManagerInitParam.meshMatContainerParam;
+		shaderResInit.meshResParam.meshMgrParam						= gameManagerInitParam.meshContainerParam;
+		shaderResInit.meshResParam.meshMatMgrParam					= gameManagerInitParam.meshMatContainerParam;
 		shaderResInit.meshResParam.skeletonMgrParam					= gameManagerInitParam.skeletonContainerParam;
 		shaderResInit.meshResParam.motionMgrParam					= gameManagerInitParam.motionContainerParam;
 		shaderResInit.postEffectMatMgrParam.postEffectVSFilePath	= shaderFolderPath + "PostEffectVertexShader.cso";
@@ -136,19 +140,18 @@ namespace tktk
 		shaderResInit.spriteMatMgrParam.shaderFilePaths.psFilePath	= shaderFolderPath + "SpritePixelShader.cso";
 		shaderResInit.billboardMatMgrParam.shaderFilePaths.vsFilePath		= shaderFolderPath + "BillboardVertexShader.cso";
 		shaderResInit.billboardMatMgrParam.shaderFilePaths.psFilePath		= shaderFolderPath + "BillboardPixelShader.cso";
-		shaderResInit.meshResParam.meshMgrParam.writeShadowMapVsFilePath	= shaderFolderPath + "BasicMeshShadowVertexShader.cso";
-		shaderResInit.meshResParam.meshMatMgrParam.basicShaderFilePaths.vsFilePath	= shaderFolderPath + "BasicMeshVertexShader.cso";
-		shaderResInit.meshResParam.meshMatMgrParam.basicShaderFilePaths.psFilePath	= shaderFolderPath + "BasicMeshPixelShader.cso";
-		shaderResInit.meshResParam.meshMatMgrParam.monoColorShaderPsFilePath		= shaderFolderPath + "BasicMonoColorMeshPixelShader.cso";
+		shaderResInit.meshResParam.shaderFilePaths.simpleMeshVS				= shaderFolderPath + "SimpleMeshVertexShader.cso";
+		shaderResInit.meshResParam.shaderFilePaths.skinningMeshVS			= shaderFolderPath + "SkinningMeshVertexShader.cso";
+		shaderResInit.meshResParam.shaderFilePaths.basicMeshPS				= shaderFolderPath + "BasicMeshPixelShader.cso";
+		shaderResInit.meshResParam.shaderFilePaths.monoColorSimpleMeshVS	= shaderFolderPath + "MonoColorSimpleMeshVertexShader.cso";
+		shaderResInit.meshResParam.shaderFilePaths.monoColorSkinningMeshVS	= shaderFolderPath + "MonoColorSkinningMeshVertexShader.cso";
+		shaderResInit.meshResParam.shaderFilePaths.monoColorMeshPS			= shaderFolderPath + "MonoColorMeshPixelShader.cso";
+		shaderResInit.meshResParam.shaderFilePaths.simpleMeshShadowMapVs	= shaderFolderPath + "SimpleMeshShadowMapVertexShader.cso";
+		shaderResInit.meshResParam.shaderFilePaths.skinningMeshShadowMapVs	= shaderFolderPath + "SkinningMeshShadowMapVertexShader.cso";
 		auto& otherResInit = dxGameResParam.otherResParam;
 		otherResInit.sceneMgrParam = gameManagerInitParam.sceneContainerParam;
 		otherResInit.soundMgrParam = gameManagerInitParam.soundContainerParam;
 		m_dxGameResource = std::make_unique<DXGameResource>(dxGameResParam);
-		
-		// 立方体メッシュを作る
-		BoxMeshMaker::make();
-		// 球体メッシュを作る
-		SphereMeshMaker::make();
 
 		// デフォルトの通常カメラを作る
 		setSystemHandle(SystemCameraType::DefaultCamera, createCamera());
@@ -161,6 +164,15 @@ namespace tktk
 		
 		// ステートマシンの実行タイミングを設定する
 		addRunFuncPriority<StateMachine>(1000.0f);
+
+		// メッシュのインスタンス描画に使用する頂点バッファを設定するコンポーネントの実行タイミングを設定する
+		addRunFuncPriority<MeshDrawer>(1100.0f);
+
+		// ビルボードのインスタンス描画に使用する頂点バッファを設定するコンポーネントの実行タイミングを設定する
+		addRunFuncPriority<BillboardDrawer>(1100.0f);
+
+		// 初期から存在するメッシュを作る
+		m_dxGameResource->createSystemMesh();
 	}
 
 	void DX12GameManager::run()
@@ -382,6 +394,11 @@ namespace tktk
 	{
 		m_graphicManager->setVertexBuffer(handle);
 	}
+
+	void DX12GameManager::setVertexBuffer(size_t meshVertHandle, size_t instancingVertHandle)
+	{
+		m_graphicManager->setVertexBuffer(meshVertHandle, instancingVertHandle);
+	}
 	
 	void DX12GameManager::setIndexBuffer(size_t handle)
 	{
@@ -577,6 +594,11 @@ namespace tktk
 	{
 		m_graphicManager->updateUploadBuffer(handle, bufferData);
 	}
+
+	void DX12GameManager::updateVertexBuffer(size_t handle, const VertexDataCarrier& vertexData)
+	{
+		m_graphicManager->updateVertexBuffer(handle, vertexData);
+	}
 	
 	void DX12GameManager::copyBuffer(size_t handle)
 	{
@@ -652,16 +674,39 @@ namespace tktk
 		m_dxGameResource->drawLine(handle, drawFuncArgs);
 	}
 	
-	size_t DX12GameManager::createBillboardMaterial(const BillboardMaterialInitParam& initParam)
-	{
-		return m_dxGameResource->createBillboardMaterial(initParam);
-	}
-	
-	size_t DX12GameManager::createBillboardMaterialAndAttachId(ResourceIdCarrier id, const BillboardMaterialInitParam& initParam)
+	size_t DX12GameManager::createBillboardMaterial(const BillboardMaterialInitParam& initParam, const BillboardDrawFuncRunnerInitParam& funcRunnerInitParam)
 	{
 		auto createdHandle = m_dxGameResource->createBillboardMaterial(initParam);
-		m_utilityProcessManager->setBillboardMaterialHandle(id, createdHandle);
+
+		createComponent<BillboardDrawFuncRunner>(GameObjectPtr(), createdHandle, funcRunnerInitParam);
+
 		return createdHandle;
+	}
+	
+	size_t DX12GameManager::createBillboardMaterialAndAttachId(ResourceIdCarrier id, const BillboardMaterialInitParam& initParam, const BillboardDrawFuncRunnerInitParam& funcRunnerInitParam)
+	{
+		auto createdHandle = m_dxGameResource->createBillboardMaterial(initParam);
+
+		createComponent<BillboardDrawFuncRunner>(GameObjectPtr(), createdHandle, funcRunnerInitParam);
+
+		m_utilityProcessManager->setBillboardMaterialHandle(id, createdHandle);
+
+		return createdHandle;
+	}
+
+	const tktkMath::Vector2& DX12GameManager::getBillboardTextureSize(size_t handle)
+	{
+		return m_dxGameResource->getBillboardTextureSize(handle);
+	}
+
+	void DX12GameManager::clearBillboardInstanceParam(size_t handle)
+	{
+		m_dxGameResource->clearBillboardInstanceParam(handle);
+	}
+
+	void DX12GameManager::addBillboardInstanceVertParam(size_t handle, const BillboardMaterialInstanceVertData& instanceParam)
+	{
+		m_dxGameResource->addBillboardInstanceVertParam(handle, instanceParam);
 	}
 	
 	void DX12GameManager::drawBillboard(size_t handle, const BillboardDrawFuncBaseArgs& drawFuncArgs)
@@ -669,102 +714,177 @@ namespace tktk
 		m_dxGameResource->drawBillboard(handle, drawFuncArgs);
 	}
 	
-	void DX12GameManager::updateBillboardCbuffer(size_t handle, size_t copyBufferHandle, const BillboardCbufferUpdateFuncArgs& updateArgs)
+	size_t DX12GameManager::createMesh(const MeshInitParam& meshInitParam, const MeshDrawFuncRunnerInitParam& funcRunnerInitParam)
 	{
-		m_dxGameResource->updateBillboardCbuffer(handle, copyBufferHandle, updateArgs);
-	}
-	
-	void DX12GameManager::updateBillboardCbufferUseClippingParam(size_t handle, size_t copyBufferHandle, const BillboardCbufferUpdateFuncArgs& updateArgs, const BillboardClippingParam& clippingParam)
-	{
-		m_dxGameResource->updateBillboardCbufferUseClippingParam(handle, copyBufferHandle, updateArgs, clippingParam);
-	}
-	
-	size_t DX12GameManager::createMesh(const MeshInitParam& initParam)
-	{
-		return m_dxGameResource->createBasicMesh(initParam);
-	}
-	
-	size_t DX12GameManager::createMeshAndAttachId(ResourceIdCarrier id, const MeshInitParam& initParam)
-	{
-		auto createdHandle = m_dxGameResource->createBasicMesh(initParam);
-		m_utilityProcessManager->setBasicMeshHandle(id, createdHandle);
+		auto createdHandle = m_dxGameResource->createMesh(meshInitParam);
+
+		createComponent<MeshDrawFuncRunner>(GameObjectPtr(), createdHandle, funcRunnerInitParam);
+
+		if (funcRunnerInitParam.m_writeShadowMap)
+		{
+			createComponent<WriteMeshShadowMapFuncRunner>(GameObjectPtr(), createdHandle, funcRunnerInitParam.m_useBone, funcRunnerInitParam.m_skeletonHandle);
+		}
+
 		return createdHandle;
 	}
 	
-	size_t DX12GameManager::copyMesh(size_t originalHandle)
+	size_t DX12GameManager::createMeshAndAttachId(ResourceIdCarrier id, const MeshInitParam& meshInitParam, const MeshDrawFuncRunnerInitParam& funcRunnerInitParam)
 	{
-		return m_dxGameResource->copyBasicMesh(originalHandle);
+		auto createdHandle = m_dxGameResource->createMesh(meshInitParam);
+
+		createComponent<MeshDrawFuncRunner>(GameObjectPtr(), createdHandle, funcRunnerInitParam);
+
+		m_utilityProcessManager->setMeshHandle(id, createdHandle);
+
+		if (funcRunnerInitParam.m_writeShadowMap)
+		{
+			createComponent<WriteMeshShadowMapFuncRunner>(GameObjectPtr(), createdHandle, funcRunnerInitParam.m_useBone, funcRunnerInitParam.m_skeletonHandle);
+		}
+
+		return createdHandle;
 	}
 	
-	size_t DX12GameManager::copyMeshAndAttachId(ResourceIdCarrier id, size_t originalHandle)
+	size_t DX12GameManager::copyMesh(size_t originalHandle, const MeshDrawFuncRunnerInitParam& funcRunnerInitParam)
 	{
-		auto createdHandle = m_dxGameResource->copyBasicMesh(originalHandle);
-		m_utilityProcessManager->setBasicMeshHandle(id, createdHandle);
+		auto createdHandle = m_dxGameResource->copyMesh(originalHandle);
+
+		createComponent<MeshDrawFuncRunner>(GameObjectPtr(), createdHandle, funcRunnerInitParam);
+
+		if (funcRunnerInitParam.m_writeShadowMap)
+		{
+			createComponent<WriteMeshShadowMapFuncRunner>(GameObjectPtr(), createdHandle, funcRunnerInitParam.m_useBone, funcRunnerInitParam.m_skeletonHandle);
+		}
+
+		return createdHandle;
+	}
+	
+	size_t DX12GameManager::copyMeshAndAttachId(ResourceIdCarrier id, size_t originalHandle, const MeshDrawFuncRunnerInitParam& funcRunnerInitParam)
+	{
+		auto createdHandle = m_dxGameResource->copyMesh(originalHandle);
+
+		createComponent<MeshDrawFuncRunner>(GameObjectPtr(), createdHandle, funcRunnerInitParam);
+
+		m_utilityProcessManager->setMeshHandle(id, createdHandle);
+
+		if (funcRunnerInitParam.m_writeShadowMap)
+		{
+			createComponent<WriteMeshShadowMapFuncRunner>(GameObjectPtr(), createdHandle, funcRunnerInitParam.m_useBone, funcRunnerInitParam.m_skeletonHandle);
+		}
+
 		return createdHandle;
 	}
 	
 	size_t DX12GameManager::createMeshMaterial(const MeshMaterialInitParam& initParam)
 	{
-		return m_dxGameResource->createBasicMeshMaterial(initParam);
+		return m_dxGameResource->createMeshMaterial(initParam);
 	}
 	
 	size_t DX12GameManager::createMeshMaterialAndAttachId(ResourceIdCarrier id, const MeshMaterialInitParam& initParam)
 	{
-		auto createdHandle = m_dxGameResource->createBasicMeshMaterial(initParam);
-		m_utilityProcessManager->setBasicMeshMaterialHandle(id, createdHandle);
+		auto createdHandle = m_dxGameResource->createMeshMaterial(initParam);
+		m_utilityProcessManager->setMeshMaterialHandle(id, createdHandle);
 		return createdHandle;
 	}
 	
 	size_t DX12GameManager::copyMeshMaterial(size_t originalHandle)
 	{
-		return m_dxGameResource->copyBasicMeshMaterial(originalHandle);
+		return m_dxGameResource->copyMeshMaterial(originalHandle);
 	}
 	
 	size_t DX12GameManager::copyMeshMaterialAndAttachId(ResourceIdCarrier id, size_t originalHandle)
 	{
-		auto createdHandle = m_dxGameResource->copyBasicMeshMaterial(m_utilityProcessManager->getBasicMeshMaterialHandle(id));
-		m_utilityProcessManager->setBasicMeshMaterialHandle(id, createdHandle);
+		auto createdHandle = m_dxGameResource->copyMeshMaterial(m_utilityProcessManager->getBasicMeshMaterialHandle(id));
+		m_utilityProcessManager->setMeshMaterialHandle(id, createdHandle);
 		return createdHandle;
 	}
-	
-	void DX12GameManager::setMaterialHandle(size_t handle, size_t materialSlot, size_t materialHandle)
+
+	size_t DX12GameManager::makeBoxMesh(size_t albedoMapTextureHandle, const MeshDrawFuncRunnerInitParam& funcRunnerInitParam)
 	{
-		m_dxGameResource->setMaterialHandle(handle, materialSlot, materialHandle);
+		return m_dxGameResource->makeBoxMesh(albedoMapTextureHandle, funcRunnerInitParam);
+	}
+
+	size_t DX12GameManager::makeBoxMeshAndAttachId(ResourceIdCarrier id, size_t albedoMapTextureHandle, const MeshDrawFuncRunnerInitParam& funcRunnerInitParam)
+	{
+		auto createdHandle = m_dxGameResource->makeBoxMesh(albedoMapTextureHandle, funcRunnerInitParam);
+		m_utilityProcessManager->setMeshHandle(id, createdHandle);
+		return createdHandle;
+	}
+
+	size_t DX12GameManager::makeSkyBoxMesh(size_t skyBoxTextureHandle, const MeshDrawFuncRunnerInitParam& funcRunnerInitParam)
+	{
+		return m_dxGameResource->makeSkyBoxMesh(skyBoxTextureHandle, funcRunnerInitParam);
+	}
+
+	size_t DX12GameManager::makeSkyBoxMeshAndAttachId(ResourceIdCarrier id, size_t skyBoxTextureHandle, const MeshDrawFuncRunnerInitParam& funcRunnerInitParam)
+	{
+		auto createdHandle = m_dxGameResource->makeSkyBoxMesh(skyBoxTextureHandle, funcRunnerInitParam);
+		m_utilityProcessManager->setMeshHandle(id, createdHandle);
+		return createdHandle;
+	}
+
+	MeshLoadPmdReturnValue DX12GameManager::loadPmd(const MeshLoadPmdArgs& args, const MeshDrawFuncRunnerInitParam& funcRunnerInitParam)
+	{
+		return m_dxGameResource->loadPmd(args, funcRunnerInitParam);
+	}
+
+	MeshLoadPmxReturnValue DX12GameManager::loadPmx(const MeshLoadPmxArgs& args, const MeshDrawFuncRunnerInitParam& funcRunnerInitParam)
+	{
+		return m_dxGameResource->loadPmx(args, funcRunnerInitParam);
 	}
 	
+	void DX12GameManager::setMeshMaterialHandle(size_t handle, size_t materialSlot, size_t materialHandle)
+	{
+		m_dxGameResource->setMeshMaterialHandle(handle, materialSlot, materialHandle);
+	}
+	
+	void DX12GameManager::setMeshMaterialData(size_t handle)
+	{
+		m_dxGameResource->setMeshMaterialData(handle);
+	}
+
+	void DX12GameManager::addMeshMaterialAppendParam(size_t handle, const MeshMaterialAppendParamInitParam& initParam)
+	{
+		m_dxGameResource->addMeshMaterialAppendParam(handle, initParam);
+	}
+
+	void DX12GameManager::updateMeshMaterialAppendParam(size_t handle, const MeshMaterialAppendParamUpdateFuncArgs& updateFuncArgs)
+	{
+		m_dxGameResource->updateMeshMaterialAppendParam(handle, updateFuncArgs);
+	}
+
+	void DX12GameManager::clearMeshInstanceParam(size_t handle)
+	{
+		m_dxGameResource->clearMeshInstanceParam(handle);
+	}
+
+	void DX12GameManager::addMeshInstanceVertParam(size_t handle, const CopySourceDataCarrier& instanceParam)
+	{
+		m_dxGameResource->addMeshInstanceVertParam(handle, instanceParam);
+	}
+
+	void DX12GameManager::addMeshInstanceBoneMatrix(size_t meshHandle, size_t skeletonHandle)
+	{
+		m_dxGameResource->addMeshInstanceBoneMatrix(meshHandle, skeletonHandle);
+	}
+
 	void DX12GameManager::writeMeshShadowMap(size_t handle)
 	{
-		m_dxGameResource->writeBasicMeshShadowMap(handle);
-	}
-	
-	void DX12GameManager::setMaterialData(size_t handle)
-	{
-		m_dxGameResource->setMaterialData(handle);
+		m_dxGameResource->writeMeshShadowMap(handle);
 	}
 
-	void DX12GameManager::addMaterialAppendParam(size_t handle, const MeshMaterialAppendParamInitParam& initParam)
+	void DX12GameManager::writeMeshShadowMapUseBone(size_t handle)
 	{
-		m_dxGameResource->addMaterialAppendParam(handle, initParam);
+		m_dxGameResource->writeMeshShadowMapUseBone(handle);
 	}
 
-	void DX12GameManager::updateMaterialAppendParam(size_t handle, const MeshMaterialAppendParamUpdateFuncArgs& updateFuncArgs)
-	{
-		m_dxGameResource->updateMaterialAppendParam(handle, updateFuncArgs);
-	}
-	
 	void DX12GameManager::drawMesh(size_t handle, const MeshDrawFuncBaseArgs& baseArgs)
 	{
-		m_dxGameResource->drawBasicMesh(handle, baseArgs);
+		m_dxGameResource->drawMesh(handle, baseArgs);
 	}
-	
-	MeshLoadPmdReturnValue DX12GameManager::loadPmd(const MeshLoadPmdArgs& args)
+
+	void DX12GameManager::drawMeshUseBone(size_t handle, const MeshDrawFuncBaseArgs& baseArgs)
 	{
-		return m_dxGameResource->loadPmd(args);
-	}
-	
-	MeshLoadPmxReturnValue DX12GameManager::loadPmx(const MeshLoadPmxArgs& args)
-	{
-		return m_dxGameResource->loadPmx(args);
+		m_dxGameResource->drawMeshUseBone(handle, baseArgs);
 	}
 	
 	size_t DX12GameManager::createSkeleton(const SkeletonInitParam& initParam)
@@ -1173,12 +1293,12 @@ namespace tktk
 		return m_utilityProcessManager->getSystemHandle(type);
 	}
 	
-	size_t DX12GameManager::getSystemHandle(SystemBasicMeshType type)
+	size_t DX12GameManager::getSystemHandle(SystemMeshType type)
 	{
 		return m_utilityProcessManager->getSystemHandle(type);
 	}
 	
-	size_t DX12GameManager::getSystemHandle(SystemBasicMeshMaterialType type)
+	size_t DX12GameManager::getSystemHandle(SystemMeshMaterialType type)
 	{
 		return m_utilityProcessManager->getSystemHandle(type);
 	}
@@ -1263,12 +1383,12 @@ namespace tktk
 		m_utilityProcessManager->setSystemHandle(type, handle);
 	}
 	
-	void DX12GameManager::setSystemHandle(SystemBasicMeshType type, size_t handle)
+	void DX12GameManager::setSystemHandle(SystemMeshType type, size_t handle)
 	{
 		m_utilityProcessManager->setSystemHandle(type, handle);
 	}
 	
-	void DX12GameManager::setSystemHandle(SystemBasicMeshMaterialType type, size_t handle)
+	void DX12GameManager::setSystemHandle(SystemMeshMaterialType type, size_t handle)
 	{
 		m_utilityProcessManager->setSystemHandle(type, handle);
 	}

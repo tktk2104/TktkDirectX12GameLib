@@ -12,38 +12,38 @@ namespace tktk
 	MeshMaterialData::MeshMaterialData(const MeshMaterialInitParam& initParam)
 		: m_usePipeLineStateHandle(initParam.usePipeLineStateHandle)
 		, m_useDescriptorHeapHandle(initParam.useDescriptorHeapHandle)
-		, m_materialAmbient(initParam.materialAmbient)
-		, m_materialDiffuse(initParam.materialDiffuse)
-		, m_materialSpecular(initParam.materialSpecular)
-		, m_materialEmissive(initParam.materialEmissive)
-		, m_materialShiniess(initParam.materialShiniess)
+		//, m_materialAmbient(initParam.materialAmbient)
+		//, m_materialDiffuse(initParam.materialDiffuse)
+		//, m_materialSpecular(initParam.materialSpecular)
+		//, m_materialEmissive(initParam.materialEmissive)
+		//, m_materialShiniess(initParam.materialShiniess)
 	{
 		// アップロード用バッファを作り、そのハンドルを取得する
-		m_createUploadBufferHandle = DX12GameManager::createUploadBuffer(UploadBufferInitParam::create(BufferType::constant, DX12GameManager::getSystemHandle(SystemCBufferType::BasicMeshMaterial), MeshMaterialCbuffer()));
+		m_createUploadBufferHandle = DX12GameManager::createUploadBuffer(UploadBufferInitParam::create(BufferType::constant, DX12GameManager::getSystemHandle(SystemCBufferType::MeshMaterial), MeshMaterialCbuffer()));
 	}
 
 	MeshMaterialData::MeshMaterialData(const MeshMaterialData& other)
 		: m_usePipeLineStateHandle(other.m_usePipeLineStateHandle)
 		, m_useDescriptorHeapHandle(other.m_useDescriptorHeapHandle)
-		, m_materialAmbient(other.m_materialAmbient)
-		, m_materialDiffuse(other.m_materialDiffuse)
-		, m_materialSpecular(other.m_materialSpecular)
-		, m_materialEmissive(other.m_materialEmissive)
-		, m_materialShiniess(other.m_materialShiniess)
+		//, m_materialAmbient(other.m_materialAmbient)
+		//, m_materialDiffuse(other.m_materialDiffuse)
+		//, m_materialSpecular(other.m_materialSpecular)
+		//, m_materialEmissive(other.m_materialEmissive)
+		//, m_materialShiniess(other.m_materialShiniess)
 	{
 		// アップロード用バッファを作り、そのハンドルを取得する
-		m_createUploadBufferHandle = DX12GameManager::createUploadBuffer(UploadBufferInitParam::create(BufferType::constant, DX12GameManager::getSystemHandle(SystemCBufferType::BasicMeshMaterial), MeshMaterialCbuffer()));
+		m_createUploadBufferHandle = DX12GameManager::createUploadBuffer(UploadBufferInitParam::create(BufferType::constant, DX12GameManager::getSystemHandle(SystemCBufferType::MeshMaterial), MeshMaterialCbuffer()));
 	}
 
 	MeshMaterialData::MeshMaterialData(MeshMaterialData&& other) noexcept
 		: m_usePipeLineStateHandle(other.m_usePipeLineStateHandle)
 		, m_useDescriptorHeapHandle(other.m_useDescriptorHeapHandle)
 		, m_createUploadBufferHandle(other.m_createUploadBufferHandle)
-		, m_materialAmbient(other.m_materialAmbient)
-		, m_materialDiffuse(other.m_materialDiffuse)
-		, m_materialSpecular(other.m_materialSpecular)
-		, m_materialEmissive(other.m_materialEmissive)
-		, m_materialShiniess(other.m_materialShiniess)
+		//, m_materialAmbient(other.m_materialAmbient)
+		//, m_materialDiffuse(other.m_materialDiffuse)
+		//, m_materialSpecular(other.m_materialSpecular)
+		//, m_materialEmissive(other.m_materialEmissive)
+		//, m_materialShiniess(other.m_materialShiniess)
 		, m_appendParamMap(std::move(other.m_appendParamMap))
 	{
 		other.m_createUploadBufferHandle = 0U;
@@ -61,7 +61,7 @@ namespace tktk
 
 		// 定数バッファのアップロード用バッファを更新する
 		// TODO : 前フレームと定数バッファに変化がない場合、更新しない処理を作る
-		updateCopyBuffer();
+		//updateCopyBuffer();
 
 		// マテリアル用定数バッファにアップロード用バッファの情報をコピーする
 		DX12GameManager::copyBuffer(m_createUploadBufferHandle);
@@ -93,11 +93,11 @@ namespace tktk
 	{
 		MeshMaterialCbuffer materialBufferData{};
 
-		materialBufferData.materialAmbient = m_materialAmbient;
-		materialBufferData.materialDiffuse = m_materialDiffuse;
-		materialBufferData.materialSpecular = m_materialSpecular;
-		materialBufferData.materialEmissive = m_materialEmissive;
-		materialBufferData.materialShiniess = m_materialShiniess;
+		//materialBufferData.materialAmbient = m_materialAmbient;
+		//materialBufferData.materialDiffuse = m_materialDiffuse;
+		//materialBufferData.materialSpecular = m_materialSpecular;
+		//materialBufferData.materialEmissive = m_materialEmissive;
+		//materialBufferData.materialShiniess = m_materialShiniess;
 
 		DX12GameManager::updateUploadBuffer(m_createUploadBufferHandle, materialBufferData);
 	}

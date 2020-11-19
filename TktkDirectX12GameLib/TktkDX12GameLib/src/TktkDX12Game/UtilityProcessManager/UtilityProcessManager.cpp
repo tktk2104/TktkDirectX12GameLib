@@ -242,12 +242,12 @@ namespace tktk
 		return m_resourceHandleGetter->getSystemHandle(type);
 	}
 
-	size_t UtilityProcessManager::getSystemHandle(SystemBasicMeshType type) const
+	size_t UtilityProcessManager::getSystemHandle(SystemMeshType type) const
 	{
 		return m_resourceHandleGetter->getSystemHandle(type);
 	}
 
-	size_t UtilityProcessManager::getSystemHandle(SystemBasicMeshMaterialType type) const
+	size_t UtilityProcessManager::getSystemHandle(SystemMeshMaterialType type) const
 	{
 		return m_resourceHandleGetter->getSystemHandle(type);
 	}
@@ -332,12 +332,12 @@ namespace tktk
 		m_resourceHandleGetter->setSystemHandle(type, handle);
 	}
 
-	void UtilityProcessManager::setSystemHandle(SystemBasicMeshType type, size_t handle)
+	void UtilityProcessManager::setSystemHandle(SystemMeshType type, size_t handle)
 	{
 		m_resourceHandleGetter->setSystemHandle(type, handle);
 	}
 
-	void UtilityProcessManager::setSystemHandle(SystemBasicMeshMaterialType type, size_t handle)
+	void UtilityProcessManager::setSystemHandle(SystemMeshMaterialType type, size_t handle)
 	{
 		m_resourceHandleGetter->setSystemHandle(type, handle);
 	}
@@ -447,14 +447,14 @@ namespace tktk
 		m_resourceHandleGetter->setMotionHandle(id, handle);
 	}
 
-	void UtilityProcessManager::setBasicMeshHandle(ResourceIdCarrier id, size_t handle)
+	void UtilityProcessManager::setMeshHandle(ResourceIdCarrier id, size_t handle)
 	{
-		m_resourceHandleGetter->setBasicMeshHandle(id, handle);
+		m_resourceHandleGetter->setMeshHandle(id, handle);
 	}
 
-	void UtilityProcessManager::setBasicMeshMaterialHandle(ResourceIdCarrier id, size_t handle)
+	void UtilityProcessManager::setMeshMaterialHandle(ResourceIdCarrier id, size_t handle)
 	{
-		m_resourceHandleGetter->setBasicMeshMaterialHandle(id, handle);
+		m_resourceHandleGetter->setMeshMaterialHandle(id, handle);
 	}
 
 	void UtilityProcessManager::setCameraHandle(ResourceIdCarrier id, size_t handle)

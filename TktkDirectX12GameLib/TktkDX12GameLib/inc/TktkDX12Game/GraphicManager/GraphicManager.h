@@ -7,11 +7,14 @@
 /* std::array */
 #include <array>
 
+/* HWND */
+#include <d3d12.h>
+#undef min
+#undef max
+
 /* funcUseType */
-#include <TktkDX12Wrapper/Window/WindowInitParam.h>
 #include <TktkDX12Wrapper/_BaseObjects/DX3DBaseObjectsInitParam.h>
 #include <TktkMath/Structs/Vector3.h>
-#include <TktkDX12Wrapper/Includer/D3d12Includer.h>
 #include <TktkDX12Wrapper/_BaseObjects/DX3DBaseObjectsInitParamIncluder.h>
 #include <TktkDX12Wrapper/_BaseObjects/DX3DBaseObjectsFuncArgsIncluder.h>
 #include <TktkDX12Wrapper/_BaseObjects/DX3DBaseObjectsInitParam.h>
@@ -19,9 +22,14 @@
 
 namespace tktk
 {
+	/* class member */
 	class Window;
 	class DX3DBaseObjects;
 
+	/* funcUseType */
+	struct WindowInitParam;
+
+	// グラフィックマネージャー
 	class GraphicManager
 	{
 	public:
@@ -170,6 +178,9 @@ namespace tktk
 		// 引数のポインタのデータを指定のアップロードバッファにコピーする
 		void updateUploadBuffer(size_t handle, const CopySourceDataCarrier& bufferData);
 
+		// 指定の頂点バッファをコマンドリストを使わずに更新する
+		void updateVertexBuffer(size_t handle, const VertexDataCarrier& vertexData);
+
 		// 指定のアップロードバッファの内容を設定したバッファにアップロードするGPU命令を行う
 		void copyBuffer(size_t handle) const;
 
@@ -217,6 +228,9 @@ namespace tktk
 
 		// 指定の頂点バッファをコマンドリストに設定する
 		void setVertexBuffer(size_t handle) const;
+
+		// コマンドリストに指定の頂点バッファを登録する（インスタンス描画用）
+		void setVertexBuffer(size_t meshVertHandle, size_t instancingVertHandle) const;
 
 		// 指定のインデックスバッファをコマンドリストに設定する
 		void setIndexBuffer(size_t handle) const;

@@ -9,7 +9,8 @@ namespace tktk
 		Line2D,
 		Sphere,
 		Box,
-		BasicMeshShadowMap
+		SimpleMeshShadowMap,
+		SkinningMeshShadowMap
 	};
 }
 #endif // !SYSTEM_BASIC_DESCRIPTOR_HEAP_TYPE_H_

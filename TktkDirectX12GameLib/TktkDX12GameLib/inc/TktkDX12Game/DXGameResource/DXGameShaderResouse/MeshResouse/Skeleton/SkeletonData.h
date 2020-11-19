@@ -4,6 +4,9 @@
 /* std::string */
 #include <string>
 
+/* std::array<> */
+#include <array>
+
 /* std::vector<> */
 #include <vector>
 
@@ -42,6 +45,9 @@ namespace tktk
 
 		// 引数のボーン毎の座標変換行列を使ってスケルトンを変形する
 		void transform(const std::vector<MotionBoneParam>& transformMatrices);
+
+		// 骨行列の配列を取得する
+		std::array<tktkMath::Matrix4, 128U> getBoneMatrixArray() const;
 
 		// 引数が表すコピーバッファを使って骨情報を管理する定数バッファを更新する
 		void updateBoneMatrixCbuffer(size_t copyBufferHandle) const;

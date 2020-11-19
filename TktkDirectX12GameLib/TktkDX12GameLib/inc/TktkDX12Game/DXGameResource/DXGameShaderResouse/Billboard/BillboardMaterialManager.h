@@ -2,17 +2,17 @@
 #define BILLBOARD_MATERIAL_H_
 
 /* tktkContainer::ResourceContainer */
+#include <TktkMath/Structs/Vector2.h>
 #include <TktkContainer/ResourceContainer/ResourceContainer.h>
 
 namespace tktk
 {
-	struct BillboardMaterialManagerInitParam;
-	struct ShaderFilePaths;
 	class BillboardMaterialData;
+
+	struct BillboardMaterialManagerInitParam;
 	struct BillboardMaterialInitParam;
 	struct BillboardDrawFuncBaseArgs;
-	struct BillboardCbufferUpdateFuncArgs;
-	struct BillboardClippingParam;
+	struct BillboardMaterialInstanceVertData;
 
 	// 「BillboardMaterialData」を管理するクラス
 	class BillboardMaterialManager
@@ -27,22 +27,17 @@ namespace tktk
 		// 「BillboardMaterialData」のインスタンスを作り、そのリソースのハンドルを返す
 		size_t create(const BillboardMaterialInitParam& initParam);
 
+		// 指定したビルボードが使用するテクスチャのサイズを取得する
+		const tktkMath::Vector2& getBillboardTextureSize(size_t handle) const;
+
+		// 指定したビルボードをインスタンス描画する時に使用する値を削除する
+		void clearInstanceParam(size_t handle);
+
+		// 指定したビルボードをインスタンス描画する時に使用する値を追加する
+		void addInstanceVertParam(size_t handle, const BillboardMaterialInstanceVertData& instanceParam);
+
 		// 指定したビルボードを描画する
-		void drawBillboard(size_t handle, const BillboardDrawFuncBaseArgs& drawFuncArgs) const;
-
-		// 引数が表すコピーバッファを使って座標変換情報を管理する定数バッファを更新する
-		void updateTransformCbuffer(size_t handle, size_t copyBufferHandle, const BillboardCbufferUpdateFuncArgs& updateArgs) const;
-
-		// 引数が表すコピーバッファを使って座標変換情報を管理する定数バッファを更新する（切り抜き範囲指定版）
-		void updateTransformCbufferUseClippingParam(size_t handle, size_t copyBufferHandle, const BillboardCbufferUpdateFuncArgs& updateArgs, const BillboardClippingParam& clippingParam) const;
-
-	private:
-
-		// ビルボード描画用のルートシグネチャを作る
-		void createRootSignature() const;
-
-		// ビルボード描画用のパイプラインステートを作る
-		void createGraphicsPipeLineState(const ShaderFilePaths & shaderFilePaths) const;
+		void draw(size_t handle, const BillboardDrawFuncBaseArgs& drawFuncArgs) const;
 
 	private:
 

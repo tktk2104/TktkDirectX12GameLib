@@ -51,8 +51,8 @@ namespace tktk
 		size_t getSystemHandle(SystemPipeLineStateType type)		const;
 		size_t getSystemHandle(SystemCameraType type)				const;
 		size_t getSystemHandle(SystemLightType type)				const;
-		size_t getSystemHandle(SystemBasicMeshType type)			const;
-		size_t getSystemHandle(SystemBasicMeshMaterialType type)	const;
+		size_t getSystemHandle(SystemMeshType type)			const;
+		size_t getSystemHandle(SystemMeshMaterialType type)	const;
 		size_t getSystemHandle(SystemPostEffectMaterialType type)	const;
 
 	public:
@@ -72,8 +72,8 @@ namespace tktk
 		void setSystemHandle(SystemPipeLineStateType type,			size_t handle);
 		void setSystemHandle(SystemCameraType type,					size_t handle);
 		void setSystemHandle(SystemLightType type,					size_t handle);
-		void setSystemHandle(SystemBasicMeshType type,				size_t handle);
-		void setSystemHandle(SystemBasicMeshMaterialType type,		size_t handle);
+		void setSystemHandle(SystemMeshType type,				size_t handle);
+		void setSystemHandle(SystemMeshMaterialType type,		size_t handle);
 		void setSystemHandle(SystemPostEffectMaterialType type,		size_t handle);
 
 	private:
@@ -93,8 +93,8 @@ namespace tktk
 		std::unordered_map<SystemPipeLineStateType,			size_t>	m_systemPipeLineStateHandleMap;
 		std::unordered_map<SystemCameraType,				size_t>	m_systemCameraHandleMap;
 		std::unordered_map<SystemLightType,					size_t>	m_systemLightHandleMap;
-		std::unordered_map<SystemBasicMeshType,				size_t>	m_systemBasicMeshHandleMap;
-		std::unordered_map<SystemBasicMeshMaterialType,		size_t>	m_systemBasicMeshMaterialHandleMap;
+		std::unordered_map<SystemMeshType,				size_t>	m_systemBasicMeshHandleMap;
+		std::unordered_map<SystemMeshMaterialType,		size_t>	m_systemBasicMeshMaterialHandleMap;
 		std::unordered_map<SystemPostEffectMaterialType,	size_t>	m_systemPostEffectMaterialHandleMap;
 	};
 }

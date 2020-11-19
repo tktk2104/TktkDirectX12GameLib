@@ -3,7 +3,7 @@
 
 #include <string>
 #include <TktkDX12Wrapper/Resource/DX3DResourceNum.h>
-#include <TktkDX12Wrapper/Window/WindowInitParam.h>
+#include "../GraphicManager/Window/WindowInitParam.h"
 
 namespace tktk
 {

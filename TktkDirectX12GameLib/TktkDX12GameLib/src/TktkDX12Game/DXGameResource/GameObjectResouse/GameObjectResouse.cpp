@@ -80,8 +80,8 @@ namespace tktk
 		// コンポーネントを管理リストに追加する
 		auto createdComponent = m_componentManager->addComponent(type, vtablePtrBundle, listVtablePtr, componentPtr);
 
-		// コンポーネントに所持者オブジェクトを登録する
-		createdComponent->setUser(user);
+		// 所持者予定オブジェクトが存在したらコンポーネントにそれを登録する
+		if (!user.expired()) createdComponent->setUser(user);
 
 		// 「awake」 関数を呼ぶ
 		awake_runner<void>::checkAndRun(createdComponent);

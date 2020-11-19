@@ -80,12 +80,12 @@ namespace tktk
 		return m_systemLightHandleMap.at(type);
 	}
 
-	size_t SystemResourceHandleGetter::getSystemHandle(SystemBasicMeshType type) const
+	size_t SystemResourceHandleGetter::getSystemHandle(SystemMeshType type) const
 	{
 		return m_systemBasicMeshHandleMap.at(type);
 	}
 
-	size_t SystemResourceHandleGetter::getSystemHandle(SystemBasicMeshMaterialType type) const
+	size_t SystemResourceHandleGetter::getSystemHandle(SystemMeshMaterialType type) const
 	{
 		return m_systemBasicMeshMaterialHandleMap.at(type);
 	}
@@ -170,12 +170,12 @@ namespace tktk
 		m_systemLightHandleMap.emplace(type, handle);
 	}
 
-	void SystemResourceHandleGetter::setSystemHandle(SystemBasicMeshType type, size_t handle)
+	void SystemResourceHandleGetter::setSystemHandle(SystemMeshType type, size_t handle)
 	{
 		m_systemBasicMeshHandleMap.emplace(type, handle);
 	}
 
-	void SystemResourceHandleGetter::setSystemHandle(SystemBasicMeshMaterialType type, size_t handle)
+	void SystemResourceHandleGetter::setSystemHandle(SystemMeshMaterialType type, size_t handle)
 	{
 		m_systemBasicMeshMaterialHandleMap.emplace(type, handle);
 	}

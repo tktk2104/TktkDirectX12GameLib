@@ -15,12 +15,6 @@ namespace tktk
 		// 引数のユーザーを設定
 		m_self.m_user = user;
 
-		// 使用するカメラハンドルのデフォルト値はデフォルト通常カメラ
-		m_self.m_cameraHandle = DX12GameManager::getSystemHandle(SystemCameraType::DefaultCamera);
-
-		// 使用するレンダーターゲットのディスクリプタヒープハンドルのデフォルト値はバックバッファ
-		m_self.m_useRtvDescriptorHeapHandle = DX12GameManager::getSystemHandle(SystemRtvDescriptorHeapType::BackBuffer);
-
 		// 自身の参照を返す
 		return m_self;
 	}
@@ -29,47 +23,18 @@ namespace tktk
 	{
 		// コンポーネントを作成する
 		return m_user->createComponent<BillboardDrawer>(
-			m_drawPriority,
 			m_billboardMaterialHandle,
-			m_useRtvDescriptorHeapHandle,
-			m_cameraHandle,
 			m_centerRate,
-			m_blendRate
+			m_blendRate,
+			m_clippingLeftTopPos,
+			m_clippingSize
 			);
-	}
-
-	BillboardDrawerMaker& BillboardDrawerMaker::drawPriority(float value)
-	{
-		// 値を設定して自身の参照を返す
-		m_drawPriority = value;
-		return *this;
-	}
-
-	BillboardDrawerMaker& BillboardDrawerMaker::useRtvDescriptorHeapHandle(size_t value)
-	{
-		// 値を設定して自身の参照を返す
-		m_useRtvDescriptorHeapHandle = value;
-		return *this;
 	}
 
 	BillboardDrawerMaker& BillboardDrawerMaker::billboardMaterialHandle(size_t value)
 	{
 		// 値を設定して自身の参照を返す
 		m_billboardMaterialHandle = value;
-		return *this;
-	}
-
-	BillboardDrawerMaker& BillboardDrawerMaker::cameraHandle(size_t value)
-	{
-		// 値を設定して自身の参照を返す
-		m_cameraHandle = value;
-		return *this;
-	}
-
-	BillboardDrawerMaker& BillboardDrawerMaker::cameraId(ResourceIdCarrier value)
-	{
-		// 値を設定して自身の参照を返す
-		m_cameraHandle = DX12GameManager::getCameraHandle(value);
 		return *this;
 	}
 
@@ -91,6 +56,36 @@ namespace tktk
 	{
 		// 値を設定して自身の参照を返す
 		m_blendRate = value;
+		return *this;
+	}
+
+	BillboardDrawerMaker& BillboardDrawerMaker::clippingLeftTopPos(const tktkMath::Vector2& value)
+	{
+		// 値を設定して自身の参照を返す
+		m_clippingLeftTopPos = value;
+		return *this;
+	}
+
+	BillboardDrawerMaker& BillboardDrawerMaker::notClippingUseHandle(size_t billboarddMaterialHandle)
+	{
+		// ビルボードハンドルからテクスチャサイズを取得し、クリッピングサイズに設定する
+		const auto& textureSize = DX12GameManager::getBillboardTextureSize(billboarddMaterialHandle);
+		m_clippingSize = { textureSize.x, textureSize.y };
+		return *this;
+	}
+
+	BillboardDrawerMaker& BillboardDrawerMaker::notClippingUseId(ResourceIdCarrier billboarddMaterialId)
+	{
+		// ビルボードIdからテクスチャサイズを取得し、クリッピングサイズに設定する
+		const auto& textureSize = DX12GameManager::getBillboardTextureSize(DX12GameManager::getBillboardMaterialHandle(billboarddMaterialId));
+		m_clippingSize = { textureSize.x, textureSize.y };
+		return *this;
+	}
+
+	BillboardDrawerMaker& BillboardDrawerMaker::clippingSize(const tktkMath::Vector2& value)
+	{
+		// 値を設定して自身の参照を返す
+		m_clippingSize = value;
 		return *this;
 	}
 }

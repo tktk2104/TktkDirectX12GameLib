@@ -55,8 +55,8 @@ namespace tktk
 		size_t getSystemHandle(SystemPipeLineStateType type)		const;
 		size_t getSystemHandle(SystemCameraType type)				const;
 		size_t getSystemHandle(SystemLightType type)				const;
-		size_t getSystemHandle(SystemBasicMeshType type)			const;
-		size_t getSystemHandle(SystemBasicMeshMaterialType type)	const;
+		size_t getSystemHandle(SystemMeshType type)			const;
+		size_t getSystemHandle(SystemMeshMaterialType type)	const;
 		size_t getSystemHandle(SystemPostEffectMaterialType type)	const;
 
 	public:
@@ -76,8 +76,8 @@ namespace tktk
 		void setSystemHandle(SystemPipeLineStateType type,			size_t handle);
 		void setSystemHandle(SystemCameraType type,					size_t handle);
 		void setSystemHandle(SystemLightType type,					size_t handle);
-		void setSystemHandle(SystemBasicMeshType type,				size_t handle);
-		void setSystemHandle(SystemBasicMeshMaterialType type,		size_t handle);
+		void setSystemHandle(SystemMeshType type,				size_t handle);
+		void setSystemHandle(SystemMeshMaterialType type,		size_t handle);
 		void setSystemHandle(SystemPostEffectMaterialType type,		size_t handle);
 
 	public:
@@ -105,8 +105,8 @@ namespace tktk
 		void setBillboardMaterialHandle	(ResourceIdCarrier id, size_t handle);
 		void setSkeletonHandle			(ResourceIdCarrier id, size_t handle);
 		void setMotionHandle			(ResourceIdCarrier id, size_t handle);
-		void setBasicMeshHandle			(ResourceIdCarrier id, size_t handle);
-		void setBasicMeshMaterialHandle	(ResourceIdCarrier id, size_t handle);
+		void setMeshHandle			(ResourceIdCarrier id, size_t handle);
+		void setMeshMaterialHandle	(ResourceIdCarrier id, size_t handle);
 		void setCameraHandle			(ResourceIdCarrier id, size_t handle);
 		void setLightHandle				(ResourceIdCarrier id, size_t handle);
 
