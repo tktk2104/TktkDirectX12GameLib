@@ -13,7 +13,7 @@ namespace tktk
 			: dataSize(sizeof(SourceType))
 			, dataTopPos(&sourceData) {}
 
-		// 応急的 ※「11/06中に消す」
+		// テンプレート未使用版
 		CopySourceDataCarrier(size_t dataSize, const void* dataTopPos)
 			: dataSize(dataSize)
 			, dataTopPos(dataTopPos) {}

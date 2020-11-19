@@ -1,8 +1,12 @@
 #ifndef TEXTURE_BUFFER_DATA_H_
 #define TEXTURE_BUFFER_DATA_H_
 
+/* DXGI_FORMAT, D3D12_SRV_DIMENSION, ID3D12Device, ID3D12GraphicsCommandList, D3D12_CPU_DESCRIPTOR_HANDLE, ID3D12Resource */
+#include <d3d12.h>
+#undef min
+#undef max
+
 #include <TktkMath/Structs/Vector3.h>
-#include "../../../Includer/D3d12Includer.h"
 #include "TextureBufferInitParam.h"
 
 namespace tktk

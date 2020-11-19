@@ -1,7 +1,11 @@
 #ifndef ROOT_SIGNATURE_DATA_H_
 #define ROOT_SIGNATURE_DATA_H_
 
-#include "../../../Includer/D3d12Includer.h"
+/* ID3D12Device, ID3D12GraphicsCommandList, ID3D12RootSignature */
+#include <d3d12.h>
+#undef min
+#undef max
+
 #include "RootSignatureInitParam.h"
 
 namespace tktk

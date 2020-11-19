@@ -90,9 +90,19 @@ namespace tktk
 		m_vertexBuffer->erase(handle);
 	}
 
+	void BufferResource::updateVertexBuffer(size_t handle, const VertexDataCarrier& vertexData)
+	{
+		m_vertexBuffer->update(handle, vertexData);
+	}
+
 	void BufferResource::setVertexBuffer(size_t handle, ID3D12GraphicsCommandList* commandList) const
 	{
 		m_vertexBuffer->set(handle, commandList);
+	}
+
+	void BufferResource::setVertexBuffer(size_t meshVertHandle, size_t instancingVertHandle, ID3D12GraphicsCommandList* commandList) const
+	{
+		m_vertexBuffer->set(meshVertHandle, instancingVertHandle, commandList);
 	}
 
 	size_t BufferResource::createIndexBuffer(ID3D12Device* device, const std::vector<unsigned short>& indexDataArray)

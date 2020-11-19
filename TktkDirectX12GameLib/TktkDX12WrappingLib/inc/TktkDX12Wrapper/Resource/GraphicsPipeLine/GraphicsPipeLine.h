@@ -1,8 +1,14 @@
 #ifndef GRAPHICS_PIPE_LINE_H_
 #define GRAPHICS_PIPE_LINE_H_
 
-#include <memory>	// std::unique_ptr
-#include "../../Includer/D3d12Includer.h"
+/* std::unique_ptr */
+#include <memory>
+
+/* ID3D12Device, ID3D12GraphicsCommandList */
+#include <d3d12.h>
+#undef min
+#undef max
+
 #include "GraphicsPipeLineInitParamIncluder.h"
 #include "GraphicsPipeLineResourceNum.h"
 

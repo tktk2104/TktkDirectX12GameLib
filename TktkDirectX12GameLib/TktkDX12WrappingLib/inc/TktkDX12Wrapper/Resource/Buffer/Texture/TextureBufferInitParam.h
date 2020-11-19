@@ -1,8 +1,13 @@
 #ifndef TEXTURE_BUFFER_INIT_PARAM_H_
 #define TEXTURE_BUFFER_INIT_PARAM_H_
 
+/* std::vector */
 #include <vector>
-#include "../../../Includer/D3d12Includer.h"
+
+/* D3D12_RESOURCE_DIMENSION, DXGI_FORMAT */
+#include <d3d12.h>
+#undef min
+#undef max
 
 namespace tktk
 {

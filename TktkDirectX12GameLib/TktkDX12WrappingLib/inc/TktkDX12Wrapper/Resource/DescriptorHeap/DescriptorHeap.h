@@ -1,9 +1,15 @@
 #ifndef DESCRIPTOR_HEAP_H_
 #define DESCRIPTOR_HEAP_H_
 
-#include <memory>	// std::unique_ptr
+/* std::unique_ptr */
+#include <memory>
+
+/* ID3D12Device, ID3D12GraphicsCommandList, D3D12_CPU_DESCRIPTOR_HANDLE */
+#include <d3d12.h>
+#undef min
+#undef max
+
 #include <TktkMath/Structs/Color.h>
-#include "../../Includer/D3d12Includer.h"
 #include "DescriptorHeapInitParamIncluder.h"
 #include "DescriptorHeapParam.h"
 #include "DescriptorHeapNum.h"

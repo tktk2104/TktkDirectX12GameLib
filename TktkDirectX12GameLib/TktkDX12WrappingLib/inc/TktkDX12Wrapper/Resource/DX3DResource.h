@@ -1,11 +1,19 @@
 #ifndef DX_3D_RESOURCE_H_
 #define DX_3D_RESOURCE_H_
 
-#include <memory>		// std::unique_ptr
-#include <dxgi1_6.h>	// swapChain
+/* std::unique_ptr */
+#include <memory>
+
+/* IDXGISwapChain1 */
+#include <dxgi1_6.h>
+
+/* ID3D12Device, ID3D12GraphicsCommandList, D3D12_CPU_DESCRIPTOR_HANDLE */
+#include <d3d12.h>
+#undef min
+#undef max
+
 #include <TktkMath/Structs/Color.h>
 #include <TktkMath/Structs/Vector3.h>
-#include "../Includer/D3d12Includer.h"
 #include "DX3DResourceInitParamIncluder.h"
 #include "DX3DResourceFuncArgsIncluder.h"
 #include "DX3DResourceNum.h"
@@ -149,6 +157,9 @@ namespace tktk
 		// 引数のポインタのデータを指定のアップロードバッファにコピーする
 		void updateUploadBuffer(size_t handle, const CopySourceDataCarrier& bufferData);
 
+		// 指定の頂点バッファをコマンドリストを使わずに更新する
+		void updateVertexBuffer(size_t handle, const VertexDataCarrier& vertexData);
+
 		// 指定のアップロードバッファの内容を設定したバッファにアップロードするGPU命令を行う
 		void copyBuffer(size_t handle, ID3D12GraphicsCommandList* commandList) const;
 
@@ -214,6 +225,9 @@ namespace tktk
 
 		// 指定の頂点バッファをコマンドリストに設定する
 		void setVertexBuffer(size_t handle, ID3D12GraphicsCommandList* commandList) const;
+
+		// コマンドリストに指定の頂点バッファを登録する（インスタンス描画用）
+		void setVertexBuffer(size_t meshVertHandle, size_t instancingVertHandle, ID3D12GraphicsCommandList* commandList) const;
 
 		// 指定のインデックスバッファをコマンドリストに設定する
 		void setIndexBuffer(size_t handle, ID3D12GraphicsCommandList* commandList) const;

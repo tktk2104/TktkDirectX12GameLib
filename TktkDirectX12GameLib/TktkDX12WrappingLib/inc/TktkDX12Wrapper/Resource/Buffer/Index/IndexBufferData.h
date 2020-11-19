@@ -1,9 +1,13 @@
 #ifndef INDEX_BUFFER_DATA_H_
 #define INDEX_BUFFER_DATA_H_
 
+/* std::vector */
 #include <vector>
-#include <forward_list>
-#include "../../../Includer/D3d12Includer.h"
+
+/* ID3D12Device, ID3D12GraphicsCommandList, ID3D12Resource, D3D12_INDEX_BUFFER_VIEW */
+#include <d3d12.h>
+#undef min
+#undef max
 
 namespace tktk
 {

@@ -13,10 +13,12 @@ namespace tktk
 		heapProp.CPUPageProperty		= D3D12_CPU_PAGE_PROPERTY_UNKNOWN;
 		heapProp.MemoryPoolPreference	= D3D12_MEMORY_POOL_UNKNOWN;
 
+		auto noScaleBufferWidth = static_cast<UINT64>(vertexData.typeSize) * vertexData.dataCount;;
+
 		D3D12_RESOURCE_DESC resDesc{};
 		resDesc.Dimension			= D3D12_RESOURCE_DIMENSION_BUFFER;
 		resDesc.Format				= DXGI_FORMAT_UNKNOWN;
-		resDesc.Width				= static_cast<UINT64>(vertexData.typeSize) * vertexData.dataCount;
+		resDesc.Width				= (noScaleBufferWidth + 0xff) & ~0xff;
 		resDesc.Height				= 1;
 		resDesc.DepthOrArraySize	= 1;
 		resDesc.MipLevels			= 1;
@@ -60,6 +62,14 @@ namespace tktk
 		m_vertexBuffer = nullptr;
 	}
 
+	void VertexBufferData::update(const VertexDataCarrier& vertexData)
+	{
+		void* mappedVertexData{ nullptr };
+		m_vertexBuffer->Map(0, nullptr, &mappedVertexData);
+		memcpy(mappedVertexData, vertexData.dataTopPos, vertexData.typeSize * vertexData.dataCount);
+		m_vertexBuffer->Unmap(0, nullptr);
+	}
+
 	void VertexBufferData::set(ID3D12GraphicsCommandList* commandList) const
 	{
 		commandList->IASetVertexBuffers(0, 1, &m_vertexBufferView);
@@ -68,5 +78,10 @@ namespace tktk
 	ID3D12Resource* VertexBufferData::getBufferPtr() const
 	{
 		return m_vertexBuffer;
+	}
+
+	const D3D12_VERTEX_BUFFER_VIEW& VertexBufferData::getBufferView() const
+	{
+		return m_vertexBufferView;
 	}
 }

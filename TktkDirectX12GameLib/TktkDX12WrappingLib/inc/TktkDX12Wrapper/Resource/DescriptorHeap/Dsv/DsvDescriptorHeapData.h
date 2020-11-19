@@ -1,9 +1,15 @@
 #ifndef DSV_DESCRIPTOR_HEAP_DATA_H_
 #define DSV_DESCRIPTOR_HEAP_DATA_H_
 
+/* std::vector */
 #include <vector>
+
+/* ID3D12Device, ID3D12GraphicsCommandList, ID3D12DescriptorHeap */
+#include <d3d12.h>
+#undef min
+#undef max
+
 #include <TktkMath/Structs/Color.h>
-#include "../../../Includer/D3d12Includer.h"
 #include "DsvDescriptorHeapInitParam.h"
 
 namespace tktk

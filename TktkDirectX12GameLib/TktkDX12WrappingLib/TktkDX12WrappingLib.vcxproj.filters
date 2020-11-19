@@ -15,12 +15,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="inc\TktkDX12Wrapper\Window\Window.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\TktkDX12Wrapper\Window\WindowInitParam.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="inc\TktkDX12Wrapper\Fence\Fence.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -153,9 +147,6 @@
     <ClInclude Include="inc\TktkDX12Wrapper\_BaseObjects\DX3DBaseObjects.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="inc\TktkDX12Wrapper\Includer\D3d12Includer.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="inc\TktkDX12Wrapper\Resource\Buffer\BufferResourceNum.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -175,9 +166,6 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="inc\TktkDX12Wrapper\Resource\DX3DResourceInitParamIncluder.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\TktkDX12Wrapper\Includer\WindowsHeaderIncluder.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="inc\TktkDX12Wrapper\_BaseObjects\DX3DBaseObjectsInitParam.h">
@@ -215,9 +203,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\TktkDX12Wrapper\Window\Window.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="src\TktkDX12Wrapper\Fence\Fence.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>

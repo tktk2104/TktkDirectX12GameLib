@@ -1,8 +1,14 @@
 #ifndef BASIC_DESCRIPTOR_HEAP_DATA_H_
 #define BASIC_DESCRIPTOR_HEAP_DATA_H_
 
+/* std::vector */
 #include <vector>
-#include "../../../Includer/D3d12Includer.h"
+
+/* ID3D12Device, ID3D12GraphicsCommandList, D3D12_CPU_DESCRIPTOR_HANDLE, ID3D12DescriptorHeap,  */
+#include <d3d12.h>
+#undef min
+#undef max
+
 #include "BasicDescriptorHeapInitParam.h"
 
 namespace tktk

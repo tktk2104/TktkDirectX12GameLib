@@ -1,8 +1,11 @@
 #ifndef VERTEX_BUFFER_DATA_H_
 #define VERTEX_BUFFER_DATA_H_
 
-#include <forward_list>
-#include "../../../Includer/D3d12Includer.h"
+/* ID3D12Device, ID3D12GraphicsCommandList, ID3D12Resource, D3D12_VERTEX_BUFFER_VIEW */
+#include <d3d12.h>
+#undef min
+#undef max
+
 #include "VertexDataCarrier.h"
 
 namespace tktk
@@ -20,11 +23,17 @@ namespace tktk
 
 	public:
 
+		// 頂点バッファをコマンドリストを使わずに更新する
+		void update(const VertexDataCarrier& vertexData);
+
 		// コマンドリストに頂点バッファを登録する
 		void set(ID3D12GraphicsCommandList* commandList) const;
 
 		// 自身のバッファのポインタを取得する
 		ID3D12Resource* getBufferPtr() const;
+
+		// 自身のバッファビューを取得する
+		const D3D12_VERTEX_BUFFER_VIEW& getBufferView() const;
 
 	private:
 

@@ -285,6 +285,11 @@ namespace tktk
 		m_dX3DResource->updateUploadBuffer(handle, bufferData);
 	}
 
+	void DX3DBaseObjects::updateVertexBuffer(size_t handle, const VertexDataCarrier& vertexData)
+	{
+		m_dX3DResource->updateVertexBuffer(handle, vertexData);
+	}
+
 	void DX3DBaseObjects::copyBuffer(size_t handle) const
 	{
 		m_dX3DResource->copyBuffer(handle, m_commandList);
@@ -373,6 +378,11 @@ namespace tktk
 	void DX3DBaseObjects::setVertexBuffer(size_t handle) const
 	{
 		m_dX3DResource->setVertexBuffer(handle, m_commandList);
+	}
+
+	void DX3DBaseObjects::setVertexBuffer(size_t meshVertHandle, size_t instancingVertHandle) const
+	{
+		m_dX3DResource->setVertexBuffer(meshVertHandle, instancingVertHandle, m_commandList);
 	}
 
 	void DX3DBaseObjects::setIndexBuffer(size_t handle) const

@@ -1,7 +1,11 @@
 #ifndef COPY_BUFFER_DATA_H_
 #define COPY_BUFFER_DATA_H_
 
-#include "../../../Includer/D3d12Includer.h"
+/* ID3D12Device, ID3D12GraphicsCommandList, ID3D12Resource */
+#include <d3d12.h>
+#undef min
+#undef max
+
 #include "../BufferType.h"
 #include "UploadBufferInitParam.h"
 #include "../CopySourceDataCarrier.h"

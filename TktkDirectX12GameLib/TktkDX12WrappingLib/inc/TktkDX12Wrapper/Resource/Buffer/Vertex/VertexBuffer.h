@@ -23,8 +23,14 @@ namespace tktk
 		// ※引数のハンドルに対応するリソースが無かったら何もしない
 		void erase(size_t handle);
 
+		// 指定の頂点バッファをコマンドリストを使わずに更新する
+		void update(size_t handle, const VertexDataCarrier& vertexData);
+
 		// コマンドリストに指定の頂点バッファを登録する
 		void set(size_t handle, ID3D12GraphicsCommandList* commandList) const;
+
+		// コマンドリストに指定の頂点バッファを登録する（インスタンス描画用）
+		void set(size_t meshVertHandle, size_t instancingVertHandle, ID3D12GraphicsCommandList* commandList) const;
 
 		// 指定の頂点バッファのポインタを取得する
 		ID3D12Resource* getBufferPtr(size_t handle) const;

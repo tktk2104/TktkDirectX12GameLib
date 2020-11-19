@@ -253,6 +253,11 @@ namespace tktk
 		m_bufferResource->updateUploadBuffer(handle, bufferData);
 	}
 
+	void DX3DResource::updateVertexBuffer(size_t handle, const VertexDataCarrier& vertexData)
+	{
+		m_bufferResource->updateVertexBuffer(handle, vertexData);
+	}
+
 	void DX3DResource::copyBuffer(size_t handle, ID3D12GraphicsCommandList* commandList) const
 	{
 		m_bufferResource->copyBuffer(handle, commandList);
@@ -414,6 +419,11 @@ namespace tktk
 	void DX3DResource::setVertexBuffer(size_t handle, ID3D12GraphicsCommandList* commandList) const
 	{
 		m_bufferResource->setVertexBuffer(handle, commandList);
+	}
+
+	void DX3DResource::setVertexBuffer(size_t meshVertHandle, size_t instancingVertHandle, ID3D12GraphicsCommandList* commandList) const
+	{
+		m_bufferResource->setVertexBuffer(meshVertHandle, instancingVertHandle, commandList);
 	}
 
 	void DX3DResource::setIndexBuffer(size_t handle, ID3D12GraphicsCommandList* commandList) const

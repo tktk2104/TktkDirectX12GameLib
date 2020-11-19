@@ -1,11 +1,19 @@
 #ifndef BUFFER_RESOURCE_H_
 #define BUFFER_RESOURCE_H_
 
-#include <memory>		// std::unique_ptr
-#include <dxgi1_6.h>	// swapChain
+/* std::unique_ptr */
+#include <memory>
+
+/* IDXGISwapChain1 */
+#include <dxgi1_6.h>
+
+/* ID3D12Device, ID3D12GraphicsCommandList, D3D12_CPU_DESCRIPTOR_HANDLE */
+#include <d3d12.h>
+#undef min
+#undef max
+
 #include <TktkMath/Structs/Color.h>
 #include <TktkMath/Structs/Vector3.h>
-#include "../../Includer/D3d12Includer.h"
 #include "BufferResourceInitParamIncluder.h"
 #include "BufferResourceNum.h"
 
@@ -55,8 +63,14 @@ namespace tktk
 		// ※引数のハンドルに対応するリソースが無かったら何もしない
 		void eraseVertexBuffer(size_t handle);
 
+		// 指定の頂点バッファをコマンドリストを使わずに更新する
+		void updateVertexBuffer(size_t handle, const VertexDataCarrier& vertexData);
+
 		// コマンドリストに指定の頂点バッファを登録する
 		void setVertexBuffer(size_t handle, ID3D12GraphicsCommandList* commandList) const;
+
+		// コマンドリストに指定の頂点バッファを登録する（インスタンス描画用）
+		void setVertexBuffer(size_t meshVertHandle, size_t instancingVertHandle, ID3D12GraphicsCommandList* commandList) const;
 
 	public: /* インデックスバッファの処理 */
 

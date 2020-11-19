@@ -16,6 +16,12 @@ namespace tktk
 			, dataCount(vertexDataArray.size())
 			, dataTopPos(vertexDataArray.data()) {}
 
+		// テンプレート未使用版
+		VertexDataCarrier(size_t typeSize, size_t dataCount, const void* dataTopPos)
+			: typeSize(typeSize)
+			, dataCount(dataCount)
+			, dataTopPos(dataTopPos) {}
+
 	public:
 
 		size_t		typeSize{ 0U };
