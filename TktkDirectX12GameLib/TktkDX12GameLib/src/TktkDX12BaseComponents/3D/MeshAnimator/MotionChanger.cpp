@@ -5,8 +5,9 @@
 
 namespace tktk
 {
-	MotionChanger::MotionChanger(size_t changeMotionHandle, bool isLoop, float motionSpeedRate, float lerpTimeSec)
+	MotionChanger::MotionChanger(size_t changeMotionHandle, float initFrame, bool isLoop, float motionSpeedRate, float lerpTimeSec)
 		: m_changeMotionHandle(changeMotionHandle)
+		, m_initFrame(initFrame)
 		, m_isLoop(isLoop)
 		, m_motionSpeedRate(motionSpeedRate)
 		, m_lerpTimeSec(lerpTimeSec)
@@ -25,6 +26,6 @@ namespace tktk
 			}
 		}
 
-		m_meshAnimator->setNewMotionHandle(m_changeMotionHandle, m_isLoop, m_motionSpeedRate, m_lerpTimeSec);
+		m_meshAnimator->setNewMotionHandle(m_changeMotionHandle, m_initFrame, m_isLoop, m_motionSpeedRate, m_lerpTimeSec);
 	}
 }

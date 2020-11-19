@@ -16,7 +16,7 @@ namespace tktk
 	{
 	public:
 
-		MotionChanger(size_t changeMotionHandle, bool isLoop, float motionSpeedRate, float lerpTimeSec);
+		MotionChanger(size_t changeMotionHandle, float initFrame, bool isLoop, float motionSpeedRate, float lerpTimeSec);
 
 	public:
 
@@ -25,6 +25,7 @@ namespace tktk
 	private:
 
 		size_t						m_changeMotionHandle;
+		float						m_initFrame;
 		bool						m_isLoop;
 		float						m_motionSpeedRate;
 		float						m_lerpTimeSec;

@@ -130,13 +130,16 @@ namespace tktk
 		// システムハンドルと結びつける
 		DX12GameManager::setSystemHandle(SystemMeshMaterialType::BoxWireFrame, boxMeshMaterialhandle);
 
+		// 一旦ローカル変数に配列を格納
+		auto tempInstanceVertParam = std::vector<MonoColorInstanceVertData>(128U);
+
 		// 単色のシンプル立方体メッシュワイヤーフレームの作成に必要な情報
 		MeshInitParam meshInitParam{};
 		meshInitParam.useVertexBufferHandle	= DX12GameManager::getSystemHandle(SystemVertexBufferType::Box);
 		meshInitParam.useIndexBufferHandle	= DX12GameManager::getSystemHandle(SystemIndexBufferType::Box);
 		meshInitParam.indexNum				= IndicesSize;
 		meshInitParam.primitiveTopology		= PrimitiveTopology::TriangleList;
-		meshInitParam.instanceVertParam		= std::vector<MonoColorInstanceVertData>(128U);
+		meshInitParam.instanceVertParam		= tempInstanceVertParam;
 		meshInitParam.materialSlots =		{ { boxMeshMaterialhandle, 0, IndicesSize } };
 
 		// 単色のシンプル立方体メッシュワイヤーフレームを作り、そのハンドルを返す
@@ -176,13 +179,16 @@ namespace tktk
 		// システムハンドルと結びつける
 		DX12GameManager::setSystemHandle(SystemMeshMaterialType::Box, boxMeshMaterialhandle);
 
+		// 一旦ローカル変数に配列を格納
+		auto tempInstanceVertParam = std::vector<MonoColorInstanceVertData>(128U);
+
 		// 立方体メッシュの作成に必要な情報
 		MeshInitParam meshInitParam{};
 		meshInitParam.useVertexBufferHandle = DX12GameManager::getSystemHandle(SystemVertexBufferType::Box);
 		meshInitParam.useIndexBufferHandle	= DX12GameManager::getSystemHandle(SystemIndexBufferType::Box);
 		meshInitParam.indexNum				= IndicesSize;
 		meshInitParam.primitiveTopology		= PrimitiveTopology::TriangleList;
-		meshInitParam.instanceVertParam		= std::vector<MonoColorInstanceVertData>(128U);
+		meshInitParam.instanceVertParam		= tempInstanceVertParam;
 		meshInitParam.materialSlots			= { { boxMeshMaterialhandle, 0, IndicesSize } };
 
 		// 単色のシンプル立方体メッシュを作り、そのハンドルを返す
@@ -259,13 +265,16 @@ namespace tktk
 			MeshMaterialAppendParamInitParam(DX12GameManager::getSystemHandle(SystemCBufferType::MeshMaterial), boxMeshMaterialCbufferPtr)
 		);
 
+		// 一旦ローカル変数に配列を格納
+		auto tempInstanceVertParam = std::vector<tktkMath::Matrix4>(2048U);
+
 		// 立方体メッシュの作成に必要な情報
 		MeshInitParam meshInitParam{};
 		meshInitParam.useVertexBufferHandle	= DX12GameManager::getSystemHandle(SystemVertexBufferType::Box);
 		meshInitParam.useIndexBufferHandle	= DX12GameManager::getSystemHandle(SystemIndexBufferType::Box);
 		meshInitParam.indexNum				= IndicesSize;
 		meshInitParam.primitiveTopology		= PrimitiveTopology::TriangleList;
-		meshInitParam.instanceVertParam		= std::vector<tktkMath::Matrix4>(2048U);
+		meshInitParam.instanceVertParam		= tempInstanceVertParam;
 		meshInitParam.materialSlots			= { { boxMeshMaterialhandle, 0, IndicesSize } };
 
 		// シンプル立方体メッシュを作り、そのハンドルを返す
@@ -342,13 +351,16 @@ namespace tktk
 			MeshMaterialAppendParamInitParam(DX12GameManager::getSystemHandle(SystemCBufferType::MeshMaterial), boxMeshMaterialCbufferPtr)
 		);
 
+		// 一旦ローカル変数に配列を格納
+		auto tempInstanceVertParam = std::vector<tktkMath::Matrix4>(128U);
+
 		// 立方体メッシュの作成に必要な情報
 		MeshInitParam meshInitParam{};
 		meshInitParam.useVertexBufferHandle	= DX12GameManager::getSystemHandle(SystemVertexBufferType::Box);
 		meshInitParam.useIndexBufferHandle	= DX12GameManager::getSystemHandle(SystemIndexBufferType::Box);
 		meshInitParam.indexNum				= IndicesSize;
 		meshInitParam.primitiveTopology		= PrimitiveTopology::TriangleList;
-		meshInitParam.instanceVertParam		= std::vector<tktkMath::Matrix4>(128U);
+		meshInitParam.instanceVertParam		= tempInstanceVertParam;
 		meshInitParam.materialSlots			= { { boxMeshMaterialhandle, 0, IndicesSize } };
 
 		// 反転したシンプル立方体メッシュを作り、そのハンドルを返す

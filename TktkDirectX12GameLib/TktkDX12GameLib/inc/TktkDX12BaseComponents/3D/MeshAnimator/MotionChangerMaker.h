@@ -40,6 +40,9 @@ namespace tktk
 		// ※内部で対応するリソースハンドルに変換される
 		MotionChangerMaker& initMotionId(ResourceIdCarrier value);
 
+		// 初期アニメーションフレームを設定する
+		MotionChangerMaker& initFrame(float value);
+
 		// 何秒間かけてモーションの遷移を行うか？
 		MotionChangerMaker& lerpTimeSec(float value);
 
@@ -53,6 +56,7 @@ namespace tktk
 		bool				m_isLoop			{ true };
 		float				m_motionSpeedRate	{ 1.0f };
 		size_t				m_initMotionHandle	{ 0U };
+		float				m_initFrame			{ 0.0f };
 		float				m_lerpTimeSec		{ 1.0f };
 	};
 }

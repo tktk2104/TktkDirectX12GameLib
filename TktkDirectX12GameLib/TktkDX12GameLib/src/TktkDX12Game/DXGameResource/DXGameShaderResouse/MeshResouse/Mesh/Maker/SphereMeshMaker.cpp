@@ -134,13 +134,16 @@ namespace tktk
 		// システムハンドルと結びつける
 		DX12GameManager::setSystemHandle(SystemMeshMaterialType::SphereWireFrame, sphereMeshMaterialhandle);
 
+		// 一旦ローカル変数に配列を格納
+		auto tempInstanceVertParam = std::vector<MonoColorInstanceVertData>(128U);
+
 		// 球体メッシュの作成に必要な情報
 		MeshInitParam meshInitParam{};
 		meshInitParam.useVertexBufferHandle	= DX12GameManager::getSystemHandle(SystemVertexBufferType::Sphere);
 		meshInitParam.useIndexBufferHandle	= DX12GameManager::getSystemHandle(SystemIndexBufferType::Sphere);
 		meshInitParam.indexNum				= IndicesSize;
 		meshInitParam.primitiveTopology		= PrimitiveTopology::TriangleStrip;
-		meshInitParam.instanceVertParam		= std::vector<MonoColorInstanceVertData>(128U);
+		meshInitParam.instanceVertParam		= tempInstanceVertParam;
 		meshInitParam.materialSlots			= { { sphereMeshMaterialhandle, 0, IndicesSize } };
 
 		// 単色のシンプル球体メッシュワイヤーフレームを作り、そのハンドルを返す
@@ -180,13 +183,16 @@ namespace tktk
 		// システムハンドルと結びつける
 		DX12GameManager::setSystemHandle(SystemMeshMaterialType::Sphere, sphereMeshMaterialhandle);
 
+		// 一旦ローカル変数に配列を格納
+		auto tempInstanceVertParam = std::vector<MonoColorInstanceVertData>(128U);
+
 		// 球体メッシュの作成に必要な情報
 		MeshInitParam meshInitParam{};
 		meshInitParam.useVertexBufferHandle = DX12GameManager::getSystemHandle(SystemVertexBufferType::Sphere);
 		meshInitParam.useIndexBufferHandle	= DX12GameManager::getSystemHandle(SystemIndexBufferType::Sphere);
 		meshInitParam.indexNum				= IndicesSize;
 		meshInitParam.primitiveTopology		= PrimitiveTopology::TriangleStrip;
-		meshInitParam.instanceVertParam		= std::vector<MonoColorInstanceVertData>(128U);
+		meshInitParam.instanceVertParam		= tempInstanceVertParam;
 		meshInitParam.materialSlots			= { { sphereMeshMaterialhandle, 0, IndicesSize } };
 
 		// 単色のシンプル球体メッシュを作り、そのハンドルを返す

@@ -23,13 +23,16 @@ namespace tktk
 		// インデックスバッファを作る
 		size_t createdIndexBufferHandle = DX12GameManager::createIndexBuffer(outData.indexData);
 
+		// 一旦ローカル変数に配列を格納
+		auto tempInstanceVertParam = std::vector<tktkMath::Matrix4>(128U);
+
 		// 通常メッシュの作成に必要な情報
 		MeshInitParam meshInitParam{};
 		meshInitParam.useVertexBufferHandle = createdVertexBufferHandle;
 		meshInitParam.useIndexBufferHandle	= createdIndexBufferHandle;
 		meshInitParam.indexNum				= outData.indexData.size();
 		meshInitParam.primitiveTopology		= PrimitiveTopology::TriangleList;
-		meshInitParam.instanceVertParam		= std::vector<tktkMath::Matrix4>(128U);
+		meshInitParam.instanceVertParam		= tempInstanceVertParam;
 		meshInitParam.materialSlots.reserve(outData.materialData.size());
 
 		// 読み込んだテクスチャハンドルの配列

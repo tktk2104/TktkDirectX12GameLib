@@ -39,6 +39,9 @@ namespace tktk
 		// ※内部で対応するリソースハンドルに変換される
 		MeshAnimatorMaker& initMotionId(ResourceIdCarrier value);
 
+		// 初期アニメーションフレームを設定する
+		MeshAnimatorMaker& initFrame(float value);
+
 		// １秒間に何フレーム分のアニメーションを再生するかを設定する
 		MeshAnimatorMaker& animFramePerSec(float value);
 
@@ -52,6 +55,7 @@ namespace tktk
 		bool				m_isLoop			{ true };
 		float				m_motionSpeedRate	{ 1.0f };
 		size_t				m_initMotionHandle	{ 0U };
+		float				m_initFrame			{ 0.0f };
 		float				m_animFramePerSec	{ 60.0f };
 	};
 }

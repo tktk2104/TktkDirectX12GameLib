@@ -22,7 +22,7 @@ namespace tktk
 	ComponentPtr<MeshAnimator> MeshAnimatorMaker::create()
 	{
 		// コンポーネントを作成する
-		return m_user->createComponent<MeshAnimator>(m_initMotionHandle, m_isLoop, m_motionSpeedRate, m_animFramePerSec);
+		return m_user->createComponent<MeshAnimator>(m_initMotionHandle, m_initFrame, m_isLoop, m_motionSpeedRate, m_animFramePerSec);
 	}
 
 	MeshAnimatorMaker& MeshAnimatorMaker::isLoop(bool value)
@@ -50,6 +50,13 @@ namespace tktk
 	{
 		// 値を設定して自身の参照を返す
 		m_initMotionHandle = DX12GameManager::getMotionHandle(value);
+		return *this;
+	}
+
+	MeshAnimatorMaker& MeshAnimatorMaker::initFrame(float value)
+	{
+		// 値を設定して自身の参照を返す
+		m_initFrame = value;
 		return *this;
 	}
 

@@ -22,7 +22,7 @@ namespace tktk
 	ComponentPtr<MotionChanger> MotionChangerMaker::create()
 	{
 		// コンポーネントを作成する
-		return m_user->createComponent<MotionChanger>(m_initMotionHandle, m_isLoop, m_motionSpeedRate, m_lerpTimeSec);
+		return m_user->createComponent<MotionChanger>(m_initMotionHandle, m_initFrame, m_isLoop, m_motionSpeedRate, m_lerpTimeSec);
 	}
 
 	MotionChangerMaker& MotionChangerMaker::isLoop(bool value)
@@ -50,6 +50,13 @@ namespace tktk
 	{
 		// 値を設定して自身の参照を返す
 		m_initMotionHandle = DX12GameManager::getMotionHandle(value);
+		return *this;
+	}
+
+	MotionChangerMaker& MotionChangerMaker::initFrame(float value)
+	{
+		// 値を設定して自身の参照を返す
+		m_initFrame = value;
 		return *this;
 	}
 

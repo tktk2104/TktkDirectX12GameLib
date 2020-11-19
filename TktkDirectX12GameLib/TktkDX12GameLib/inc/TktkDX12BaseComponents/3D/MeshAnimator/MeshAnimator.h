@@ -15,7 +15,7 @@ namespace tktk
 	{
 	public:
 
-		MeshAnimator(size_t initMotionHandle, bool isLoop, float motionSpeedRate, float animFramePerSec);
+		MeshAnimator(size_t initMotionHandle, float initFrame, bool isLoop, float motionSpeedRate, float animFramePerSec);
 
 	public:
 
@@ -28,10 +28,10 @@ namespace tktk
 
 		// 新しいモーションIDを設定する
 		// ※内部で対応するリソースハンドルに変換される
-		void setNewMotionId(ResourceIdCarrier motionId, bool isLoop, float motionSpeedRate, float lerpTimeSec);
+		void setNewMotionId(ResourceIdCarrier motionId, float initFrame, bool isLoop, float motionSpeedRate, float lerpTimeSec);
 
 		// 新しいモーションハンドルを設定する
-		void setNewMotionHandle(size_t motionHandle, bool isLoop, float motionSpeedRate, float lerpTimeSec);
+		void setNewMotionHandle(size_t motionHandle, float initFrame, bool isLoop, float motionSpeedRate, float lerpTimeSec);
 
 	private:
 
@@ -42,8 +42,8 @@ namespace tktk
 		size_t m_preMotionHandle;
 		size_t m_curMotionHandle;
 
-		float m_curFrame				{ 0.0f };
-		float m_preFrame				{ 0.0f };
+		float m_curFrame;
+		float m_preFrame;
 
 		float m_animFramePerSec			{ 60.0f };	// １秒間に何フレーム分のアニメーションを再生するか？
 
