@@ -11,8 +11,7 @@
 namespace tktk
 {
 	SpriteMaterialData::SpriteMaterialData(const SpriteMaterialInitParam& initParam)
-		: m_blendRate(initParam.blendRate)
-		, m_textureUvOffset(initParam.textureUvOffset)
+		: m_textureUvOffset(initParam.textureUvOffset)
 		, m_textureUvMulRate(initParam.textureUvMulRate)
 	{
 		// ディスクリプタヒープを作る
@@ -90,7 +89,6 @@ namespace tktk
 	SpriteMaterialData::SpriteMaterialData(SpriteMaterialData&& other) noexcept
 		: m_createDescriptorHeapHandle(other.m_createDescriptorHeapHandle)
 		, m_createUploadBufferHandle(other.m_createUploadBufferHandle)
-		, m_blendRate(other.m_blendRate)
 		, m_textureUvOffset(other.m_textureUvOffset)
 		, m_textureUvMulRate(other.m_textureUvMulRate)
 		, m_textureSize(other.m_textureSize)
@@ -103,7 +101,7 @@ namespace tktk
 	{
 		// 定数バッファのアップロード用バッファを更新する
 		// TODO : 前フレームと定数バッファに変化がない場合、更新しない処理を作る
-		updateCopyBuffer();
+		updateCopyBuffer(drawFuncArgs);
 
 		// スプライト用定数バッファにアップロードバッファの情報をコピーする
 		DX12GameManager::copyBuffer(m_createUploadBufferHandle);
@@ -199,10 +197,10 @@ namespace tktk
 	}
 
 	// 定数バッファのアップロード用バッファを更新する
-	void SpriteMaterialData::updateCopyBuffer() const
+	void SpriteMaterialData::updateCopyBuffer(const SpriteMaterialDrawFuncArgs& drawFuncArgs) const
 	{
 		SpriteMaterialCbufferData constantBufferData;
-		constantBufferData.blendRate		= m_blendRate;
+		constantBufferData.blendRate		= drawFuncArgs.blendRate;
 		constantBufferData.screenSize		= DX12GameManager::getWindowSize();
 
 		DX12GameManager::updateUploadBuffer(m_createUploadBufferHandle, constantBufferData);

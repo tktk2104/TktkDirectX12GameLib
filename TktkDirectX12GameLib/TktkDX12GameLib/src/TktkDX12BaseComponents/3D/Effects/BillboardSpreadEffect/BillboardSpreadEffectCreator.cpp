@@ -13,6 +13,7 @@ namespace tktk
 {
 	BillboardSpreadEffectCreator::BillboardSpreadEffectCreator(const BillboardSpreadEffectParam& param)
 		: m_param(param)
+		, m_generateIntervalSecTimer(m_param.firstGenerateTimeSec)
 	{
 	}
 
@@ -32,7 +33,7 @@ namespace tktk
 		if (m_param.changeAvtiveToReset)
 		{
 			// 生成状況をリセットする
-			m_generateIntervalSecTimer = 0.0f;
+			m_generateIntervalSecTimer = m_param.firstGenerateTimeSec;
 			m_totalGenerateCounter = 0;
 		}
 	}
@@ -60,7 +61,7 @@ namespace tktk
 				auto generatePos = m_param.generateLocalPos + generateLocalPosRandomRange;
 
 				//  子要素追加フラグが立っていなかったらワールド空間での座標になるように修正する
-				if (!m_param.setChild) generatePos += m_transform->getWorldPosition();
+				if (!m_param.setChild) generatePos = generatePos * m_transform->calculateWorldMatrix();
 
 				// ジンバルロックに注意しながら回転情報を作る
 				auto rotate = tktkMath::Quaternion::createFromEulerAngle({ tktkMath::Random::getRandF(0.0f, 360.0f), 0.0f, 0.0f})

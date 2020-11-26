@@ -6,11 +6,12 @@
 
 namespace tktk
 {
-	SpriteDrawer::SpriteDrawer(float drawPriority, size_t spriteMaterialHandle, size_t useRtvDescriptorHeapHandle, const tktkMath::Vector2& centerRate)
+	SpriteDrawer::SpriteDrawer(float drawPriority, size_t spriteMaterialHandle, size_t useRtvDescriptorHeapHandle, const tktkMath::Vector2& centerRate, const tktkMath::Color& blendRate)
 		: ComponentBase(drawPriority)
 		, m_useRtvDescriptorHeapHandle(useRtvDescriptorHeapHandle)
 		, m_spriteMaterialHandle(spriteMaterialHandle)
 		, m_spriteCenterRate(centerRate)
+		, m_blendRate(blendRate)
 	{
 	}
 
@@ -46,6 +47,7 @@ namespace tktk
 		drawFuncArgs.viewportHandle				= DX12GameManager::getSystemHandle(SystemViewportType::Basic);
 		drawFuncArgs.scissorRectHandle			= DX12GameManager::getSystemHandle(SystemScissorRectType::Basic);
 		drawFuncArgs.rtvDescriptorHeapHandle	= m_useRtvDescriptorHeapHandle;
+		drawFuncArgs.blendRate					= m_blendRate;
 
 		DX12GameManager::drawSprite(m_spriteMaterialHandle, drawFuncArgs);
 	}
@@ -63,5 +65,15 @@ namespace tktk
 	void SpriteDrawer::setCenterRate(const tktkMath::Vector2& centerRate)
 	{
 		m_spriteCenterRate = centerRate;
+	}
+
+	const tktkMath::Color& SpriteDrawer::getBlendRate() const
+	{
+		return m_blendRate;
+	}
+
+	void SpriteDrawer::setBlendRate(const tktkMath::Color& blendRate)
+	{
+		m_blendRate = blendRate;
 	}
 }

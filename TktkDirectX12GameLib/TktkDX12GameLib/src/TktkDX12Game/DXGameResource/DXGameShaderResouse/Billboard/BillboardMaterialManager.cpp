@@ -121,5 +121,18 @@ namespace tktk
 		initParam.rootSignatureHandle				= DX12GameManager::getSystemHandle(SystemRootSignatureType::Billboard);
 
 		DX12GameManager::setSystemHandle(SystemPipeLineStateType::Billboard, DX12GameManager::createPipeLineState(initParam, shaderFilePaths));
+
+		renderTargetBlendDesc.SrcBlend				= D3D12_BLEND_ONE;
+		renderTargetBlendDesc.DestBlend				= D3D12_BLEND_ONE;
+		renderTargetBlendDesc.BlendOp				= D3D12_BLEND_OP_ADD;
+		renderTargetBlendDesc.SrcBlendAlpha			= D3D12_BLEND_ONE;
+		renderTargetBlendDesc.DestBlendAlpha		= D3D12_BLEND_ONE;
+		renderTargetBlendDesc.BlendOpAlpha			= D3D12_BLEND_OP_ADD;
+		renderTargetBlendDesc.LogicOpEnable			= false;
+		renderTargetBlendDesc.RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;
+
+		initParam.blendDesc.RenderTarget[0] = renderTargetBlendDesc;
+
+		DX12GameManager::setSystemHandle(SystemPipeLineStateType::BillboardEffect, DX12GameManager::createPipeLineState(initParam, shaderFilePaths));
 	}
 }

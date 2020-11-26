@@ -6,11 +6,12 @@
 
 namespace tktk
 {
-	SpriteClippingDrawer::SpriteClippingDrawer(float drawPriority, size_t spriteMaterialHandle, size_t useRtvDescriptorHeapHandle, const tktkMath::Vector2& centerRate, const SpriteClippingParam& clippingParam)
+	SpriteClippingDrawer::SpriteClippingDrawer(float drawPriority, size_t spriteMaterialHandle, size_t useRtvDescriptorHeapHandle, const tktkMath::Vector2& centerRate, const tktkMath::Color& blendRate, const SpriteClippingParam& clippingParam)
 		: ComponentBase(drawPriority)
 		, m_useRtvDescriptorHeapHandle(useRtvDescriptorHeapHandle)
 		, m_spriteMaterialHandle(spriteMaterialHandle)
 		, m_spriteCenterRate(centerRate)
+		, m_blendRate(blendRate)
 		, m_clippingParam(clippingParam)
 	{
 	}
@@ -44,9 +45,10 @@ namespace tktk
 		DX12GameManager::updateSpriteTransformCbufferUseClippingParam(m_spriteMaterialHandle, m_createUploadTransformCbufferHandle, updateFuncArgs, m_clippingParam);
 
 		SpriteMaterialDrawFuncArgs drawFuncArgs{};
-		drawFuncArgs.viewportHandle = DX12GameManager::getSystemHandle(SystemViewportType::Basic);
-		drawFuncArgs.scissorRectHandle = DX12GameManager::getSystemHandle(SystemScissorRectType::Basic);
-		drawFuncArgs.rtvDescriptorHeapHandle = m_useRtvDescriptorHeapHandle;
+		drawFuncArgs.viewportHandle				= DX12GameManager::getSystemHandle(SystemViewportType::Basic);
+		drawFuncArgs.scissorRectHandle			= DX12GameManager::getSystemHandle(SystemScissorRectType::Basic);
+		drawFuncArgs.rtvDescriptorHeapHandle	= m_useRtvDescriptorHeapHandle;
+		drawFuncArgs.blendRate					= m_blendRate;
 
 		DX12GameManager::drawSprite(m_spriteMaterialHandle, drawFuncArgs);
 	}
@@ -64,6 +66,16 @@ namespace tktk
 	void SpriteClippingDrawer::setCenterRate(const tktkMath::Vector2& centerRate)
 	{
 		m_spriteCenterRate = centerRate;
+	}
+
+	const tktkMath::Color& SpriteClippingDrawer::getBlendRate() const
+	{
+		return m_blendRate;
+	}
+
+	void SpriteClippingDrawer::setBlendRate(const tktkMath::Color& blendRate)
+	{
+		m_blendRate = blendRate;
 	}
 
 	void SpriteClippingDrawer::setClippingLeftTopPos(const tktkMath::Vector2& leftTopPos)

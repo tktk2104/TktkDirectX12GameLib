@@ -194,6 +194,8 @@
     <ClInclude Include="inc\TktkDX12BaseComponents\3D\Camera\FirstPersonModuleMaker.h" />
     <ClInclude Include="inc\TktkDX12BaseComponents\3D\Camera\OrthographicCameraController.h" />
     <ClInclude Include="inc\TktkDX12BaseComponents\3D\Camera\OrthographicCameraControllerMaker.h" />
+    <ClInclude Include="inc\TktkDX12BaseComponents\3D\Camera\ShadowMapCameraController.h" />
+    <ClInclude Include="inc\TktkDX12BaseComponents\3D\Camera\ShadowMapCameraControllerMaker.h" />
     <ClInclude Include="inc\TktkDX12BaseComponents\3D\ColliderWireFrameDrawer3D\ColliderWireFrameDrawer3D.h" />
     <ClInclude Include="inc\TktkDX12BaseComponents\3D\ColliderWireFrameDrawer3D\ColliderWireFrameDrawer3DMaker.h" />
     <ClInclude Include="inc\TktkDX12BaseComponents\3D\Effects\BillboardShrinkEffect\BillboardShrinkEffectCreator.h" />
@@ -225,6 +227,8 @@
     <ClInclude Include="inc\TktkDX12BaseComponents\Other\ReceiveMessageToSelfDestroyer\ReceiveMessageToSelfDestroyerMaker.h" />
     <ClInclude Include="inc\TktkDX12BaseComponents\Other\Sound\SoundPlayer.h" />
     <ClInclude Include="inc\TktkDX12BaseComponents\Other\Sound\SoundPlayerMaker.h" />
+    <ClInclude Include="inc\TktkDX12BaseComponents\Other\Sound\SoundPlayTimer.h" />
+    <ClInclude Include="inc\TktkDX12BaseComponents\Other\Sound\SoundPlayTimerMaker.h" />
     <ClInclude Include="inc\TktkDX12GameLib.h" />
     <ClInclude Include="inc\TktkDX12GameLibDefinition.h" />
     <ClInclude Include="inc\TktkDX12GameLibInitializer.h" />
@@ -432,6 +436,8 @@
     <ClCompile Include="src\TktkDX12BaseComponents\3D\Camera\FirstPersonModuleMaker.cpp" />
     <ClCompile Include="src\TktkDX12BaseComponents\3D\Camera\OrthographicCameraController.cpp" />
     <ClCompile Include="src\TktkDX12BaseComponents\3D\Camera\OrthographicCameraControllerMaker.cpp" />
+    <ClCompile Include="src\TktkDX12BaseComponents\3D\Camera\ShadowMapCameraController.cpp" />
+    <ClCompile Include="src\TktkDX12BaseComponents\3D\Camera\ShadowMapCameraControllerMaker.cpp" />
     <ClCompile Include="src\TktkDX12BaseComponents\3D\ColliderWireFrameDrawer3D\ColliderWireFrameDrawer3D.cpp" />
     <ClCompile Include="src\TktkDX12BaseComponents\3D\ColliderWireFrameDrawer3D\ColliderWireFrameDrawer3DMaker.cpp" />
     <ClCompile Include="src\TktkDX12BaseComponents\3D\Effects\BillboardShrinkEffect\BillboardShrinkEffectCreator.cpp" />
@@ -460,6 +466,8 @@
     <ClCompile Include="src\TktkDX12BaseComponents\Other\ReceiveMessageToSelfDestroyer\ReceiveMessageToSelfDestroyerMaker.cpp" />
     <ClCompile Include="src\TktkDX12BaseComponents\Other\Sound\SoundPlayer.cpp" />
     <ClCompile Include="src\TktkDX12BaseComponents\Other\Sound\SoundPlayerMaker.cpp" />
+    <ClCompile Include="src\TktkDX12BaseComponents\Other\Sound\SoundPlayTimer.cpp" />
+    <ClCompile Include="src\TktkDX12BaseComponents\Other\Sound\SoundPlayTimerMaker.cpp" />
     <ClCompile Include="src\TktkDX12Game\DXGameResource\GameObjectResouse\Component\ComponentBasePtr.cpp" />
     <ClCompile Include="src\TktkDX12Game\DXGameResource\GameObjectResouse\Component\ComponentBase.cpp" />
     <ClCompile Include="src\TktkDX12Game\DXGameResource\GameObjectResouse\Component\ComponentCollisionFunc\ComponentCollisionFuncRunner.cpp" />

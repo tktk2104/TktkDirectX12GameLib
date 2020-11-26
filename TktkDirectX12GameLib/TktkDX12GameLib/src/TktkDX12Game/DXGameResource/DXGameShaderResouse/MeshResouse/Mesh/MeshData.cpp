@@ -135,10 +135,10 @@ namespace tktk
 		updateInstanceParamVertBuffer();
 
 		// ビューポートを設定する
-		DX12GameManager::setViewport(DX12GameManager::getSystemHandle(SystemViewportType::Basic));
+		DX12GameManager::setViewport(DX12GameManager::getSystemHandle(SystemViewportType::WriteShadow));
 
 		// シザー矩形を設定する
-		DX12GameManager::setScissorRect(DX12GameManager::getSystemHandle(SystemScissorRectType::Basic));
+		DX12GameManager::setScissorRect(DX12GameManager::getSystemHandle(SystemScissorRectType::WriteShadow));
 
 		// 指定のトポロジーで描画を行う
 		DX12GameManager::setPrimitiveTopology(m_primitiveTopology);
@@ -174,10 +174,10 @@ namespace tktk
 		updateInstanceParamVertBuffer();
 
 		// ビューポートを設定する
-		DX12GameManager::setViewport(DX12GameManager::getSystemHandle(SystemViewportType::Basic));
+		DX12GameManager::setViewport(DX12GameManager::getSystemHandle(SystemViewportType::WriteShadow));
 
 		// シザー矩形を設定する
-		DX12GameManager::setScissorRect(DX12GameManager::getSystemHandle(SystemScissorRectType::Basic));
+		DX12GameManager::setScissorRect(DX12GameManager::getSystemHandle(SystemScissorRectType::WriteShadow));
 
 		// 指定のトポロジーで描画を行う
 		DX12GameManager::setPrimitiveTopology(m_primitiveTopology);

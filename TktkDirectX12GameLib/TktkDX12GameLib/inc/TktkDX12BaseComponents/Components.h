@@ -22,6 +22,7 @@
 #include "3D/Light/DirectionalLightControllerMaker.h"
 #include "3D/Camera/BasicCameraControllerMaker.h"
 #include "3D/Camera/OrthographicCameraControllerMaker.h"
+#include "3D/Camera/ShadowMapCameraControllerMaker.h"
 #include "3D/Camera/FirstPersonModuleMaker.h"
 #include "3D/BillboardDrawer/BillboardDrawerMaker.h"
 #include "3D/MeshDrawer/MeshDrawerMaker.h"
@@ -33,6 +34,7 @@
 
 #include "Other/ReceiveMessageToSelfDestroyer/ReceiveMessageToSelfDestroyerMaker.h"
 #include "Other/Sound/SoundPlayerMaker.h"
+#include "Other/Sound/SoundPlayTimerMaker.h"
 
 class TktkManual;
 

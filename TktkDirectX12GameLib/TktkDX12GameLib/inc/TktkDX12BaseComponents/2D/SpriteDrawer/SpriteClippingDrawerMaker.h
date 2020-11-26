@@ -42,6 +42,9 @@ namespace tktk
 		// スプライトの中心位置の割合を設定する
 		SpriteClippingDrawerMaker& centerRate(const tktkMath::Vector2& value);
 
+		// ブレンドレートを設定する
+		SpriteClippingDrawerMaker& blendRate(const tktkMath::Color& value);
+
 		// 切り取る範囲のテクスチャ座標での左上座標を設定する（テクセル）
 		SpriteClippingDrawerMaker& clippingLeftTopPos(const tktkMath::Vector2& value);
 
@@ -59,6 +62,7 @@ namespace tktk
 		size_t				m_useRtvDescriptorHeapHandle{  };
 		size_t				m_spriteMaterialHandle		{ 0U };
 		tktkMath::Vector2	m_centerRate				{ 0.5f, 0.5f };
+		tktkMath::Color		m_blendRate					{ tktkMath::Color_v::white };
 		SpriteClippingParam	m_clippingParam				{  };
 	};
 }

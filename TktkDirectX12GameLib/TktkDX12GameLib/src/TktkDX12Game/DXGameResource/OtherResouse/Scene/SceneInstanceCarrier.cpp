@@ -19,10 +19,7 @@ namespace tktk
 			m_vtablePtr->end(m_scenePtr);
 		}
 
-		if (m_destroyGameObjectTag != nullptr)
-		{
-			DX12GameManager::destroyGameObjectsWithTag(*m_destroyGameObjectTag);
-		}
+		
 	}
 
 	SceneInstanceCarrier::SceneInstanceCarrier(SceneInstanceCarrier&& other) noexcept
@@ -68,9 +65,19 @@ namespace tktk
 
 		if (m_runAfterChangeActiveFunc)
 		{
-			if (m_isActive) m_vtablePtr->start(m_scenePtr);
-			else			m_vtablePtr->end(m_scenePtr);
+			if (m_isActive)
+			{
+				m_vtablePtr->start(m_scenePtr);
+			}
+			else
+			{
+				m_vtablePtr->end(m_scenePtr);
 
+				if (m_destroyGameObjectTag != nullptr)
+				{
+					DX12GameManager::destroyGameObjectsWithTag(*m_destroyGameObjectTag);
+				}
+			}
 			m_runAfterChangeActiveFunc = false;
 		}
 

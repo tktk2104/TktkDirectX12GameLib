@@ -53,9 +53,6 @@ namespace tktk
 
 		// 速度を１秒間でどれだけ減速させるか？
 		float m_decelerationPerSec;
-
-		// 前フレームで加速したか？
-		bool m_preFrameAddForce{ false };
 	};
 }
 #endif // !INERTIAL_ROTATEMENT_2D_H_

@@ -8,6 +8,7 @@ namespace tktk
 {
 	BillboardMaterialData::BillboardMaterialData(const BillboardMaterialInitParam& initParam)
 		: m_maxInstanceCount(initParam.maxInstanceCount)
+		, m_isEffect(initParam.isEffect)
 	{
 		// ディスクリプタヒープを作る
 		BasicDescriptorHeapInitParam descriptorHeapInitParam{};
@@ -67,6 +68,7 @@ namespace tktk
 		: m_createDescriptorHeapHandle(other.m_createDescriptorHeapHandle)
 		, m_maxInstanceCount(other.m_maxInstanceCount)
 		, m_textureSize(other.m_textureSize)
+		, m_isEffect(other.m_isEffect)
 	{
 		other.m_createDescriptorHeapHandle = 0U;
 	}
@@ -160,8 +162,16 @@ namespace tktk
 			DX12GameManager::setRtvAndDsv(drawFuncArgs.rtvDescriptorHeapHandle, drawFuncArgs.dsvDescriptorHeapHandle, 0U, 1U);
 		}
 
-		// ビルボード用のパイプラインステートを設定する
-		DX12GameManager::setPipeLineState(DX12GameManager::getSystemHandle(SystemPipeLineStateType::Billboard));
+		if (m_isEffect)
+		{
+			// ビルボードエフェクト用のパイプラインステートを設定する
+			DX12GameManager::setPipeLineState(DX12GameManager::getSystemHandle(SystemPipeLineStateType::BillboardEffect));
+		}
+		else
+		{
+			// ビルボード用のパイプラインステートを設定する
+			DX12GameManager::setPipeLineState(DX12GameManager::getSystemHandle(SystemPipeLineStateType::Billboard));
+		}
 
 		// ブレンドファクターを設定する
 		DX12GameManager::setBlendFactor({ 1.0f, 1.0f, 1.0f, 1.0f });
@@ -181,52 +191,4 @@ namespace tktk
 		// 深度ステンシルバッファーをシェーダーで使える状態にする
 		DX12GameManager::unSetDsv(drawFuncArgs.dsvDescriptorHeapHandle);
 	}
-
-	//void BillboardMaterialData::updateTransformCbuffer(size_t copyBufferHandle, const BillboardCbufferUpdateFuncArgs& updateArgs) const
-	//{
-	//	// ビルボードの座標変換用定数バッファ形式
-	//	BillboardCbufferData transformBufferData{};
-
-	//	transformBufferData.billboardPosition	= updateArgs.billboardPosition;
-	//	transformBufferData.billboardAngle		= updateArgs.billboardAngle;
-	//	transformBufferData.billboardScale		= updateArgs.billboardScale;
-	//	transformBufferData.textureUvOffset		= tktkMath::Vector2_v::zero;
-	//	transformBufferData.textureUvMulRate	= tktkMath::Vector2_v::one;
-	//	transformBufferData.textureSize			= m_textureSize;
-	//	transformBufferData.textureCenterRate	= updateArgs.textureCenterRate;
-	//	transformBufferData.viewMatrix			= updateArgs.viewMatrix;
-	//	transformBufferData.projectionMatrix	= updateArgs.projectionMatrix;
-	//	transformBufferData.blendRate			= updateArgs.blendRate;
-
-	//	// 定数バッファのアップロード用バッファを更新する
-	//	// TODO : 前フレームと定数バッファに変化がない場合、更新しない処理を作る
-	//	DX12GameManager::updateUploadBuffer(copyBufferHandle, transformBufferData);
-
-	//	// 座標変換用の定数バッファにコピーバッファの情報をコピーする
-	//	DX12GameManager::copyBuffer(copyBufferHandle);
-	//}
-
-	//void BillboardMaterialData::updateTransformCbufferUseClippingParam(size_t copyBufferHandle, const BillboardCbufferUpdateFuncArgs& updateArgs, const BillboardClippingParam& clippingParam) const
-	//{
-	//	// ビルボードの座標変換用定数バッファ形式
-	//	BillboardCbufferData transformBufferData{};
-
-	//	transformBufferData.billboardPosition	= updateArgs.billboardPosition;
-	//	transformBufferData.billboardAngle		= updateArgs.billboardAngle;
-	//	transformBufferData.billboardScale		= updateArgs.billboardScale;
-	//	transformBufferData.textureUvOffset		= tktkMath::Vector2(clippingParam.leftTopPos.x / m_textureSize.x,	clippingParam.leftTopPos.y / m_textureSize.y) +
-	//	transformBufferData.textureUvMulRate	= tktkMath::Vector2(clippingParam.size.x / m_textureSize.x,			clippingParam.size.y / m_textureSize.y);
-	//	transformBufferData.textureSize			= clippingParam.size;
-	//	transformBufferData.textureCenterRate	= updateArgs.textureCenterRate;
-	//	transformBufferData.viewMatrix			= updateArgs.viewMatrix;
-	//	transformBufferData.projectionMatrix	= updateArgs.projectionMatrix;
-	//	transformBufferData.blendRate			= updateArgs.blendRate;
-
-	//	// 定数バッファのアップロード用バッファを更新する
-	//	// TODO : 前フレームと定数バッファに変化がない場合、更新しない処理を作る
-	//	DX12GameManager::updateUploadBuffer(copyBufferHandle, transformBufferData);
-
-	//	// 座標変換用の定数バッファにコピーバッファの情報をコピーする
-	//	DX12GameManager::copyBuffer(copyBufferHandle);
-	//}
 }

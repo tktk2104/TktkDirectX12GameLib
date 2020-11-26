@@ -28,24 +28,22 @@ namespace tktk
 
 	void InertialMovement3D::update()
 	{
+		// 移動速度分自身の座標を移動する
 		m_transform3D->addLocalPosition(m_velocity * DX12GameManager::deltaTime());
 
-		if (!m_preFrameAddForce)
-		{
-			float speed = (m_velocity.length() - (m_decelerationPerSec * DX12GameManager::deltaTime()));
+		// 速度を減速する
+		float speed = (m_velocity.length() - (m_decelerationPerSec * DX12GameManager::deltaTime()));
 
-			if (speed < 0.0f) speed = 0.0f;
+		// 速度が負の数になっていたら速度をゼロにする
+		if (speed < 0.0f) speed = 0.0f;
 
-			m_velocity = tktkMath::Vector3::normalize(m_velocity) * speed;
-		}
-		m_preFrameAddForce = false;
+		// 移動速度の値を更新する
+		m_velocity = tktkMath::Vector3::normalize(m_velocity) * speed;
 	}
 
 	void InertialMovement3D::addMomentarilyForce(const tktkMath::Vector3 & force)
 	{
 		if (force.length() < tktkMath::MathHelper::kEpsilon) return;
-
-		m_preFrameAddForce = true;
 
 		m_velocity += force;
 	}
@@ -53,8 +51,6 @@ namespace tktk
 	void InertialMovement3D::addContinuousForce(const tktkMath::Vector3 & force, float accelerationPerSec)
 	{
 		if (force.length() < tktkMath::MathHelper::kEpsilon) return;
-
-		m_preFrameAddForce = true;
 
 		// 目標とする速度との差
 		tktkMath::Vector3 velocityDist = force - m_velocity;

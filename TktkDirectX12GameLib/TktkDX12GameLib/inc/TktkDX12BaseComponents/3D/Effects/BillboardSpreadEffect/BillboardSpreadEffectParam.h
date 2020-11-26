@@ -17,6 +17,9 @@ namespace tktk
 		// 生成ローカル座標のぶれ
 		tktkMath::Vector3 generateLocalPosRandomRange	{ tktkMath::Vector3_v::zero };
 
+		// 最初の生成時間（秒）
+		float	firstGenerateTimeSec					{ 0.0f };
+
 		// 生成頻度（秒）
 		float	generateIntervalTimeSec					{ 0.1f };
 		// 生成頻度のぶれ

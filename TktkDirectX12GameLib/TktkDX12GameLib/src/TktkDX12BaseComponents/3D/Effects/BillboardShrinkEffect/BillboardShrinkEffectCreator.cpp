@@ -13,6 +13,7 @@ namespace tktk
 {
 	BillboardShrinkEffectCreator::BillboardShrinkEffectCreator(const BillboardShrinkEffectParam& param)
 		: m_param(param)
+		, m_generateIntervalSecTimer(m_param.firstGenerateTimeSec)
 	{
 	}
 
@@ -32,7 +33,7 @@ namespace tktk
 		if (m_param.changeAvtiveToReset)
 		{
 			// 生成状況をリセットする
-			m_generateIntervalSecTimer = 0.0f;
+			m_generateIntervalSecTimer = m_param.firstGenerateTimeSec;
 			m_totalGenerateCounter = 0;
 		}
 	}
@@ -79,7 +80,7 @@ namespace tktk
 				auto shrinkTargetPos = m_param.shrinkTargetPos + shrinkTargetPosRandomRange;
 
 				//  子要素追加フラグが立っていなかったらワールド空間での座標になるように修正する
-				if (!m_param.setChild) shrinkTargetPos += m_transform->getWorldPosition();
+				if (!m_param.setChild) shrinkTargetPos = shrinkTargetPos * m_transform->calculateWorldMatrix();
 
 				// 生成座標を計算する
 				auto generatePos = shrinkTargetPos - (tktkMath::Matrix4::createFromQuaternion(rotate).calculateForwardLH() * (m_param.moveSpeedPerSec + moveSpeedPerSecRandomRange) * (m_param.lifeTimeSec + lifeTimeSecRandomRange));

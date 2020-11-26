@@ -32,6 +32,9 @@ namespace tktk
 		// 収縮点座標のぶれを設定する
 		BillboardShrinkEffectCreatorMaker& shrinkTargetPosRandomRange(const tktkMath::Vector3 & value);
 
+		// 最初の生成時間（秒）
+		BillboardShrinkEffectCreatorMaker& firstGenerateTimeSec(float value);
+
 		// 生成頻度を設定する（秒）
 		BillboardShrinkEffectCreatorMaker& generateIntervalTimeSec(float value);
 

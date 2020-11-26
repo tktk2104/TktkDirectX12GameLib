@@ -50,7 +50,10 @@ namespace tktk
 
 	void SoundPlayer::onEnable()
 	{
-		DX12GameManager::playSound(m_soundHandle, m_isLoop);
+		if (m_startToPlay)
+		{
+			DX12GameManager::playSound(m_soundHandle, m_isLoop);
+		}
 	}
 
 	void SoundPlayer::onDisable()

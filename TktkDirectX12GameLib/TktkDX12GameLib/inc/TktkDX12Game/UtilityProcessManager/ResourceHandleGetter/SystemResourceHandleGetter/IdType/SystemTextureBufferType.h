@@ -6,7 +6,10 @@ namespace tktk
 	// システムで使用しているテクスチャバッファの種類
 	enum class SystemTextureBufferType
 	{
-		White
+		White4x4,	// 4x4白テクスチャ
+		Black4x4,	// 4x4黒テクスチャ
+
+		FlatNormal4x4,	// 4x4平らな法線テクスチャ
 	};
 }
 #endif // !SYSTEM_TEXTURE_BUFFER_TYPE_H_

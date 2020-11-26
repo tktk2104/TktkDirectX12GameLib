@@ -60,8 +60,6 @@ namespace tktk
 		
 		// wavファイルのフォーマット情報
 		WAVEFORMATEX	m_wfx;
-		// フォーマットチャンクが大きすぎる時に使用される情報
-		PCMWAVEFORMAT	m_pcmwf;
 
 		// サウンドのコールバック処理クラス
 		CSoundCallback m_cSoundCallback;
@@ -69,20 +67,23 @@ namespace tktk
 		// ソースボイス
 		IXAudio2SourceVoice* m_lpSourceVoice{ nullptr };
 
-		// サウンドバッファの大きさ
-		unsigned int m_buflen;
+		// サウンドバッファ１つあたりの大きさ
+		unsigned int m_bufferSize;
 
 		// サウンドバッファ（0.25秒間のサウンドデータを持つ５つのサウンドバッファが連続して存在している）
-		std::vector<unsigned char> m_bufData;
+		std::vector<unsigned char> m_bufferData;
 
 		// サウンド再生の状態を表すビットフラグ
 		unsigned int m_soundPlayState{ 0U };
 
-		// 音楽再生用のカウンタ
-		unsigned int m_soundCount;
+		// 次にサウンドデータを書き込むサウンドバッファインデックス（「bufferTopPtr + (bufferlen * nextBufferWriteIndex)」のアドレスに書き込む）
+		unsigned int m_nextBufferWriteIndex;
 
-		// サウンドバッファを読み込んだ総数
-		unsigned int m_sumReadlen;
+		// 今まで読み込んだ音声データの合計サイズ
+		unsigned int m_sumLoadSize;
+
+		// サウンドデータの合計サイズ
+		unsigned int m_sumDataSize;
 	};
 }
 #endif // !SOUND_DATA_H_

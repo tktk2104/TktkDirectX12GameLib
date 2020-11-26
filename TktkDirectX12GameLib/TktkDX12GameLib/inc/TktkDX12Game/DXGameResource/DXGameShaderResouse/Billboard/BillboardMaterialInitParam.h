@@ -19,6 +19,9 @@ namespace tktk
 
 		// 描画できる最大インスタンス数
 		size_t				maxInstanceCount;
+
+		// 加算ブレンドを行うか？
+		bool				isEffect;
 	};
 }
 #endif // !BILLBOARD_MATERIAL_INIT_PARAM_H_

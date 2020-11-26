@@ -42,6 +42,9 @@ namespace tktk
 		// スプライトの中心位置の割合を設定する
 		SpriteDrawerMaker& centerRate(const tktkMath::Vector2& value);
 
+		// ブレンドレートを設定する
+		SpriteDrawerMaker& blendRate(const tktkMath::Color& value);
+
 	private: /* 自身のインスタンスは静的な存在として扱う */
 
 		static SpriteDrawerMaker m_self;
@@ -53,6 +56,7 @@ namespace tktk
 		size_t				m_useRtvDescriptorHeapHandle{  };
 		size_t				m_spriteMaterialHandle		{ 0U };
 		tktkMath::Vector2	m_centerRate				{ 0.5f, 0.5f };
+		tktkMath::Color		m_blendRate					{ tktkMath::Color_v::white };
 	};
 }
 #endif // !SPRITE_DRAWER_MAKER_H_

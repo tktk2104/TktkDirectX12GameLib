@@ -6,7 +6,8 @@ namespace tktk
 	// システムで使用しているシザー矩形の種類
 	enum class SystemScissorRectType
 	{
-		Basic
+		Basic,
+		WriteShadow,
 	};
 }
 #endif // !SYSTEM_SCISSOR_RECT_TYPE_H_

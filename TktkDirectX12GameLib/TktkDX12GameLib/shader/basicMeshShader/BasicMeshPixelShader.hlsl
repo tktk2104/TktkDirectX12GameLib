@@ -59,6 +59,8 @@ float4 main(PS_INPUT Input) : SV_TARGET
 
 	float shadowWeight = 1.0;
 
+	if (posFromLightVP.z > 1.0) posFromLightVP.z = 1.0;
+
 	if (depthFromLight < posFromLightVP.z - 0.001)
 	{
 		shadowWeight = 0.5;

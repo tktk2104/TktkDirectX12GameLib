@@ -37,13 +37,12 @@ namespace tktk
 	private:
 
 		// 定数バッファのコピー用バッファを更新する
-		void updateCopyBuffer() const;
+		void updateCopyBuffer(const SpriteMaterialDrawFuncArgs& drawFuncArgs) const;
 
 	private:
 
 		size_t				m_createDescriptorHeapHandle { 0U };
 		size_t				m_createUploadBufferHandle{ 0U };
-		tktkMath::Color		m_blendRate;
 		tktkMath::Vector2	m_textureUvOffset;
 		tktkMath::Vector2	m_textureUvMulRate;
 		tktkMath::Vector2	m_textureSize;

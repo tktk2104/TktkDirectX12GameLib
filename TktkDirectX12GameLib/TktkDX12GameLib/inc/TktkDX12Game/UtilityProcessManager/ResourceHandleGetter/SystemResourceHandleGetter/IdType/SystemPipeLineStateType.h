@@ -18,6 +18,7 @@ namespace tktk
 		Sprite,
 		Line2D,
 		Billboard,
+		BillboardEffect,
 
 		/* ƒƒbƒVƒ…•`‰æ */
 		SimpleMesh,

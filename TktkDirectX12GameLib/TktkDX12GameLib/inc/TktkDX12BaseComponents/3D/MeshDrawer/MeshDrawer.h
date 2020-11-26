@@ -34,6 +34,17 @@ namespace tktk
 		void start();
 		void afterCollide();
 
+	public:
+
+		const tktkMath::Vector3& getBasePosition() const;
+		void setBasePosition(const tktkMath::Vector3& position);
+
+		const tktkMath::Vector3& getBaseScale() const;
+		void setBaseScale(const tktkMath::Vector3& scale);
+
+		const tktkMath::Quaternion& getBaseRotation() const;
+		void setBaseRotation(const tktkMath::Quaternion& rotation);
+
 	private:
 
 		size_t m_meshHandle;

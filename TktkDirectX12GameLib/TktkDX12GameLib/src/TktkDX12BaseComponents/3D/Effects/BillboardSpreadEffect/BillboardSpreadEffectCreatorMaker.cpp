@@ -38,6 +38,13 @@ namespace tktk
         return *this;
     }
 
+    BillboardSpreadEffectCreatorMaker& BillboardSpreadEffectCreatorMaker::firstGenerateTimeSec(float value)
+    {
+        // 値を設定して自身の参照を返す
+        m_param.firstGenerateTimeSec = value;
+        return *this;
+    }
+
     BillboardSpreadEffectCreatorMaker& BillboardSpreadEffectCreatorMaker::generateIntervalTimeSec(float value)
     {
         // 値を設定して自身の参照を返す

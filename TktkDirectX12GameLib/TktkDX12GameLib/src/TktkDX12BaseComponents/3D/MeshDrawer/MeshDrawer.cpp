@@ -48,4 +48,34 @@ namespace tktk
 			DX12GameManager::addMeshInstanceBoneMatrix(m_meshHandle, m_skeletonHandle);
 		}
 	}
+
+	const tktkMath::Vector3& MeshDrawer::getBasePosition() const
+	{
+		return m_basePosition;
+	}
+
+	void MeshDrawer::setBasePosition(const tktkMath::Vector3& position)
+	{
+		m_basePosition = position;
+	}
+
+	const tktkMath::Vector3& MeshDrawer::getBaseScale() const
+	{
+		return m_baseScale;
+	}
+
+	void MeshDrawer::setBaseScale(const tktkMath::Vector3& scale)
+	{
+		m_baseScale = scale;
+	}
+
+	const tktkMath::Quaternion& MeshDrawer::getBaseRotation() const
+	{
+		return m_baseRotation;
+	}
+
+	void MeshDrawer::setBaseRotation(const tktkMath::Quaternion& rotation)
+	{
+		m_baseRotation = rotation;
+	}
 }

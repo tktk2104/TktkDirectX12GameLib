@@ -47,11 +47,17 @@ namespace tktk
 		// バックバッファのディスクリプタヒープを作る
 		setSystemHandle(SystemRtvDescriptorHeapType::BackBuffer, m_graphicManager->createBackBufferRtvDescriptorHeap(backBufferRtBufferHandle));
 
-		// ビューポートを作る
+		// デフォルトのビューポートを作る
 		setSystemHandle(SystemViewportType::Basic, createViewport({ { gameManagerInitParam.windowParam.windowSize, tktkMath::Vector2_v::zero, 1.0f, 0.0f } }));
 
-		// シザー矩形を作る
+		// デフォルトのシザー矩形を作る
 		setSystemHandle(SystemScissorRectType::Basic, createScissorRect({ { tktkMath::Vector2_v::zero, gameManagerInitParam.windowParam.windowSize } }));
+
+		// シャドウマップのビューポートを作る
+		setSystemHandle(SystemViewportType::WriteShadow, createViewport({ { { 2048.0f, 2048.0f }, tktkMath::Vector2_v::zero, 1.0f, 0.0f } }));
+
+		// シャドウマップのシザー矩形を作る
+		setSystemHandle(SystemScissorRectType::WriteShadow, createScissorRect({ { tktkMath::Vector2_v::zero, { 2048.0f, 2048.0f } } }));
 
 		// 白テクスチャを作る
 		{
@@ -73,7 +79,53 @@ namespace tktk
 			dataParam.width = 4U;
 			dataParam.height = 4U;
 
-			setSystemHandle(SystemTextureBufferType::White, cpuPriorityCreateTextureBuffer(formatParam, dataParam));
+			setSystemHandle(SystemTextureBufferType::White4x4, cpuPriorityCreateTextureBuffer(formatParam, dataParam));
+		}
+
+		// 黒テクスチャを作る
+		{
+			TexBufFormatParam formatParam{};
+			formatParam.resourceDimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
+			formatParam.format = DXGI_FORMAT_R8G8B8A8_UNORM;
+			formatParam.arraySize = 1U;
+			formatParam.mipLevels = 1U;
+			formatParam.sampleDescCount = 1U;
+			formatParam.sampleDescQuality = 0U;
+
+			TexBuffData dataParam{};
+			dataParam.textureData = {
+				0, 0, 0, 255, /**/ 0, 0, 0, 255, /**/ 0, 0, 0, 255, /**/ 0, 0, 0, 255,
+				0, 0, 0, 255, /**/ 0, 0, 0, 255, /**/ 0, 0, 0, 255, /**/ 0, 0, 0, 255,
+				0, 0, 0, 255, /**/ 0, 0, 0, 255, /**/ 0, 0, 0, 255, /**/ 0, 0, 0, 255,
+				0, 0, 0, 255, /**/ 0, 0, 0, 255, /**/ 0, 0, 0, 255, /**/ 0, 0, 0, 255
+			};
+			dataParam.width = 4U;
+			dataParam.height = 4U;
+
+			setSystemHandle(SystemTextureBufferType::Black4x4, cpuPriorityCreateTextureBuffer(formatParam, dataParam));
+		}
+
+		// 平らな法線テクスチャを作る
+		{
+			TexBufFormatParam formatParam{};
+			formatParam.resourceDimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
+			formatParam.format = DXGI_FORMAT_R8G8B8A8_UNORM;
+			formatParam.arraySize = 1U;
+			formatParam.mipLevels = 1U;
+			formatParam.sampleDescCount = 1U;
+			formatParam.sampleDescQuality = 0U;
+
+			TexBuffData dataParam{};
+			dataParam.textureData = {
+				127, 127, 127, 255, /**/ 127, 127, 127, 255, /**/ 127, 127, 127, 255, /**/ 127, 127, 127, 255,
+				127, 127, 127, 255, /**/ 127, 127, 127, 255, /**/ 127, 127, 127, 255, /**/ 127, 127, 127, 255,
+				127, 127, 127, 255, /**/ 127, 127, 127, 255, /**/ 127, 127, 127, 255, /**/ 127, 127, 127, 255,
+				127, 127, 127, 255, /**/ 127, 127, 127, 255, /**/ 127, 127, 127, 255, /**/ 127, 127, 127, 255
+			};
+			dataParam.width = 4U;
+			dataParam.height = 4U;
+
+			setSystemHandle(SystemTextureBufferType::FlatNormal4x4, cpuPriorityCreateTextureBuffer(formatParam, dataParam));
 		}
 
 		// デフォルトの深度バッファーを作る
@@ -97,7 +149,7 @@ namespace tktk
 		// シャドウマップの深度バッファーを作る
 		{
 			DepthStencilBufferInitParam initParam{};
-			initParam.depthStencilSize = gameManagerInitParam.windowParam.windowSize;
+			initParam.depthStencilSize = { 2048.0f, 2048.0f };
 			initParam.useAsShaderResource = true;
 
 			setSystemHandle(SystemDsBufferType::ShadowMap, createDsBuffer(initParam));

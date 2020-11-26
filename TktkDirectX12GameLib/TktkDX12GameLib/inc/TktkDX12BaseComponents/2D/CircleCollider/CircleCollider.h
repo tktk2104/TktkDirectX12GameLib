@@ -17,6 +17,7 @@ namespace tktk
 {
 	/* class member */
 	class Transform2D;
+	class InertialMovement2D;
 
 	// 真円の当たり判定のコンポーネント
 	// 【前提コンポーネント：Transform2D】
@@ -74,19 +75,22 @@ namespace tktk
 	private:
 
 		// 円の衝突判定クラス
-		tktkCollision::BoundingCircle	m_boundingCircle;
+		tktkCollision::BoundingCircle		m_boundingCircle;
 
 		// 衝突相手を押し出す処理を行うか？
-		bool							m_isExtrude;
+		bool								m_isExtrude;
 
 		// 押し出されやすさ（割合）
-		float							m_extrudedRate;
+		float								m_extrudedRate;
 
 		// 衝突相手と衝突結果を保持するリスト
-		std::forward_list<HitInfo>		m_hitInfo2dPairList;
+		std::forward_list<HitInfo>			m_hitInfo2dPairList;
 
 		// 自身の２次元座標コンポーネント
-		ComponentPtr<Transform2D>		m_transform2D;
+		ComponentPtr<Transform2D>			m_transform2D;
+
+		// 自身の２次元慣性移動コンポーネント
+		ComponentPtr<InertialMovement2D>	m_inertialMovement2D;
 	};
 }
 #endif // !CIRCLE_COLLIDER_H_

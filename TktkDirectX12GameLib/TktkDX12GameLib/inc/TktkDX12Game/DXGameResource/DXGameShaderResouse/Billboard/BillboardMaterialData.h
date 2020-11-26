@@ -57,6 +57,9 @@ namespace tktk
 		// 一度に描画するインスタンス数
 		size_t m_instanceCount				{ 0U };
 
+		// 加算ブレンドを行うか？
+		bool m_isEffect;
+
 		// インスタンス情報の配列
 		std::forward_list<BillboardMaterialInstanceVertData>	m_instanceVertParamList;
 	};

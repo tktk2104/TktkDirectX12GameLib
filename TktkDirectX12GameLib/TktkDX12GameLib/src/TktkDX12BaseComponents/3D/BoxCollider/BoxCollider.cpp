@@ -1,7 +1,9 @@
 #include "TktkDX12BaseComponents/3D/BoxCollider/BoxCollider.h"
 
 #include <stdexcept>
+#include <TktkMath/MathHelper.h>
 #include "TktkDX12BaseComponents/3D/Transform3D/Transform3D.h"
+#include "TktkDX12BaseComponents/3D/InertialMovement3D/InertialMovement3D.h"
 #include "TktkDX12BaseComponents/3D/SphereCollider/SphereCollider.h"
 
 #include "TktkDX12Game/DXGameResource/GameObjectResouse/GameObject/GameObject.h"
@@ -75,6 +77,8 @@ namespace tktk
 		{
 			throw std::runtime_error("RectCollider not found Transform3D");
 		}
+
+		m_inertialMovement3D = getComponent<InertialMovement3D>();
 	}
 
 	bool BoxCollider::isCollide(const ComponentBasePtr& other)
@@ -153,14 +157,77 @@ namespace tktk
 			// ゼロで割ろうとしたら緊急回避
 			if (sumExtrudedRate == 0.0f) continue;
 
-			// 自身の押し出し処理を行う
-			m_transform3D->addWorldPosition(node.hitInfo.selfExtrudeVec * (selfExtrudedRate / sumExtrudedRate));
+			// 自身を押し出す距離
+			auto selfExtrudeDistance = node.hitInfo.selfExtrudeVec * (selfExtrudedRate / sumExtrudedRate);
+
+			// 押し出す距離の長さが“kEpsilon”よりも長ければ
+			if (selfExtrudeDistance.length() > tktkMath::MathHelper::kEpsilon)
+			{
+				// 自身の押し出し処理を行う
+				m_transform3D->addWorldPosition(selfExtrudeDistance);
+
+				// 慣性移動コンポーネントを自身が持っていたら
+				if (!m_inertialMovement3D.expired())
+				{
+					// 現在の移動速度
+					auto curVelocity = m_inertialMovement3D->getVelocity();
+
+					// 押し出す方向
+					auto extrudeDirection = selfExtrudeDistance.normalized();
+
+					// 内積を求める
+					auto dotValue = tktkMath::Vector3::dot(curVelocity, extrudeDirection);
+
+					// 押し出し方向が移動速度の反対方向だったら
+					if (dotValue <= 0.0f)
+					{
+						// 減速する方向
+						auto decreaseVelocity = extrudeDirection * dotValue;
+
+						// 現在の速度を減速する
+						m_inertialMovement3D->setVelocity(curVelocity - decreaseVelocity);
+					}
+				}
+			}
 
 			// 相手の座標管理コンポーネントを取得
-			auto otherTransform = node.otherObject->getComponent<tktk::Transform3D>();
+			auto otherTransform = node.otherObject->getComponent<Transform3D>();
 
-			// 相手の押し出し処理を行う
-			otherTransform->addWorldPosition(-node.hitInfo.selfExtrudeVec * (otherExtrudedRate / sumExtrudedRate));
+			// 相手を押し出す距離
+			auto otherExtrudeDistance = -node.hitInfo.selfExtrudeVec * (otherExtrudedRate / sumExtrudedRate);
+
+			// 押し出す距離の長さが“kEpsilon”よりも長ければ
+			if (otherExtrudeDistance.length() > tktkMath::MathHelper::kEpsilon)
+			{
+				// 相手の押し出し処理を行う
+				otherTransform->addWorldPosition(otherExtrudeDistance);
+
+				// 相手の慣性移動コンポーネントを取得
+				auto otherInertialMovement3D = node.otherObject->getComponent<InertialMovement3D>();
+
+				// 慣性移動コンポーネントを相手が持っていたら
+				if (!otherInertialMovement3D.expired())
+				{
+					// 現在の移動速度
+					auto curVelocity = otherInertialMovement3D->getVelocity();
+
+					// 押し出す方向
+					auto extrudeDirection = otherExtrudeDistance.normalized();
+
+					// 内積を求める
+					auto dotValue = tktkMath::Vector3::dot(curVelocity, extrudeDirection);
+
+					// 押し出し方向が移動速度の反対方向だったら
+					if (dotValue <= 0.0f)
+					{
+						// 減速する方向
+						auto decreaseVelocity = extrudeDirection * dotValue;
+
+						// 現在の速度を減速する
+						otherInertialMovement3D->setVelocity(curVelocity - decreaseVelocity);
+					}
+				}
+			}
 		}
 	}
 }

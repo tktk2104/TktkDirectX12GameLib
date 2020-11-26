@@ -9,8 +9,11 @@ namespace tktk
 {
 	struct SpriteCbufferUpdateFuncArgs
 	{
-		tktkMath::Matrix3 worldMatrix;
-		tktkMath::Vector2 spriteCenterRate;
+		// ワールド行列
+		tktkMath::Matrix3	worldMatrix;
+
+		// スプライトの中心位置（割合）
+		tktkMath::Vector2	spriteCenterRate;
 	};
 }
 #endif // !SPRITE_CBUFFER_UPDATE_FUNC_ARGS_H_

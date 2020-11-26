@@ -11,8 +11,9 @@ namespace tktk
 {
 	/* class member */
 	class Transform3D;
+	class InertialMovement3D;
 
-	// AABBの当たり判定のコンポーネント
+	// OBBの当たり判定のコンポーネント
 	// 【前提コンポーネント：Transform3D】
 	class BoxCollider
 		: public ComponentBase
@@ -75,19 +76,22 @@ namespace tktk
 		std::vector<tktkMath::Vector3> m_tempVerts;
 
 		// AABBの衝突判定クラス
-		tktkCollision::BoundingMesh	m_boundingMesh;
+		tktkCollision::BoundingMesh			m_boundingMesh;
 
 		// 衝突相手を押し出す処理を行うか？
-		bool						m_isExtrude;
+		bool								m_isExtrude;
 
 		// 押し出されやすさ（割合）
-		float						m_extrudedRate;
+		float								m_extrudedRate;
 
 		// 衝突相手と衝突結果を保持するリスト
-		std::forward_list<HitInfo>	m_hitInfo3dPairList;
+		std::forward_list<HitInfo>			m_hitInfo3dPairList;
 
 		// 自身の３次元座標コンポーネント
-		ComponentPtr<Transform3D>	m_transform3D;
+		ComponentPtr<Transform3D>			m_transform3D;
+
+		// 自身の３次元慣性移動コンポーネント
+		ComponentPtr<InertialMovement3D>	m_inertialMovement3D;
 	};
 }
 #endif // !BOX_COLLIDER_H_

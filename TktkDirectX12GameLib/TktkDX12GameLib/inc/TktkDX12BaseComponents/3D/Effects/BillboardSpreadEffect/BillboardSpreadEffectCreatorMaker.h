@@ -32,6 +32,9 @@ namespace tktk
 		// 生成ローカル座標のぶれを設定する
 		BillboardSpreadEffectCreatorMaker& generateLocalPosRandomRange(const tktkMath::Vector3& value);
 
+		// 最初の生成時間（秒）
+		BillboardSpreadEffectCreatorMaker& firstGenerateTimeSec(float value);
+
 		// 生成頻度を設定する（秒）
 		BillboardSpreadEffectCreatorMaker& generateIntervalTimeSec(float value);
 

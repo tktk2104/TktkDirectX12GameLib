@@ -12,6 +12,7 @@ namespace tktk
 {
 	/* funcUseType */
 	class Transform3D;
+	class InertialMovement3D;
 
 	// 球体の当たり判定のコンポーネント
 	// 【前提コンポーネント：Transform3D】
@@ -83,6 +84,9 @@ namespace tktk
 
 		// 自身の３次元座標コンポーネント
 		ComponentPtr<Transform3D> m_transform3D;
+
+		// 自身の３次元慣性移動コンポーネント
+		ComponentPtr<InertialMovement3D>	m_inertialMovement3D;
 	};
 }
 #endif // !SPHERE_COLLIDER_H_

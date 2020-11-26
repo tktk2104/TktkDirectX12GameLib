@@ -302,7 +302,7 @@ namespace tktk
 				// アルベドマップとシャドウマップの２種類
 				srvDescriptorParam.descriptorParamArray = {
 					{ BufferType::texture, skyBoxTextureHandle },
-					{ BufferType::texture, DX12GameManager::getSystemHandle(SystemTextureBufferType::White)	}
+					{ BufferType::texture, DX12GameManager::getSystemHandle(SystemTextureBufferType::White4x4)	}
 				};
 			}
 

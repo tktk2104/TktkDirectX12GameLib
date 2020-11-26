@@ -20,6 +20,7 @@ namespace tktk
 {
 	/* class member */
 	class Transform2D;
+	class InertialMovement2D;
 
 	// 多角形の当たり判定のコンポーネント
 	// 【前提コンポーネント：Transform2D】
@@ -90,6 +91,9 @@ namespace tktk
 
 		// 自身の２次元座標コンポーネント
 		ComponentPtr<Transform2D>			m_transform2D;
+
+		// 自身の２次元慣性移動コンポーネント
+		ComponentPtr<InertialMovement2D>	m_inertialMovement2D;
 	};
 }
 #endif // !POLYGON_2D_COLLIDER_H_

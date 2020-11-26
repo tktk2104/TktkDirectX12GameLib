@@ -8,6 +8,7 @@
 #include "../../../TktkDX12Game/UtilityProcessManager/ResourceHandleGetter/ResourceIdConverter/ResourceIdCarrier.h"
 
 /* class member */
+#include <TktkMath/Structs/Color.h>
 #include <TktkMath/Structs/Vector2.h>
 #include "../../../TktkDX12Game/DXGameResource/DXGameShaderResouse/Sprite/SpriteClippingParam.h"
 
@@ -22,7 +23,7 @@ namespace tktk
 	{
 	public:
 
-		SpriteClippingDrawer(float drawPriority, size_t spriteMaterialHandle, size_t useRtvDescriptorHeapHandle, const tktkMath::Vector2& centerRate, const SpriteClippingParam& clippingParam);
+		SpriteClippingDrawer(float drawPriority, size_t spriteMaterialHandle, size_t useRtvDescriptorHeapHandle, const tktkMath::Vector2& centerRate, const tktkMath::Color& blendRate, const SpriteClippingParam& clippingParam);
 
 	public:
 
@@ -42,6 +43,12 @@ namespace tktk
 		// スプライトの中心位置の割合を設定する
 		void setCenterRate(const tktkMath::Vector2& centerRate);
 
+		// ブレンドレートを取得する
+		const tktkMath::Color& getBlendRate() const;
+
+		// ブレンドレートを設定する
+		void setBlendRate(const tktkMath::Color& blendRate);
+
 		// 切り取る範囲のテクスチャ座標での左上座標を設定する（テクセル）
 		void setClippingLeftTopPos(const tktkMath::Vector2& leftTopPos);
 
@@ -54,6 +61,7 @@ namespace tktk
 		size_t						m_useRtvDescriptorHeapHandle;
 		size_t						m_spriteMaterialHandle;
 		tktkMath::Vector2			m_spriteCenterRate;
+		tktkMath::Color				m_blendRate;
 		SpriteClippingParam			m_clippingParam;
 		ComponentPtr<Transform2D>	m_transform;
 	};

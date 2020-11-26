@@ -2,6 +2,7 @@
 #define SPRITE_DRAWER_H_
 
 /* class member */
+#include <TktkMath/Structs/Color.h>
 #include <TktkMath/Structs/Vector2.h>
 
 /* funcUseType */
@@ -22,7 +23,7 @@ namespace tktk
 	{
 	public:
 
-		SpriteDrawer(float drawPriority, size_t spriteMaterialHandle, size_t useRtvDescriptorHeapHandle, const tktkMath::Vector2& centerRate);
+		SpriteDrawer(float drawPriority, size_t spriteMaterialHandle, size_t useRtvDescriptorHeapHandle, const tktkMath::Vector2& centerRate, const tktkMath::Color& blendRate);
 
 	public:
 
@@ -42,12 +43,19 @@ namespace tktk
 		// スプライトの中心位置の割合を設定する
 		void setCenterRate(const tktkMath::Vector2& centerRate);
 
+		// ブレンドレートを取得する
+		const tktkMath::Color& getBlendRate() const;
+
+		// ブレンドレートを設定する
+		void setBlendRate(const tktkMath::Color& blendRate);
+
 	private:
 
 		size_t						m_createUploadTransformCbufferHandle{ 0U };
 		size_t						m_useRtvDescriptorHeapHandle;
 		size_t						m_spriteMaterialHandle;
 		tktkMath::Vector2			m_spriteCenterRate;
+		tktkMath::Color				m_blendRate;
 		ComponentPtr<Transform2D>	m_transform;
 	};
 }
