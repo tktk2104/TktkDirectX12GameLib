@@ -103,7 +103,7 @@ namespace tktkMath
 	Quaternion		operator *  (T s, Quaternion q)		{ return q *= s; };
 	template <class T>
 	Quaternion		operator /  (Quaternion q, T s)		{ return q /= s; };
-	Vector3			operator *  (const Quaternion& rotation, const Vector3& point);
+	Vector3			operator *  (const Vector3& point, const Quaternion& rotation);
 	std::ostream&	operator << (std::ostream& os, const Quaternion& quaternion);
 }
 #endif // !QUATERNION_H_

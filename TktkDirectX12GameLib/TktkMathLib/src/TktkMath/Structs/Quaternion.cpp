@@ -295,9 +295,9 @@ namespace tktkMath
 	// ※未デバッグ
 	Vector3 Quaternion::calculateEulerAngle() const
 	{
-		Vector3 ax = *this * Vector3{ 1.0f, 0.0f, 0.0f };
-		Vector3 ay = *this * Vector3{ 0.0f, 1.0f, 0.0f };
-		Vector3 az = *this * Vector3{ 0.0f, 0.0f, 1.0f };
+		Vector3 ax = Vector3{ 1.0f, 0.0f, 0.0f } * *this;
+		Vector3 ay = Vector3{ 0.0f, 1.0f, 0.0f } * *this;
+		Vector3 az = Vector3{ 0.0f, 0.0f, 1.0f } * *this;
 		Vector3 result = Vector3(0.0f, 0.0f, 0.0f);
 		if (az.y < 1.0f) {
 			if (az.y > -1.0f) {
@@ -406,7 +406,7 @@ namespace tktkMath
 		return q1 *= q2;
 	}
 
-	Vector3 operator*(const Quaternion& rotation, const Vector3& point)
+	Vector3 operator*(const Vector3& point, const Quaternion& rotation)
 	{
 		float x = rotation.x * 2.0f;
 		float y = rotation.y * 2.0f;

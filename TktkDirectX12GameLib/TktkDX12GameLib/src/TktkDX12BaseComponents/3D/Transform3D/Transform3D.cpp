@@ -296,7 +296,7 @@ namespace tktk
 	{
 		tktkMath::Vector3 relativeSelfWorldPos = m_worldPosition - worldPoint;
 
-		setWorldPosition(tktkMath::Quaternion::createFromAxisAngle(axis, angle) * relativeSelfWorldPos + worldPoint);
+		setWorldPosition(relativeSelfWorldPos * tktkMath::Quaternion::createFromAxisAngle(axis, angle) + worldPoint);
 	}
 
 	/*Matrix4 Transform3D::calculateLocalToWorldMatrix() const
