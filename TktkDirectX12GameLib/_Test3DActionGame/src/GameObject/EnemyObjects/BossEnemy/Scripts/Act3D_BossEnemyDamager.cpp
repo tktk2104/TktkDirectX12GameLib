@@ -25,10 +25,15 @@ void Act3D_BossEnemyDamager::handleMessage(tktk::MessageTypeCarrier type, const 
 		if (m_selfParam->outOfHp())
 		{
 			// 死亡状態を有効にする
-			getGameObject()->stateEnable(FighterEnemyState::Dead);
+			getGameObject()->stateEnable(BossEnemyStateType::Dead);
 
 			// 生存状態を無効にする
-			getGameObject()->stateDisable(FighterEnemyState::Alive);
+			getGameObject()->stateDisable(BossEnemyStateType::Alive);
+		}
+		else
+		{
+			// ダメージ状態を有効にする
+			getGameObject()->stateEnable(BossEnemyStateType::Damage);
 		}
 	}
 }

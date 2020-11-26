@@ -1,6 +1,6 @@
 #include "Act3D_DefaultLight.h"
 
-tktk::GameObjectPtr Act3D_DefaultLight::create(const tktkMath::Vector3& position, const tktkMath::Quaternion& rotation)
+tktk::GameObjectPtr Act3D_DefaultLight::create(const tktkMath::Vector3& position)
 {
 	// ゲームオブジェクトを作成
 	auto gameObject = tktk::DX12Game::createGameObject();
@@ -8,14 +8,6 @@ tktk::GameObjectPtr Act3D_DefaultLight::create(const tktkMath::Vector3& position
 	// ３次元座標コンポーネント
 	tktk::Transform3DMaker::makeStart(gameObject)
 		.initPosition(position)
-		.initRotation(rotation)
-		.create();
-
-	// 正射影カメラコンポーネント（シャドウマップを描画するカメラ位置）
-	tktk::OrthographicCameraControllerMaker::makeStart(gameObject)
-		.initCameraWidth(30.0f)
-		.initCameraHeight(30.0f)
-		.initCameraHandle(tktk::DX12Game::getSystemHandle(tktk::SystemCameraType::DefaultShadowMapCamera))
 		.create();
 
 	// ポイントライトコンポーネント

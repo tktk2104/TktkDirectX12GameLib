@@ -8,7 +8,7 @@ class Act3D_InputToStartComboAttack
 {
 public:
 
-	explicit Act3D_InputToStartComboAttack(float invalidInputTimeSec);
+	explicit Act3D_InputToStartComboAttack() = default;
 
 public:
 
@@ -17,7 +17,11 @@ public:
 
 private:
 
-	float m_invalidInputSecTimer{ 0.0f };
-	float m_invalidInputTimeSec;
+	constexpr static float InvalidStateChangeTimeSec{ 0.45f };
+
+private:
+
+	float	m_invalidStateChangeSecTimer	{ 0.0f };
+	bool	m_afterInput			{ false };
 };
 #endif // !ACT_3D_INPUT_TO_START_COMBO_ATTACK_H_

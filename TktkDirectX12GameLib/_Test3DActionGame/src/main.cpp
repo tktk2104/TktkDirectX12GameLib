@@ -9,6 +9,7 @@
 #include "Scene/Act3D_LoadingScene.h"
 #include "Scene/Act3D_TitleScene.h"
 #include "Scene/Act3D_MainScene.h"
+#include "Scene/Act3D_ResultScene.h"
 
 #include "Enums/Enums.h"
 
@@ -35,15 +36,41 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hInstancePrev, _
 	// 「DX12GameManager」の初期設定をする
 	setUpDX12GameManager(hInstance, nCmdShow);
 
+	// 各入力と入力コマンドを結びつける
+	tktk::DX12GameManager::addCommand(CommandId::Any,			tktk::KeybordKeyType::key_W);
+	tktk::DX12GameManager::addCommand(CommandId::Any,			tktk::KeybordKeyType::key_A);
+	tktk::DX12GameManager::addCommand(CommandId::Any,			tktk::KeybordKeyType::key_S);
+	tktk::DX12GameManager::addCommand(CommandId::Any,			tktk::KeybordKeyType::key_D);
+	tktk::DX12GameManager::addCommand(CommandId::Any,			tktk::KeybordKeyType::key_Left);
+	tktk::DX12GameManager::addCommand(CommandId::Any,			tktk::KeybordKeyType::key_Right);
+	tktk::DX12GameManager::addCommand(CommandId::Any,			tktk::KeybordKeyType::key_Lshift);
+	tktk::DX12GameManager::addCommand(CommandId::Any,			tktk::KeybordKeyType::key_Rshift);
+	tktk::DX12GameManager::addCommand(CommandId::Any,			tktk::KeybordKeyType::key_Space);
+
+	tktk::DX12GameManager::addCommand(CommandId::MoveForward,	tktk::KeybordKeyType::key_W);
+	tktk::DX12GameManager::addCommand(CommandId::MoveBackward,	tktk::KeybordKeyType::key_S);
+	tktk::DX12GameManager::addCommand(CommandId::MoveLeft,		tktk::KeybordKeyType::key_A);
+	tktk::DX12GameManager::addCommand(CommandId::MoveRight,		tktk::KeybordKeyType::key_D);
+
+	tktk::DX12GameManager::addCommand(CommandId::LookLeft,		tktk::KeybordKeyType::key_Left);
+	tktk::DX12GameManager::addCommand(CommandId::LookRight,		tktk::KeybordKeyType::key_Right);
+
+	tktk::DX12GameManager::addCommand(CommandId::Run,			tktk::KeybordKeyType::key_Lshift);
+	tktk::DX12GameManager::addCommand(CommandId::Run,			tktk::KeybordKeyType::key_Rshift);
+
+	tktk::DX12GameManager::addCommand(CommandId::Attack,		tktk::KeybordKeyType::key_Space);
+
 	// シーンを追加する
 	auto loadingSceneHandle = tktk::DX12GameManager::addSceneAndAttachId(SceneId::Loading,	tktk::SceneInitParam::create<Act3D_LoadingScene>());
 	auto titleSceneHandle	= tktk::DX12GameManager::addSceneAndAttachId(SceneId::Title,	tktk::SceneInitParam::create<Act3D_TitleScene>());
 	auto mainSceneHandle	= tktk::DX12GameManager::addSceneAndAttachId(SceneId::Main,		tktk::SceneInitParam::create<Act3D_MainScene>());
+	auto resultSceneHandle	= tktk::DX12GameManager::addSceneAndAttachId(SceneId::Result,	tktk::SceneInitParam::create<Act3D_ResultScene>());
 
-	// それぞれのシーンでのみ生存するオブジェクトに付けるタグを設定する
+	// それぞれのシーンの終了時に消えるオブジェクトに付けるタグを設定する
 	tktk::DX12GameManager::setSceneEndDestroyGameObjectTag(loadingSceneHandle,	GameObjectTag::LoadingSceneObject);
 	tktk::DX12GameManager::setSceneEndDestroyGameObjectTag(titleSceneHandle,	GameObjectTag::TitleSceneObject);
 	tktk::DX12GameManager::setSceneEndDestroyGameObjectTag(mainSceneHandle,		GameObjectTag::MainSceneObject);
+	tktk::DX12GameManager::setSceneEndDestroyGameObjectTag(resultSceneHandle,	GameObjectTag::ResultSceneObject);
 
 	// 読み込みシーンを有効にする
 	tktk::DX12GameManager::enableScene(loadingSceneHandle);
@@ -54,6 +81,8 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hInstancePrev, _
 	tktk::DX12GameManager::addCollisionGroup(CollisionGroup::Player,	CollisionGroup::Enemy);
 	tktk::DX12GameManager::addCollisionGroup(CollisionGroup::Player,	CollisionGroup::EnemyDamageRange);
 	tktk::DX12GameManager::addCollisionGroup(CollisionGroup::Enemy,		CollisionGroup::PlayerDamageRange);
+
+
 
 	// プログラム開始
 	tktk::DX12GameManager::run();

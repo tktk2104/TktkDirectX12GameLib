@@ -4,6 +4,12 @@
 
 void Act3D_InputToStartAttack::update()
 {
+	if (m_attackIntervelSecTimer > 0.0f)
+	{
+		m_attackIntervelSecTimer -= tktk::DX12Game::deltaTime();
+		return;
+	}
+
 	if (tktk::DX12Game::isTrigger(tktk::KeybordKeyType::key_Space))
 	{
 		// 攻撃状態にする
@@ -22,12 +28,17 @@ void Act3D_InputToStartAttack::update()
 		}
 
 		// 移動に関係するステートを一旦全て切る
-		getGameObject()->stateDisable(PlayerStateType::Move);
-		getGameObject()->stateDisable(PlayerStateType::Idle);
-		getGameObject()->stateDisable(PlayerStateType::WalkForward);
-		getGameObject()->stateDisable(PlayerStateType::WalkBackward);
-		getGameObject()->stateDisable(PlayerStateType::WalkLeft);
-		getGameObject()->stateDisable(PlayerStateType::WalkRight);
-		getGameObject()->stateDisable(PlayerStateType::RunForward);
+		getGameObject()->statesDisable({
+			PlayerStateType::Move,
+			PlayerStateType::Idle,
+			PlayerStateType::WalkForward,
+			PlayerStateType::WalkBackward,
+			PlayerStateType::WalkLeft,
+			PlayerStateType::WalkRight,
+			PlayerStateType::RunForward
+			});
+
+		// 攻撃のインターバルタイマーをリセットする
+		m_attackIntervelSecTimer = AttackIntervalTimeSec;
 	}
 }

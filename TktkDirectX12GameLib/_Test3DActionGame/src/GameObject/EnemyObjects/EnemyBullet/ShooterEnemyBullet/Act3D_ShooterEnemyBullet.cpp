@@ -10,6 +10,9 @@ tktk::GameObjectPtr Act3D_ShooterEnemyBullet::create(const tktkMath::Vector3& po
     // ゲームオブジェクトを作成
     auto gameObject = tktk::DX12Game::createGameObject();
 
+    // メインシーンが終わると消えるオブジェクトを表すタグ
+    gameObject->addGameObjectTag(GameObjectTag::MainSceneObject);
+
     // エネミー弾タグを追加
     gameObject->addGameObjectTag(GameObjectTag::EnemyBullet);
 

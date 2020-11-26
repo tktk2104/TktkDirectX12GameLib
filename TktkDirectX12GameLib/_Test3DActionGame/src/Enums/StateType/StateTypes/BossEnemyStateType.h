@@ -24,6 +24,9 @@ enum class BossEnemyStateType
 
 	/* ダウン中ステート */
 	CantMove,	// 移動不能ステート
-	StandUp		// 起き上がりステート
+	StandUp,	// 起き上がりステート
+
+	/* 特殊ステート */
+	Damage,		// ダメージステートはどのステートとも同時に存在しうる
 };
 #endif // !BOSS_ENEMY_STATE_TYPE_H_

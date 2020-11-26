@@ -5,6 +5,6 @@
 
 struct Act3D_DefaultLight
 {
-	static tktk::GameObjectPtr create(const tktkMath::Vector3& position, const tktkMath::Quaternion& rotation);
+	static tktk::GameObjectPtr create(const tktkMath::Vector3& position);
 };
 #endif // !ACT_3D_DEFAULT_LIGHT_H_

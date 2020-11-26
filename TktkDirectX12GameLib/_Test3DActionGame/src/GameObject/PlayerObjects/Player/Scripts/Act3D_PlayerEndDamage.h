@@ -14,10 +14,10 @@ public:
 private:
 
 	// ダメージ状態が終わるまでの時間
-	static constexpr float EndDamageTimeSec{ 0.6f };
+	constexpr static float EndDamageTimeSec{ 0.6f };
 
 private:
 
-	float m_endAttackSecTimer{ 0.0f };
+	float m_endDamageSecTimer{ 0.0f };
 };
 #endif // !ACT_3D_END_DAMAGE_H_

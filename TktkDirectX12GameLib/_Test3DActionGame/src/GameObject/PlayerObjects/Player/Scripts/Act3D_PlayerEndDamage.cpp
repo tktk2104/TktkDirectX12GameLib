@@ -5,12 +5,12 @@
 void Act3D_PlayerEndDamage::onEnable()
 {
 	// タイマーを初期化
-	m_endAttackSecTimer = EndDamageTimeSec;
+	m_endDamageSecTimer = EndDamageTimeSec;
 }
 
 void Act3D_PlayerEndDamage::update()
 {
-	if (m_endAttackSecTimer < 0.0f)
+	if (m_endDamageSecTimer < 0.0f)
 	{
 		// 通常状態を有効にする
 		getGameObject()->stateEnable(PlayerStateType::Normal);
@@ -21,5 +21,5 @@ void Act3D_PlayerEndDamage::update()
 	}
 
 	// タイマーを更新する
-	m_endAttackSecTimer -= tktk::DX12Game::deltaTime();
+	m_endDamageSecTimer -= tktk::DX12Game::deltaTime();
 }

@@ -9,7 +9,7 @@ class Act3D_PlayerEndAttack
 {
 public:
 
-	Act3D_PlayerEndAttack(float endAttackTime, PlayerStateType attackType);
+	Act3D_PlayerEndAttack(float endAttackTime);
 
 public:
 
@@ -19,8 +19,6 @@ public:
 private:
 
 	const float				m_endAttackTimeSec;
-
-	const PlayerStateType	m_attackType;
 
 	float					m_endAttackSecTimer{ 0.0f };
 };

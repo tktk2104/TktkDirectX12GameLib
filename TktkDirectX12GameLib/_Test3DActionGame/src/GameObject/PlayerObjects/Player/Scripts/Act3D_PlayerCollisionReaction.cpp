@@ -6,6 +6,6 @@ void Act3D_PlayerCollisionReaction::onCollisionEnter(const tktk::GameObjectPtr& 
 {
 	if (other->containGameobjectTag(GameObjectTag::EnemyAttackRange))
 	{
-		getGameObject()->sendMessage(EventMessageType::Damage);
+		getGameObject()->sendMessage(EventMessageType::Damage, 1);
 	}
 }

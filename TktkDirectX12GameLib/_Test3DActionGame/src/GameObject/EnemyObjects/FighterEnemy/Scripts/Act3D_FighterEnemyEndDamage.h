@@ -14,7 +14,7 @@ public:
 private:
 
 	// ダメージ状態が終わるまでの時間
-	static constexpr float EndDamageTimeSec{ 0.5f };
+	static constexpr float EndDamageTimeSec{ 0.4f };
 
 private:
 

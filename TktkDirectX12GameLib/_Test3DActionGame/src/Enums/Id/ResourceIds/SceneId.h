@@ -6,6 +6,7 @@ enum class SceneId
 {
 	Loading,	// ローディングシーン
 	Title,		// タイトルシーン
-	Main		// メインシーン
+	Main,		// メインシーン
+	Result,		// リザルトシーン
 };
 #endif // !SCENE_ID_H_

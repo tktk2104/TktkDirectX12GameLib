@@ -19,7 +19,7 @@ public:
 public:
 
 	// Å‘åHP
-	constexpr int getMaxHp() const { return 3; }
+	constexpr int getMaxHp() const { return 8; }
 
 private:
 

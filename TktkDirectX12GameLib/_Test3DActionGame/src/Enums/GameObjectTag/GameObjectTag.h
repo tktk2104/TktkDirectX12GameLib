@@ -3,10 +3,13 @@
 
 enum class GameObjectTag
 {
-	LoadingSceneObject,	// ローディングシーンでのみ生存するオブジェクト
-	TitleSceneObject,	// タイトルシーンでのみ生存するオブジェクト
-	MainSceneObject,	// メインシーンでのみ生存するオブジェクト
+	LoadingSceneObject,	// ローディングシーン終了時に消滅するオブジェクト
+	TitleSceneObject,	// タイトルシーン終了時に消滅するオブジェクト
+	MainSceneObject,	// メインシーン終了時に消滅するオブジェクト
+	ResultSceneObject,	// リザルトシーン終了時に消滅するオブジェクト
 
+
+	GameRule,			// ゲームルール
 
 	Player,				// プレイヤー
 	Enemy,				// エネミー
@@ -16,5 +19,8 @@ enum class GameObjectTag
 
 	PlayerAttackRange,	// プレイヤーの攻撃範囲
 	EnemyAttackRange,	// エネミーの攻撃範囲
+
+
+	PlayerCamera,		// プレイヤーカメラ
 };
 #endif // !GAME_OBJECT_TAG_H_

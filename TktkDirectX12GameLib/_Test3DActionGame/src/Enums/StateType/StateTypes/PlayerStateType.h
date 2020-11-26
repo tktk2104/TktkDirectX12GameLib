@@ -4,9 +4,13 @@
 enum class PlayerStateType
 {
 	/* 基本状態 */
-	Normal,	// 通常ステート
-	Damage,	// 被ダメージステート
+	Alive,	// 生存ステート
 	Dead,	// 死亡ステート
+
+	/* 生存ステート */
+	Normal,	// 通常ステート
+	Dodge,	// 回避ステート
+	Damage,	// 被ダメージステート
 
 	/* 通常ステート */
 	Move,	// 移動ステート

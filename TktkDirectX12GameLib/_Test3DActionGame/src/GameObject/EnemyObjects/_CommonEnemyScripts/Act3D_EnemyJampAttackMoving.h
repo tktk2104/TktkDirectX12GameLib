@@ -8,7 +8,12 @@ class Act3D_EnemyJampAttackMoving
 {
 public:
 
-	Act3D_EnemyJampAttackMoving(float jumpSpeedPerSec, float moveTimeSec);
+	Act3D_EnemyJampAttackMoving(
+		float jumpVerticalPower,
+		float jmupVerticalMoveStartTimeSec,
+		float jumpHorizontalSpeedPerSec,
+		float jmupHorizontalMoveTimeSec
+	);
 
 public:
 
@@ -18,9 +23,14 @@ public:
 
 private:
 
-	float											m_jumpSpeedPerSec;
-	float											m_moveTimeSec;
-	float											m_moveSecTimer{ 0.0f };
+	float											m_jumpVerticalPower;
+	float											m_jmupVerticalMoveStartTimeSec;
+	float											m_jumpHorizontalSpeedPerSec;
+	float											m_jmupHorizontalMoveTimeSec;
+	float											m_verticalMoveSecTimer		{ 0.0f };
+	bool											m_afterVerticalMove			{ false };
+	float											m_horizontalMoveSecTimer	{ 0.0f };
 	tktk::ComponentPtr<tktk::Transform3D>			m_transform;
+	tktk::ComponentPtr<tktk::InertialMovement3D>	m_inertialMovement;
 };
 #endif // !ACT_3D_ENEMY_JAMP_ATTACK_MOVING_H_

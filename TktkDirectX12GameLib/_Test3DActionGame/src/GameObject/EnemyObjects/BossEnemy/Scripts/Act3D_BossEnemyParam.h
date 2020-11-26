@@ -12,9 +12,21 @@ public:
 
 public:
 
-	void damage(int damage);
+	void update();
 
+public:
+
+	void damage(int damage);
 	bool outOfHp() const;
+
+	bool canNormalAttack() const;
+	void resetNormalAttackIntervelTimer(float time);
+
+	bool canRollAttack() const;
+	void resetRollAttackIntervelTimer(float time);
+
+	bool canJumpAttack() const;
+	void resetJumpAttackIntervelTimer(float time);
 
 public:
 
@@ -23,6 +35,9 @@ public:
 
 private:
 
-	int m_curHp{ getMaxHp() };
+	int		m_curHp							{ getMaxHp() };
+	float	m_normalAttackIntervalSecTimer	{ 0.0f };
+	float	m_rollAttackIntervalSecTimer	{ 0.0f };
+	float	m_jumpAttackIntervalSecTimer	{ 0.0f };
 };
 #endif // !ACT_3D_BOSS_ENEMY_PARAM_H_

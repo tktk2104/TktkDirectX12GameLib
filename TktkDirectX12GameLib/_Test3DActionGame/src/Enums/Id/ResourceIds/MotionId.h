@@ -9,6 +9,7 @@ enum class MotionId
 	PlayerWalkLeft,		// プレイヤー左歩き移動
 	PlayerWalkRight,	// プレイヤー左歩き移動
 	PlayerRunForward,	// プレイヤー前方走り移動
+	PlayerDodge,		// プレイヤー回避
 	PlayerDamage,		// プレイヤーダメージ
 	PlayerDead,			// プレイヤー死亡
 	PlayerAttack1,		// プレイヤー横切り

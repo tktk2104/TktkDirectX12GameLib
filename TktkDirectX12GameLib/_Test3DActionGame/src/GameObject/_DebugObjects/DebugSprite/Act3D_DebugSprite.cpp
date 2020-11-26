@@ -1,5 +1,7 @@
 #include "Act3D_DebugSprite.h"
 
+#include "../../../Enums/Enums.h"
+
 tktk::GameObjectPtr Act3D_DebugSprite::create(const tktkMath::Vector2& position)
 {
     auto gameObject = tktk::DX12Game::createGameObject();
@@ -9,7 +11,7 @@ tktk::GameObjectPtr Act3D_DebugSprite::create(const tktkMath::Vector2& position)
         .create();
 
     tktk::SpriteDrawerMaker::makeStart(gameObject)
-        .spriteMaterialId(7)
+        .spriteMaterialId(SpriteId::Test)
         .create();
 
     return gameObject;

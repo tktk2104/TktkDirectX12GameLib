@@ -1,8 +1,7 @@
 #include "Act3D_PlayerEndAttack.h"
 
-Act3D_PlayerEndAttack::Act3D_PlayerEndAttack(float endAttackTime, PlayerStateType attackType)
+Act3D_PlayerEndAttack::Act3D_PlayerEndAttack(float endAttackTime)
 	: m_endAttackTimeSec(endAttackTime)
-	, m_attackType(attackType)
 {
 }
 
@@ -19,9 +18,8 @@ void Act3D_PlayerEndAttack::update()
 		// ’Êíó‘Ô‚ð—LŒø‚É‚·‚é
 		getGameObject()->stateEnable(PlayerStateType::Move);
 
-		// UŒ‚ó‘Ô‚ð–³Œø‚É‚·‚é
-		getGameObject()->stateDisable(PlayerStateType::Attack);
-		getGameObject()->stateDisable(m_attackType);
+		// UŒ‚Œnó‘Ô‚ð–³Œø‚É‚·‚é
+		getGameObject()->statesDisable({ PlayerStateType::Attack, PlayerStateType::Attack1, PlayerStateType::Attack2, PlayerStateType::JumpAttack });
 		return;
 	}
 

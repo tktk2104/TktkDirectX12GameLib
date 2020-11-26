@@ -18,10 +18,10 @@ public:
 private:
 
 	// プレイヤーを発見できる距離
-	static constexpr float FindPlayerRange		{ 10.0f };
+	static constexpr float FindPlayerRange		{ 30.0f };
 
 	// プレイヤーを発見できる“真上から見た「エネミーの正面ベクトルと、プレイヤー方向のベクトル」の間の角”の最大値（度数法）
-	static constexpr float FindPlayerAngleDeg	{ 45.0f };
+	static constexpr float FindPlayerAngleDeg	{ 110.0f };
 
 private:
 

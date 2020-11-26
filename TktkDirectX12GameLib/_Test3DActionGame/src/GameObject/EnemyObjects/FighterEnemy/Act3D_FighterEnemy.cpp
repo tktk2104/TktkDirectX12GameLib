@@ -8,6 +8,7 @@
 #include "../_CommonEnemyScripts/Act3D_EnemyAttackRangeGenerator.h"
 #include "../_CommonEnemyScripts/Act3D_EnemyJampAttackMoving.h"
 #include "../_CommonEnemyScripts/Act3D_EnemyCollisionReaction.h"
+#include "../_CommonEnemyScripts/Act3D_EnemyDeleteTimer.h"
 
 #include "Scripts/Act3D_FighterEnemyParam.h"
 #include "Scripts/Act3D_FighterEnemyDamager.h"
@@ -44,7 +45,7 @@ inline void setFighterEnemyMoveState(tktk::GameObjectPtr gameObject)
     gameObject->setTargetHierarchy({ FighterEnemyState::Alive, FighterEnemyState::Normal, FighterEnemyState::Move });
     {
         // プレイヤーの方へ向くコンポーネント
-        gameObject->createComponent<Act3D_RotateToPlayer>(60.0f);
+        gameObject->createComponent<Act3D_RotateToPlayer>(120.0f);
 
         // プレイヤーとの位置関係によって攻撃状態に遷移させる
         gameObject->createComponent<Act3D_FighterEnemyStartAttack>();
@@ -64,6 +65,15 @@ inline void setFighterEnemyMoveState(tktk::GameObjectPtr gameObject)
 
          // 歩きモーションを開始する
         tktk::MotionChangerMaker::makeStart(gameObject).initMotionId(MotionId::FighterEnemyWalk).lerpTimeSec(0.1f).create();
+    
+        // サウンド再生タイマー
+        tktk::SoundPlayTimerMaker::makeStart(gameObject)
+            .soundId(SoundId::PlayerWalk)
+            .startToPlay(false)
+            .firstPlayStartTimeSec(0.10f)
+            .playIntervalSec(0.71f)
+            .playCount(-1)
+            .create();
     }
 
     // 走り状態に追加する設定を行う
@@ -74,6 +84,15 @@ inline void setFighterEnemyMoveState(tktk::GameObjectPtr gameObject)
 
         // 走りモーションを開始する
         tktk::MotionChangerMaker::makeStart(gameObject).initMotionId(MotionId::FighterEnemyRun).lerpTimeSec(0.5f).create();
+    
+        // サウンド再生タイマー
+        tktk::SoundPlayTimerMaker::makeStart(gameObject)
+            .soundId(SoundId::PlayerRun)
+            .startToPlay(false)
+            .firstPlayStartTimeSec(0.55f)
+            .playIntervalSec(0.39f)
+            .playCount(-1)
+            .create();
     }
 
     // 特定の状態に追加する設定を解除する
@@ -87,7 +106,7 @@ inline void setFighterEnemyAttackState(tktk::GameObjectPtr gameObject)
     gameObject->setTargetHierarchy({ FighterEnemyState::Alive, FighterEnemyState::Normal, FighterEnemyState::Attack, FighterEnemyState::JumpAttack });
     {
         // ジャンプ攻撃による移動のコンポーネント
-        gameObject->createComponent<Act3D_EnemyJampAttackMoving>(4.0f, 1.8f);
+        gameObject->createComponent<Act3D_EnemyJampAttackMoving>(4.5f, 0.5f, 4.0f, 1.8f);
 
         // ３秒後にジャンプ攻撃から歩き状態に移行する処理を設定する
         gameObject->createComponent<Act3D_FighterEnemyEndAttack>(3.0f, FighterEnemyState::JumpAttack);
@@ -97,11 +116,71 @@ inline void setFighterEnemyAttackState(tktk::GameObjectPtr gameObject)
 
         // ジャンプアタックモーションを開始する
         tktk::MotionChangerMaker::makeStart(gameObject).initMotionId(MotionId::FighterEnemyJumpAttack).isLoop(false).lerpTimeSec(0.5f).create();
+    
+        // サウンド再生タイマー
+        tktk::SoundPlayTimerMaker::makeStart(gameObject)
+            .soundId(SoundId::FighterEnemyJumpAttack)
+            .startToPlay(false)
+            .firstPlayStartTimeSec(0.0f)
+            .playCount(1)
+            .create();
+
+        // サウンド再生タイマー
+        tktk::SoundPlayTimerMaker::makeStart(gameObject)
+            .soundId(SoundId::HeavyBlow)
+            .startToPlay(false)
+            .firstPlayStartTimeSec(1.5f)
+            .playCount(1)
+            .create();
+
+        // 収縮するビルボードパーティクルコンポーネント
+        tktk::BillboardShrinkEffectCreatorMaker::makeStart(gameObject)
+            .billboardMaterialId(BillBoardId::Spark)
+            .billboardBlendRate(tktkMath::Color_v::red)
+            .shrinkTargetPos({ 0.0f, 1.0f, 0.0f })
+            .totalGenerateNum(30)
+            .setChild(true)
+            .changeAvtiveToReset(true)
+            .create();
+
+        // 拡散するビルボードパーティクルコンポーネント
+        tktk::BillboardSpreadEffectCreatorMaker::makeStart(gameObject)
+            .billboardMaterialId(BillBoardId::Spark)
+            .billboardBlendRate({ 0.3f, 0.3f, 0.3f, 1.0f }) // グレー
+            .generateLocalPos({ 0.0f, 0.5f, 0.0f })
+            .generateLocalPosRandomRange({ 0.2f, 0.2f, 0.2f })
+            .billboardScale({ 0.3f, 0.3f })
+            .moveSpeedPerSec(1.0f)
+            .lifeTimeSec(0.6f)
+            .generateNumPerOnce(10)
+            .totalGenerateNum(30)
+            .firstGenerateTimeSec(1.6f)
+            .generateIntervalTimeSec(0.01f)
+            .changeAvtiveToReset(true)
+            .create();
+
+        // 拡散するビルボードパーティクルコンポーネント
+        tktk::BillboardSpreadEffectCreatorMaker::makeStart(gameObject)
+            .billboardMaterialId(BillBoardId::Spark)
+            .billboardBlendRate({ 0.3f, 0.3f, 0.3f, 1.0f }) // グレー
+            .generateLocalPos({ 0.0f, 0.0f, 0.0f })
+            .generateLocalPosRandomRange({ 0.2f, 0.2f, 0.2f })
+            .moveSpeedPerSec(3.0f)
+            .lifeTimeSec(0.6f)
+            .generateNumPerOnce(10)
+            .totalGenerateNum(60)
+            .firstGenerateTimeSec(1.6f)
+            .generateIntervalTimeSec(0.02f)
+            .changeAvtiveToReset(true)
+            .create();
     }
 
     // パンチ攻撃状態に追加する設定を行う
     gameObject->setTargetHierarchy({ FighterEnemyState::Alive, FighterEnemyState::Normal, FighterEnemyState::Attack, FighterEnemyState::Punch });
     {
+        // プレイヤーの方へ向くコンポーネント
+        gameObject->createComponent<Act3D_RotateToPlayer>(40.0f);
+
         // １秒後にパンチからスワイプに移行する処理を設定する
         gameObject->createComponent<Act3D_FighterEnemyStartComboAttack>();
 
@@ -113,11 +192,30 @@ inline void setFighterEnemyAttackState(tktk::GameObjectPtr gameObject)
 
         // パンチモーションを開始する
         tktk::MotionChangerMaker::makeStart(gameObject).initMotionId(MotionId::FighterEnemyPunch).isLoop(false).lerpTimeSec(0.5f).create();
+    
+        // サウンド再生タイマー
+        tktk::SoundPlayTimerMaker::makeStart(gameObject)
+            .soundId(SoundId::FighterEnemyAttack1)
+            .startToPlay(false)
+            .firstPlayStartTimeSec(0.0f)
+            .playCount(1)
+            .create();
+
+        // サウンド再生タイマー
+        tktk::SoundPlayTimerMaker::makeStart(gameObject)
+            .soundId(SoundId::LightBlow)
+            .startToPlay(false)
+            .firstPlayStartTimeSec(0.4f)
+            .playCount(1)
+            .create();
     }
 
     // スワイプ攻撃状態に追加する設定を行う
     gameObject->setTargetHierarchy({ FighterEnemyState::Alive, FighterEnemyState::Normal, FighterEnemyState::Attack, FighterEnemyState::Swiping });
     {
+        // プレイヤーの方へ向くコンポーネント
+        gameObject->createComponent<Act3D_RotateToPlayer>(40.0f);
+
         // ２秒後にスワイプから歩き状態に移行する処理を設定する
         gameObject->createComponent<Act3D_FighterEnemyEndAttack>(2.0f, FighterEnemyState::Swiping);
 
@@ -129,6 +227,22 @@ inline void setFighterEnemyAttackState(tktk::GameObjectPtr gameObject)
 
         // スワイプモーションを開始する
         tktk::MotionChangerMaker::makeStart( gameObject).initMotionId(MotionId::FighterEnemySwiping).isLoop(false).lerpTimeSec(0.5f).create();
+    
+        // サウンド再生タイマー
+        tktk::SoundPlayTimerMaker::makeStart(gameObject)
+            .soundId(SoundId::FighterEnemyAttack2)
+            .startToPlay(false)
+            .firstPlayStartTimeSec(0.0f)
+            .playCount(1)
+            .create();
+
+        // サウンド再生タイマー
+        tktk::SoundPlayTimerMaker::makeStart(gameObject)
+            .soundId(SoundId::HeavyBlow)
+            .startToPlay(false)
+            .firstPlayStartTimeSec(1.4f)
+            .playCount(1)
+            .create();
     }
 
     // 特定の状態に追加する設定を解除する
@@ -169,8 +283,30 @@ inline void setFighterEnemyDamageState(tktk::GameObjectPtr gameObject)
             .changeAvtiveToReset(true)
             .create();
 
+        // 拡散するビルボードパーティクルコンポーネント
+        tktk::BillboardSpreadEffectCreatorMaker::makeStart(gameObject)
+            .billboardMaterialId(BillBoardId::Spark)
+            .billboardBlendRate(tktkMath::Color_v::red)
+            .generateLocalPos({ 0.0f, 1.0f, 0.0f })
+            .generateLocalPosRandomRange({ 0.5f, 0.5f, 0.5f })
+            .lifeTimeSec(0.4f)
+            .generateNumPerOnce(10)
+            .totalGenerateNum(10)
+            .moveSpeedPerSec(1.0f)
+            .billboardScale(0.3f)
+            .changeAvtiveToReset(true)
+            .create();
+
         // ダメージモーションを行うコンポーネント
         tktk::MotionChangerMaker::makeStart(gameObject).initMotionId(MotionId::FighterEnemyDamage).initFrame(5.0f).lerpTimeSec(0.1f).isLoop(false).create();
+    
+        // サウンド再生タイマー
+        tktk::SoundPlayTimerMaker::makeStart(gameObject)
+            .soundId(SoundId::FighterEnemyDamage)
+            .startToPlay(false)
+            .firstPlayStartTimeSec(0.0f)
+            .playCount(1)
+            .create();
     }
     // 特定の状態に追加する設定を解除する
     gameObject->setTargetHierarchy({});
@@ -200,7 +336,7 @@ inline void setFighterEnemyAliveState(tktk::GameObjectPtr gameObject)
         gameObject->createComponent<Act3D_EnemyCollisionReaction>();
 
         // 重力による移動コンポーネント
-        gameObject->createComponent<Act3D_GravityMove>(3.0f);
+        gameObject->createComponent<Act3D_GravityMove>();
     }
     // 特定の状態に追加する設定を解除する
     gameObject->setTargetHierarchy({});
@@ -232,6 +368,62 @@ inline void setFighterEnemyDeadState(tktk::GameObjectPtr gameObject)
             .totalGenerateNum(30)
             .changeAvtiveToReset(true)
             .create();
+
+        // 拡散するビルボードパーティクルコンポーネント
+        tktk::BillboardSpreadEffectCreatorMaker::makeStart(gameObject)
+            .billboardMaterialId(BillBoardId::Spark)
+            .billboardBlendRate(tktkMath::Color_v::red)
+            .generateLocalPos({ 0.0f, 1.0f, 0.0f })
+            .generateLocalPosRandomRange({ 0.5f, 0.5f, 0.5f })
+            .lifeTimeSec(0.4f)
+            .generateNumPerOnce(10)
+            .totalGenerateNum(10)
+            .moveSpeedPerSec(1.0f)
+            .billboardScale(0.3f)
+            .changeAvtiveToReset(true)
+            .create();
+
+        // 拡散するビルボードパーティクルコンポーネント
+        tktk::BillboardSpreadEffectCreatorMaker::makeStart(gameObject)
+            .billboardMaterialId(BillBoardId::Spark)
+            .billboardBlendRate({ 0.3f, 0.3f, 0.3f, 1.0f }) // グレー
+            .generateLocalPos({ 0.0f, 0.5f, -1.0f })
+            .generateLocalPosRandomRange({ 0.2f, 0.2f, 0.2f })
+            .billboardScale({ 0.3f, 0.3f })
+            .moveSpeedPerSec(1.0f)
+            .lifeTimeSec(0.6f)
+            .generateNumPerOnce(10)
+            .totalGenerateNum(30)
+            .firstGenerateTimeSec(1.2f)
+            .generateIntervalTimeSec(0.01f)
+            .changeAvtiveToReset(true)
+            .create();
+
+        // 拡散するビルボードパーティクルコンポーネント
+        tktk::BillboardSpreadEffectCreatorMaker::makeStart(gameObject)
+            .billboardMaterialId(BillBoardId::Spark)
+            .billboardBlendRate({ 0.3f, 0.3f, 0.3f, 1.0f }) // グレー
+            .generateLocalPos({ 0.0f, 0.0f, -1.0f })
+            .generateLocalPosRandomRange({ 0.2f, 0.2f, 0.2f })
+            .moveSpeedPerSec(3.0f)
+            .lifeTimeSec(0.6f)
+            .generateNumPerOnce(10)
+            .totalGenerateNum(60)
+            .firstGenerateTimeSec(1.2f)
+            .generateIntervalTimeSec(0.02f)
+            .changeAvtiveToReset(true)
+            .create();
+
+        // サウンド再生タイマー
+        tktk::SoundPlayTimerMaker::makeStart(gameObject)
+            .soundId(SoundId::FighterEnemyDead)
+            .startToPlay(false)
+            .firstPlayStartTimeSec(0.0f)
+            .playCount(1)
+            .create();
+
+        // 一定時間後に自身を消すコンポーネント
+        gameObject->createComponent<Act3D_EnemyDeleteTimer>();
     }
     // 特定の状態に追加する設定を解除する
     gameObject->setTargetHierarchy({});
@@ -241,6 +433,9 @@ tktk::GameObjectPtr Act3D_FighterEnemy::create(const tktkMath::Vector3& position
 {
     // ゲームオブジェクトを作成
     auto gameObject = tktk::DX12Game::createGameObject();
+
+    // メインシーンが終わると消えるオブジェクトを表すタグ
+    gameObject->addGameObjectTag(GameObjectTag::MainSceneObject);
 
     // エネミータグを追加
     gameObject->addGameObjectTag(GameObjectTag::Enemy);

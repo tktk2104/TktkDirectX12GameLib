@@ -2,25 +2,26 @@
 
 #include "../../../../Enums/Enums.h"
 
-Act3D_InputToStartComboAttack::Act3D_InputToStartComboAttack(float invalidInputTimeSec)
-	: m_invalidInputTimeSec(invalidInputTimeSec)
-{
-}
-
 void Act3D_InputToStartComboAttack::onEnable()
 {
-	m_invalidInputSecTimer = 0.0f;
+	m_invalidStateChangeSecTimer = 0.0f;
+	m_afterInput = false;
 }
 
 void Act3D_InputToStartComboAttack::update()
 {
-	if (m_invalidInputSecTimer < m_invalidInputTimeSec)
+	if (tktk::DX12Game::isTrigger(tktk::KeybordKeyType::key_Space))
 	{
-		m_invalidInputSecTimer += tktk::DX12Game::deltaTime();
+		m_afterInput = true;
+	}
+
+	if (m_invalidStateChangeSecTimer < InvalidStateChangeTimeSec)
+	{
+		m_invalidStateChangeSecTimer += tktk::DX12Game::deltaTime();
 		return;
 	}
 
-	if (tktk::DX12Game::isTrigger(tktk::KeybordKeyType::key_Space))
+	if (m_afterInput)
 	{
 		// UŒ‚iˆê’ijó‘Ô‚ðØ‚é
 		getGameObject()->stateDisable(PlayerStateType::Attack1);

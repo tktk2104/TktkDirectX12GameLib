@@ -8,7 +8,7 @@ class Act3D_JampAttackMoving
 {
 public:
 
-	Act3D_JampAttackMoving(float jumpSpeedPerSec, float moveTimeSec);
+	Act3D_JampAttackMoving() = default;
 
 public:
 
@@ -17,9 +17,25 @@ public:
 	void update();
 
 private:
-	float											m_jumpSpeedPerSec;
-	float											m_moveTimeSec;
-	float											m_moveSecTimer{ 0.0f };
+
+	// ‚’¼•ûŒü‚É‚©‚¯‚éuŠÔ“I‚È—Í
+	constexpr static float JumpVerticalPower			{ 4.5f };
+
+	// ‚’¼•ûŒü‚É‰½•bŒãˆÚ“®‚·‚é‚©H
+	constexpr static float JmupVerticalMoveStartTimeSec	{ 0.1f };
+
+	// …•½•ûŒü‚É‚©‚¯‚éŒp‘±“I‚È—Íi–ˆ•bj
+	constexpr static float JumpHorizontalSpeedPerSec	{ 5.0f };
+
+	// …•½•ûŒü‚É‰½•bŠÔˆÚ“®‚·‚é‚©H
+	constexpr static float JmupHorizontalMoveTimeSec	{ 1.3f };
+
+private:
+
+	float											m_verticalMoveSecTimer		{ 0.0f };
+	bool											m_afterVerticalMove			{ false };
+	float											m_horizontalMoveSecTimer	{ 0.0f };
 	tktk::ComponentPtr<tktk::Transform3D>			m_transform;
+	tktk::ComponentPtr<tktk::InertialMovement3D>	m_inertialMovement;
 };
 #endif // !ACT_3D_JAMP_ATTACK_MOVING_H_

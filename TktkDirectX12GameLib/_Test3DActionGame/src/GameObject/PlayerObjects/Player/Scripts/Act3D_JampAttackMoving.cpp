@@ -1,11 +1,5 @@
 #include "Act3D_JampAttackMoving.h"
 
-Act3D_JampAttackMoving::Act3D_JampAttackMoving(float jumpSpeedPerSec, float moveTimeSec)
-	: m_jumpSpeedPerSec(jumpSpeedPerSec)
-	, m_moveTimeSec(moveTimeSec)
-{
-}
-
 void Act3D_JampAttackMoving::start()
 {
 	m_transform = getComponent<tktk::Transform3D>();
@@ -14,20 +8,41 @@ void Act3D_JampAttackMoving::start()
 	{
 		throw std::runtime_error("Act3D_JampAttackMoving not found Transform3D");
 	}
+
+	m_inertialMovement = getComponent<tktk::InertialMovement3D>();
+
+	if (m_inertialMovement.expired())
+	{
+		throw std::runtime_error("Act3D_JampAttackMoving not found InertialMovement3D");
+	}
 }
 
 void Act3D_JampAttackMoving::onEnable()
 {
-	m_moveSecTimer = 0.0f;
+	m_verticalMoveSecTimer		= 0.0f;
+	m_afterVerticalMove			= false;
+	m_horizontalMoveSecTimer	= 0.0f;
 }
 
 void Act3D_JampAttackMoving::update()
 {
-	if (m_moveSecTimer < m_moveTimeSec)
+	if (m_verticalMoveSecTimer < JmupVerticalMoveStartTimeSec)
 	{
-		m_moveSecTimer += tktk::DX12Game::deltaTime();
+		m_verticalMoveSecTimer += tktk::DX12Game::deltaTime();
+	}
+	else if (!m_afterVerticalMove)
+	{
+		// ‚’¼•ûŒü‚É”ò‚Ñ’µ‚Ë‚é
+		m_inertialMovement->addMomentarilyForce(m_transform->calculateWorldUp().normalized() * JumpVerticalPower);
 
-		auto jumpSpeedPerSec = m_jumpSpeedPerSec;
+		m_afterVerticalMove = true;
+	}
+
+	if (m_horizontalMoveSecTimer < JmupHorizontalMoveTimeSec)
+	{
+		m_horizontalMoveSecTimer += tktk::DX12Game::deltaTime();
+
+		auto jumpSpeedPerSec = JumpHorizontalSpeedPerSec;
 
 		if (!tktk::DX12Game::isPush(tktk::KeybordKeyType::key_W)) jumpSpeedPerSec *= 0.5f;
 

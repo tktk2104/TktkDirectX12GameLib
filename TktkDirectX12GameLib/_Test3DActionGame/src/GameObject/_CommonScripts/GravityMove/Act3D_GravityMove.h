@@ -8,7 +8,7 @@ class Act3D_GravityMove
 {
 public:
 
-	explicit Act3D_GravityMove(float gravityPower);
+	Act3D_GravityMove() = default;
 
 public:
 
@@ -17,7 +17,13 @@ public:
 
 private:
 
-	float m_gravityPower;
+	// 重力
+	constexpr static float GravityPower{ 15.0f };
+
+	// 重力加速度（毎秒）
+	constexpr static float GravityAccelerationPerSec{ 7.5f };
+
+private:
 
 	tktk::ComponentPtr<tktk::InertialMovement3D>	m_inertialMovement;
 };
