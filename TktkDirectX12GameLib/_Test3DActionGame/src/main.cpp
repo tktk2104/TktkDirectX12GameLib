@@ -47,18 +47,23 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hInstancePrev, _
 	tktk::DX12GameManager::addCommand(CommandId::Any,			tktk::KeybordKeyType::key_Rshift);
 	tktk::DX12GameManager::addCommand(CommandId::Any,			tktk::KeybordKeyType::key_Space);
 
-	tktk::DX12GameManager::addCommand(CommandId::MoveForward,	tktk::KeybordKeyType::key_W);
-	tktk::DX12GameManager::addCommand(CommandId::MoveBackward,	tktk::KeybordKeyType::key_S);
-	tktk::DX12GameManager::addCommand(CommandId::MoveLeft,		tktk::KeybordKeyType::key_A);
-	tktk::DX12GameManager::addCommand(CommandId::MoveRight,		tktk::KeybordKeyType::key_D);
+	tktk::DX12GameManager::addCommand(CommandId::Run,		tktk::KeybordKeyType::key_Lshift);
+	tktk::DX12GameManager::addCommand(CommandId::Run,		tktk::KeybordKeyType::key_Rshift);
 
-	tktk::DX12GameManager::addCommand(CommandId::LookLeft,		tktk::KeybordKeyType::key_Left);
-	tktk::DX12GameManager::addCommand(CommandId::LookRight,		tktk::KeybordKeyType::key_Right);
+	tktk::DX12GameManager::addCommand(CommandId::LookEnemy, tktk::KeybordKeyType::key_Tab);
 
-	tktk::DX12GameManager::addCommand(CommandId::Run,			tktk::KeybordKeyType::key_Lshift);
-	tktk::DX12GameManager::addCommand(CommandId::Run,			tktk::KeybordKeyType::key_Rshift);
+	tktk::DX12GameManager::addCommand(CommandId::Dodge,		tktk::KeybordKeyType::key_Return);
+	tktk::DX12GameManager::addCommand(CommandId::Attack,	tktk::KeybordKeyType::key_Space);
 
-	tktk::DX12GameManager::addCommand(CommandId::Attack,		tktk::KeybordKeyType::key_Space);
+	tktk::DX12GameManager::addDirectionCommand(tktk::DirectionCommandId::MoveUp,	tktk::KeybordKeyType::key_W);
+	tktk::DX12GameManager::addDirectionCommand(tktk::DirectionCommandId::MoveDown,	tktk::KeybordKeyType::key_S);
+	tktk::DX12GameManager::addDirectionCommand(tktk::DirectionCommandId::MoveLeft,	tktk::KeybordKeyType::key_A);
+	tktk::DX12GameManager::addDirectionCommand(tktk::DirectionCommandId::MoveRight, tktk::KeybordKeyType::key_D);
+
+	tktk::DX12GameManager::addDirectionCommand(tktk::DirectionCommandId::LookLeft,	tktk::KeybordKeyType::key_Left);
+	tktk::DX12GameManager::addDirectionCommand(tktk::DirectionCommandId::LookRight, tktk::KeybordKeyType::key_Right);
+
+	
 
 	// シーンを追加する
 	auto loadingSceneHandle = tktk::DX12GameManager::addSceneAndAttachId(SceneId::Loading,	tktk::SceneInitParam::create<Act3D_LoadingScene>());
@@ -81,8 +86,6 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hInstancePrev, _
 	tktk::DX12GameManager::addCollisionGroup(CollisionGroup::Player,	CollisionGroup::Enemy);
 	tktk::DX12GameManager::addCollisionGroup(CollisionGroup::Player,	CollisionGroup::EnemyDamageRange);
 	tktk::DX12GameManager::addCollisionGroup(CollisionGroup::Enemy,		CollisionGroup::PlayerDamageRange);
-
-
 
 	// プログラム開始
 	tktk::DX12GameManager::run();

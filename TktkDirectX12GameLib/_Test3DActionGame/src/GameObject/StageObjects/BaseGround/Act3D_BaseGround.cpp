@@ -20,7 +20,7 @@ tktk::GameObjectPtr Act3D_BaseGround::create()
         for (int j = -BaseGroundSize; j <= BaseGroundSize; j++)
         {
             tktk::MeshDrawerMaker::makeStart(gameObject)
-                .meshId(BasicMeshId::GrassBlock)
+                .meshId(MeshId::GrassBlock)
                 .basePosition({ (3.0f * i), -1.5f, (3.0f * j) })
                 .baseScale(3.0f)
                 .create();

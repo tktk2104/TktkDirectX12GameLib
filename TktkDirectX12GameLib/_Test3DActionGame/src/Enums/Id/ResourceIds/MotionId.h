@@ -1,6 +1,7 @@
 #ifndef MOTION_ID_H_
 #define MOTION_ID_H_
 
+// モーションリソースID
 enum class MotionId
 {
 	PlayerIdle,			// プレイヤー待機中

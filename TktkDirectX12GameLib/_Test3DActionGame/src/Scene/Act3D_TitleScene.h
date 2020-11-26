@@ -10,7 +10,5 @@ class Act3D_TitleScene
 public:
 
 	void start();
-
-	void end();
 };
 #endif // !ACT_3D_TITLE_SCENE_H_

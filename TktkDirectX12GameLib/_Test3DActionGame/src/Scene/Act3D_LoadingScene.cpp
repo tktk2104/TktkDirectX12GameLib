@@ -8,7 +8,7 @@
 #include "../GameObject/StageObjects/BaseGround/Act3D_BaseGround.h"
 
 // メッシュを読み込む
-inline void loadMesh(const std::string& filePath, BasicMeshId meshId, SkeletonId skeletonId)
+inline void loadMesh(const std::string& filePath, MeshId meshId, SkeletonId skeletonId)
 {
 	tktk::MeshLoadPmxArgs loadArgs{};
 	loadArgs.filePath			= filePath;
@@ -48,11 +48,6 @@ void Act3D_LoadingScene::start()
 	initParam.useBufferHandle	= tktk::DX12GameManager::getSystemHandle(tktk::SystemTextureBufferType::Black4x4);
 	tktk::DX12GameManager::createSpriteMaterialAndAttachId(SpriteId::Black4x4, initParam);
 
-	// テスト用スプライトマテリアル
-	initParam.srvBufferType		= tktk::BufferType::depthStencil;
-	initParam.useBufferHandle	= tktk::DX12GameManager::getSystemHandle(tktk::SystemDsBufferType::ShadowMap);
-	tktk::DX12GameManager::createSpriteMaterialAndAttachId(SpriteId::Test, initParam);
-
 	// スプライトを読み込む
 	loadSprite("res/image/HpBarFrame.png",				SpriteId::HpBarFrame);
 	loadSprite("res/image/HpBarBackGround.png",			SpriteId::HpBarBackGround);
@@ -66,21 +61,21 @@ void Act3D_LoadingScene::start()
 	loadBillBoard("res/image/spark.png", BillBoardId::Spark, true);
 
 	// メッシュを読み込む
-	loadMesh("res/mesh/player/Paladin.pmx",						BasicMeshId::Player,		SkeletonId::Player);
-	loadMesh("res/mesh/fighterEnemy/maw_j_laygo.pmx",			BasicMeshId::FighterEnemy,	SkeletonId::FighterEnemy);
-	loadMesh("res/mesh/shooterEnemy/warzombie_f_pedroso.pmx",	BasicMeshId::ShooterEnemy,	SkeletonId::ShooterEnemy);
-	loadMesh("res/mesh/bossEnemy/warrok_w_kurniawan.pmx",		BasicMeshId::BossEnemy,		SkeletonId::BossEnemy);
+	loadMesh("res/mesh/player/Paladin.pmx",						MeshId::Player,		SkeletonId::Player);
+	loadMesh("res/mesh/fighterEnemy/maw_j_laygo.pmx",			MeshId::FighterEnemy,	SkeletonId::FighterEnemy);
+	loadMesh("res/mesh/shooterEnemy/warzombie_f_pedroso.pmx",	MeshId::ShooterEnemy,	SkeletonId::ShooterEnemy);
+	loadMesh("res/mesh/bossEnemy/warrok_w_kurniawan.pmx",		MeshId::BossEnemy,		SkeletonId::BossEnemy);
 
 	// スカイボックスメッシュを作る
 	tktk::DX12GameManager::makeSkyBoxMeshAndAttachId(
-		BasicMeshId::SkyBox,
+		MeshId::SkyBox,
 		tktk::DX12GameManager::cpuPriorityLoadTextureBuffer("res/image/skyBoxTexture.png"),
 		tktk::MeshDrawFuncRunnerInitParam::create()
 	);
 
 	// 草ブロックメッシュを作る
 	tktk::DX12GameManager::makeBoxMeshAndAttachId(
-		BasicMeshId::GrassBlock,
+		MeshId::GrassBlock,
 		tktk::DX12GameManager::cpuPriorityLoadTextureBuffer("res/image/grassBlockTexture.png"),
 		tktk::MeshDrawFuncRunnerInitParam::create().writeShadowMap(true)
 	);

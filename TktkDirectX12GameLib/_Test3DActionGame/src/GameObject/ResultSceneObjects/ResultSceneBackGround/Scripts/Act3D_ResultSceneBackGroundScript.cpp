@@ -2,7 +2,7 @@
 
 #include "../../../../Enums/Enums.h"
 
-#include "../../../GameRule/Scripts/Act3D_GameRuleScripts.h"
+#include "../../../MainSceneObjects/GameRule/Scripts/Act3D_GameRuleScripts.h"
 
 void Act3D_ResultSceneBackGroundScript::start()
 {

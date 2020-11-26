@@ -1,6 +1,7 @@
 #ifndef FIGHTER_ENEMY_STATE_TYPE_H_
 #define FIGHTER_ENEMY_STATE_TYPE_H_
 
+// 近接攻撃エネミーの状態の種類
 enum class FighterEnemyState
 {
 	/* 基本状態 */

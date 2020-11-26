@@ -1,6 +1,7 @@
 #ifndef GAME_OBJECT_TAG_H_
 #define GAME_OBJECT_TAG_H_
 
+// ゲームオブジェクトを識別するためのタグ
 enum class GameObjectTag
 {
 	LoadingSceneObject,	// ローディングシーン終了時に消滅するオブジェクト

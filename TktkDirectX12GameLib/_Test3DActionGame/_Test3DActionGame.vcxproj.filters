@@ -27,9 +27,6 @@
     <ClCompile Include="src\Scene\Act3D_TitleScene.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="src\GameObject\PlayerObjects\Player\Act3D_Player.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="src\GameObject\StageObjects\BaseGround\Act3D_BaseGround.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -42,145 +39,7 @@
     <ClCompile Include="src\GameObject\_CommonScripts\GravityMove\Act3D_GravityMove.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="src\GameObject\_DebugObjects\DebugCamera\Act3D_DebugCamera.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GameObject\EnemyObjects\BossEnemy\Act3D_BossEnemy.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GameObject\EnemyObjects\FighterEnemy\Act3D_FighterEnemy.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GameObject\EnemyObjects\ShooterEnemy\Act3D_ShooterEnemy.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GameObject\PlayerObjects\Player\Scripts\Act3D_PlayerController.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GameObject\PlayerObjects\Player\Scripts\Act3D_InputToStartAttack.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GameObject\PlayerObjects\Player\Scripts\Act3D_InputToStartComboAttack.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GameObject\PlayerObjects\PlayerAttackRange\Act3D_PlayerAttackRange.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GameObject\PlayerObjects\Player\Scripts\Act3D_PlayerAttackRangeGenerator.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GameObject\EnemyObjects\_CommonEnemyScripts\Act3D_EnemyAttackRangeGenerator.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GameObject\EnemyObjects\EnemyAttackRange\Act3D_EnemyAttackRange.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GameObject\EnemyObjects\_CommonEnemyScripts\Act3D_RotateToPlayer.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GameObject\EnemyObjects\_CommonEnemyScripts\Act3D_MoveForward.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GameObject\PlayerObjects\Player\Scripts\Act3D_JampAttackMoving.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GameObject\EnemyObjects\_CommonEnemyScripts\Act3D_EnemyJampAttackMoving.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GameObject\PlayerObjects\Player\Scripts\Act3D_PlayerCollisionReaction.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GameObject\EnemyObjects\_CommonEnemyScripts\Act3D_EnemyCollisionReaction.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GameObject\EnemyObjects\FighterEnemy\Scripts\Act3D_FighterEnemyStartAttack.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GameObject\EnemyObjects\FighterEnemy\Scripts\Act3D_FighterEnemyStartChase.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GameObject\EnemyObjects\FighterEnemy\Scripts\Act3D_FighterEnemyParam.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GameObject\EnemyObjects\FighterEnemy\Scripts\Act3D_FighterEnemyDamager.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GameObject\PlayerObjects\Player\Scripts\Act3D_PlayerDamager.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GameObject\PlayerObjects\Player\Scripts\Act3D_PlayerEndDamage.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GameObject\PlayerObjects\Player\Scripts\Act3D_PlayerEndAttack.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GameObject\EnemyObjects\FighterEnemy\Scripts\Act3D_FighterEnemyEndDamage.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GameObject\EnemyObjects\FighterEnemy\Scripts\Act3D_FighterEnemyEndAttack.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GameObject\EnemyObjects\FighterEnemy\Scripts\Act3D_FighterEnemyStartComboAttack.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GameObject\EnemyObjects\FighterEnemy\Scripts\Act3D_FighterEnemyStartRun.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GameObject\_DebugObjects\DebugSprite\Act3D_DebugSprite.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GameObject\EnemyObjects\ShooterEnemy\Scripts\Act3D_ShooterEnemyStartChase.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GameObject\EnemyObjects\ShooterEnemy\Scripts\Act3D_ShooterEnemyParam.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GameObject\EnemyObjects\ShooterEnemy\Scripts\Act3D_ShooterEnemyDamager.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GameObject\EnemyObjects\ShooterEnemy\Scripts\Act3D_ShooterEnemyStartAttack.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GameObject\EnemyObjects\ShooterEnemy\Scripts\Act3D_ShooterEnemyEndAttack.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GameObject\EnemyObjects\ShooterEnemy\Scripts\Act3D_ShooterEnemyEndDamage.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GameObject\EnemyObjects\EnemyBullet\ShooterEnemyBullet\Act3D_ShooterEnemyBullet.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="src\GameObject\_CommonScripts\SelfDeadTimer\Act3D_SelfDeadTimer.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GameObject\EnemyObjects\ShooterEnemy\Scripts\Act3D_ShooterEnemyBulletGenerator.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GameObject\EnemyObjects\BossEnemy\Scripts\Act3D_BossEnemyStartChase.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GameObject\EnemyObjects\BossEnemy\Scripts\Act3D_BossEnemyParam.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GameObject\EnemyObjects\BossEnemy\Scripts\Act3D_BossEnemyDamager.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GameObject\EnemyObjects\BossEnemy\Scripts\Act3D_BossEnemyStartAttack.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GameObject\EnemyObjects\BossEnemy\Scripts\Act3D_BossEnemyEndAttack.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GameObject\EnemyObjects\BossEnemy\Scripts\Act3D_BossEnemyStartDown.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GameObject\EnemyObjects\BossEnemy\Scripts\Act3D_BossEnemyStartStandUp.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GameObject\EnemyObjects\BossEnemy\Scripts\Act3D_BossEnemyEndDown.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GameObject\EnemyObjects\_CommonEnemyScripts\Act3D_RotateToPlayerInTime.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="src\GameObject\StageObjects\GrassBlock\Act3D_GrassBlock.cpp">
@@ -189,49 +48,10 @@
     <ClCompile Include="src\GameObject\SkyBox\Act3D_SkyBox.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="src\GameObject\TitleObjects\TitleCamera\Act3D_TitleCamera.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GameObject\TitleObjects\TitleCamera\Scripts\Act3D_TitleCameraScript.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GameObject\TitleObjects\TitleSceneChanger\Act3D_TitleSceneChanger.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GameObject\TitleObjects\TitleSceneChanger\Scripts\Act3D_TitleSceneChangerScript.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GameObject\EnemyObjects\_CommonEnemyScripts\Act3D_EnemyDeleteTimer.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GameObject\BgmPlayer\Act3D_GamePlayBgmPlayer.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GameObject\BgmPlayer\Act3D_TitleBgmPlayer.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GameObject\PlayerObjects\Player\Scripts\Act3D_PlayerParam.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GameObject\PlayerObjects\Player\Scripts\Act3D_PlayerEndDodge.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GameObject\PlayerObjects\Player\Scripts\Act3D_InputToStartDodge.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GameObject\EnemyObjects\BossEnemy\Scripts\Act3D_BossEnemyEndDamage.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="src\GameObject\Ui\PlayerHpBar\Act3D_PlayerHpBar.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="src\GameObject\Ui\PlayerHpBar\Scripts\Act3D_PlayerHpBarContentScript.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GameObject\GameRule\Act3D_GameRule.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GameObject\GameRule\Scripts\Act3D_GameRuleScripts.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="src\GameObject\MainSceneObjects\MainSceneChanger\Scripts\Act3D_MainSceneChangerScript.cpp">
@@ -252,16 +72,190 @@
     <ClCompile Include="src\GameObject\ResultSceneObjects\ResultSceneChanger\Scripts\Act3D_ResultSceneChangerScript.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="src\GameObject\TitleObjects\TitleSceneBackGround\Act3D_TitleSceneBackGround.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="src\GameObject\ResultSceneObjects\ResultSceneBackGround\Scripts\Act3D_ResultSceneBackGroundScript.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="src\GameObject\BgmPlayer\Act3D_ResultBgmPlayer.cpp">
+    <ClCompile Include="src\GameObject\ResultSceneObjects\ResultSceneBackGround\Act3D_ResultSceneBackGround.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="src\GameObject\ResultSceneObjects\ResultSceneBackGround\Act3D_ResultSceneBackGround.cpp">
+    <ClCompile Include="src\GameObject\TitleSceneObjects\TitleCamera\Scripts\Act3D_TitleCameraScript.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\TitleSceneObjects\TitleCamera\Act3D_TitleCamera.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\TitleSceneObjects\TitleSceneBackGround\Act3D_TitleSceneBackGround.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\TitleSceneObjects\TitleSceneChanger\Scripts\Act3D_TitleSceneChangerScript.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\TitleSceneObjects\TitleSceneChanger\Act3D_TitleSceneChanger.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\MainSceneObjects\GamePlayBgmPlayer\Act3D_GamePlayBgmPlayer.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\ResultSceneObjects\ResultBgmPlayer\Act3D_ResultBgmPlayer.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\TitleSceneObjects\TitleBgmPlayer\Act3D_TitleBgmPlayer.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\MainSceneObjects\EnemyObjects\_CommonEnemyScripts\Act3D_EnemyAttackRangeGenerator.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\MainSceneObjects\EnemyObjects\_CommonEnemyScripts\Act3D_EnemyCollisionReaction.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\MainSceneObjects\EnemyObjects\_CommonEnemyScripts\Act3D_EnemyDeleteTimer.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\MainSceneObjects\EnemyObjects\_CommonEnemyScripts\Act3D_EnemyJampAttackMoving.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\MainSceneObjects\EnemyObjects\_CommonEnemyScripts\Act3D_MoveForward.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\MainSceneObjects\EnemyObjects\_CommonEnemyScripts\Act3D_RotateToPlayer.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\MainSceneObjects\EnemyObjects\_CommonEnemyScripts\Act3D_RotateToPlayerInTime.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\MainSceneObjects\EnemyObjects\BossEnemy\Scripts\Act3D_BossEnemyDamager.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\MainSceneObjects\EnemyObjects\BossEnemy\Scripts\Act3D_BossEnemyEndAttack.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\MainSceneObjects\EnemyObjects\BossEnemy\Scripts\Act3D_BossEnemyEndDamage.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\MainSceneObjects\EnemyObjects\BossEnemy\Scripts\Act3D_BossEnemyEndDown.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\MainSceneObjects\EnemyObjects\BossEnemy\Scripts\Act3D_BossEnemyParam.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\MainSceneObjects\EnemyObjects\BossEnemy\Scripts\Act3D_BossEnemyStartAttack.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\MainSceneObjects\EnemyObjects\BossEnemy\Scripts\Act3D_BossEnemyStartChase.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\MainSceneObjects\EnemyObjects\BossEnemy\Scripts\Act3D_BossEnemyStartDown.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\MainSceneObjects\EnemyObjects\BossEnemy\Scripts\Act3D_BossEnemyStartStandUp.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\MainSceneObjects\EnemyObjects\BossEnemy\Act3D_BossEnemy.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\MainSceneObjects\EnemyObjects\EnemyAttackRange\Act3D_EnemyAttackRange.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\MainSceneObjects\EnemyObjects\EnemyBullet\ShooterEnemyBullet\Act3D_ShooterEnemyBullet.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\MainSceneObjects\EnemyObjects\FighterEnemy\Scripts\Act3D_FighterEnemyDamager.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\MainSceneObjects\EnemyObjects\FighterEnemy\Scripts\Act3D_FighterEnemyEndAttack.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\MainSceneObjects\EnemyObjects\FighterEnemy\Scripts\Act3D_FighterEnemyEndDamage.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\MainSceneObjects\EnemyObjects\FighterEnemy\Scripts\Act3D_FighterEnemyParam.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\MainSceneObjects\EnemyObjects\FighterEnemy\Scripts\Act3D_FighterEnemyStartAttack.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\MainSceneObjects\EnemyObjects\FighterEnemy\Scripts\Act3D_FighterEnemyStartChase.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\MainSceneObjects\EnemyObjects\FighterEnemy\Scripts\Act3D_FighterEnemyStartComboAttack.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\MainSceneObjects\EnemyObjects\FighterEnemy\Scripts\Act3D_FighterEnemyStartRun.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\MainSceneObjects\EnemyObjects\FighterEnemy\Act3D_FighterEnemy.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\MainSceneObjects\EnemyObjects\ShooterEnemy\Scripts\Act3D_ShooterEnemyBulletGenerator.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\MainSceneObjects\EnemyObjects\ShooterEnemy\Scripts\Act3D_ShooterEnemyDamager.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\MainSceneObjects\EnemyObjects\ShooterEnemy\Scripts\Act3D_ShooterEnemyEndAttack.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\MainSceneObjects\EnemyObjects\ShooterEnemy\Scripts\Act3D_ShooterEnemyEndDamage.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\MainSceneObjects\EnemyObjects\ShooterEnemy\Scripts\Act3D_ShooterEnemyParam.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\MainSceneObjects\EnemyObjects\ShooterEnemy\Scripts\Act3D_ShooterEnemyStartAttack.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\MainSceneObjects\EnemyObjects\ShooterEnemy\Scripts\Act3D_ShooterEnemyStartChase.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\MainSceneObjects\EnemyObjects\ShooterEnemy\Act3D_ShooterEnemy.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\MainSceneObjects\GameRule\Scripts\Act3D_GameRuleScripts.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\MainSceneObjects\GameRule\Act3D_GameRule.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\MainSceneObjects\PlayerObjects\Player\Scripts\Act3D_InputToStartAttack.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\MainSceneObjects\PlayerObjects\Player\Scripts\Act3D_InputToStartComboAttack.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\MainSceneObjects\PlayerObjects\Player\Scripts\Act3D_InputToStartDodge.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\MainSceneObjects\PlayerObjects\Player\Scripts\Act3D_JampAttackMoving.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\MainSceneObjects\PlayerObjects\Player\Scripts\Act3D_PlayerAttackRangeGenerator.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\MainSceneObjects\PlayerObjects\Player\Scripts\Act3D_PlayerCollisionReaction.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\MainSceneObjects\PlayerObjects\Player\Scripts\Act3D_PlayerController.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\MainSceneObjects\PlayerObjects\Player\Scripts\Act3D_PlayerDamager.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\MainSceneObjects\PlayerObjects\Player\Scripts\Act3D_PlayerEndAttack.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\MainSceneObjects\PlayerObjects\Player\Scripts\Act3D_PlayerEndDamage.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\MainSceneObjects\PlayerObjects\Player\Scripts\Act3D_PlayerEndDodge.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\MainSceneObjects\PlayerObjects\Player\Scripts\Act3D_PlayerParam.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\MainSceneObjects\PlayerObjects\Player\Act3D_Player.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\MainSceneObjects\PlayerObjects\PlayerAttackRange\Act3D_PlayerAttackRange.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -287,9 +281,6 @@
     <ClInclude Include="src\Scene\Act3D_TitleScene.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="src\GameObject\PlayerObjects\Player\Act3D_Player.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="src\GameObject\StageObjects\BaseGround\Act3D_BaseGround.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -305,13 +296,7 @@
     <ClInclude Include="src\GameObject\_CommonScripts\GravityMove\Act3D_GravityMove.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="src\GameObject\_DebugObjects\DebugCamera\Act3D_DebugCamera.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="src\Enums\Id\ResourceIds\SkeletonId.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Enums\Id\ResourceIds\BasicMeshId.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="src\Enums\Id\ResourceIds\MotionId.h">
@@ -323,154 +308,19 @@
     <ClInclude Include="src\Enums\StateType\StateTypes.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="src\GameObject\EnemyObjects\BossEnemy\Act3D_BossEnemy.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GameObject\EnemyObjects\FighterEnemy\Act3D_FighterEnemy.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GameObject\EnemyObjects\ShooterEnemy\Act3D_ShooterEnemy.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="src\Enums\StateType\StateTypes\FighterEnemyStateType.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GameObject\PlayerObjects\Player\Scripts\Act3D_PlayerController.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GameObject\PlayerObjects\Player\Scripts\Act3D_InputToStartAttack.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GameObject\PlayerObjects\Player\Scripts\Act3D_InputToStartComboAttack.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GameObject\PlayerObjects\PlayerAttackRange\Act3D_PlayerAttackRange.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GameObject\PlayerObjects\Player\Scripts\Act3D_PlayerAttackRangeGenerator.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GameObject\EnemyObjects\_CommonEnemyScripts\Act3D_EnemyAttackRangeGenerator.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GameObject\EnemyObjects\EnemyAttackRange\Act3D_EnemyAttackRange.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GameObject\EnemyObjects\_CommonEnemyScripts\Act3D_RotateToPlayer.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GameObject\EnemyObjects\_CommonEnemyScripts\Act3D_MoveForward.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GameObject\PlayerObjects\Player\Scripts\Act3D_JampAttackMoving.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GameObject\EnemyObjects\_CommonEnemyScripts\Act3D_EnemyJampAttackMoving.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="src\Enums\MessageType\EventMessageType.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="src\GameObject\PlayerObjects\Player\Scripts\Act3D_PlayerCollisionReaction.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GameObject\EnemyObjects\_CommonEnemyScripts\Act3D_EnemyCollisionReaction.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GameObject\EnemyObjects\FighterEnemy\Scripts\Act3D_FighterEnemyStartAttack.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GameObject\EnemyObjects\FighterEnemy\Scripts\Act3D_FighterEnemyStartChase.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GameObject\EnemyObjects\FighterEnemy\Scripts\Act3D_FighterEnemyParam.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GameObject\EnemyObjects\FighterEnemy\Scripts\Act3D_FighterEnemyDamager.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GameObject\PlayerObjects\Player\Scripts\Act3D_PlayerDamager.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GameObject\PlayerObjects\Player\Scripts\Act3D_PlayerEndDamage.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GameObject\PlayerObjects\Player\Scripts\Act3D_PlayerEndAttack.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GameObject\EnemyObjects\FighterEnemy\Scripts\Act3D_FighterEnemyEndDamage.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GameObject\EnemyObjects\FighterEnemy\Scripts\Act3D_FighterEnemyEndAttack.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GameObject\EnemyObjects\FighterEnemy\Scripts\Act3D_FighterEnemyStartComboAttack.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GameObject\EnemyObjects\FighterEnemy\Scripts\Act3D_FighterEnemyStartRun.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GameObject\_DebugObjects\DebugSprite\Act3D_DebugSprite.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="src\Enums\StateType\StateTypes\ShooterEnemyStateType.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GameObject\EnemyObjects\ShooterEnemy\Scripts\Act3D_ShooterEnemyStartChase.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GameObject\EnemyObjects\ShooterEnemy\Scripts\Act3D_ShooterEnemyDamager.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GameObject\EnemyObjects\ShooterEnemy\Scripts\Act3D_ShooterEnemyParam.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GameObject\EnemyObjects\ShooterEnemy\Scripts\Act3D_ShooterEnemyStartAttack.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GameObject\EnemyObjects\ShooterEnemy\Scripts\Act3D_ShooterEnemyEndAttack.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GameObject\EnemyObjects\ShooterEnemy\Scripts\Act3D_ShooterEnemyEndDamage.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GameObject\EnemyObjects\EnemyBullet\ShooterEnemyBullet\Act3D_ShooterEnemyBullet.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="src\GameObject\_CommonScripts\SelfDeadTimer\Act3D_SelfDeadTimer.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="src\GameObject\EnemyObjects\ShooterEnemy\Scripts\Act3D_ShooterEnemyBulletGenerator.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="src\Enums\StateType\StateTypes\BossEnemyStateType.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GameObject\EnemyObjects\BossEnemy\Scripts\Act3D_BossEnemyStartChase.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GameObject\EnemyObjects\BossEnemy\Scripts\Act3D_BossEnemyDamager.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GameObject\EnemyObjects\BossEnemy\Scripts\Act3D_BossEnemyParam.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GameObject\EnemyObjects\BossEnemy\Scripts\Act3D_BossEnemyStartAttack.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GameObject\EnemyObjects\BossEnemy\Scripts\Act3D_BossEnemyEndAttack.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GameObject\EnemyObjects\BossEnemy\Scripts\Act3D_BossEnemyStartDown.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GameObject\EnemyObjects\BossEnemy\Scripts\Act3D_BossEnemyStartStandUp.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GameObject\EnemyObjects\BossEnemy\Scripts\Act3D_BossEnemyEndDown.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GameObject\EnemyObjects\_CommonEnemyScripts\Act3D_RotateToPlayerInTime.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="src\GameObject\StageObjects\GrassBlock\Act3D_GrassBlock.h">
@@ -482,18 +332,6 @@
     <ClInclude Include="src\Enums\Id\ResourceIds\BillBoardId.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="src\GameObject\TitleObjects\TitleCamera\Act3D_TitleCamera.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GameObject\TitleObjects\TitleCamera\Scripts\Act3D_TitleCameraScript.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GameObject\TitleObjects\TitleSceneChanger\Act3D_TitleSceneChanger.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GameObject\TitleObjects\TitleSceneChanger\Scripts\Act3D_TitleSceneChangerScript.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="src\Enums\CommandId\CommandId.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -503,37 +341,10 @@
     <ClInclude Include="src\Enums\Id\ResourceIds\SoundId.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="src\GameObject\EnemyObjects\_CommonEnemyScripts\Act3D_EnemyDeleteTimer.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GameObject\BgmPlayer\Act3D_GamePlayBgmPlayer.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GameObject\BgmPlayer\Act3D_TitleBgmPlayer.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GameObject\PlayerObjects\Player\Scripts\Act3D_PlayerParam.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GameObject\PlayerObjects\Player\Scripts\Act3D_PlayerEndDodge.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GameObject\PlayerObjects\Player\Scripts\Act3D_InputToStartDodge.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GameObject\EnemyObjects\BossEnemy\Scripts\Act3D_BossEnemyEndDamage.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="src\GameObject\Ui\PlayerHpBar\Act3D_PlayerHpBar.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="src\GameObject\Ui\PlayerHpBar\Scripts\Act3D_PlayerHpBarContentScript.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GameObject\GameRule\Act3D_GameRule.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GameObject\GameRule\Scripts\Act3D_GameRuleScripts.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="src\GameObject\MainSceneObjects\MainSceneChanger\Act3D_MainSceneChanger.h">
@@ -554,16 +365,193 @@
     <ClInclude Include="src\GameObject\ResultSceneObjects\ResultSceneChanger\Scripts\Act3D_ResultSceneChangerScript.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="src\GameObject\TitleObjects\TitleSceneBackGround\Act3D_TitleSceneBackGround.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="src\GameObject\ResultSceneObjects\ResultSceneBackGround\Act3D_ResultSceneBackGround.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="src\GameObject\ResultSceneObjects\ResultSceneBackGround\Scripts\Act3D_ResultSceneBackGroundScript.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="src\GameObject\BgmPlayer\Act3D_ResultBgmPlayer.h">
+    <ClInclude Include="src\Enums\Id\ResourceIds\MeshId.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\TitleSceneObjects\TitleCamera\Scripts\Act3D_TitleCameraScript.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\TitleSceneObjects\TitleCamera\Act3D_TitleCamera.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\TitleSceneObjects\TitleSceneBackGround\Act3D_TitleSceneBackGround.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\TitleSceneObjects\TitleSceneChanger\Scripts\Act3D_TitleSceneChangerScript.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\TitleSceneObjects\TitleSceneChanger\Act3D_TitleSceneChanger.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\MainSceneObjects\GamePlayBgmPlayer\Act3D_GamePlayBgmPlayer.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\ResultSceneObjects\ResultBgmPlayer\Act3D_ResultBgmPlayer.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\TitleSceneObjects\TitleBgmPlayer\Act3D_TitleBgmPlayer.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\MainSceneObjects\EnemyObjects\_CommonEnemyScripts\Act3D_EnemyAttackRangeGenerator.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\MainSceneObjects\EnemyObjects\_CommonEnemyScripts\Act3D_EnemyCollisionReaction.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\MainSceneObjects\EnemyObjects\_CommonEnemyScripts\Act3D_EnemyDeleteTimer.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\MainSceneObjects\EnemyObjects\_CommonEnemyScripts\Act3D_EnemyJampAttackMoving.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\MainSceneObjects\EnemyObjects\_CommonEnemyScripts\Act3D_MoveForward.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\MainSceneObjects\EnemyObjects\_CommonEnemyScripts\Act3D_RotateToPlayer.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\MainSceneObjects\EnemyObjects\_CommonEnemyScripts\Act3D_RotateToPlayerInTime.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\MainSceneObjects\EnemyObjects\BossEnemy\Scripts\Act3D_BossEnemyDamager.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\MainSceneObjects\EnemyObjects\BossEnemy\Scripts\Act3D_BossEnemyEndAttack.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\MainSceneObjects\EnemyObjects\BossEnemy\Scripts\Act3D_BossEnemyEndDamage.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\MainSceneObjects\EnemyObjects\BossEnemy\Scripts\Act3D_BossEnemyEndDown.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\MainSceneObjects\EnemyObjects\BossEnemy\Scripts\Act3D_BossEnemyParam.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\MainSceneObjects\EnemyObjects\BossEnemy\Scripts\Act3D_BossEnemyStartAttack.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\MainSceneObjects\EnemyObjects\BossEnemy\Scripts\Act3D_BossEnemyStartChase.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\MainSceneObjects\EnemyObjects\BossEnemy\Scripts\Act3D_BossEnemyStartDown.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\MainSceneObjects\EnemyObjects\BossEnemy\Scripts\Act3D_BossEnemyStartStandUp.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\MainSceneObjects\EnemyObjects\BossEnemy\Act3D_BossEnemy.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\MainSceneObjects\EnemyObjects\EnemyAttackRange\Act3D_EnemyAttackRange.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\MainSceneObjects\EnemyObjects\EnemyBullet\ShooterEnemyBullet\Act3D_ShooterEnemyBullet.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\MainSceneObjects\EnemyObjects\FighterEnemy\Scripts\Act3D_FighterEnemyDamager.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\MainSceneObjects\EnemyObjects\FighterEnemy\Scripts\Act3D_FighterEnemyEndAttack.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\MainSceneObjects\EnemyObjects\FighterEnemy\Scripts\Act3D_FighterEnemyEndDamage.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\MainSceneObjects\EnemyObjects\FighterEnemy\Scripts\Act3D_FighterEnemyParam.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\MainSceneObjects\EnemyObjects\FighterEnemy\Scripts\Act3D_FighterEnemyStartAttack.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\MainSceneObjects\EnemyObjects\FighterEnemy\Scripts\Act3D_FighterEnemyStartChase.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\MainSceneObjects\EnemyObjects\FighterEnemy\Scripts\Act3D_FighterEnemyStartComboAttack.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\MainSceneObjects\EnemyObjects\FighterEnemy\Scripts\Act3D_FighterEnemyStartRun.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\MainSceneObjects\EnemyObjects\FighterEnemy\Act3D_FighterEnemy.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\MainSceneObjects\EnemyObjects\ShooterEnemy\Scripts\Act3D_ShooterEnemyBulletGenerator.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\MainSceneObjects\EnemyObjects\ShooterEnemy\Scripts\Act3D_ShooterEnemyDamager.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\MainSceneObjects\EnemyObjects\ShooterEnemy\Scripts\Act3D_ShooterEnemyEndAttack.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\MainSceneObjects\EnemyObjects\ShooterEnemy\Scripts\Act3D_ShooterEnemyEndDamage.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\MainSceneObjects\EnemyObjects\ShooterEnemy\Scripts\Act3D_ShooterEnemyParam.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\MainSceneObjects\EnemyObjects\ShooterEnemy\Scripts\Act3D_ShooterEnemyStartAttack.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\MainSceneObjects\EnemyObjects\ShooterEnemy\Scripts\Act3D_ShooterEnemyStartChase.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\MainSceneObjects\EnemyObjects\ShooterEnemy\Act3D_ShooterEnemy.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\MainSceneObjects\GameRule\Scripts\Act3D_GameRuleScripts.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\MainSceneObjects\GameRule\Act3D_GameRule.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\MainSceneObjects\PlayerObjects\Player\Scripts\Act3D_InputToStartAttack.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\MainSceneObjects\PlayerObjects\Player\Scripts\Act3D_InputToStartComboAttack.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\MainSceneObjects\PlayerObjects\Player\Scripts\Act3D_InputToStartDodge.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\MainSceneObjects\PlayerObjects\Player\Scripts\Act3D_JampAttackMoving.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\MainSceneObjects\PlayerObjects\Player\Scripts\Act3D_PlayerAttackRangeGenerator.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\MainSceneObjects\PlayerObjects\Player\Scripts\Act3D_PlayerCollisionReaction.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\MainSceneObjects\PlayerObjects\Player\Scripts\Act3D_PlayerController.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\MainSceneObjects\PlayerObjects\Player\Scripts\Act3D_PlayerDamager.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\MainSceneObjects\PlayerObjects\Player\Scripts\Act3D_PlayerEndAttack.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\MainSceneObjects\PlayerObjects\Player\Scripts\Act3D_PlayerEndDamage.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\MainSceneObjects\PlayerObjects\Player\Scripts\Act3D_PlayerEndDodge.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\MainSceneObjects\PlayerObjects\Player\Scripts\Act3D_PlayerParam.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\MainSceneObjects\PlayerObjects\Player\Act3D_Player.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\MainSceneObjects\PlayerObjects\PlayerAttackRange\Act3D_PlayerAttackRange.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>

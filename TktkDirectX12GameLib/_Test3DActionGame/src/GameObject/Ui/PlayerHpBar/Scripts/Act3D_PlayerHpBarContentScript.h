@@ -2,7 +2,7 @@
 #define ACT_3D_PLAYER_HP_BAR_CONTENT_SCRIPT_H_
 
 #include <TktkDX12GameLib.h>
-#include "../../../PlayerObjects/Player/Scripts/Act3D_PlayerParam.h"
+#include "../../../MainSceneObjects/PlayerObjects/Player/Scripts/Act3D_PlayerParam.h"
 
 class Act3D_PlayerHpBarContentScript
 	: public tktk::ComponentBase

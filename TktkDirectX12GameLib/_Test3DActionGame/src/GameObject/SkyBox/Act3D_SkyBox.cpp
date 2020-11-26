@@ -15,7 +15,7 @@ tktk::GameObjectPtr Act3D_SkyBox::create()
 
     // メッシュ描画コンポーネント
     tktk::MeshDrawerMaker::makeStart(gameObject)
-        .meshId(BasicMeshId::SkyBox)
+        .meshId(MeshId::SkyBox)
         .baseScale(100.0f)
         .create();
 

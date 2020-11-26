@@ -1,6 +1,7 @@
 #ifndef SHOOTER_ENEMY_STATE_TYPE_H_
 #define SHOOTER_ENEMY_STATE_TYPE_H_
 
+// 遠距離攻撃エネミーの状態の種類
 enum class ShooterEnemyStateType
 {
 	/* 基本状態 */

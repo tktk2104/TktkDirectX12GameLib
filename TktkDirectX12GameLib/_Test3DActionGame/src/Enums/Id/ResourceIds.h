@@ -5,7 +5,7 @@
 #include "ResourceIds/SoundId.h"
 #include "ResourceIds/SpriteId.h"
 #include "ResourceIds/BillBoardId.h"
-#include "ResourceIds/BasicMeshId.h"
+#include "ResourceIds/MeshId.h"
 #include "ResourceIds/SkeletonId.h"
 #include "ResourceIds/MotionId.h"
 

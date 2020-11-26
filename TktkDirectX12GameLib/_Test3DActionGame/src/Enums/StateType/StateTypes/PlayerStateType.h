@@ -1,6 +1,7 @@
 #ifndef PLAYER_STATE_TYPE_H_
 #define PLAYER_STATE_TYPE_H_
 
+// プレイヤーの状態の種類
 enum class PlayerStateType
 {
 	/* 基本状態 */

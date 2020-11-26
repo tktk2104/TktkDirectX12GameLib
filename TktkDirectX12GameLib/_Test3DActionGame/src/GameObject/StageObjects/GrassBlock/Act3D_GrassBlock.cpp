@@ -15,7 +15,7 @@ tktk::GameObjectPtr Act3D_GrassBlock::create(const tktkMath::Vector3& position)
 
     // メッシュ描画コンポーネント
     tktk::MeshDrawerMaker::makeStart(gameObject)
-        .meshId(BasicMeshId::GrassBlock)
+        .meshId(MeshId::GrassBlock)
         .baseScale(1.0f)
         .create();
 

@@ -1,6 +1,7 @@
 #ifndef SKELETON_ID_H_
 #define SKELETON_ID_H_
 
+// スケルトンリソースID
 enum class SkeletonId
 {
 	Player,			// プレイヤー

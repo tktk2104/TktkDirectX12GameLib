@@ -10,7 +10,5 @@ class Act3D_MainScene
 public:
 
 	void start();
-
-	void end();
 };
 #endif // !ACT_3D_MAIN_SCENE_H_

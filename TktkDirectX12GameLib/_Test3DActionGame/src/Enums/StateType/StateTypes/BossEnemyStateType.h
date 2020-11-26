@@ -1,6 +1,7 @@
 #ifndef BOSS_ENEMY_STATE_TYPE_H_
 #define BOSS_ENEMY_STATE_TYPE_H_
 
+// ボスエネミーの状態の種類
 enum class BossEnemyStateType
 {
 	/* 基本状態 */
