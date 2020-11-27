@@ -6,10 +6,13 @@
 
 void Act3D_ResultSceneBackGroundScript::start()
 {
+	// ゲームルールオブジェクトを取得する
 	auto gameRuleObject = tktk::DX12Game::findGameObjectWithTag(GameObjectTag::GameRule);
 
+	// ゲームオーバーフラグが立っていたら
 	if (gameRuleObject->getComponent<Act3D_GameRuleScripts>()->isGameOver())
 	{
+		// ゲームオーバーの表示を行うコンポーネントを作る
 		tktk::SpriteDrawerMaker::makeStart(getGameObject())
 			.drawPriority(8)
 			.spriteMaterialId(SpriteId::GameOverSceneBackGround)
@@ -17,6 +20,7 @@ void Act3D_ResultSceneBackGroundScript::start()
 	}
 	else
 	{
+		// ゲームクリアの表示を行うコンポーネントを作る
 		tktk::SpriteDrawerMaker::makeStart(getGameObject())
 			.drawPriority(8)
 			.spriteMaterialId(SpriteId::GameClearSceneBackGround)

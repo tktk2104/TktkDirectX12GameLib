@@ -3,6 +3,7 @@
 
 #include <TktkDX12GameLib.h>
 
+// メインシーンから遷移させる処理を行うコンポーネント
 class Act3D_MainSceneChangerScript
 	: public tktk::ComponentBase
 {

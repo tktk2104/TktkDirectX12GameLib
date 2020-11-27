@@ -3,6 +3,7 @@
 
 #include <TktkDX12GameLib.h>
 
+// 草ブロックオブジェクト
 struct Act3D_GrassBlock
 {
 	static tktk::GameObjectPtr create(const tktkMath::Vector3& position);

@@ -63,8 +63,6 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hInstancePrev, _
 	tktk::DX12GameManager::addDirectionCommand(tktk::DirectionCommandId::LookLeft,	tktk::KeybordKeyType::key_Left);
 	tktk::DX12GameManager::addDirectionCommand(tktk::DirectionCommandId::LookRight, tktk::KeybordKeyType::key_Right);
 
-	
-
 	// ÉVÅ[ÉìÇí«â¡Ç∑ÇÈ
 	auto loadingSceneHandle = tktk::DX12GameManager::addSceneAndAttachId(SceneId::Loading,	tktk::SceneInitParam::create<Act3D_LoadingScene>());
 	auto titleSceneHandle	= tktk::DX12GameManager::addSceneAndAttachId(SceneId::Title,	tktk::SceneInitParam::create<Act3D_TitleScene>());

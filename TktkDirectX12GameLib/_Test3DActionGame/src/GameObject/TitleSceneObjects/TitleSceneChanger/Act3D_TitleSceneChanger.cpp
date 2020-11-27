@@ -23,6 +23,7 @@ tktk::GameObjectPtr Act3D_TitleSceneChanger::create()
         .isLoop(false)
         .create();
 
+    // タイトルシーンから遷移する処理を行うコンポーネント
     gameObject->createComponent<Act3D_TitleSceneChangerScript>();
 
     return gameObject;

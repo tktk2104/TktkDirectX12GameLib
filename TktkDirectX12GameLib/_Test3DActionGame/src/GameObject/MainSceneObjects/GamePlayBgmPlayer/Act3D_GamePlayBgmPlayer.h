@@ -3,6 +3,7 @@
 
 #include <TktkDX12GameLib.h>
 
+// ゲームプレイBGM再生オブジェクト
 struct Act3D_GamePlayBgmPlayer
 {
 	static tktk::GameObjectPtr create();

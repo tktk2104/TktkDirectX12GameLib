@@ -2,6 +2,7 @@
 
 void Act3D_BossEnemyParam::update()
 {
+    // 各種タイマーのカウントダウン処理
     if (m_normalAttackIntervalSecTimer > 0.0f)
     {
         m_normalAttackIntervalSecTimer -= tktk::DX12Game::deltaTime();
@@ -22,6 +23,7 @@ void Act3D_BossEnemyParam::damage(int damage)
 {
     m_curHp -= damage;
 
+    // Hpの値がマイナスにならないための処理
     if (m_curHp <= 0) m_curHp = 0;
 }
 

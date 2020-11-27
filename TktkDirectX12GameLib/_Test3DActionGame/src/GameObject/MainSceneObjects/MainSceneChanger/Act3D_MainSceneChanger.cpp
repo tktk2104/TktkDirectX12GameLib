@@ -23,6 +23,7 @@ tktk::GameObjectPtr Act3D_MainSceneChanger::create()
         .blendRate({ 1.0f, 0.0f })
         .create();
 
+    // メインシーンから遷移させる処理を行うコンポーネント
     gameObject->createComponent<Act3D_MainSceneChangerScript>();
 
     return gameObject;

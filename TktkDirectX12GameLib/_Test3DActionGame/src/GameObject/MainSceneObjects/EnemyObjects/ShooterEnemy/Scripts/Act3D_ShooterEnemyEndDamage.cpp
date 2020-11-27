@@ -10,6 +10,7 @@ void Act3D_ShooterEnemyEndDamage::onEnable()
 
 void Act3D_ShooterEnemyEndDamage::update()
 {
+	// タイマーのカウントがゼロに立っていたら
 	if (m_endAttackSecTimer < 0.0f)
 	{
 		// 通常状態を有効にする
@@ -20,6 +21,6 @@ void Act3D_ShooterEnemyEndDamage::update()
 		return;
 	}
 
-	// タイマーを更新する
+	// タイマーをカウントダウンする
 	m_endAttackSecTimer -= tktk::DX12Game::deltaTime();
 }

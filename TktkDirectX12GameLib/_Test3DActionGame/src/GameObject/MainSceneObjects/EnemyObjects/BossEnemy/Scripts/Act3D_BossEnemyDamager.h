@@ -4,6 +4,7 @@
 #include <TktkDX12GameLib.h>
 #include "Act3D_BossEnemyParam.h"
 
+// ボスエネミーの被ダメージ処理コンポーネント
 class Act3D_BossEnemyDamager
 	: public tktk::ComponentBase
 {
@@ -18,6 +19,7 @@ public:
 
 private:
 
+	// ボスエネミーの能力値
 	tktk::ComponentPtr<Act3D_BossEnemyParam> m_selfParam;
 };
 #endif // !ACT_3D_BOSS_ENEMY_DAMAGER_H_

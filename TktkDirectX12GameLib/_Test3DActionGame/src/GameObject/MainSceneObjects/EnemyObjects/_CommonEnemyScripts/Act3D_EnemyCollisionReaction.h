@@ -3,6 +3,7 @@
 
 #include <TktkDX12GameLib.h>
 
+// エネミーの衝突判定リアクションコンポーネント
 class Act3D_EnemyCollisionReaction
 	: public tktk::ComponentBase
 {

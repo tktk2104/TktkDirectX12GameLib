@@ -3,6 +3,7 @@
 
 #include <TktkDX12GameLib.h>
 
+// デフォルトライトオブジェクト
 struct Act3D_DefaultLight
 {
 	static tktk::GameObjectPtr create(const tktkMath::Vector3& position);

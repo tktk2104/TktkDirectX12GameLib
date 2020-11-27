@@ -3,6 +3,7 @@
 
 #include <TktkDX12GameLib.h>
 
+// 入力によって攻撃を開始するコンポーネント
 class Act3D_InputToStartAttack
 	: public tktk::ComponentBase
 {
@@ -21,6 +22,7 @@ private:
 
 private:
 
+	// 攻撃間隔を管理するコンポーネント
 	float m_attackIntervelSecTimer{ 0.0f };
 };
 #endif // !ACT_3D_INPUT_TO_START_ATTACK_H_

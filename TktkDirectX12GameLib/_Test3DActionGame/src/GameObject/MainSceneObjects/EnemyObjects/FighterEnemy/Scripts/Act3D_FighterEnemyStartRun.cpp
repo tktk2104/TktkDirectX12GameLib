@@ -10,6 +10,7 @@ void Act3D_FighterEnemyStartRun::onEnable()
 
 void Act3D_FighterEnemyStartRun::update()
 {
+	// タイマーのカウントがゼロになっていたら
 	if (m_startRunSecTimer < 0.0f)
 	{
 		// 走り状態を有効にする
@@ -20,6 +21,6 @@ void Act3D_FighterEnemyStartRun::update()
 		return;
 	}
 
-	// タイマーを更新する
+	// タイマーをカウントダウンする
 	m_startRunSecTimer -= tktk::DX12Game::deltaTime();
 }

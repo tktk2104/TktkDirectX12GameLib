@@ -14,17 +14,17 @@ void Act3D_ShooterEnemyEndAttack::onEnable()
 
 void Act3D_ShooterEnemyEndAttack::update()
 {
+	// タイマーのカウントがゼロになっていたら
 	if (m_endAttackSecTimer < 0.0f)
 	{
 		// 移動状態を有効にする
 		getGameObject()->stateEnable(ShooterEnemyStateType::Move);
 
 		// 攻撃状態を無効にする
-		getGameObject()->stateDisable(ShooterEnemyStateType::Attack);
-		getGameObject()->stateDisable(m_attackType);
+		getGameObject()->statesDisable({ ShooterEnemyStateType::Attack, m_attackType });
 		return;
 	}
 
-	// タイマーを更新する
+	// タイマーをカウントダウンする
 	m_endAttackSecTimer -= tktk::DX12Game::deltaTime();
 }

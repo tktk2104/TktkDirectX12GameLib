@@ -3,6 +3,7 @@
 
 #include <TktkDX12GameLib.h>
 
+// プレイヤーの回避状態を終了するコンポーネント
 class Act3D_PlayerEndDodge
 	: public tktk::ComponentBase
 {
@@ -19,7 +20,10 @@ private:
 
 private:
 
+	// 回避状態を終了するためのタイマー
 	float m_endDodgeSecTimer{ 0.0f };
+
+	// メッシュ描画コンポーネント
 	tktk::ComponentPtr<tktk::MeshDrawer>	m_meshDrawer;
 };
 #endif // !ACT_3D_PLAYER_END_DODGE_H_

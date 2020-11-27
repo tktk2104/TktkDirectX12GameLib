@@ -20,36 +20,46 @@ void Act3D_ShooterEnemyBulletGenerator::onEnable()
 	m_endShot = false;
 
 	// タイマーを初期化する
-	m_agenerateSecTimer = GenerateTimeSec;
+	m_generateSecTimer = GenerateTimeSec;
 }
 
 void Act3D_ShooterEnemyBulletGenerator::update()
 {
+	// 既に弾を発射していたら処理を終える
 	if (m_endShot) return;
 
+	// プレイヤーの座標管理コンポーネントが取得できていなければ
 	if (m_playerTransform.expired())
 	{
+		// プレイヤーオブジェクトを取得する
 		auto player = tktk::DX12Game::findGameObjectWithTag(GameObjectTag::Player);
 
+		// プレイヤーオブジェクトが取得できなければ処理を終える
 		if (player.expired()) return;
 
+		// プレイヤーの座標管理コンポーネントを取得する
 		m_playerTransform = player->getComponent<tktk::Transform3D>();
 
+		// プレイヤーが座標管理コンポーネントを持っていなければ処理を終える
 		if (m_playerTransform.expired()) return;
 	}
 
-	if (m_agenerateSecTimer < 0.0f)
+	// タイマーのカウントがゼロになっていたら
+	if (m_generateSecTimer < 0.0f)
 	{
 		const auto& selfPos		= m_selfTransform->getWorldPosition();
 		const auto& playerPos	= m_playerTransform->getWorldPosition();
 
+		// 発射する弾の発射方向
 		auto bulletDirection = (playerPos - selfPos).normalized();
 
+		// 遠距離攻撃エネミーの弾を生成する
 		Act3D_ShooterEnemyBullet::create(selfPos + GeneratePos, bulletDirection * BulletSpeed);
 
+		// 弾の発射フラグを立てる
 		m_endShot = true;
 	}
 
-	// タイマーを更新する
-	m_agenerateSecTimer -= tktk::DX12Game::deltaTime();
+	// タイマーをカウントダウンする
+	m_generateSecTimer -= tktk::DX12Game::deltaTime();
 }

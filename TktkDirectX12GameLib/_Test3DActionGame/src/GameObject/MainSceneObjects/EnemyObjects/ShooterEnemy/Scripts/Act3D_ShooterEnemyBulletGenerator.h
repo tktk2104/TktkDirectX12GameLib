@@ -3,6 +3,7 @@
 
 #include <TktkDX12GameLib.h>
 
+// 遠距離攻撃エネミーの弾を生成するコンポーネント
 class Act3D_ShooterEnemyBulletGenerator
 	: public tktk::ComponentBase
 {
@@ -29,8 +30,8 @@ private:
 
 private:
 
-	bool m_endShot{ false };
-	float m_agenerateSecTimer{ 0.0f };
+	bool m_endShot				{ false };
+	float m_generateSecTimer	{ 0.0f };
 	tktk::ComponentPtr<tktk::Transform3D>	m_selfTransform;
 	tktk::ComponentPtr<tktk::Transform3D>	m_playerTransform;
 };

@@ -14,11 +14,13 @@ void Act3D_ShooterEnemyDamager::start()
 
 void Act3D_ShooterEnemyDamager::handleMessage(tktk::MessageTypeCarrier type, const tktk::MessageAttachment& attachment)
 {
+	// 非アクティブ状態だったら何もしない
 	if (!isActive()) return;
 
+	// 受け取ったメッセージが被ダメージメッセージだったら
 	if (type.isSame(EventMessageType::Damage))
 	{
-		// ダメージを与える
+		// 自身にダメージを与える
 		m_selfParam->damage(*attachment.getValuePtr<int>().lock());
 
 		// 死んだら

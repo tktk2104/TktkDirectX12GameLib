@@ -10,6 +10,7 @@ void Act3D_BossEnemyStartDown::onEnable()
 
 void Act3D_BossEnemyStartDown::update()
 {
+	// タイマーのカウントがゼロになっていたら
 	if (m_startDownSecTimer < 0.0f)
 	{
 		// ダウン中状態を有効にする
@@ -20,6 +21,6 @@ void Act3D_BossEnemyStartDown::update()
 		return;
 	}
 
-	// タイマーを更新する
+	// タイマーをカウントダウンする
 	m_startDownSecTimer -= tktk::DX12Game::deltaTime();
 }

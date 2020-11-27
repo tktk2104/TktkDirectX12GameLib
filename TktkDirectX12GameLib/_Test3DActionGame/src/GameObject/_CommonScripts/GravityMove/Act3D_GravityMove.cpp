@@ -12,5 +12,6 @@ void Act3D_GravityMove::start()
 
 void Act3D_GravityMove::update()
 {
+	// d—Í•ª‰Á‘¬‚·‚é
 	m_inertialMovement->addContinuousForce(tktkMath::Vector3_v::down * GravityPower, GravityAccelerationPerSec);
 }

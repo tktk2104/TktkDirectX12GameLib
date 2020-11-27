@@ -6,7 +6,7 @@ tktk::GameObjectPtr Act3D_TitleBgmPlayer::create()
 {
     auto gameObject = tktk::DX12Game::createGameObject();
 
-    // タイトルシーンでのみ生存するオブジェクトタグ
+    // タイトルシーンが終了すると消えるオブジェクトを表すタグ
     gameObject->addGameObjectTag(GameObjectTag::TitleSceneObject);
 
     // タイトルBGMを再生するコンポーネント

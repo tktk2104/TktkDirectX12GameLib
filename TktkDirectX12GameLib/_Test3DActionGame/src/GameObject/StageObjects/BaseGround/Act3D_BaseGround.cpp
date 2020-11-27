@@ -2,7 +2,6 @@
 
 #include "../../../Enums/Enums.h"
 
-
 constexpr int BaseGroundSize{ 10 };
 
 tktk::GameObjectPtr Act3D_BaseGround::create()
@@ -19,6 +18,7 @@ tktk::GameObjectPtr Act3D_BaseGround::create()
     {
         for (int j = -BaseGroundSize; j <= BaseGroundSize; j++)
         {
+            // 大量のメッシュ描画コンポーネントを作る
             tktk::MeshDrawerMaker::makeStart(gameObject)
                 .meshId(MeshId::GrassBlock)
                 .basePosition({ (3.0f * i), -1.5f, (3.0f * j) })

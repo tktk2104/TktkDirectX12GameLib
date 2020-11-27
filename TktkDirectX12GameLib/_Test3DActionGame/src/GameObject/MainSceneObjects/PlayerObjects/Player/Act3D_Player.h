@@ -12,6 +12,7 @@ public:
 
 private:
 
+	// プレイヤーカメラオブジェクトを作る処理
 	static tktk::GameObjectPtr createCamera(const tktkMath::Vector3& position, const tktkMath::Quaternion& rotation);
 };
 #endif // !ACT_3D_PLAYER_H_

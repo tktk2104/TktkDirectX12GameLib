@@ -4,8 +4,10 @@
 
 void Act3D_InputToStartAttack::update()
 {
+	// 攻撃間隔タイマーのカウントがゼロになってなければ
 	if (m_attackIntervelSecTimer > 0.0f)
 	{
+		// タイマーをカウントダウンし、処理を終える
 		m_attackIntervelSecTimer -= tktk::DX12Game::deltaTime();
 		return;
 	}

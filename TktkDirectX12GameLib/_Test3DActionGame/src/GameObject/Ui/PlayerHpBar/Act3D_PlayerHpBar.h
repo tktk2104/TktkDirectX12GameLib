@@ -3,6 +3,7 @@
 
 #include <TktkDX12GameLib.h>
 
+// プレイヤーのHpを表示するUi
 struct Act3D_PlayerHpBar
 {
 	static tktk::GameObjectPtr create(const tktkMath::Vector2& pos);

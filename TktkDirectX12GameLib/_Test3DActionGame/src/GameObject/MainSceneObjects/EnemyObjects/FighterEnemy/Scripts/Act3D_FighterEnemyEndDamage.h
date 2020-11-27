@@ -3,6 +3,7 @@
 
 #include <TktkDX12GameLib.h>
 
+// 近距離攻撃エネミーのダメージ処理を終了する処理を行うコンポーネント
 class Act3D_FighterEnemyEndDamage
 	: public tktk::ComponentBase
 {
@@ -18,6 +19,7 @@ private:
 
 private:
 
+	// ダメージ状態を終了するためのタイマー
 	float m_endAttackSecTimer{ 0.0f };
 };
 #endif // !ACT_3D_FIGHTER_ENEMY_END_DAMAGE_H_

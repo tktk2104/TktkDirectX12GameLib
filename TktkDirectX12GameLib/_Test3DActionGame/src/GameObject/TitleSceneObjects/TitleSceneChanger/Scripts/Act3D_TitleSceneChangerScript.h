@@ -3,6 +3,7 @@
 
 #include <TktkDX12GameLib.h>
 
+// タイトルシーンから遷移する処理を行うコンポーネント
 class Act3D_TitleSceneChangerScript
 	: public tktk::ComponentBase
 {

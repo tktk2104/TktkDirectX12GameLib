@@ -3,6 +3,7 @@
 
 #include <TktkDX12GameLib.h>
 
+// タイトルカメラ移動コンポーネント
 class Act3D_TitleCameraScript
 	: public tktk::ComponentBase
 {
@@ -17,10 +18,12 @@ public:
 
 private:
 
+	// 毎秒の回転角度（度数法）
 	constexpr static float RotateSpeedPerSecDeg{ 10.0f };
 
 private:
 
+	// 座標管理コンポーネント
 	tktk::ComponentPtr<tktk::Transform3D>	m_selfTransform;
 };
 #endif // !ACT_3D_TITLE_CAMERA_SCRIPT_H_

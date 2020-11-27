@@ -14,8 +14,10 @@ void Act3D_PlayerDamager::start()
 
 void Act3D_PlayerDamager::handleMessage(tktk::MessageTypeCarrier type, const tktk::MessageAttachment& attachment)
 {
+	// 非アクティブ状態だったら処理を終える
 	if (!isActive()) return;
 
+	// ダメージメッセージを受け取ったら
 	if (type.isSame(EventMessageType::Damage))
 	{
 		// ダメージを与える

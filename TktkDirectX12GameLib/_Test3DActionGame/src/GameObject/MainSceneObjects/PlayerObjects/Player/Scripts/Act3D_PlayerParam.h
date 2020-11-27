@@ -3,6 +3,7 @@
 
 #include <TktkDX12GameLib.h>
 
+// プレイヤーの能力値のコンポーネント
 class Act3D_PlayerParam
 	: public tktk::ComponentBase
 {
@@ -12,10 +13,13 @@ public:
 
 public:
 
+	// 引数の値だけHPを減らす
 	void damage(int damage);
 
+	// HPがゼロ以下か判定する
 	bool outOfHp() const;
 
+	// 現在のHPを取得する
 	int getCurHp() const;
 
 public:
@@ -25,6 +29,7 @@ public:
 
 private:
 
+	// 現在のHP
 	int m_curHp{ getMaxHp() };
 };
 #endif // !ACT_3D_PLAYER_PARAM_H_

@@ -3,6 +3,7 @@
 
 #include <TktkDX12GameLib.h>
 
+// ゲームの状況により表示内容を変化させるコンポーネント
 class Act3D_ResultSceneBackGroundScript
 	: public tktk::ComponentBase
 {

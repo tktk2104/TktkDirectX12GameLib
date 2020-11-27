@@ -13,6 +13,7 @@ void Act3D_PlayerEndAttack::onEnable()
 
 void Act3D_PlayerEndAttack::update()
 {
+	// タイマーのカウントがゼロだったら
 	if (m_endAttackSecTimer < 0.0f)
 	{
 		// 通常状態を有効にする
@@ -23,6 +24,6 @@ void Act3D_PlayerEndAttack::update()
 		return;
 	}
 
-	// タイマーを更新する
+	// タイマーをカウントダウンする
 	m_endAttackSecTimer -= tktk::DX12Game::deltaTime();
 }

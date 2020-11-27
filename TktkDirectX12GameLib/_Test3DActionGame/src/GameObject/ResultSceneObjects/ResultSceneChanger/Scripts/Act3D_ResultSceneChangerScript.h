@@ -3,6 +3,7 @@
 
 #include <TktkDX12GameLib.h>
 
+// リザルトシーンから遷移する処理を行うコンポーネント
 class Act3D_ResultSceneChangerScript
 	: public tktk::ComponentBase
 {

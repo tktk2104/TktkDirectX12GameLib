@@ -4,6 +4,7 @@
 #include <TktkDX12GameLib.h>
 #include "Act3D_PlayerParam.h"
 
+// プレイヤーのダメージ処理コンポーネント
 class Act3D_PlayerDamager
 	: public tktk::ComponentBase
 {
@@ -18,6 +19,7 @@ public:
 
 private:
 
+	// プレイヤーの能力値のコンポーネント
 	tktk::ComponentPtr<Act3D_PlayerParam> m_selfParam;
 };
 #endif // !ACT_3D_PLAYER_DAMAGER_H_

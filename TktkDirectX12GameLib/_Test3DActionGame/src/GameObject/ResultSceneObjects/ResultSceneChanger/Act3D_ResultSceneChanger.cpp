@@ -23,6 +23,7 @@ tktk::GameObjectPtr Act3D_ResultSceneChanger::create()
         .isLoop(false)
         .create();
 
+    // リザルトシーンから遷移する処理を行うコンポーネント
     gameObject->createComponent<Act3D_ResultSceneChangerScript>();
 
     return gameObject;

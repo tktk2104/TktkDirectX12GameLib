@@ -3,6 +3,7 @@
 
 #include <TktkDX12GameLib.h>
 
+// リザルトシーンから遷移する処理を行うオブジェクト
 struct Act3D_ResultSceneChanger
 {
 	static tktk::GameObjectPtr create();

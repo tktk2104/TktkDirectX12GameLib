@@ -3,6 +3,7 @@
 
 #include <TktkDX12GameLib.h>
 
+// ボスエネミーの起き上がり処理を行うコンポーネント
 class Act3D_BossEnemyStartStandUp
 	: public tktk::ComponentBase
 {
@@ -22,6 +23,7 @@ private:
 
 private:
 
+	// 起き上がる処理を行うタイマー
 	float m_startStandUpSecTimer{ 0.0f };
 };
 #endif // !ACT_3D_BOSS_ENEMY_START_STAND_UP_H_

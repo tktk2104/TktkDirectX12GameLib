@@ -3,6 +3,7 @@
 
 #include <TktkDX12GameLib.h>
 
+// プレイヤーのダメージ状態を終了させるコンポーネント
 class Act3D_PlayerEndDamage
 	: public tktk::ComponentBase
 {
@@ -18,6 +19,7 @@ private:
 
 private:
 
+	// ダメージ状態を終了させるためのタイマー
 	float m_endDamageSecTimer{ 0.0f };
 };
 #endif // !ACT_3D_END_DAMAGE_H_

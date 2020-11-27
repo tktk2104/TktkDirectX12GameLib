@@ -3,6 +3,7 @@
 
 #include <TktkDX12GameLib.h>
 
+// メインシーンから遷移させる処理を行うオブジェクト
 struct Act3D_MainSceneChanger
 {
 	static tktk::GameObjectPtr create();

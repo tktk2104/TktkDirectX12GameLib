@@ -9,12 +9,11 @@ tktk::GameObjectPtr Act3D_TitleCamera::create()
 {
     auto gameObject = tktk::DX12Game::createGameObject();
 
-    // タイトルシーンでのみ生存するオブジェクトタグ
+    // タイトルシーンが終了すると消えるオブジェクトを表すタグ
     gameObject->addGameObjectTag(GameObjectTag::TitleSceneObject);
 
     // 座標管理コンポーネント
-    tktk::Transform3DMaker::makeStart(gameObject)
-        .create();
+    tktk::Transform3DMaker::makeStart(gameObject).create();
 
     // タイトルカメラ移動コンポーネント
     gameObject->createComponent<Act3D_TitleCameraScript>();

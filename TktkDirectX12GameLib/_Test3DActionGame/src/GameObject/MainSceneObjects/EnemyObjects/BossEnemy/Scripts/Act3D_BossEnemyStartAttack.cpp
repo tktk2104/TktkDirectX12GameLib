@@ -24,14 +24,19 @@ void Act3D_BossEnemyStartAttack::start()
 
 void Act3D_BossEnemyStartAttack::update()
 {
+	// プレイヤーの座標管理コンポーネントが取得できていなければ、
 	if (m_playerTransform.expired())
 	{
+		// プレイヤーオブジェクトを取得する
 		auto player = tktk::DX12Game::findGameObjectWithTag(GameObjectTag::Player);
 
+		// プレイヤーオブジェクトを取得できなければ処理を終える
 		if (player.expired()) return;
 
+		// プレイヤーの座標管理コンポーネントを取得する
 		m_playerTransform = player->getComponent<tktk::Transform3D>();
 
+		// プレイヤーの座標管理コンポーネントが取得できなければ処理を終える
 		if (m_playerTransform.expired()) return;
 	}
 
@@ -51,9 +56,13 @@ void Act3D_BossEnemyStartAttack::update()
 	// 通常攻撃を行う条件が揃っていたら
 	if (m_selfParam->canNormalAttack() && posDist < NormalAttackStartRange && std::abs(rotateDist) < NormalAttackStartAngleDeg)
 	{
+		// 通常攻撃状態を有効にする
 		getGameObject()->statesEnable({ BossEnemyStateType::Attack, BossEnemyStateType::NormalAttack });
+		
+		// 移動状態を無効にする
 		getGameObject()->statesDisable({ BossEnemyStateType::Move });
 
+		// 攻撃間隔タイマーを通常攻撃の値を使ってリセットする
 		m_selfParam->resetNormalAttackIntervelTimer(NormalAttackIntervalTimeSec);
 	}
 
@@ -67,18 +76,27 @@ void Act3D_BossEnemyStartAttack::update()
 		//}
 		//else
 		{
+			// ローリング攻撃状態を有効にする
 			getGameObject()->statesEnable({ BossEnemyStateType::Attack, BossEnemyStateType::RollAttack });
+			
+			// 移動状態を無効にする
 			getGameObject()->statesDisable({ BossEnemyStateType::Move });
 		}
+
+		// 攻撃間隔タイマーをローリング攻撃の値を使ってリセットする
 		m_selfParam->resetRollAttackIntervelTimer(RollAttackIntervalTimeSec);
 	}
 
 	// ジャンプ攻撃を行う条件が揃っていたら
 	else if (m_selfParam->canJumpAttack() && posDist < JumpAttackStartRange && std::abs(rotateDist) < JumpAttackStartAngleDeg)
 	{
+		// ジャンプ攻撃状態を有効にする
 		getGameObject()->statesEnable({ BossEnemyStateType::Attack, BossEnemyStateType::JumpAttack });
+		
+		// 移動状態を無効にする
 		getGameObject()->statesDisable({ BossEnemyStateType::Move });
 
+		// 攻撃間隔タイマーをジャンプ攻撃の値を使ってリセットする
 		m_selfParam->resetJumpAttackIntervelTimer(JumpAttackIntervalTimeSec);
 	}
 }

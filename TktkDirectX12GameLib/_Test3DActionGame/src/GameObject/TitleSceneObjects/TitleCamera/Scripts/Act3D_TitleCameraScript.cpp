@@ -12,6 +12,6 @@ void Act3D_TitleCameraScript::start()
 
 void Act3D_TitleCameraScript::update()
 {
+	// –ˆƒtƒŒ[ƒ€‚Ì‰ñ“]ˆ—
 	m_selfTransform->addWorldEulerAngles({ 0.0f, RotateSpeedPerSecDeg * tktk::DX12Game::deltaTime(), 0.0f });
-
 }

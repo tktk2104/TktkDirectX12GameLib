@@ -3,6 +3,7 @@
 
 #include <TktkDX12GameLib.h>
 
+// リザルトシーンの文字背景オブジェクト
 struct Act3D_ResultSceneBackGround
 {
 	static tktk::GameObjectPtr create();

@@ -3,6 +3,7 @@
 
 #include <TktkDX12GameLib.h>
 
+// 遠距離攻撃エネミーの移動開始コンポーネント
 class Act3D_ShooterEnemyStartChase
 	: public tktk::ComponentBase
 {
@@ -25,7 +26,10 @@ private:
 
 private:
 
+	// 自身の座標管理コンポーネント
 	tktk::ComponentPtr<tktk::Transform3D>	m_selfTransform;
+
+	// プレイヤーの座標管理コンポーネント
 	tktk::ComponentPtr<tktk::Transform3D>	m_playerTransform;
 };
 #endif // !ACT_3D_SHOOTER_ENEMY_START_CHASE_H_

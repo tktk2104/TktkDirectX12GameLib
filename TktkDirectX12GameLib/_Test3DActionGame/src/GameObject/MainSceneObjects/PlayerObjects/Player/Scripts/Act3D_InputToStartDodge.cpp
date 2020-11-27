@@ -28,8 +28,10 @@ void Act3D_InputToStartDodge::start()
 
 void Act3D_InputToStartDodge::update()
 {
+	// 回避間隔タイマーがゼロではなければ
 	if (m_dodgeIntervelSecTimer > 0.0f)
 	{
+		// タイマーをカウントダウン
 		m_dodgeIntervelSecTimer -= tktk::DX12Game::deltaTime();
 		return;
 	}
@@ -37,32 +39,14 @@ void Act3D_InputToStartDodge::update()
 	// 回避ボタンが押されていたら
 	if (tktk::DX12Game::isTrigger(CommandId::Dodge))
 	{
+		// プレイヤーの移動入力を取得する
+		auto inputMoveVec = tktk::DX12Game::moveVec();
+
 		// 移動方向を取得する
-		auto moveDir = tktkMath::Vector3_v::zero;
+		auto moveDir	= tktkMath::Vector3(inputMoveVec.x, 0.0f, inputMoveVec.y) * m_transform->getWorldRotation();
 
 		// 回転方向を取得する
-		auto rotateDir = tktkMath::Vector3_v::zero;
-
-		if (tktk::DX12Game::isPush(tktk::KeybordKeyType::key_A))
-		{
-			moveDir -= m_transform->calculateWorldRight();
-			rotateDir -= tktkMath::Vector3_v::right;
-		}
-		if (tktk::DX12Game::isPush(tktk::KeybordKeyType::key_D))
-		{
-			moveDir += m_transform->calculateWorldRight();
-			rotateDir += tktkMath::Vector3_v::right;
-		}
-		if (tktk::DX12Game::isPush(tktk::KeybordKeyType::key_W))
-		{
-			moveDir += m_transform->calculateWorldForwardLH();
-			rotateDir += tktkMath::Vector3_v::forwardLH;
-		}
-		if (tktk::DX12Game::isPush(tktk::KeybordKeyType::key_S))
-		{
-			moveDir -= m_transform->calculateWorldForwardLH();
-			rotateDir -= tktkMath::Vector3_v::forwardLH;
-		}
+		auto rotateDir	= tktkMath::Vector3(inputMoveVec.x, 0.0f, inputMoveVec.y);
 
 		// メッシュのローカル回転を移動方向の方を向かせる
 		m_meshDrawer->setBaseRotation(tktkMath::Quaternion::createFromEulerAngle(

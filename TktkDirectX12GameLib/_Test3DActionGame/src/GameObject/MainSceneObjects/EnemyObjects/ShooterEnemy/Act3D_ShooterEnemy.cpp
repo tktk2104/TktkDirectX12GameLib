@@ -8,7 +8,7 @@
 #include "../_CommonEnemyScripts/Act3D_EnemyAttackRangeGenerator.h"
 #include "../_CommonEnemyScripts/Act3D_EnemyJampAttackMoving.h"
 #include "../_CommonEnemyScripts/Act3D_EnemyCollisionReaction.h"
-#include "../_CommonEnemyScripts/Act3D_EnemyDeleteTimer.h"
+#include "../../../_CommonScripts/SelfDeadTimer/Act3D_SelfDeadTimer.h"
 
 #include "Scripts/Act3D_ShooterEnemyParam.h"
 #include "Scripts/Act3D_ShooterEnemyStartChase.h"
@@ -329,7 +329,7 @@ inline void setShooterEnemyDeadState(tktk::GameObjectPtr gameObject)
             .create();
 
         // 一定時間後に自身を消すコンポーネント
-        gameObject->createComponent<Act3D_EnemyDeleteTimer>();
+        gameObject->createComponent<Act3D_SelfDeadTimer>(9.0f);
     }
     // 特定の状態に追加する設定を解除する
     gameObject->setTargetHierarchy({});
@@ -355,11 +355,11 @@ tktk::GameObjectPtr Act3D_ShooterEnemy::create(const tktkMath::Vector3& position
     // 「生存ステート」は「通常」と「ダメージ」の２つのステートから成り立っている
     initParam.addChildNode({ ShooterEnemyStateType::Alive }, { ShooterEnemyStateType::Normal, ShooterEnemyStateType::Damage });
 
-    // 「生存・通常ステート」には「待機」「移動」「攻撃」の３つのステートから成り立っている
+    // 「生存・通常ステート」は「待機」「移動」「攻撃」の３つのステートから成り立っている
     initParam.addChildNode({ ShooterEnemyStateType::Alive, ShooterEnemyStateType::Normal },
         { ShooterEnemyStateType::Idle, ShooterEnemyStateType::Move, ShooterEnemyStateType::Attack });
 
-    // 「生存・通常・攻撃ステート」には「パンチ」「スワイプ」「ジャンプ攻撃」の３つのステートから成り立っている
+    // 「生存・通常・攻撃ステート」は「パンチ」「スワイプ」「ジャンプ攻撃」の３つのステートから成り立っている
     initParam.addChildNode({ ShooterEnemyStateType::Alive, ShooterEnemyStateType::Normal, ShooterEnemyStateType::Attack },
         { ShooterEnemyStateType::Attack_1, ShooterEnemyStateType::Shot });
 

@@ -10,6 +10,7 @@ void Act3D_PlayerEndDamage::onEnable()
 
 void Act3D_PlayerEndDamage::update()
 {
+	// タイマーのカウントがゼロだったら
 	if (m_endDamageSecTimer < 0.0f)
 	{
 		// 通常状態を有効にする
@@ -20,6 +21,6 @@ void Act3D_PlayerEndDamage::update()
 		return;
 	}
 
-	// タイマーを更新する
+	// タイマーをカウントダウンする
 	m_endDamageSecTimer -= tktk::DX12Game::deltaTime();
 }

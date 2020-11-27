@@ -3,6 +3,7 @@
 
 #include <TktkDX12GameLib.h>
 
+// タイトルカメラオブジェクト
 struct Act3D_TitleCamera
 {
 	static tktk::GameObjectPtr create();

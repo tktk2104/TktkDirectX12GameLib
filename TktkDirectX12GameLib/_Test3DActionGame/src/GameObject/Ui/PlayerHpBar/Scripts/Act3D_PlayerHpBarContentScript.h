@@ -18,7 +18,10 @@ public:
 
 private:
 
+	// プレイヤーの能力値のコンポーネント
 	tktk::ComponentPtr<Act3D_PlayerParam> m_playerParam;
+
+	// 座標管理コンポーネント
 	tktk::ComponentPtr<tktk::Transform2D> m_transform;
 };
 #endif // !ACT_3D_PLAYER_HP_BAR_CONTENT_SCRIPT_H_

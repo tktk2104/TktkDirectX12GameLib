@@ -3,6 +3,7 @@
 
 #include <TktkDX12GameLib.h>
 
+// タイトルシーンから遷移させる処理を行うオブジェクト
 struct Act3D_TitleSceneChanger
 {
 	static tktk::GameObjectPtr create();

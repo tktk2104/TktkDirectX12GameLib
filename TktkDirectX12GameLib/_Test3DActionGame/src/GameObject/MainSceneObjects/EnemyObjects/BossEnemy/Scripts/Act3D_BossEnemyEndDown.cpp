@@ -10,6 +10,7 @@ void Act3D_BossEnemyEndDown::onEnable()
 
 void Act3D_BossEnemyEndDown::update()
 {
+	// タイマーのカウントがゼロだったら
 	if (m_endDownUpSecTimer < 0.0f)
 	{
 		// 通常、移動状態を有効にする
@@ -20,6 +21,6 @@ void Act3D_BossEnemyEndDown::update()
 		return;
 	}
 
-	// タイマーを更新する
+	// タイマーをカウントダウンする
 	m_endDownUpSecTimer -= tktk::DX12Game::deltaTime();
 }

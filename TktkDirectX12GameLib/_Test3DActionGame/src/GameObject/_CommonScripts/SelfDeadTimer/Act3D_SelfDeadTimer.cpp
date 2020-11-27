@@ -13,11 +13,14 @@ void Act3D_SelfDeadTimer::start()
 
 void Act3D_SelfDeadTimer::update()
 {
+	// タイマーのカウントがゼロになったら
 	if (m_deadSecTimer < 0.0f)
 	{
+		// このコンポーネントの所持者を殺す
 		getGameObject()->destroy();
 		return;
 	}
 
+	// タイマーをカウントダウン
 	m_deadSecTimer -= tktk::DX12Game::deltaTime();
 }

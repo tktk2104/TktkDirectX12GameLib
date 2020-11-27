@@ -3,6 +3,7 @@
 
 #include <TktkDX12GameLib.h>
 
+// 近接攻撃エネミーのダッシュ移動を開始する処理を行うコンポーネント
 class Act3D_FighterEnemyStartRun
 	: public tktk::ComponentBase
 {
@@ -18,6 +19,7 @@ private:
 
 private:
 
+	// ダッシュを始めるためのタイマー
 	float m_startRunSecTimer{ 0.0f };
 };
 #endif // !ACT3D_FIGHTER_ENEMY_START_RUN_H_

@@ -3,6 +3,7 @@
 
 #include <TktkDX12GameLib.h>
 
+// スカイボックスオブジェクト
 struct Act3D_SkyBox
 {
 	static tktk::GameObjectPtr create();

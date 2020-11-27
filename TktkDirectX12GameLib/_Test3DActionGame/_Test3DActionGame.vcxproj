@@ -184,7 +184,6 @@
     <ClCompile Include="src\GameObject\MainSceneObjects\EnemyObjects\ShooterEnemy\Scripts\Act3D_ShooterEnemyStartChase.cpp" />
     <ClCompile Include="src\GameObject\MainSceneObjects\EnemyObjects\_CommonEnemyScripts\Act3D_EnemyAttackRangeGenerator.cpp" />
     <ClCompile Include="src\GameObject\MainSceneObjects\EnemyObjects\_CommonEnemyScripts\Act3D_EnemyCollisionReaction.cpp" />
-    <ClCompile Include="src\GameObject\MainSceneObjects\EnemyObjects\_CommonEnemyScripts\Act3D_EnemyDeleteTimer.cpp" />
     <ClCompile Include="src\GameObject\MainSceneObjects\EnemyObjects\_CommonEnemyScripts\Act3D_EnemyJampAttackMoving.cpp" />
     <ClCompile Include="src\GameObject\MainSceneObjects\EnemyObjects\_CommonEnemyScripts\Act3D_MoveForward.cpp" />
     <ClCompile Include="src\GameObject\MainSceneObjects\EnemyObjects\_CommonEnemyScripts\Act3D_RotateToPlayer.cpp" />
@@ -285,7 +284,6 @@
     <ClInclude Include="src\GameObject\MainSceneObjects\EnemyObjects\ShooterEnemy\Scripts\Act3D_ShooterEnemyStartChase.h" />
     <ClInclude Include="src\GameObject\MainSceneObjects\EnemyObjects\_CommonEnemyScripts\Act3D_EnemyAttackRangeGenerator.h" />
     <ClInclude Include="src\GameObject\MainSceneObjects\EnemyObjects\_CommonEnemyScripts\Act3D_EnemyCollisionReaction.h" />
-    <ClInclude Include="src\GameObject\MainSceneObjects\EnemyObjects\_CommonEnemyScripts\Act3D_EnemyDeleteTimer.h" />
     <ClInclude Include="src\GameObject\MainSceneObjects\EnemyObjects\_CommonEnemyScripts\Act3D_EnemyJampAttackMoving.h" />
     <ClInclude Include="src\GameObject\MainSceneObjects\EnemyObjects\_CommonEnemyScripts\Act3D_MoveForward.h" />
     <ClInclude Include="src\GameObject\MainSceneObjects\EnemyObjects\_CommonEnemyScripts\Act3D_RotateToPlayer.h" />

@@ -3,6 +3,7 @@
 
 #include <TktkDX12GameLib.h>
 
+// ボスエネミーの移動を開始する処理を行うコンポーネント
 class Act3D_BossEnemyStartChase
 	: public tktk::ComponentBase
 {
@@ -25,7 +26,10 @@ private:
 
 private:
 
+	// 自身の座標管理コンポーネント
 	tktk::ComponentPtr<tktk::Transform3D>	m_selfTransform;
+
+	// プレイヤーの座標管理コンポーネント
 	tktk::ComponentPtr<tktk::Transform3D>	m_playerTransform;
 };
 #endif // !ACT_3D_BOSS_ENEMY_START_CHASE_H_

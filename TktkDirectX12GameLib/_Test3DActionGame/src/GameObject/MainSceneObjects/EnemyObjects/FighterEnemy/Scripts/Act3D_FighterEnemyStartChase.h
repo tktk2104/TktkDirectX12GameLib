@@ -3,6 +3,7 @@
 
 #include <TktkDX12GameLib.h>
 
+// 近距離攻撃エネミーの移動を開始する処理を行うコンポーネント
 class Act3D_FighterEnemyStartChase
 	: public tktk::ComponentBase
 {
@@ -25,7 +26,10 @@ private:
 
 private:
 
+	// 自身の座標管理コンポーネント
 	tktk::ComponentPtr<tktk::Transform3D>	m_selfTransform;
+
+	// プレイヤーの座標管理コンポーネント
 	tktk::ComponentPtr<tktk::Transform3D>	m_playerTransform;
 };
 #endif // !ACT_3D_FIGHTER_ENEMY_START_CHASE_H_

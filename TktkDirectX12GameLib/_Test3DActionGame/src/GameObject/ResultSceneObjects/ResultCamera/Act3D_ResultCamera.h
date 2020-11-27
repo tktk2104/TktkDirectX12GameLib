@@ -3,6 +3,7 @@
 
 #include <TktkDX12GameLib.h>
 
+// リザルトシーンのカメラオブジェクト
 struct Act3D_ResultCamera
 {
 	static tktk::GameObjectPtr create();

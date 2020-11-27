@@ -3,6 +3,7 @@
 
 #include <TktkDX12GameLib.h>
 
+// ジャンプ攻撃の移動を行うコンポーネント
 class Act3D_JampAttackMoving
 	: public tktk::ComponentBase
 {
@@ -32,10 +33,19 @@ private:
 
 private:
 
+	// 垂直移動を開始する時間を表すタイマー
 	float											m_verticalMoveSecTimer		{ 0.0f };
+
+	// 垂直移動を行ったかどうかのフラグ
 	bool											m_afterVerticalMove			{ false };
+
+	// 水平移動を行う時間を表すタイマー
 	float											m_horizontalMoveSecTimer	{ 0.0f };
+
+	// 座標管理コンポーネント
 	tktk::ComponentPtr<tktk::Transform3D>			m_transform;
+
+	// 慣性移動コンポーネント
 	tktk::ComponentPtr<tktk::InertialMovement3D>	m_inertialMovement;
 };
 #endif // !ACT_3D_JAMP_ATTACK_MOVING_H_

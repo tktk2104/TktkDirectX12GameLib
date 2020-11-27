@@ -3,6 +3,7 @@
 
 #include <TktkDX12GameLib.h>
 
+// 遠距離攻撃エネミーオブジェクト
 struct Act3D_ShooterEnemy
 {
 	static tktk::GameObjectPtr create(const tktkMath::Vector3& position, const tktkMath::Vector3& rotation);

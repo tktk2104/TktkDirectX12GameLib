@@ -3,6 +3,7 @@
 
 #include <TktkDX12GameLib.h>
 
+// タイトルシーンの文字背景オブジェクト
 struct Act3D_TitleSceneBackGround
 {
 	static tktk::GameObjectPtr create();

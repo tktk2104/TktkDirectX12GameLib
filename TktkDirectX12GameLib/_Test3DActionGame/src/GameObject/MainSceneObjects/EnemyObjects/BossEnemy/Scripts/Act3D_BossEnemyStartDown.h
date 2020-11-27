@@ -3,6 +3,7 @@
 
 #include <TktkDX12GameLib.h>
 
+// ボスエネミーのダウン状態を開始する処理を行うためのコンポーネント
 class Act3D_BossEnemyStartDown
 	: public tktk::ComponentBase
 {
@@ -22,6 +23,7 @@ private:
 
 private:
 
+	// ダウン状態を開始する処理を行うためのタイマー
 	float m_startDownSecTimer{ 0.0f };
 };
 #endif // !ACT_3D_BOSS_ENEMY_START_DOWN_H_

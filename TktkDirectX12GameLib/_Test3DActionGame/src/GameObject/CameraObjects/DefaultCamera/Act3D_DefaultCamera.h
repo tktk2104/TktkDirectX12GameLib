@@ -3,6 +3,7 @@
 
 #include <TktkDX12GameLib.h>
 
+// デフォルトカメラオブジェクト
 struct Act3D_DefaultCamera
 {
 	static tktk::GameObjectPtr create(const tktkMath::Vector3& position, const tktkMath::Quaternion& rotation);

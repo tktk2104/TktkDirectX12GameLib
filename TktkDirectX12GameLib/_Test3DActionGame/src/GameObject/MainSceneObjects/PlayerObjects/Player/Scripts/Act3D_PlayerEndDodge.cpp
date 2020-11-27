@@ -20,6 +20,7 @@ void Act3D_PlayerEndDodge::onEnable()
 
 void Act3D_PlayerEndDodge::update()
 {
+	// タイマーのカウンタがゼロだったら
 	if (m_endDodgeSecTimer < 0.0f)
 	{
 		// 通常・移動状態を有効にする
@@ -33,6 +34,6 @@ void Act3D_PlayerEndDodge::update()
 		return;
 	}
 
-	// タイマーを更新する
+	// タイマーをカウントダウンする
 	m_endDodgeSecTimer -= tktk::DX12Game::deltaTime();
 }

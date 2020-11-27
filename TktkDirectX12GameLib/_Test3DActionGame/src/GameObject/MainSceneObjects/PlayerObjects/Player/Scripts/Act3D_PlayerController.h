@@ -30,9 +30,13 @@ private:
 
 private:
 
+	// 毎秒の移動速度
 	float m_moveSpeedPerSec;
+
+	// 毎秒の回転速度
 	float m_rotateDegSpeedPerSec;
 
+	// 座標管理コンポーネント
 	tktk::ComponentPtr<tktk::Transform3D>	m_transform;
 };
 #endif // !ACT_3D_PLAYER_CONTROLLER_H_

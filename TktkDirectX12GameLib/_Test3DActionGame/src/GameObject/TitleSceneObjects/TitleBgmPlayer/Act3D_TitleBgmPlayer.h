@@ -3,6 +3,7 @@
 
 #include <TktkDX12GameLib.h>
 
+// タイトルBgmを再生するオブジェクト
 struct Act3D_TitleBgmPlayer
 {
 	static tktk::GameObjectPtr create();

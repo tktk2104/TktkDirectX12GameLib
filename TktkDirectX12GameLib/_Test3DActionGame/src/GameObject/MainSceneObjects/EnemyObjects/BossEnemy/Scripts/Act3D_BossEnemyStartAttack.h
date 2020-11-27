@@ -60,9 +60,16 @@ private: /* ジャンプ攻撃の能力 */
 
 private:
 
+	// 回転攻撃連続成功回数カウンタ
 	unsigned int								m_rollAttackMissCounter	{ 0U };
+
+	// ボスエネミーの能力値のコンポーネント
 	tktk::ComponentPtr<Act3D_BossEnemyParam>	m_selfParam;
+
+	// 自身の座標管理コンポーネント
 	tktk::ComponentPtr<tktk::Transform3D>		m_selfTransform;
+
+	// プレイヤーの座標管理コンポーネント
 	tktk::ComponentPtr<tktk::Transform3D>		m_playerTransform;
 	
 };

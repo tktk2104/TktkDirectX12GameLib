@@ -38,6 +38,7 @@ void Act3D_MainSceneChangerScript::update()
 	const auto& curBlendRate = m_fadeSprite->getBlendRate();
 	m_fadeSprite->setBlendRate(curBlendRate + tktkMath::Color(0.0f, (1.0f / 2.0f) * tktk::DX12Game::deltaTime()));
 
+	// シーンを遷移させる時間になっていたら
 	if (m_sceneChangeSecTimer > SceneChangeTime)
 	{
 		// メインシーンを無効化して

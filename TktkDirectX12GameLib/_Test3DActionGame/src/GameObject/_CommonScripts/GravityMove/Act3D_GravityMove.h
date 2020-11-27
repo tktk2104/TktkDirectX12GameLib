@@ -3,6 +3,7 @@
 
 #include <TktkDX12GameLib.h>
 
+// 重力による移動を行うコンポーネント
 class Act3D_GravityMove
 	: public tktk::ComponentBase
 {
@@ -25,6 +26,7 @@ private:
 
 private:
 
+	// ３次元慣性移動コンポーネント
 	tktk::ComponentPtr<tktk::InertialMovement3D>	m_inertialMovement;
 };
 #endif // !ACT_3D_GRAVITY_MOVE_H_

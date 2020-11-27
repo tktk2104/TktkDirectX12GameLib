@@ -26,6 +26,7 @@ tktk::GameObjectPtr Act3D_ShooterEnemyBullet::create(const tktkMath::Vector3& po
         .initScaleRate(1.0f)
         .create();
 
+    // 単色メッシュを描画するコンポーネント
     tktk::MonoColorMeshDrawerMaker::makeStart(gameObject)
         .setSphereMeshWireFrame()
         .baseScale(0.2f)

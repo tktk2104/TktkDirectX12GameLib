@@ -17,5 +17,6 @@ void Act3D_MoveForward::start()
 
 void Act3D_MoveForward::update()
 {
+	// Ž©g‚ÌˆÚ“®ˆ—
 	m_selfTransform->addLocalPosition(m_selfTransform->calculateLocalForwardLH().normalized() * m_moveSpeedPerSec * tktk::DX12Game::deltaTime());
 }

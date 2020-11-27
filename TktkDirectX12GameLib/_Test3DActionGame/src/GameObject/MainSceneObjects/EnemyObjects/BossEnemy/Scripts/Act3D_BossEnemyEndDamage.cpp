@@ -10,6 +10,7 @@ void Act3D_BossEnemyEndDamage::onEnable()
 
 void Act3D_BossEnemyEndDamage::update()
 {
+	// タイマーのカウントがゼロだったら
 	if (m_endAttackSecTimer < 0.0f)
 	{
 		// ダメージ状態を無効にする
@@ -17,6 +18,6 @@ void Act3D_BossEnemyEndDamage::update()
 		return;
 	}
 
-	// タイマーを更新する
+	// タイマーをカウントダウンする
 	m_endAttackSecTimer -= tktk::DX12Game::deltaTime();
 }

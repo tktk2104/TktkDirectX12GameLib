@@ -10,6 +10,7 @@ void Act3D_BossEnemyStartStandUp::onEnable()
 
 void Act3D_BossEnemyStartStandUp::update()
 {
+	// タイマーのカウントがゼロになっていたら
 	if (m_startStandUpSecTimer < 0.0f)
 	{
 		// 起き上がり状態を有効にする
@@ -20,6 +21,6 @@ void Act3D_BossEnemyStartStandUp::update()
 		return;
 	}
 
-	// タイマーを更新する
+	// タイマーをカウントダウンする
 	m_startStandUpSecTimer -= tktk::DX12Game::deltaTime();
 }

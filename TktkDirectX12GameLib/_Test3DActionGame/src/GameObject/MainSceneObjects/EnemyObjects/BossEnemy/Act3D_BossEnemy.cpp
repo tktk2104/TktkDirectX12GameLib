@@ -9,7 +9,7 @@
 #include "../_CommonEnemyScripts/Act3D_EnemyAttackRangeGenerator.h"
 #include "../_CommonEnemyScripts/Act3D_EnemyJampAttackMoving.h"
 #include "../_CommonEnemyScripts/Act3D_EnemyCollisionReaction.h"
-#include "../_CommonEnemyScripts/Act3D_EnemyDeleteTimer.h"
+#include "../../../_CommonScripts/SelfDeadTimer/Act3D_SelfDeadTimer.h"
 
 #include "Scripts/Act3D_BossEnemyParam.h"
 #include "Scripts/Act3D_BossEnemyDamager.h"
@@ -436,7 +436,7 @@ inline void setBossEnemyDeadState(tktk::GameObjectPtr gameObject)
             .create();
 
         // 一定時間後に自身を消すコンポーネント
-        gameObject->createComponent<Act3D_EnemyDeleteTimer>();
+        gameObject->createComponent<Act3D_SelfDeadTimer>(9.0f);
     }
     // 特定の状態に追加する設定を解除する
     gameObject->setTargetHierarchy({});

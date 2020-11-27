@@ -28,6 +28,7 @@ tktk::GameObjectPtr Act3D_DefaultCamera::create(const tktkMath::Vector3& positio
 		.targetTag(GameObjectTag::Player)
 		.create();
 
+	// スカイボックスオブジェクトをこのオブジェクトの子供に設定する
 	gameObject->addChild(Act3D_SkyBox::create());
 
 	return gameObject;

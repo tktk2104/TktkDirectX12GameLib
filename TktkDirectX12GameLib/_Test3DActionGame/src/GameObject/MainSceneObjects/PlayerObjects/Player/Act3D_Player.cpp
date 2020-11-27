@@ -480,19 +480,17 @@ tktk::GameObjectPtr Act3D_Player::create(const tktkMath::Vector3& position, cons
 
     // ステートマシンを使用する準備を行う
     tktk::StateMachineListInitParam initParam{};
-    initParam.initRootNode({
-            PlayerStateType::Alive,
-            PlayerStateType::Dead
-        });
-    initParam.addChildNode({ PlayerStateType::Alive }, {
-           PlayerStateType::Normal,
-           PlayerStateType::Dodge,
-           PlayerStateType::Damage
-        });
-    initParam.addChildNode({ PlayerStateType::Alive, PlayerStateType::Normal }, {
-           PlayerStateType::Move,
-           PlayerStateType::Attack
-        });
+
+    // 大元のステートは「生存」と「死亡」のどちらか
+    initParam.initRootNode({ PlayerStateType::Alive, PlayerStateType::Dead });
+
+    // 「生存ステート」は「通常」と「回避」「ダメージ」の３つのステートから成り立っている
+    initParam.addChildNode({ PlayerStateType::Alive }, { PlayerStateType::Normal, PlayerStateType::Dodge, PlayerStateType::Damage });
+
+    // 「生存・通常ステート」は「移動」と「攻撃」の２つのステートから成り立っている
+    initParam.addChildNode({ PlayerStateType::Alive, PlayerStateType::Normal }, { PlayerStateType::Move, PlayerStateType::Attack });
+
+    // 「生存・通常・移動ステート」は「待機」と「前方走り」「各方位歩き」ステートから成り立っている
     initParam.addChildNode({ PlayerStateType::Alive, PlayerStateType::Normal, PlayerStateType::Move }, {
             PlayerStateType::Idle,
             PlayerStateType::WalkForward,
@@ -501,11 +499,11 @@ tktk::GameObjectPtr Act3D_Player::create(const tktkMath::Vector3& position, cons
             PlayerStateType::WalkRight,
             PlayerStateType::RunForward
         });
-    initParam.addChildNode({ PlayerStateType::Alive, PlayerStateType::Normal, PlayerStateType::Attack },{
-            PlayerStateType::Attack1,
-            PlayerStateType::Attack2,
-            PlayerStateType::JumpAttack
-        });
+
+    // 「生存・通常・攻撃ステート」は「一段目攻撃」と「二段目攻撃」「ジャンプ攻撃」の３つのステートから成り立っている
+    initParam.addChildNode({ PlayerStateType::Alive, PlayerStateType::Normal, PlayerStateType::Attack },{ PlayerStateType::Attack1, PlayerStateType::Attack2, PlayerStateType::JumpAttack });
+    
+    // ステートマシンの初期化を行う
     gameObject->setupStateMachine(initParam);
 
     // 最初は移動ステート
@@ -582,6 +580,7 @@ tktk::GameObjectPtr Act3D_Player::createCamera(const tktkMath::Vector3& position
         .targetTag(GameObjectTag::Player)
         .create();
 
+    // スカイボックスオブジェクトを子要素に追加する
     gameObject->addChild(Act3D_SkyBox::create());
 
     return gameObject;

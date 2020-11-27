@@ -13,12 +13,14 @@ inline tktk::GameObjectPtr createPlayerHpBarContent()
         .initPosition({ 8.0f, 0.0f })
         .create();
 
+    // 伸縮するHpバーを描画するコンポーネント
     tktk::SpriteDrawerMaker::makeStart(gameObject)
         .drawPriority(7.0f)
         .spriteMaterialId(SpriteId::PlayerHpBar)
         .centerRate({ 0.0f, 0.5f })
         .create();
 
+    // Hpバーを伸縮させるコンポーネント
     gameObject->createComponent<Act3D_PlayerHpBarContentScript>();
 
     return gameObject;
@@ -32,6 +34,7 @@ inline tktk::GameObjectPtr createPlayerHpBarBackGround()
     tktk::Transform2DMaker::makeStart(gameObject)
         .create();
 
+    // Hpバー背景を描画するコンポーネント
     tktk::SpriteDrawerMaker::makeStart(gameObject)
         .drawPriority(6.0f)
         .spriteMaterialId(SpriteId::HpBarBackGround)
@@ -50,6 +53,7 @@ inline tktk::GameObjectPtr createPlayerHpBarGuide()
         .initPosition({ 16.0f, -32.0f })
         .create();
 
+    // Hpバーのガイドを描画するコンポーネント
     tktk::SpriteDrawerMaker::makeStart(gameObject)
         .drawPriority(9.0f)
         .spriteMaterialId(SpriteId::PlayerHpBarGuide)
@@ -70,12 +74,14 @@ tktk::GameObjectPtr Act3D_PlayerHpBar::create(const tktkMath::Vector2& pos)
         .initPosition(pos)
         .create();
 
+    // Hpバーの外枠を描画するコンポーネント
     tktk::SpriteDrawerMaker::makeStart(gameObject)
         .drawPriority(8.0f)
         .spriteMaterialId(SpriteId::HpBarFrame)
         .centerRate({ 0.0f, 0.5f })
         .create();
 
+    // Uiを形成するパーツを自身の子要素に追加する
     gameObject->addChild(createPlayerHpBarBackGround());
     gameObject->addChild(createPlayerHpBarContent());
     gameObject->addChild(createPlayerHpBarGuide());

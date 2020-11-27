@@ -3,10 +3,9 @@
 
 #include <TktkDX12GameLib.h>
 
+// ゲームルールオブジェクト
 struct Act3D_GameRule
 {
-public:
-
 	static tktk::GameObjectPtr create();
 };
 #endif // !ACT_3D_GAME_RULE_H_

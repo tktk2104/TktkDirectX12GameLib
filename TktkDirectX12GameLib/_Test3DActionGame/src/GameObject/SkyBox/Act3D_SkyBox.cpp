@@ -10,7 +10,7 @@ tktk::GameObjectPtr Act3D_SkyBox::create()
     // ３次元座標コンポーネント
     tktk::Transform3DMaker::makeStart(gameObject)
         .initScaleRate(1.0f)
-        .traceType(tktk::TraceParentType::tracePos)
+        .traceType(tktk::TraceParentType::tracePos) // 親の回転とスケーリングを無視する
         .create();
 
     // メッシュ描画コンポーネント

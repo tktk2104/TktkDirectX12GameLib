@@ -3,6 +3,7 @@
 
 #include <TktkDX12GameLib.h>
 
+// プレイヤーの衝突判定リアクションコンポーネント
 class Act3D_PlayerCollisionReaction
 	: public tktk::ComponentBase
 {
