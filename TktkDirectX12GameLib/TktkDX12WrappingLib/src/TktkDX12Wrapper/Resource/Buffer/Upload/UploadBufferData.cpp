@@ -5,7 +5,7 @@ namespace tktk
 	UploadBufferData::UploadBufferData(ID3D12Device* device, const UploadBufferInitParam& initParam)
 		: m_targetBufferType(initParam.targetBufferType)
 		, m_targetBufferHandle(initParam.targetBufferHandle)
-		, m_copyBufferSize(initParam.bufferWidth)
+		, m_uploadBufferSize(initParam.bufferWidth)
 	{
 		D3D12_HEAP_PROPERTIES uploadHeapProp{};
 		uploadHeapProp.Type					= D3D12_HEAP_TYPE_UPLOAD;
@@ -18,7 +18,7 @@ namespace tktk
 		D3D12_RESOURCE_DESC resDesc{};
 		resDesc.Dimension			= D3D12_RESOURCE_DIMENSION_BUFFER;
 		resDesc.Format				= DXGI_FORMAT_UNKNOWN;
-		resDesc.Width				= static_cast<unsigned long long>(initParam.bufferWidth);
+		resDesc.Width				= static_cast<unsigned long long>((initParam.bufferWidth + 0xff) & ~0xff);
 		resDesc.Height				= 1;
 		resDesc.DepthOrArraySize	= 1;
 		resDesc.MipLevels			= 1;
@@ -55,7 +55,7 @@ namespace tktk
 		: m_uploadBuffer(other.m_uploadBuffer)
 		, m_targetBufferType(other.m_targetBufferType)
 		, m_targetBufferHandle(other.m_targetBufferHandle)
-		, m_copyBufferSize(other.m_copyBufferSize)
+		, m_uploadBufferSize(other.m_uploadBufferSize)
 	{
 		D3D12_HEAP_PROPERTIES uploadHeapProp{};
 		uploadHeapProp.Type					= D3D12_HEAP_TYPE_UPLOAD;
@@ -87,7 +87,7 @@ namespace tktk
 		: m_uploadBuffer(other.m_uploadBuffer)
 		, m_targetBufferType(other.m_targetBufferType)
 		, m_targetBufferHandle(other.m_targetBufferHandle)
-		, m_copyBufferSize(other.m_copyBufferSize)
+		, m_uploadBufferSize(other.m_uploadBufferSize)
 	{
 		other.m_uploadBuffer = nullptr;
 	}
@@ -113,7 +113,7 @@ namespace tktk
 
 	void UploadBufferData::copyBuffer(ID3D12GraphicsCommandList* commandList, ID3D12Resource* targetBuffer) const
 	{
-		// 対象のバッファーのバリアを「読み取り」状態から「コピー先」状態に変更する
+		// 対象のバッファーのバリアを「コピー先」状態に変更する
 		D3D12_RESOURCE_BARRIER barrierDesc{};
 		barrierDesc.Type					= D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
 		barrierDesc.Flags					= D3D12_RESOURCE_BARRIER_FLAG_NONE;
@@ -124,11 +124,41 @@ namespace tktk
 		commandList->ResourceBarrier(1, &barrierDesc);
 
 		// GPU間のメモリのコピーを行う
-		commandList->CopyBufferRegion(targetBuffer, 0, m_uploadBuffer, 0, static_cast<unsigned long long>(m_copyBufferSize));
-
-		// 定数バッファーのバリアを「コピー先」状態から「読み取り」状態に変更する
+		commandList->CopyBufferRegion(targetBuffer, 0, m_uploadBuffer, 0, static_cast<unsigned long long>(m_uploadBufferSize));
+		
+		// 定数バッファーのバリアを各種バッファを使用する状態に変更する
 		barrierDesc.Transition.StateBefore	= D3D12_RESOURCE_STATE_COPY_DEST;
 		barrierDesc.Transition.StateAfter	= D3D12_RESOURCE_STATE_GENERIC_READ;
+		commandList->ResourceBarrier(1, &barrierDesc);
+	}
+
+	void UploadBufferData::copyTexture(ID3D12GraphicsCommandList* commandList, ID3D12Resource* targetBuffer, const D3D12_TEXTURE_COPY_LOCATION& srcCopyLoaction) const
+	{
+		// 対象のバッファーのバリアを「コピー先」状態に変更する
+		D3D12_RESOURCE_BARRIER barrierDesc{};
+		barrierDesc.Type					= D3D12_RESOURCE_BARRIER_TYPE_TRANSITION;
+		barrierDesc.Flags					= D3D12_RESOURCE_BARRIER_FLAG_NONE;
+		barrierDesc.Transition.pResource	= targetBuffer;
+		barrierDesc.Transition.Subresource	= D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES;
+		barrierDesc.Transition.StateBefore	= D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE;
+		barrierDesc.Transition.StateAfter	= D3D12_RESOURCE_STATE_COPY_DEST;
+		commandList->ResourceBarrier(1, &barrierDesc);
+
+		// コピー先は「インデックス」指定
+		D3D12_TEXTURE_COPY_LOCATION dst{};
+		dst.pResource			= targetBuffer;
+		dst.Type				= D3D12_TEXTURE_COPY_TYPE_SUBRESOURCE_INDEX;
+		dst.SubresourceIndex	= 0;
+
+		auto src = srcCopyLoaction;
+		src.pResource = m_uploadBuffer;
+
+		// GPU間のメモリのコピーを行う
+		commandList->CopyTextureRegion(&dst, 0, 0, 0, &src, nullptr);
+
+		// 定数バッファーのバリアを各種バッファを使用する状態に変更する
+		barrierDesc.Transition.StateBefore	= D3D12_RESOURCE_STATE_COPY_DEST;
+		barrierDesc.Transition.StateAfter	= D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE;
 		commandList->ResourceBarrier(1, &barrierDesc);
 	}
 }

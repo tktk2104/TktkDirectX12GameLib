@@ -12,7 +12,6 @@ namespace tktk
 		Billboard,
 		Camera,
 		ShadowMap,
-		BoneMatCbuffer,
 		Light,
 		MeshMaterial,
 		MonoColorMesh

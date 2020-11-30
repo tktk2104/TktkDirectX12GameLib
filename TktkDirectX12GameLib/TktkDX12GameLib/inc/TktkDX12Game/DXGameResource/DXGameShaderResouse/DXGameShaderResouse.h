@@ -173,16 +173,6 @@ namespace tktk
 		// スケルトンのコピーを作り、そのリソースのハンドルを返す
 		size_t copySkeleton(size_t originalHandle);
 
-		// 指定のスケルトンの骨情報の定数バッファの値にアップロードするためのバッファを作り、そのハンドルを返す
-		// ※この関数で取得したハンドルは使用後に「DX12GameManager::eraseUploadBuffer(handle)」を必ず読んでバッファを削除してください
-		size_t createSkeletonUploadBufferHandle(size_t handle) const;
-
-		// 指定のスケルトンを使って引数が表すコピーバッファを使い骨情報を管理する定数バッファを更新する
-		void updateBoneMatrixCbuffer(size_t handle, size_t copyBufferHandle) const;
-
-		// 骨情報を管理する定数バッファに単位行列を設定する
-		void resetBoneMatrixCbuffer() const;
-
 	public: /* モーション関係の処理 */
 
 		// vmdファイルを読み込んで「MotionData」のインスタンスを作り、そのリソースのハンドルを返す

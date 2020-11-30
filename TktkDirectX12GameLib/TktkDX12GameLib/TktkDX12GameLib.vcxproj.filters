@@ -417,9 +417,6 @@
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\MeshResouse\Motion\MotionData.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\MeshResouse\Skeleton\BoneMatrixCbufferData.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\MeshResouse\Skeleton\SkeletonData.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>

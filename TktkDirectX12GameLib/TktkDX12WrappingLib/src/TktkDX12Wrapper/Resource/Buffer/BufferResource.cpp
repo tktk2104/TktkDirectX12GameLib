@@ -75,7 +75,12 @@ namespace tktk
 
 		case BufferType::texture:
 
-			m_uploadBuffer->copyBuffer(handle, commandList, m_textureBuffer->getBufferPtr(m_uploadBuffer->getTargetBufferHandle(handle)));
+			m_uploadBuffer->copyTexture(
+				handle,
+				commandList,
+				m_textureBuffer->getBufferPtr(m_uploadBuffer->getTargetBufferHandle(handle)),
+				m_textureBuffer->createSrcCopyLoaction(m_uploadBuffer->getTargetBufferHandle(handle))
+			);
 			break;
 		}
 	}

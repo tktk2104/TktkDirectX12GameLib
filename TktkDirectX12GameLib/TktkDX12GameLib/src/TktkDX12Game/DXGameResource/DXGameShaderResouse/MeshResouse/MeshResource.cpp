@@ -16,7 +16,6 @@
 #include "TktkDX12Game/DXGameResource/DXGameShaderResouse/MeshResouse/Mesh/Structs/MeshShadowMapCBuffer.h"
 #include "TktkDX12Game/DXGameResource/DXGameShaderResouse/MeshResouse/MeshMaterial/Structs/MeshMaterialCbuffer.h"
 #include "TktkDX12Game/DXGameResource/DXGameShaderResouse/MeshResouse/MeshMaterial/Structs/MonoColorMeshCbuffer.h"
-#include "TktkDX12Game/DXGameResource/DXGameShaderResouse/MeshResouse/Skeleton/BoneMatrixCbufferData.h"
 
 namespace tktk
 {
@@ -38,7 +37,20 @@ namespace tktk
 		// メッシュ描画に必要な定数バッファを作る
 		DX12GameManager::setSystemHandle(SystemCBufferType::MeshMaterial,	DX12GameManager::createCBuffer(MeshMaterialCbuffer()));
 		DX12GameManager::setSystemHandle(SystemCBufferType::MonoColorMesh,	DX12GameManager::createCBuffer(MonoColorMeshCbuffer()));
-		DX12GameManager::setSystemHandle(SystemCBufferType::BoneMatCbuffer,	DX12GameManager::createCBuffer(BoneMatrixCbufferData()));
+
+		// メッシュ描画に必要なテクスチャバッファを作る
+		TexBufFormatParam formatParam{};
+		formatParam.resourceDimension	= D3D12_RESOURCE_DIMENSION_TEXTURE2D;
+		formatParam.format				= DXGI_FORMAT_R32G32B32A32_FLOAT;
+		formatParam.arraySize			= 1U;
+		formatParam.mipLevels			= 1U;
+		formatParam.sampleDescCount		= 1U;
+		formatParam.sampleDescQuality	= 0U;
+		TexBuffData buffdata{};
+		buffdata.textureData	= std::vector<unsigned char>(sizeof(tktkMath::Matrix4) * 128U * 128U);
+		buffdata.width			= (sizeof(tktkMath::Matrix4) * 128U) / 16U;
+		buffdata.height			= 128U;
+		DX12GameManager::setSystemHandle(SystemTextureBufferType::MeshBoneMatrix, DX12GameManager::gpuPriorityCreateTextureBuffer(formatParam, buffdata));
 
         // 各種リソースクラスを作る
         m_skeleton              = std::make_unique<SkeletonManager>(initParam.skeletonMgrParam);
@@ -75,21 +87,6 @@ namespace tktk
     size_t MeshResource::copySkeleton(size_t originalHandle)
     {
         return m_skeleton->copy(originalHandle);
-    }
-
-    size_t MeshResource::createSkeletonUploadBufferHandle(size_t handle) const
-    {
-        return m_skeleton->createUploadBufferHandle(handle);
-    }
-
-    void MeshResource::updateBoneMatrixCbuffer(size_t handle, size_t copyBufferHandle) const
-    {
-        m_skeleton->updateBoneMatrixCbuffer(handle, copyBufferHandle);
-    }
-
-    void MeshResource::resetBoneMatrixCbuffer() const
-    {
-        m_skeleton->resetBoneMatrixCbuffer();
     }
 
     size_t MeshResource::loadMotion(const std::string& motionFileName)
@@ -225,16 +222,17 @@ namespace tktk
 		// 共通の初期化変数
 		RootSignatureInitParam initParam{};
 		initParam.flag = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
+		initParam.rootParamArray.resize(3U);
+		initParam.rootParamArray.at(0U).shaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
+		initParam.rootParamArray.at(0U).descriptorTable = { { 3U, D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 0U } };	// PSテクスチャ用
+		initParam.rootParamArray.at(1U).shaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;
+		initParam.rootParamArray.at(1U).descriptorTable = { { 3U, D3D12_DESCRIPTOR_RANGE_TYPE_CBV, 0U } };	// VS定数バッファ用
+		initParam.rootParamArray.at(2U).shaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
+		initParam.rootParamArray.at(2U).descriptorTable = { { 2U, D3D12_DESCRIPTOR_RANGE_TYPE_CBV, 0U } };	// PS定数バッファ用
+
 		//****************************************************************************************************
 		// シンプルメッシュのルートシグネチャを作る
-		initParam.rootParamArray.resize(3U);
-		initParam.rootParamArray.at(0U).shaderVisibility	= D3D12_SHADER_VISIBILITY_PIXEL;
-		initParam.rootParamArray.at(0U).descriptorTable		= { { 2U, D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 0U } };	// PSテクスチャ用
-		initParam.rootParamArray.at(1U).shaderVisibility	= D3D12_SHADER_VISIBILITY_VERTEX;
-		initParam.rootParamArray.at(1U).descriptorTable		= { { 3U, D3D12_DESCRIPTOR_RANGE_TYPE_CBV, 0U } };	// VS定数バッファ用
-		initParam.rootParamArray.at(2U).shaderVisibility	= D3D12_SHADER_VISIBILITY_PIXEL;
-		initParam.rootParamArray.at(2U).descriptorTable		= { { 2U, D3D12_DESCRIPTOR_RANGE_TYPE_CBV, 0U } };	// PS定数バッファ用
-		initParam.samplerDescArray.resize(2U);
+		initParam.samplerDescArray.resize(3U);
 		{/* サンプラーの設定 */
 			initParam.samplerDescArray.at(0U).addressU = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
 			initParam.samplerDescArray.at(0U).addressV = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
@@ -259,13 +257,25 @@ namespace tktk
 			initParam.samplerDescArray.at(1U).comparisonFunc = D3D12_COMPARISON_FUNC_NEVER;
 			initParam.samplerDescArray.at(1U).shaderRegister = 1U;
 		}
+		{/* サンプラーの設定 */
+			initParam.samplerDescArray.at(2U).addressU = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
+			initParam.samplerDescArray.at(2U).addressV = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
+			initParam.samplerDescArray.at(2U).addressW = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
+			initParam.samplerDescArray.at(2U).bordercolor = D3D12_STATIC_BORDER_COLOR_TRANSPARENT_BLACK;
+			initParam.samplerDescArray.at(2U).filter = D3D12_FILTER_MIN_MAG_MIP_LINEAR;
+			initParam.samplerDescArray.at(2U).maxLod = D3D12_FLOAT32_MAX;
+			initParam.samplerDescArray.at(2U).minLod = 0.0f;
+			initParam.samplerDescArray.at(2U).shaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
+			initParam.samplerDescArray.at(2U).comparisonFunc = D3D12_COMPARISON_FUNC_NEVER;
+			initParam.samplerDescArray.at(2U).shaderRegister = 2U;
+		}
 		DX12GameManager::setSystemHandle(SystemRootSignatureType::SimpleMesh, DX12GameManager::createRootSignature(initParam));
 
 		//****************************************************************************************************
 		// スキニングメッシュのルートシグネチャを作る
-		initParam.rootParamArray.at(0U).descriptorTable = { { 2U, D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 0U } };	// PSテクスチャ用
-		initParam.rootParamArray.at(1U).descriptorTable = { { 4U, D3D12_DESCRIPTOR_RANGE_TYPE_CBV, 0U } };	// VS定数バッファ用
-		initParam.rootParamArray.at(2U).descriptorTable = { { 2U, D3D12_DESCRIPTOR_RANGE_TYPE_CBV, 0U } };	// PS定数バッファ用
+		initParam.rootParamArray.resize(4U);
+		initParam.rootParamArray.at(3U).shaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;
+		initParam.rootParamArray.at(3U).descriptorTable = { { 1U, D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 0U } };	// VSテクスチャ用
 		/* サンプラーの設定は“シンプルメッシュのルートシグネチャ”と同じ */
 		DX12GameManager::setSystemHandle(SystemRootSignatureType::SkinningMesh, DX12GameManager::createRootSignature(initParam));
 	}
@@ -345,18 +355,20 @@ namespace tktk
 		// 共通の初期化変数
 		RootSignatureInitParam initParam{};
 		initParam.flag = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
-
-		//****************************************************************************************************
-		// 単色シンプルメッシュのルートシグネチャを作る
 		initParam.rootParamArray.resize(1U);
 		initParam.rootParamArray.at(0U).shaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;
 		initParam.rootParamArray.at(0U).descriptorTable = { { 1U, D3D12_DESCRIPTOR_RANGE_TYPE_CBV, 0U } };	// VS定数バッファ用
+
+		//****************************************************************************************************
+		// 単色シンプルメッシュのルートシグネチャを作る
 		initParam.samplerDescArray.resize(0U);
 		DX12GameManager::setSystemHandle(SystemRootSignatureType::MonoColorSimpleMesh, DX12GameManager::createRootSignature(initParam));
 
 		//****************************************************************************************************
 		// 単色スキニングメッシュのルートシグネチャを作る
-		initParam.rootParamArray.at(0U).descriptorTable = { { 2U, D3D12_DESCRIPTOR_RANGE_TYPE_CBV, 0U } };	// VS定数バッファ用
+		initParam.rootParamArray.resize(2U);
+		initParam.rootParamArray.at(1U).shaderVisibility	= D3D12_SHADER_VISIBILITY_VERTEX;
+		initParam.rootParamArray.at(1U).descriptorTable		= { { 1U, D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 0U } };	// VSテクスチャ用
 		/* サンプラーの設定は“単色シンプルメッシュのルートシグネチャ”と同じ */
 		DX12GameManager::setSystemHandle(SystemRootSignatureType::MonoColorSkinningMesh, DX12GameManager::createRootSignature(initParam));
 	}
@@ -438,30 +450,19 @@ namespace tktk
 		RootSignatureInitParam initParam{};
 		initParam.flag = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
 		initParam.rootParamArray.resize(1U);
-		{/* 定数バッファ用のルートパラメータ */
-			initParam.rootParamArray.at(0).shaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;
-		}
-		initParam.samplerDescArray.resize(1U);
-		{/* サンプラーの設定 ※いらなくね？ */
-			initParam.samplerDescArray.at(0).addressU = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
-			initParam.samplerDescArray.at(0).addressV = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
-			initParam.samplerDescArray.at(0).addressW = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
-			initParam.samplerDescArray.at(0).bordercolor = D3D12_STATIC_BORDER_COLOR_TRANSPARENT_BLACK;
-			initParam.samplerDescArray.at(0).filter = D3D12_FILTER_MIN_MAG_MIP_LINEAR;
-			initParam.samplerDescArray.at(0).maxLod = D3D12_FLOAT32_MAX;
-			initParam.samplerDescArray.at(0).minLod = 0.0f;
-			initParam.samplerDescArray.at(0).shaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
-			initParam.samplerDescArray.at(0).comparisonFunc = D3D12_COMPARISON_FUNC_NEVER;
-		}
+		initParam.rootParamArray.at(0U).shaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;
+		initParam.rootParamArray.at(0U).descriptorTable = { { 1U, D3D12_DESCRIPTOR_RANGE_TYPE_CBV, 0U } };
+		initParam.samplerDescArray.resize(0U);
 
 		//****************************************************************************************************
 		// シンプルメッシュのシャドウマップ用ルートシグネチャを作る
-		initParam.rootParamArray.at(0).descriptorTable = { { 1U, D3D12_DESCRIPTOR_RANGE_TYPE_CBV, 0U } };
 		DX12GameManager::setSystemHandle(SystemRootSignatureType::SimpleMeshShadowMap, DX12GameManager::createRootSignature(initParam));
 
 		//****************************************************************************************************
 		// スキニングメッシュのシャドウマップ用ルートシグネチャを作る
-		initParam.rootParamArray.at(0).descriptorTable = { { 2U, D3D12_DESCRIPTOR_RANGE_TYPE_CBV, 0U } };
+		initParam.rootParamArray.resize(2U);
+		initParam.rootParamArray.at(1U).shaderVisibility	= D3D12_SHADER_VISIBILITY_VERTEX;
+		initParam.rootParamArray.at(1U).descriptorTable		= { { 1U, D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 0U } };	// VSテクスチャ用
 		DX12GameManager::setSystemHandle(SystemRootSignatureType::SkinningMeshShadowMap, DX12GameManager::createRootSignature(initParam));
 	}
 
@@ -514,21 +515,18 @@ namespace tktk
 		BasicDescriptorHeapInitParam initParam{};
 		initParam.shaderVisible = true;
 		initParam.descriptorTableParamArray.resize(1U);
-		{ /* コンスタントバッファービューのディスクリプタの情報 */
-			initParam.descriptorTableParamArray.at(0U).type = BasicDescriptorType::constantBuffer;
-		}
+		initParam.descriptorTableParamArray.at(0U).type					= BasicDescriptorType::constantBuffer;
+		initParam.descriptorTableParamArray.at(0U).descriptorParamArray = { { BufferType::constant, DX12GameManager::getSystemHandle(SystemCBufferType::Camera) } };
 
 		//****************************************************************************************************
 		// シンプルメッシュのシャドウマップ用のディスクリプタヒープを作る
-		initParam.descriptorTableParamArray.at(0U).descriptorParamArray = { { BufferType::constant, DX12GameManager::getSystemHandle(SystemCBufferType::Camera) } };
 		DX12GameManager::setSystemHandle(SystemBasicDescriptorHeapType::SimpleMeshShadowMap, DX12GameManager::createBasicDescriptorHeap(initParam));
 
 		//****************************************************************************************************
 		// スキニングメッシュのシャドウマップ用のディスクリプタヒープを作る
-		initParam.descriptorTableParamArray.at(0U).descriptorParamArray = {
-			{ BufferType::constant,	DX12GameManager::getSystemHandle(SystemCBufferType::Camera)	},
-			{ BufferType::constant,	DX12GameManager::getSystemHandle(SystemCBufferType::BoneMatCbuffer)	}
-		};
+		initParam.descriptorTableParamArray.resize(2U);
+		initParam.descriptorTableParamArray.at(1U).type = BasicDescriptorType::textureBuffer;
+		initParam.descriptorTableParamArray.at(1U).descriptorParamArray = { { BufferType::texture,	DX12GameManager::getSystemHandle(SystemTextureBufferType::MeshBoneMatrix)} };
 		DX12GameManager::setSystemHandle(SystemBasicDescriptorHeapType::SkinningMeshShadowMap, DX12GameManager::createBasicDescriptorHeap(initParam));
 	}
 }

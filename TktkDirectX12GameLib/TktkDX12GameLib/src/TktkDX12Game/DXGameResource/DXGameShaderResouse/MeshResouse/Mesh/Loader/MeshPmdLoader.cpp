@@ -91,16 +91,17 @@ namespace tktk
 			{
 				BasicDescriptorHeapInitParam descriptorHeapInitParam{};
 				descriptorHeapInitParam.shaderVisible = true;
-				descriptorHeapInitParam.descriptorTableParamArray.resize(3U);
+				descriptorHeapInitParam.descriptorTableParamArray.resize(4U);
 
 				{ /* シェーダーリソースビューのディスクリプタの情報 */
 					auto& srvDescriptorParam = descriptorHeapInitParam.descriptorTableParamArray.at(0U);
 					srvDescriptorParam.type = BasicDescriptorType::textureBuffer;
 
-					// アルベドマップとシャドウマップの２種類
+					// アルベドマップとシャドウマップとノーマルマップの３種類
 					srvDescriptorParam.descriptorParamArray = {
-						{ BufferType::texture,		createdTextureBufferHandle									},
-						{ BufferType::depthStencil, DX12GameManager::getSystemHandle(SystemDsBufferType::ShadowMap)	}
+						{ BufferType::texture,		createdTextureBufferHandle												},
+						{ BufferType::depthStencil, DX12GameManager::getSystemHandle(SystemDsBufferType::ShadowMap)			},
+						{ BufferType::texture,		DX12GameManager::getSystemHandle(SystemTextureBufferType::FlatNormal4x4)}
 					};
 				}
 
@@ -108,12 +109,11 @@ namespace tktk
 					auto& cbufferViewDescriptorParam = descriptorHeapInitParam.descriptorTableParamArray.at(1U);
 					cbufferViewDescriptorParam.type = BasicDescriptorType::constantBuffer;
 
-					// カメラ、ライト、シャドウマップ、ボーン行列の４つ
+					// カメラ、ライト、シャドウマップの３つ
 					cbufferViewDescriptorParam.descriptorParamArray = {
-						{ BufferType::constant,		DX12GameManager::getSystemHandle(SystemCBufferType::Camera)			},
-						{ BufferType::constant,		DX12GameManager::getSystemHandle(SystemCBufferType::Light)			},
-						{ BufferType::constant,		DX12GameManager::getSystemHandle(SystemCBufferType::ShadowMap)		},
-						{ BufferType::constant,		DX12GameManager::getSystemHandle(SystemCBufferType::BoneMatCbuffer)	}
+						{ BufferType::constant,		DX12GameManager::getSystemHandle(SystemCBufferType::Camera)		},
+						{ BufferType::constant,		DX12GameManager::getSystemHandle(SystemCBufferType::Light)		},
+						{ BufferType::constant,		DX12GameManager::getSystemHandle(SystemCBufferType::ShadowMap)	}
 					};
 				}
 
@@ -121,12 +121,23 @@ namespace tktk
 					auto& cbufferViewDescriptorParam = descriptorHeapInitParam.descriptorTableParamArray.at(2U);
 					cbufferViewDescriptorParam.type = BasicDescriptorType::constantBuffer;
 
-					// 
+					// ライト、メッシュマテリアルの２つ
 					cbufferViewDescriptorParam.descriptorParamArray = {
-						{ BufferType::constant,		DX12GameManager::getSystemHandle(SystemCBufferType::Light)		},
+						{ BufferType::constant,		DX12GameManager::getSystemHandle(SystemCBufferType::Light)			},
 						{ BufferType::constant,		DX12GameManager::getSystemHandle(SystemCBufferType::MeshMaterial)	}
 					};
 				}
+
+				{ /* シェーダーリソースビューのディスクリプタの情報 */
+					auto& srvDescriptorParam = descriptorHeapInitParam.descriptorTableParamArray.at(3U);
+					srvDescriptorParam.type = BasicDescriptorType::textureBuffer;
+
+					// 骨行列テクスチャの１種類
+					srvDescriptorParam.descriptorParamArray = {
+						{ BufferType::texture,		DX12GameManager::getSystemHandle(SystemTextureBufferType::MeshBoneMatrix) }
+					};
+				}
+
 				materialParam.useDescriptorHeapHandle = DX12GameManager::createBasicDescriptorHeap(descriptorHeapInitParam);
 			}
 

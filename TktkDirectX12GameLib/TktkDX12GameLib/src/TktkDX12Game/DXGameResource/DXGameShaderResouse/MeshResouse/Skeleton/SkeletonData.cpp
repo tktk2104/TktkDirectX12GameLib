@@ -1,7 +1,6 @@
 #include "TktkDX12Game/DXGameResource/DXGameShaderResouse/MeshResouse/Skeleton/SkeletonData.h"
 
 #include "TktkDX12Game/_MainManager/DX12GameManager.h"
-#include "TktkDX12Game/DXGameResource/DXGameShaderResouse/MeshResouse/Skeleton/BoneMatrixCbufferData.h"
 #include "TktkDX12Game/DXGameResource/DXGameShaderResouse/MeshResouse/Skeleton/SkeletonInitParam.h"
 #include "TktkDX12Game/DXGameResource/DXGameShaderResouse/MeshResouse/Motion/MotionBoneParam.h"
 
@@ -74,11 +73,6 @@ namespace tktk
 	{
 	}
 
-	size_t SkeletonData::createUploadBufferHandle() const
-	{
-		return DX12GameManager::createUploadBuffer(UploadBufferInitParam::create(BufferType::constant, DX12GameManager::getSystemHandle(SystemCBufferType::BoneMatCbuffer), BoneMatrixCbufferData()));
-	}
-
 	void SkeletonData::transform(const std::vector<MotionBoneParam>& transformMatrices)
 	{
 		// 骨行列を単位行列で初期化する
@@ -127,16 +121,6 @@ namespace tktk
 		return result;
 	}
 
-	void SkeletonData::updateBoneMatrixCbuffer(size_t copyBufferHandle) const
-	{
-		// 定数バッファのコピー用バッファを更新する
-		// TODO : 前フレームと定数バッファに変化がない場合、更新しない処理を作る
-		updateCopyBuffer(copyBufferHandle);
-
-		//  骨情報の定数バッファにコピーバッファの情報をコピーする
-		DX12GameManager::copyBuffer(copyBufferHandle);
-	}
-
 	void SkeletonData::transform(const SkeletonData::BoneNode* boneNode, const tktkMath::Matrix4& transformMat)
 	{
 		// 引数の骨情報に対応する骨行列を引数の行列で座標変換する
@@ -148,22 +132,5 @@ namespace tktk
 			// 子要素と座標変換した骨行列を引数に自身を再起呼び出しする
 			transform(children, m_boneMatrixArray.at(boneNode->boneIndex));
 		}
-	}
-
-	void SkeletonData::updateCopyBuffer(size_t copyBufferHandle) const
-	{
-		BoneMatrixCbufferData boneMatBuf;
-
-		// 定数バッファ上の骨行列の上限値分ループする
-		for (size_t i = 0; i < 128U; i++)
-		{
-			// 骨行列を最後まで書き込んでいたらループを終了する
-			if (i >= m_boneMatrixArray.size()) break;
-
-			// 骨行列を書き込む
-			boneMatBuf.boneMatrix[i] = m_boneMatrixArray.at(i);
-		}
-
-		DX12GameManager::updateUploadBuffer(copyBufferHandle, boneMatBuf);
 	}
 }

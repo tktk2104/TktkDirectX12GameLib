@@ -129,4 +129,9 @@ namespace tktk
 	{
 		return m_textureBufferDataArray.getMatchHandlePtr(handle)->getBufferPtr();
 	}
+
+	D3D12_TEXTURE_COPY_LOCATION TextureBuffer::createSrcCopyLoaction(size_t handle) const
+	{
+		return m_textureBufferDataArray.getMatchHandlePtr(handle)->createSrcCopyLoaction();
+	}
 }

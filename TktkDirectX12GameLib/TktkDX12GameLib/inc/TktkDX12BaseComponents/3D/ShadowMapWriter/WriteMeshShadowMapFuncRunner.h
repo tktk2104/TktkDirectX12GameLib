@@ -11,7 +11,7 @@ namespace tktk
 	{
 	public:
 
-		WriteMeshShadowMapFuncRunner(size_t meshHandle, bool useBone, size_t skeletonHandle);
+		WriteMeshShadowMapFuncRunner(size_t meshHandle, bool useBone);
 
 	public:
 
@@ -31,9 +31,6 @@ namespace tktk
 
 		// 使用するリソースハンドル
 		size_t m_meshHandle;
-
-		size_t m_skeletonHandle{ 0U };
-		size_t m_createUploadBoneMatrixCbufferHandle{ 0U };
 
 		// アップロード用バッファハンドル
 		size_t m_createUploadCameraCbufferHandle{ 0U };

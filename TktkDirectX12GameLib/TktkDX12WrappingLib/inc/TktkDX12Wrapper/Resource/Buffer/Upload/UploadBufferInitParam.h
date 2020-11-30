@@ -27,7 +27,7 @@ namespace tktk
 		UploadBufferInitParam(BufferType targetBufferType, size_t targetBufferHandle, size_t bufferWidth, const void* dataTopPos)
 			: targetBufferType(targetBufferType)
 			, targetBufferHandle(targetBufferHandle)
-			, bufferWidth((bufferWidth + 0xff) & ~0xff)
+			, bufferWidth(bufferWidth)
 			, dataTopPos(dataTopPos) {}
 
 	public:

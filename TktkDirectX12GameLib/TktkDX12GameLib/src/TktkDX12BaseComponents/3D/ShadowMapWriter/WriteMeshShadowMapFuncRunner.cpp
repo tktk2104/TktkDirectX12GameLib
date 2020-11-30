@@ -5,11 +5,10 @@
 
 namespace tktk
 {
-	WriteMeshShadowMapFuncRunner::WriteMeshShadowMapFuncRunner(size_t meshHandle, bool useBone, size_t skeletonHandle)
+	WriteMeshShadowMapFuncRunner::WriteMeshShadowMapFuncRunner(size_t meshHandle, bool useBone)
 		: ComponentBase(-1000.0f)
 		, m_meshHandle(meshHandle)
 		, m_useBone(useBone)
-		, m_skeletonHandle(skeletonHandle)
 	{
 	}
 
@@ -17,36 +16,18 @@ namespace tktk
 	{
 		// アップロード用バッファを作り、そのハンドルを取得する
 		m_createUploadCameraCbufferHandle = DX12GameManager::createUploadBuffer(UploadBufferInitParam::create(BufferType::constant, DX12GameManager::getSystemHandle(SystemCBufferType::Camera), CameraCbuffer()));
-		
-		// もしスケルトンが設定されていたらアップロード用バッファを作る
-		if (m_skeletonHandle != 0U) m_createUploadBoneMatrixCbufferHandle = DX12GameManager::createSkeletonUploadBufferHandle(m_skeletonHandle);
 	}
 
 	void WriteMeshShadowMapFuncRunner::onDestroy()
 	{
 		// アップロード用バッファを削除する
 		DX12GameManager::eraseUploadBuffer(m_createUploadCameraCbufferHandle);
-
-		DX12GameManager::eraseUploadBuffer(m_createUploadBoneMatrixCbufferHandle);
 	}
 
 	void WriteMeshShadowMapFuncRunner::draw() const
 	{
 		// カメラ情報定数バッファの更新
 		updateCameraCbuffer();
-
-		// もしスケルトンが未設定だったら
-		if (m_skeletonHandle == 0U)
-		{
-			// ボーン情報の定数バッファを単位行列で初期化
-			DX12GameManager::resetBoneMatrixCbuffer();
-		}
-		// そうでなければ
-		else
-		{
-			// ボーン行列の定数バッファを更新する
-			DX12GameManager::updateBoneMatrixCbuffer(m_skeletonHandle, m_createUploadBoneMatrixCbufferHandle);
-		}
 
 		if (m_useBone)
 		{

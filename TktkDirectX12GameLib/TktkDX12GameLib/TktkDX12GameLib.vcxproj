@@ -324,7 +324,6 @@
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\MeshResouse\Motion\MotionManager.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\MeshResouse\Motion\MotionBoneParam.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\MeshResouse\Motion\MotionData.h" />
-    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\MeshResouse\Skeleton\BoneMatrixCbufferData.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\MeshResouse\Skeleton\SkeletonManager.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\MeshResouse\Skeleton\SkeletonData.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\MeshResouse\Skeleton\SkeletonInitParam.h" />

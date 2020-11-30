@@ -2,22 +2,22 @@
 // ライト計算に必要な情報
 cbuffer LightBuffer : register(b0)
 {
-	float4		lightAmbient;
-	float4		lightDiffuse;
-	float4		lightSpeqular;
-	float3		lightPosition;
-	float		lightDataPad;
+	float4	lightAmbient;
+	float4	lightDiffuse;
+	float4	lightSpeqular;
+	float3	lightPosition;
+	float	lightDataPad;
 }
 
 // マテリアルの情報
 cbuffer MaterialBuffer : register(b1)
 {
-	float4		materialAmbient;
-	float4		materialDiffuse;
-	float4		materialSpecular;
-	float4		materialEmissive;
-	float		materialShiniess;
-	float3		materialDataPad;
+	float4	materialAmbient;
+	float4	materialDiffuse;
+	float4	materialSpecular;
+	float4	materialEmissive;
+	float	materialShiniess;
+	float3	materialDataPad;
 }
 
 // 入力頂点情報
@@ -38,14 +38,14 @@ Texture2D		g_AlbedoMapTexture  : register(t0);
 SamplerState		g_LightDepthSampler : register(s1);
 Texture2D<float>	g_LightDepthTexture	: register(t1);
 
-//// 法線マップ
-//SamplerState g_NormalMapSampler  : register(s1);
-//Texture2D    g_NormalMapTexture  : register(t1);
+// 法線マップ
+SamplerState g_NormalMapSampler  : register(s2);
+Texture2D    g_NormalMapTexture  : register(t2);
 
 // 環境光、鏡面反射光、拡散反射光、自己発光を考慮したライティングシェーダー
 float4 main(PS_INPUT Input) : SV_TARGET
 {
-	float3 N = float3(0.0, 0.0, 1.0);//g_NormalMapTexture.Sample(g_NormalMapSampler, Input.TexCoord).xyz
+	float3 N = g_NormalMapTexture.Sample(g_NormalMapSampler, Input.TexCoord).xyz;
 	float3 V = normalize(Input.View);
 	float3 L = normalize(Input.VLight);
 	float3 H = normalize(L + V);

@@ -51,6 +51,9 @@ namespace tktk
 		// 自身のバッファのポインタを取得する
 		ID3D12Resource* getBufferPtr() const;
 
+		// テクスチャバッファのコピーに使用するフットプリント指定の設定情報構造体を作る
+		D3D12_TEXTURE_COPY_LOCATION createSrcCopyLoaction() const;
+
 	private:
 
 		tktkMath::Vector3	m_textureSize	{ 1.0f, 1.0f, 1.0f };

@@ -38,6 +38,9 @@ namespace tktk
 		// 引数のバッファに指定のアップロードバッファの内容をアップロードするGPU命令を行う
 		void copyBuffer(size_t handle, ID3D12GraphicsCommandList* commandList, ID3D12Resource* targetBuffer) const;
 
+		// 引数のテクスチャバッファに指定のアップロードバッファの内容をアップロードするGPU命令を行う
+		void copyTexture(size_t handle, ID3D12GraphicsCommandList* commandList, ID3D12Resource* targetBuffer, const D3D12_TEXTURE_COPY_LOCATION& srcCopyLoaction) const;
+
 	private:
 
 		tktkContainer::ResourceContainer<UploadBufferData> m_uploadBufferDataArray;

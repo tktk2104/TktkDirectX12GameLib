@@ -41,4 +41,9 @@ namespace tktk
 	{
 		m_uploadBufferDataArray.getMatchHandlePtr(handle)->copyBuffer(commandList, targetBuffer);
 	}
+
+	void UploadBuffer::copyTexture(size_t handle, ID3D12GraphicsCommandList* commandList, ID3D12Resource* targetBuffer, const D3D12_TEXTURE_COPY_LOCATION& srcCopyLoaction) const
+	{
+		m_uploadBufferDataArray.getMatchHandlePtr(handle)->copyTexture(commandList, targetBuffer, srcCopyLoaction);
+	}
 }

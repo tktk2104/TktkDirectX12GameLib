@@ -20,6 +20,13 @@ namespace tktk
 	{
 		// インスタンス描画用の頂点バッファを作る
 		m_instanceParamVertexBufferHandle = DX12GameManager::createVertexBuffer(initParam.instanceVertParam);
+
+		// 骨情報テクスチャ更新用のアップロードバッファを作る
+		m_boneMatrixTextureBufferHandle = DX12GameManager::createUploadBuffer(UploadBufferInitParam::create(
+			BufferType::texture,
+			DX12GameManager::getSystemHandle(SystemTextureBufferType::MeshBoneMatrix),
+			std::vector<unsigned char>(sizeof(tktkMath::Matrix4) * 128U * 128, 0U)
+		));
 	}
 
 	MeshData::MeshData(const MeshData& other)
@@ -39,6 +46,13 @@ namespace tktk
 
 		// インスタンス描画用の頂点バッファを作る
 		m_instanceParamVertexBufferHandle = DX12GameManager::createVertexBuffer(vertBufferData);
+
+		// 骨情報テクスチャ更新用のアップロードバッファを作る
+		m_boneMatrixTextureBufferHandle = DX12GameManager::createUploadBuffer(UploadBufferInitParam::create(
+			BufferType::texture,
+			DX12GameManager::getSystemHandle(SystemTextureBufferType::MeshBoneMatrix),
+			std::vector<unsigned char>(sizeof(tktkMath::Matrix4) * 128U * 128)
+		));
 	}
 
 	MeshData::MeshData(MeshData&& other) noexcept
@@ -90,7 +104,19 @@ namespace tktk
 
 	void MeshData::addInstanceBoneMatrix(const std::array<tktkMath::Matrix4, 128>& boneMatrix)
 	{
-		m_instanceBoneMatrixList.push_front(boneMatrix);
+		auto invertBoneMatrix = boneMatrix;
+
+		for (auto& matrix : invertBoneMatrix)
+		{
+			matrix = tktkMath::Matrix4(
+				matrix.m[0][0], matrix.m[1][0], matrix.m[2][0], matrix.m[3][0],
+				matrix.m[0][1], matrix.m[1][1], matrix.m[2][1], matrix.m[3][1],
+				matrix.m[0][2], matrix.m[1][2], matrix.m[2][2], matrix.m[3][2],
+				matrix.m[0][3], matrix.m[1][3], matrix.m[2][3], matrix.m[3][3]
+			);
+		}
+
+		m_instanceBoneMatrixList.push_front(invertBoneMatrix);
 	}
 
 	void MeshData::updateInstanceParamVertBuffer() const
@@ -124,6 +150,26 @@ namespace tktk
 
 	void MeshData::updateBoneMatrixTextureBuffer() const
 	{
+		auto boneMatData = std::vector<unsigned char>(sizeof(tktkMath::Matrix4) * 128U * 128, 0U);
+
+		size_t curIndex = m_instanceCount - 1U;
+
+		for (const auto& instanceBoneMatrix : m_instanceBoneMatrixList)
+		{
+			// インデックスがオーバーフローしたら強制終了
+			if (curIndex == std::numeric_limits<size_t>::max()) return;
+
+			// インスタンス描画用の頂点バッファ情報をバイナリ形式でコピーする
+			memcpy(&boneMatData.at(sizeof(tktkMath::Matrix4) * 128U * curIndex), instanceBoneMatrix.data(), sizeof(tktkMath::Matrix4) * 128U);
+
+			// インデックスをデクリメント
+			--curIndex;
+		}
+
+		// 正しく全ての情報を代入できていなければ強制終了
+		if (curIndex != std::numeric_limits<size_t>::max()) return;
+
+		DX12GameManager::updateUploadBuffer(m_boneMatrixTextureBufferHandle, CopySourceDataCarrier(boneMatData.size(), boneMatData.data()));
 	}
 
 	void MeshData::writeShadowMap() const
@@ -172,6 +218,12 @@ namespace tktk
 
 		// インスタンス描画情報を扱う頂点バッファを更新する
 		updateInstanceParamVertBuffer();
+
+		// インスタンス描画の骨行列のテクスチャを更新する
+		updateBoneMatrixTextureBuffer();
+
+		// 骨情報のテクスチャバッファを更新する
+		DX12GameManager::copyBuffer(m_boneMatrixTextureBufferHandle);
 
 		// ビューポートを設定する
 		DX12GameManager::setViewport(DX12GameManager::getSystemHandle(SystemViewportType::WriteShadow));
@@ -311,6 +363,12 @@ namespace tktk
 
 		// インスタンス描画情報を扱う頂点バッファを更新する
 		updateInstanceParamVertBuffer();
+
+		// インスタンス描画の骨行列のテクスチャを更新する
+		updateBoneMatrixTextureBuffer();
+
+		// 骨情報のテクスチャバッファを更新する
+		DX12GameManager::copyBuffer(m_boneMatrixTextureBufferHandle);
 
 		// ビューポートを設定する
 		DX12GameManager::setViewport(baseArgs.viewportHandle);

@@ -17,6 +17,7 @@ namespace tktk
 		std::vector<unsigned char>	textureData;	// 生の色情報データ
 		unsigned int				width;			// テクスチャの横幅
 		unsigned int				height;			// テクスチャの縦幅
+		unsigned int				depth;			// テクスチャのボリューム
 	};
 
 	// テクスチャのフォーマットデータ

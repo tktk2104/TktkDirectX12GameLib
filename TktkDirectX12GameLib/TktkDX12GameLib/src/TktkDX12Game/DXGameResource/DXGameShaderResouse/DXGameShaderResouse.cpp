@@ -202,21 +202,6 @@ namespace tktk
 		return m_meshResource->copySkeleton(originalHandle);
 	}
 
-	size_t DXGameShaderResouse::createSkeletonUploadBufferHandle(size_t handle) const
-	{
-		return m_meshResource->createSkeletonUploadBufferHandle(handle);
-	}
-
-	void DXGameShaderResouse::updateBoneMatrixCbuffer(size_t handle, size_t copyBufferHandle) const
-	{
-		m_meshResource->updateBoneMatrixCbuffer(handle, copyBufferHandle);
-	}
-
-	void DXGameShaderResouse::resetBoneMatrixCbuffer() const
-	{
-		m_meshResource->resetBoneMatrixCbuffer();
-	}
-
 	size_t DXGameShaderResouse::loadMotion(const std::string& motionFileName)
 	{
 		return m_meshResource->loadMotion(motionFileName);

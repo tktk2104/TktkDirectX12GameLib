@@ -15,8 +15,6 @@ namespace tktk
 		, m_lightHandle(initParam.m_lightHandle)
 		, m_cameraHandle(initParam.m_cameraHandle)
 		, m_shadowMapCameraHandle(initParam.m_shadowMapCameraHandle)
-
-		, m_skeletonHandle(initParam.m_skeletonHandle)
 	{
 	}
 
@@ -25,9 +23,6 @@ namespace tktk
 		// アップロード用バッファを作り、そのハンドルを取得する
 		m_createUploadCameraCbufferHandle		= DX12GameManager::createUploadBuffer(UploadBufferInitParam::create(BufferType::constant, DX12GameManager::getSystemHandle(SystemCBufferType::Camera), CameraCbuffer()));
 		m_createUploadShadowMapCbufferHandle	= DX12GameManager::createUploadBuffer(UploadBufferInitParam::create(BufferType::constant, DX12GameManager::getSystemHandle(SystemCBufferType::ShadowMap), MeshShadowMapCBuffer()));
-	
-		// もしスケルトンが設定されていたらアップロード用バッファを作る
-		if (m_skeletonHandle != 0U) m_createUploadBoneMatrixCbufferHandle = DX12GameManager::createSkeletonUploadBufferHandle(m_skeletonHandle);
 	}
 
 	void MeshDrawFuncRunner::onDestroy()
@@ -35,8 +30,6 @@ namespace tktk
 		// アップロード用バッファを削除する
 		DX12GameManager::eraseUploadBuffer(m_createUploadCameraCbufferHandle);
 		DX12GameManager::eraseUploadBuffer(m_createUploadShadowMapCbufferHandle);
-
-		DX12GameManager::eraseUploadBuffer(m_createUploadBoneMatrixCbufferHandle);
 	}
 
 	void MeshDrawFuncRunner::update()
@@ -69,19 +62,6 @@ namespace tktk
 
 		// 使用するライト番号
 		baseArgs.lightHandle = m_lightHandle;
-
-		// もしスケルトンが未設定だったら
-		if (m_skeletonHandle == 0U)
-		{
-			// ボーン情報の定数バッファを単位行列で初期化
-			DX12GameManager::resetBoneMatrixCbuffer();
-		}
-		// そうでなければ
-		else
-		{
-			// ボーン行列の定数バッファを更新する
-			DX12GameManager::updateBoneMatrixCbuffer(m_skeletonHandle, m_createUploadBoneMatrixCbufferHandle);
-		}
 
 		if (m_useBone)
 		{

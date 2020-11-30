@@ -50,10 +50,6 @@ namespace tktk
 		// ※初期パラメータはデフォルトシャドウマップカメラ
 		MeshDrawFuncRunnerInitParam& shadowMapCameraId(ResourceIdCarrier value);
 
-
-		MeshDrawFuncRunnerInitParam& skeletonHandle(size_t value);
-		MeshDrawFuncRunnerInitParam& skeletonId(ResourceIdCarrier value);
-
 	private:
 
 		static MeshDrawFuncRunnerInitParam m_self;
@@ -71,8 +67,6 @@ namespace tktk
 		size_t	m_lightHandle				{ 0U };
 		size_t	m_cameraHandle				{ 0U };
 		size_t	m_shadowMapCameraHandle		{ 0U };
-
-		size_t m_skeletonHandle{ 0U };
 	};
 }
 #endif // !MESH_DRAW_FUNC_RUNNER_INIT_PARAM_H_

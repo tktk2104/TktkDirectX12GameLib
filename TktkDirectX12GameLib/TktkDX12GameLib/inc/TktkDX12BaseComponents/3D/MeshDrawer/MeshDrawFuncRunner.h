@@ -42,9 +42,6 @@ namespace tktk
 		size_t m_cameraHandle;
 		size_t m_shadowMapCameraHandle;
 
-		size_t m_skeletonHandle{ 0U };
-		size_t m_createUploadBoneMatrixCbufferHandle{ 0U };
-
 		// アップロード用バッファハンドル
 		size_t m_createUploadCameraCbufferHandle	{ 0U };
 		size_t m_createUploadShadowMapCbufferHandle	{ 0U };

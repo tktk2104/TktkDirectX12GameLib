@@ -213,10 +213,11 @@ namespace tktk
 				auto& srvDescriptorParam = descriptorHeapInitParam.descriptorTableParamArray.at(0U);
 				srvDescriptorParam.type = BasicDescriptorType::textureBuffer;
 
-				// アルベドマップとシャドウマップの２種類
+				// アルベドマップとシャドウマップとノーマルマップの３種類
 				srvDescriptorParam.descriptorParamArray = {
-					{ BufferType::texture, albedoMapTextureHandle },
-					{ BufferType::depthStencil, DX12GameManager::getSystemHandle(SystemDsBufferType::ShadowMap)	}
+					{ BufferType::texture,		albedoMapTextureHandle													},
+					{ BufferType::depthStencil, DX12GameManager::getSystemHandle(SystemDsBufferType::ShadowMap)			},
+					{ BufferType::texture,		DX12GameManager::getSystemHandle(SystemTextureBufferType::FlatNormal4x4)}
 				};
 			}
 
@@ -299,10 +300,11 @@ namespace tktk
 				auto& srvDescriptorParam = descriptorHeapInitParam.descriptorTableParamArray.at(0U);
 				srvDescriptorParam.type = BasicDescriptorType::textureBuffer;
 
-				// アルベドマップとシャドウマップの２種類
+				// アルベドマップとシャドウマップとノーマルマップの３種類
 				srvDescriptorParam.descriptorParamArray = {
-					{ BufferType::texture, skyBoxTextureHandle },
-					{ BufferType::texture, DX12GameManager::getSystemHandle(SystemTextureBufferType::White4x4)	}
+					{ BufferType::texture, skyBoxTextureHandle														},
+					{ BufferType::texture, DX12GameManager::getSystemHandle(SystemTextureBufferType::White4x4)		},
+					{ BufferType::texture, DX12GameManager::getSystemHandle(SystemTextureBufferType::FlatNormal4x4)	}
 				};
 			}
 

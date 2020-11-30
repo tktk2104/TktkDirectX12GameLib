@@ -61,16 +61,17 @@ namespace tktk
 			{
 				BasicDescriptorHeapInitParam descriptorHeapInitParam{};
 				descriptorHeapInitParam.shaderVisible = true;
-				descriptorHeapInitParam.descriptorTableParamArray.resize(3U);
+				descriptorHeapInitParam.descriptorTableParamArray.resize(4U);
 
 				{ /* シェーダーリソースビューのディスクリプタの情報 */
 					auto& srvDescriptorParam = descriptorHeapInitParam.descriptorTableParamArray.at(0U);
 					srvDescriptorParam.type = BasicDescriptorType::textureBuffer;
 
-					// アルベドマップとシャドウマップの２種類
+					// アルベドマップとシャドウマップとノーマルマップの３種類
 					srvDescriptorParam.descriptorParamArray = {
-						{ BufferType::texture,		loadTextureBufferHandle.at(outData.materialData.at(i).textureId)	},
-						{ BufferType::depthStencil, DX12GameManager::getSystemHandle(SystemDsBufferType::ShadowMap)		}
+						{ BufferType::texture,		loadTextureBufferHandle.at(outData.materialData.at(i).textureId)		},
+						{ BufferType::depthStencil, DX12GameManager::getSystemHandle(SystemDsBufferType::ShadowMap)			},
+						{ BufferType::texture,		DX12GameManager::getSystemHandle(SystemTextureBufferType::FlatNormal4x4)}
 					};
 				}
 
@@ -82,8 +83,7 @@ namespace tktk
 					cbufferViewDescriptorParam.descriptorParamArray = {
 						{ BufferType::constant,		DX12GameManager::getSystemHandle(SystemCBufferType::Camera)			},
 						{ BufferType::constant,		DX12GameManager::getSystemHandle(SystemCBufferType::Light)			},
-						{ BufferType::constant,		DX12GameManager::getSystemHandle(SystemCBufferType::ShadowMap)		},
-						{ BufferType::constant,		DX12GameManager::getSystemHandle(SystemCBufferType::BoneMatCbuffer)	}
+						{ BufferType::constant,		DX12GameManager::getSystemHandle(SystemCBufferType::ShadowMap)		}
 					};
 				}
 
@@ -91,12 +91,23 @@ namespace tktk
 					auto& cbufferViewDescriptorParam = descriptorHeapInitParam.descriptorTableParamArray.at(2U);
 					cbufferViewDescriptorParam.type = BasicDescriptorType::constantBuffer;
 
-					// 
+					// ライト、メッシュマテリアルの２つ
 					cbufferViewDescriptorParam.descriptorParamArray = {
 						{ BufferType::constant,		DX12GameManager::getSystemHandle(SystemCBufferType::Light)		},
 						{ BufferType::constant,		DX12GameManager::getSystemHandle(SystemCBufferType::MeshMaterial)	}
 					};
 				}
+
+				{ /* シェーダーリソースビューのディスクリプタの情報 */
+					auto& srvDescriptorParam = descriptorHeapInitParam.descriptorTableParamArray.at(3U);
+					srvDescriptorParam.type = BasicDescriptorType::textureBuffer;
+
+					// 骨行列テクスチャの１種類
+					srvDescriptorParam.descriptorParamArray = {
+						{ BufferType::texture,		DX12GameManager::getSystemHandle(SystemTextureBufferType::MeshBoneMatrix) }
+					};
+				}
+
 				materialParam.useDescriptorHeapHandle = DX12GameManager::createBasicDescriptorHeap(descriptorHeapInitParam);
 			}
 
@@ -129,11 +140,7 @@ namespace tktk
 		// スケルトンを作る
 		size_t skeletonHandle = craeteSkeleton(args.createSkeletonId, outData.boneData);
 
-		MeshDrawFuncRunnerInitParam temp = funcRunnerInitParam;
-
-		temp.m_skeletonHandle = skeletonHandle;
-
-		DX12GameManager::createMeshAndAttachId(args.createBasicMeshId, meshInitParam, temp);
+		DX12GameManager::createMeshAndAttachId(args.createBasicMeshId, meshInitParam, funcRunnerInitParam);
 
 		// TODO : 作成したメッシュの情報を返す予定
 		return { skeletonHandle };

@@ -10,6 +10,8 @@
 #include "TktkDX12Game/UtilityProcessManager/UtilityProcessManager.h"
 
 #include "TktkDX12Game/DXGameResource/GameObjectResouse/Component/DefaultComponents/StateMachine/StateMachine.h"
+#include "TktkDX12BaseComponents/3D/BoxCollider/BoxCollider.h"
+#include "TktkDX12BaseComponents/3D/SphereCollider/SphereCollider.h"
 #include "TktkDX12BaseComponents/3D/BillboardDrawer/BillboardDrawer.h"
 #include "TktkDX12BaseComponents/3D/BillboardDrawer/BillboardDrawFuncRunner.h"
 #include "TktkDX12BaseComponents/3D/MeshDrawer/MeshDrawer.h"
@@ -117,10 +119,10 @@ namespace tktk
 
 			TexBuffData dataParam{};
 			dataParam.textureData = {
-				127, 127, 127, 255, /**/ 127, 127, 127, 255, /**/ 127, 127, 127, 255, /**/ 127, 127, 127, 255,
-				127, 127, 127, 255, /**/ 127, 127, 127, 255, /**/ 127, 127, 127, 255, /**/ 127, 127, 127, 255,
-				127, 127, 127, 255, /**/ 127, 127, 127, 255, /**/ 127, 127, 127, 255, /**/ 127, 127, 127, 255,
-				127, 127, 127, 255, /**/ 127, 127, 127, 255, /**/ 127, 127, 127, 255, /**/ 127, 127, 127, 255
+				0, 0, 255, 255, /**/ 0, 0, 255, 255, /**/ 0, 0, 255, 255, /**/ 0, 0, 255, 255,
+				0, 0, 255, 255, /**/ 0, 0, 255, 255, /**/ 0, 0, 255, 255, /**/ 0, 0, 255, 255,
+				0, 0, 255, 255, /**/ 0, 0, 255, 255, /**/ 0, 0, 255, 255, /**/ 0, 0, 255, 255,
+				0, 0, 255, 255, /**/ 0, 0, 255, 255, /**/ 0, 0, 255, 255, /**/ 0, 0, 255, 255
 			};
 			dataParam.width = 4U;
 			dataParam.height = 4U;
@@ -214,14 +216,18 @@ namespace tktk
 		// デフォルトのライトを作る
 		setSystemHandle(SystemLightType::DefaultLight, createLight({ 0.1f, 1.0f }, { 1.0f, 1.0f }, { 1.0f, 1.0f }, { 0.0f }));
 		
+		// コライダーの実行タイミングを設定する
+		//addRunFuncPriority<BoxCollider>(1000.0f);
+		//addRunFuncPriority<SphereCollider>(1000.0f);
+
 		// ステートマシンの実行タイミングを設定する
-		addRunFuncPriority<StateMachine>(1000.0f);
+		addRunFuncPriority<StateMachine>(1100.0f);
 
 		// メッシュのインスタンス描画に使用する頂点バッファを設定するコンポーネントの実行タイミングを設定する
-		addRunFuncPriority<MeshDrawer>(1100.0f);
+		addRunFuncPriority<MeshDrawer>(1200.0f);
 
 		// ビルボードのインスタンス描画に使用する頂点バッファを設定するコンポーネントの実行タイミングを設定する
-		addRunFuncPriority<BillboardDrawer>(1100.0f);
+		addRunFuncPriority<BillboardDrawer>(1200.0f);
 
 		// 初期から存在するメッシュを作る
 		m_dxGameResource->createSystemMesh();
@@ -774,7 +780,7 @@ namespace tktk
 
 		if (funcRunnerInitParam.m_writeShadowMap)
 		{
-			createComponent<WriteMeshShadowMapFuncRunner>(GameObjectPtr(), createdHandle, funcRunnerInitParam.m_useBone, funcRunnerInitParam.m_skeletonHandle);
+			createComponent<WriteMeshShadowMapFuncRunner>(GameObjectPtr(), createdHandle, funcRunnerInitParam.m_useBone);
 		}
 
 		return createdHandle;
@@ -790,7 +796,7 @@ namespace tktk
 
 		if (funcRunnerInitParam.m_writeShadowMap)
 		{
-			createComponent<WriteMeshShadowMapFuncRunner>(GameObjectPtr(), createdHandle, funcRunnerInitParam.m_useBone, funcRunnerInitParam.m_skeletonHandle);
+			createComponent<WriteMeshShadowMapFuncRunner>(GameObjectPtr(), createdHandle, funcRunnerInitParam.m_useBone);
 		}
 
 		return createdHandle;
@@ -804,7 +810,7 @@ namespace tktk
 
 		if (funcRunnerInitParam.m_writeShadowMap)
 		{
-			createComponent<WriteMeshShadowMapFuncRunner>(GameObjectPtr(), createdHandle, funcRunnerInitParam.m_useBone, funcRunnerInitParam.m_skeletonHandle);
+			createComponent<WriteMeshShadowMapFuncRunner>(GameObjectPtr(), createdHandle, funcRunnerInitParam.m_useBone);
 		}
 
 		return createdHandle;
@@ -820,7 +826,7 @@ namespace tktk
 
 		if (funcRunnerInitParam.m_writeShadowMap)
 		{
-			createComponent<WriteMeshShadowMapFuncRunner>(GameObjectPtr(), createdHandle, funcRunnerInitParam.m_useBone, funcRunnerInitParam.m_skeletonHandle);
+			createComponent<WriteMeshShadowMapFuncRunner>(GameObjectPtr(), createdHandle, funcRunnerInitParam.m_useBone);
 		}
 
 		return createdHandle;
@@ -949,26 +955,11 @@ namespace tktk
 		return m_dxGameResource->copySkeleton(originalHandle);
 	}
 	
-	size_t DX12GameManager::createSkeletonUploadBufferHandle(size_t handle)
-	{
-		return m_dxGameResource->createSkeletonUploadBufferHandle(handle);
-	}
-	
 	size_t DX12GameManager::createSkeletonAndAttachId(ResourceIdCarrier id, const SkeletonInitParam& initParam)
 	{
 		auto createdHandle = m_dxGameResource->createSkeleton(initParam);
 		m_utilityProcessManager->setSkeletonHandle(id, createdHandle);
 		return createdHandle;
-	}
-	
-	void DX12GameManager::updateBoneMatrixCbuffer(size_t handle, size_t copyBufferHandle)
-	{
-		m_dxGameResource->updateBoneMatrixCbuffer(handle, copyBufferHandle);
-	}
-	
-	void DX12GameManager::resetBoneMatrixCbuffer()
-	{
-		m_dxGameResource->resetBoneMatrixCbuffer();
 	}
 	
 	size_t DX12GameManager::loadMotion(const std::string& motionFileName)

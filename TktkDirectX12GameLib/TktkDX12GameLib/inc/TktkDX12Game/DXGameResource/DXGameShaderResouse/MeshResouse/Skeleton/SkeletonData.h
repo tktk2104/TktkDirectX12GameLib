@@ -39,18 +39,11 @@ namespace tktk
 
 	public:
 
-		// 骨情報の定数バッファの値にアップロードするためのバッファを作り、そのハンドルを返す
-		// ※この関数で取得したハンドルは使用後に「DX12GameManager::eraseUploadBuffer(handle)」を必ず呼んでバッファを削除してください
-		size_t createUploadBufferHandle() const;
-
 		// 引数のボーン毎の座標変換行列を使ってスケルトンを変形する
 		void transform(const std::vector<MotionBoneParam>& transformMatrices);
 
 		// 骨行列の配列を取得する
 		std::array<tktkMath::Matrix4, 128U> getBoneMatrixArray() const;
-
-		// 引数が表すコピーバッファを使って骨情報を管理する定数バッファを更新する
-		void updateBoneMatrixCbuffer(size_t copyBufferHandle) const;
 
 	private:
 
@@ -66,9 +59,6 @@ namespace tktk
 	private:
 
 		void transform(const SkeletonData::BoneNode* boneNode, const tktkMath::Matrix4& transformMat);
-
-		// 指定のコピーバッファを更新する
-		void updateCopyBuffer(size_t copyBufferHandle) const;
 
 	private:
 

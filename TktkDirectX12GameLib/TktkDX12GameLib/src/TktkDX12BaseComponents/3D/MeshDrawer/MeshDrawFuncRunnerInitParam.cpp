@@ -77,16 +77,4 @@ namespace tktk
 		m_self.m_shadowMapCameraHandle = DX12GameManager::getCameraHandle(value);
 		return m_self;
 	}
-
-	MeshDrawFuncRunnerInitParam& MeshDrawFuncRunnerInitParam::skeletonHandle(size_t value)
-	{
-		m_self.m_skeletonHandle = value;
-		return m_self;
-	}
-
-	MeshDrawFuncRunnerInitParam& MeshDrawFuncRunnerInitParam::skeletonId(ResourceIdCarrier value)
-	{
-		m_self.m_skeletonHandle = DX12GameManager::getSkeletonHandle(value);
-		return m_self;
-	}
 }
