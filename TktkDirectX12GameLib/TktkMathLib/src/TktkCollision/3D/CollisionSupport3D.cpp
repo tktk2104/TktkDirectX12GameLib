@@ -113,21 +113,8 @@ namespace tktkCollision
 		return result;
 	}
 
-	bool CollisionSupport3D::pointCollisionWithMesh(const tktkMath::Vector3& point, const BoundingMesh& otherBody, const tktkMath::Matrix4& otherWorldMatrix)
+	bool CollisionSupport3D::pointCollisionWithMesh(const tktkMath::Vector3& point, const std::vector<std::vector<tktkMath::Vector3>>& otherMesh)
 	{
-		// メッシュの頂点を計算する
-		std::vector<std::vector<tktkMath::Vector3>> otherMesh;
-		otherMesh.resize(otherBody.getVertexs().size());
-		for (size_t i = 0U; i < otherBody.getVertexs().size(); i++)
-		{
-			otherMesh.at(i).reserve(otherBody.getVertexs().at(i).size());
-
-			for (size_t j = 0U; j < otherBody.getVertexs().at(i).size(); j++)
-			{
-				otherMesh.at(i).push_back(otherBody.getVertexs().at(i).at(j) * otherWorldMatrix);
-			}
-		}
-
 		// 相手のポリゴンを巡回する
 		for (const auto& otherPoly : otherMesh)
 		{
@@ -154,21 +141,8 @@ namespace tktkCollision
 		return true;
 	}
 
-	CollisionSupport3D::LineMeshHitInfo CollisionSupport3D::lineCollisionWithMesh(const tktkMath::Vector3& firstPos, const tktkMath::Vector3& secondPos, const BoundingMesh& otherBody, const tktkMath::Matrix4& otherWorldMatrix)
+	CollisionSupport3D::LineMeshHitInfo CollisionSupport3D::lineCollisionWithMesh(const tktkMath::Vector3& firstPos, const tktkMath::Vector3& secondPos, const std::vector<std::vector<tktkMath::Vector3>>& otherMesh)
 	{
-		// メッシュの頂点を計算する
-		std::vector<std::vector<tktkMath::Vector3>> otherMesh;
-		otherMesh.resize(otherBody.getVertexs().size());
-		for (size_t i = 0U; i < otherBody.getVertexs().size(); i++)
-		{
-			otherMesh.at(i).reserve(otherBody.getVertexs().at(i).size());
-
-			for (size_t j = 0U; j < otherBody.getVertexs().at(i).size(); j++)
-			{
-				otherMesh.at(i).push_back(otherBody.getVertexs().at(i).at(j) * otherWorldMatrix);
-			}
-		}
-
 		LineMeshHitInfo result;
 
 		// 相手のポリゴンを巡回する
@@ -190,23 +164,10 @@ namespace tktkCollision
 		return result;
 	}
 
-	HitInfo3D CollisionSupport3D::polygonCollisionWithMesh(const std::vector<tktkMath::Vector3>& polygon, const BoundingMesh& otherBody, const tktkMath::Matrix4& otherWorldMatrix)
+	HitInfo3D CollisionSupport3D::polygonCollisionWithMesh(const std::vector<tktkMath::Vector3>& polygon, const std::vector<std::vector<tktkMath::Vector3>>& otherMesh)
 	{
 		// 自身のポリゴンの頂点が３つより少ない場合、判定不可
 		if (polygon.size() < 3U) return HitInfo3D();
-
-		// メッシュの頂点を計算する
-		std::vector<std::vector<tktkMath::Vector3>> otherMesh;
-		otherMesh.resize(otherBody.getVertexs().size());
-		for (size_t i = 0U; i < otherBody.getVertexs().size(); i++)
-		{
-			otherMesh.at(i).reserve(otherBody.getVertexs().at(i).size());
-
-			for (size_t j = 0U; j < otherBody.getVertexs().at(i).size(); j++)
-			{
-				otherMesh.at(i).push_back(otherBody.getVertexs().at(i).at(j) * otherWorldMatrix);
-			}
-		}
 
 		// 自身のポリゴンの法線を計算する
 		tktkMath::Vector3 polygonNormal = tktkMath::Vector3::cross(polygon.at(1U) - polygon.at(0U), polygon.at(2U) - polygon.at(0)).normalized();
@@ -293,7 +254,7 @@ namespace tktkCollision
 		for (const auto& selfVert : polygon)
 		{
 			// “自身のポリゴンの頂点から自身のポリゴンの反転法線方向に延びた線分”と“相手のメッシュ”で衝突判定を行う
-			auto lineCrossResult = lineCollisionWithMesh(selfVert, selfVert - (polygonNormal * mostFarOtherVertLen), otherBody, otherWorldMatrix);
+			auto lineCrossResult = lineCollisionWithMesh(selfVert, selfVert - (polygonNormal * mostFarOtherVertLen), otherMesh);
 
 			// “自身のポリゴンの頂点から自身のポリゴンの反転法線方向に延びた線分”と“相手のメッシュ”が衝突していなかったら次の頂点へ
 			if (!lineCrossResult.isHit) continue;
@@ -322,16 +283,8 @@ namespace tktkCollision
 		return result;
 	}
 
-	HitInfo3D CollisionSupport3D::sphereCollisionWithSphere(const BoundingSphere& selfBody, const BoundingSphere& otherBody, const tktkMath::Matrix4& selfWorldMatrix, const tktkMath::Matrix4& otherWorldMatrix)
+	HitInfo3D CollisionSupport3D::sphereCollisionWithSphere(const tktkMath::Vector3& selfCenterPos, float selfRadius, const tktkMath::Vector3& otherCenterPos, float otherRadius)
 	{
-		// それぞれの中心座標を計算する
-		auto selfCenterPos	= selfBody.getCenterPosition() * selfWorldMatrix;
-		auto otherCenterPos = otherBody.getCenterPosition() * otherWorldMatrix;
-
-		// それぞれの半径を計算する
-		auto selfRadius = selfBody.getRadius() * selfWorldMatrix.calculateScale().x;
-		auto otherRadius = otherBody.getRadius() * otherWorldMatrix.calculateScale().x;
-
 		auto result = HitInfo3D();
 
 		// それぞれの中心座標の距離を計算する
@@ -346,34 +299,8 @@ namespace tktkCollision
 		return result;
 	}
 
-	HitInfo3D CollisionSupport3D::meshCollisionWithMesh(const BoundingMesh& selfBody, const BoundingMesh& otherBody, const tktkMath::Matrix4& selfWorldMatrix, const tktkMath::Matrix4& otherWorldMatrix)
+	HitInfo3D CollisionSupport3D::meshCollisionWithMesh(const std::vector<std::vector<tktkMath::Vector3>>& selfMesh, const std::vector<std::vector<tktkMath::Vector3>>& otherMesh)
 	{
-		// メッシュの頂点
-		std::vector<std::vector<tktkMath::Vector3>> selfVertexs;
-		std::vector<std::vector<tktkMath::Vector3>> otherVertexs;
-
-		// メッシュの頂点を計算する
-		selfVertexs.resize(selfBody.getVertexs().size());
-		for (size_t i = 0U; i < selfBody.getVertexs().size(); i++)
-		{
-			selfVertexs.at(i).reserve(selfBody.getVertexs().at(i).size());
-
-			for (size_t j = 0U; j < selfBody.getVertexs().at(i).size(); j++)
-			{
-				selfVertexs.at(i).push_back(selfBody.getVertexs().at(i).at(j) * selfWorldMatrix);
-			}
-		}
-		otherVertexs.resize(otherBody.getVertexs().size());
-		for (size_t i = 0U; i < otherBody.getVertexs().size(); i++)
-		{
-			otherVertexs.at(i).reserve(otherBody.getVertexs().at(i).size());
-
-			for (size_t j = 0U; j < otherBody.getVertexs().at(i).size(); j++)
-			{
-				otherVertexs.at(i).push_back(otherBody.getVertexs().at(i).at(j) * otherWorldMatrix);
-			}
-		}
-
 		//**************************************************
 		// 衝突相手のポリゴン内に接触している辺があるかどうかのフラグ
 
@@ -381,7 +308,7 @@ namespace tktkCollision
 		result.selfExtrudeVec = { std::numeric_limits<float>::max() / 2.0f };
 
 		// 相手のポリゴンを巡回する
-		for (const auto& otherPoly : otherVertexs)
+		for (const auto& otherPoly : otherMesh)
 		{
 			// 相手のポリゴンの頂点が３つより少ない場合、判定不可なので次のポリゴンの判定へ
 			if (otherPoly.size() < 3U) continue;
@@ -392,13 +319,13 @@ namespace tktkCollision
 			otherPolyCenterPos /= otherPoly.size();
 
 			// 相手のポリゴンの中心座標が自身のメッシュ内にあるか判定する
-			bool findInclusionLine = pointCollisionWithMesh(otherPolyCenterPos, selfBody, selfWorldMatrix);
+			bool findInclusionLine = pointCollisionWithMesh(otherPolyCenterPos, selfMesh);
 
 			// 相手のポリゴンを構成する頂点を巡回する
 			for (size_t vertIndex = 0; vertIndex < otherPoly.size(); vertIndex++)
 			{
 				// 自身のポリゴンの辺と相手のメッシュで衝突判定を行う
-				auto lineCollisionMeshResult = lineCollisionWithMesh(otherPoly.at(vertIndex), otherPoly.at((vertIndex + 1U) % otherPoly.size()), selfBody, selfWorldMatrix);
+				auto lineCollisionMeshResult = lineCollisionWithMesh(otherPoly.at(vertIndex), otherPoly.at((vertIndex + 1U) % otherPoly.size()), selfMesh);
 
 				// もし“自身のポリゴンの辺と相手のメッシュ”が衝突していたら
 				if (lineCollisionMeshResult.isHit) findInclusionLine = true;
@@ -408,7 +335,7 @@ namespace tktkCollision
 
 			result.isHit = true;
 
-			auto polyHitResult = polygonCollisionWithMesh(otherPoly, selfBody, selfWorldMatrix);
+			auto polyHitResult = polygonCollisionWithMesh(otherPoly, selfMesh);
 
 			if (!polyHitResult.isHit) continue;
 
@@ -421,7 +348,7 @@ namespace tktkCollision
 		}
 
 		// 自身のポリゴンを巡回する
-		for (const auto& selfPoly : selfVertexs)
+		for (const auto& selfPoly : selfMesh)
 		{
 			// 自身のポリゴンの頂点が３つより少ない場合、判定不可なので次のポリゴンの判定へ
 			if (selfPoly.size() < 3U) continue;
@@ -432,13 +359,13 @@ namespace tktkCollision
 			selfPolyCenterPos /= selfPoly.size();
 
 			// 自身のポリゴンの中心座標が相手のメッシュ内にあるか判定する
-			bool findInclusionLine = pointCollisionWithMesh(selfPolyCenterPos, otherBody, otherWorldMatrix);
+			bool findInclusionLine = pointCollisionWithMesh(selfPolyCenterPos, otherMesh);
 
 			// 自身のポリゴンを構成する頂点を巡回する
 			for (size_t vertIndex = 0; vertIndex < selfPoly.size(); vertIndex++)
 			{
 				// 自身のポリゴンの辺と相手のメッシュで衝突判定を行う
-				auto lineCollisionMeshResult = lineCollisionWithMesh(selfPoly.at(vertIndex), selfPoly.at((vertIndex + 1U) % selfPoly.size()), otherBody, otherWorldMatrix);
+				auto lineCollisionMeshResult = lineCollisionWithMesh(selfPoly.at(vertIndex), selfPoly.at((vertIndex + 1U) % selfPoly.size()), otherMesh);
 
 				// もし“自身のポリゴンの辺と相手のメッシュ”が衝突していたら
 				if (lineCollisionMeshResult.isHit) findInclusionLine = true;
@@ -448,7 +375,7 @@ namespace tktkCollision
 
 			result.isHit = true;
 
-			auto polyHitResult = polygonCollisionWithMesh(selfPoly, otherBody, otherWorldMatrix);
+			auto polyHitResult = polygonCollisionWithMesh(selfPoly, otherMesh);
 
 			if (!polyHitResult.isHit) continue;
 
@@ -465,27 +392,8 @@ namespace tktkCollision
 		return result;
 	}
 
-	HitInfo3D CollisionSupport3D::sphereCollisionWithMesh(const BoundingSphere& selfBody, const BoundingMesh& otherBody, const tktkMath::Matrix4& selfWorldMatrix, const tktkMath::Matrix4& otherWorldMatrix)
+	HitInfo3D CollisionSupport3D::sphereCollisionWithMesh(const tktkMath::Vector3& selfCenterPos, float selfRadius, const std::vector<std::vector<tktkMath::Vector3>>& otherMesh)
 	{
-		// 球体の中心座標を計算する
-		auto selfCenterPos = selfBody.getCenterPosition() * selfWorldMatrix;
-
-		// 球体の半径を計算する
-		auto selfRadius = selfBody.getRadius() * selfWorldMatrix.calculateScale().x;
-
-		// メッシュの頂点を計算する
-		std::vector<std::vector<tktkMath::Vector3>> otherMesh;
-		otherMesh.resize(otherBody.getVertexs().size());
-		for (size_t i = 0U; i < otherBody.getVertexs().size(); i++)
-		{
-			otherMesh.at(i).reserve(otherBody.getVertexs().at(i).size());
-
-			for (size_t j = 0U; j < otherBody.getVertexs().at(i).size(); j++)
-			{
-				otherMesh.at(i).push_back(otherBody.getVertexs().at(i).at(j) * otherWorldMatrix);
-			}
-		}
-
 		float minDist = std::numeric_limits<float>::max();
 
 		auto result = HitInfo3D();
@@ -526,9 +434,9 @@ namespace tktkCollision
 		return result;
 	}
 
-	HitInfo3D CollisionSupport3D::meshCollisionWithSphere(const BoundingMesh& selfBody, const BoundingSphere& otherBody, const tktkMath::Matrix4& selfWorldMatrix, const tktkMath::Matrix4& otherWorldMatrix)
+	HitInfo3D CollisionSupport3D::meshCollisionWithSphere(const std::vector<std::vector<tktkMath::Vector3>>& selfMesh, const tktkMath::Vector3& otherCenterPos, float otherRadius)
 	{
-		auto result = sphereCollisionWithMesh(otherBody, selfBody, otherWorldMatrix, selfWorldMatrix);
+		auto result = sphereCollisionWithMesh(otherCenterPos, otherRadius, selfMesh);
 		result.selfExtrudeVec *= -1.0f;
 		return result;
 	}

@@ -33,6 +33,7 @@ namespace tktk
 
 		// <PolymorphismFunc>
 		void start();
+		void beforeCollide();
 		bool isCollide(const ComponentBasePtr& other);
 		void afterCollide();
 

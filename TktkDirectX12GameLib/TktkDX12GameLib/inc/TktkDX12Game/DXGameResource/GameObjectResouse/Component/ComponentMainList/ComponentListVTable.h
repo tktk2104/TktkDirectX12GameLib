@@ -10,6 +10,9 @@
 /* update_runner<> */
 #include <TktkTemplateMetaLib/HasFuncCheck/CreatedStruct/HasUpdateChecker.h>
 
+/* beforeCollide_runner<> */
+#include <TktkTemplateMetaLib/HasFuncCheck/CreatedStruct/HasBeforeCollideChecker.h>
+
 /* afterCollide_runner<> */
 #include <TktkTemplateMetaLib/HasFuncCheck/CreatedStruct/HasAfterCollideChecker.h>
 
@@ -31,6 +34,7 @@ namespace tktk
 	struct ComponentListVTable
 	{
 		void(*update)		(const std::forward_list<std::shared_ptr<ComponentBase>>&);
+		void(*beforeCollide)(const std::forward_list<std::shared_ptr<ComponentBase>>&);
 		void(*afterCollide)	(const std::forward_list<std::shared_ptr<ComponentBase>>&);
 		void(*onEnable)		(const std::shared_ptr<ComponentBase>&);
 		void(*onDisable)	(const std::shared_ptr<ComponentBase>&);
@@ -51,6 +55,16 @@ namespace tktk
 			{
 				if (!node->isActive() || node->isDead()) continue;
 				update_runner<void>::checkAndRun(std::dynamic_pointer_cast<ComponentType>(node));
+			}
+		}
+
+		// 引数リストのポインタの指す実態が「beforeCollide」関数を持っていたら全ての要素でそれを実行する
+		static void beforeCollide(const std::forward_list<std::shared_ptr<ComponentBase>>& mainList)
+		{
+			for (const auto& node : mainList)
+			{
+				if (!node->isActive() || node->isDead()) continue;
+				beforeCollide_runner<void>::checkAndRun(std::dynamic_pointer_cast<ComponentType>(node));
 			}
 		}
 
@@ -79,6 +93,7 @@ namespace tktk
 	ComponentListVTable ComponentListVTableInitializer<ComponentType>::m_componentListVTable =
 	{
 		&ComponentListVTableInitializer<ComponentType>::update,
+		&ComponentListVTableInitializer<ComponentType>::beforeCollide,
 		&ComponentListVTableInitializer<ComponentType>::afterCollide,
 		&ComponentListVTableInitializer<ComponentType>::onEnable,
 		&ComponentListVTableInitializer<ComponentType>::onDisable,

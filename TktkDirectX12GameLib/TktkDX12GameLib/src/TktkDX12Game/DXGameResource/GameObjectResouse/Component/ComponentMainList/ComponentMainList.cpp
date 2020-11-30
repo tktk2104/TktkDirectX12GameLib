@@ -61,6 +61,15 @@ namespace tktk
 		}
 	}
 
+	void ComponentMainList::runBeforeCollide()
+	{
+		// 「runAfterCollide」関数呼び出し処理
+		for (const auto& node : m_mainMap)
+		{
+			node.second->runBeforeCollide();
+		}
+	}
+
 	void ComponentMainList::runAfterCollide()
 	{
 		// 「runAfterCollide」関数呼び出し処理

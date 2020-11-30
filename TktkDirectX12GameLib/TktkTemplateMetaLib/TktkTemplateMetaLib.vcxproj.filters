@@ -84,5 +84,8 @@
     <ClInclude Include="inc\TktkTemplateMetaLib\TypeCheck\isCastUnsignedInt64.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="inc\TktkTemplateMetaLib\HasFuncCheck\CreatedStruct\HasBeforeCollideChecker.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

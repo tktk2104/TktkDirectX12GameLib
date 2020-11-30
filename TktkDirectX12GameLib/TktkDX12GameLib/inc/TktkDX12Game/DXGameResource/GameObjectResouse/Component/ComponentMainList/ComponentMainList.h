@@ -46,6 +46,9 @@ namespace tktk
 		// XVˆ—‚ğŒÄ‚Ô
 		void update();
 
+		// Õ“Ë”»’è’¼‘Oˆ—‚ğŒÄ‚Ô
+		void runBeforeCollide();
+
 		// Õ“Ë”»’èŒãˆ—‚ğŒÄ‚Ô
 		void runAfterCollide();
 

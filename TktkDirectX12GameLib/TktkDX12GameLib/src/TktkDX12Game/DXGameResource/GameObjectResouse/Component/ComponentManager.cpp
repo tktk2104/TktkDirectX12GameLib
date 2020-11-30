@@ -40,6 +40,9 @@ namespace tktk
 		// 更新処理を呼ぶ
 		m_componentMainList->update();
 
+		// 衝突判定直前処理を呼ぶ
+		m_componentMainList->runBeforeCollide();
+
 		// 衝突判定系関数呼び出し処理
 		m_componentCollisionList->runCollisionFunc();
 

@@ -13,11 +13,6 @@ namespace tktk
 	void ComponentTypeList::addComponent(const std::shared_ptr<ComponentBase>& componentPtr)
 	{
 		m_newComponentList.push_front(componentPtr);
-
-		//auto createdComponent = std::make_shared<ComponentType>(std::forward<Args>(args)...);
-		//createdComponent->setUser(user);
-		//awake_runner<void>::checkAndRun(createdComponent);
-		//return createdComponent;
 	}
 
 	void ComponentTypeList::activeChangeCheck()
@@ -40,6 +35,11 @@ namespace tktk
 	void ComponentTypeList::runUpdate()
 	{
 		m_vtablePtr->update(m_mainList);
+	}
+
+	void ComponentTypeList::runBeforeCollide()
+	{
+		m_vtablePtr->beforeCollide(m_mainList);
 	}
 
 	void ComponentTypeList::runAfterCollide()

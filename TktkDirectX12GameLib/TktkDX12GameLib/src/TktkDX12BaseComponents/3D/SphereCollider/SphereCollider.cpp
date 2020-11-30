@@ -35,6 +35,11 @@ namespace tktk
 		m_inertialMovement3D = getComponent<InertialMovement3D>();
 	}
 
+	void SphereCollider::beforeCollide()
+	{
+		m_boundingSphere.transform(m_transform3D->calculateWorldMatrix());
+	}
+
 	bool SphereCollider::isCollide(const ComponentBasePtr& other)
 	{
 		// 衝突相手のコンポーネントが「BoxCollider」だったら
@@ -42,7 +47,7 @@ namespace tktk
 		{
 			// 球体と三次元メッシュで衝突判定を呼ぶ
 			auto otherCollider = other.castPtr<BoxCollider>();
-			auto hitInfo = m_boundingSphere.isCollide(otherCollider->getBoundingMesh(), m_transform3D->calculateWorldMatrix(), otherCollider->getTransform()->calculateWorldMatrix());
+			auto hitInfo = m_boundingSphere.isCollide(otherCollider->getBoundingMesh());
 
 			// 衝突相手情報と衝突結果をリストに追加する
 			m_hitInfo3dPairList.push_front({ other->getGameObject(), otherCollider->isExtrud(), otherCollider->getExtrudedRate(), hitInfo });
@@ -54,7 +59,7 @@ namespace tktk
 		{
 			// 球体と球体で衝突判定を呼ぶ
 			auto otherCollider = other.castPtr<SphereCollider>();
-			auto hitInfo = m_boundingSphere.isCollide(otherCollider->getBoundingSphere(), m_transform3D->calculateWorldMatrix(), otherCollider->getTransform()->calculateWorldMatrix());
+			auto hitInfo = m_boundingSphere.isCollide(otherCollider->getBoundingSphere());
 
 			// 衝突相手情報と衝突結果をリストに追加する
 			m_hitInfo3dPairList.push_front({ other->getGameObject(), otherCollider->isExtrud(), otherCollider->getExtrudedRate(), hitInfo });

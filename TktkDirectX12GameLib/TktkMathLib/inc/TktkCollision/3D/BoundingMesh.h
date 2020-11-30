@@ -17,17 +17,22 @@ namespace tktkCollision
 
 	public:
 
+		// 引数のワールド行列で座標変換する
+		void transform(const tktkMath::Matrix4& worldMatrix);
+
 		// 球体との衝突判定処理
 		template <class OtherBody3DType, is_BoundingSphere<OtherBody3DType> = nullptr>
-		HitInfo3D isCollide(const OtherBody3DType& otherBody, const tktkMath::Matrix4& selfWorldMatrix, const tktkMath::Matrix4& otherWorldMatrix) const;
+		HitInfo3D isCollide(const OtherBody3DType& otherBody) const;
 
 		// メッシュとの衝突判定処理
 		template <class OtherBody3DType, is_BoundingMesh<OtherBody3DType> = nullptr>
-		HitInfo3D isCollide(const OtherBody3DType& otherBody, const tktkMath::Matrix4& selfWorldMatrix, const tktkMath::Matrix4& otherWorldMatrix) const;
+		HitInfo3D isCollide(const OtherBody3DType& otherBody) const;
 
 	public:
 
-		const std::vector<std::vector<tktkMath::Vector3>>& getVertexs() const;
+		const std::vector<std::vector<tktkMath::Vector3>>& getBasePolygonVertex() const;
+
+		const std::vector<std::vector<tktkMath::Vector3>>& getTransformedPolygonVertex() const;
 
 	public:
 
@@ -37,7 +42,10 @@ namespace tktkCollision
 	private:
 
 		// メッシュを構成するポリゴンと、それを構成する頂点
-		std::vector<std::vector<tktkMath::Vector3>> m_mesh;
+		std::vector<std::vector<tktkMath::Vector3>> m_basePolygonVertex;
+
+		// ワールド空間で座標変換後のメッシュを構成するポリゴンと、それを構成する頂点
+		std::vector<std::vector<tktkMath::Vector3>> m_transformedPolygonVertex;
 	};
 //┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 //┃ここから下はテンプレート関数の実装
@@ -45,16 +53,16 @@ namespace tktkCollision
 
 	// 球体との衝突判定処理
 	template<class OtherBody3DType, is_BoundingSphere<OtherBody3DType>>
-	inline HitInfo3D BoundingMesh::isCollide(const OtherBody3DType& otherBody, const tktkMath::Matrix4& selfWorldMatrix, const tktkMath::Matrix4& otherWorldMatrix) const
+	inline HitInfo3D BoundingMesh::isCollide(const OtherBody3DType& otherBody) const
 	{
-		return CollisionSupport3D::meshCollisionWithSphere(*this, otherBody, selfWorldMatrix, otherWorldMatrix);
+		return CollisionSupport3D::meshCollisionWithSphere(m_transformedPolygonVertex, otherBody.getTransformedCenterPosition(), otherBody.getTransformedRadius());
 	}
 
 	// メッシュとの衝突判定処理
 	template<class OtherBody3DType, is_BoundingMesh<OtherBody3DType>>
-	inline HitInfo3D BoundingMesh::isCollide(const OtherBody3DType& otherBody, const tktkMath::Matrix4& selfWorldMatrix, const tktkMath::Matrix4& otherWorldMatrix) const
+	inline HitInfo3D BoundingMesh::isCollide(const OtherBody3DType& otherBody) const
 	{
-		return CollisionSupport3D::meshCollisionWithMesh(*this, otherBody, selfWorldMatrix, otherWorldMatrix);
+		return CollisionSupport3D::meshCollisionWithMesh(m_transformedPolygonVertex, otherBody.m_transformedPolygonVertex);
 	}
 }
 #endif // !BOUNDING_MESH_H_

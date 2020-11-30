@@ -23,8 +23,8 @@ namespace tktk
 			m_wireFrameDrawerArray.push_back(
 				MonoColorMeshDrawerMaker::makeStart(getGameObject())
 				.setSphereMeshWireFrame()
-				.baseScale(sphereCollider->getBoundingSphere().getRadius() * 2)
-				.basePosition(sphereCollider->getBoundingSphere().getCenterPosition())
+				.baseScale(sphereCollider->getBoundingSphere().getBaseRadius() * 2)
+				.basePosition(sphereCollider->getBoundingSphere().getBaseCenterPosition())
 				.albedoColor(m_lineColor)
 				.create()
 			);

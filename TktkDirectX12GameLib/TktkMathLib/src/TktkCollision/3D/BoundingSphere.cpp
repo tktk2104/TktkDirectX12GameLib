@@ -5,18 +5,36 @@
 namespace tktkCollision
 {
 	BoundingSphere::BoundingSphere(float radius, const tktkMath::Vector3& centerPosition)
-		: m_radius(radius)
-		, m_centerPosition(centerPosition)
+		: m_baseRadius(radius)
+		, m_baseCenterPosition(centerPosition)
+		, m_transformedRadius(radius)
+		, m_transformedCenterPosition(centerPosition)
 	{
 	}
 
-	float BoundingSphere::getRadius() const
+	void BoundingSphere::transform(const tktkMath::Matrix4& worldMatrix)
 	{
-		return m_radius;
+		m_transformedCenterPosition = m_baseCenterPosition * worldMatrix;
+		m_transformedRadius			= m_baseRadius * worldMatrix.calculateScale().x;
 	}
 
-	const tktkMath::Vector3& BoundingSphere::getCenterPosition() const
+	float BoundingSphere::getBaseRadius() const
 	{
-		return m_centerPosition;
+		return m_baseRadius;
+	}
+
+	const tktkMath::Vector3& BoundingSphere::getBaseCenterPosition() const
+	{
+		return m_baseCenterPosition;
+	}
+
+	float BoundingSphere::getTransformedRadius() const
+	{
+		return m_transformedRadius;
+	}
+
+	const tktkMath::Vector3& BoundingSphere::getTransformedCenterPosition() const
+	{
+		return m_transformedCenterPosition;
 	}
 }

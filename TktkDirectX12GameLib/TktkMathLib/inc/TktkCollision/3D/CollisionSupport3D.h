@@ -42,7 +42,7 @@ namespace tktkCollision
 
 		// gƒƒbƒVƒ…h‚ğg‚Á‚Äg“_h‚ÌÕ“Ë”»’è‚ğs‚¤
 		// ¦Õ“Ë”»’èŒ‹‰Ê‚ÌŒ`®‚ª‘¼‚Æˆá‚¤
-		static bool pointCollisionWithMesh(const tktkMath::Vector3& point, const BoundingMesh& otherBody, const tktkMath::Matrix4& otherWorldMatrix);
+		static bool pointCollisionWithMesh(const tktkMath::Vector3& point, const std::vector<std::vector<tktkMath::Vector3>>& otherMesh);
 
 	public:
 
@@ -73,26 +73,26 @@ namespace tktkCollision
 
 		// gƒƒbƒVƒ…h‚ğg‚Á‚Ägüh‚ÌÕ“Ë”»’è‚ğs‚¤
 		// ¦Õ“Ë”»’èŒ‹‰Ê‚ÌŒ`®‚ª‘¼‚Æˆá‚¤
-		static LineMeshHitInfo lineCollisionWithMesh(const tktkMath::Vector3& firstPos, const tktkMath::Vector3& secondPos, const BoundingMesh& otherBody, const tktkMath::Matrix4& otherWorldMatrix);
+		static LineMeshHitInfo lineCollisionWithMesh(const tktkMath::Vector3& firstPos, const tktkMath::Vector3& secondPos, const std::vector<std::vector<tktkMath::Vector3>>& otherMesh);
 
 	public:
 
 		// gƒƒbƒVƒ…h‚ğg‚Á‚Ägƒ|ƒŠƒSƒ“h‚ÌÕ“Ë”»’è‚ğs‚¤
-		static HitInfo3D polygonCollisionWithMesh(const std::vector<tktkMath::Vector3>& polygon, const BoundingMesh& otherBody, const tktkMath::Matrix4& otherWorldMatrix);
+		static HitInfo3D polygonCollisionWithMesh(const std::vector<tktkMath::Vector3>& polygon, const std::vector<std::vector<tktkMath::Vector3>>& otherMesh);
 
 	public:
 
 		// g‹…‘Ìh‚ğg‚Á‚Äg‹…‘Ìh‚ÌÕ“Ë”»’è‚ğs‚¤
-		static HitInfo3D sphereCollisionWithSphere(const BoundingSphere& selfBody, const BoundingSphere& otherBody, const tktkMath::Matrix4& selfWorldMatrix, const tktkMath::Matrix4& otherWorldMatrix);
+		static HitInfo3D sphereCollisionWithSphere(const tktkMath::Vector3& selfCenterPos, float selfRadius, const tktkMath::Vector3& otherCenterPos, float otherRadius);
 
 		// gƒƒbƒVƒ…h‚ğg‚Á‚ÄgƒƒbƒVƒ…h‚ÌÕ“Ë”»’è‚ğs‚¤
-		static HitInfo3D meshCollisionWithMesh(const BoundingMesh& selfBody, const BoundingMesh& otherBody, const tktkMath::Matrix4& selfWorldMatrix, const tktkMath::Matrix4& otherWorldMatrix);
+		static HitInfo3D meshCollisionWithMesh(const std::vector<std::vector<tktkMath::Vector3>>& selfMesh, const std::vector<std::vector<tktkMath::Vector3>>& otherMesh);
 
 		// gƒƒbƒVƒ…h‚ğg‚Á‚Äg‹…‘Ìh‚ÌÕ“Ë”»’è‚ğs‚¤
-		static HitInfo3D sphereCollisionWithMesh(const BoundingSphere& selfBody, const BoundingMesh& otherBody, const tktkMath::Matrix4& selfWorldMatrix, const tktkMath::Matrix4& otherWorldMatrix);
+		static HitInfo3D sphereCollisionWithMesh(const tktkMath::Vector3& selfCenterPos, float selfRadius, const std::vector<std::vector<tktkMath::Vector3>>& otherMesh);
 
 		// g‹…‘Ìh‚ğg‚Á‚ÄgƒƒbƒVƒ…h‚ÌÕ“Ë”»’è‚ğs‚¤
-		static HitInfo3D meshCollisionWithSphere(const BoundingMesh& selfBody, const BoundingSphere& otherBody, const tktkMath::Matrix4& selfWorldMatrix, const tktkMath::Matrix4& otherWorldMatrix);
+		static HitInfo3D meshCollisionWithSphere(const std::vector<std::vector<tktkMath::Vector3>>& selfMesh, const tktkMath::Vector3& otherCenterPos, float otherRadius);
 	};
 }
 #endif // !COLLISION_SUPPORT_3D_H_

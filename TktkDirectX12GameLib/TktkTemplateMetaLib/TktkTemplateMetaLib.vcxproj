@@ -153,6 +153,7 @@
     <ClInclude Include="inc\TktkTemplateMetaLib\HasFuncCheck\CreatedStruct\HasAfterChangeParentChecker.h" />
     <ClInclude Include="inc\TktkTemplateMetaLib\HasFuncCheck\CreatedStruct\HasAfterCollideChecker.h" />
     <ClInclude Include="inc\TktkTemplateMetaLib\HasFuncCheck\CreatedStruct\HasAwakeChecker.h" />
+    <ClInclude Include="inc\TktkTemplateMetaLib\HasFuncCheck\CreatedStruct\HasBeforeCollideChecker.h" />
     <ClInclude Include="inc\TktkTemplateMetaLib\HasFuncCheck\CreatedStruct\HasDrawChecker.h" />
     <ClInclude Include="inc\TktkTemplateMetaLib\HasFuncCheck\CreatedStruct\HasEndChecker.h" />
     <ClInclude Include="inc\TktkTemplateMetaLib\HasFuncCheck\CreatedStruct\HasHandleMessageChecker.h" />

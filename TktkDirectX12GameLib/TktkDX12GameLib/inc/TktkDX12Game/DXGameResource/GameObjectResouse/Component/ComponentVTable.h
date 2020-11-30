@@ -162,18 +162,6 @@ namespace tktk
 		&ComponentVTableInitializer<ComponentType>::m_drawFuncVTable,
 		&ComponentVTableInitializer<ComponentType>::m_collisionFuncVTable,
 		&ComponentVTableInitializer<ComponentType>::m_componentGameObjectFuncVTable
-
-
-		//{ &ComponentVTableInitializer<ComponentType>::start },
-		//{ &ComponentVTableInitializer<ComponentType>::draw },
-		//{ &ComponentVTableInitializer<ComponentType>::isCollide },
-		//{
-		//	&ComponentVTableInitializer<ComponentType>::handleMessage,
-		//	&ComponentVTableInitializer<ComponentType>::afterChangeParent,
-		//	&ComponentVTableInitializer<ComponentType>::onCollisionEnter,
-		//	&ComponentVTableInitializer<ComponentType>::onCollisionStay,
-		//	&ComponentVTableInitializer<ComponentType>::onCollisionExit
-		//}
 	};
 }
 #endif // !COMPONENT_V_TABLE_H_

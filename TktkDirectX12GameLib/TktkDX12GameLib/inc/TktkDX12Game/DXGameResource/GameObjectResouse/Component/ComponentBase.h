@@ -24,6 +24,7 @@ namespace tktk
 	void onDisable();			// アクティブから非アクティブ状態に移行した時に呼ばれる
 	void onDestroy();			// 削除フラグが立った瞬間（デストラクタが呼ばれる前）に呼ばれる
 	void update();				// 毎フレーム呼ばれる
+	void beforeCollide();		// 衝突判定が行われる直前に呼ばれる
 	void afterCollide();		// 衝突判定が行われた後に呼ばれる
 
 	void afterChangeParent	(const tktk::GameObjectPtr& beforParent);	// 子要素が変更された後に呼ばれる

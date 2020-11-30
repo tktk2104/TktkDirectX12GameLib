@@ -30,6 +30,9 @@ namespace tktk
 		// 自身が管理するコンポーネントの型が「update()」関数を持っていたらそれらを全て実行する
 		void runUpdate();
 
+		// 自身が管理するコンポーネントの型が「beforeCollide」関数を持っていたらそれらを全て実行する
+		void runBeforeCollide();
+
 		// 自身が管理するコンポーネントの型が「afterCollide」関数を持っていたらそれらを全て実行する
 		void runAfterCollide();
 
