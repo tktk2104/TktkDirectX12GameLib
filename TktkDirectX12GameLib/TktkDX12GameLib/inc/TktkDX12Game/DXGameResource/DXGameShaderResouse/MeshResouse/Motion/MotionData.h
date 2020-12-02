@@ -36,7 +36,7 @@ namespace tktk
 		size_t getEndFrameNo() const;
 
 		// 指定のフレームのボーン毎の行列を取得する（キーが無い時は前後のキーから計算する）
-		std::vector<MotionBoneParam> calculateBoneTransformMatrices(size_t frame) const;
+		std::vector<MotionBoneParam> calculateBoneTransformMatrices(float frame) const;
 
 	private:
 

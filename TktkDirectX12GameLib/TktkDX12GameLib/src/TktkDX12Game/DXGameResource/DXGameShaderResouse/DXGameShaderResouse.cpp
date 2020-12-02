@@ -212,7 +212,7 @@ namespace tktk
 		return m_meshResource->getMotionEndFrameNo(handle);
 	}
 
-	void DXGameShaderResouse::updateMotion(size_t skeletonHandle, size_t curMotionHandle, size_t preMotionHandle, size_t curFrame, size_t preFrame, float amount)
+	void DXGameShaderResouse::updateMotion(size_t skeletonHandle, size_t curMotionHandle, size_t preMotionHandle, float curFrame, float preFrame, float amount)
 	{
 		m_meshResource->updateMotion(skeletonHandle, curMotionHandle, preMotionHandle, curFrame, preFrame, amount);
 	}

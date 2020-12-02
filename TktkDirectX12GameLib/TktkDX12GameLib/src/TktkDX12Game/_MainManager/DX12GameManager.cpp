@@ -983,8 +983,8 @@ namespace tktk
 		size_t skeletonHandle,
 		size_t curMotionHandle,
 		size_t preMotionHandle,
-		size_t curFrame,
-		size_t preFrame,
+		float curFrame,
+		float preFrame,
 		float amount
 	)
 	{

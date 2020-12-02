@@ -53,8 +53,8 @@ namespace tktk
 				skeletonHandle,
 				m_curMotionHandle,
 				m_preMotionHandle,
-				static_cast<unsigned int>(m_curFrame),
-				static_cast<unsigned int>(m_preFrame),
+				m_curFrame,
+				m_preFrame,
 				m_lerpTimer
 				);
 		}

@@ -204,7 +204,6 @@ namespace tktk
 		// 初期から存在するメッシュを作る
 		void createSystemMesh();
 
-
 		// メッシュを作り、そのリソースのハンドルを返す
 		size_t createMesh(const MeshInitParam& initParam);
 
@@ -284,8 +283,8 @@ namespace tktk
 			size_t skeletonHandle,
 			size_t curMotionHandle,
 			size_t preMotionHandle,
-			size_t curFrame,
-			size_t preFrame,
+			float curFrame,
+			float preFrame,
 			float amount
 		);
 

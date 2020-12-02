@@ -1,5 +1,6 @@
 #include "TktkDX12Game/DXGameResource/DXGameShaderResouse/MeshResouse/Motion/MotionManager.h"
 
+#include <TktkMath/MathHelper.h>
 #include <TktkMath/Structs/Matrix4.h>
 #include "TktkDX12Game/DXGameResource/DXGameShaderResouse/MeshResouse/Motion/MotionData.h"
 #include "TktkDX12Game/DXGameResource/DXGameShaderResouse/MeshResouse/Motion/MotionBoneParam.h"
@@ -24,13 +25,13 @@ namespace tktk
 		return m_motionArray.getMatchHandlePtr(handle)->getEndFrameNo();
 	}
 
-	std::vector<MotionBoneParam> MotionManager::calculateBoneTransformMatrices(size_t curHandle, size_t preHandle, size_t curFrame, size_t preFrame, float amount) const
+	std::vector<MotionBoneParam> MotionManager::calculateBoneTransformMatrices(size_t curHandle, size_t preHandle, float curFrame, float preFrame, float amount) const
 	{
 		// 今のフレームで使用していたモーションの座標変換行列配列を取得する
 		auto curMatrices = m_motionArray.getMatchHandlePtr(curHandle)->calculateBoneTransformMatrices(curFrame);
 
 		// 前フレームと変化が全く無ければ取得した今フレーム情報をそのまま返す
-		if (preHandle == curHandle && preFrame == curFrame) return curMatrices;
+		if (preHandle == curHandle && std::abs(preFrame - curFrame) < tktkMath::MathHelper::kEpsilon) return curMatrices;
 
 		// モーションの補完割合が１以上だったら今フレーム情報をそのまま返す
 		if (amount >= 1.0f) return curMatrices;
@@ -51,11 +52,7 @@ namespace tktk
 			boneParam.boneName = curMatrices.at(i).boneName;
 
 			// 前フレームと今フレームの座標変換行列を線形補完する
-			boneParam.transform = tktkMath::Matrix4::lerp(
-				preMatrices.at(i).transform,
-				curMatrices.at(i).transform,
-				amount
-			);
+			boneParam.transform = tktkMath::Matrix4::lerp(preMatrices.at(i).transform, curMatrices.at(i).transform, amount);
 
 			// 計算した座標変換行列を配列に追加
 			result.push_back(boneParam);

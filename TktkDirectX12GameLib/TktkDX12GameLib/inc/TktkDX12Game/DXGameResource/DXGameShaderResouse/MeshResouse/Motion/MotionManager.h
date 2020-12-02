@@ -33,7 +33,7 @@ namespace tktk
 
 		// ２つのフレームのボーン毎の行列と補完割合を使用し、線形補完したボーン毎の行列を計算する（キーが無い時は前後のキーから計算する）
 		// ※補完割合の値は「0.0でpreFrame100%」、「1.0でcurFrame100%」となる
-		std::vector<MotionBoneParam> calculateBoneTransformMatrices(size_t curHandle, size_t preHandle, size_t curFrame, size_t preFrame, float amount) const;
+		std::vector<MotionBoneParam> calculateBoneTransformMatrices(size_t curHandle, size_t preHandle, float curFrame, float preFrame, float amount) const;
 
 	private:
 

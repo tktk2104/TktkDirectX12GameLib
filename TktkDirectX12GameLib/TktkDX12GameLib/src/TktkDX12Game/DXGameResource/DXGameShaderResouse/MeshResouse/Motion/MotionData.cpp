@@ -50,23 +50,29 @@ namespace tktk
         return m_endFrameNo;
     }
 
-    std::vector<MotionBoneParam> MotionData::calculateBoneTransformMatrices(size_t frame) const
+    std::vector<MotionBoneParam> MotionData::calculateBoneTransformMatrices(float frame) const
     {
         // ボーン毎の座標変換行列の配列
         std::vector<MotionBoneParam> result{};
         result.reserve(m_boneKeyFrames.size());
 
+        // キーフレーム間の補完を行う為の割合
+        float amount = frame - static_cast<size_t>(frame);
+
         // モーションに登録されているボーンの種類だけ巡回
         for (const auto& keyFrames : m_boneKeyFrames)
         {
-            // 現在のフレームに対応したキーフレームを求める
-            auto keyFrame = calculateKeyFrame(keyFrames.second, frame);
+            // 手前のキーフレームを取得する
+            auto preKeyFrame = calculateKeyFrame(keyFrames.second, static_cast<size_t>(frame));
+
+            // 次のキーフレームを取得する
+            auto nextKeyFrame = calculateKeyFrame(keyFrames.second, static_cast<size_t>(frame + 1.0f));
 
             // キーフレームの座標変換を行列にまとめる
             auto transformMat
-                = tktkMath::Matrix4::createScale(keyFrame.scale)
-                * tktkMath::Matrix4::createFromQuaternion(keyFrame.rotation)
-                * tktkMath::Matrix4::createTranslation(keyFrame.position);
+                = tktkMath::Matrix4::createScale(tktkMath::Vector3::lerp(preKeyFrame.scale, nextKeyFrame.scale, amount))
+                * tktkMath::Matrix4::createFromQuaternion(tktkMath::Quaternion::slerp(preKeyFrame.rotation, nextKeyFrame.rotation, amount))
+                * tktkMath::Matrix4::createTranslation(tktkMath::Vector3::lerp(preKeyFrame.position, nextKeyFrame.position, amount));
 
             result.push_back({ keyFrames.first, transformMat });
         }
