@@ -132,15 +132,15 @@ void Act3D_LoadingScene::start()
 	tktk::DX12GameManager::loadMotionAndAttachId(MotionId::PlayerAttack2,		"res/motion/player/playerAttack_1.vmd");
 	tktk::DX12GameManager::loadMotionAndAttachId(MotionId::PlayerJumpAttack,	"res/motion/player/playerJumpAttack.vmd");
 
-	tktk::DX12GameManager::loadMotionAndAttachId(MotionId::FighterEnemyIdle,		"res/motion/mutant/Beta@mutant_idle.vmd");
-	tktk::DX12GameManager::loadMotionAndAttachId(MotionId::FighterEnemyStretchIdle,	"res/motion/mutant/Beta@mutant_idle_1.vmd");
-	tktk::DX12GameManager::loadMotionAndAttachId(MotionId::FighterEnemyWalk,		"res/motion/mutant/Beta@mutant_walking.vmd");
-	tktk::DX12GameManager::loadMotionAndAttachId(MotionId::FighterEnemyRun,			"res/motion/mutant/Beta@mutant_run.vmd");
-	tktk::DX12GameManager::loadMotionAndAttachId(MotionId::FighterEnemyPunch,		"res/motion/mutant/Beta@mutant_punch.vmd");
-	tktk::DX12GameManager::loadMotionAndAttachId(MotionId::FighterEnemySwiping,		"res/motion/mutant/Beta@mutant_swiping.vmd");
-	tktk::DX12GameManager::loadMotionAndAttachId(MotionId::FighterEnemyJumpAttack,	"res/motion/mutant/Beta@mutant_jump_attack.vmd");
-	tktk::DX12GameManager::loadMotionAndAttachId(MotionId::FighterEnemyDamage,		"res/motion/mutant/Beta@mutant_damage.vmd");
-	tktk::DX12GameManager::loadMotionAndAttachId(MotionId::FighterEnemyDead,		"res/motion/mutant/Beta@mutant_dying.vmd");
+	tktk::DX12GameManager::loadMotionAndAttachId(MotionId::FighterEnemyIdle,		"res/motion/fighterEnemy/Beta@mutant_idle.vmd");
+	tktk::DX12GameManager::loadMotionAndAttachId(MotionId::FighterEnemyStretchIdle,	"res/motion/fighterEnemy/Beta@mutant_idle_1.vmd");
+	tktk::DX12GameManager::loadMotionAndAttachId(MotionId::FighterEnemyWalk,		"res/motion/fighterEnemy/Beta@mutant_walking.vmd");
+	tktk::DX12GameManager::loadMotionAndAttachId(MotionId::FighterEnemyRun,			"res/motion/fighterEnemy/Beta@mutant_run.vmd");
+	tktk::DX12GameManager::loadMotionAndAttachId(MotionId::FighterEnemyPunch,		"res/motion/fighterEnemy/Beta@mutant_punch.vmd");
+	tktk::DX12GameManager::loadMotionAndAttachId(MotionId::FighterEnemySwiping,		"res/motion/fighterEnemy/Beta@mutant_swiping.vmd");
+	tktk::DX12GameManager::loadMotionAndAttachId(MotionId::FighterEnemyJumpAttack,	"res/motion/fighterEnemy/Beta@mutant_jump_attack.vmd");
+	tktk::DX12GameManager::loadMotionAndAttachId(MotionId::FighterEnemyDamage,		"res/motion/fighterEnemy/Beta@mutant_damage.vmd");
+	tktk::DX12GameManager::loadMotionAndAttachId(MotionId::FighterEnemyDead,		"res/motion/fighterEnemy/Beta@mutant_dying.vmd");
 
 	tktk::DX12GameManager::loadMotionAndAttachId(MotionId::ShooterEnemyIdle,		"res/motion/shooterEnemy/shooterEnemyIdle.vmd");
 	tktk::DX12GameManager::loadMotionAndAttachId(MotionId::ShooterEnemyWalk,		"res/motion/shooterEnemy/shooterEnemyWalk.vmd");
