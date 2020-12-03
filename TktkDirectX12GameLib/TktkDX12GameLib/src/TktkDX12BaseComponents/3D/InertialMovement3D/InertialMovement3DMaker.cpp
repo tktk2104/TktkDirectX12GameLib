@@ -1,5 +1,7 @@
 #include "TktkDX12BaseComponents/3D/InertialMovement3D/InertialMovement3DMaker.h"
 
+#include "TktkDX12Game/DXGameResource/GameObjectResouse/GameObject/GameObject.h"
+
 namespace tktk
 {
 	InertialMovement3DMaker InertialMovement3DMaker::m_self;
@@ -18,7 +20,7 @@ namespace tktk
 
 	ComponentPtr<InertialMovement3D> InertialMovement3DMaker::craete()
 	{
-		// コンポーネントを作成してそのポインタを返す
+		// コンポーネントを作成する
 		return m_user->createComponent<InertialMovement3D>(
 			m_decelerationPerSec,
 			m_initVelocity

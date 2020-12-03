@@ -2,24 +2,15 @@
 
 #include <algorithm>
 #include <TktkMath/MathHelper.h>
+#include "TktkDX12Game/DXGameResource/GameObjectResouse/GameObject/GameObject.h"
 #include "TktkDX12BaseComponents/3D/SphereCollider/SphereCollider.h"
+#include "TktkDX12BaseComponents/3D/BoxCollider/BoxCollider.h"
+#include "TktkDX12BaseComponents/3D/MeshDrawer/MonoColorMeshDrawerMaker.h"
 
 namespace tktk
 {
-	ColliderWireFrameDrawer3D::ColliderWireFrameDrawer3D(
-		float			drawPriority,
-		unsigned int	cameraId,
-		unsigned int	shadowMapCameraId,
-		unsigned int	lightId,
-		unsigned int	useRtvDescriptorHeapId,
-		const tktkMath::Color& lineColor
-	)
-		: m_drawPriority(drawPriority)
-		, m_cameraId(cameraId)
-		, m_shadowMapCameraId(shadowMapCameraId)
-		, m_lightId(lightId)
-		, m_useRtvDescriptorHeapId(useRtvDescriptorHeapId)
-		, m_lineColor(lineColor)
+	ColliderWireFrameDrawer3D::ColliderWireFrameDrawer3D(const tktkMath::Color& lineColor)
+		: m_lineColor(lineColor)
 	{
 	}
 
@@ -29,18 +20,37 @@ namespace tktk
 
 		for (const auto& sphereCollider : circleColliderList)
 		{
-			const tktkCollision::BoundingSphere& boundingCircle = static_cast<const tktkCollision::BoundingSphere&>(sphereCollider->getBodyBase());
+			m_wireFrameDrawerArray.push_back(
+				MonoColorMeshDrawerMaker::makeStart(getGameObject())
+				.setSphereMeshWireFrame()
+				.baseScale(sphereCollider->getBoundingSphere().getBaseRadius() * 2)
+				.basePosition(sphereCollider->getBoundingSphere().getBaseCenterPosition())
+				.albedoColor(m_lineColor)
+				.create()
+			);
+		}
+
+		auto boxColliderList = getComponents<BoxCollider>();
+
+		for (const auto& boxCollider : boxColliderList)
+		{
+			const auto& firstVert = boxCollider->getTempVerts().at(0U);
+			const auto& secondVert = boxCollider->getTempVerts().at(11U);
+			auto centerPos = (firstVert + secondVert) / 2.0f;
+
+			auto scale = tktkMath::Vector3{
+				(centerPos.x - firstVert.x) / 0.5f,
+				(centerPos.y - firstVert.y) / 0.5f,
+				(centerPos.z - firstVert.z) / 0.5f
+			};
 
 			m_wireFrameDrawerArray.push_back(
-				getGameObject()->createComponent<SphereMeshWireFrameDrawer>(
-					m_drawPriority,
-					boundingCircle.calculateRadius(),
-					m_lineColor,
-					m_cameraId,
-					m_shadowMapCameraId,
-					m_lightId,
-					m_useRtvDescriptorHeapId
-					)
+				MonoColorMeshDrawerMaker::makeStart(getGameObject())
+				.setBoxMeshWireFrame()
+				.baseScale(scale)
+				.basePosition(centerPos)
+				.albedoColor(m_lineColor)
+				.create()
 			);
 		}
 	}
@@ -50,7 +60,7 @@ namespace tktk
 		std::for_each(
 			std::begin(m_wireFrameDrawerArray),
 			std::end(m_wireFrameDrawerArray),
-			[](const ComponentPtr<SphereMeshWireFrameDrawer>& wireFrameDrawer) { wireFrameDrawer->setActive(true); }
+			[](const ComponentPtr<MonoColorMeshDrawer>& wireFrameDrawer) { wireFrameDrawer->setActive(true); }
 		);
 	}
 
@@ -59,7 +69,7 @@ namespace tktk
 		std::for_each(
 			std::begin(m_wireFrameDrawerArray),
 			std::end(m_wireFrameDrawerArray),
-			[](const ComponentPtr<SphereMeshWireFrameDrawer>& wireFrameDrawer) { wireFrameDrawer->setActive(false); }
+			[](const ComponentPtr<MonoColorMeshDrawer>& wireFrameDrawer) { wireFrameDrawer->setActive(false); }
 		);
 	}
 }

@@ -1,8 +1,14 @@
 #ifndef SCISSOR_RECT_DATA_H_
 #define SCISSOR_RECT_DATA_H_
 
+/* std::vector */
 #include <vector>
-#include "../../Includer/D3d12Includer.h"
+
+/* ID3D12GraphicsCommandList, D3D12_RECT */
+#include <d3d12.h>
+#undef min
+#undef max
+
 #include "ScissorRectInitParam.h"
 
 namespace tktk
@@ -14,6 +20,9 @@ namespace tktk
 
 		explicit ScissorRectData(const std::vector<ScissorRectInitParam>& initParamArray);
 		~ScissorRectData() = default;
+
+		// ムーブコンストラクタ
+		ScissorRectData(ScissorRectData&& other) noexcept;
 
 	public:
 

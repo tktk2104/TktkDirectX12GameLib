@@ -1,15 +1,18 @@
 #include "TktkDX12BaseComponents/3D/Camera/BasicCameraController.h"
 
+#include "TktkDX12BaseComponents/3D/Transform3D/Transform3D.h"
+#include "TktkDX12Game/_MainManager/DX12GameManager.h"
+
 namespace tktk
 {
 	BasicCameraController::BasicCameraController(
-		unsigned int cameraId,
+		size_t cameraHandle,
 		float camerafov,
 		float cameraAspect,
 		float cameraNear,
 		float cameraFar
 	)
-		: m_cameraId(cameraId)
+		: m_cameraHandle(cameraHandle)
 		, m_cameraFov(camerafov)
 		, m_cameraAspect(cameraAspect)
 		, m_cameraNear(cameraNear)
@@ -43,7 +46,7 @@ namespace tktk
 			m_transform->getWorldPosition() + cameraWorldMat.calculateForwardLH(),
 			cameraWorldMat.calculateUp()
 		);
-		DX12GameManager::setViewMatrix(m_cameraId, viewMat);
+		DX12GameManager::setViewMatrix(m_cameraHandle, viewMat);
 
 		auto projectionMat = tktkMath::Matrix4::createPerspectiveFieldOfViewLH(
 			m_cameraFov,
@@ -51,6 +54,6 @@ namespace tktk
 			m_cameraNear,
 			m_cameraFar
 		);
-		DX12GameManager::setProjectionMatrix(m_cameraId, projectionMat);
+		DX12GameManager::setProjectionMatrix(m_cameraHandle, projectionMat);
 	}
 }

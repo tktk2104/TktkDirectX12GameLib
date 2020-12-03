@@ -25,10 +25,19 @@ void MikuScript::onDestroy()
 
 void MikuScript::update()
 {
-	if (tktk::DX12GameManager::isTrigger(tktk::KeybordKeyType::key_Space))
+	if (tktk::DX12GameManager::isTrigger(tktk::KeybordKeyType::key_C))
 	{
-		getComponent<tktk::MeshAnimator>()->changeMotion(0U, 10.0f);
+		auto camera = tktk::DX12GameManager::findGameObjectWithTag(999);
+
+		m_transform->lookAt(camera->getComponent<tktk::Transform3D>());
 	}
+
+	//m_transform->addWorldEulerAngles({ 0.0f, 1.0f, 0.0f });
+
+	/*if (tktk::DX12GameManager::isTrigger(tktk::KeybordKeyType::key_Space))
+	{
+		getComponent<tktk::MeshAnimator>()->setNewMotionId(0U, 10.0f);
+	}*/
 
 	/*if (tktk::DX12GameManager::isPush(tktk::KeybordKeyType::key_Space))
 	{

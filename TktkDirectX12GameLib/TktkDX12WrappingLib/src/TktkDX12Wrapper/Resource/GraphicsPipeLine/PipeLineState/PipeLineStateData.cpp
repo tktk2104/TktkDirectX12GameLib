@@ -10,23 +10,29 @@ namespace tktk
 		ID3D12RootSignature* rootSignaturePtr
 	)
 	{
-		m_rootSignatureId = initParam.rootSignatureId;
+		m_rootSignatureHandle = initParam.rootSignatureHandle;
+
 
 		D3D12_GRAPHICS_PIPELINE_STATE_DESC graphicsPipeLineStateDesc{};
 		graphicsPipeLineStateDesc.pRootSignature					= rootSignaturePtr;
-		graphicsPipeLineStateDesc.VS.pShaderBytecode				= (vsByteArray.size() == 0U) ? nullptr : vsByteArray.data();
+		graphicsPipeLineStateDesc.VS.pShaderBytecode				= (vsByteArray.size() == 0LU) ? nullptr : vsByteArray.data();
 		graphicsPipeLineStateDesc.VS.BytecodeLength					= vsByteArray.size();
-		graphicsPipeLineStateDesc.PS.pShaderBytecode				= (psByteArray.size() == 0U) ? nullptr : psByteArray.data();
+		graphicsPipeLineStateDesc.PS.pShaderBytecode				= (psByteArray.size() == 0LU) ? nullptr : psByteArray.data();
 		graphicsPipeLineStateDesc.PS.BytecodeLength					= psByteArray.size();
 		graphicsPipeLineStateDesc.SampleMask						= initParam.sampleMask;
 		graphicsPipeLineStateDesc.RasterizerState					= initParam.rasterizerDesc;
 		graphicsPipeLineStateDesc.BlendState						= initParam.blendDesc;
 		graphicsPipeLineStateDesc.InputLayout.pInputElementDescs	= initParam.inputLayoutArray.data();
-		graphicsPipeLineStateDesc.InputLayout.NumElements			= initParam.inputLayoutArray.size();
 		graphicsPipeLineStateDesc.IBStripCutValue					= D3D12_INDEX_BUFFER_STRIP_CUT_VALUE_DISABLED;
 		graphicsPipeLineStateDesc.PrimitiveTopologyType				= initParam.primitiveTopology;
 
-		graphicsPipeLineStateDesc.NumRenderTargets = initParam.renderTargetFormatArray.size();
+#ifdef _M_AMD64 /* x64ƒrƒ‹ƒh‚È‚ç */
+		graphicsPipeLineStateDesc.InputLayout.NumElements			= static_cast<unsigned int>(initParam.inputLayoutArray.size());
+		graphicsPipeLineStateDesc.NumRenderTargets					= static_cast<unsigned int>(initParam.renderTargetFormatArray.size());
+#else
+		graphicsPipeLineStateDesc.InputLayout.NumElements			= initParam.inputLayoutArray.size();
+		graphicsPipeLineStateDesc.NumRenderTargets					= initParam.renderTargetFormatArray.size();
+#endif // WIN64
 
 		if (graphicsPipeLineStateDesc.NumRenderTargets == 0U)
 		{
@@ -62,9 +68,16 @@ namespace tktk
 		}
 	}
 
-	unsigned int PipeLineStateData::getUseRootSignatureIndex() const
+	PipeLineStateData::PipeLineStateData(PipeLineStateData&& other) noexcept
+		: m_rootSignatureHandle(other.m_rootSignatureHandle)
+		, m_pipeLineState(other.m_pipeLineState)
 	{
-		return m_rootSignatureId;
+		m_pipeLineState = nullptr;
+	}
+
+	size_t PipeLineStateData::getUseRootSignatureHandle() const
+	{
+		return m_rootSignatureHandle;
 	}
 
 	void PipeLineStateData::set(ID3D12GraphicsCommandList* commandList) const

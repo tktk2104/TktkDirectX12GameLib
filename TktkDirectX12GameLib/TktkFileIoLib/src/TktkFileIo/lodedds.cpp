@@ -150,7 +150,9 @@ namespace tktkFileIo
 		case DXGI_FORMAT_R16_SINT:
 		case DXGI_FORMAT_B5G6R5_UNORM:
 		case DXGI_FORMAT_B5G5R5A1_UNORM:
+#ifndef _M_AMD64 /* x64ビルドなら */
 		case DXGI_FORMAT_B4G4R4A4_UNORM:
+#endif
 			return 16U;
 
 		case DXGI_FORMAT_R8_TYPELESS:
@@ -252,10 +254,12 @@ namespace tktkFileIo
 					return DXGI_FORMAT_B5G6R5_UNORM;
 				}
 
+#ifndef _M_AMD64 /* x64ビルドなら */
 				if (ISBITMASK(0x0f00, 0x00f0, 0x000f, 0xf000))
 				{
 					return DXGI_FORMAT_B4G4R4A4_UNORM;
 				}
+#endif
 
 				break;
 
@@ -639,8 +643,14 @@ namespace tktkFileIo
 
 		int offset = static_cast<int>(sizeof(unsigned int) + sizeof(DDS_HEADER) + (bDXT10Header ? sizeof(DDS_HEADER_DXT10) : 0));
 
+#ifdef _M_AMD64 /* x64ビルドなら */
+
+		// TODO : 最後の引数の意味を調べる
+		createTextureFromDDS(outData, header, outData->rawDdsFileData.data() + offset, static_cast<unsigned int>(outData->rawDdsFileData.size()) - offset, 0);
+#else
 		// TODO : 最後の引数の意味を調べる
 		createTextureFromDDS(outData, header, outData->rawDdsFileData.data() + offset, outData->rawDdsFileData.size() - offset, 0);
+#endif // _M_AMD64
 	}
 
 	void lodedds::createTextureFromDDS(loadData* outData, const DDS_HEADER * header, const unsigned char * bitData, unsigned int bitSize, unsigned int maxSize)

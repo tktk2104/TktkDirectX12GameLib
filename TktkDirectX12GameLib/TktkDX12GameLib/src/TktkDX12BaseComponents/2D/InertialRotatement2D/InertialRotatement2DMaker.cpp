@@ -1,5 +1,7 @@
 #include "TktkDX12BaseComponents/2D/InertialRotatement2D/InertialRotatement2DMaker.h"
 
+#include "TktkDX12Game/DXGameResource/GameObjectResouse/GameObject/GameObject.h"
+
 namespace tktk
 {
 	InertialRotatement2DMaker InertialRotatement2DMaker::m_self;
@@ -18,7 +20,7 @@ namespace tktk
 
 	ComponentPtr<InertialRotatement2D> InertialRotatement2DMaker::create()
 	{
-		// コンポーネントを作成してそのポインタを返す
+		// コンポーネントを作成する
 		return m_user->createComponent<InertialRotatement2D>(
 			m_decelerationPerSec,
 			m_initVelocity

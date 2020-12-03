@@ -1,8 +1,14 @@
 #ifndef BASIC_DESCRIPTOR_HEAP_DATA_H_
 #define BASIC_DESCRIPTOR_HEAP_DATA_H_
 
+/* std::vector */
 #include <vector>
-#include "../../../Includer/D3d12Includer.h"
+
+/* ID3D12Device, ID3D12GraphicsCommandList, D3D12_CPU_DESCRIPTOR_HANDLE, ID3D12DescriptorHeap,  */
+#include <d3d12.h>
+#undef min
+#undef max
+
 #include "BasicDescriptorHeapInitParam.h"
 
 namespace tktk
@@ -14,6 +20,9 @@ namespace tktk
 
 		BasicDescriptorHeapData(ID3D12Device* device, const BasicDescriptorHeapInitParam& initParam);
 		~BasicDescriptorHeapData();
+
+		// ムーブコンストラクタ
+		BasicDescriptorHeapData(BasicDescriptorHeapData&& other) noexcept;
 
 	public:
 
@@ -29,9 +38,8 @@ namespace tktk
 	public:
 
 		// それぞれのディスクリプタテーブルが持っているディスクリプタの数の配列
-		std::vector<unsigned int> m_descriptorTableSizeArray;
-
-		ID3D12DescriptorHeap*	m_descriptorHeap{ nullptr };
+		std::vector<size_t>		m_descriptorTableSizeArray;
+		ID3D12DescriptorHeap*	m_descriptorHeap			{ nullptr };
 	};
 }
 #endif // !BASIC_DESCRIPTOR_HEAP_DATA_H_

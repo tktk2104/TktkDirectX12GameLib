@@ -123,31 +123,22 @@ namespace tktkMath
 		static constexpr Vector3 positiveInfinity	{  std::numeric_limits<float>::infinity() };
 	};
 
-	// 定数達（非推奨：「Vector3_v::」を使ってください）
-	constexpr Vector3 vec3Zero = { 0.0f };
-	constexpr Vector3 vec3One = { 1.0f };
-	constexpr Vector3 vec3Up = { 0.0f,  1.0f,  0.0f };
-	constexpr Vector3 vec3Down = { 0.0f, -1.0f,  0.0f };
-	constexpr Vector3 vec3Left = { -1.0f,  0.0f,  0.0f };
-	constexpr Vector3 vec3Right = { 1.0f,  0.0f,  0.0f };
-	constexpr Vector3 vec3ForwardLH = { 0.0f,  0.0f,  1.0f };	//（DirectX等）
-	constexpr Vector3 vec3BackwardLH = { 0.0f,  0.0f, -1.0f };	//（DirectX等）
-	constexpr Vector3 vec3ForwardRH = { 0.0f,  0.0f, -1.0f };	//（OpenGL等）
-	constexpr Vector3 vec3BackwardRH = { 0.0f,  0.0f,  1.0f };	//（OpenGL等）
-	constexpr Vector3 vec3NegativeInfinity = { -std::numeric_limits<float>::infinity() };
-	constexpr Vector3 vec3PositiveInfinity = { std::numeric_limits<float>::infinity() };
-
 	// 演算子オーバーロード達
 	Vector3			operator -  (const Vector3& v);
 	Vector3&		operator += (Vector3& v1, const Vector3& v2);
 	Vector3&		operator -= (Vector3& v1, const Vector3& v2);
-	Vector3&		operator *= (Vector3& v, float s);
-	Vector3&		operator /= (Vector3& v, float s);
+	template <class T>
+	Vector3&		operator *= (Vector3& v, T s)	{ v.x *= s; v.y *= s; v.z *= s; return v; };
+	template <class T>
+	Vector3&		operator /= (Vector3& v, T s)	{ v.x /= s; v.y /= s; v.z /= s; return v; };
 	Vector3			operator +  (Vector3 v1, const Vector3& v2);
 	Vector3			operator -  (Vector3 v1, const Vector3& v2);
-	Vector3			operator *  (Vector3 v, float s);
-	Vector3			operator *  (float s, Vector3 v);
-	Vector3			operator /  (Vector3 v, float s);
+	template <class T>
+	Vector3			operator *  (Vector3 v, T s) { return v *= s; };
+	template <class T>
+	Vector3			operator *  (T s, Vector3 v) { return v *= s; };
+	template <class T>
+	Vector3			operator /  (Vector3 v, T s) { return v /= s; };
 	bool			operator == (const Vector3& lhs, const Vector3& rhs);
 	bool			operator != (const Vector3& lhs, const Vector3& rhs);
 	std::ostream&	operator << (std::ostream& os, const Vector3& vector3);

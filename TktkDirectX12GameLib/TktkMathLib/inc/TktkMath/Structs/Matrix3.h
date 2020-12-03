@@ -84,23 +84,34 @@ namespace tktkMath
 		};
 	};
 
-	// 定数達（非推奨：「Matrix3_v::」を使ってください）
-	constexpr Matrix3 mat3Zero{ 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f };
-	constexpr Matrix3 mat3Identity{ 1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f };
-
 	// 演算子オーバーロード達
 	Matrix3			operator -  (const Matrix3& m);
 	Matrix3&		operator += (Matrix3& m1, const Matrix3& m2);
 	Matrix3&		operator -= (Matrix3& m1, const Matrix3& m2);
 	Matrix3&		operator *= (Matrix3& m1, const Matrix3& m2);
-	Matrix3&		operator *= (Matrix3& m, float s);
-	Matrix3&		operator /= (Matrix3& m, float s);
+	template <class T>
+	Matrix3&		operator *= (Matrix3& m, T s)
+	{
+		for (int i = 0; i < 3; ++i)
+		{
+			for (int j = 0; j < 3; ++j)
+			{
+				m.m[i][j] *= s;
+			}
+		}
+		return m;
+	}
+	template <class T>
+	Matrix3&		operator /= (Matrix3& m, T s) { return m *= (1.0f / s); };
 	Matrix3			operator +  (Matrix3 m1, const Matrix3& m2);
 	Matrix3			operator -  (Matrix3 m1, const Matrix3& m2);
 	Matrix3			operator *  (Matrix3 m1, const Matrix3& m2);
-	Matrix3			operator *  (Matrix3 m, float s);
-	Matrix3			operator *  (float s, Matrix3 m);
-	Matrix3			operator /  (Matrix3 m, float s);
+	template <class T>
+	Matrix3			operator *  (Matrix3 m, T s) { return m *= s; };
+	template <class T>
+	Matrix3			operator *  (T s, Matrix3 m) { return m *= s; };
+	template <class T>
+	Matrix3			operator /  (Matrix3 m, T s) { return m /= s; };
 	Vector2			operator *	(const Vector2& v, const Matrix3& m);
 	Vector2&		operator *=	(Vector2& v, const Matrix3& m);
 	std::ostream&	operator << (std::ostream& os, const Matrix3& matrix);

@@ -2,23 +2,28 @@
 
 namespace tktk
 {
-	RootSignature::RootSignature(unsigned int rootSignatureNum)
-		: m_rootSignatureDataArray(rootSignatureNum)
+	RootSignature::RootSignature(const tktkContainer::ResourceContainerInitParam& initParam)
+		: m_rootSignatureDataArray(initParam)
 	{
 	}
 
-	void RootSignature::create(unsigned int id, ID3D12Device* device, const RootSignatureInitParam& initParam)
+	size_t RootSignature::create(ID3D12Device* device, const RootSignatureInitParam& initParam)
 	{
-		m_rootSignatureDataArray.emplaceAt(id, device, initParam);
+		return m_rootSignatureDataArray.create(device, initParam);
 	}
 
-	ID3D12RootSignature* RootSignature::getPtr(unsigned int id) const
+	void RootSignature::erase(size_t handle)
 	{
-		return m_rootSignatureDataArray.at(id)->getPtr();
+		m_rootSignatureDataArray.erase(handle);
 	}
 
-	void RootSignature::set(unsigned int id, ID3D12GraphicsCommandList* commandList) const
+	ID3D12RootSignature* RootSignature::getPtr(size_t handle) const
 	{
-		m_rootSignatureDataArray.at(id)->set(commandList);
+		return m_rootSignatureDataArray.getMatchHandlePtr(handle)->getPtr();
+	}
+
+	void RootSignature::set(size_t handle, ID3D12GraphicsCommandList* commandList) const
+	{
+		m_rootSignatureDataArray.getMatchHandlePtr(handle)->set(commandList);
 	}
 }

@@ -9,20 +9,26 @@ namespace tktk
 
 		// ディスクリプタヒープを作る
 		D3D12_DESCRIPTOR_HEAP_DESC descHeapDesc{};
-		descHeapDesc.Flags = (initParam.shaderVisible) ? D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE : D3D12_DESCRIPTOR_HEAP_FLAG_NONE;
-		descHeapDesc.NodeMask = 0U;
-		descHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
+		descHeapDesc.Flags			= (initParam.shaderVisible) ? D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE : D3D12_DESCRIPTOR_HEAP_FLAG_NONE;
+		descHeapDesc.NodeMask		= 0U;
+		descHeapDesc.Type			= D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
 		descHeapDesc.NumDescriptors = 0U; /* 値の初期化のみ */
 
 		// ディスクリプタテーブルの数だけループする
 		for (const auto& node : initParam.descriptorTableParamArray)
 		{
+#ifdef _M_AMD64 /* x64ビルドなら */
+			// ディスクリプタの数をディスクリプタテーブルが管理している数分加算する
+			descHeapDesc.NumDescriptors += static_cast<unsigned int>(node.descriptorParamArray.size());
+#else
 			// ディスクリプタの数をディスクリプタテーブルが管理している数分加算する
 			descHeapDesc.NumDescriptors += node.descriptorParamArray.size();
+#endif // WIN64
 
 			// ディスクリプタテーブル毎のディスクリプタの数を記録する
 			m_descriptorTableSizeArray.push_back(node.descriptorParamArray.size());
 		}
+
 		device->CreateDescriptorHeap(&descHeapDesc, IID_PPV_ARGS(&m_descriptorHeap));
 	}
 
@@ -32,6 +38,14 @@ namespace tktk
 		{
 			m_descriptorHeap->Release();
 		}
+	}
+
+	BasicDescriptorHeapData::BasicDescriptorHeapData(BasicDescriptorHeapData&& other) noexcept
+		: m_descriptorTableSizeArray(std::move(other.m_descriptorTableSizeArray))
+		, m_descriptorHeap(other.m_descriptorHeap)
+	{
+		other.m_descriptorHeap = nullptr;
+		other.m_descriptorTableSizeArray.clear();
 	}
 
 	std::vector<D3D12_CPU_DESCRIPTOR_HANDLE> BasicDescriptorHeapData::getCpuHeapHandleArray(ID3D12Device* device) const

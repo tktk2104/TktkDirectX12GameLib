@@ -1,11 +1,41 @@
 #ifndef TKTK_DX12_GAME_H_
 #define TKTK_DX12_GAME_H_
 
+/* std::forward_list */
 #include <forward_list>
-#include <TktkTemplateMetaLib/TypeCheck/isIdType.h>
+
+/* funcUseType */
+#include <TktkMath/Structs/Vector2.h>
+#include "EventMessage/MessageTypeCarrier.h"
 #include "EventMessage/MessageAttachment.h"
-#include "GameObject/GameObjectPtr.h"
-#include "_MainManager/DX12GameManagerFuncArgsIncluder.h"
+#include "DXGameResource/GameObjectResouse/GameObject/GameObject.h"
+#include "DXGameResource/GameObjectResouse/GameObject/GameObjectPtr.h"
+#include "DXGameResource/GameObjectResouse/GameObject/GameObjectTagCarrier.h"
+#include "DXGameResource/GameObjectResouse/Component/ComponentCollisionFunc/CollisionGroupTypeCarrier.h"
+#include "UtilityProcessManager/InputManager/InputGetter/MouseInputGetter/MouseBtnType.h"
+#include "UtilityProcessManager/InputManager/InputGetter/DirectInputWrapper/KeyboardInputGetter/KeybordKeyType.h"
+#include "UtilityProcessManager/InputManager/InputGetter/DirectInputWrapper/GamePadInputGetter/GamePadBtnType.h"
+#include "UtilityProcessManager/InputManager/CommandTypeManager/CommandIdCarrier.h"
+#include "UtilityProcessManager/InputManager/CommandTypeManager/DirectionCommandId.h"
+#include "UtilityProcessManager/ResourceHandleGetter/SystemResourceHandleGetter/IdType/SystemViewportType.h"
+#include "UtilityProcessManager/ResourceHandleGetter/SystemResourceHandleGetter/IdType/SystemScissorRectType.h"
+#include "UtilityProcessManager/ResourceHandleGetter/SystemResourceHandleGetter/IdType/SystemVertexBufferType.h"
+#include "UtilityProcessManager/ResourceHandleGetter/SystemResourceHandleGetter/IdType/SystemIndexBufferType.h"
+#include "UtilityProcessManager/ResourceHandleGetter/SystemResourceHandleGetter/IdType/SystemConstantBufferType.h"
+#include "UtilityProcessManager/ResourceHandleGetter/SystemResourceHandleGetter/IdType/SystemTextureBufferType.h"
+#include "UtilityProcessManager/ResourceHandleGetter/SystemResourceHandleGetter/IdType/SystemRenderTargetBufferType.h"
+#include "UtilityProcessManager/ResourceHandleGetter/SystemResourceHandleGetter/IdType/SystemDepthStencilBufferType.h"
+#include "UtilityProcessManager/ResourceHandleGetter/SystemResourceHandleGetter/IdType/SystemBasicDescriptorHeapType.h"
+#include "UtilityProcessManager/ResourceHandleGetter/SystemResourceHandleGetter/IdType/SystemRtvDescriptorHeapType.h"
+#include "UtilityProcessManager/ResourceHandleGetter/SystemResourceHandleGetter/IdType/SystemDsvDescriptorHeapType.h"
+#include "UtilityProcessManager/ResourceHandleGetter/SystemResourceHandleGetter/IdType/SystemRootSignatureType.h"
+#include "UtilityProcessManager/ResourceHandleGetter/SystemResourceHandleGetter/IdType/SystemPipeLineStateType.h"
+#include "UtilityProcessManager/ResourceHandleGetter/SystemResourceHandleGetter/IdType/SystemCameraType.h"
+#include "UtilityProcessManager/ResourceHandleGetter/SystemResourceHandleGetter/IdType/SystemLightType.h"
+#include "UtilityProcessManager/ResourceHandleGetter/SystemResourceHandleGetter/IdType/SystemBasicMeshType.h"
+#include "UtilityProcessManager/ResourceHandleGetter/SystemResourceHandleGetter/IdType/SystemBasicMeshMaterialType.h"
+#include "UtilityProcessManager/ResourceHandleGetter/SystemResourceHandleGetter/IdType/SystemPostEffectMaterialType.h"
+#include "UtilityProcessManager/ResourceHandleGetter/ResourceIdConverter/ResourceIdCarrier.h"
 
 namespace tktk
 {
@@ -25,71 +55,66 @@ namespace tktk
 	public:
 
 		// シーンを有効にする
-		template <class SceneType>
-		static void enableScene(SceneType id);
+		// ※内部で対応するリソースハンドルに変換される
+		static void enableScene(ResourceIdCarrier id);
 
 		// シーンを無効にする
-		template <class SceneType>
-		static void disableScene(SceneType id);
+		// ※内部で対応するリソースハンドルに変換される
+		static void disableScene(ResourceIdCarrier id);
 
 	//************************************************************
 	/* ゲームオブジェクトの処理 */
 	public:
 
 		// 全てのGameObjectにメッセージを送信する
-		template <class MessageIdType>
-		static void sendMessageAll(MessageIdType messageId, const MessageAttachment& value = {});
+		static void sendMessageAll(MessageTypeCarrier type, const MessageAttachment& attachment = {});
 
 		// ゲームオブジェクトを作成し、そのポインタを返す
 		static GameObjectPtr createGameObject();
 
 		// 引数のタグを持ったゲームオブジェクトを取得する
+		// ※該当オブジェクトが無かった場合、空のGameObjectPtrを取得する
 		// ※複数該当オブジェクトがあった場合、最初に見つけた１つを取得する
-		template <class GameObjectTagType>
-		static GameObjectPtr findGameObjectWithTag(GameObjectTagType tag);
+		static GameObjectPtr findGameObjectWithTag(GameObjectTagCarrier tag);
 
 		// 引数のタグを持ったゲームオブジェクトを全て取得する
-		template <class GameObjectTagType>
-		static std::forward_list<GameObjectPtr> findGameObjectsWithTag(GameObjectTagType tag);
+		static std::forward_list<GameObjectPtr> findGameObjectsWithTag(GameObjectTagCarrier tag);
+
+		// 引数のタグを持ったゲームオブジェクトを全て削除する
+		static void destroyGameObjectsWithTag(GameObjectTagCarrier tag);
 
 	//************************************************************
-	/* マウス入力関係の処理 */
+	/* 入力関係の処理 */
 	public:
+
+		// IDに対応した入力が押されているかを判定
+		static bool isPush(CommandIdCarrier commandId);
+		// IDに対応した入力が押され始めたかを判定
+		static bool isTrigger(CommandIdCarrier commandId);
 
 		// 指定のボタンが押されているか
-		static bool isPush(MouseButtonType buttonType);
-
+		static bool isPush(MouseBtnType btnType);
 		// 指定のボタンが押され始めたかを判定
-		static bool isTrigger(MouseButtonType buttonType);
-
-		// マウスカーソルの座標を取得する
-		static tktkMath::Vector2 mousePos();
-
-	//************************************************************
-	/* キーボード入力関係の処理 */
-	public:
-
+		static bool isTrigger(MouseBtnType btnType);
+		
 		// 指定のキーが押されているかを判定
 		static bool isPush(KeybordKeyType keyType);
-
 		// 指定のキーが押され始めたかを判定
 		static bool isTrigger(KeybordKeyType keyType);
 
-	//************************************************************
-	/* ゲームパッド入力関係の処理 */
-	public:
-
-		// 左スティックの傾きを取得（-1.0～1.0の間）
-		static tktkMath::Vector2 getLstick();
-
-		// 右スティックの傾きを取得（-1.0～1.0の間）
-		static tktkMath::Vector2 getRstick();
-
 		// 指定のボタンが押されているかを判定
-		static bool isPush(GamePadBtnType buttonType);
-
+		static bool isPush(GamePadBtnType btnType);
 		// 指定のボタンが押され始めたかを判定
-		static bool isTrigger(GamePadBtnType buttonType);
+		static bool isTrigger(GamePadBtnType btnType);
+
+		// 移動方向を取得
+		static const tktkMath::Vector2& moveVec();
+
+		// 視点移動方向を取得
+		static const tktkMath::Vector2& lookVec();
+
+		// マウスカーソルの座標を取得する
+		static tktkMath::Vector2 mousePos();
 
 	//************************************************************
 	/* タイム関係の処理 */
@@ -126,53 +151,27 @@ namespace tktk
 		static float fps();
 
 	//************************************************************
-	/* 非テンプレート関数 */
-	private:
+	/* システムのリソースを使うためのハンドルを取得する */
+	public:
 
-		static void enableSceneImpl(unsigned int id);
-		static void disableSceneImpl(unsigned int id);
-		static void sendMessageAllImpl(unsigned int messageId, const MessageAttachment& value);
-		static GameObjectPtr findGameObjectWithTagImpl(int tag);
-		static std::forward_list<GameObjectPtr> findGameObjectsWithTagImpl(int tag);
+		static size_t getSystemHandle(SystemViewportType type);
+		static size_t getSystemHandle(SystemScissorRectType type);
+		static size_t getSystemHandle(SystemVertexBufferType type);
+		static size_t getSystemHandle(SystemIndexBufferType type);
+		static size_t getSystemHandle(SystemCBufferType type);
+		static size_t getSystemHandle(SystemTextureBufferType type);
+		static size_t getSystemHandle(SystemRtBufferType type);
+		static size_t getSystemHandle(SystemDsBufferType type);
+		static size_t getSystemHandle(SystemBasicDescriptorHeapType type);
+		static size_t getSystemHandle(SystemRtvDescriptorHeapType type);
+		static size_t getSystemHandle(SystemDsvDescriptorHeapType type);
+		static size_t getSystemHandle(SystemRootSignatureType type);
+		static size_t getSystemHandle(SystemPipeLineStateType type);
+		static size_t getSystemHandle(SystemCameraType type);
+		static size_t getSystemHandle(SystemLightType type);
+		static size_t getSystemHandle(SystemMeshType type);
+		static size_t getSystemHandle(SystemMeshMaterialType type);
+		static size_t getSystemHandle(SystemPostEffectMaterialType type);
 	};
-//┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-//┃ここから下は関数の実装
-//┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-	// シーンを有効にする
-	template<class SceneType>
-	inline void DX12Game::enableScene(SceneType id)
-	{
-		enableSceneImpl(static_cast<unsigned int>(id));
-	}
-
-	// シーンを無効にする
-	template<class SceneType>
-	inline void DX12Game::disableScene(SceneType id)
-	{
-		disableSceneImpl(static_cast<unsigned int>(id));
-	}
-
-	// 全てのGameObjectにメッセージを送信する
-	template<class MessageIdType>
-	inline void DX12Game::sendMessageAll(MessageIdType messageId, const MessageAttachment& value)
-	{
-		sendMessageAllImpl(static_cast<unsigned int>(messageId), value);
-	}
-
-	// 引数のタグを持ったゲームオブジェクトを取得する
-	// ※複数該当オブジェクトがあった場合、最初に見つけた１つを取得する
-	template<class GameObjectTagType>
-	inline GameObjectPtr DX12Game::findGameObjectWithTag(GameObjectTagType tag)
-	{
-		return findGameObjectWithTagImpl(static_cast<int>(tag));
-	}
-
-	// 引数のタグを持ったゲームオブジェクトを全て取得する
-	template<class GameObjectTagType>
-	inline std::forward_list<GameObjectPtr> DX12Game::findGameObjectsWithTag(GameObjectTagType tag)
-	{
-		return findGameObjectsWithTagImpl(static_cast<int>(tag));
-	}
 }
 #endif // !TKTK_DX12_GAME_H_

@@ -1,47 +1,40 @@
 #include "TktkCollision/3D/BoundingSphere.h"
 
-#include "TktkCollision/3D/Body3dBase/CollisionSupport3D.h"
+#include "TktkCollision/3D/CollisionSupport3D.h"
 
 namespace tktkCollision
 {
-	BoundingSphere::BoundingSphere(
-		float radius,
-		const tktkMath::Vector3& localPosition
-	)
-		: Body3dBase(
-			ShapeType3D::Sphere,
-			tktkMath::Matrix4::createTranslation(localPosition)
-		)
-		, m_radius(radius)
+	BoundingSphere::BoundingSphere(float radius, const tktkMath::Vector3& centerPosition)
+		: m_baseRadius(radius)
+		, m_baseCenterPosition(centerPosition)
+		, m_transformedRadius(radius)
+		, m_transformedCenterPosition(centerPosition)
 	{
 	}
 
-	bool BoundingSphere::isCollide(const Body3dBase& other, HitInfo3D* hitinfo) const
+	void BoundingSphere::transform(const tktkMath::Matrix4& worldMatrix)
 	{
-		switch (other.getShapeType())
-		{
-		case ShapeType3D::Sphere:
-
-			return CollisionSupport3D::collideSphereToSphere(*this, other, hitinfo);
-
-		case ShapeType3D::AABB:
-
-			return CollisionSupport3D::collideSphereToAabb(*this, other, hitinfo);
-		}
-		return false;
+		m_transformedCenterPosition = m_baseCenterPosition * worldMatrix;
+		m_transformedRadius			= m_baseRadius * worldMatrix.calculateScale().x;
 	}
 
-	float BoundingSphere::calculateRadius() const
+	float BoundingSphere::getBaseRadius() const
 	{
-		tktkMath::Matrix4 worldRadius = tktkMath::Matrix4::createScale(tktkMath::Vector3(m_radius, m_radius, m_radius)) * calculatePose();
-
-		return worldRadius.calculateScale().x;
+		return m_baseRadius;
 	}
 
-	float BoundingSphere::calculateLocalRadius() const
+	const tktkMath::Vector3& BoundingSphere::getBaseCenterPosition() const
 	{
-		tktkMath::Matrix4 worldRadius = tktkMath::Matrix4::createScale(tktkMath::Vector3(m_radius, m_radius, m_radius)) * getLocalMatrix();
+		return m_baseCenterPosition;
+	}
 
-		return worldRadius.calculateScale().x;
+	float BoundingSphere::getTransformedRadius() const
+	{
+		return m_transformedRadius;
+	}
+
+	const tktkMath::Vector3& BoundingSphere::getTransformedCenterPosition() const
+	{
+		return m_transformedCenterPosition;
 	}
 }

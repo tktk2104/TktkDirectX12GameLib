@@ -1,5 +1,6 @@
 #include "TktkDX12Wrapper/Resource/Buffer/BufferResource.h"
 
+#include "TktkDX12Wrapper/Resource/Buffer/Upload/UploadBuffer.h"
 #include "TktkDX12Wrapper/Resource/Buffer/Vertex/VertexBuffer.h"
 #include "TktkDX12Wrapper/Resource/Buffer/Index/IndexBuffer.h"
 #include "TktkDX12Wrapper/Resource/Buffer/Constant/ConstantBuffer.h"
@@ -11,122 +12,197 @@ namespace tktk
 {
 	BufferResource::BufferResource(const BufferResourceNum& initParam)
 	{
-		m_vertexBuffer			= std::make_unique<VertexBuffer>(initParam.vertexBufferNum);
-		m_indexBuffer			= std::make_unique<IndexBuffer>(initParam.indexBufferNum);
-		m_constantBuffer		= std::make_unique<ConstantBuffer>(initParam.constantBufferNum);
-		m_textureBuffer			= std::make_unique<TextureBuffer>(initParam.textureBufferNum);
-		m_depthStencilBuffer	= std::make_unique<DepthStencilBuffer>(initParam.depthStencilBufferNum);
-		m_renderTargetBuffer	= std::make_unique<RenderTargetBuffer>(initParam.renderTargetBufferNum);
+		m_uploadBuffer			= std::make_unique<UploadBuffer>(initParam.copyBufferContainerInitParam);
+		m_vertexBuffer			= std::make_unique<VertexBuffer>(initParam.vertexBufferContainerInitParam);
+		m_indexBuffer			= std::make_unique<IndexBuffer>(initParam.indexBufferContainerInitParam);
+		m_constantBuffer		= std::make_unique<ConstantBuffer>(initParam.cbufferContainerInitParam);
+		m_textureBuffer			= std::make_unique<TextureBuffer>(initParam.textureBufferStaticNodeNum);
+		m_depthStencilBuffer	= std::make_unique<DepthStencilBuffer>(initParam.dsbufferStaticNodeNum);
+		m_renderTargetBuffer	= std::make_unique<RenderTargetBuffer>(initParam.rtbufferStaticNodeNum);
 	}
 
 	// デストラクタを非インライン化する
 	BufferResource::~BufferResource() = default;
 
-	void BufferResource::deleteUploadBufferAll()
+	size_t BufferResource::createUploadBuffer(ID3D12Device* device, const UploadBufferInitParam& initParam)
 	{
-		m_vertexBuffer->deleteUploadBufferAll();
-		m_indexBuffer->deleteUploadBufferAll();
-		m_constantBuffer->deleteUploadBufferAll();
+		return m_uploadBuffer->create(device, initParam);
 	}
 
-	void BufferResource::createVertexBuffer(unsigned int id, ID3D12Device* device, unsigned int vertexTypeSize, unsigned int vertexDataCount, const void* vertexDataTopPos)
+	size_t BufferResource::duplicateUploadBuffer(ID3D12Device* device, size_t originalHandle)
 	{
-		m_vertexBuffer->create(id, device, vertexTypeSize, vertexDataCount, vertexDataTopPos);
+		return m_uploadBuffer->duplicate(device, originalHandle);
 	}
 
-	void BufferResource::updateVertexBuffer(unsigned int id, ID3D12Device* device, ID3D12GraphicsCommandList* commandList, unsigned int vertexTypeSize, unsigned int vertexDataCount, const void* vertexDataTopPos)
+	void BufferResource::eraseUploadBuffer(size_t handle)
 	{
-		m_vertexBuffer->updateBuffer(id, device, commandList, vertexTypeSize, vertexDataCount, vertexDataTopPos);
+		m_uploadBuffer->erase(handle);
 	}
 
-	void BufferResource::setVertexBuffer(unsigned int id, ID3D12GraphicsCommandList* commandList) const
+	void BufferResource::updateUploadBuffer(size_t handle, const CopySourceDataCarrier& bufferData)
 	{
-		m_vertexBuffer->set(id, commandList);
+		m_uploadBuffer->updateBuffer(handle, bufferData);
 	}
 
-	void BufferResource::createIndexBuffer(unsigned int id, ID3D12Device* device, const std::vector<unsigned short>& indexDataArray)
+	void BufferResource::copyBuffer(size_t handle, ID3D12GraphicsCommandList* commandList) const
 	{
-		m_indexBuffer->create(id, device, indexDataArray);
+		switch (m_uploadBuffer->getTargetBufferType(handle))
+		{
+		case BufferType::renderTarget:
+
+			m_uploadBuffer->copyBuffer(handle, commandList, m_renderTargetBuffer->getBufferPtr(m_uploadBuffer->getTargetBufferHandle(handle)));
+			break;
+
+		case BufferType::depthStencil:
+
+			m_uploadBuffer->copyBuffer(handle, commandList, m_depthStencilBuffer->getBufferPtr(m_uploadBuffer->getTargetBufferHandle(handle)));
+			break;
+
+		case BufferType::vertex:
+
+			m_uploadBuffer->copyBuffer(handle, commandList, m_vertexBuffer->getBufferPtr(m_uploadBuffer->getTargetBufferHandle(handle)));
+			break;
+
+		case BufferType::index:
+
+			m_uploadBuffer->copyBuffer(handle, commandList, m_indexBuffer->getBufferPtr(m_uploadBuffer->getTargetBufferHandle(handle)));
+			break;
+
+		case BufferType::constant:
+
+			m_uploadBuffer->copyBuffer(handle, commandList, m_constantBuffer->getBufferPtr(m_uploadBuffer->getTargetBufferHandle(handle)));
+			break;
+
+		case BufferType::texture:
+
+			m_uploadBuffer->copyTexture(
+				handle,
+				commandList,
+				m_textureBuffer->getBufferPtr(m_uploadBuffer->getTargetBufferHandle(handle)),
+				m_textureBuffer->createSrcCopyLoaction(m_uploadBuffer->getTargetBufferHandle(handle))
+			);
+			break;
+		}
 	}
 
-	void BufferResource::updateIndexBuffer(unsigned int id, ID3D12Device* device, ID3D12GraphicsCommandList* commandList, const std::vector<unsigned short>& indexDataArray)
+	size_t BufferResource::createVertexBuffer(ID3D12Device* device, const VertexDataCarrier& vertexData)
 	{
-		m_indexBuffer->updateBuffer(id, device, commandList, indexDataArray);
+		return m_vertexBuffer->create(device, vertexData);
 	}
 
-	void BufferResource::setIndexBuffer(unsigned int id, ID3D12GraphicsCommandList* commandList) const
+	void BufferResource::eraseVertexBuffer(size_t handle)
 	{
-		m_indexBuffer->set(id, commandList);
+		m_vertexBuffer->erase(handle);
 	}
 
-	void BufferResource::createCBuffer(unsigned int id, ID3D12Device* device, unsigned int constantBufferTypeSize, const void* constantBufferDataTopPos)
+	void BufferResource::updateVertexBuffer(size_t handle, const VertexDataCarrier& vertexData)
 	{
-		m_constantBuffer->create(id, device, constantBufferTypeSize, constantBufferDataTopPos);
+		m_vertexBuffer->update(handle, vertexData);
 	}
 
-	void BufferResource::createCbv(unsigned int id, ID3D12Device* device, D3D12_CPU_DESCRIPTOR_HANDLE heapHandle) const
+	void BufferResource::setVertexBuffer(size_t handle, ID3D12GraphicsCommandList* commandList) const
 	{
-		m_constantBuffer->createCbv(id, device, heapHandle);
+		m_vertexBuffer->set(handle, commandList);
 	}
 
-	void BufferResource::updateCBuffer(unsigned int id, ID3D12Device* device, ID3D12GraphicsCommandList* commandList, unsigned int constantBufferTypeSize, const void* constantBufferDataTopPos)
+	void BufferResource::setVertexBuffer(size_t meshVertHandle, size_t instancingVertHandle, ID3D12GraphicsCommandList* commandList) const
 	{
-		m_constantBuffer->updateBuffer(id, device, commandList, constantBufferTypeSize, constantBufferDataTopPos);
+		m_vertexBuffer->set(meshVertHandle, instancingVertHandle, commandList);
 	}
 
-	void BufferResource::cpuPriorityCreateTextureBuffer(unsigned int id, ID3D12Device* device, const TexBufFormatParam& formatParam, const TexBuffData& dataParam)
+	size_t BufferResource::createIndexBuffer(ID3D12Device* device, const std::vector<unsigned short>& indexDataArray)
 	{
-		m_textureBuffer->cpuPriorityCreate(id, device, formatParam, dataParam);
+		return m_indexBuffer->create(device, indexDataArray);
 	}
 
-	void BufferResource::gpuPriorityCreateTextureBuffer(unsigned int id, ID3D12Device* device, ID3D12GraphicsCommandList* commandList, const TexBufFormatParam& formatParam, const TexBuffData& dataParam)
+	void BufferResource::eraseIndexBuffer(size_t handle)
 	{
-		m_textureBuffer->gpuPriorityCreate(id, device, commandList, formatParam, dataParam);
+		m_indexBuffer->erase(handle);
 	}
 
-	void BufferResource::cpuPriorityLoadTextureBuffer(unsigned int id, ID3D12Device* device, const std::string& texDataPath)
+	void BufferResource::setIndexBuffer(size_t handle, ID3D12GraphicsCommandList* commandList) const
 	{
-		m_textureBuffer->cpuPriorityLoad(id, device, texDataPath);
+		m_indexBuffer->set(handle, commandList);
 	}
 
-	void BufferResource::gpuPriorityLoadTextureBuffer(unsigned int id, ID3D12Device* device, ID3D12GraphicsCommandList* commandList, const std::string& texDataPath)
+	size_t BufferResource::createCBuffer(ID3D12Device* device, const CopySourceDataCarrier& constantBufferData)
 	{
-		m_textureBuffer->gpuPriorityLoad(id, device, commandList, texDataPath);
+		return m_constantBuffer->create(device, constantBufferData);
 	}
 
-	void BufferResource::createSrv(unsigned int id, ID3D12Device* device, D3D12_CPU_DESCRIPTOR_HANDLE heapHandle) const
+	void BufferResource::eraseCBuffer(size_t handle)
 	{
-		m_textureBuffer->createSrv(id, device, heapHandle);
+		m_constantBuffer->erase(handle);
 	}
 
-	const tktkMath::Vector3& BufferResource::getTextureSizePx(unsigned int id) const
+	void BufferResource::createCbv(size_t handle, ID3D12Device* device, D3D12_CPU_DESCRIPTOR_HANDLE heapHandle) const
 	{
-		return m_textureBuffer->getTextureSizePx(id);
+		m_constantBuffer->createCbv(handle, device, heapHandle);
 	}
 
-	void BufferResource::createDsBuffer(unsigned int id, ID3D12Device* device, const DepthStencilBufferInitParam& initParam)
+	size_t BufferResource::cpuPriorityCreateTextureBuffer(ID3D12Device* device, const TexBufFormatParam& formatParam, const TexBuffData& dataParam)
 	{
-		m_depthStencilBuffer->create(id, device, initParam);
+		return m_textureBuffer->cpuPriorityCreate(device, formatParam, dataParam);
 	}
 
-	void BufferResource::createDsv(unsigned int id, ID3D12Device* device, D3D12_CPU_DESCRIPTOR_HANDLE heapHandle) const
+	size_t BufferResource::gpuPriorityCreateTextureBuffer(ID3D12Device* device, ID3D12GraphicsCommandList* commandList, const TexBufFormatParam& formatParam, const TexBuffData& dataParam)
 	{
-		m_depthStencilBuffer->createDsv(id, device, heapHandle);
+		return m_textureBuffer->gpuPriorityCreate(device, commandList, formatParam, dataParam);
 	}
 
-	void BufferResource::createDsSrv(unsigned int id, ID3D12Device* device, D3D12_CPU_DESCRIPTOR_HANDLE heapHandle) const
+	size_t BufferResource::cpuPriorityLoadTextureBuffer(ID3D12Device* device, const std::string& texDataPath)
 	{
-		m_depthStencilBuffer->createSrv(id, device, heapHandle);
+		return m_textureBuffer->cpuPriorityLoad(device, texDataPath);
 	}
 
-	void BufferResource::beginWriteDsBuffer(unsigned int id, ID3D12GraphicsCommandList* commandList) const
+	size_t BufferResource::gpuPriorityLoadTextureBuffer(ID3D12Device* device, ID3D12GraphicsCommandList* commandList, const std::string& texDataPath)
 	{
-		m_depthStencilBuffer->beginWrite(id, commandList);
+		return m_textureBuffer->gpuPriorityLoad(device, commandList, texDataPath);
 	}
 
-	void BufferResource::endWriteDsBuffer(unsigned int id, ID3D12GraphicsCommandList* commandList) const
+	void BufferResource::eraseTextureBuffer(size_t handle)
 	{
-		m_depthStencilBuffer->endWrite(id, commandList);
+		m_textureBuffer->erase(handle);
+	}
+
+	void BufferResource::createSrv(size_t handle, ID3D12Device* device, D3D12_CPU_DESCRIPTOR_HANDLE heapHandle) const
+	{
+		m_textureBuffer->createSrv(handle, device, heapHandle);
+	}
+
+	const tktkMath::Vector3& BufferResource::getTextureSizePx(size_t handle) const
+	{
+		return m_textureBuffer->getTextureSizePx(handle);
+	}
+
+	size_t BufferResource::createDsBuffer(ID3D12Device* device, const DepthStencilBufferInitParam& initParam)
+	{
+		return m_depthStencilBuffer->create(device, initParam);
+	}
+
+	void BufferResource::eraseDsBuffer(size_t handle)
+	{
+		m_depthStencilBuffer->erase(handle);
+	}
+
+	void BufferResource::createDsv(size_t handle, ID3D12Device* device, D3D12_CPU_DESCRIPTOR_HANDLE heapHandle) const
+	{
+		m_depthStencilBuffer->createDsv(handle, device, heapHandle);
+	}
+
+	void BufferResource::createDsSrv(size_t handle, ID3D12Device* device, D3D12_CPU_DESCRIPTOR_HANDLE heapHandle) const
+	{
+		m_depthStencilBuffer->createSrv(handle, device, heapHandle);
+	}
+
+	void BufferResource::beginWriteDsBuffer(size_t handle, ID3D12GraphicsCommandList* commandList) const
+	{
+		m_depthStencilBuffer->beginWrite(handle, commandList);
+	}
+
+	void BufferResource::endWriteDsBuffer(size_t handle, ID3D12GraphicsCommandList* commandList) const
+	{
+		m_depthStencilBuffer->endWrite(handle, commandList);
 	}
 
 	void BufferResource::allBeginWriteDsBuffer(ID3D12GraphicsCommandList* commandList) const
@@ -139,53 +215,63 @@ namespace tktk
 		m_depthStencilBuffer->allEndWrite(commandList);
 	}
 
-	const tktkMath::Vector2& BufferResource::getDepthStencilSizePx(unsigned int id) const
+	const tktkMath::Vector2& BufferResource::getDepthStencilSizePx(size_t handle) const
 	{
-		return m_depthStencilBuffer->getDepthStencilSizePx(id);
+		return m_depthStencilBuffer->getDepthStencilSizePx(handle);
 	}
 
-	void BufferResource::createRtBuffer(unsigned int id, ID3D12Device* device, const tktkMath::Vector2& renderTargetSize, const tktkMath::Color& clearColor)
+	size_t BufferResource::createRtBuffer(ID3D12Device* device, const tktkMath::Vector2& renderTargetSize, const tktkMath::Color& clearColor)
 	{
-		m_renderTargetBuffer->create(id, device, renderTargetSize, clearColor);
+		return m_renderTargetBuffer->create(device, renderTargetSize, clearColor);
 	}
 
-	void BufferResource::createRtBuffer(unsigned int id, IDXGISwapChain1* swapChain, unsigned int backBufferIndex)
+	size_t BufferResource::createRtBuffer(IDXGISwapChain1* swapChain, unsigned int backBufferIndex)
 	{
-		m_renderTargetBuffer->create(id, swapChain, backBufferIndex);
+		return m_renderTargetBuffer->create(swapChain, backBufferIndex);
 	}
 
-	void BufferResource::createRtv(unsigned int id, ID3D12Device* device, D3D12_CPU_DESCRIPTOR_HANDLE heapHandle) const
+	void BufferResource::eraseRtBuffer(size_t handle)
 	{
-		m_renderTargetBuffer->createRtv(id, device, heapHandle);
+		m_renderTargetBuffer->erase(handle);
 	}
 
-	void BufferResource::createRtSrv(unsigned int id, ID3D12Device* device, D3D12_CPU_DESCRIPTOR_HANDLE heapHandle) const
+	void BufferResource::createRtv(size_t handle, ID3D12Device* device, D3D12_CPU_DESCRIPTOR_HANDLE heapHandle) const
 	{
-		m_renderTargetBuffer->createSrv(id, device, heapHandle);
+		m_renderTargetBuffer->createRtv(handle, device, heapHandle);
 	}
 
-	void BufferResource::beginWriteBasicRtBuffer(unsigned int id, ID3D12GraphicsCommandList* commandList) const
+	void BufferResource::createRtSrv(size_t handle, ID3D12Device* device, D3D12_CPU_DESCRIPTOR_HANDLE heapHandle) const
 	{
-		m_renderTargetBuffer->beginWriteBasicRtBuffer(id, commandList);
+		m_renderTargetBuffer->createSrv(handle, device, heapHandle);
 	}
 
-	void BufferResource::endWriteBasicRtBuffer(unsigned int id, ID3D12GraphicsCommandList* commandList) const
+	const tktkMath::Color& BufferResource::getRtBufferClearColor(size_t handle) const
 	{
-		m_renderTargetBuffer->endWriteBasicRtBuffer(id, commandList);
+		return m_renderTargetBuffer->getClearColor(handle);
 	}
 
-	void BufferResource::beginWriteBackBuffer(unsigned int id, ID3D12GraphicsCommandList* commandList) const
+	void BufferResource::beginWriteBasicRtBuffer(size_t handle, ID3D12GraphicsCommandList* commandList) const
 	{
-		m_renderTargetBuffer->beginWriteBackBuffer(id, commandList);
+		m_renderTargetBuffer->beginWriteBasicRtBuffer(handle, commandList);
 	}
 
-	void BufferResource::endWriteBackBuffer(unsigned int id, ID3D12GraphicsCommandList* commandList) const
+	void BufferResource::endWriteBasicRtBuffer(size_t handle, ID3D12GraphicsCommandList* commandList) const
 	{
-		m_renderTargetBuffer->endWriteBackBuffer(id, commandList);
+		m_renderTargetBuffer->endWriteBasicRtBuffer(handle, commandList);
 	}
 
-	const tktkMath::Vector2& BufferResource::getRenderTargetSizePx(unsigned int id) const
+	void BufferResource::beginWriteBackBuffer(size_t handle, ID3D12GraphicsCommandList* commandList) const
 	{
-		return m_renderTargetBuffer->getRenderTargetSizePx(id);
+		m_renderTargetBuffer->beginWriteBackBuffer(handle, commandList);
+	}
+
+	void BufferResource::endWriteBackBuffer(size_t handle, ID3D12GraphicsCommandList* commandList) const
+	{
+		m_renderTargetBuffer->endWriteBackBuffer(handle, commandList);
+	}
+
+	const tktkMath::Vector2& BufferResource::getRenderTargetSizePx(size_t handle) const
+	{
+		return m_renderTargetBuffer->getRenderTargetSizePx(handle);
 	}
 }

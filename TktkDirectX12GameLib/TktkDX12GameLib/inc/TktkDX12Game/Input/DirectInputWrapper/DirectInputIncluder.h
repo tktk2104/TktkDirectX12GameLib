@@ -1,7 +1,0 @@
-#ifndef DIRECT_INPUT_INCLUDER_H_
-#define DIRECT_INPUT_INCLUDER_H_
-
-#define DIRECTINPUT_VERSION     0x0800
-#include <dinput.h>
-
-#endif // !DIRECT_INPUT_INCLUDER_H_

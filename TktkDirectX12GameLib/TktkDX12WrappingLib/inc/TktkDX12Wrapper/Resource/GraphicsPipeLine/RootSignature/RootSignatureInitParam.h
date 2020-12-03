@@ -2,7 +2,11 @@
 #define ROOT_SIGNATURE_INIT_PARAM_H_
 
 #include <vector>
-#include "../../../Includer/D3d12Includer.h"
+
+/*  */
+#include <d3d12.h>
+#undef min
+#undef max
 
 namespace tktk
 {

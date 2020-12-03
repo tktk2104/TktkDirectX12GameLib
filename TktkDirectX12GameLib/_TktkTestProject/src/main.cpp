@@ -1,6 +1,3 @@
-#include <TktkFileIoLibDefinition.h>
-#include <TktkMathLibDefinition.h>
-#include <TktkDX12WrappingLibDefinition.h>
 #include <TktkDX12GameLibDefinition.h>
 
 #include <TktkDX12Game/_MainManager/DX12GameManager.h>
@@ -17,40 +14,11 @@
 
 #include "Enum/_ResourceIds/ResourceIds.h"
 
-int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hInstancePrev, LPSTR pCmdLine, int nCmdShow)
+int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hInstancePrev, _In_ LPSTR pCmdLine, _In_ int nCmdShow)
 {
 	// 「DX12GameManager」の初期設定をする
 	{
 		tktk::DX12GameManagerInitParam initParam{};
-
-		{
-			auto& resourceInitParam = initParam.dx3dResNum;
-
-			resourceInitParam.viewPortNum		= 0U;
-			resourceInitParam.scissorRectNum	= 0U;
-			resourceInitParam.pipeLineStateNum	= PipeLineStateNum;
-			resourceInitParam.rootSignatureNum	= RootSignatureNum;
-
-			{
-				auto& descriptorHeapInitParam = resourceInitParam.descriptorHeapNum;
-
-				descriptorHeapInitParam.basicDescriptorHeapNum	= BasicDescriptorHeapNum;
-				descriptorHeapInitParam.rtvDescriptorHeapNum	= RtvDescriptorHeapNum;
-				descriptorHeapInitParam.dsvDescriptorHeapNum	= 0U;
-			}
-
-			{
-				auto& bufferResourceInitParam = resourceInitParam.bufferResourceNum;
-
-				bufferResourceInitParam.vertexBufferNum			= VertexBufferNum;
-				bufferResourceInitParam.indexBufferNum			= IndexBufferNum;
-				bufferResourceInitParam.constantBufferNum		= CbufferNum;
-				bufferResourceInitParam.textureBufferNum		= TextureBufferNum;
-				bufferResourceInitParam.depthStencilBufferNum	= 0U;
-				bufferResourceInitParam.renderTargetBufferNum	= RenderTargetBufferNum;
-			}
-		}
-
 		{
 			auto& windowParam = initParam.windowParam;
 
@@ -59,33 +27,19 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hInstancePrev, LPSTR pCmdLine,
 			windowParam.windowName	= "TestProject";
 			windowParam.windowSize	= { 1920.0f, 1080.0f };
 		}
-		
-		{
-			auto& dxGameResourceNum = initParam.dxGameResourceNum;
 
-			dxGameResourceNum.sceneNum								= SceneNum;
-			dxGameResourceNum.soundNum								= SoundNum;
-			dxGameResourceNum.spriteMaterialNum						= SpriteMaterialNum;
-			dxGameResourceNum.line2DMaterialNum						= line2DMaterialNum;
-			dxGameResourceNum.meshResourceNum.basicMeshNum			= BasicMeshNum;
-			dxGameResourceNum.meshResourceNum.basicMeshMaterialNum	= BasicMeshMaterialNum;
-			dxGameResourceNum.meshResourceNum.skeletonNum			= SkeletonNum;
-			dxGameResourceNum.meshResourceNum.motionNum				= MotionNum;
-			dxGameResourceNum.postEffectMaterialNum					= PostEffectMaterialNum;
-			dxGameResourceNum.cameraNum								= CameraNum;
-			dxGameResourceNum.lightNum								= LightNum;
-		}
+		initParam.craeteDebugLayer = false;
 
 		// DX12GameManagerのセットアップ
 		tktk::DX12GameManager::initialize(initParam);
 	}
 
 	// シーンを追加する
-	tktk::DX12GameManager::addScene<LoadingScene>(toInt(SceneId::Loading));
-	tktk::DX12GameManager::addScene<MainScene>(toInt(SceneId::Main));
+	tktk::DX12GameManager::addSceneAndAttachId<LoadingScene>(SceneId::Loading);
+	tktk::DX12GameManager::addSceneAndAttachId<MainScene>(SceneId::Main);
 
 	// 読み込みシーンを有効にする
-	tktk::DX12GameManager::enableScene(toInt(SceneId::Loading));
+	tktk::DX12GameManager::enableScene(tktk::DX12GameManager::getSceneHandle(SceneId::Loading));
 
 	// 衝突判定の組み合わせを設定する
 	tktk::DX12GameManager::addCollisionGroup(1, 2);

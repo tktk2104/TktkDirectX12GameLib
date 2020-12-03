@@ -77,24 +77,6 @@ namespace tktkMath
 		return c1;
 	}
 
-	Color& operator *= (Color& c, float s)
-	{
-		c.r *= s;
-		c.g *= s;
-		c.b *= s;
-		c.a *= s;
-		return c;
-	}
-
-	Color& operator /= (Color& c, float s)
-	{
-		c.r /= s;
-		c.g /= s;
-		c.b /= s;
-		c.a /= s;
-		return c;
-	}
-
 	Color operator + (Color c1, const Color& c2)
 	{
 		return c1 += c2;
@@ -108,21 +90,6 @@ namespace tktkMath
 	Color operator * (Color c1, const Color& c2)
 	{
 		return c1 *= c2;
-	}
-
-	Color operator * (Color c, float s)
-	{
-		return c *= s;
-	}
-
-	Color operator * (float s, Color c)
-	{
-		return c *= s;
-	}
-
-	Color operator / (Color c, float s)
-	{
-		return c /= s;
 	}
 
 	std::ostream& operator<<(std::ostream& os, const Color& color)

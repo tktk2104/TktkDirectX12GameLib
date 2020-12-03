@@ -1,5 +1,7 @@
 #include "TktkDX12BaseComponents/3D/Transform3D/Transform3DMaker.h"
 
+#include "TktkDX12Game/DXGameResource/GameObjectResouse/GameObject/GameObject.h"
+
 namespace tktk
 {
 	Transform3DMaker Transform3DMaker::m_self;
@@ -18,7 +20,7 @@ namespace tktk
 
 	ComponentPtr<Transform3D> Transform3DMaker::create()
 	{
-		// コンポーネントを作成してそのポインタを返す
+		// コンポーネントを作成する
 		return m_user->createComponent<Transform3D>(
 			m_initPosition,
 			m_initScaleRate,

@@ -1,7 +1,7 @@
 #ifndef INDEX_BUFFER_H_
 #define INDEX_BUFFER_H_
 
-#include <TktkContainer/HeapArray/HeapArray.h>
+#include <TktkContainer/ResourceContainer/ResourceContainer.h>
 #include "IndexBufferData.h"
 
 namespace tktk
@@ -11,27 +11,27 @@ namespace tktk
 	{
 	public:
 
-		explicit IndexBuffer(unsigned int indexBufferNum);
+		explicit IndexBuffer(const tktkContainer::ResourceContainerInitParam& initParam);
 		~IndexBuffer() = default;
 
 	public:
 
-		// 「IndexBufferData」のインスタンスを作る
-		void create(unsigned int id, ID3D12Device* device, const std::vector<unsigned short>& indexDataArray);
+		// 「IndexBufferData」のインスタンスを作り、そのリソースのハンドルを返す
+		size_t create(ID3D12Device* device, const std::vector<unsigned short>& indexDataArray);
+
+		// 指定のインデックスバッファを削除する
+		// ※引数のハンドルに対応するリソースが無かったら何もしない
+		void erase(size_t handle);
 
 		// コマンドリストに指定のインデックスバッファを登録する
-		void set(unsigned int id, ID3D12GraphicsCommandList* commandList) const;
+		void set(size_t handle, ID3D12GraphicsCommandList* commandList) const;
 
-		// インデックスバッファを更新する
-		// ※アップロードバッファを新規に作成し、そのバッファから自身にコピーする命令をコマンドリストに登録する
-		void updateBuffer(unsigned int id, ID3D12Device* device, ID3D12GraphicsCommandList* commandList, const std::vector<unsigned short>& indexDataArray);
-
-		// 全てのアップロード用のバッファを削除する
-		void deleteUploadBufferAll();
+		// 指定のインデックスバッファのポインタを取得する
+		ID3D12Resource* getBufferPtr(size_t handle) const;
 
 	private:
 
-		tktkContainer::HeapArray<IndexBufferData> m_indexBufferDataArray;
+		tktkContainer::ResourceContainer<IndexBufferData> m_indexBufferDataArray;
 	};
 }
 #endif // !INDEX_BUFFER_H_

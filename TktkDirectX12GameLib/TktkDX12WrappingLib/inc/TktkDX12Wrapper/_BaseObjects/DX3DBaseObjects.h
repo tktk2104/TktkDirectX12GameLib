@@ -1,18 +1,36 @@
 #ifndef DX3D_BASE_OBJECTS_H_
 #define DX3D_BASE_OBJECTS_H_
 
+/* std::unique_ptr */
 #include <memory>
+
+/* std::array */
 #include <array>
-#include <dxgi1_6.h> //IDXGIFactory6
+
+/* std::vector */
+#include <vector>
+
+/* IDXGIFactory6 */
+#include <dxgi1_6.h>
+
+/* ID3D12Device, ID3D12CommandAllocator, ID3D12GraphicsCommandList, ID3D12CommandQueue */
+#include <d3d12.h>
+#undef min
+#undef max
+
+/* funcUseType */
 #include <TktkMath/Structs/Vector3.h>
-#include "../Includer/D3d12Includer.h"
-#include "DX3DBaseObjectsInitParamIncluder.h"
 #include "DX3DBaseObjectsFuncArgsIncluder.h"
 #include "DX3DBaseObjectsInitParam.h"
+#include "DX3DBaseObjectsInitParamIncluder.h"
+#include "PrimitiveTopology.h"
+
+#include "TktkDX12Wrapper/Resource/Viewport/ViewportInitParam.h"
+#include "TktkDX12Wrapper/Resource/ScissorRect/ScissorRectInitParam.h"
 
 namespace tktk
 {
-	// 前方宣言達
+	/* class member */
 	class SwapChain;
 	class Fence;
 	class DX3DResource;
@@ -25,119 +43,193 @@ namespace tktk
 		explicit DX3DBaseObjects(const DX3DBaseObjectsInitParam& initParam);
 		~DX3DBaseObjects();
 
-	public: /* 描画開始、終了処理 */
-
-		// 描画開始
-		void beginDraw();
-
-		// 描画終了
-		void endDraw();
-
 	public: /* リソース作成、ロード処理 */
 
-		// ルートシグネチャを作る
-		void createRootSignature(unsigned int id, const RootSignatureInitParam& initParam);
+		// ビューポートを作り、そのリソースのハンドルを返す
+		size_t createViewport(const std::vector<ViewportInitParam>& initParamArray);
 
-		// パイプラインステートを作る
-		void createPipeLineState(unsigned int id, const PipeLineStateInitParam& initParam, const ShaderFilePaths& shaderFilePath);
+		// シザー矩形を作り、そのリソースのハンドルを返す
+		size_t createScissorRect(const std::vector<ScissorRectInitParam>& initParamArray);
 
-		// 頂点バッファを作る
-		void createVertexBuffer(unsigned int id, unsigned int vertexTypeSize, unsigned int vertexDataCount, const void* vertexDataTopPos);
+		// ルートシグネチャを作り、そのリソースのハンドルを返す
+		size_t createRootSignature(const RootSignatureInitParam& initParam);
 
-		// インデックスバッファを作る
-		void createIndexBuffer(unsigned int id, const std::vector<unsigned short>& indices);
+		// パイプラインステートを作り、そのリソースのハンドルを返す
+		size_t createPipeLineState(const PipeLineStateInitParam& initParam, const ShaderFilePaths& shaderFilePath);
 
-		// 定数バッファを作る
-		void createCBuffer(unsigned int id, unsigned int constantBufferTypeSize, const void* constantBufferDataTopPos);
+		// アップロードバッファを作り、そのリソースのハンドルを返す
+		size_t createUploadBuffer(const UploadBufferInitParam& initParam);
 
-		// レンダーターゲットバッファを作る
-		void createRtBuffer(unsigned int id, const tktkMath::Vector2& renderTargetSize, const tktkMath::Color& clearColor);
+		// アップロードバッファのコピーを作り、そのリソースのハンドルを返す
+		size_t duplicateUploadBuffer(size_t originalHandle);
 
-		// 深度ステンシルバッファを作る
-		void createDsBuffer(unsigned int id, const DepthStencilBufferInitParam& initParam);
+		// 頂点バッファを作り、そのリソースのハンドルを返す
+		size_t createVertexBuffer(const VertexDataCarrier& vertexData);
 
-		// 定数、テクスチャのディスクリプタヒープを作る
-		void createBasicDescriptorHeap(unsigned int id, const BasicDescriptorHeapInitParam& initParam);
+		// インデックスバッファを作り、そのリソースのハンドルを返す
+		size_t createIndexBuffer(const std::vector<unsigned short>& indices);
 
-		// レンダーターゲットのディスクリプタヒープを作る
-		void createRtvDescriptorHeap(unsigned int id, const RtvDescriptorHeapInitParam& initParam);
+		// 定数バッファを作り、そのリソースのハンドルを返す
+		size_t createCBuffer(const CopySourceDataCarrier& constantBufferData);
 
-		// 深度ステンシルビューのディスクリプタヒープを作る
-		void createDsvDescriptorHeap(unsigned int id, const DsvDescriptorHeapInitParam& initParam);
+		// レンダーターゲットバッファを作り、そのリソースのハンドルを返す
+		size_t createRtBuffer(const tktkMath::Vector2& renderTargetSize, const tktkMath::Color& clearColor);
 
-		// コマンドリストを使わずにテクスチャを作る
-		void cpuPriorityCreateTextureBuffer(unsigned int id, const TexBufFormatParam& formatParam, const TexBuffData& dataParam);
+		// バックバッファーを使ってレンダーターゲットバッファを作り、そのリソースのハンドルを返す
+		std::array<size_t, 2U> createBackBufferRtBuffer();
 
-		// コマンドリストを使ってテクスチャを作る（※GPU命令なので「executeCommandList()」を呼ばないとロードが完了しません）
-		void gpuPriorityCreateTextureBuffer(unsigned int id, const TexBufFormatParam& formatParam, const TexBuffData& dataParam);
+		// 深度ステンシルバッファを作り、そのリソースのハンドルを返す
+		size_t createDsBuffer(const DepthStencilBufferInitParam& initParam);
 
-		// コマンドリストを使わずにテクスチャをロードする
-		void cpuPriorityLoadTextureBuffer(unsigned int id, const std::string& texDataPath);
+		// 定数、テクスチャのディスクリプタヒープを作り、そのリソースのハンドルを返す
+		size_t createBasicDescriptorHeap(const BasicDescriptorHeapInitParam& initParam);
 
-		// コマンドリストを使ってテクスチャをロードする（※GPU命令なので「executeCommandList()」を呼ばないとロードが完了しません）
-		void gpuPriorityLoadTextureBuffer(unsigned int id, const std::string& texDataPath);
+		// レンダーターゲットのディスクリプタヒープを作り、そのリソースのハンドルを返す
+		size_t createRtvDescriptorHeap(const RtvDescriptorHeapInitParam& initParam);
+
+		// バックバッファーのレンダーターゲットディスクリプタヒープを作り、そのリソースのハンドルを返す
+		size_t createBackBufferRtvDescriptorHeap(const std::array<size_t, 2U>& backBufferRtBufferHandles);
+
+		// 深度ステンシルビューのディスクリプタヒープを作り、そのリソースのハンドルを返す
+		size_t createDsvDescriptorHeap(const DsvDescriptorHeapInitParam& initParam);
+
+		// コマンドリストを使わずにテクスチャを作り、そのリソースのハンドルを返す
+		size_t cpuPriorityCreateTextureBuffer(const TexBufFormatParam& formatParam, const TexBuffData& dataParam);
+
+		// コマンドリストを使ってテクスチャを作り、そのリソースのハンドルを返す（※GPU命令なので「executeCommandList()」を呼ばないとロードが完了しません）
+		size_t gpuPriorityCreateTextureBuffer(const TexBufFormatParam& formatParam, const TexBuffData& dataParam);
+
+		// コマンドリストを使わずにテクスチャをロードし、そのリソースのハンドルを返す
+		size_t cpuPriorityLoadTextureBuffer(const std::string& texDataPath);
+
+		// コマンドリストを使ってテクスチャをロードし、そのリソースのハンドルを返す（※GPU命令なので「executeCommandList()」を呼ばないとロードが完了しません）
+		size_t gpuPriorityLoadTextureBuffer(const std::string& texDataPath);
+
+	public: /* リソース削除処理 */
+
+		// 指定のビューポートを削除する
+		// ※引数のハンドルに対応するリソースが無かったら何もしない
+		void eraseViewport(size_t handle);
+
+		// 指定のシザー矩形を削除する
+		// ※引数のハンドルに対応するリソースが無かったら何もしない
+		void eraseScissorRect(size_t handle);
+
+		// 指定のルートシグネチャを削除する
+		// ※引数のハンドルに対応するリソースが無かったら何もしない
+		void eraseRootSignature(size_t handle);
+
+		// 指定のパイプラインステートを削除する
+		// ※引数のハンドルに対応するリソースが無かったら何もしない
+		void erasePipeLineState(size_t handle);
+
+		// 指定のアップロードバッファを削除する
+		// ※引数のハンドルに対応するリソースが無かったら何もしない
+		void eraseUploadBuffer(size_t handle);
+
+		// 指定の頂点バッファを削除する
+		// ※引数のハンドルに対応するリソースが無かったら何もしない
+		void eraseVertexBuffer(size_t handle);
+
+		// 指定のインデックスバッファを削除する
+		// ※引数のハンドルに対応するリソースが無かったら何もしない
+		void eraseIndexBuffer(size_t handle);
+
+		// 指定の定数バッファを削除する
+		// ※引数のハンドルに対応するリソースが無かったら何もしない
+		void eraseCBuffer(size_t handle);
+
+		// 指定のテクスチャバッファを削除する
+		// ※引数のハンドルに対応するリソースが無かったら何もしない
+		void eraseTextureBuffer(size_t handle);
+
+		// 指定の深度ステンシルバッファを削除する
+		// ※引数のハンドルに対応するリソースが無かったら何もしない
+		void eraseDsBuffer(size_t handle);
+
+		// 指定のレンダーターゲットバッファを削除する
+		// ※引数のハンドルに対応するリソースが無かったら何もしない
+		void eraseRtBuffer(size_t handle);
+
+		// 指定の通常のディスクリプタヒープを削除する
+		// ※引数のハンドルに対応するリソースが無かったら何もしない
+		void eraseBasicDescriptorHeap(size_t handle);
+
+		// 指定のレンダーターゲット用のディスクリプタヒープを削除する
+		// ※引数のハンドルに対応するリソースが無かったら何もしない
+		void eraseRtvDescriptorHeap(size_t handle);
+
+		// 指定の深度ステンシル用のディスクリプタヒープを削除する
+		// ※引数のハンドルに対応するリソースが無かったら何もしない
+		void eraseDsvDescriptorHeap(size_t handle);
 
 	public: /* リソース更新処理 */
 
-		// 背景色を設定する
-		void setBackGroundColor(const tktkMath::Color& backGroundColor);
+		// 引数のポインタのデータを指定のアップロードバッファにコピーする
+		void updateUploadBuffer(size_t handle, const CopySourceDataCarrier& bufferData);
 
-		// 指定の頂点バッファを更新する
-		void updateVertexBuffer(unsigned int id, unsigned int vertexTypeSize, unsigned int vertexDataCount, const void* vertexDataTopPos);
+		// 指定の頂点バッファをコマンドリストを使わずに更新する
+		void updateVertexBuffer(size_t handle, const VertexDataCarrier& vertexData);
 
-		// 指定のインデックスバッファを更新する
-		void updateIndexBuffer(unsigned int id, const std::vector<unsigned short>& indexDataArray);
+		// 指定のアップロードバッファの内容を設定したバッファにアップロードするGPU命令を行う
+		void copyBuffer(size_t handle) const;
 
-		// 指定の定数バッファを更新する
-		void updateCBuffer(unsigned int id, unsigned int constantBufferTypeSize, const void* constantBufferDataTopPos);
+		// 指定のレンダーターゲットビューを事前に設定したクリアカラーでクリアする
+		void clearRtv(size_t handle, size_t rtvLocationIndex) const;
 
-		// 指定のレンダーターゲットビューを指定の色でクリアする
-		void clearRtv(unsigned int id, unsigned int rtvLocationIndex, const tktkMath::Color& color) const;
+		// 全てのデプスステンシルビューをクリアする
+		void clearDsvAll();
 
 	public: /* リソース情報取得処理 */
 
+		// 現在のバックバッファーを識別するインデックスを取得する
+		unsigned int getCurBackBufferIndex() const;
+
 		// 指定のテクスチャのサイズを取得する（ピクセル）
-		const tktkMath::Vector3& getTextureBufferSizePx(unsigned int id) const;
-		const tktkMath::Vector2& getDsBufferSizePx(unsigned int id) const;
-		const tktkMath::Vector2& getRtBufferSizePx(unsigned int id) const;
+		const tktkMath::Vector3& getTextureBufferSizePx(size_t handle) const;
+		const tktkMath::Vector2& getDsBufferSizePx(size_t handle) const;
+		const tktkMath::Vector2& getRtBufferSizePx(size_t handle) const;
 
 	public: /* リソースをコマンドリストに登録する処理 */
 
 		// 指定のレンダーターゲット用のディスクリプタヒープをコマンドリストに設定する
-		void setRtv(unsigned int rtvDescriptorHeapId, unsigned int startRtvLocationIndex, unsigned int rtvCount) const;
+		void setRtv(size_t rtvDescriptorHeapHandle, size_t startRtvLocationIndex, size_t rtvCount) const;
 
 		// 指定の（レンダーターゲットと深度ステンシルビュー）用のディスクリプタヒープ２つをコマンドリストに設定する
-		void setRtvAndDsv(unsigned int rtvDescriptorHeapId, unsigned int dsvDescriptorHeapId, unsigned int startRtvLocationIndex, unsigned int rtvCount) const;
+		void setRtvAndDsv(size_t rtvDescriptorHeapHandle, size_t dsvDescriptorHeapHandle, size_t startRtvLocationIndex, size_t rtvCount) const;
 
 		// 指定の深度ステンシルビュー用のディスクリプタヒープをコマンドリストに設定する（※レンダーターゲットは設定できない）
-		void setOnlyDsv(unsigned int id) const;
+		void setOnlyDsv(size_t handle) const;
 
-		// バックバッファーを設定する
-		void setBackBufferView() const;
+		// バックバッファービューを設定する
+		void setBackBufferView(size_t backBufferRtvDescriptorHeap) const;
 
-		// バックバッファーと深度ステンシルビューを設定する
-		void setBackBufferViewAndDsv(unsigned int dsvDescriptorHeapId) const;
+		// バックバッファービューと深度ステンシルビューを設定する
+		void setBackBufferViewAndDsv(size_t backBufferRtvDescriptorHeap, size_t dsvDescriptorHeapHandle) const;
 
 		// 指定のレンダーターゲット用のディスクリプタヒープが使用しているレンダーターゲットバッファの書き込み後処理を行う
-		void unSetRtv(unsigned int rtvDescriptorHeapId, unsigned int startRtvLocationIndex, unsigned int rtvCount) const;
+		void unSetRtv(size_t rtvDescriptorHeapHandle, size_t startRtvLocationIndex, size_t rtvCount) const;
 
 		// 指定の深度書き込み用のディスクリプタヒープが使用している深度バッファの書き込み後処理を行う
-		void unSetDsv(unsigned int dsvDescriptorHeapId) const;
+		void unSetDsv(size_t dsvDescriptorHeapHandle) const;
 
 		// 指定のビューポートをコマンドリストに設定する
-		void setViewport(unsigned int id) const;
+		void setViewport(size_t handle) const;
 
 		// 指定のシザー矩形をコマンドリストに設定する
-		void setScissorRect(unsigned int id) const;
+		void setScissorRect(size_t handle) const;
 
 		// 指定のパイプラインステートをコマンドリストに設定する
-		void setPipeLineState(unsigned int id) const;
+		void setPipeLineState(size_t handle) const;
 
 		// 指定の頂点バッファをコマンドリストに設定する
-		void setVertexBuffer(unsigned int id) const;
+		void setVertexBuffer(size_t handle) const;
+
+		// コマンドリストに指定の頂点バッファを登録する（インスタンス描画用）
+		void setVertexBuffer(size_t meshVertHandle, size_t instancingVertHandle) const;
 
 		// 指定のインデックスバッファをコマンドリストに設定する
-		void setIndexBuffer(unsigned int id) const;
+		void setIndexBuffer(size_t handle) const;
 
 		// 指定のディスクリプタヒープの配列をコマンドリストに設定する
 		void setDescriptorHeap(const std::vector<DescriptorHeapParam>& heapParamArray) const;
@@ -146,70 +238,38 @@ namespace tktk
 		void setBlendFactor(const std::array<float, 4>& blendFactor) const;
 
 		// プリミティブトポロジを設定する
-		void setPrimitiveTopology(D3D12_PRIMITIVE_TOPOLOGY topology) const;
+		void setPrimitiveTopology(PrimitiveTopology topology) const;
 
 	public: /* ドローコール、その他処理 */
 
+		// バックバッファを書き込み状態にする
+		void beginWriteBackBuffer(size_t backBufferHandle);
+
+		// バックバッファを描画状態にする
+		void endWriteBackBuffer(size_t backBufferHandle);
+
 		// インスタンス描画を行う
 		void drawInstanced(
-			unsigned int vertexCountPerInstance,
-			unsigned int instanceCount,
-			unsigned int baseVertexLocation,
-			unsigned int startInstanceLocation
+			size_t vertexCountPerInstance,
+			size_t instanceCount,
+			size_t baseVertexLocation,
+			size_t startInstanceLocation
 		) const;
 
 		// インデックスを使用してインスタンス描画を行う
 		void drawIndexedInstanced(
-			unsigned int indexCountPerInstance,
-			unsigned int instanceCount,
-			unsigned int startIndexLocation,
-			unsigned int baseVertexLocation,
-			unsigned int startInstanceLocation
+			size_t indexCountPerInstance,
+			size_t instanceCount,
+			size_t startIndexLocation,
+			size_t baseVertexLocation,
+			size_t startInstanceLocation
 		) const;
 
 		// コマンドリストを実行する
 		void executeCommandList();
 
-	public: /* デフォルトのリソースを使うためのIDを取得する */
-
-		// デフォルトのビューポートIDを取得する
-		unsigned int getSystemId(SystemViewportType type) const;
-
-		// デフォルトのシザー矩形IDを取得する
-		unsigned int getSystemId(SystemScissorRectType type) const;
-
-		// デフォルトの頂点バッファIDを取得する
-		unsigned int getSystemId(SystemVertexBufferType type) const;
-
-		// デフォルトのインデックスバッファIDを取得する
-		unsigned int getSystemId(SystemIndexBufferType type) const;
-
-		// デフォルトの定数バッファIDを取得する
-		unsigned int getSystemId(SystemCBufferType type) const;
-
-		// デフォルトのテクスチャバッファIDを取得する
-		unsigned int getSystemId(SystemTextureBufferType type) const;
-
-		// デフォルトのレンダーターゲットバッファIDを取得する
-		unsigned int getSystemId(SystemRtBufferType type) const;
-
-		// デフォルトの深度ステンシルバッファIDを取得する
-		unsigned int getSystemId(SystemDsBufferType type) const;
-
-		// デフォルトの通常のディスクリプタヒープIDを取得する
-		unsigned int getSystemId(SystemBasicDescriptorHeapType type) const;
-
-		// デフォルトのレンダーターゲット用のディスクリプタヒープIDを取得する
-		unsigned int getSystemId(SystemRtvDescriptorHeapType type) const;
-
-		// デフォルトの深度ステンシル用のディスクリプタヒープIDを取得する
-		unsigned int getSystemId(SystemDsvDescriptorHeapType type) const;
-
-		// デフォルトのルートシグネチャIDを取得する
-		unsigned int getSystemId(SystemRootSignatureType type) const;
-
-		// デフォルトのパイプラインステートIDを取得する
-		unsigned int getSystemId(SystemPipeLineStateType type) const;
+		// 画面をフリップする
+		void flipScreen() const;
 
 	private:
 
@@ -221,7 +281,6 @@ namespace tktk
 		std::unique_ptr<SwapChain>		m_swapChain;
 		std::unique_ptr<Fence>			m_fence;
 		std::unique_ptr<DX3DResource>	m_dX3DResource;
-		tktkMath::Color					m_backGroundColor		{ tktkMath::Color_v::blue };
 	};
 }
 #endif // !DX3D_BASE_OBJECTS_H_

@@ -1,181 +1,314 @@
 #ifndef DX_GAME_RESOURCE_H_
 #define DX_GAME_RESOURCE_H_
 
+/* std::unique_ptr */
 #include <memory>
-#include "DXGameResourceNum.h"
-#include "DXGameBaseShaderFilePaths.h"
-#include "DXGameResourceInitParamIncluder.h"
-#include "DXGameResourceFuncArgsIncluder.h"
+
+/* std::string */
+#include <string>
+
+/* std::type_index */
+#include <typeindex>
+
+/* std::forward_list */
+#include <forward_list>
+
+/* funcUseType */
+#include <TktkMath/Structs/Color.h>
+#include <TktkMath/Structs/Vector2.h>
+#include <TktkMath/Structs/Vector3.h>
+#include <TktkMath/Structs/Matrix4.h>
+#include "GameObjectResouse/GameObject/GameObjectPtr.h"
+#include "GameObjectResouse/GameObject/GameObjectTagCarrier.h"
+#include "GameObjectResouse/Component/ComponentBasePtr.h"
+#include "GameObjectResouse/Component/ComponentCollisionFunc/CollisionGroupTypeCarrier.h"
+#include "DXGameShaderResouse/MeshResouse/Mesh/Loader/MeshLoadPmdReturnValue.h"
+#include "DXGameShaderResouse/MeshResouse/Mesh/Loader/MeshLoadPmxReturnValue.h"
+#include "../EventMessage/MessageTypeCarrier.h"
 
 namespace tktk
 {
-	// 前方宣言達
-	class SceneManager;
-	class Sound;
-	class PostEffectMaterial;
-	class SpriteMaterial;
-	class Line2DMaterial;
-	class MeshResource;
-	class Camera;
-	class Light;
+	/* SelfInitParam */
+	struct DXGameResourceInitParam;
+
+	/* class member */
+	class Draw3DParameters;
+	class DXGameShaderResouse;
+	class GameObjectResouse;
+	class OtherResouse;
+
+	/* funcUseType */
+	class MessageAttachment;
+	struct ComponentVTableBundle;
+	struct ComponentListVTable;
+	struct PostEffectMaterialInitParam;
+	struct PostEffectMaterialDrawFuncArgs;
+	struct SpriteMaterialInitParam;
+	struct SpriteMaterialDrawFuncArgs;
+	struct SpriteCbufferUpdateFuncArgs;
+	struct SpriteClippingParam;
+	struct Line2DMaterialDrawFuncArgs;
+	struct BillboardMaterialInitParam;
+	struct BillboardDrawFuncBaseArgs;
+	struct BillboardMaterialInstanceVertData;
+	struct MeshResourceInitParam;
+	struct SkeletonInitParam;
+	struct MeshInitParam;
+	struct MeshMaterialInitParam;
+	struct MeshMaterialAppendParamInitParam;
+	struct MeshMaterialAppendParamUpdateFuncArgs;
+	struct MeshDrawFuncBaseArgs;
+	struct MeshLoadPmdArgs;
+	struct MeshLoadPmxArgs;
+	struct MeshDrawFuncRunnerInitParam;
+	struct CopySourceDataCarrier;
+	struct SceneInitParam;
 
 	// ゲームで使用するリソースを管理するクラス
 	class DXGameResource
 	{
 	public:
 
-		DXGameResource(const DXGameResourceNum& resourceNum, const DXGameBaseShaderFilePaths& filePaths);
+		explicit DXGameResource(const DXGameResourceInitParam& initParam);
 		~DXGameResource();
+
+	public:
+
+		// 更新処理
+		void update();
+
+		// 死んだインスタンスを削除する
+		void removeDeadInstance();
+
+		// 描画処理
+		void draw();
 
 	public: /* シーン関係の処理 */
 
-		// シーンを作成して追加する
-		void createScene(unsigned int id, const std::shared_ptr<SceneBase>& scenePtr, SceneVTable* vtablePtr);
+		// シーンを作り、そのリソースのハンドルを返す
+		size_t createScene(const SceneInitParam& initParam);
+
+		// シーンの終了時に削除するゲームオブジェクトタグを設定する
+		void setSceneEndDestroyGameObjectTag(size_t handle, GameObjectTagCarrier tag);
 
 		// シーンを有効にする
-		void enableScene(unsigned int id);
+		void enableScene(size_t handle);
 
 		// シーンを無効にする
-		void disableScene(unsigned int id);
-
-		// 有効になっているシーンを更新する
-		void updateScene();
+		void disableScene(size_t handle);
 
 	public: /* サウンド関係の処理 */
-
-		// サウンドを更新する
-		void updateSound();
 
 		// 読み込んだサウンドをすべて削除する
 		void clearSound();
 
-		// 新しいサウンドを読み込む
+		// 新しいサウンドを読み込み、そのリソースのハンドルを返す
 		// ※この関数で読み込めるサウンドの形式は「.wav」のみ
-		void loadSound(unsigned int id, const std::string& fileName);
+		size_t loadSound(const std::string& fileName);
 
 		// 指定したサウンドを再生する
-		void playSound(unsigned int id, bool loopPlay);
+		void playSound(size_t handle, bool loopPlay);
 
 		// 指定したサウンドを停止する
-		void stopSound(unsigned int id);
+		void stopSound(size_t handle);
 
 		// 指定したサウンドを一時停止する
-		void pauseSound(unsigned int id);
+		void pauseSound(size_t handle);
 
 		// 大元の音量を変更する（0.0f～1.0f）
 		void setMasterVolume(float volume);
 
+	public: /* ゲームオブジェクト関係の処理 */
+
+		// 全てのGameObjectにメッセージを送信する
+		void runHandleMessageAll(MessageTypeCarrier type, const MessageAttachment& attachment);
+
+		// ゲームオブジェクトを作成し、そのポインタを返す
+		GameObjectPtr createGameObject();
+
+		// 引数のタグを持ったゲームオブジェクトを取得する
+		// ※複数該当オブジェクトがあった場合、最初に見つけた１つを取得する
+		GameObjectPtr findGameObjectWithTag(GameObjectTagCarrier tag) const;
+
+		// 引数のタグを持ったゲームオブジェクトを全て取得する
+		std::forward_list<GameObjectPtr> findGameObjectsWithTag(GameObjectTagCarrier tag) const;
+
+		// 引数のタグを持ったゲームオブジェクトを全て削除する
+		void destroyGameObjectsWithTag(GameObjectTagCarrier tag);
+
+	public: /* コンポーネント関係の処理 */
+
+		// コンポーネントの型ごとの更新優先度を設定する
+		// ※デフォルト（0.0f）で値が小さい程、早く実行される
+		void addRunFuncPriority(std::type_index type, float priority);
+
+		// 衝突判定の組み合わせを追加する
+		void addCollisionGroup(CollisionGroupTypeCarrier firstGroup, CollisionGroupTypeCarrier secondGroup);
+
+		// 引数のコンポーネントを追加する
+		ComponentBasePtr addComponent(std::type_index type, ComponentVTableBundle* vtablePtrBundle, ComponentListVTable* listVtablePtr, const GameObjectPtr& user, const std::shared_ptr<ComponentBase>& componentPtr);
+
 	public: /* ポストエフェクト関係の処理 */
 
-		// ポストエフェクトのマテリアルを作る
-		void createPostEffectMaterial(unsigned int id, const PostEffectMaterialInitParam& initParam);
+		// ポストエフェクトのマテリアルを作り、そのリソースのハンドルを返す
+		size_t createPostEffectMaterial(const PostEffectMaterialInitParam& initParam);
 
 		// 指定のポストエフェクトを描画する
-		void drawPostEffect(unsigned int id, const PostEffectMaterialDrawFuncArgs& drawFuncArgs) const;
+		void drawPostEffect(size_t handle, const PostEffectMaterialDrawFuncArgs& drawFuncArgs) const;
 
 	public: /* スプライト関係の処理 */
 
-		// スプライトマテリアルを作る
-		void createSpriteMaterial(unsigned int id, const SpriteMaterialInitParam& initParam);
+		// スプライトマテリアルを作り、そのリソースのハンドルを返す
+		size_t createSpriteMaterial(const SpriteMaterialInitParam& initParam);
 
 		// 指定したスプライトを描画する
-		void drawSprite(unsigned int id, const SpriteMaterialDrawFuncArgs& drawFuncArgs) const;
+		void drawSprite(size_t handle, const SpriteMaterialDrawFuncArgs& drawFuncArgs) const;
+
+		// 引数が表すコピーバッファを使って座標変換情報を管理する定数バッファを更新する
+		void updateSpriteTransformCbuffer(size_t handle, size_t copyBufferHandle, const SpriteCbufferUpdateFuncArgs& cbufferUpdateArgs) const;
+
+		// 引数が表すコピーバッファを使って座標変換情報を管理する定数バッファを更新する（切り抜き範囲指定版）
+		void updateSpriteTransformCbufferUseClippingParam(size_t handle, size_t copyBufferHandle, const SpriteCbufferUpdateFuncArgs& cbufferUpdateArgs, const SpriteClippingParam& clippingParam) const;
 
 	public: /* 2Dライン関係の処理 */
 
-		// ２Ｄラインを作る
-		void createLine(unsigned int id, const Line2DMaterialDataInitParam& initParam);
+		// ２Ｄラインを作り、そのリソースのハンドルを返す
+		size_t createLine();
+
+		// ２Ｄラインを削除する
+		// ※引数のハンドルに対応するリソースが無かったら何もしない
+		void eraseLine(size_t handle);
 
 		// 線を描画する
-		void drawLine(unsigned int id, const Line2DMaterialDrawFuncArgs& drawFuncArgs) const;
+		void drawLine(size_t handle, const Line2DMaterialDrawFuncArgs& drawFuncArgs);
+
+	public: /* ビルボード関係の処理 */
+
+		// ビルボードマテリアルを作り、そのリソースのハンドルを返す
+		size_t createBillboardMaterial(const BillboardMaterialInitParam& initParam);
+
+		// 指定したビルボードが使用するテクスチャのサイズを取得する
+		const tktkMath::Vector2& getBillboardTextureSize(size_t handle) const;
+
+		// 指定したビルボードをインスタンス描画する時に使用する値を削除する
+		void clearBillboardInstanceParam(size_t handle);
+
+		// 指定したビルボードをインスタンス描画する時に使用する値を追加する
+		void addBillboardInstanceVertParam(size_t handle, const BillboardMaterialInstanceVertData& instanceParam);
+
+		// 指定したビルボードを描画する
+		void drawBillboard(size_t handle, const BillboardDrawFuncBaseArgs& drawFuncArgs) const;
 
 	public: /* メッシュ関係の処理 */
 
-		// 通常メッシュを作る
-		void createBasicMesh(unsigned int id, const BasicMeshInitParam& initParam);
+		// 初期から存在するメッシュを作る
+		void createSystemMesh();
 
-		// 通常メッシュのコピーを作る
-		void copyBasicMesh(unsigned int id, unsigned int originalId);
+		// メッシュを作り、そのリソースのハンドルを返す
+		size_t createMesh(const MeshInitParam& initParam);
 
-		// 通常メッシュマテリアルを作る
-		void createBasicMeshMaterial(unsigned int id, const BasicMeshMaterialInitParam& initParam);
+		// メッシュのコピーを作り、そのリソースのハンドルを返す
+		size_t copyMesh(size_t originalHandle);
 
-		// 通常メッシュマテリアルのコピーを作る
-		void copyBasicMeshMaterial(unsigned int id, unsigned int originalId);
+		// メッシュマテリアルを作り、そのリソースのハンドルを返す
+		size_t createMeshMaterial(const MeshMaterialInitParam& initParam);
 
-		// 通常メッシュが使用しているマテリアルを更新する
-		void setMaterialId(unsigned int id, unsigned int materialSlot, unsigned int materialId);
+		// メッシュマテリアルのコピーを作り、そのリソースのハンドルを返す
+		size_t copyMeshMaterial(size_t originalHandle);
 
-		// 指定の通常メッシュでシャドウマップを書き込む
-		void writeBasicMeshShadowMap(unsigned int id, const MeshTransformCbuffer& transformBufferData) const;
+		// テクスチャを貼った立方体メッシュを作り、そのハンドルを返す
+		size_t makeBoxMesh(size_t albedoMapTextureHandle, const MeshDrawFuncRunnerInitParam& funcRunnerInitParam);
 
-		// 指定の通常メッシュのマテリアル情報をグラフィックパイプラインに設定する
-		void setMaterialData(unsigned int id) const;
-
-		// 指定の通常メッシュのマテリアルで追加で管理する定数バッファのIDと値を設定する
-		void addMaterialAppendParam(unsigned int id, unsigned int cbufferId, unsigned int dataSize, void* dataTopPos);
-
-		// 指定の通常メッシュのマテリアルで追加で管理する定数バッファのIDと値を更新する
-		void updateMaterialAppendParam(unsigned int id, unsigned int cbufferId, unsigned int dataSize, const void* dataTopPos);
-
-		// 指定の通常メッシュを描画する
-		void drawBasicMesh(unsigned int id, const MeshDrawFuncBaseArgs& baseArgs) const;
+		// スカイボックスメッシュを作り、そのハンドルを返す
+		size_t makeSkyBoxMesh(size_t skyBoxTextureHandle, const MeshDrawFuncRunnerInitParam& funcRunnerInitParam);
 
 		// pmdファイルをロードしてゲームの各種リソースクラスを作る
-		BasicMeshLoadPmdReturnValue loadPmd(const BasicMeshLoadPmdArgs& args);
+		MeshLoadPmdReturnValue loadPmd(const MeshLoadPmdArgs& args, const MeshDrawFuncRunnerInitParam& funcRunnerInitParam);
+
+		// pmxファイルをロードしてゲームの各種リソースクラスを作る
+		MeshLoadPmxReturnValue loadPmx(const MeshLoadPmxArgs& args, const MeshDrawFuncRunnerInitParam& funcRunnerInitParam);
+
+		// メッシュが使用しているマテリアルを更新する
+		void setMeshMaterialHandle(size_t meshHandle, size_t materialSlot, size_t materialHandle);
+
+		// 指定のメッシュのマテリアル情報をグラフィックパイプラインに設定する
+		void setMeshMaterialData(size_t handle) const;
+
+		// 指定のメッシュのマテリアルで追加で管理する定数バッファのIDと値を設定する
+		void addMeshMaterialAppendParam(size_t handle, const MeshMaterialAppendParamInitParam& initParam);
+
+		// 指定のメッシュのマテリアルで追加で管理する定数バッファのIDと値を更新する
+		void updateMeshMaterialAppendParam(size_t handle, const MeshMaterialAppendParamUpdateFuncArgs& updateFuncArgs);
+
+		// 指定のメッシュをインスタンス描画する時に使用する値を削除する
+		void clearMeshInstanceParam(size_t handle);
+
+		// 指定のメッシュをインスタンス描画する時に使用する値を追加する
+		void addMeshInstanceVertParam(size_t handle, const CopySourceDataCarrier& instanceParam);
+
+		// スキニングメッシュをインスタンス描画する時に使用する骨行列を追加する
+		void addMeshInstanceBoneMatrix(size_t meshHandle, size_t skeletonHandle);
+		
+		// 指定のメッシュでシャドウマップを書き込む
+		void writeMeshShadowMap(size_t handle) const;
+
+		// 指定のスキニングメッシュでシャドウマップを書き込む
+		void writeMeshShadowMapUseBone(size_t handle) const;
+
+		// 指定のメッシュをインスタンス描画する
+		void drawMesh(size_t handle, const MeshDrawFuncBaseArgs& baseArgs) const;
+
+		// スキニングメッシュをインスタンス描画する
+		void drawMeshUseBone(size_t handle, const MeshDrawFuncBaseArgs& baseArgs) const;
 
 	public: /* スケルトン関連の処理 */
 
-		// スケルトンを作成する
-		void createSkeleton(unsigned int id, const SkeletonInitParam& initParam);
+		// スケルトンを作り、そのリソースのハンドルを返す
+		size_t createSkeleton(const SkeletonInitParam& initParam);
 
-		// 指定のスケルトンを使って骨情報を管理する定数バッファを更新する
-		void updateBoneMatrixCbuffer(unsigned int id) const;
-
-		// 骨情報を管理する定数バッファに単位行列を設定する
-		void resetBoneMatrixCbuffer() const;
+		// スケルトンのコピーを作り、そのリソースのハンドルを返す
+		size_t copySkeleton(size_t originalHandle);
 
 	public: /* モーション関係の処理 */
 
-		// vmdファイルを読み込んで「MotionData」のインスタンスを作る
-		void loadMotion(unsigned int id, const std::string& motionFileName);
+		// vmdファイルを読み込んで「MotionData」のインスタンスを作り、そのリソースのハンドルを返す
+		size_t loadMotion(const std::string& motionFileName);
 
 		// 指定のモーションの終了キーの番号を取得する
-		unsigned int getMotionEndFrameNo(unsigned int id) const;
+		size_t getMotionEndFrameNo(size_t handle) const;
 
 		// 2種類のモーション情報を線形補完してスケルトンを更新する
 		// ※補完割合の値は「0.0fでpreFrame100%」、「1.0fでcurFrame100%」となる
 		void updateMotion(
-			unsigned int skeletonId,
-			unsigned int curMotionId,
-			unsigned int preMotionId,
-			unsigned int curFrame,
-			unsigned int preFrame,
+			size_t skeletonHandle,
+			size_t curMotionHandle,
+			size_t preMotionHandle,
+			float curFrame,
+			float preFrame,
 			float amount
 		);
 
 	public: /* カメラ関係の処理 */
 
-		// カメラを作る
-		void createCamera(unsigned int id);
+		// カメラを作り、そのリソースのハンドルを返す
+		size_t createCamera();
 
 		// 指定のカメラのビュー行列を取得する
-		const tktkMath::Matrix4& getViewMatrix(unsigned int cameraId) const;
+		const tktkMath::Matrix4& getViewMatrix(size_t cameraHandle) const;
 
 		// 指定のカメラのビュー行列を設定する
-		void setViewMatrix(unsigned int cameraId, const tktkMath::Matrix4& view);
+		void setViewMatrix(size_t cameraHandle, const tktkMath::Matrix4& view);
 
 		// 指定のカメラのプロジェクション行列を取得する
-		const tktkMath::Matrix4& getProjectionMatrix(unsigned int cameraId) const;
+		const tktkMath::Matrix4& getProjectionMatrix(size_t cameraHandle) const;
 
 		// 指定のカメラのプロジェクション行列を設定する
-		void setProjectionMatrix(unsigned int cameraId, const tktkMath::Matrix4& projection);
+		void setProjectionMatrix(size_t cameraHandle, const tktkMath::Matrix4& projection);
 
 	public: /* ライト関係の処理 */
 
-		// ライトを作る
-		void createLight(
-			unsigned int id,
+		// ライトを作り、そのリソースのハンドルを返す
+		size_t createLight(
 			const tktkMath::Color& ambient,
 			const tktkMath::Color& diffuse,
 			const tktkMath::Color& speqular,
@@ -183,30 +316,26 @@ namespace tktk
 		);
 
 		// ライト情報の定数バッファを更新する
-		void updateLightCBuffer(unsigned int id) const;
+		void updateLightCBuffer(size_t handle) const;
 
 		// 指定のライトの環境光を設定する
-		void setLightAmbient(unsigned int id, const tktkMath::Color& ambient);
+		void setLightAmbient(size_t handle, const tktkMath::Color& ambient);
 
 		// 指定のライトの拡散反射光を設定する
-		void setLightDiffuse(unsigned int id, const tktkMath::Color& diffuse);
+		void setLightDiffuse(size_t handle, const tktkMath::Color& diffuse);
 
 		// 指定のライトの鏡面反射光を設定する
-		void setLightSpeqular(unsigned int id, const tktkMath::Color& speqular);
+		void setLightSpeqular(size_t handle, const tktkMath::Color& speqular);
 
 		// 指定のライトの座標を設定する
-		void setLightPosition(unsigned int id, const tktkMath::Vector3& position);
+		void setLightPosition(size_t handle, const tktkMath::Vector3& position);
 
 	private:
 
-		std::unique_ptr<SceneManager>		m_sceneManager;
-		std::unique_ptr<Sound>				m_sound;
-		std::unique_ptr<PostEffectMaterial>	m_postEffectMaterial;
-		std::unique_ptr<SpriteMaterial>		m_spriteMaterial;
-		std::unique_ptr<Line2DMaterial>		m_line2DMaterial;
-		std::unique_ptr<MeshResource>		m_meshResource;
-		std::unique_ptr<Camera>				m_camera;
-		std::unique_ptr<Light>				m_light;
+		std::unique_ptr<Draw3DParameters>		m_draw3DParameters;
+		std::unique_ptr<DXGameShaderResouse>	m_dxGameShaderResouse;
+		std::unique_ptr<GameObjectResouse>		m_gameObjectResouse;
+		std::unique_ptr<OtherResouse>			m_otherResouse;
 	};
 }
 #endif // !DX_GAME_RESOURCE_H_

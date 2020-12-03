@@ -1,9 +1,16 @@
 #ifndef GRAPHICS_PIPE_LINE_H_
 #define GRAPHICS_PIPE_LINE_H_
 
-#include <memory>	// std::unique_ptr
-#include "../../Includer/D3d12Includer.h"
+/* std::unique_ptr */
+#include <memory>
+
+/* ID3D12Device, ID3D12GraphicsCommandList */
+#include <d3d12.h>
+#undef min
+#undef max
+
 #include "GraphicsPipeLineInitParamIncluder.h"
+#include "GraphicsPipeLineResourceNum.h"
 
 namespace tktk
 {
@@ -16,23 +23,31 @@ namespace tktk
 	{
 	public:
 
-		GraphicsPipeLine(unsigned int pipeLineNum, unsigned int rootSignatureNum);
+		explicit GraphicsPipeLine(const GraphicsPipeLineResourceNum& initParam);
 		~GraphicsPipeLine();
 
 	public:
 
 		// ルートシグネチャを作る
-		void createRootSignature(unsigned int id, ID3D12Device* device, const RootSignatureInitParam& initParam);
+		size_t createRootSignature(ID3D12Device* device, const RootSignatureInitParam& initParam);
+
+		// 指定のルートシグネチャを削除する
+		// ※引数のハンドルに対応するリソースが無かったら何もしない
+		void eraseRootSignature(size_t handle);
 
 	public:
 
 		// パイプラインステートを作る
-		void createPipeLineState(unsigned int id, ID3D12Device* device, const PipeLineStateInitParam& initParam, const ShaderFilePaths& shaderFilePath);
+		size_t createPipeLineState(ID3D12Device* device, const PipeLineStateInitParam& initParam, const ShaderFilePaths& shaderFilePath);
+
+		// 指定のパイプラインステートを削除する
+		// ※引数のハンドルに対応するリソースが無かったら何もしない
+		void erasePipeLineState(size_t handle);
 
 	public:
 
 		// グラフィックパイプラインをコマンドリストに登録する
-		void set(unsigned int id, ID3D12GraphicsCommandList* commandList) const;
+		void set(size_t handle, ID3D12GraphicsCommandList* commandList) const;
 
 	private:
 

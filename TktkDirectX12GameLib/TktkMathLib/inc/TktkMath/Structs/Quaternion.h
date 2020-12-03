@@ -34,7 +34,7 @@ namespace tktkMath
 		// fromからtoへの回転を求める
 		static Quaternion createFromToRotation(const Vector3& fromDirection, const Vector3& toDirection);
 		// 指定した方向を向いた回転を求める
-		static Quaternion createLookRotation(const Vector3& view, const Vector3& up = vec3Up);
+		static Quaternion createLookRotation(const Vector3& view, const Vector3& up = Vector3_v::up);
 		// fromからtoへの回転を求める
 		static Quaternion createRotateTowards(const Quaternion& from, const Quaternion& to, float maxDegreesDelta);
 		// 逆クオータニオンを計算する
@@ -65,7 +65,7 @@ namespace tktkMath
 		// fromからtoへの回転を自身に設定する
 		void setFromToRotation(const Vector3& fromDirection, const Vector3& toDirection);
 		// 指定した方向を向いた回転を自身に設定する
-		void setLookRotation(const Vector3& view, const Vector3& up = vec3Up);
+		void setLookRotation(const Vector3& view, const Vector3& up = Vector3_v::up);
 		// ２つの回転が大体同じだったら真を返す
 		bool equals(const Quaternion& other) const;
 		// フォーマットされた文字列に変換
@@ -85,23 +85,25 @@ namespace tktkMath
 		static constexpr Quaternion identity { 0.0f, 0.0f, 0.0f, 1.0f };
 	};
 
-	// 定数達（非推奨：「Quaternion_v::」を使ってください）
-	constexpr Quaternion quaternionIdentity = { 0.0f, 0.0f, 0.0f, 1.0f };
-
 	// 演算子オーバーロード達
 	Quaternion		operator -  (const Quaternion& q);
 	Quaternion&		operator += (Quaternion& q1, const Quaternion& q2);
 	Quaternion&		operator -= (Quaternion& q1, const Quaternion& q2);
-	Quaternion&		operator *= (Quaternion& q, float s);
-	Quaternion&		operator /= (Quaternion& q, float s);
+	template <class T>
+	Quaternion&		operator *= (Quaternion& q, T s)	{ q.x *= s; q.y *= s; q.z *= s; q.w *= s; return q; };
+	template <class T>
+	Quaternion&		operator /= (Quaternion& q, T s)	{ q.x /= s; q.y /= s; q.z /= s; q.w /= s; return q; };
 	Quaternion&		operator *= (Quaternion& q1, const Quaternion& q2);
 	Quaternion		operator +  (Quaternion q1, const Quaternion& q2);
 	Quaternion		operator -  (Quaternion q1, const Quaternion& q2);
 	Quaternion		operator *  (Quaternion q1, const Quaternion& q2);
-	Quaternion		operator *  (Quaternion q, float s);
-	Quaternion		operator *  (float s, Quaternion q);
-	Quaternion		operator /  (Quaternion q, float s);
-	Vector3			operator *  (const Quaternion& rotation, const Vector3& point);
+	template <class T>
+	Quaternion		operator *  (Quaternion q, T s)		{ return q *= s; };
+	template <class T>
+	Quaternion		operator *  (T s, Quaternion q)		{ return q *= s; };
+	template <class T>
+	Quaternion		operator /  (Quaternion q, T s)		{ return q /= s; };
+	Vector3			operator *  (const Vector3& point, const Quaternion& rotation);
 	std::ostream&	operator << (std::ostream& os, const Quaternion& quaternion);
 }
 #endif // !QUATERNION_H_

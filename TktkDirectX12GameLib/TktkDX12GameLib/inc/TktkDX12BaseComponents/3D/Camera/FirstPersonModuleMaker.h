@@ -26,7 +26,6 @@ namespace tktk
 
 	public:  /* パラメータ設定関数 */
 
-		
 		// 初期毎秒回転角度を設定する
 		FirstPersonModuleMaker& rotateDegSpeedPerSec(float value);
 
@@ -47,11 +46,11 @@ namespace tktk
 	private:
 
 		// 作成用変数達
-		GameObjectPtr m_user{ };
-		float m_rotateDegSpeedPerSec{ 100.0f };
-		float m_moveSpeedPerSec{ 100.0f };
-		bool m_alwaysMoveForward{ false };
-		bool m_enableUpDownKey{ false };
+		GameObjectPtr		m_user					{ };
+		float				m_rotateDegSpeedPerSec	{ 100.0f };
+		float				m_moveSpeedPerSec		{ 100.0f };
+		bool				m_alwaysMoveForward		{ false };
+		bool				m_enableUpDownKey		{ false };
 	};
 }
 #endif // !FIRST_PERSON_MODULE_MAKER_H_

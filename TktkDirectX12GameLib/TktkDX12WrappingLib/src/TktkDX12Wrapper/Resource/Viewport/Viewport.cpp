@@ -2,18 +2,23 @@
 
 namespace tktk
 {
-	Viewport::Viewport(unsigned int viewportNum)
-		: m_viewportDataArray(viewportNum)
+	Viewport::Viewport(const tktkContainer::ResourceContainerInitParam& initParam)
+		: m_viewportDataArray(initParam)
 	{
 	}
 
-	void Viewport::create(unsigned int id, const std::vector<ViewportInitParam>& initParamArray)
+	size_t Viewport::create(const std::vector<ViewportInitParam>& initParamArray)
 	{
-		m_viewportDataArray.emplaceAt(id, initParamArray);
+		return m_viewportDataArray.create(initParamArray);
 	}
 
-	void Viewport::set(unsigned int id, ID3D12GraphicsCommandList* commandList) const
+	void Viewport::erase(size_t handle)
 	{
-		m_viewportDataArray.at(id)->set(commandList);
+		m_viewportDataArray.erase(handle);
+	}
+
+	void Viewport::set(size_t handle, ID3D12GraphicsCommandList* commandList) const
+	{
+		m_viewportDataArray.getMatchHandlePtr(handle)->set(commandList);
 	}
 }

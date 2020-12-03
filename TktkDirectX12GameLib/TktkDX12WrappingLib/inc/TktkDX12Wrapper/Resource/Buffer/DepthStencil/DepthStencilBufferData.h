@@ -1,8 +1,13 @@
 #ifndef DEPTH_STENCIL_BUFFER_DATA_H_
 #define DEPTH_STENCIL_BUFFER_DATA_H_
 
+/* ID3D12Device, ID3D12GraphicsCommandList, D3D12_CPU_DESCRIPTOR_HANDLE, ID3D12Resource */
+#include <d3d12.h>
+#undef min
+#undef max
+
+/* class member */
 #include <TktkMath/Structs/Vector2.h>
-#include "../../../Includer/D3d12Includer.h"
 #include "DepthStencilBufferInitParam.h"
 
 namespace tktk
@@ -13,7 +18,10 @@ namespace tktk
 	public:
 
 		DepthStencilBufferData(ID3D12Device* device, const DepthStencilBufferInitParam& initParam);
-		~DepthStencilBufferData() = default;
+		~DepthStencilBufferData();
+
+		// ムーブコンストラクタ
+		DepthStencilBufferData(DepthStencilBufferData&& other) noexcept;
 
 	public:
 
@@ -34,6 +42,9 @@ namespace tktk
 
 		// 深度ステンシルバッファ画像の大きさを取得する（ピクセル）
 		const tktkMath::Vector2& getDepthStencilSizePx() const;
+
+		// 自身のバッファのポインタを取得する
+		ID3D12Resource* getBufferPtr() const;
 
 	private:
 

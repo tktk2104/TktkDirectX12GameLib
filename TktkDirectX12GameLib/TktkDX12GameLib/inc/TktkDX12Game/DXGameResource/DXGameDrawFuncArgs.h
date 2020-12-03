@@ -7,13 +7,13 @@ namespace tktk
 	struct DXGameDrawFuncArgs
 	{
 		// 使用するビューポートのID
-		unsigned int viewportId;
+		size_t viewportHandle;
 
 		// 使用するシーザー矩形のID
-		unsigned int scissorRectId;
+		size_t scissorRectHandle;
 
 		// 使用するレンダーターゲット用ディスクリプタヒープのID
-		unsigned int rtvDescriptorHeapId;
+		size_t rtvDescriptorHeapHandle;
 	};
 }
 #endif // !DX_GAME_DRAW_FUNC_ARGS_H_

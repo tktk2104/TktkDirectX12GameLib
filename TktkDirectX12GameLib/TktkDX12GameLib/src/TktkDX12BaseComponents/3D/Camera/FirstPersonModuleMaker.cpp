@@ -1,5 +1,7 @@
 #include"TktkDX12BaseComponents/3D/Camera/FirstPersonModuleMaker.h"
 
+#include "TktkDX12Game/DXGameResource/GameObjectResouse/GameObject/GameObject.h"
+
 namespace tktk
 {
 	FirstPersonModuleMaker FirstPersonModuleMaker::m_self;
@@ -18,6 +20,7 @@ namespace tktk
 
 	ComponentPtr<FirstPersonModule> FirstPersonModuleMaker::create()
 	{
+		// コンポーネントを作成する
 		return m_user->createComponent<FirstPersonModule>(
 			m_rotateDegSpeedPerSec,
 			m_moveSpeedPerSec,

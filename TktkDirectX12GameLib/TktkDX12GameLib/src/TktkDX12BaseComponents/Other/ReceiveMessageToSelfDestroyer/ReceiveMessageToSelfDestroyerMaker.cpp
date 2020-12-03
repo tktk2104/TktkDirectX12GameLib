@@ -1,5 +1,7 @@
 #include "TktkDX12BaseComponents/Other/ReceiveMessageToSelfDestroyer/ReceiveMessageToSelfDestroyerMaker.h"
 
+#include "TktkDX12Game/DXGameResource/GameObjectResouse/GameObject/GameObject.h"
+
 namespace tktk
 {
 	ReceiveMessageToSelfDestroyerMaker ReceiveMessageToSelfDestroyerMaker::m_self;
@@ -18,12 +20,11 @@ namespace tktk
 
 	ComponentPtr<ReceiveMessageToSelfDestroyer> ReceiveMessageToSelfDestroyerMaker::create()
 	{
-		return m_user->createComponent<ReceiveMessageToSelfDestroyer>(
-			m_destroyMessegeType
-			);
+		// コンポーネントを作成する
+		return m_user->createComponent<ReceiveMessageToSelfDestroyer>(m_destroyMessegeType);
 	}
 
-	ReceiveMessageToSelfDestroyerMaker & ReceiveMessageToSelfDestroyerMaker::destroyMessegeType(int value)
+	ReceiveMessageToSelfDestroyerMaker& ReceiveMessageToSelfDestroyerMaker::destroyMessegeType(MessageTypeCarrier value)
 	{
 		m_destroyMessegeType = value;
 		return *this;

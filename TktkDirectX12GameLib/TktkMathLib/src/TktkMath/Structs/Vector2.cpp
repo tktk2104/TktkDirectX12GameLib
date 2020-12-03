@@ -272,26 +272,6 @@ namespace tktkMath
 		return v1;
 	}
 
-	Vector2& operator*=(Vector2& v, float s)
-	{
-		v.x *= s;
-		v.y *= s;
-		return v;
-	}
-
-	Vector2& operator*=(Vector2& v, const Matrix3& m)
-	{
-		v = v * m;
-		return v;
-	}
-
-	Vector2& operator/=(Vector2& v, float s)
-	{
-		v.x /= s;
-		v.y /= s;
-		return v;
-	}
-
 	Vector2 operator+(Vector2 v1, const Vector2& v2)
 	{
 		return v1 += v2;
@@ -300,26 +280,6 @@ namespace tktkMath
 	Vector2 operator-(Vector2 v1, const Vector2& v2)
 	{
 		return v1 -= v2;
-	}
-
-	Vector2 operator*(Vector2 v, float s)
-	{
-		return v *= s;
-	}
-
-	Vector2 operator*(float s, Vector2 v)
-	{
-		return v *= s;
-	}
-
-	Vector2 operator*(const Vector2& v, const Matrix3& m)
-	{
-		return Vector2::transform(v, m);
-	}
-
-	Vector2 operator/(Vector2 v, float s)
-	{
-		return v /= s;
 	}
 
 	bool operator==(const Vector2& lhs, const Vector2& rhs)

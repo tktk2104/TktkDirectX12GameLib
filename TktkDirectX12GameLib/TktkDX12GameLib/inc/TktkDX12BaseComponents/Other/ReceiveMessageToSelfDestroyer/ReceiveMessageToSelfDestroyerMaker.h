@@ -26,7 +26,7 @@ namespace tktk
 	public:
 
 		// 自身を殺すメッセージの種類を設定
-		ReceiveMessageToSelfDestroyerMaker& destroyMessegeType(int value);
+		ReceiveMessageToSelfDestroyerMaker& destroyMessegeType(MessageTypeCarrier value);
 
 	private:
 
@@ -36,8 +36,8 @@ namespace tktk
 	private:
 
 		// 作成用変数達
-		GameObjectPtr m_user{ };
-		int m_destroyMessegeType{ 0 };
+		GameObjectPtr		m_user				{ };
+		MessageTypeCarrier	m_destroyMessegeType{ 0 };
 	};
 }
 #endif // !RECEIVE_MESSAGE_TO_SELF_DESTROYER_MAKER_H_

@@ -1,11 +1,14 @@
 #ifndef BASIC_CAMERA_CONTROLLER_H_
 #define BASIC_CAMERA_CONTROLLER_H_
 
-#include "../../../TktkDX12Game/Component/ComponentBase.h"
-#include "../Transform3D/Transform3D.h"
+/* base class */
+#include "../../../TktkDX12Game/DXGameResource/GameObjectResouse/Component/ComponentBase.h"
 
 namespace tktk
 {
+	/* class member */
+	class Transform3D;
+
 	// 通常カメラ制御コンポーネント
 	// 【必須コンポーネント：Transform3D】
 	class BasicCameraController
@@ -14,7 +17,7 @@ namespace tktk
 	public:
 
 		BasicCameraController(
-			unsigned int cameraId,
+			size_t cameraHandle,
 			float camerafov,
 			float cameraAspect,
 			float cameraNear,
@@ -33,7 +36,7 @@ namespace tktk
 
 	private:
 
-		unsigned int				m_cameraId;
+		size_t						m_cameraHandle;
 		float						m_cameraFov;
 		float						m_cameraAspect;
 		float						m_cameraNear;

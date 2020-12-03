@@ -39,52 +39,40 @@
     <ClInclude Include="inc\TktkMath\Structs\Vector3.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="inc\TktkMathLibDefinition.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\TktkCollision\2D\Body2dBase\Body2dBase.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\TktkCollision\2D\Body2dBase\Body2dPtr.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\TktkCollision\2D\Body2dBase\CollisionSupport2D.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\TktkCollision\2D\Body2dBase\HitInfo2D.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\TktkCollision\2D\Body2dBase\ShapeType2D.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="inc\TktkCollision\2D\BoundingCircle.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="inc\TktkCollision\2D\BoundingPolygon2d.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="inc\TktkCollision\2D\BoundingRect.h">
+    <ClInclude Include="inc\TktkCollision\2D\Body2DType.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="inc\TktkCollision\3D\Body3dBase\Body3dBase.h">
+    <ClInclude Include="inc\TktkCollision\2D\Body2DTypeChecker.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="inc\TktkCollision\3D\Body3dBase\Body3dPtr.h">
+    <ClInclude Include="inc\TktkCollision\2D\CollisionSupport2D.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="inc\TktkCollision\3D\Body3dBase\CollisionSupport3D.h">
+    <ClInclude Include="inc\TktkCollision\2D\HitInfo2D.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="inc\TktkCollision\3D\Body3dBase\HitInfo3D.h">
+    <ClInclude Include="inc\TktkCollision\3D\Body3DType.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="inc\TktkCollision\3D\Body3dBase\ShapeType3D.h">
+    <ClInclude Include="inc\TktkCollision\3D\Body3DTypeChecker.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="inc\TktkCollision\3D\AxisAlignedBoundingBox.h">
+    <ClInclude Include="inc\TktkCollision\3D\BoundingMesh.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="inc\TktkCollision\3D\BoundingSphere.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\TktkCollision\3D\CollisionSupport3D.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\TktkCollision\3D\HitInfo3D.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
@@ -113,31 +101,22 @@
     <ClCompile Include="src\TktkMath\MathHelper.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="src\TktkCollision\2D\Body2dBase\Body2dBase.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\TktkCollision\2D\Body2dBase\CollisionSupport2D.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="src\TktkCollision\2D\BoundingCircle.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="src\TktkCollision\2D\BoundingPolygon2d.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="src\TktkCollision\2D\BoundingRect.cpp">
+    <ClCompile Include="src\TktkCollision\2D\CollisionSupport2D.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="src\TktkCollision\3D\Body3dBase\Body3dBase.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\TktkCollision\3D\Body3dBase\CollisionSupport3D.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
-    <ClCompile Include="src\TktkCollision\3D\AxisAlignedBoundingBox.cpp">
+    <ClCompile Include="src\TktkCollision\3D\BoundingMesh.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="src\TktkCollision\3D\BoundingSphere.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TktkCollision\3D\CollisionSupport3D.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>

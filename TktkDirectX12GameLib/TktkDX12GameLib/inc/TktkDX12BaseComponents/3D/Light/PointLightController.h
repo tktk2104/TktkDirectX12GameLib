@@ -1,11 +1,17 @@
 #ifndef POINT_LIGHT_CONTROLLER_H_
 #define POINT_LIGHT_CONTROLLER_H_
 
-#include "../../../TktkDX12Game/Component/ComponentBase.h"
-#include "../Transform3D/Transform3D.h"
+/* base class */
+#include "../../../TktkDX12Game/DXGameResource/GameObjectResouse/Component/ComponentBase.h"
+
+/* class member */
+#include <TktkMath/Structs/Color.h>
 
 namespace tktk
 {
+	/* class member */
+	class Transform3D;
+
 	// ポイントライト制御コンポーネント
 	// 【必須コンポーネント：Transform3D】
 	class PointLightController
@@ -14,7 +20,7 @@ namespace tktk
 	public:
 
 		PointLightController(
-			unsigned int lightId,
+			size_t lightHandle,
 			const tktkMath::Color& ambient,
 			const tktkMath::Color& diffuse,
 			const tktkMath::Color& speqular
@@ -43,7 +49,7 @@ namespace tktk
 
 	private:
 
-		unsigned int				m_lightId;
+		size_t						m_lightHandle;
 		tktkMath::Color				m_ambient;
 		tktkMath::Color				m_diffuse;
 		tktkMath::Color				m_speqular;

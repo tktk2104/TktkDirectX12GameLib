@@ -3,18 +3,37 @@
 
 #include <string>
 #include <TktkDX12Wrapper/Resource/DX3DResourceNum.h>
-#include <TktkDX12Wrapper/Window/WindowInitParam.h>
-#include "TktkDX12Game/DXGameResource/DXGameResourceNum.h"
+#include "../GraphicManager/Window/WindowInitParam.h"
 
 namespace tktk
 {
 	struct DX12GameManagerInitParam
 	{
-		DX3DResourceNum				dx3dResNum		{};
+		// DirectX12のラッパークラスの初期化に必要な変数
+		DX3DResourceNum				dx3dResNum			{};
+
+		// ウィンドウの初期化に必要な変数
 		WindowInitParam				windowParam			{};
-		DXGameResourceNum			dxGameResourceNum	{};
+
+		// このフレームワークの基本リソースのフォルダ階層
 		std::string					tktkLibResFolderPath{""};
+
+		// DirectX12のデバックレイヤーを作るかどうか？
 		bool						craeteDebugLayer	{ true };
+
+		// このフレームワークのリソース管理コンテナのメモリ確保関係の設定変数
+		tktkContainer::ResourceContainerInitParam lightContainerParam;
+		tktkContainer::ResourceContainerInitParam cameraContainerParam;
+		tktkContainer::ResourceContainerInitParam postEffectMatContainerParam;
+		tktkContainer::ResourceContainerInitParam line2DMatContainerParam;
+		tktkContainer::ResourceContainerInitParam spriteMatContainerParam;
+		tktkContainer::ResourceContainerInitParam billboardMatContainerParam;
+		tktkContainer::ResourceContainerInitParam meshContainerParam;
+		tktkContainer::ResourceContainerInitParam meshMatContainerParam;
+		tktkContainer::ResourceContainerInitParam skeletonContainerParam;
+		tktkContainer::ResourceContainerInitParam motionContainerParam;
+		tktkContainer::ResourceContainerInitParam sceneContainerParam;
+		tktkContainer::ResourceContainerInitParam soundContainerParam;
 	};
 }
 #endif // !DX_12_GAME_MANAGER_INIT_PARAM_H_

@@ -166,33 +166,33 @@ namespace tktkMath
 		{
 			result.w = std::sqrt(1.0f + radicand) * 0.5f;
 			float recip = 1.0f / (4.0f * result.w);
-			result.x = (upward.z - forward.y) * recip;
-			result.y = (forward.x - right.z) * recip;
-			result.z = (right.y - upward.x) * recip;
+			result.x = (upward.z	- forward.y)	* recip;
+			result.y = (forward.x	- right.z)		* recip;
+			result.z = (right.y		- upward.x)		* recip;
 		}
 		else if (right.x >= upward.y && right.x >= forward.z)
 		{
-			result.x = std::sqrt(1.0f + right.x + upward.y - forward.z) * 0.5f;
+			result.x = std::sqrt(1.0f + right.x - upward.y - forward.z) * 0.5f;
 			float recip = 1.0f / (4.0f * result.x);
-			result.w = (upward.z - forward.y) * recip;
-			result.z = (forward.x + right.z) * recip;
-			result.y = (right.y + upward.x) * recip;
+			result.w = (upward.z	- forward.y)	* recip;
+			result.z = (forward.x	+ right.z)		* recip;
+			result.y = (right.y		+ upward.x)		* recip;
 		}
 		else if (upward.y > forward.z)
 		{
 			result.y = std::sqrt(1.0f - right.x + upward.y - forward.z) * 0.5f;
 			float recip = 1.0f / (4.0f * result.y);
-			result.z = (upward.z + forward.y) * recip;
-			result.w = (forward.x - right.z) * recip;
-			result.x = (right.y + upward.x) * recip;
+			result.z = (upward.z	+ forward.y)	* recip;
+			result.w = (forward.x	- right.z)		* recip;
+			result.x = (right.y		+ upward.x)		* recip;
 		}
 		else
 		{
 			result.z = std::sqrt(1.0f - right.x - upward.y + forward.z) * 0.5f;
 			float recip = 1.0f / (4.0f * result.z);
-			result.y = (upward.z + forward.y) * recip;
-			result.x = (forward.x + right.z) * recip;
-			result.w = (right.y - upward.x) * recip;
+			result.y = (upward.z	+ forward.y)	* recip;
+			result.x = (forward.x	+ right.z)		* recip;
+			result.w = (right.y		- upward.x)		* recip;
 		}
 		return result;
 	}
@@ -295,9 +295,9 @@ namespace tktkMath
 	// ※未デバッグ
 	Vector3 Quaternion::calculateEulerAngle() const
 	{
-		Vector3 ax = *this * Vector3{ 1.0f, 0.0f, 0.0f };
-		Vector3 ay = *this * Vector3{ 0.0f, 1.0f, 0.0f };
-		Vector3 az = *this * Vector3{ 0.0f, 0.0f, 1.0f };
+		Vector3 ax = Vector3{ 1.0f, 0.0f, 0.0f } * *this;
+		Vector3 ay = Vector3{ 0.0f, 1.0f, 0.0f } * *this;
+		Vector3 az = Vector3{ 0.0f, 0.0f, 1.0f } * *this;
 		Vector3 result = Vector3(0.0f, 0.0f, 0.0f);
 		if (az.y < 1.0f) {
 			if (az.y > -1.0f) {
@@ -379,31 +379,15 @@ namespace tktkMath
 		q1.w -= q2.w;
 		return q1;
 	}
-	Quaternion& operator *= (Quaternion& q, float s)
-	{
-		q.x *= s;
-		q.y *= s;
-		q.z *= s;
-		q.w *= s;
-		return q;
-	}
-
-	Quaternion& operator /= (Quaternion& q, float s)
-	{
-		q.x /= s;
-		q.y /= s;
-		q.z /= s;
-		q.w /= s;
-		return q;
-	}
 
 	Quaternion& operator *= (Quaternion& q1, const Quaternion& q2)
 	{
 		q1 = Quaternion(
-			q1.x * q2.w + q1.y * q2.z - q1.z * q2.y + q1.w * q2.x,
-			-q1.x * q2.z + q1.y * q2.w + q1.z * q2.x + q1.w * q2.y,
-			q1.x * q2.y - q1.y * q2.x + q1.z * q2.w + q1.w * q2.z,
-			-q1.x * q2.x - q1.y * q2.y - q1.z * q2.z + q1.w * q2.w);
+			q1.w * q2.x + q1.x * q2.w + q1.y * q2.z - q1.z * q2.y,
+			q1.w * q2.y + q1.y * q2.w + q1.z * q2.x - q1.x * q2.z,
+			q1.w * q2.z + q1.z * q2.w + q1.x * q2.y - q1.y * q2.x,
+			q1.w * q2.w - q1.x * q2.x - q1.y * q2.y - q1.z * q2.z);
+
 		return q1;
 	}
 
@@ -422,22 +406,7 @@ namespace tktkMath
 		return q1 *= q2;
 	}
 
-	Quaternion operator * (Quaternion q, float s)
-	{
-		return q *= s;
-	}
-
-	Quaternion operator * (float s, Quaternion q)
-	{
-		return q *= s;
-	}
-
-	Quaternion operator / (Quaternion q, float s)
-	{
-		return q /= s;
-	}
-
-	Vector3 operator*(const Quaternion& rotation, const Vector3& point)
+	Vector3 operator*(const Vector3& point, const Quaternion& rotation)
 	{
 		float x = rotation.x * 2.0f;
 		float y = rotation.y * 2.0f;

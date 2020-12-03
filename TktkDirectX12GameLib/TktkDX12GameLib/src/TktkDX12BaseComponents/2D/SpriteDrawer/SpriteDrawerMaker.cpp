@@ -1,5 +1,8 @@
 #include "TktkDX12BaseComponents/2D/SpriteDrawer/SpriteDrawerMaker.h"
 
+#include "TktkDX12Game/_MainManager/DX12GameManager.h"
+#include "TktkDX12Game/DXGameResource/GameObjectResouse/GameObject/GameObject.h"
+
 namespace tktk
 {
 	SpriteDrawerMaker SpriteDrawerMaker::m_self;
@@ -12,8 +15,8 @@ namespace tktk
 		// 引数のユーザーを設定
 		m_self.m_user = user;
 
-		// 使用するレンダーターゲットのディスクリプタヒープIDのデフォルト値はバックバッファ
-		m_self.m_useRtvDescriptorHeapId = DX12GameManager::getSystemId(SystemRtvDescriptorHeapType::BackBuffer);
+		// 使用するレンダーターゲットのディスクリプタヒープハンドルのデフォルト値はバックバッファ
+		m_self.m_useRtvDescriptorHeapHandle = DX12GameManager::getSystemHandle(SystemRtvDescriptorHeapType::BackBuffer);
 
 		// 自身の参照を返す
 		return m_self;
@@ -21,11 +24,13 @@ namespace tktk
 
 	ComponentPtr<SpriteDrawer> SpriteDrawerMaker::create()
 	{
-		// コンポーネントを作成してそのポインタを返す
+		// コンポーネントを作成する
 		return m_user->createComponent<SpriteDrawer>(
 			m_drawPriority,
-			m_spriteMaterialId,
-			m_useRtvDescriptorHeapId
+			m_spriteMaterialHandle,
+			m_useRtvDescriptorHeapHandle,
+			m_centerRate,
+			m_blendRate
 			);
 	}
 
@@ -36,17 +41,38 @@ namespace tktk
 		return *this;
 	}
 
-	SpriteDrawerMaker& SpriteDrawerMaker::useRtvDescriptorHeapIdImpl(unsigned int value)
+	SpriteDrawerMaker& SpriteDrawerMaker::useRtvDescriptorHeapHandle(size_t value)
 	{
 		// 値を設定して自身の参照を返す
-		m_useRtvDescriptorHeapId = value;
+		m_useRtvDescriptorHeapHandle = value;
 		return *this;
 	}
 
-	SpriteDrawerMaker& SpriteDrawerMaker::spriteMaterialIdImpl(unsigned int value)
+	SpriteDrawerMaker& SpriteDrawerMaker::spriteMaterialHandle(size_t value)
 	{
 		// 値を設定して自身の参照を返す
-		m_spriteMaterialId = value;
+		m_spriteMaterialHandle = value;
+		return *this;
+	}
+
+	SpriteDrawerMaker& SpriteDrawerMaker::spriteMaterialId(ResourceIdCarrier value)
+	{
+		// 値を設定して自身の参照を返す
+		m_spriteMaterialHandle = DX12GameManager::getSpriteMaterialHandle(value);
+		return *this;
+	}
+
+	SpriteDrawerMaker& SpriteDrawerMaker::centerRate(const tktkMath::Vector2& value)
+	{
+		// 値を設定して自身の参照を返す
+		m_centerRate = value;
+		return *this;
+	}
+
+	SpriteDrawerMaker& SpriteDrawerMaker::blendRate(const tktkMath::Color& value)
+	{
+		// 値を設定して自身の参照を返す
+		m_blendRate = value;
 		return *this;
 	}
 }

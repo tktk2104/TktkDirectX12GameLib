@@ -1,9 +1,16 @@
 #ifndef RTV_DESCRIPTOR_HEAP_DATA_H_
 #define RTV_DESCRIPTOR_HEAP_DATA_H_
 
+/* std::vector */
 #include <vector>
+
+/* ID3D12Device, ID3D12GraphicsCommandList, D3D12_CPU_DESCRIPTOR_HANDLE, ID3D12DescriptorHeap */
+#include <d3d12.h>
+#undef min
+#undef max
+
+
 #include <TktkMath/Structs/Color.h>
-#include "../../../Includer/D3d12Includer.h"
 #include "RtvDescriptorHeapInitParam.h"
 
 namespace tktk
@@ -16,13 +23,16 @@ namespace tktk
 		RtvDescriptorHeapData(ID3D12Device* device, const RtvDescriptorHeapInitParam& initParam);
 		~RtvDescriptorHeapData();
 
+		// ムーブコンストラクタ
+		RtvDescriptorHeapData(RtvDescriptorHeapData&& other) noexcept;
+
 	public:
 
 		// 各ビューのCPUアドレスの配列を取得する
 		std::vector<D3D12_CPU_DESCRIPTOR_HANDLE> getCpuHeapHandleArray(ID3D12Device* device) const;
 
 		// 各ビューが参照しているレンダーターゲットバッファのIDの配列を取得する
-		const std::vector<unsigned int>& getRtBufferIdArray() const;
+		const std::vector<size_t>& getRtBufferHandleArray() const;
 
 		// ディスクリプタヒープをまとめてコマンドリストに登録するためにあるゲッター
 		ID3D12DescriptorHeap* getPtr() const;
@@ -31,17 +41,12 @@ namespace tktk
 		void setRootDescriptorTable(ID3D12Device* device, ID3D12GraphicsCommandList* commandList) const;
 
 		// 指定数のレンダーターゲットビューと引数の深度ステンシルビューをコマンドリストに登録する
-		void setRtv(ID3D12Device* device, ID3D12GraphicsCommandList* commandList, unsigned int startRtvLocationIndex, unsigned int rtvCount, const D3D12_CPU_DESCRIPTOR_HANDLE* useDsvHandle) const;
-
-		// 指定のレンダーターゲットビューをクリアする
-		// TODO : クリアカラーをRenderTargetBufferから取得するように変更
-		void clearRtv(ID3D12Device* device, ID3D12GraphicsCommandList* commandList, unsigned int rtvLocationIndex, const tktkMath::Color& color) const;
+		void setRtv(ID3D12Device* device, ID3D12GraphicsCommandList* commandList, size_t startRtvLocationIndex, unsigned int rtvCount, const D3D12_CPU_DESCRIPTOR_HANDLE* useDsvHandle) const;
 
 	private:
 
-		std::vector<unsigned int> m_rtBufferIdArray{};
-
-		ID3D12DescriptorHeap* m_descriptorHeap{ nullptr };
+		std::vector<size_t>			m_rtBufferHandleArray	{};
+		ID3D12DescriptorHeap*		m_descriptorHeap		{ nullptr };
 	};
 }
 #endif // !RTV_DESCRIPTOR_HEAP_DATA_H_

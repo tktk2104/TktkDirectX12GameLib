@@ -1,5 +1,7 @@
 #include "TktkDX12BaseComponents/2D/InertialMovement2D/InertialMovement2DMaker.h"
 
+#include "TktkDX12Game/DXGameResource/GameObjectResouse/GameObject/GameObject.h"
+
 namespace tktk
 {
 	InertialMovement2DMaker InertialMovement2DMaker::m_self;
@@ -18,7 +20,7 @@ namespace tktk
 
 	ComponentPtr<InertialMovement2D> InertialMovement2DMaker::create()
 	{
-		// コンポーネントを作成してそのポインタを返す
+		// コンポーネントを作成する
 		return m_user->createComponent<InertialMovement2D>(
 			m_decelerationPerSec,
 			m_initVelocity

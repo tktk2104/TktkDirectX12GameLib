@@ -7,10 +7,10 @@
 #include "2D/CircleCollider/CircleColliderMaker.h"
 #include "2D/Polygon2dCollider/Polygon2dColliderMaker.h"
 #include "2D/RectCollider/RectColliderMaker.h"
-#include "2D/RectColliderExtrusion/RectColliderExtrusionMaker.h"
 #include "2D/ColliderWireFrameDrawer2D/ColliderWireFrameDrawer2DMaker.h"
 #include "2D/Line2dDrawer/Line2DDrawerMaker.h"
 #include "2D/SpriteDrawer/SpriteDrawerMaker.h"
+#include "2D/SpriteDrawer/SpriteClippingDrawerMaker.h"
 #include "2D/PostEffectDrawer/PostEffectDrawerMaker.h"
 
 #include "3D/Transform3D/Transform3DMaker.h"
@@ -19,20 +19,29 @@
 #include "3D/BoxCollider/BoxColliderMaker.h"
 #include "3D/ColliderWireFrameDrawer3D/ColliderWireFrameDrawer3DMaker.h"
 #include "3D/Light/PointLightControllerMaker.h"
+#include "3D/Light/DirectionalLightControllerMaker.h"
 #include "3D/Camera/BasicCameraControllerMaker.h"
 #include "3D/Camera/OrthographicCameraControllerMaker.h"
+#include "3D/Camera/ShadowMapCameraControllerMaker.h"
 #include "3D/Camera/FirstPersonModuleMaker.h"
-#include "3D/MeshDrawer/BasicMeshDrawerMaker.h"
-#include "3D/MeshDrawer/SphereMeshDrawerMaker.h"
-#include "3D/MeshDrawer/SphereMeshWireFrameDrawerMaker.h"
+#include "3D/BillboardDrawer/BillboardDrawerMaker.h"
+#include "3D/MeshDrawer/MeshDrawerMaker.h"
+#include "3D/MeshDrawer/MonoColorMeshDrawerMaker.h"
 #include "3D/MeshAnimator/MeshAnimatorMaker.h"
-#include "3D/ShadowMapWriter/BasicMeshShadowMapWriterMaker.h"
+#include "3D/MeshAnimator/MotionChangerMaker.h"
+#include "3D/Effects/BillboardShrinkEffect/BillboardShrinkEffectCreatorMaker.h"
+#include "3D/Effects/BillboardSpreadEffect/BillboardSpreadEffectCreatorMaker.h"
 
 #include "Other/ReceiveMessageToSelfDestroyer/ReceiveMessageToSelfDestroyerMaker.h"
+#include "Other/Sound/SoundPlayerMaker.h"
+#include "Other/Sound/SoundPlayTimerMaker.h"
 
 class TktkManual;
 
-#ifndef SAMPLE /* 「#ifdef」を「#ifndef」に変えると“F12”で対応するクラスに飛べます */
+// 下の行のコメントアウトを外すと“F12”で対応するクラスに飛べます
+//#define SAMPLE
+
+#ifdef SAMPLE
 namespace tktk
 {
 	/* ２次元コンポーネント達 */
@@ -55,9 +64,6 @@ namespace tktk
 		// 四角形の当たり判定コンポーネント
 		using C06 = RectCollider;
 
-		// 「RectCollider」の衝突時押し出しコンポーネント
-		using C07 = RectColliderExtrusion;
-
 		// ２次元衝突判定の境界を線描画するコンポーネント
 		using C08 = ColliderWireFrameDrawer2D;
 
@@ -67,8 +73,11 @@ namespace tktk
 		// スプライト描画コンポーネント
 		using C10 = SpriteDrawer;
 
+		// スプライト切り抜き描画コンポーネント
+		using C11 = SpriteClippingDrawer;
+
 		// ポストエフェクト描画コンポーネント
-		using C11 = PostEffectDrawer;
+		using C12 = PostEffectDrawer;
 	//>
 
 
@@ -93,29 +102,38 @@ namespace tktk
 		// ポイントライトの制御コンポーネント
 		using C35 = PointLightController;
 
+		// ディレクショナルライトの制御コンポーネント
+		using C36 = DirectionalLightController;
+
 		// 通常カメラの制御コンポーネント
-		using C36 = BasicCameraController;
+		using C37 = BasicCameraController;
 
 		// 平行投影カメラの制御コンポーネント
-		using C37 = OrthographicCameraController;
+		using C38 = OrthographicCameraController;
 
 		// １人称移動コンポーネント
-		using C38 = FirstPersonModule;
+		using C39 = FirstPersonModule;
+
+		// ビルボード描画コンポーネント
+		using C40 = BillboardDrawer;
 
 		// メッシュの描画コンポーネント
-		using C39 = BasicMeshDrawer;
+		using C41 = MeshDrawer;
 
-		// 球体メッシュの描画コンポーネント
-		using C40 = SphereMeshDrawer;
-
-		// 球体メッシュワイヤーフレームの描画コンポーネント
-		using C41 = SphereMeshWireFrameDrawer;
+		// 単色メッシュの描画コンポーネント
+		using C42 = MonoColorMeshDrawer;
 
 		// メッシュのアニメーションコンポーネント
-		using C42 = MeshAnimator;
+		using C43 = MeshAnimator;
 
-		// メッシュのシャドウマップ描画コンポーネント
-		using C43 = BasicMeshShadowMapWriter;
+		// モーション変更コンポーネント
+		using C44 = MotionChanger;
+
+		// 収縮するビルボードエフェクトコンポーネント
+		using C45 = BillboardShrinkEffectCreator;
+
+		// 拡散するビルボードエフェクトコンポーネント
+		using C46 = BillboardSpreadEffectCreator;
 	//>
 
 
@@ -123,7 +141,10 @@ namespace tktk
 	/* その他のコンポーネント達 */
 	//<
 		// 特定のメッセージを受け取った時に自身を持つGameObjectを殺すコンポーネント
-		using C60 = ReceiveMessageToSelfDestroyerMaker;
+		using C60 = ReceiveMessageToSelfDestroyer;
+
+		// サウンド再生コンポーネント
+		using C61 = SoundPlayer;
 	//>
 }
 #endif // !SAMPLE

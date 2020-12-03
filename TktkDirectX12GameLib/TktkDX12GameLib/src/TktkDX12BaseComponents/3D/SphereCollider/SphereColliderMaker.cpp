@@ -1,10 +1,12 @@
 #include "TktkDX12BaseComponents/3D/SphereCollider/SphereColliderMaker.h"
 
+#include "TktkDX12Game/DXGameResource/GameObjectResouse/GameObject/GameObject.h"
+
 namespace tktk
 {
 	SphereColliderMaker SphereColliderMaker::m_self;
 
-	SphereColliderMaker & SphereColliderMaker::makeStart(GameObjectPtr user)
+	SphereColliderMaker& SphereColliderMaker::makeStart(GameObjectPtr user)
 	{
 		// 変数を初期化する
 		m_self = SphereColliderMaker();
@@ -18,32 +20,48 @@ namespace tktk
 
 	ComponentPtr<SphereCollider>SphereColliderMaker::create()
 	{
-		// コンポーネントを作成してそのポインタを返す
+		// コンポーネントを作成する
 		return m_user->createComponent<SphereCollider>(
 			m_collisionGroupType,
 			m_radius,
-			m_localPosition
+			m_localPosition,
+			m_isExtrude,
+			m_extrudedRate
 			);
 	}
 
-	SphereColliderMaker & SphereColliderMaker::collisionGroupType(int value)
+	SphereColliderMaker& SphereColliderMaker::collisionGroupType(CollisionGroupTypeCarrier value)
 	{
 		// 値を設定して自身の参照を返す
 		m_collisionGroupType = value;
 		return *this;
 	}
 
-	SphereColliderMaker & SphereColliderMaker::radius(float value)
+	SphereColliderMaker& SphereColliderMaker::radius(float value)
 	{
 		// 値を設定して自身の参照を返す
 		m_radius = value;
 		return *this;
 	}
 
-	SphereColliderMaker & SphereColliderMaker::localPosition(const tktkMath::Vector3 & value)
+	SphereColliderMaker& SphereColliderMaker::localPosition(const tktkMath::Vector3& value)
 	{
 		// 値を設定して自身の参照を返す
 		m_localPosition = value;
+		return *this;
+	}
+
+	SphereColliderMaker& SphereColliderMaker::isExtrude(bool value)
+	{
+		// 値を設定して自身の参照を返す
+		m_isExtrude = value;
+		return *this;
+	}
+
+	SphereColliderMaker& SphereColliderMaker::extrudedRate(float value)
+	{
+		// 値を設定して自身の参照を返す
+		m_extrudedRate = value;
 		return *this;
 	}
 }

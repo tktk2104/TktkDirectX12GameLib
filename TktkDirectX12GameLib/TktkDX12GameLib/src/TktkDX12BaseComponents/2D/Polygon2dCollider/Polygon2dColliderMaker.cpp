@@ -1,5 +1,7 @@
 #include "TktkDX12BaseComponents/2D/Polygon2dCollider/Polygon2dColliderMaker.h"
 
+#include "TktkDX12Game/DXGameResource/GameObjectResouse/GameObject/GameObject.h"
+
 namespace tktk
 {
 	Polygon2dColliderMaker Polygon2dColliderMaker::m_self;
@@ -18,15 +20,16 @@ namespace tktk
 
 	ComponentPtr<Polygon2dCollider> Polygon2dColliderMaker::create()
 	{
-		// コンポーネントを作成してそのポインタを返す
+		// コンポーネントを作成する
 		return m_user->createComponent<Polygon2dCollider>(
 			m_collisionGroupType,
 			m_vertexs,
-			m_localPosition
+			m_isExtrude,
+			m_extrudedRate
 			);
 	}
 
-	Polygon2dColliderMaker & Polygon2dColliderMaker::collisionGroupType(int value)
+	Polygon2dColliderMaker& Polygon2dColliderMaker::collisionGroupType(CollisionGroupTypeCarrier value)
 	{
 		// 値を設定して自身の参照を返す
 		m_collisionGroupType = value;
@@ -40,10 +43,17 @@ namespace tktk
 		return *this;
 	}
 
-	Polygon2dColliderMaker& Polygon2dColliderMaker::localPosition(const tktkMath::Vector2& value)
+	Polygon2dColliderMaker& Polygon2dColliderMaker::isExtrude(bool value)
 	{
 		// 値を設定して自身の参照を返す
-		m_localPosition = value;
+		m_isExtrude = value;
+		return *this;
+	}
+
+	Polygon2dColliderMaker& Polygon2dColliderMaker::extrudedRate(float value)
+	{
+		// 値を設定して自身の参照を返す
+		m_extrudedRate = value;
 		return *this;
 	}
 }

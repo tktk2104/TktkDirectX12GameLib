@@ -2,43 +2,43 @@
 
 namespace tktk
 {
-	RtvDescriptorHeap::RtvDescriptorHeap(unsigned int rtvDescriptorHeapNum)
-		: m_rtvDescriptorHeapDataArray(rtvDescriptorHeapNum)
+	RtvDescriptorHeap::RtvDescriptorHeap(const tktkContainer::ResourceContainerInitParam& initParam)
+		: m_rtvDescriptorHeapDataArray(initParam)
 	{
 	}
 
-	void RtvDescriptorHeap::create(unsigned int id, ID3D12Device* device, const RtvDescriptorHeapInitParam& initParam)
+	size_t RtvDescriptorHeap::create(ID3D12Device* device, const RtvDescriptorHeapInitParam& initParam)
 	{
-		m_rtvDescriptorHeapDataArray.emplaceAt(id, device, initParam);
+		return m_rtvDescriptorHeapDataArray.create(device, initParam);
 	}
 
-	std::vector<D3D12_CPU_DESCRIPTOR_HANDLE> RtvDescriptorHeap::getCpuHeapHandleArray(unsigned int id, ID3D12Device* device) const
+	void RtvDescriptorHeap::erase(size_t handle)
 	{
-		return m_rtvDescriptorHeapDataArray.at(id)->getCpuHeapHandleArray(device);
+		m_rtvDescriptorHeapDataArray.erase(handle);
 	}
 
-	const std::vector<unsigned int>& RtvDescriptorHeap::getRtBufferIdArray(unsigned int id) const
+	std::vector<D3D12_CPU_DESCRIPTOR_HANDLE> RtvDescriptorHeap::getCpuHeapHandleArray(size_t handle, ID3D12Device* device) const
 	{
-		return m_rtvDescriptorHeapDataArray.at(id)->getRtBufferIdArray();
+		return m_rtvDescriptorHeapDataArray.getMatchHandlePtr(handle)->getCpuHeapHandleArray(device);
 	}
 
-	ID3D12DescriptorHeap* RtvDescriptorHeap::getPtr(unsigned int id) const
+	const std::vector<size_t>& RtvDescriptorHeap::getRtBufferHandleArray(size_t handle) const
 	{
-		return m_rtvDescriptorHeapDataArray.at(id)->getPtr();
+		return m_rtvDescriptorHeapDataArray.getMatchHandlePtr(handle)->getRtBufferHandleArray();
 	}
 
-	void RtvDescriptorHeap::setRootDescriptorTable(unsigned int id, ID3D12Device* device, ID3D12GraphicsCommandList* commandList) const
+	ID3D12DescriptorHeap* RtvDescriptorHeap::getPtr(size_t handle) const
 	{
-		m_rtvDescriptorHeapDataArray.at(id)->setRootDescriptorTable(device, commandList);
+		return m_rtvDescriptorHeapDataArray.getMatchHandlePtr(handle)->getPtr();
 	}
 
-	void RtvDescriptorHeap::setRtv(unsigned int id, ID3D12Device* device, ID3D12GraphicsCommandList* commandList, unsigned int startRtvLocationIndex, unsigned int rtvCount, const D3D12_CPU_DESCRIPTOR_HANDLE* useDsvHandle) const
+	void RtvDescriptorHeap::setRootDescriptorTable(size_t handle, ID3D12Device* device, ID3D12GraphicsCommandList* commandList) const
 	{
-		m_rtvDescriptorHeapDataArray.at(id)->setRtv(device, commandList, startRtvLocationIndex, rtvCount, useDsvHandle);
+		m_rtvDescriptorHeapDataArray.getMatchHandlePtr(handle)->setRootDescriptorTable(device, commandList);
 	}
 
-	void RtvDescriptorHeap::clearRtv(unsigned int id, ID3D12Device* device, ID3D12GraphicsCommandList* commandList, unsigned int rtvLocationIndex, const tktkMath::Color& color) const
+	void RtvDescriptorHeap::setRtv(size_t handle, ID3D12Device* device, ID3D12GraphicsCommandList* commandList, size_t startRtvLocationIndex, unsigned int rtvCount, const D3D12_CPU_DESCRIPTOR_HANDLE* useDsvHandle) const
 	{
-		m_rtvDescriptorHeapDataArray.at(id)->clearRtv(device, commandList, rtvLocationIndex, color);
+		m_rtvDescriptorHeapDataArray.getMatchHandlePtr(handle)->setRtv(device, commandList, startRtvLocationIndex, rtvCount, useDsvHandle);
 	}
 }

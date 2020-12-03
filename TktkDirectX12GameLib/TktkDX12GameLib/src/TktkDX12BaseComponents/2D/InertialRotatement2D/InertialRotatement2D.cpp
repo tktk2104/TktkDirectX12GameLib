@@ -2,6 +2,8 @@
 
 #include <stdexcept>
 #include <TktkMath/MathHelper.h>
+#include <TktkDX12BaseComponents/2D/Transform2D/Transform2D.h>
+#include <TktkDX12Game/_MainManager/DX12GameManager.h>
 
 namespace tktk
 {
@@ -26,25 +28,22 @@ namespace tktk
 
 	void InertialRotatement2D::update()
 	{
+		// 回転速度分自身を回転させる
 		m_transform2D->addLocalRotationDeg(m_velocity * DX12GameManager::deltaTime());
 
-		if (!m_preFrameAddForce)
-		{
-			float speed = std::abs(m_velocity) - (m_decelerationPerSec * DX12GameManager::deltaTime());
+		// 速度を減速する
+		float speed = std::abs(m_velocity) - (m_decelerationPerSec * DX12GameManager::deltaTime());
 
-			if (speed < 0.0f) speed = 0.0f;
+		// 速度が負の数になっていたら速度をゼロにする
+		if (speed < 0.0f) speed = 0.0f;
 
-			m_velocity = tktkMath::MathHelper::sign(m_velocity) * speed;
-		}
-
-		m_preFrameAddForce = false;
+		// 回転速度の値を更新する
+		m_velocity = tktkMath::MathHelper::sign(m_velocity) * speed;
 	}
 
 	void InertialRotatement2D::addMomentarilyForce(float force)
 	{
 		if (std::abs(force) < tktkMath::MathHelper::kEpsilon) return;
-
-		m_preFrameAddForce = true;
 
 		m_velocity += force;
 	}
@@ -52,8 +51,6 @@ namespace tktk
 	void InertialRotatement2D::addContinuousForce(float force, float accelerationPerSec)
 	{
 		if (std::abs(force) < tktkMath::MathHelper::kEpsilon) return;
-
-		m_preFrameAddForce = true;
 
 		float velocityDist = force - m_velocity;
 

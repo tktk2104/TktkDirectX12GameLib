@@ -3,7 +3,10 @@
 
 #include <string>
 #include <vector>
-#include "../../../Includer/D3d12Includer.h"
+
+#include <d3d12.h>
+#undef min
+#undef max
 
 namespace tktk
 {
@@ -19,7 +22,7 @@ namespace tktk
 		bool									useDepth				{ false };
 		bool									writeDepth				{ false };
 		D3D12_COMPARISON_FUNC					depthFunc				{};
-		int										rootSignatureId			{ 0 };
+		size_t									rootSignatureHandle		{ 0 };
 	};
 
 	// シェーダーのファイルパス

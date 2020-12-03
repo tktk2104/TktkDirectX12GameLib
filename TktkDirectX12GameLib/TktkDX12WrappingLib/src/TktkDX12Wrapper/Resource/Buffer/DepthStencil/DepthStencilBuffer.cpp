@@ -2,25 +2,29 @@
 
 namespace tktk
 {
-	DepthStencilBuffer::DepthStencilBuffer(unsigned int depthStencilBufferNum)
-		: m_depthStencilBufferDataArray(depthStencilBufferNum)
+	DepthStencilBuffer::DepthStencilBuffer(const tktkContainer::ResourceContainerInitParam& initParam)
+		: m_depthStencilBufferDataArray(initParam)
 	{
 	}
 
-	void DepthStencilBuffer::create(unsigned int id, ID3D12Device* device, const DepthStencilBufferInitParam& initParam)
+	size_t DepthStencilBuffer::create(ID3D12Device* device, const DepthStencilBufferInitParam& initParam)
 	{
-		if (m_depthStencilBufferDataArray.at(id) != nullptr) m_depthStencilBufferDataArray.eraseAt(id);
-		m_depthStencilBufferDataArray.emplaceAt(id, device, initParam);
+		return m_depthStencilBufferDataArray.create(device, initParam);
 	}
 
-	void DepthStencilBuffer::beginWrite(unsigned int id, ID3D12GraphicsCommandList* commandList) const
+	void DepthStencilBuffer::erase(size_t handle)
 	{
-		m_depthStencilBufferDataArray.at(id)->beginWrite(commandList);
+		m_depthStencilBufferDataArray.erase(handle);
 	}
 
-	void DepthStencilBuffer::endWrite(unsigned int id, ID3D12GraphicsCommandList* commandList) const
+	void DepthStencilBuffer::beginWrite(size_t handle, ID3D12GraphicsCommandList* commandList) const
 	{
-		m_depthStencilBufferDataArray.at(id)->endWrite(commandList);
+		m_depthStencilBufferDataArray.getMatchHandlePtr(handle)->beginWrite(commandList);
+	}
+
+	void DepthStencilBuffer::endWrite(size_t handle, ID3D12GraphicsCommandList* commandList) const
+	{
+		m_depthStencilBufferDataArray.getMatchHandlePtr(handle)->endWrite(commandList);
 	}
 
 	void DepthStencilBuffer::allBeginWrite(ID3D12GraphicsCommandList* commandList) const
@@ -39,18 +43,23 @@ namespace tktk
 		}
 	}
 
-	void DepthStencilBuffer::createDsv(unsigned int id, ID3D12Device* device, D3D12_CPU_DESCRIPTOR_HANDLE heapHandle) const
+	void DepthStencilBuffer::createDsv(size_t handle, ID3D12Device* device, D3D12_CPU_DESCRIPTOR_HANDLE heapHandle) const
 	{
-		m_depthStencilBufferDataArray.at(id)->createDsv(device, heapHandle);
+		m_depthStencilBufferDataArray.getMatchHandlePtr(handle)->createDsv(device, heapHandle);
 	}
 
-	void DepthStencilBuffer::createSrv(unsigned int id, ID3D12Device* device, D3D12_CPU_DESCRIPTOR_HANDLE heapHandle) const
+	void DepthStencilBuffer::createSrv(size_t handle, ID3D12Device* device, D3D12_CPU_DESCRIPTOR_HANDLE heapHandle) const
 	{
-		m_depthStencilBufferDataArray.at(id)->createSrv(device, heapHandle);
+		m_depthStencilBufferDataArray.getMatchHandlePtr(handle)->createSrv(device, heapHandle);
 	}
 
-	const tktkMath::Vector2& DepthStencilBuffer::getDepthStencilSizePx(unsigned int id) const
+	const tktkMath::Vector2& DepthStencilBuffer::getDepthStencilSizePx(size_t handle) const
 	{
-		return m_depthStencilBufferDataArray.at(id)->getDepthStencilSizePx();
+		return m_depthStencilBufferDataArray.getMatchHandlePtr(handle)->getDepthStencilSizePx();
+	}
+
+	ID3D12Resource* DepthStencilBuffer::getBufferPtr(size_t handle) const
+	{
+		return m_depthStencilBufferDataArray.getMatchHandlePtr(handle)->getBufferPtr();
 	}
 }

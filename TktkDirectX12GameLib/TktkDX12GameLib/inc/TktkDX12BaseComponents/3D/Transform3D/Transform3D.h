@@ -1,10 +1,15 @@
 #ifndef TRANSFORM_3D_H_
 #define TRANSFORM_3D_H_
 
+/* base class */
+#include "../../../TktkDX12Game/DXGameResource/GameObjectResouse/Component/ComponentBase.h"
+
+/* funcUseType */
 #include <TktkMath/Structs/Matrix4.h>
+
+/* class member */
 #include <TktkMath/Structs/Quaternion.h>
 #include <TktkMath/Structs/Vector3.h>
-#include "../../../TktkDX12Game/Component/ComponentBase.h"
 #include "../../2D/Transform2D/TraceParentType.h"
 
 namespace tktk
@@ -128,9 +133,9 @@ namespace tktk
 		void setLocalUp(const tktkMath::Vector3& up);
 
 		// 指定のTransform3Dの方を向くように自身のワールド行列を変換する
-		void lookAt(const ComponentPtr<Transform3D>& target, const tktkMath::Vector3& worldUp = tktkMath::vec3Up);
+		void lookAt(const ComponentPtr<Transform3D>& target);
 		// 指定の座標の方を向くように自身のワールド行列を変換する
-		void lookAt(const tktkMath::Vector3& target, const tktkMath::Vector3& worldUp = tktkMath::vec3Up);
+		void lookAt(const tktkMath::Vector3& target);
 
 		// 指定の座標を中心とした軸で指定した角度だけ回転させる。
 		void rotateAround(const tktkMath::Vector3& worldPoint, const tktkMath::Vector3& axis, float angle);
@@ -183,18 +188,18 @@ namespace tktk
 	private:
 
 		// ローカルの座標
-		tktkMath::Vector3 m_localPosition{ tktkMath::vec3Zero };
+		tktkMath::Vector3 m_localPosition{ tktkMath::Vector3_v::zero };
 		// ローカルのスケール
-		tktkMath::Vector3 m_localScaleRate{ tktkMath::vec3One };
+		tktkMath::Vector3 m_localScaleRate{ tktkMath::Vector3_v::one };
 		// ローカルの回転
-		tktkMath::Quaternion m_localRotation{ tktkMath::quaternionIdentity };
+		tktkMath::Quaternion m_localRotation{ tktkMath::Quaternion_v::identity };
 
 		// ワールドの座標
-		tktkMath::Vector3 m_worldPosition{ tktkMath::vec3Zero };
+		tktkMath::Vector3 m_worldPosition{ tktkMath::Vector3_v::zero };
 		// ワールドのスケール
-		tktkMath::Vector3 m_worldScaleRate{ tktkMath::vec3One };
+		tktkMath::Vector3 m_worldScaleRate{ tktkMath::Vector3_v::one };
 		// ローカルの回転
-		tktkMath::Quaternion m_worldRotation{ tktkMath::quaternionIdentity };
+		tktkMath::Quaternion m_worldRotation{ tktkMath::Quaternion_v::identity };
 
 		// 親のTransform3Dとの関係性
 		TraceParentType m_traceType;

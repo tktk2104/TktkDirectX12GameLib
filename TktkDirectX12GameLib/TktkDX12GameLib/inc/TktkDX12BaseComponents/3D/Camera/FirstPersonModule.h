@@ -1,11 +1,15 @@
 #ifndef FIRST_PERSON_MODULE_H_
 #define FIRST_PERSON_MODULE_H_
 
-#include "../../../TktkDX12Game/Component/ComponentBase.h"
-#include "../Transform3D/Transform3D.h"
+/* base class */
+#include "../../../TktkDX12Game/DXGameResource/GameObjectResouse/Component/ComponentBase.h"
 
 namespace tktk
 {
+	/* class member */
+	class Transform3D;
+
+	// ˆêlÌ‘€ìƒ‚ƒWƒ…[ƒ‹
 	class FirstPersonModule
 		: public ComponentBase
 	{

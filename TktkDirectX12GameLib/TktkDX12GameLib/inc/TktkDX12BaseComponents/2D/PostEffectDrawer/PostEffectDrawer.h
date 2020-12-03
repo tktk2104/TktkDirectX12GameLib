@@ -1,7 +1,8 @@
 #ifndef POST_EFFECT_DRAWER_H_
 #define POST_EFFECT_DRAWER_H_
 
-#include "../../../TktkDX12Game/Component/ComponentBase.h"
+/* base class */
+#include "../../../TktkDX12Game/DXGameResource/GameObjectResouse/Component/ComponentBase.h"
 
 namespace tktk
 {
@@ -11,7 +12,7 @@ namespace tktk
 	{
 	public:
 
-		PostEffectDrawer(float drawPriority, unsigned int postEffectMaterialId, unsigned int useRtvDescriptorHeapId);
+		PostEffectDrawer(float drawPriority, size_t postEffectMaterialHandle, size_t useRtvDescriptorHeapHandle);
 
 	public:
 
@@ -19,8 +20,8 @@ namespace tktk
 
 	private:
 
-		unsigned int	m_useRtvDescriptorHeapId;
-		unsigned int	m_postEffectMaterialId;
+		size_t	m_useRtvDescriptorHeapHandle;
+		size_t	m_postEffectMaterialHandle;
 	};
 }
 #endif // !POST_EFFECT_DRAWER_H_

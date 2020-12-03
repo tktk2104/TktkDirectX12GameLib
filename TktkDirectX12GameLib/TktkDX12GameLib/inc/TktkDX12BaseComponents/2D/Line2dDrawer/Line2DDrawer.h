@@ -1,15 +1,21 @@
 #ifndef LINE_2D_DRAWER_H_
 #define LINE_2D_DRAWER_H_
 
+/* std::vector */
 #include <vector>
-#include <TktkTemplateMetaLib/TypeCheck/isIdType.h>
+
+/* class member */
 #include <TktkMath/Structs/Color.h>
 #include <TktkMath/Structs/Vector2.h>
-#include "../../../TktkDX12Game/Component/ComponentBase.h"
-#include "../Transform2D/Transform2D.h"
+
+/* base class */
+#include "../../../TktkDX12Game/DXGameResource/GameObjectResouse/Component/ComponentBase.h"
 
 namespace tktk
 {
+	/* class member */
+	class Transform2D;
+
 	// 2次元線分描画コンポーネント
 	// 【必須コンポーネント：Transform2D】
 	class Line2DDrawer
@@ -19,16 +25,16 @@ namespace tktk
 
 		Line2DDrawer(
 			float drawPriority,
-			unsigned int useLine2DMaterialId,
 			const std::vector<tktkMath::Vector2>& lineVertexArray,
 			const tktkMath::Color& lineColor,
 			const tktkMath::Color& blendRate,
-			unsigned int useRtvDescriptorHeapId
+			size_t useRtvDescriptorHeapHandle
 		);
 
 	public:
 
 		void start();
+		void onDestroy();
 		void draw() const;
 
 	public:
@@ -50,10 +56,10 @@ namespace tktk
 
 	private:
 
-		unsigned int					m_useLine2DMaterialId;
-		unsigned int					m_useRtvDescriptorHeapId;
+		size_t							m_useLine2DMaterialHandle;
+		size_t							m_useRtvDescriptorHeapHandle;
 		std::vector<tktkMath::Vector2>	m_lineVertexArray;
-		tktkMath::Color					m_lineColor{ tktkMath::colorWhite };
+		tktkMath::Color					m_lineColor{ tktkMath::Color_v::white };
 		tktkMath::Color					m_blendRate{ 1.0f, 1.0f, 1.0f, 1.0f };
 		
 		ComponentPtr<Transform2D> m_transform{  };

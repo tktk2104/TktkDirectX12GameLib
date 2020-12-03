@@ -1,10 +1,8 @@
-#ifndef POINT_LIGHT_OBJECT_H_
-#define POINT_LIGHT_OBJECT_H_
+#pragma once
 
-#include <TktkDX12Game/_MainManager/DX12GameManager.h>
-#include <TktkDX12BaseComponents/3D/Transform3D/Transform3DMaker.h>
-#include <TktkDX12BaseComponents/3D/Camera/OrthographicCameraControllerMaker.h>
-#include <TktkDX12BaseComponents/3D/Light/PointLightControllerMaker.h>
+#include <TktkDX12Game/TktkDX12Game.h>
+#include <TktkDX12BaseComponents/Components.h>
+#include "../../ResourceHandleCarrier/ResourceHandleCarrier.h"
 
 struct PointLightObject
 {
@@ -17,17 +15,24 @@ struct PointLightObject
 			.initRotation(tktkMath::Quaternion::createLookRotation(-position))
 			.create();
 
+		tktk::SphereMeshDrawerMaker::makeStart(gameObject)
+			.albedoColor({ 1.0f, 1.0f, 0.0f, 1.0f })
+			.useRtvDescriptorHeapHandle(ResourceHandleCarrier::getPostEffectRtvDescriptorHeapHandle())
+			.create();
+
 		tktk::OrthographicCameraControllerMaker::makeStart(gameObject)
-			.initCameraWidth(40.0f)
-			.initCameraHeight(40.0f)
-			.initCameraId(1U)
+			.initCameraWidth(100.0f)
+			.initCameraHeight(100.0f)
+			.initCameraHandle(tktk::DX12GameManager::getSystemHandle(tktk::SystemCameraType::DefaultShadowMapCamera))
 			.create();
 
 		tktk::PointLightControllerMaker::makeStart(gameObject)
-			.initLightId(0U)
+			.initAmbient({ 0.5f, 1.0f })
+			/*.initAmbient(tktkMath::Color_v::black)
+			.initSpeqular(tktkMath::Color_v::white)
+			.initDiffuse(tktkMath::Color_v::white)*/
 			.create();
 
 		return gameObject;
 	}
 };
-#endif // !POINT_LIGHT_OBJECT_H_

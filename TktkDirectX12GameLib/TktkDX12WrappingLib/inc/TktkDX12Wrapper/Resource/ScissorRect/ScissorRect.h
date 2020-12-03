@@ -1,7 +1,7 @@
 #ifndef SCISSOR_RECT_H_
 #define SCISSOR_RECT_H_
 
-#include <TktkContainer/HeapArray/HeapArray.h>
+#include <TktkContainer/ResourceContainer/ResourceContainer.h>
 #include "ScissorRectData.h"
 
 namespace tktk
@@ -11,20 +11,24 @@ namespace tktk
 	{
 	public:
 
-		explicit ScissorRect(unsigned int scissorRectNum);
+		explicit ScissorRect(const tktkContainer::ResourceContainerInitParam& initParam);
 		~ScissorRect() = default;
 
 	public:
 
-		// 「ScissorRectData」のインスタンスを作る
-		void create(unsigned int id, const std::vector<ScissorRectInitParam>& initParamArray);
+		// 「ScissorRectData」のインスタンスを作り、そのリソースのハンドルを返す
+		size_t create(const std::vector<ScissorRectInitParam>& initParamArray);
+
+		// 指定のシザー矩形を削除する
+		// ※引数のハンドルに対応するリソースが無かったら何もしない
+		void erase(size_t handle);
 
 		// 指定のシザー矩形をコマンドリストに登録する
-		void set(unsigned int id, ID3D12GraphicsCommandList* commandList) const;
+		void set(size_t handle, ID3D12GraphicsCommandList* commandList) const;
 
 	private:
 
-		tktkContainer::HeapArray<ScissorRectData> m_scissorRectDataArray;
+		tktkContainer::ResourceContainer<ScissorRectData> m_scissorRectDataArray;
 	};
 }
 #endif // !SCISSOR_RECT_H_

@@ -15,11 +15,37 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="inc\TktkContainer\HeapArray\HeapArray.h">
+    <ClInclude Include="inc\TktkContainer\ResourceContainer\ResourceContainer.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="inc\TktkContainer\HeapArray\HeapArrayIterator.h">
+    <ClInclude Include="inc\TktkContainer\ResourceContainer\ResourceContainerIterator.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="inc\TktkContainer\ResourceHandleManager\ResourceHandleManager.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\TktkContainer\ResourceContainer\ResourceContainerInitParam.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\TktkContainer\ResourceContainer\ResourceContainerConstIterator.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\TktkContainer\ResourceHandleManager\ResourceHandleCarrier.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\TktkContainer\PreAllocContainer\UseNodeCheckBitFlagArrayPtr.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\TktkContainer\PreAllocContainer\PreAllocContainer.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\TktkContainer\PreAllocContainer\PreAllocContainerIterator.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\ResourceHandleManager\ResourceHandleManager.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

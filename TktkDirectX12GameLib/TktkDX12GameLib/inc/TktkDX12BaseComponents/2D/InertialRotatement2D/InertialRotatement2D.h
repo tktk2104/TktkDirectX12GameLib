@@ -1,11 +1,14 @@
 #ifndef INERTIAL_ROTATEMENT_2D_H_
 #define INERTIAL_ROTATEMENT_2D_H_
 
-#include "../../../TktkDX12Game/Component/ComponentBase.h"
-#include "../Transform2D/Transform2D.h"
+/* base class */
+#include "../../../TktkDX12Game/DXGameResource/GameObjectResouse/Component/ComponentBase.h"
 
 namespace tktk
 {
+	/* class member */
+	class Transform2D;
+
 	// ２次元の慣性回転コンポーネント
 	// 【前提コンポーネント：Transform2D】
 	class InertialRotatement2D
@@ -50,9 +53,6 @@ namespace tktk
 
 		// 速度を１秒間でどれだけ減速させるか？
 		float m_decelerationPerSec;
-
-		// 前フレームで加速したか？
-		bool m_preFrameAddForce{ false };
 	};
 }
 #endif // !INERTIAL_ROTATEMENT_2D_H_

@@ -267,7 +267,7 @@ namespace tktkMath
 
 		float lengthTowards = MathHelper::moveTowards(curLength, targetLength, maxMagnitudeDelta);
 
-		return Quaternion::createFromAxisAngle(axis, MathHelper::toDegrees(angleTowards)) * current * lengthTowards;
+		return current * Quaternion::createFromAxisAngle(axis, MathHelper::toDegrees(angleTowards)) * lengthTowards;
 	}
 
 	Vector3 Vector3::slerp(const Vector3& value1, const Vector3& value2, float amount)
@@ -293,7 +293,7 @@ namespace tktkMath
 			axis = Vector3::cross(Vector3_v::right, afterNormalizeValue1);
 		}
 
-		return Quaternion::createFromAxisAngle(axis, angle * amount) * afterNormalizeValue1 * MathHelper::lerp(value1Length, value2Length, amount);
+		return afterNormalizeValue1 * Quaternion::createFromAxisAngle(axis, angle * amount) * MathHelper::lerp(value1Length, value2Length, amount);
 	}
 
 	Vector3 Vector3::slerpUnclamped(const Vector3& value1, const Vector3& value2, float amount)
@@ -318,7 +318,7 @@ namespace tktkMath
 			axis = Vector3::cross(Vector3_v::right, afterNormalizeValue1);
 		}
 
-		return Quaternion::createFromAxisAngle(axis, angle * amount) * afterNormalizeValue1 * MathHelper::lerpUnclamped(value1Length, value2Length, amount);
+		return afterNormalizeValue1 * Quaternion::createFromAxisAngle(axis, angle * amount) * MathHelper::lerpUnclamped(value1Length, value2Length, amount);
 	}
 
 	Vector3 Vector3::smoothDamp(const Vector3& cur, const Vector3& target, Vector3* curVelocity, float smoothTime, float deltaTime, float maxSpeed)
@@ -495,22 +495,6 @@ namespace tktkMath
 		return v1;
 	}
 
-	Vector3& operator *= (Vector3& v, float s)
-	{
-		v.x *= s;
-		v.y *= s;
-		v.z *= s;
-		return v;
-	}
-
-	Vector3& operator /= (Vector3& v, float s)
-	{
-		v.x /= s;
-		v.y /= s;
-		v.z /= s;
-		return v;
-	}
-
 	Vector3 operator + (Vector3 v1, const Vector3& v2)
 	{
 		return v1 += v2;
@@ -519,21 +503,6 @@ namespace tktkMath
 	Vector3 operator - (Vector3 v1, const Vector3& v2)
 	{
 		return v1 -= v2;
-	}
-
-	Vector3 operator * (Vector3 v, float s)
-	{
-		return v *= s;
-	}
-
-	Vector3 operator * (float s, Vector3 v)
-	{
-		return v *= s;
-	}
-
-	Vector3 operator / (Vector3 v, float s)
-	{
-		return v /= s;
 	}
 
 	bool operator==(const Vector3& lhs, const Vector3& rhs)

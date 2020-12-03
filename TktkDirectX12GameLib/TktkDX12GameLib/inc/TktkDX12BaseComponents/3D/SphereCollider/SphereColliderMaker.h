@@ -1,6 +1,7 @@
 #ifndef SPHERE_COLLIDER_MAKER_H_
 #define SPHERE_COLLIDER_MAKER_H_
 
+#include "TktkDX12Game/UtilityProcessManager/ResourceHandleGetter/ResourceIdConverter/ResourceIdCarrier.h"
 #include "SphereCollider.h"
 
 namespace tktk
@@ -25,13 +26,19 @@ namespace tktk
 		ComponentPtr<SphereCollider> create();
 
 		// 当たり判定のグループを設定
-		SphereColliderMaker& collisionGroupType(int value);
+		SphereColliderMaker& collisionGroupType(CollisionGroupTypeCarrier value);
 
 		// 当たり判定の半径を設定
 		SphereColliderMaker& radius(float value);
 
 		// 当たり判定のローカル座標を設定
 		SphereColliderMaker& localPosition(const tktkMath::Vector3& value);
+
+		// 衝突相手を押し出す処理を行うか？
+		SphereColliderMaker& isExtrude(bool value);
+
+		// 押し出されやすさを設定（割合）
+		SphereColliderMaker& extrudedRate(float value);
 
 	private:
 
@@ -41,10 +48,12 @@ namespace tktk
 	private:
 
 		// 作成用変数達
-		GameObjectPtr		m_user				{ };
-		int					m_collisionGroupType{ 0 };
-		float				m_radius			{ 1.0f };
-		tktkMath::Vector3	m_localPosition		{ tktkMath::vec3Zero };
+		GameObjectPtr				m_user				{ };
+		CollisionGroupTypeCarrier	m_collisionGroupType{ 0 };
+		float						m_radius			{ 1.0f };
+		tktkMath::Vector3			m_localPosition		{ tktkMath::Vector3_v::zero };
+		bool						m_isExtrude			{ false };
+		float						m_extrudedRate		{ 0.0f };
 	};
 }
 #endif // !SPHERE_COLLIDER_MAKER_H_

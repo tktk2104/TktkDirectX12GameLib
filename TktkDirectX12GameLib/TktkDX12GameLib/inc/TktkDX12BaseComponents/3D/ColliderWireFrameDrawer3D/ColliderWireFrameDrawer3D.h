@@ -1,26 +1,25 @@
 #ifndef COLLIDER_WIRE_FRAME_DRAWER_3D_H_
 #define COLLIDER_WIRE_FRAME_DRAWER_3D_H_
 
+/* base class */
+#include "../../../TktkDX12Game/DXGameResource/GameObjectResouse/Component/ComponentBase.h"
+
+/* class member */
 #include <vector>
 #include <TktkMath/Structs/Color.h>
-#include <TktkDX12Game/Component/ComponentBase.h>
-#include "../MeshDrawer/SphereMeshWireFrameDrawer.h"
 
 namespace tktk
 {
+	/* class member */
+	class MonoColorMeshDrawer;
+
+	// 三次元衝突判定の境界線を表示するコンポーネント
 	class ColliderWireFrameDrawer3D
 		: public ComponentBase
 	{
 	public:
 
-		ColliderWireFrameDrawer3D(
-			float			drawPriority,
-			unsigned int	cameraId,
-			unsigned int	shadowMapCameraId,
-			unsigned int	lightId,
-			unsigned int	useRtvDescriptorHeapId,
-			const tktkMath::Color& lineColor
-		);
+		explicit ColliderWireFrameDrawer3D(const tktkMath::Color& lineColor);
 
 	public:
 
@@ -30,13 +29,8 @@ namespace tktk
 
 	private:
 
-		float			m_drawPriority;
-		unsigned int	m_cameraId;
-		unsigned int	m_shadowMapCameraId;
-		unsigned int	m_lightId;
-		unsigned int	m_useRtvDescriptorHeapId;
 		tktkMath::Color	m_lineColor;
-		std::vector<tktk::ComponentPtr<SphereMeshWireFrameDrawer>> m_wireFrameDrawerArray;
+		std::vector<tktk::ComponentPtr<MonoColorMeshDrawer>> m_wireFrameDrawerArray;
 	};
 }
 #endif // !COLLIDER_WIRE_FRAME_DRAWER_3D_H_

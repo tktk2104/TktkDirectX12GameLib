@@ -1,90 +1,236 @@
 #include "TktkDX12Game/_MainManager/DX12GameManager.h"
 
-#include <TktkDX12Wrapper/Window/Window.h>
-#include <TktkDX12Wrapper/_BaseObjects/DX3DBaseObjects.h>
-#include "TktkDX12Game/GameObject/GameObjectManager.h"
-#include "TktkDX12Game/GameObject/GameObject.h"
-#include "TktkDX12Game/DXGameResource/DXGameResource.h"
-#include "TktkDX12Game/DXGameResource/_SystemDXGameResourceIdGetter/SystemDXGameResourceIdGetter.h"
-#include "TktkDX12Game/Input/Mouse/Mouse.h"
-#include "TktkDX12Game/Input/DirectInputWrapper/DirectInputWrapper.h"
-#include "TktkDX12Game/Time/ElapsedTimer.h"
+/* InitParams */
+#include <TktkDX12Wrapper/_BaseObjects/DX3DBaseObjectsInitParam.h>
+#include "TktkDX12Game/DXGameResource/DXGameResourceInitParam.h"
 
-#include "TktkDX12Game/DXGameResource/Mesh/BasicMesh/Maker/SphereMeshMaker.h"
+#include <TktkMath/Random.h>
+#include "TktkDX12Game/GraphicManager/GraphicManager.h"
+#include "TktkDX12Game/DXGameResource/DXGameResource.h"
+#include "TktkDX12Game/UtilityProcessManager/UtilityProcessManager.h"
+
+#include "TktkDX12Game/DXGameResource/GameObjectResouse/Component/DefaultComponents/StateMachine/StateMachine.h"
+#include "TktkDX12BaseComponents/3D/BoxCollider/BoxCollider.h"
+#include "TktkDX12BaseComponents/3D/SphereCollider/SphereCollider.h"
+#include "TktkDX12BaseComponents/3D/BillboardDrawer/BillboardDrawer.h"
+#include "TktkDX12BaseComponents/3D/BillboardDrawer/BillboardDrawFuncRunner.h"
+#include "TktkDX12BaseComponents/3D/MeshDrawer/MeshDrawer.h"
+#include "TktkDX12BaseComponents/3D/MeshDrawer/MeshDrawFuncRunner.h"
+#include "TktkDX12BaseComponents/3D/ShadowMapWriter/WriteMeshShadowMapFuncRunner.h"
 
 namespace tktk
 {
-	std::unique_ptr<GameObjectManager>				DX12GameManager::m_gameObjectManager;
-	std::unique_ptr<ComponentManager>				DX12GameManager::m_componentManager;
-	std::unique_ptr<Window>							DX12GameManager::m_window;
-	std::unique_ptr<DX3DBaseObjects>				DX12GameManager::m_dx3dBaseObjects;
-	std::unique_ptr<DXGameResource>					DX12GameManager::m_dxGameResource;
-	std::unique_ptr<SystemDXGameResourceIdGetter>	DX12GameManager::m_systemDXGameResourceIdGetter;
-	std::unique_ptr<DirectInputWrapper>				DX12GameManager::m_directInputWrapper;
-	std::unique_ptr<Mouse>							DX12GameManager::m_mouse;
-	std::unique_ptr<ElapsedTimer>					DX12GameManager::m_elapsedTimer;
+	bool												DX12GameManager::m_isGameExit{ false };
+	std::unique_ptr<GraphicManager>						DX12GameManager::m_graphicManager;
+	std::unique_ptr<DXGameResource>						DX12GameManager::m_dxGameResource;
+	std::unique_ptr<UtilityProcessManager>				DX12GameManager::m_utilityProcessManager;
+
 
 	void DX12GameManager::initialize(const DX12GameManagerInitParam& gameManagerInitParam)
 	{
-		m_gameObjectManager		= std::make_unique<GameObjectManager>();
-		m_componentManager		= std::make_unique<ComponentManager>();
-		m_window				= std::make_unique<Window>(gameManagerInitParam.windowParam);
+		// 乱数の初期化
+		tktkMath::Random::randomize();
 
+		// DirectX12の処理などを行うクラスを作る
+		DX3DBaseObjectsInitParam dX3DBaseObjectsParam{};
+		dX3DBaseObjectsParam.resourceNum		= gameManagerInitParam.dx3dResNum;
+		dX3DBaseObjectsParam.windowSize			= gameManagerInitParam.windowParam.windowSize;
+		dX3DBaseObjectsParam.craeteDebugLayer	= gameManagerInitParam.craeteDebugLayer;
+		m_graphicManager = std::make_unique<GraphicManager>(gameManagerInitParam.windowParam, dX3DBaseObjectsParam);
+
+		// 入力、音再生機能などの初期化を行う
+		m_utilityProcessManager = std::make_unique<UtilityProcessManager>(gameManagerInitParam.windowParam.hInstance, m_graphicManager->getHWND(), 0.1f);
+
+		// バックバッファのハンドルを取得する
+		auto backBufferRtBufferHandle = m_graphicManager->createBackBufferRtBuffer();
+		setSystemHandle(SystemRtBufferType::BackBuffer_1, backBufferRtBufferHandle.at(0U));
+		setSystemHandle(SystemRtBufferType::BackBuffer_2, backBufferRtBufferHandle.at(1U));
+
+		// バックバッファのディスクリプタヒープを作る
+		setSystemHandle(SystemRtvDescriptorHeapType::BackBuffer, m_graphicManager->createBackBufferRtvDescriptorHeap(backBufferRtBufferHandle));
+
+		// デフォルトのビューポートを作る
+		setSystemHandle(SystemViewportType::Basic, createViewport({ { gameManagerInitParam.windowParam.windowSize, tktkMath::Vector2_v::zero, 1.0f, 0.0f } }));
+
+		// デフォルトのシザー矩形を作る
+		setSystemHandle(SystemScissorRectType::Basic, createScissorRect({ { tktkMath::Vector2_v::zero, gameManagerInitParam.windowParam.windowSize } }));
+
+		// シャドウマップのビューポートを作る
+		setSystemHandle(SystemViewportType::WriteShadow, createViewport({ { { 2048.0f, 2048.0f }, tktkMath::Vector2_v::zero, 1.0f, 0.0f } }));
+
+		// シャドウマップのシザー矩形を作る
+		setSystemHandle(SystemScissorRectType::WriteShadow, createScissorRect({ { tktkMath::Vector2_v::zero, { 2048.0f, 2048.0f } } }));
+
+		// 白テクスチャを作る
 		{
-			DX3DBaseObjectsInitParam dX3DBaseObjectsInitParam{};
-			dX3DBaseObjectsInitParam.resourceNum		= gameManagerInitParam.dx3dResNum;
-			dX3DBaseObjectsInitParam.hwnd				= m_window->getHWND();
-			dX3DBaseObjectsInitParam.windowSize			= gameManagerInitParam.windowParam.windowSize;
-			dX3DBaseObjectsInitParam.backGroundColor	= tktkMath::Color_v::black;
-			dX3DBaseObjectsInitParam.craeteDebugLayer	= gameManagerInitParam.craeteDebugLayer;
+			TexBufFormatParam formatParam{};
+			formatParam.resourceDimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
+			formatParam.format = DXGI_FORMAT_R8G8B8A8_UNORM;
+			formatParam.arraySize = 1U;
+			formatParam.mipLevels = 1U;
+			formatParam.sampleDescCount = 1U;
+			formatParam.sampleDescQuality = 0U;
 
-			m_dx3dBaseObjects = std::make_unique<DX3DBaseObjects>(dX3DBaseObjectsInitParam);
+			TexBuffData dataParam{};
+			dataParam.textureData = {
+				255, 255, 255, 255, /**/ 255, 255, 255, 255, /**/ 255, 255, 255, 255, /**/ 255, 255, 255, 255,
+				255, 255, 255, 255, /**/ 255, 255, 255, 255, /**/ 255, 255, 255, 255, /**/ 255, 255, 255, 255,
+				255, 255, 255, 255, /**/ 255, 255, 255, 255, /**/ 255, 255, 255, 255, /**/ 255, 255, 255, 255,
+				255, 255, 255, 255, /**/ 255, 255, 255, 255, /**/ 255, 255, 255, 255, /**/ 255, 255, 255, 255
+			};
+			dataParam.width = 4U;
+			dataParam.height = 4U;
+
+			setSystemHandle(SystemTextureBufferType::White4x4, cpuPriorityCreateTextureBuffer(formatParam, dataParam));
 		}
 
+		// 黒テクスチャを作る
 		{
-			DXGameResourceNum dxGameResourceNum = gameManagerInitParam.dxGameResourceNum;
+			TexBufFormatParam formatParam{};
+			formatParam.resourceDimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
+			formatParam.format = DXGI_FORMAT_R8G8B8A8_UNORM;
+			formatParam.arraySize = 1U;
+			formatParam.mipLevels = 1U;
+			formatParam.sampleDescCount = 1U;
+			formatParam.sampleDescQuality = 0U;
 
-			// コンストラクタ内で「DXGameResourceNum」の値を書き換える
-			m_systemDXGameResourceIdGetter = std::make_unique<SystemDXGameResourceIdGetter>(&dxGameResourceNum);
+			TexBuffData dataParam{};
+			dataParam.textureData = {
+				0, 0, 0, 255, /**/ 0, 0, 0, 255, /**/ 0, 0, 0, 255, /**/ 0, 0, 0, 255,
+				0, 0, 0, 255, /**/ 0, 0, 0, 255, /**/ 0, 0, 0, 255, /**/ 0, 0, 0, 255,
+				0, 0, 0, 255, /**/ 0, 0, 0, 255, /**/ 0, 0, 0, 255, /**/ 0, 0, 0, 255,
+				0, 0, 0, 255, /**/ 0, 0, 0, 255, /**/ 0, 0, 0, 255, /**/ 0, 0, 0, 255
+			};
+			dataParam.width = 4U;
+			dataParam.height = 4U;
 
-			DXGameBaseShaderFilePaths dxGameBaseShaderFilePaths{};
-			dxGameBaseShaderFilePaths.spriteShaderFilePaths.vsFilePath								= gameManagerInitParam.tktkLibResFolderPath + "TktkLibRes/shader/SpriteVertexShader.cso";
-			dxGameBaseShaderFilePaths.spriteShaderFilePaths.psFilePath								= gameManagerInitParam.tktkLibResFolderPath + "TktkLibRes/shader/SpritePixelShader.cso";
-			dxGameBaseShaderFilePaths.line2DShaderFilePaths.vsFilePath								= gameManagerInitParam.tktkLibResFolderPath + "TktkLibRes/shader/Line2DVertexShader.cso";
-			dxGameBaseShaderFilePaths.line2DShaderFilePaths.psFilePath								= gameManagerInitParam.tktkLibResFolderPath + "TktkLibRes/shader/Line2DPixelShader.cso";
-			dxGameBaseShaderFilePaths.meshResourceShaderFilePaths.basicShaderFilePaths.vsFilePath	= gameManagerInitParam.tktkLibResFolderPath + "TktkLibRes/shader/BasicMeshVertexShader.cso";
-			dxGameBaseShaderFilePaths.meshResourceShaderFilePaths.basicShaderFilePaths.psFilePath	= gameManagerInitParam.tktkLibResFolderPath + "TktkLibRes/shader/BasicMeshPixelShader.cso";
-			dxGameBaseShaderFilePaths.meshResourceShaderFilePaths.monoColorShaderPsFilePath			= gameManagerInitParam.tktkLibResFolderPath + "TktkLibRes/shader/BasicMonoColorMeshPixelShader.cso";
-			dxGameBaseShaderFilePaths.meshResourceShaderFilePaths.writeShadowMapVsFilePath			= gameManagerInitParam.tktkLibResFolderPath + "TktkLibRes/shader/BasicMeshShadowVertexShader.cso";
-			dxGameBaseShaderFilePaths.postEffectShaderFilePaths.postEffectVSFilePath				= gameManagerInitParam.tktkLibResFolderPath + "TktkLibRes/shader/PostEffectVertexShader.cso";
-			dxGameBaseShaderFilePaths.postEffectShaderFilePaths.monochromePSFilePath				= gameManagerInitParam.tktkLibResFolderPath + "TktkLibRes/shader/MonochromePixelShader.cso";
-
-			m_dxGameResource = std::make_unique<DXGameResource>(dxGameResourceNum, dxGameBaseShaderFilePaths);
+			setSystemHandle(SystemTextureBufferType::Black4x4, cpuPriorityCreateTextureBuffer(formatParam, dataParam));
 		}
-		m_mouse					= std::make_unique<Mouse>();
-		m_directInputWrapper	= std::make_unique<DirectInputWrapper>(gameManagerInitParam.windowParam.hInstance, m_window->getHWND());
-		m_elapsedTimer			= std::make_unique<ElapsedTimer>();
+
+		// 平らな法線テクスチャを作る
+		{
+			TexBufFormatParam formatParam{};
+			formatParam.resourceDimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
+			formatParam.format = DXGI_FORMAT_R8G8B8A8_UNORM;
+			formatParam.arraySize = 1U;
+			formatParam.mipLevels = 1U;
+			formatParam.sampleDescCount = 1U;
+			formatParam.sampleDescQuality = 0U;
+
+			TexBuffData dataParam{};
+			dataParam.textureData = {
+				0, 0, 255, 255, /**/ 0, 0, 255, 255, /**/ 0, 0, 255, 255, /**/ 0, 0, 255, 255,
+				0, 0, 255, 255, /**/ 0, 0, 255, 255, /**/ 0, 0, 255, 255, /**/ 0, 0, 255, 255,
+				0, 0, 255, 255, /**/ 0, 0, 255, 255, /**/ 0, 0, 255, 255, /**/ 0, 0, 255, 255,
+				0, 0, 255, 255, /**/ 0, 0, 255, 255, /**/ 0, 0, 255, 255, /**/ 0, 0, 255, 255
+			};
+			dataParam.width = 4U;
+			dataParam.height = 4U;
+
+			setSystemHandle(SystemTextureBufferType::FlatNormal4x4, cpuPriorityCreateTextureBuffer(formatParam, dataParam));
+		}
+
+		// デフォルトの深度バッファーを作る
+		{
+			DepthStencilBufferInitParam initParam{};
+			initParam.depthStencilSize = gameManagerInitParam.windowParam.windowSize;
+			initParam.useAsShaderResource = false;
+
+			setSystemHandle(SystemDsBufferType::Basic, createDsBuffer(initParam));
+		}
+
+		// デフォルトの深度ディスクリプタヒープを作る
+		{
+			DsvDescriptorHeapInitParam initParam{};
+			initParam.shaderVisible = false;
+			initParam.descriptorParamArray.push_back({ DsvDescriptorType::normal, getSystemHandle(SystemDsBufferType::Basic) });
+
+			setSystemHandle(SystemDsvDescriptorHeapType::Basic, createDsvDescriptorHeap(initParam));
+		}
 
 		// シャドウマップの深度バッファーを作る
 		{
 			DepthStencilBufferInitParam initParam{};
-			initParam.depthStencilSize = gameManagerInitParam.windowParam.windowSize;
+			initParam.depthStencilSize = { 2048.0f, 2048.0f };
 			initParam.useAsShaderResource = true;
 
-			createDsBuffer(getSystemId(SystemDsBufferType::ShadowMap), initParam);
+			setSystemHandle(SystemDsBufferType::ShadowMap, createDsBuffer(initParam));
 		}
 
 		// シャドウマップの深度ディスクリプタヒープを作る
 		{
 			DsvDescriptorHeapInitParam initParam{};
 			initParam.shaderVisible = false;
-			initParam.descriptorParamArray.push_back({ DsvDescriptorType::normal, getSystemId(SystemDsBufferType::ShadowMap) });
+			initParam.descriptorParamArray.push_back({ DsvDescriptorType::normal, getSystemHandle(SystemDsBufferType::ShadowMap) });
 
-			createDsvDescriptorHeap(getSystemId(SystemDsvDescriptorHeapType::ShadowMap), initParam);
+			setSystemHandle(SystemDsvDescriptorHeapType::ShadowMap, createDsvDescriptorHeap(initParam));
 		}
 
-		// 球体メッシュを作る
-		SphereMeshMaker::make();
+#ifdef _M_AMD64 /* x64ビルドなら */
+		std::string shaderFolderPath = gameManagerInitParam.tktkLibResFolderPath + "TktkLibRes/shader/x64/";
+#else
+		std::string shaderFolderPath = gameManagerInitParam.tktkLibResFolderPath + "TktkLibRes/shader/x86/";
+#endif // _M_AMD64
+
+		// ゲームのリソース管理クラスの初期化を行う
+		DXGameResourceInitParam dxGameResParam;
+		auto& draw3DParamInit = dxGameResParam.draw3DParam;
+		draw3DParamInit.lightMgrParam	= gameManagerInitParam.lightContainerParam;
+		draw3DParamInit.cameraMgrParam	= gameManagerInitParam.cameraContainerParam;
+		auto& shaderResInit = dxGameResParam.dxGameShaderResParam;
+		shaderResInit.postEffectMatMgrParam.containerParam			= gameManagerInitParam.postEffectMatContainerParam;
+		shaderResInit.line2DMatMgrParam.containerParam				= gameManagerInitParam.line2DMatContainerParam;
+		shaderResInit.spriteMatMgrParam.containerParam				= gameManagerInitParam.spriteMatContainerParam;
+		shaderResInit.billboardMatMgrParam.containerParam			= gameManagerInitParam.billboardMatContainerParam;
+		shaderResInit.meshResParam.meshMgrParam						= gameManagerInitParam.meshContainerParam;
+		shaderResInit.meshResParam.meshMatMgrParam					= gameManagerInitParam.meshMatContainerParam;
+		shaderResInit.meshResParam.skeletonMgrParam					= gameManagerInitParam.skeletonContainerParam;
+		shaderResInit.meshResParam.motionMgrParam					= gameManagerInitParam.motionContainerParam;
+		shaderResInit.postEffectMatMgrParam.postEffectVSFilePath	= shaderFolderPath + "PostEffectVertexShader.cso";
+		shaderResInit.postEffectMatMgrParam.monochromePSFilePath	= shaderFolderPath + "MonochromePixelShader.cso";
+		shaderResInit.line2DMatMgrParam.shaderFilePaths.vsFilePath	= shaderFolderPath + "Line2DVertexShader.cso";
+		shaderResInit.line2DMatMgrParam.shaderFilePaths.psFilePath	= shaderFolderPath + "Line2DPixelShader.cso";
+		shaderResInit.spriteMatMgrParam.shaderFilePaths.vsFilePath	= shaderFolderPath + "SpriteVertexShader.cso";
+		shaderResInit.spriteMatMgrParam.shaderFilePaths.psFilePath	= shaderFolderPath + "SpritePixelShader.cso";
+		shaderResInit.billboardMatMgrParam.shaderFilePaths.vsFilePath		= shaderFolderPath + "BillboardVertexShader.cso";
+		shaderResInit.billboardMatMgrParam.shaderFilePaths.psFilePath		= shaderFolderPath + "BillboardPixelShader.cso";
+		shaderResInit.meshResParam.shaderFilePaths.simpleMeshVS				= shaderFolderPath + "SimpleMeshVertexShader.cso";
+		shaderResInit.meshResParam.shaderFilePaths.skinningMeshVS			= shaderFolderPath + "SkinningMeshVertexShader.cso";
+		shaderResInit.meshResParam.shaderFilePaths.basicMeshPS				= shaderFolderPath + "BasicMeshPixelShader.cso";
+		shaderResInit.meshResParam.shaderFilePaths.monoColorSimpleMeshVS	= shaderFolderPath + "MonoColorSimpleMeshVertexShader.cso";
+		shaderResInit.meshResParam.shaderFilePaths.monoColorSkinningMeshVS	= shaderFolderPath + "MonoColorSkinningMeshVertexShader.cso";
+		shaderResInit.meshResParam.shaderFilePaths.monoColorMeshPS			= shaderFolderPath + "MonoColorMeshPixelShader.cso";
+		shaderResInit.meshResParam.shaderFilePaths.simpleMeshShadowMapVs	= shaderFolderPath + "SimpleMeshShadowMapVertexShader.cso";
+		shaderResInit.meshResParam.shaderFilePaths.skinningMeshShadowMapVs	= shaderFolderPath + "SkinningMeshShadowMapVertexShader.cso";
+		auto& otherResInit = dxGameResParam.otherResParam;
+		otherResInit.sceneMgrParam = gameManagerInitParam.sceneContainerParam;
+		otherResInit.soundMgrParam = gameManagerInitParam.soundContainerParam;
+		m_dxGameResource = std::make_unique<DXGameResource>(dxGameResParam);
+
+		// デフォルトの通常カメラを作る
+		setSystemHandle(SystemCameraType::DefaultCamera, createCamera());
+		
+		// デフォルトのシャドウマップカメラを作る
+		setSystemHandle(SystemCameraType::DefaultShadowMapCamera, createCamera());
+		
+		// デフォルトのライトを作る
+		setSystemHandle(SystemLightType::DefaultLight, createLight({ 0.1f, 1.0f }, { 1.0f, 1.0f }, { 1.0f, 1.0f }, { 0.0f }));
+		
+		// コライダーの実行タイミングを設定する
+		//addRunFuncPriority<BoxCollider>(1000.0f);
+		//addRunFuncPriority<SphereCollider>(1000.0f);
+
+		// ステートマシンの実行タイミングを設定する
+		addRunFuncPriority<StateMachine>(1100.0f);
+
+		// メッシュのインスタンス描画に使用する頂点バッファを設定するコンポーネントの実行タイミングを設定する
+		addRunFuncPriority<MeshDrawer>(1200.0f);
+
+		// ビルボードのインスタンス描画に使用する頂点バッファを設定するコンポーネントの実行タイミングを設定する
+		addRunFuncPriority<BillboardDrawer>(1200.0f);
+
+		// 初期から存在するメッシュを作る
+		m_dxGameResource->createSystemMesh();
 	}
 
 	void DX12GameManager::run()
@@ -95,7 +241,7 @@ namespace tktk
 		{
 			bool canRunDX12Func = true;
 
-			if (msg.message == WM_QUIT)
+			if (msg.message == WM_QUIT || m_isGameExit)
 			{
 				break;
 			}
@@ -140,7 +286,6 @@ namespace tktk
 				case WM_SYSCHAR:
 				case WM_SYSDEADCHAR:
 				case WM_UNICHAR:
-
 					break;
 
 				default:
@@ -155,654 +300,1204 @@ namespace tktk
 
 			if (canRunDX12Func)
 			{
-				m_elapsedTimer->update();
-				m_directInputWrapper->update();
-				m_mouse->update();
-				m_dxGameResource->updateScene();
-				m_dxGameResource->updateSound();
-
-				// 前フレームに追加された要素をメインリストに移動する
-				m_gameObjectManager->movePreFrameAddedNode();
-				m_componentManager->movePreFrameAddedNode();
-
 				// 更新処理
-				m_gameObjectManager->update();
-				m_componentManager->update();
+				m_utilityProcessManager->update();
+				m_dxGameResource->update();
 
 				// 描画処理
-				m_dx3dBaseObjects->beginDraw();
-				m_componentManager->draw();
-				m_dx3dBaseObjects->endDraw();
+				m_graphicManager->beginDraw();
+				m_dxGameResource->draw();
+				m_graphicManager->endDraw();
 
 				// 死亡している要素をメインリストから削除する
-				m_gameObjectManager->removeDeadObject();
-				m_componentManager->removeDeadComponent();
+				m_dxGameResource->removeDeadInstance();
 			}
 		}
 		m_dxGameResource->clearSound();
 	}
 
+	void DX12GameManager::exit()
+	{
+		m_isGameExit = true;
+	}
+
 	const tktkMath::Vector2& DX12GameManager::getWindowSize()
 	{
-		return m_window->getWindowSize();
-	}
-
-	void DX12GameManager::enableScene(unsigned int id)
-	{
-		m_dxGameResource->enableScene(id);
-	}
-
-	void DX12GameManager::disableScene(unsigned int id)
-	{
-		m_dxGameResource->disableScene(id);
-	}
-
-	void DX12GameManager::sendMessageAll(unsigned int messageId, const MessageAttachment& value)
-	{
-		m_gameObjectManager->runHandleMessageAll(messageId, value);
-	}
-
-	GameObjectPtr DX12GameManager::createGameObject()
-	{
-		return m_gameObjectManager->createGameObject();
-	}
-
-	GameObjectPtr DX12GameManager::findGameObjectWithTag(int tag)
-	{
-		return m_gameObjectManager->findGameObjectWithTag(tag);
+		return m_graphicManager->getWindowSize();
 	}
 	
-	std::forward_list<GameObjectPtr> DX12GameManager::findGameObjectsWithTag(int tag)
+	size_t DX12GameManager::addScene(const SceneInitParam& initParam)
 	{
-		return m_gameObjectManager->findGameObjectsWithTag(tag);
+		return m_dxGameResource->createScene(initParam);
+	}
+	
+	size_t DX12GameManager::addSceneAndAttachId(ResourceIdCarrier id, const SceneInitParam& initParam)
+	{
+		auto createdHandle = m_dxGameResource->createScene(initParam);
+		m_utilityProcessManager->setSceneHandle(id, createdHandle);
+		return createdHandle;
+	}
+	
+	void DX12GameManager::setSceneEndDestroyGameObjectTag(size_t handle, GameObjectTagCarrier tag)
+	{
+		m_dxGameResource->setSceneEndDestroyGameObjectTag(handle, tag);
+	}
+	
+	void DX12GameManager::enableScene(size_t handle)
+	{
+		m_dxGameResource->enableScene(handle);
+	}
+	
+	void DX12GameManager::disableScene(size_t handle)
+	{
+		m_dxGameResource->disableScene(handle);
+	}
+	
+	void DX12GameManager::sendMessageAll(MessageTypeCarrier type, const MessageAttachment& attachment)
+	{
+		m_dxGameResource->runHandleMessageAll(type, attachment);
+	}
+	
+	GameObjectPtr DX12GameManager::createGameObject()
+	{
+		return m_dxGameResource->createGameObject();
+	}
+	
+	GameObjectPtr DX12GameManager::findGameObjectWithTag(GameObjectTagCarrier tag)
+	{
+		return m_dxGameResource->findGameObjectWithTag(tag);
+	}
+	
+	std::forward_list<GameObjectPtr> DX12GameManager::findGameObjectsWithTag(GameObjectTagCarrier tag)
+	{
+		return m_dxGameResource->findGameObjectsWithTag(tag);
+	}
+	
+	void DX12GameManager::destroyGameObjectsWithTag(GameObjectTagCarrier tag)
+	{
+		m_dxGameResource->destroyGameObjectsWithTag(tag);
 	}
 
-	void DX12GameManager::addCollisionGroup(int firstGroup, int secondGroup)
+	void DX12GameManager::addRunFuncPriority(std::type_index type, float priority)
 	{
-		m_componentManager->addCollisionGroup(firstGroup, secondGroup);
+		m_dxGameResource->addRunFuncPriority(type, priority);
 	}
 
+	void DX12GameManager::addCollisionGroup(CollisionGroupTypeCarrier firstGroup, CollisionGroupTypeCarrier secondGroup)
+	{
+		m_dxGameResource->addCollisionGroup(firstGroup, secondGroup);
+	}
+
+	ComponentBasePtr DX12GameManager::addComponent(std::type_index type, ComponentVTableBundle* vtablePtrBundle, ComponentListVTable* listVtablePtr, const GameObjectPtr& user, const std::shared_ptr<ComponentBase>& componentPtr)
+	{
+		return m_dxGameResource->addComponent(type, vtablePtrBundle, listVtablePtr, user, componentPtr);
+	}
+	
 	void DX12GameManager::executeCommandList()
 	{
-		m_dx3dBaseObjects->executeCommandList();
+		m_graphicManager->executeCommandList();
 	}
-
-	void DX12GameManager::setBackGroundColor(const tktkMath::Color& backGroundColor)
+	
+	void DX12GameManager::setRtv(size_t rtvDescriptorHeapHandle, size_t startRtvLocationIndex, size_t rtvCount)
 	{
-		m_dx3dBaseObjects->setBackGroundColor(backGroundColor);
+		m_graphicManager->setRtv(rtvDescriptorHeapHandle, startRtvLocationIndex, rtvCount);
 	}
-
-	void DX12GameManager::setRtv(unsigned int rtvDescriptorHeapId, unsigned int startRtvLocationIndex, unsigned int rtvCount)
+	
+	void DX12GameManager::setRtvAndDsv(size_t rtvDescriptorHeapHandle, size_t dsvDescriptorHeapHandle, size_t startRtvLocationIndex, size_t rtvCount)
 	{
-		m_dx3dBaseObjects->setRtv(rtvDescriptorHeapId, startRtvLocationIndex, rtvCount);
+		m_graphicManager->setRtvAndDsv(rtvDescriptorHeapHandle, dsvDescriptorHeapHandle, startRtvLocationIndex, rtvCount);
 	}
-
-	void DX12GameManager::setRtvAndDsv(unsigned int rtvDescriptorHeapId, unsigned int dsvDescriptorHeapId, unsigned int startRtvLocationIndex, unsigned int rtvCount)
+	
+	void DX12GameManager::setOnlyDsv(size_t dsvDescriptorHeapHandle)
 	{
-		m_dx3dBaseObjects->setRtvAndDsv(rtvDescriptorHeapId, dsvDescriptorHeapId, startRtvLocationIndex, rtvCount);
+		m_graphicManager->setOnlyDsv(dsvDescriptorHeapHandle);
 	}
-
-	void DX12GameManager::setOnlyDsv(unsigned int dsvDescriptorHeapId)
-	{
-		m_dx3dBaseObjects->setOnlyDsv(dsvDescriptorHeapId);
-	}
-
+	
 	void DX12GameManager::setBackBufferView()
 	{
-		m_dx3dBaseObjects->setBackBufferView();
+		m_graphicManager->setBackBufferView();
 	}
-
-	void DX12GameManager::setBackBufferViewAndDsv(unsigned int dsvDescriptorHeapId)
+	
+	void DX12GameManager::setBackBufferViewAndDsv(size_t dsvDescriptorHeapHandle)
 	{
-		m_dx3dBaseObjects->setBackBufferViewAndDsv(dsvDescriptorHeapId);
+		m_graphicManager->setBackBufferViewAndDsv(dsvDescriptorHeapHandle);
 	}
-
-	void DX12GameManager::unSetRtv(unsigned int rtvDescriptorHeapId, unsigned int startRtvLocationIndex, unsigned int rtvCount)
+	
+	void DX12GameManager::unSetRtv(size_t rtvDescriptorHeapHandle, size_t startRtvLocationIndex, size_t rtvCount)
 	{
-		m_dx3dBaseObjects->unSetRtv(rtvDescriptorHeapId, startRtvLocationIndex, rtvCount);
+		m_graphicManager->unSetRtv(rtvDescriptorHeapHandle, startRtvLocationIndex, rtvCount);
 	}
-
-	void DX12GameManager::unSetDsv(unsigned int dsvDescriptorHeapId)
+	
+	void DX12GameManager::unSetDsv(size_t dsvDescriptorHeapHandle)
 	{
-		m_dx3dBaseObjects->unSetDsv(dsvDescriptorHeapId);
+		m_graphicManager->unSetDsv(dsvDescriptorHeapHandle);
 	}
-
-	void DX12GameManager::setViewport(unsigned int id)
+	
+	void DX12GameManager::setViewport(size_t handle)
 	{
-		m_dx3dBaseObjects->setViewport(id);
+		m_graphicManager->setViewport(handle);
 	}
-
-	void DX12GameManager::setScissorRect(unsigned int id)
+	
+	void DX12GameManager::setScissorRect(size_t handle)
 	{
-		m_dx3dBaseObjects->setScissorRect(id);
+		m_graphicManager->setScissorRect(handle);
 	}
-
-	void DX12GameManager::setPipeLineState(unsigned int id)
+	
+	void DX12GameManager::setPipeLineState(size_t handle)
 	{
-		m_dx3dBaseObjects->setPipeLineState(id);
+		m_graphicManager->setPipeLineState(handle);
 	}
-
-	void DX12GameManager::setVertexBuffer(unsigned int id)
+	
+	void DX12GameManager::setVertexBuffer(size_t handle)
 	{
-		m_dx3dBaseObjects->setVertexBuffer(id);
+		m_graphicManager->setVertexBuffer(handle);
 	}
 
-	void DX12GameManager::setIndexBuffer(unsigned int id)
+	void DX12GameManager::setVertexBuffer(size_t meshVertHandle, size_t instancingVertHandle)
 	{
-		m_dx3dBaseObjects->setIndexBuffer(id);
+		m_graphicManager->setVertexBuffer(meshVertHandle, instancingVertHandle);
 	}
-
+	
+	void DX12GameManager::setIndexBuffer(size_t handle)
+	{
+		m_graphicManager->setIndexBuffer(handle);
+	}
+	
 	void DX12GameManager::setDescriptorHeap(const std::vector<DescriptorHeapParam>& heapParamArray)
 	{
-		m_dx3dBaseObjects->setDescriptorHeap(heapParamArray);
+		m_graphicManager->setDescriptorHeap(heapParamArray);
 	}
-
+	
 	void DX12GameManager::setBlendFactor(const std::array<float, 4>& blendFactor)
 	{
-		m_dx3dBaseObjects->setBlendFactor(blendFactor);
+		m_graphicManager->setBlendFactor(blendFactor);
 	}
-
-	void DX12GameManager::setPrimitiveTopology(D3D12_PRIMITIVE_TOPOLOGY topology)
+	
+	void DX12GameManager::setPrimitiveTopology(PrimitiveTopology topology)
 	{
-		m_dx3dBaseObjects->setPrimitiveTopology(topology);
+		m_graphicManager->setPrimitiveTopology(topology);
 	}
-
-	void DX12GameManager::drawInstanced(unsigned int vertexCountPerInstance, unsigned int instanceCount, unsigned int baseVertexLocation, unsigned int startInstanceLocation)
+	
+	void DX12GameManager::drawInstanced(size_t vertexCountPerInstance, size_t instanceCount, size_t baseVertexLocation, size_t startInstanceLocation)
 	{
-		m_dx3dBaseObjects->drawInstanced(vertexCountPerInstance, instanceCount, baseVertexLocation, startInstanceLocation);
+		m_graphicManager->drawInstanced(vertexCountPerInstance, instanceCount, baseVertexLocation, startInstanceLocation);
 	}
-
-	void DX12GameManager::drawIndexedInstanced(unsigned int indexCountPerInstance, unsigned int instanceCount, unsigned int startIndexLocation, unsigned int baseVertexLocation, unsigned int startInstanceLocation)
+	
+	void DX12GameManager::drawIndexedInstanced(size_t indexCountPerInstance, size_t instanceCount, size_t startIndexLocation, size_t baseVertexLocation, size_t startInstanceLocation)
 	{
-		m_dx3dBaseObjects->drawIndexedInstanced(indexCountPerInstance, instanceCount, startIndexLocation, baseVertexLocation, startInstanceLocation);
+		m_graphicManager->drawIndexedInstanced(indexCountPerInstance, instanceCount, startIndexLocation, baseVertexLocation, startInstanceLocation);
 	}
-
-	void DX12GameManager::createRootSignature(unsigned int id, const RootSignatureInitParam& initParam)
+	
+	size_t DX12GameManager::createViewport(const std::vector<ViewportInitParam>& initParamArray)
 	{
-		m_dx3dBaseObjects->createRootSignature(id, initParam);
+		return m_graphicManager->createViewport(initParamArray);
 	}
 
-	void DX12GameManager::createPipeLineState(unsigned int graphicsPipeLineId, const PipeLineStateInitParam& initParam, const ShaderFilePaths& shaderFilePath)
+	size_t DX12GameManager::createScissorRect(const std::vector<ScissorRectInitParam>& initParamArray)
 	{
-		m_dx3dBaseObjects->createPipeLineState(graphicsPipeLineId, initParam, shaderFilePath);
+		return m_graphicManager->createScissorRect(initParamArray);
 	}
 
-	void DX12GameManager::createIndexBuffer(unsigned int id, const std::vector<unsigned short>& indices)
+	size_t DX12GameManager::createRootSignature(const RootSignatureInitParam& initParam)
 	{
-		m_dx3dBaseObjects->createIndexBuffer(id, indices);
+		return m_graphicManager->createRootSignature(initParam);
 	}
-
-	void DX12GameManager::createRtBuffer(unsigned int id, const tktkMath::Vector2& renderTargetSize, const tktkMath::Color& clearColor)
+	
+	size_t DX12GameManager::createPipeLineState(const PipeLineStateInitParam& initParam, const ShaderFilePaths& shaderFilePath)
 	{
-		m_dx3dBaseObjects->createRtBuffer(id, renderTargetSize, clearColor);
+		return m_graphicManager->createPipeLineState(initParam, shaderFilePath);
 	}
-
-	void DX12GameManager::createDsBuffer(unsigned int id, const DepthStencilBufferInitParam& initParam)
+	
+	size_t DX12GameManager::createUploadBuffer(const UploadBufferInitParam& initParam)
 	{
-		m_dx3dBaseObjects->createDsBuffer(id, initParam);
+		return m_graphicManager->createUploadBuffer(initParam);
 	}
-
-	void DX12GameManager::createBasicDescriptorHeap(unsigned int id, const BasicDescriptorHeapInitParam& initParam)
+	
+	size_t DX12GameManager::duplicateUploadBuffer(size_t originalHandle)
 	{
-		m_dx3dBaseObjects->createBasicDescriptorHeap(id, initParam);
+		return m_graphicManager->duplicateUploadBuffer(originalHandle);
 	}
-
-	void DX12GameManager::createRtvDescriptorHeap(unsigned int id, const RtvDescriptorHeapInitParam& initParam)
+	
+	size_t DX12GameManager::createVertexBuffer(const VertexDataCarrier& vertexData)
 	{
-		m_dx3dBaseObjects->createRtvDescriptorHeap(id, initParam);
+		return m_graphicManager->createVertexBuffer(vertexData);
 	}
-
-	void DX12GameManager::createDsvDescriptorHeap(unsigned int id, const DsvDescriptorHeapInitParam& initParam)
+	
+	size_t DX12GameManager::createIndexBuffer(const std::vector<unsigned short>& indices)
 	{
-		m_dx3dBaseObjects->createDsvDescriptorHeap(id, initParam);
+		return m_graphicManager->createIndexBuffer(indices);
 	}
-
-	void DX12GameManager::cpuPriorityCreateTextureBuffer(unsigned int id, const TexBufFormatParam& formatParam, const TexBuffData& dataParam)
+	
+	size_t DX12GameManager::createCBuffer(const CopySourceDataCarrier& constantBufferData)
 	{
-		m_dx3dBaseObjects->cpuPriorityCreateTextureBuffer(id, formatParam, dataParam);
+		return m_graphicManager->createCBuffer(constantBufferData);
 	}
-
-	void DX12GameManager::gpuPriorityCreateTextureBuffer(unsigned int id, const TexBufFormatParam& formatParam, const TexBuffData& dataParam)
+	
+	size_t DX12GameManager::createRtBuffer(const tktkMath::Vector2& renderTargetSize, const tktkMath::Color& clearColor)
 	{
-		m_dx3dBaseObjects->gpuPriorityCreateTextureBuffer(id, formatParam, dataParam);
+		return m_graphicManager->createRtBuffer(renderTargetSize, clearColor);
 	}
-
-	void DX12GameManager::cpuPriorityLoadTextureBuffer(unsigned int id, const std::string& texDataPath)
+	
+	size_t DX12GameManager::createDsBuffer(const DepthStencilBufferInitParam& initParam)
 	{
-		m_dx3dBaseObjects->cpuPriorityLoadTextureBuffer(id, texDataPath);
+		return m_graphicManager->createDsBuffer(initParam);
 	}
-
-	void DX12GameManager::gpuPriorityLoadTextureBuffer(unsigned int id, const std::string& texDataPath)
+	
+	size_t DX12GameManager::createBasicDescriptorHeap(const BasicDescriptorHeapInitParam& initParam)
 	{
-		m_dx3dBaseObjects->gpuPriorityLoadTextureBuffer(id, texDataPath);
+		return m_graphicManager->createBasicDescriptorHeap(initParam);
 	}
-
-	void DX12GameManager::updateIndexBuffer(unsigned int id, const std::vector<unsigned short>& indexDataArray)
+	
+	size_t DX12GameManager::createRtvDescriptorHeap(const RtvDescriptorHeapInitParam& initParam)
 	{
-		m_dx3dBaseObjects->updateIndexBuffer(id, indexDataArray);
+		return m_graphicManager->createRtvDescriptorHeap(initParam);
 	}
-
-	void DX12GameManager::clearRtv(unsigned int id, unsigned int rtvLocationIndex, const tktkMath::Color& color)
+	
+	size_t DX12GameManager::createDsvDescriptorHeap(const DsvDescriptorHeapInitParam& initParam)
 	{
-		m_dx3dBaseObjects->clearRtv(id, rtvLocationIndex, color);
+		return m_graphicManager->createDsvDescriptorHeap(initParam);
 	}
-
-	const tktkMath::Vector3& DX12GameManager::getTextureBufferSizePx(unsigned int id)
+	
+	size_t DX12GameManager::cpuPriorityCreateTextureBuffer(const TexBufFormatParam& formatParam, const TexBuffData& dataParam)
 	{
-		return m_dx3dBaseObjects->getTextureBufferSizePx(id);
+		return m_graphicManager->cpuPriorityCreateTextureBuffer(formatParam, dataParam);
 	}
-
-	const tktkMath::Vector2& DX12GameManager::getDsBufferSizePx(unsigned int id)
+	
+	size_t DX12GameManager::gpuPriorityCreateTextureBuffer(const TexBufFormatParam& formatParam, const TexBuffData& dataParam)
 	{
-		return m_dx3dBaseObjects->getDsBufferSizePx(id);
+		return m_graphicManager->gpuPriorityCreateTextureBuffer(formatParam, dataParam);
 	}
-
-	const tktkMath::Vector2& DX12GameManager::getRtBufferSizePx(unsigned int id)
+	
+	size_t DX12GameManager::cpuPriorityLoadTextureBuffer(const std::string& texDataPath)
 	{
-		return m_dx3dBaseObjects->getRtBufferSizePx(id);
+		return m_graphicManager->cpuPriorityLoadTextureBuffer(texDataPath);
 	}
-
-	void DX12GameManager::createSpriteMaterial(unsigned int id, const SpriteMaterialInitParam& initParam)
+	
+	size_t DX12GameManager::gpuPriorityLoadTextureBuffer(const std::string& texDataPath)
 	{
-		m_dxGameResource->createSpriteMaterial(id, initParam);
+		return m_graphicManager->gpuPriorityLoadTextureBuffer(texDataPath);
 	}
-
-	void DX12GameManager::drawSprite(unsigned int id, const SpriteMaterialDrawFuncArgs& drawFuncArgs)
+	
+	void DX12GameManager::eraseViewport(size_t handle)
 	{
-		m_dxGameResource->drawSprite(id, drawFuncArgs);
+		m_graphicManager->eraseViewport(handle);
 	}
-
-	void DX12GameManager::createLine(unsigned int id, const Line2DMaterialDataInitParam& initParam)
+	
+	void DX12GameManager::eraseScissorRect(size_t handle)
 	{
-		m_dxGameResource->createLine(id, initParam);
+		m_graphicManager->eraseScissorRect(handle);
 	}
-
-	void DX12GameManager::drawLine(unsigned int id, const Line2DMaterialDrawFuncArgs& drawFuncArgs)
+	
+	void DX12GameManager::eraseRootSignature(size_t handle)
 	{
-		m_dxGameResource->drawLine(id, drawFuncArgs);
+		m_graphicManager->eraseRootSignature(handle);
 	}
-
-	void DX12GameManager::createBasicMesh(unsigned int id, const BasicMeshInitParam& initParam)
+	
+	void DX12GameManager::erasePipeLineState(size_t handle)
 	{
-		m_dxGameResource->createBasicMesh(id, initParam);
+		m_graphicManager->erasePipeLineState(handle);
 	}
-
-	void DX12GameManager::copyBasicMesh(unsigned int id, unsigned int originalId)
+	
+	void DX12GameManager::eraseUploadBuffer(size_t handle)
 	{
-		m_dxGameResource->copyBasicMesh(id, originalId);
+		m_graphicManager->eraseUploadBuffer(handle);
 	}
-
-	void DX12GameManager::createBasicMeshMaterial(unsigned int id, const BasicMeshMaterialInitParam& initParam)
+	
+	void DX12GameManager::eraseVertexBuffer(size_t handle)
 	{
-		m_dxGameResource->createBasicMeshMaterial(id, initParam);
+		m_graphicManager->eraseVertexBuffer(handle);
 	}
-
-	void DX12GameManager::copyBasicMeshMaterial(unsigned int id, unsigned int originalId)
+	
+	void DX12GameManager::eraseIndexBuffer(size_t handle)
 	{
-		m_dxGameResource->copyBasicMeshMaterial(id, originalId);
+		m_graphicManager->eraseIndexBuffer(handle);
 	}
-
-	void DX12GameManager::setMaterialId(unsigned int id, unsigned int materialSlot, unsigned int materialId)
+	
+	void DX12GameManager::eraseCBuffer(size_t handle)
 	{
-		m_dxGameResource->setMaterialId(id, materialSlot, materialId);
+		m_graphicManager->eraseCBuffer(handle);
 	}
-
-	void DX12GameManager::writeBasicMeshShadowMap(unsigned int id, const MeshTransformCbuffer& transformBufferData)
+	
+	void DX12GameManager::eraseTextureBuffer(size_t handle)
 	{
-		m_dxGameResource->writeBasicMeshShadowMap(id, transformBufferData);
+		m_graphicManager->eraseTextureBuffer(handle);
 	}
-
-	void DX12GameManager::setMaterialData(unsigned int id)
+	
+	void DX12GameManager::eraseDsBuffer(size_t handle)
 	{
-		m_dxGameResource->setMaterialData(id);
+		m_graphicManager->eraseDsBuffer(handle);
 	}
-
-	void DX12GameManager::drawBasicMesh(unsigned int id, const MeshDrawFuncBaseArgs& baseArgs)
+	
+	void DX12GameManager::eraseRtBuffer(size_t handle)
 	{
-		m_dxGameResource->drawBasicMesh(id, baseArgs);
+		m_graphicManager->eraseRtBuffer(handle);
 	}
-
-	BasicMeshLoadPmdReturnValue DX12GameManager::loadPmd(const BasicMeshLoadPmdArgs& args)
+	
+	void DX12GameManager::eraseBasicDescriptorHeap(size_t handle)
 	{
-		return m_dxGameResource->loadPmd(args);
+		m_graphicManager->eraseBasicDescriptorHeap(handle);
 	}
-
-	void DX12GameManager::createSkeleton(unsigned int id, const SkeletonInitParam& initParam)
+	
+	void DX12GameManager::eraseRtvDescriptorHeap(size_t handle)
 	{
-		m_dxGameResource->createSkeleton(id, initParam);
+		m_graphicManager->eraseRtvDescriptorHeap(handle);
 	}
-
-	void DX12GameManager::updateBoneMatrixCbuffer(unsigned int id)
+	
+	void DX12GameManager::eraseDsvDescriptorHeap(size_t handle)
 	{
-		m_dxGameResource->updateBoneMatrixCbuffer(id);
+		m_graphicManager->eraseDsvDescriptorHeap(handle);
 	}
-
-	void DX12GameManager::resetBoneMatrixCbuffer()
+	
+	void DX12GameManager::updateUploadBuffer(size_t handle, const CopySourceDataCarrier& bufferData)
 	{
-		m_dxGameResource->resetBoneMatrixCbuffer();
+		m_graphicManager->updateUploadBuffer(handle, bufferData);
 	}
 
-	void DX12GameManager::loadMotion(unsigned int id, const std::string& motionFileName)
+	void DX12GameManager::updateVertexBuffer(size_t handle, const VertexDataCarrier& vertexData)
 	{
-		m_dxGameResource->loadMotion(id, motionFileName);
+		m_graphicManager->updateVertexBuffer(handle, vertexData);
 	}
-
-	unsigned int DX12GameManager::getMotionEndFrameNo(unsigned int id)
+	
+	void DX12GameManager::copyBuffer(size_t handle)
 	{
-		return m_dxGameResource->getMotionEndFrameNo(id);
+		m_graphicManager->copyBuffer(handle);
+	}
+	
+	void DX12GameManager::clearRtv(size_t handle, size_t rtvLocationIndex)
+	{
+		m_graphicManager->clearRtv(handle, rtvLocationIndex);
+	}
+	
+	const tktkMath::Vector3& DX12GameManager::getTextureBufferSizePx(size_t handle)
+	{
+		return m_graphicManager->getTextureBufferSizePx(handle);
+	}
+	
+	const tktkMath::Vector2& DX12GameManager::getDsBufferSizePx(size_t handle)
+	{
+		return m_graphicManager->getDsBufferSizePx(handle);
+	}
+	
+	const tktkMath::Vector2& DX12GameManager::getRtBufferSizePx(size_t handle)
+	{
+		return m_graphicManager->getRtBufferSizePx(handle);
+	}
+	
+	size_t DX12GameManager::createSpriteMaterial(const SpriteMaterialInitParam& initParam)
+	{
+		return m_dxGameResource->createSpriteMaterial(initParam);
+	}
+	
+	size_t DX12GameManager::createSpriteMaterialAndAttachId(ResourceIdCarrier id, const SpriteMaterialInitParam& initParam)
+	{
+		auto createdHandle = m_dxGameResource->createSpriteMaterial(initParam);
+		m_utilityProcessManager->setSpriteMaterialHandle(id, createdHandle);
+		return createdHandle;
+	}
+	
+	void DX12GameManager::drawSprite(size_t handle, const SpriteMaterialDrawFuncArgs& drawFuncArgs)
+	{
+		m_dxGameResource->drawSprite(handle, drawFuncArgs);
+	}
+	
+	void DX12GameManager::updateSpriteTransformCbuffer(size_t handle, size_t copyBufferHandle, const SpriteCbufferUpdateFuncArgs& cbufferUpdateArgs)
+	{
+		m_dxGameResource->updateSpriteTransformCbuffer(handle, copyBufferHandle, cbufferUpdateArgs);
+	}
+	
+	void DX12GameManager::updateSpriteTransformCbufferUseClippingParam(size_t handle, size_t copyBufferHandle, const SpriteCbufferUpdateFuncArgs& cbufferUpdateArgs, const SpriteClippingParam& clippingParam)
+	{
+		m_dxGameResource->updateSpriteTransformCbufferUseClippingParam(handle, copyBufferHandle, cbufferUpdateArgs, clippingParam);
+	}
+	
+	size_t DX12GameManager::createLine2DMaterial()
+	{
+		return m_dxGameResource->createLine();
+	}
+	
+	size_t DX12GameManager::createLine2DMaterialAndAttachId(ResourceIdCarrier id)
+	{
+		auto createdHandle = m_dxGameResource->createLine();
+		m_utilityProcessManager->setLine2DMaterialHandle(id, createdHandle);
+		return createdHandle;
+	}
+	
+	void DX12GameManager::eraseLine(size_t handle)
+	{
+		m_dxGameResource->eraseLine(handle);
+	}
+	
+	void DX12GameManager::drawLine(size_t handle, const Line2DMaterialDrawFuncArgs& drawFuncArgs)
+	{
+		m_dxGameResource->drawLine(handle, drawFuncArgs);
+	}
+	
+	size_t DX12GameManager::createBillboardMaterial(const BillboardMaterialInitParam& initParam, const BillboardDrawFuncRunnerInitParam& funcRunnerInitParam)
+	{
+		auto createdHandle = m_dxGameResource->createBillboardMaterial(initParam);
+
+		createComponent<BillboardDrawFuncRunner>(GameObjectPtr(), createdHandle, funcRunnerInitParam);
+
+		return createdHandle;
+	}
+	
+	size_t DX12GameManager::createBillboardMaterialAndAttachId(ResourceIdCarrier id, const BillboardMaterialInitParam& initParam, const BillboardDrawFuncRunnerInitParam& funcRunnerInitParam)
+	{
+		auto createdHandle = m_dxGameResource->createBillboardMaterial(initParam);
+
+		createComponent<BillboardDrawFuncRunner>(GameObjectPtr(), createdHandle, funcRunnerInitParam);
+
+		m_utilityProcessManager->setBillboardMaterialHandle(id, createdHandle);
+
+		return createdHandle;
 	}
 
+	const tktkMath::Vector2& DX12GameManager::getBillboardTextureSize(size_t handle)
+	{
+		return m_dxGameResource->getBillboardTextureSize(handle);
+	}
+
+	void DX12GameManager::clearBillboardInstanceParam(size_t handle)
+	{
+		m_dxGameResource->clearBillboardInstanceParam(handle);
+	}
+
+	void DX12GameManager::addBillboardInstanceVertParam(size_t handle, const BillboardMaterialInstanceVertData& instanceParam)
+	{
+		m_dxGameResource->addBillboardInstanceVertParam(handle, instanceParam);
+	}
+	
+	void DX12GameManager::drawBillboard(size_t handle, const BillboardDrawFuncBaseArgs& drawFuncArgs)
+	{
+		m_dxGameResource->drawBillboard(handle, drawFuncArgs);
+	}
+	
+	size_t DX12GameManager::createMesh(const MeshInitParam& meshInitParam, const MeshDrawFuncRunnerInitParam& funcRunnerInitParam)
+	{
+		auto createdHandle = m_dxGameResource->createMesh(meshInitParam);
+
+		createComponent<MeshDrawFuncRunner>(GameObjectPtr(), createdHandle, funcRunnerInitParam);
+
+		if (funcRunnerInitParam.m_writeShadowMap)
+		{
+			createComponent<WriteMeshShadowMapFuncRunner>(GameObjectPtr(), createdHandle, funcRunnerInitParam.m_useBone);
+		}
+
+		return createdHandle;
+	}
+	
+	size_t DX12GameManager::createMeshAndAttachId(ResourceIdCarrier id, const MeshInitParam& meshInitParam, const MeshDrawFuncRunnerInitParam& funcRunnerInitParam)
+	{
+		auto createdHandle = m_dxGameResource->createMesh(meshInitParam);
+
+		createComponent<MeshDrawFuncRunner>(GameObjectPtr(), createdHandle, funcRunnerInitParam);
+
+		m_utilityProcessManager->setMeshHandle(id, createdHandle);
+
+		if (funcRunnerInitParam.m_writeShadowMap)
+		{
+			createComponent<WriteMeshShadowMapFuncRunner>(GameObjectPtr(), createdHandle, funcRunnerInitParam.m_useBone);
+		}
+
+		return createdHandle;
+	}
+	
+	size_t DX12GameManager::copyMesh(size_t originalHandle, const MeshDrawFuncRunnerInitParam& funcRunnerInitParam)
+	{
+		auto createdHandle = m_dxGameResource->copyMesh(originalHandle);
+
+		createComponent<MeshDrawFuncRunner>(GameObjectPtr(), createdHandle, funcRunnerInitParam);
+
+		if (funcRunnerInitParam.m_writeShadowMap)
+		{
+			createComponent<WriteMeshShadowMapFuncRunner>(GameObjectPtr(), createdHandle, funcRunnerInitParam.m_useBone);
+		}
+
+		return createdHandle;
+	}
+	
+	size_t DX12GameManager::copyMeshAndAttachId(ResourceIdCarrier id, size_t originalHandle, const MeshDrawFuncRunnerInitParam& funcRunnerInitParam)
+	{
+		auto createdHandle = m_dxGameResource->copyMesh(originalHandle);
+
+		createComponent<MeshDrawFuncRunner>(GameObjectPtr(), createdHandle, funcRunnerInitParam);
+
+		m_utilityProcessManager->setMeshHandle(id, createdHandle);
+
+		if (funcRunnerInitParam.m_writeShadowMap)
+		{
+			createComponent<WriteMeshShadowMapFuncRunner>(GameObjectPtr(), createdHandle, funcRunnerInitParam.m_useBone);
+		}
+
+		return createdHandle;
+	}
+	
+	size_t DX12GameManager::createMeshMaterial(const MeshMaterialInitParam& initParam)
+	{
+		return m_dxGameResource->createMeshMaterial(initParam);
+	}
+	
+	size_t DX12GameManager::createMeshMaterialAndAttachId(ResourceIdCarrier id, const MeshMaterialInitParam& initParam)
+	{
+		auto createdHandle = m_dxGameResource->createMeshMaterial(initParam);
+		m_utilityProcessManager->setMeshMaterialHandle(id, createdHandle);
+		return createdHandle;
+	}
+	
+	size_t DX12GameManager::copyMeshMaterial(size_t originalHandle)
+	{
+		return m_dxGameResource->copyMeshMaterial(originalHandle);
+	}
+	
+	size_t DX12GameManager::copyMeshMaterialAndAttachId(ResourceIdCarrier id, size_t originalHandle)
+	{
+		auto createdHandle = m_dxGameResource->copyMeshMaterial(m_utilityProcessManager->getBasicMeshMaterialHandle(id));
+		m_utilityProcessManager->setMeshMaterialHandle(id, createdHandle);
+		return createdHandle;
+	}
+
+	size_t DX12GameManager::makeBoxMesh(size_t albedoMapTextureHandle, const MeshDrawFuncRunnerInitParam& funcRunnerInitParam)
+	{
+		return m_dxGameResource->makeBoxMesh(albedoMapTextureHandle, funcRunnerInitParam);
+	}
+
+	size_t DX12GameManager::makeBoxMeshAndAttachId(ResourceIdCarrier id, size_t albedoMapTextureHandle, const MeshDrawFuncRunnerInitParam& funcRunnerInitParam)
+	{
+		auto createdHandle = m_dxGameResource->makeBoxMesh(albedoMapTextureHandle, funcRunnerInitParam);
+		m_utilityProcessManager->setMeshHandle(id, createdHandle);
+		return createdHandle;
+	}
+
+	size_t DX12GameManager::makeSkyBoxMesh(size_t skyBoxTextureHandle, const MeshDrawFuncRunnerInitParam& funcRunnerInitParam)
+	{
+		return m_dxGameResource->makeSkyBoxMesh(skyBoxTextureHandle, funcRunnerInitParam);
+	}
+
+	size_t DX12GameManager::makeSkyBoxMeshAndAttachId(ResourceIdCarrier id, size_t skyBoxTextureHandle, const MeshDrawFuncRunnerInitParam& funcRunnerInitParam)
+	{
+		auto createdHandle = m_dxGameResource->makeSkyBoxMesh(skyBoxTextureHandle, funcRunnerInitParam);
+		m_utilityProcessManager->setMeshHandle(id, createdHandle);
+		return createdHandle;
+	}
+
+	MeshLoadPmdReturnValue DX12GameManager::loadPmd(const MeshLoadPmdArgs& args, const MeshDrawFuncRunnerInitParam& funcRunnerInitParam)
+	{
+		return m_dxGameResource->loadPmd(args, funcRunnerInitParam);
+	}
+
+	MeshLoadPmxReturnValue DX12GameManager::loadPmx(const MeshLoadPmxArgs& args, const MeshDrawFuncRunnerInitParam& funcRunnerInitParam)
+	{
+		return m_dxGameResource->loadPmx(args, funcRunnerInitParam);
+	}
+	
+	void DX12GameManager::setMeshMaterialHandle(size_t handle, size_t materialSlot, size_t materialHandle)
+	{
+		m_dxGameResource->setMeshMaterialHandle(handle, materialSlot, materialHandle);
+	}
+	
+	void DX12GameManager::setMeshMaterialData(size_t handle)
+	{
+		m_dxGameResource->setMeshMaterialData(handle);
+	}
+
+	void DX12GameManager::addMeshMaterialAppendParam(size_t handle, const MeshMaterialAppendParamInitParam& initParam)
+	{
+		m_dxGameResource->addMeshMaterialAppendParam(handle, initParam);
+	}
+
+	void DX12GameManager::updateMeshMaterialAppendParam(size_t handle, const MeshMaterialAppendParamUpdateFuncArgs& updateFuncArgs)
+	{
+		m_dxGameResource->updateMeshMaterialAppendParam(handle, updateFuncArgs);
+	}
+
+	void DX12GameManager::clearMeshInstanceParam(size_t handle)
+	{
+		m_dxGameResource->clearMeshInstanceParam(handle);
+	}
+
+	void DX12GameManager::addMeshInstanceVertParam(size_t handle, const CopySourceDataCarrier& instanceParam)
+	{
+		m_dxGameResource->addMeshInstanceVertParam(handle, instanceParam);
+	}
+
+	void DX12GameManager::addMeshInstanceBoneMatrix(size_t meshHandle, size_t skeletonHandle)
+	{
+		m_dxGameResource->addMeshInstanceBoneMatrix(meshHandle, skeletonHandle);
+	}
+
+	void DX12GameManager::writeMeshShadowMap(size_t handle)
+	{
+		m_dxGameResource->writeMeshShadowMap(handle);
+	}
+
+	void DX12GameManager::writeMeshShadowMapUseBone(size_t handle)
+	{
+		m_dxGameResource->writeMeshShadowMapUseBone(handle);
+	}
+
+	void DX12GameManager::drawMesh(size_t handle, const MeshDrawFuncBaseArgs& baseArgs)
+	{
+		m_dxGameResource->drawMesh(handle, baseArgs);
+	}
+
+	void DX12GameManager::drawMeshUseBone(size_t handle, const MeshDrawFuncBaseArgs& baseArgs)
+	{
+		m_dxGameResource->drawMeshUseBone(handle, baseArgs);
+	}
+	
+	size_t DX12GameManager::createSkeleton(const SkeletonInitParam& initParam)
+	{
+		return m_dxGameResource->createSkeleton(initParam);
+	}
+	
+	size_t DX12GameManager::copySkeleton(size_t originalHandle)
+	{
+		return m_dxGameResource->copySkeleton(originalHandle);
+	}
+	
+	size_t DX12GameManager::createSkeletonAndAttachId(ResourceIdCarrier id, const SkeletonInitParam& initParam)
+	{
+		auto createdHandle = m_dxGameResource->createSkeleton(initParam);
+		m_utilityProcessManager->setSkeletonHandle(id, createdHandle);
+		return createdHandle;
+	}
+	
+	size_t DX12GameManager::loadMotion(const std::string& motionFileName)
+	{
+		return m_dxGameResource->loadMotion(motionFileName);
+	}
+	
+	size_t DX12GameManager::loadMotionAndAttachId(ResourceIdCarrier id, const std::string& motionFileName)
+	{
+		auto createdHandle = m_dxGameResource->loadMotion(motionFileName);
+		m_utilityProcessManager->setMotionHandle(id, createdHandle);
+		return createdHandle;
+	}
+	
+	size_t DX12GameManager::getMotionEndFrameNo(size_t handle)
+	{
+		return m_dxGameResource->getMotionEndFrameNo(handle);
+	}
+	
 	void DX12GameManager::updateMotion(
-		unsigned int skeletonId,
-		unsigned int curMotionId,
-		unsigned int preMotionId,
-		unsigned int curFrame,
-		unsigned int preFrame,
+		size_t skeletonHandle,
+		size_t curMotionHandle,
+		size_t preMotionHandle,
+		float curFrame,
+		float preFrame,
 		float amount
 	)
 	{
 		m_dxGameResource->updateMotion(
-			skeletonId,
-			curMotionId,
-			preMotionId,
+			skeletonHandle,
+			curMotionHandle,
+			preMotionHandle,
 			curFrame,
 			preFrame,
 			amount
 		);
 	}
-
-	void DX12GameManager::createPostEffectMaterial(unsigned int id, const PostEffectMaterialInitParam& initParam)
+	
+	size_t DX12GameManager::createPostEffectMaterial(const PostEffectMaterialInitParam& initParam)
 	{
-		m_dxGameResource->createPostEffectMaterial(id, initParam);
+		return m_dxGameResource->createPostEffectMaterial(initParam);
 	}
-
-	void DX12GameManager::drawPostEffect(unsigned int id, const PostEffectMaterialDrawFuncArgs& drawFuncArgs)
+	
+	size_t DX12GameManager::createPostEffectMaterialAndAttachId(ResourceIdCarrier id, const PostEffectMaterialInitParam& initParam)
 	{
-		m_dxGameResource->drawPostEffect(id, drawFuncArgs);
+		auto createdhandle = m_dxGameResource->createPostEffectMaterial(initParam);
+		m_utilityProcessManager->setPostEffectMaterialHandle(id, createdhandle);
+		return createdhandle;
 	}
-
-	void DX12GameManager::createCamera(unsigned int id)
+	
+	void DX12GameManager::drawPostEffect(size_t handle, const PostEffectMaterialDrawFuncArgs& drawFuncArgs)
 	{
-		m_dxGameResource->createCamera(id);
+		m_dxGameResource->drawPostEffect(handle, drawFuncArgs);
 	}
-
-	const tktkMath::Matrix4& DX12GameManager::getViewMatrix(unsigned int cameraId)
+	
+	size_t DX12GameManager::createCamera()
 	{
-		return m_dxGameResource->getViewMatrix(cameraId);
+		return m_dxGameResource->createCamera();
 	}
-
-	void DX12GameManager::setViewMatrix(unsigned int cameraId, const tktkMath::Matrix4& view)
+	
+	size_t DX12GameManager::createCameraAndAttachId(ResourceIdCarrier id)
 	{
-		m_dxGameResource->setViewMatrix(cameraId, view);
+		auto createdHandle = m_dxGameResource->createCamera();
+		m_utilityProcessManager->setCameraHandle(id, createdHandle);
+		return createdHandle;
 	}
-
-	const tktkMath::Matrix4& DX12GameManager::getProjectionMatrix(unsigned int cameraId)
+	
+	const tktkMath::Matrix4& DX12GameManager::getViewMatrix(size_t cameraHandle)
 	{
-		return m_dxGameResource->getProjectionMatrix(cameraId);
+		return m_dxGameResource->getViewMatrix(cameraHandle);
 	}
-
-	void DX12GameManager::setProjectionMatrix(unsigned int cameraId, const tktkMath::Matrix4& projection)
+	
+	void DX12GameManager::setViewMatrix(size_t cameraHandle, const tktkMath::Matrix4& view)
 	{
-		m_dxGameResource->setProjectionMatrix(cameraId, projection);
+		m_dxGameResource->setViewMatrix(cameraHandle, view);
 	}
-
-	void DX12GameManager::createLight(unsigned int id, const tktkMath::Color& ambient, const tktkMath::Color& diffuse, const tktkMath::Color& speqular, const tktkMath::Vector3& position)
+	
+	const tktkMath::Matrix4& DX12GameManager::getProjectionMatrix(size_t cameraHandle)
 	{
-		m_dxGameResource->createLight(id, ambient, diffuse, speqular, position);
+		return m_dxGameResource->getProjectionMatrix(cameraHandle);
 	}
-
-	void DX12GameManager::updateLightCBuffer(unsigned int id)
+	
+	void DX12GameManager::setProjectionMatrix(size_t cameraHandle, const tktkMath::Matrix4& projection)
 	{
-		m_dxGameResource->updateLightCBuffer(id);
+		m_dxGameResource->setProjectionMatrix(cameraHandle, projection);
 	}
-
-	void DX12GameManager::setLightAmbient(unsigned int id, const tktkMath::Color& ambient)
+	
+	size_t DX12GameManager::createLight(const tktkMath::Color& ambient, const tktkMath::Color& diffuse, const tktkMath::Color& speqular, const tktkMath::Vector3& position)
 	{
-		m_dxGameResource->setLightAmbient(id, ambient);
+		return m_dxGameResource->createLight(ambient, diffuse, speqular, position);
 	}
-
-	void DX12GameManager::setLightDiffuse(unsigned int id, const tktkMath::Color& diffuse)
+	
+	size_t DX12GameManager::createLightAndAttachId(ResourceIdCarrier id, const tktkMath::Color& ambient, const tktkMath::Color& diffuse, const tktkMath::Color& speqular, const tktkMath::Vector3& position)
 	{
-		m_dxGameResource->setLightDiffuse(id, diffuse);
+		auto createdHandle = m_dxGameResource->createLight(ambient, diffuse, speqular, position);
+		m_utilityProcessManager->setLightHandle(id, createdHandle);
+		return createdHandle;
 	}
-
-	void DX12GameManager::setLightSpeqular(unsigned int id, const tktkMath::Color& speqular)
+	
+	void DX12GameManager::updateLightCBuffer(size_t handle)
 	{
-		m_dxGameResource->setLightSpeqular(id, speqular);
+		m_dxGameResource->updateLightCBuffer(handle);
 	}
-
-	void DX12GameManager::setLightPosition(unsigned int id, const tktkMath::Vector3& position)
+	
+	void DX12GameManager::setLightAmbient(size_t handle, const tktkMath::Color& ambient)
 	{
-		m_dxGameResource->setLightPosition(id, position);
+		m_dxGameResource->setLightAmbient(handle, ambient);
 	}
-
-	void DX12GameManager::loadSound(unsigned int id, const std::string& fileName)
+	
+	void DX12GameManager::setLightDiffuse(size_t handle, const tktkMath::Color& diffuse)
 	{
-		m_dxGameResource->loadSound(id, fileName);
+		m_dxGameResource->setLightDiffuse(handle, diffuse);
 	}
-
-	void DX12GameManager::playSound(unsigned int id, bool loopPlay)
+	
+	void DX12GameManager::setLightSpeqular(size_t handle, const tktkMath::Color& speqular)
 	{
-		m_dxGameResource->playSound(id, loopPlay);
+		m_dxGameResource->setLightSpeqular(handle, speqular);
 	}
-
-	void DX12GameManager::stopSound(unsigned int id)
+	
+	void DX12GameManager::setLightPosition(size_t handle, const tktkMath::Vector3& position)
 	{
-		m_dxGameResource->stopSound(id);
+		m_dxGameResource->setLightPosition(handle, position);
 	}
-
-	void DX12GameManager::pauseSound(unsigned int id)
+	
+	size_t DX12GameManager::loadSound(const std::string& fileName)
 	{
-		m_dxGameResource->pauseSound(id);
+		return m_dxGameResource->loadSound(fileName);
 	}
-
+	
+	size_t DX12GameManager::loadSoundAndAttachId(ResourceIdCarrier id, const std::string& fileName)
+	{
+		auto createdhandle = m_dxGameResource->loadSound(fileName);;
+		m_utilityProcessManager->setSoundHandle(id, createdhandle);
+		return createdhandle;
+	}
+	
+	void DX12GameManager::playSound(size_t handle, bool loopPlay)
+	{
+		m_dxGameResource->playSound(handle, loopPlay);
+	}
+	
+	void DX12GameManager::stopSound(size_t handle)
+	{
+		m_dxGameResource->stopSound(handle);
+	}
+	
+	void DX12GameManager::pauseSound(size_t handle)
+	{
+		m_dxGameResource->pauseSound(handle);
+	}
+	
 	void DX12GameManager::setMasterVolume(float volume)
 	{
 		m_dxGameResource->setMasterVolume(volume);
 	}
-
-	bool DX12GameManager::isPush(MouseButtonType buttonType)
+	
+	bool DX12GameManager::isPush(CommandIdCarrier commandId)
 	{
-		return m_mouse->isPush(buttonType);
+		return m_utilityProcessManager->isPush(commandId);
 	}
-
-	bool DX12GameManager::isTrigger(MouseButtonType buttonType)
+	
+	bool DX12GameManager::isTrigger(CommandIdCarrier commandId)
 	{
-		return m_mouse->isTrigger(buttonType);
+		return m_utilityProcessManager->isTrigger(commandId);
 	}
-
+	
+	const tktkMath::Vector2& DX12GameManager::moveVec()
+	{
+		return m_utilityProcessManager->moveVec();
+	}
+	
+	const tktkMath::Vector2& DX12GameManager::lookVec()
+	{
+		return m_utilityProcessManager->lookVec();
+	}
+	
+	void DX12GameManager::addCommand(CommandIdCarrier commandId, KeybordKeyType keyType)
+	{
+		m_utilityProcessManager->addCommand(commandId, keyType);
+	}
+	
+	void DX12GameManager::addCommand(CommandIdCarrier commandId, GamePadBtnType btnType)
+	{
+		m_utilityProcessManager->addCommand(commandId, btnType);
+	}
+	
+	void DX12GameManager::addCommand(CommandIdCarrier commandId, MouseBtnType btnType)
+	{
+		m_utilityProcessManager->addCommand(commandId, btnType);
+	}
+	
+	void DX12GameManager::addDirectionCommand(DirectionCommandId directionCommand, KeybordKeyType keyType)
+	{
+		m_utilityProcessManager->addDirectionCommand(directionCommand, keyType);
+	}
+	
+	void DX12GameManager::addDirectionCommand(DirectionCommandId directionCommand, GamePadBtnType btnType)
+	{
+		m_utilityProcessManager->addDirectionCommand(directionCommand, btnType);
+	}
+	
+	void DX12GameManager::addDirectionCommand(DirectionCommandId directionCommand, MouseBtnType btnType)
+	{
+		m_utilityProcessManager->addDirectionCommand(directionCommand, btnType);
+	}
+	
+	bool DX12GameManager::isPush(MouseBtnType buttonType)
+	{
+		return m_utilityProcessManager->isPush(buttonType);
+	}
+	
+	bool DX12GameManager::isTrigger(MouseBtnType buttonType)
+	{
+		return m_utilityProcessManager->isTrigger(buttonType);
+	}
+	
 	tktkMath::Vector2 DX12GameManager::mousePos()
 	{
-		return m_mouse->mousePos(m_window->getHWND());
+		return m_utilityProcessManager->mousePos(m_graphicManager->getHWND());
 	}
-
+	
 	bool DX12GameManager::isPush(KeybordKeyType keyType)
 	{
-		return m_directInputWrapper->isPush(keyType);
+		return m_utilityProcessManager->isPush(keyType);
 	}
-
+	
 	bool DX12GameManager::isTrigger(KeybordKeyType keyType)
 	{
-		return m_directInputWrapper->isTrigger(keyType);
+		return m_utilityProcessManager->isTrigger(keyType);
 	}
-
+	
 	tktkMath::Vector2 DX12GameManager::getLstick()
 	{
-		return m_directInputWrapper->getLstick();
+		return m_utilityProcessManager->getLstick();
 	}
-
+	
 	tktkMath::Vector2 DX12GameManager::getRstick()
 	{
-		return m_directInputWrapper->getRstick();
+		return m_utilityProcessManager->getRstick();
 	}
-
+	
 	bool DX12GameManager::isPush(GamePadBtnType btnType)
 	{
-		return m_directInputWrapper->isPush(btnType);
+		return m_utilityProcessManager->isPush(btnType);
 	}
-
+	
 	bool DX12GameManager::isTrigger(GamePadBtnType btnType)
 	{
-		return m_directInputWrapper->isTrigger(btnType);
+		return m_utilityProcessManager->isTrigger(btnType);
 	}
-
+	
 	void DX12GameManager::resetElapsedTime()
 	{
-		m_elapsedTimer->reset();
+		m_utilityProcessManager->resetElapsedTime();
 	}
-
+	
 	float DX12GameManager::deltaTime()
 	{
-		return m_elapsedTimer->deltaTime();
+		return m_utilityProcessManager->deltaTime();
 	}
-
+	
 	float DX12GameManager::noScaleDeltaTime()
 	{
-		return m_elapsedTimer->noScaleDeltaTime();
+		return m_utilityProcessManager->noScaleDeltaTime();
 	}
-
+	
 	float DX12GameManager::getCurTimeSec()
 	{
-		return m_elapsedTimer->getCurTimeSec();
+		return m_utilityProcessManager->getCurTimeSec();
 	}
-
+	
 	void DX12GameManager::setMaximumDeltaTime(float maximumDeltaTime)
 	{
-		m_elapsedTimer->setMaximumDeltaTime(maximumDeltaTime);
+		m_utilityProcessManager->setMaximumDeltaTime(maximumDeltaTime);
 	}
-
+	
 	float DX12GameManager::getTimeScale()
 	{
-		return m_elapsedTimer->getTimeScale();
+		return m_utilityProcessManager->getTimeScale();
 	}
-
+	
 	void DX12GameManager::setTimeScale(float timeScaleRate)
 	{
-		m_elapsedTimer->setTimeScale(timeScaleRate);
+		m_utilityProcessManager->setTimeScale(timeScaleRate);
 	}
-
+	
 	void DX12GameManager::setBaseFps(unsigned int baseFps)
 	{
-		m_elapsedTimer->setBaseFps(baseFps);
+		m_utilityProcessManager->setBaseFps(baseFps);
 	}
-
+	
 	unsigned int DX12GameManager::getBaseFps()
 	{
-		return m_elapsedTimer->getBaseFps();
+		return m_utilityProcessManager->getBaseFps();
 	}
-
+	
 	float DX12GameManager::fps()
 	{
-		return m_elapsedTimer->fps();
+		return m_utilityProcessManager->fps();
 	}
-
-	unsigned int DX12GameManager::getSystemId(SystemViewportType type)
+	
+	size_t DX12GameManager::getSystemHandle(SystemViewportType type)
 	{
-		return m_dx3dBaseObjects->getSystemId(type);
+		return m_utilityProcessManager->getSystemHandle(type);
 	}
-
-	unsigned int DX12GameManager::getSystemId(SystemScissorRectType type)
+	
+	size_t DX12GameManager::getSystemHandle(SystemScissorRectType type)
 	{
-		return m_dx3dBaseObjects->getSystemId(type);
+		return m_utilityProcessManager->getSystemHandle(type);
 	}
-
-	unsigned int DX12GameManager::getSystemId(SystemVertexBufferType type)
+	
+	size_t DX12GameManager::getSystemHandle(SystemVertexBufferType type)
 	{
-		return m_dx3dBaseObjects->getSystemId(type);
+		return m_utilityProcessManager->getSystemHandle(type);
 	}
-
-	unsigned int DX12GameManager::getSystemId(SystemIndexBufferType type)
+	
+	size_t DX12GameManager::getSystemHandle(SystemIndexBufferType type)
 	{
-		return m_dx3dBaseObjects->getSystemId(type);
+		return m_utilityProcessManager->getSystemHandle(type);
 	}
-
-	unsigned int DX12GameManager::getSystemId(SystemCBufferType type)
+	
+	size_t DX12GameManager::getSystemHandle(SystemCBufferType type)
 	{
-		return m_dx3dBaseObjects->getSystemId(type);
+		return m_utilityProcessManager->getSystemHandle(type);
 	}
-
-	unsigned int DX12GameManager::getSystemId(SystemTextureBufferType type)
+	
+	size_t DX12GameManager::getSystemHandle(SystemTextureBufferType type)
 	{
-		return m_dx3dBaseObjects->getSystemId(type);
+		return m_utilityProcessManager->getSystemHandle(type);
 	}
-
-	unsigned int DX12GameManager::getSystemId(SystemDsBufferType type)
+	
+	size_t DX12GameManager::getSystemHandle(SystemRtBufferType type)
 	{
-		return m_dx3dBaseObjects->getSystemId(type);
+		return m_utilityProcessManager->getSystemHandle(type);
 	}
-
-	unsigned int DX12GameManager::getSystemId(SystemBasicDescriptorHeapType type)
+	
+	size_t DX12GameManager::getSystemHandle(SystemDsBufferType type)
 	{
-		return m_dx3dBaseObjects->getSystemId(type);
+		return m_utilityProcessManager->getSystemHandle(type);
 	}
-
-	unsigned int DX12GameManager::getSystemId(SystemRtvDescriptorHeapType type)
+	
+	size_t DX12GameManager::getSystemHandle(SystemBasicDescriptorHeapType type)
 	{
-		return m_dx3dBaseObjects->getSystemId(type);
+		return m_utilityProcessManager->getSystemHandle(type);
 	}
-
-	unsigned int DX12GameManager::getSystemId(SystemDsvDescriptorHeapType type)
+	
+	size_t DX12GameManager::getSystemHandle(SystemRtvDescriptorHeapType type)
 	{
-		return m_dx3dBaseObjects->getSystemId(type);
+		return m_utilityProcessManager->getSystemHandle(type);
 	}
-
-	unsigned int DX12GameManager::getSystemId(SystemRootSignatureType type)
+	
+	size_t DX12GameManager::getSystemHandle(SystemDsvDescriptorHeapType type)
 	{
-		return m_dx3dBaseObjects->getSystemId(type);
+		return m_utilityProcessManager->getSystemHandle(type);
 	}
-
-	unsigned int DX12GameManager::getSystemId(SystemPipeLineStateType type)
+	
+	size_t DX12GameManager::getSystemHandle(SystemRootSignatureType type)
 	{
-		return m_dx3dBaseObjects->getSystemId(type);
+		return m_utilityProcessManager->getSystemHandle(type);
 	}
-
-	unsigned int DX12GameManager::getSystemId(SystemBasicMeshType type)
+	
+	size_t DX12GameManager::getSystemHandle(SystemPipeLineStateType type)
 	{
-		return m_systemDXGameResourceIdGetter->getSystemId(type);
+		return m_utilityProcessManager->getSystemHandle(type);
 	}
-
-	unsigned int DX12GameManager::getSystemId(SystemBasicMeshMaterialType type)
+	
+	size_t DX12GameManager::getSystemHandle(SystemCameraType type)
 	{
-		return m_systemDXGameResourceIdGetter->getSystemId(type);
+		return m_utilityProcessManager->getSystemHandle(type);
 	}
-
-	unsigned int DX12GameManager::getSystemId(SystemPostEffectMaterialType type)
+	
+	size_t DX12GameManager::getSystemHandle(SystemLightType type)
 	{
-		return m_systemDXGameResourceIdGetter->getSystemId(type);
+		return m_utilityProcessManager->getSystemHandle(type);
 	}
-
-	void DX12GameManager::createSceneImpl(unsigned int id, const std::shared_ptr<SceneBase>& scenePtr, SceneVTable* vtablePtr)
+	
+	size_t DX12GameManager::getSystemHandle(SystemMeshType type)
 	{
-		m_dxGameResource->createScene(id, scenePtr, vtablePtr);
+		return m_utilityProcessManager->getSystemHandle(type);
 	}
-
-	void DX12GameManager::createVertexBufferImpl(unsigned int id, unsigned int vertexTypeSize, unsigned int vertexDataCount, const void* vertexDataTopPos)
+	
+	size_t DX12GameManager::getSystemHandle(SystemMeshMaterialType type)
 	{
-		m_dx3dBaseObjects->createVertexBuffer(id, vertexTypeSize, vertexDataCount, vertexDataTopPos);
+		return m_utilityProcessManager->getSystemHandle(type);
 	}
-
-	void DX12GameManager::createCbufferImpl(unsigned int id, unsigned int constantBufferTypeSize, const void* constantBufferDataTopPos)
+	
+	size_t DX12GameManager::getSystemHandle(SystemPostEffectMaterialType type)
 	{
-		m_dx3dBaseObjects->createCBuffer(id, constantBufferTypeSize, constantBufferDataTopPos);
+		return m_utilityProcessManager->getSystemHandle(type);
 	}
-
-	void DX12GameManager::updateVertexBufferImpl(unsigned int id, unsigned int vertexTypeSize, unsigned int vertexDataCount, const void* vertexDataTopPos)
+	
+	void DX12GameManager::setSystemHandle(SystemViewportType type, size_t handle)
 	{
-		m_dx3dBaseObjects->updateVertexBuffer(id, vertexTypeSize, vertexDataCount, vertexDataTopPos);
+		m_utilityProcessManager->setSystemHandle(type, handle);
 	}
-
-	void DX12GameManager::updateCbufferImpl(unsigned int id, unsigned int constantBufferTypeSize, const void* constantBufferDataTopPos)
+	
+	void DX12GameManager::setSystemHandle(SystemScissorRectType type, size_t handle)
 	{
-		m_dx3dBaseObjects->updateCBuffer(id, constantBufferTypeSize, constantBufferDataTopPos);
+		m_utilityProcessManager->setSystemHandle(type, handle);
 	}
-
-	void DX12GameManager::addMaterialAppendParamImpl(unsigned int id, unsigned int cbufferId, unsigned int dataSize, void* dataTopPos)
+	
+	void DX12GameManager::setSystemHandle(SystemVertexBufferType type, size_t handle)
 	{
-		m_dxGameResource->addMaterialAppendParam(id, cbufferId, dataSize, dataTopPos);
+		m_utilityProcessManager->setSystemHandle(type, handle);
 	}
-
-	void DX12GameManager::updateMaterialAppendParamImpl(unsigned int id, unsigned int cbufferId, unsigned int dataSize, const void* dataTopPos)
+	
+	void DX12GameManager::setSystemHandle(SystemIndexBufferType type, size_t handle)
 	{
-		m_dxGameResource->updateMaterialAppendParam(id, cbufferId, dataSize, dataTopPos);
+		m_utilityProcessManager->setSystemHandle(type, handle);
+	}
+	
+	void DX12GameManager::setSystemHandle(SystemCBufferType type, size_t handle)
+	{
+		m_utilityProcessManager->setSystemHandle(type, handle);
+	}
+	
+	void DX12GameManager::setSystemHandle(SystemTextureBufferType type, size_t handle)
+	{
+		m_utilityProcessManager->setSystemHandle(type, handle);
+	}
+	
+	void DX12GameManager::setSystemHandle(SystemRtBufferType type, size_t handle)
+	{
+		m_utilityProcessManager->setSystemHandle(type, handle);
+	}
+	
+	void DX12GameManager::setSystemHandle(SystemDsBufferType type, size_t handle)
+	{
+		m_utilityProcessManager->setSystemHandle(type, handle);
+	}
+	
+	void DX12GameManager::setSystemHandle(SystemBasicDescriptorHeapType type, size_t handle)
+	{
+		m_utilityProcessManager->setSystemHandle(type, handle);
+	}
+	
+	void DX12GameManager::setSystemHandle(SystemRtvDescriptorHeapType type, size_t handle)
+	{
+		m_utilityProcessManager->setSystemHandle(type, handle);
+	}
+	
+	void DX12GameManager::setSystemHandle(SystemDsvDescriptorHeapType type, size_t handle)
+	{
+		m_utilityProcessManager->setSystemHandle(type, handle);
+	}
+	
+	void DX12GameManager::setSystemHandle(SystemRootSignatureType type, size_t handle)
+	{
+		m_utilityProcessManager->setSystemHandle(type, handle);
+	}
+	
+	void DX12GameManager::setSystemHandle(SystemPipeLineStateType type, size_t handle)
+	{
+		m_utilityProcessManager->setSystemHandle(type, handle);
+	}
+	
+	void DX12GameManager::setSystemHandle(SystemCameraType type, size_t handle)
+	{
+		m_utilityProcessManager->setSystemHandle(type, handle);
+	}
+	
+	void DX12GameManager::setSystemHandle(SystemLightType type, size_t handle)
+	{
+		m_utilityProcessManager->setSystemHandle(type, handle);
+	}
+	
+	void DX12GameManager::setSystemHandle(SystemMeshType type, size_t handle)
+	{
+		m_utilityProcessManager->setSystemHandle(type, handle);
+	}
+	
+	void DX12GameManager::setSystemHandle(SystemMeshMaterialType type, size_t handle)
+	{
+		m_utilityProcessManager->setSystemHandle(type, handle);
+	}
+	
+	void DX12GameManager::setSystemHandle(SystemPostEffectMaterialType type, size_t handle)
+	{
+		m_utilityProcessManager->setSystemHandle(type, handle);
+	}
+	
+	size_t DX12GameManager::getSceneHandle(ResourceIdCarrier id)
+	{
+		return m_utilityProcessManager->getSceneHandle(id);
+	}
+	
+	size_t DX12GameManager::getSoundHandle(ResourceIdCarrier id)
+	{
+		return m_utilityProcessManager->getSoundHandle(id);
+	}
+	
+	size_t DX12GameManager::getPostEffectMaterialHandle(ResourceIdCarrier id)
+	{
+		return m_utilityProcessManager->getPostEffectMaterialHandle(id);
+	}
+	
+	size_t DX12GameManager::getSpriteMaterialHandle(ResourceIdCarrier id)
+	{
+		return m_utilityProcessManager->getSpriteMaterialHandle(id);
+	}
+	
+	size_t DX12GameManager::getLine2DMaterialHandle(ResourceIdCarrier id)
+	{
+		return m_utilityProcessManager->getLine2DMaterialHandle(id);
+	}
+	
+	size_t DX12GameManager::getBillboardMaterialHandle(ResourceIdCarrier id)
+	{
+		return m_utilityProcessManager->getBillboardMaterialHandle(id);
+	}
+	
+	size_t DX12GameManager::getSkeletonHandle(ResourceIdCarrier id)
+	{
+		return m_utilityProcessManager->getSkeletonHandle(id);
+	}
+	
+	size_t DX12GameManager::getMotionHandle(ResourceIdCarrier id)
+	{
+		return m_utilityProcessManager->getMotionHandle(id);
+	}
+	
+	size_t DX12GameManager::getBasicMeshHandle(ResourceIdCarrier id)
+	{
+		return m_utilityProcessManager->getBasicMeshHandle(id);
+	}
+	
+	size_t DX12GameManager::getBasicMeshMaterialHandle(ResourceIdCarrier id)
+	{
+		return m_utilityProcessManager->getBasicMeshMaterialHandle(id);
+	}
+	
+	size_t DX12GameManager::getCameraHandle(ResourceIdCarrier id)
+	{
+		return m_utilityProcessManager->getCameraHandle(id);
+	}
+	
+	size_t DX12GameManager::getLightHandle(ResourceIdCarrier id)
+	{
+		return m_utilityProcessManager->getLightHandle(id);
 	}
 }

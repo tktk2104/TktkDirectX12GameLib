@@ -1,5 +1,7 @@
 #include "TktkDX12BaseComponents/2D/ColliderWireFrameDrawer2D/ColliderWireFrameDrawer2DMaker.h"
 
+#include "TktkDX12Game/DXGameResource/GameObjectResouse/GameObject/GameObject.h"
+
 namespace tktk
 {
 	ColliderWireFrameDrawer2DMaker ColliderWireFrameDrawer2DMaker::m_self;
@@ -18,11 +20,10 @@ namespace tktk
 
 	ComponentPtr<ColliderWireFrameDrawer2D> ColliderWireFrameDrawer2DMaker::create()
 	{
-		// コンポーネントを作成してそのポインタを返す
+		// コンポーネントを作成する
 		return m_user->createComponent<ColliderWireFrameDrawer2D>(
 			m_drawPriority,
-			m_lineColor,
-			m_useLine2DMaterialIdArray
+			m_lineColor
 			);
 	}
 
@@ -37,13 +38,6 @@ namespace tktk
 	{
 		// 値を設定して自身の参照を返す
 		m_lineColor = value;
-		return *this;
-	}
-
-	ColliderWireFrameDrawer2DMaker& ColliderWireFrameDrawer2DMaker::useLine2DMaterialIdArray(const std::vector<unsigned int>& value)
-	{
-		// 値を設定して自身の参照を返す
-		m_useLine2DMaterialIdArray = value;
 		return *this;
 	}
 }

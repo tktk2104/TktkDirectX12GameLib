@@ -1,7 +1,6 @@
 #ifndef MESH_ANIMATOR_MAKER_H_
 #define MESH_ANIMATOR_MAKER_H_
 
-#include <TktkTemplateMetaLib/TypeCheck/isIdType.h>
 #include "MeshAnimator.h"
 
 namespace tktk
@@ -30,13 +29,21 @@ namespace tktk
 		// モーションをループさせるかを設定する
 		MeshAnimatorMaker& isLoop(bool value);
 
+		// モーションの再生速度倍率を設定する
+		MeshAnimatorMaker& motionSpeedRate(float value);
+
+		// 使用する初期モーションハンドルを設定する
+		MeshAnimatorMaker& initMotionHandle(size_t value);
+
 		// 使用する初期モーションIDを設定する（列挙型を含む整数型のidが渡された場合のみビルド可）
-		template<class IdType, is_idType<IdType> = nullptr>
-		MeshAnimatorMaker& initMotionId(IdType value);
+		// ※内部で対応するリソースハンドルに変換される
+		MeshAnimatorMaker& initMotionId(ResourceIdCarrier value);
 
-	private: /* 各種id指定系の関数の実装 */
+		// 初期アニメーションフレームを設定する
+		MeshAnimatorMaker& initFrame(float value);
 
-		MeshAnimatorMaker& initMotionIdImpl(unsigned int value);
+		// １秒間に何フレーム分のアニメーションを再生するかを設定する
+		MeshAnimatorMaker& animFramePerSec(float value);
 
 	private: /* 自身のインスタンスは静的な存在として扱う */
 
@@ -44,24 +51,12 @@ namespace tktk
 
 	private: /* 変数達 */
 
-		GameObjectPtr	m_user			{  };
-		unsigned int	m_isLoop		{ true };
-		unsigned int	m_initMotionId	{ 0U };
-
-	public: /* 不正な型の引数が渡されそうになった時にコンパイルエラーにする為の仕組み */
-
-		template<class IdType, std::enable_if_t<!is_idType_v<IdType>>* = nullptr>
-		MeshAnimatorMaker& initMotionId(IdType value) { static_assert(false, "MotionId Fraud Type"); }
+		GameObjectPtr		m_user				{  };
+		bool				m_isLoop			{ true };
+		float				m_motionSpeedRate	{ 1.0f };
+		size_t				m_initMotionHandle	{ 0U };
+		float				m_initFrame			{ 0.0f };
+		float				m_animFramePerSec	{ 60.0f };
 	};
-//┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-//┃ここから下は関数の実装
-//┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-	// 使用する初期モーションIDを設定する（列挙型を含む整数型のidが渡された場合のみビルド可）
-	template<class IdType, is_idType<IdType>>
-	inline MeshAnimatorMaker& MeshAnimatorMaker::initMotionId(IdType value)
-	{
-		return initMotionIdImpl(static_cast<unsigned int>(value));
-	}
 }
 #endif // !MESH_ANIMATOR_MAKER_H_

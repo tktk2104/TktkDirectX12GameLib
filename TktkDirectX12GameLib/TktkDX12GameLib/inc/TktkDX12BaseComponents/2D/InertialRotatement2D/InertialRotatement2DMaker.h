@@ -37,9 +37,9 @@ namespace tktk
 
 	private: /* ïœêîíB */
 
-		GameObjectPtr	m_user					{ };
-		float			m_decelerationPerSec	{ 30.0f };
-		float			m_initVelocity			{ 0.0f };
+		GameObjectPtr		m_user					{ };
+		float				m_decelerationPerSec	{ 30.0f };
+		float				m_initVelocity			{ 0.0f };
 	};
 }
 #endif // !INERTIAL_ROTATEMENT_2D_MAKER_H_

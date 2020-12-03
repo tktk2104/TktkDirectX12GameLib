@@ -1,7 +1,7 @@
 #ifndef BASIC_CAMERA_CONTROLLER_MAKER_H_
 #define BASIC_CAMERA_CONTROLLER_MAKER_H_
 
-#include <TktkTemplateMetaLib/TypeCheck/isIdType.h>
+#include "TktkDX12Game/UtilityProcessManager/ResourceHandleGetter/ResourceIdConverter/ResourceIdCarrier.h"
 #include "BasicCameraController.h"
 
 namespace tktk
@@ -27,9 +27,13 @@ namespace tktk
 
 	public:  /* パラメータ設定関数 */
 
-		// 使用する初期カメラIDを設定する（列挙型を含む整数型のidが渡された場合のみビルド可）
-		template<class IdType, is_idType<IdType> = nullptr>
-		BasicCameraControllerMaker& initCameraId(IdType value);
+		// 使用する初期カメラハンドルを設定する
+		// ※初期パラメータはデフォルト通常カメラ
+		BasicCameraControllerMaker& initCameraHandle(size_t value);
+
+		// 使用する初期カメラIDを設定する（列挙型を含む整数型のidが渡された場合のみビルド可で、関数内で対応するリソースハンドルに変換される）
+		// ※初期パラメータはデフォルト通常カメラ
+		BasicCameraControllerMaker& initCameraId(ResourceIdCarrier value);
 
 		// 初期カメラ射角を設定する
 		BasicCameraControllerMaker& initCameraFov(float value);
@@ -43,37 +47,18 @@ namespace tktk
 		// 初期遠クリップ値を設定する
 		BasicCameraControllerMaker& initCameraFar(float value);
 
-	private: /* 各種id指定系の関数の実装 */
-
-		BasicCameraControllerMaker& initCameraIdImpl(unsigned int value);
-
 	private: /* 自身のインスタンスは静的な存在として扱う */
 
 		static BasicCameraControllerMaker m_self;
 
 	private: /* 変数達 */
 
-		GameObjectPtr	m_user{  };
-		unsigned int	m_initCameraId	{ 0U };
-		float			m_initCameraFov		{ 45.0f };
-		float			m_initCameraAspect	{};	// デフォルトはゲームスクリーンの比率
-		float			m_initCameraNear	{ 1.0f };
-		float			m_initCameraFar		{ 100.0f };
-
-	public: /* 不正な型の引数が渡されそうになった時にコンパイルエラーにする為の仕組み */
-
-		template<class IdType, is_not_idType<IdType>>
-		BasicCameraControllerMaker& initCameraId(IdType value) { static_assert(false, "CameraId Fraud Type"); }
+		GameObjectPtr		m_user				{  };
+		size_t				m_initCameraHandle	{ 0U };
+		float				m_initCameraFov		{ 45.0f };
+		float				m_initCameraAspect	{};	// デフォルトはゲームスクリーンの比率
+		float				m_initCameraNear	{ 1.0f };
+		float				m_initCameraFar		{ 100.0f };
 	};
-//┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-//┃ここから下は関数の実装
-//┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-	// 使用する初期カメラIDを設定する（列挙型を含む整数型のidが渡された場合のみビルド可）
-	template<class IdType, is_idType<IdType>>
-	inline BasicCameraControllerMaker& BasicCameraControllerMaker::initCameraId(IdType value)
-	{
-		return initCameraIdImpl(static_cast<unsigned int>(value));
-	}
 }
 #endif // !BASIC_CAMERA_CONTROLLER_MAKER_H_

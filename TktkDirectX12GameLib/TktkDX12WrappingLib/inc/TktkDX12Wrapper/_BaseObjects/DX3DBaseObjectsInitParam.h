@@ -1,9 +1,13 @@
 #ifndef DX3D_BASE_OBJECTS_INIT_PARAM_H_
 #define DX3D_BASE_OBJECTS_INIT_PARAM_H_
 
+/* HWND */
+#include <Windows.h>
+#undef min
+#undef max
+
 #include <TktkMath/Structs/Color.h>
 #include <TktkMath/Structs/Vector2.h>
-#include "../Includer/WindowsHeaderIncluder.h"
 #include "../Resource/DX3DResourceNum.h"
 
 namespace tktk
@@ -14,7 +18,6 @@ namespace tktk
 		DX3DResourceNum		resourceNum;
 		HWND				hwnd;
 		tktkMath::Vector2	windowSize;
-		tktkMath::Color		backGroundColor;
 		bool				craeteDebugLayer;
 	};
 }

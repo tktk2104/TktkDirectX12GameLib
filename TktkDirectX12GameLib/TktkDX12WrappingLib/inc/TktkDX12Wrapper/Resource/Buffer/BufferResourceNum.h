@@ -1,17 +1,20 @@
 #ifndef BUFFER_RESOURCE_INIT_PARAM_H_
 #define BUFFER_RESOURCE_INIT_PARAM_H_
 
+#include <TktkContainer/ResourceContainer/ResourceContainerInitParam.h>
+
 namespace tktk
 {
 	// それぞれのバッファーリソースの数を設定するための構造体
 	struct BufferResourceNum
 	{
-		unsigned int vertexBufferNum;		// 頂点バッファの数
-		unsigned int indexBufferNum;		// インデックスバッファの数
-		unsigned int constantBufferNum;		// 定数バッファの数
-		unsigned int textureBufferNum;		// テクスチャバッファの数
-		unsigned int depthStencilBufferNum;	// 深度ステンシルバッファの数
-		unsigned int renderTargetBufferNum;	// レンダーターゲットバッファの数
+		tktkContainer::ResourceContainerInitParam copyBufferContainerInitParam;		// コピーバッファを管理するコンテナを初期化する時の値
+		tktkContainer::ResourceContainerInitParam vertexBufferContainerInitParam;	// 頂点バッファを管理するコンテナを初期化する時の値
+		tktkContainer::ResourceContainerInitParam indexBufferContainerInitParam;	// インデックスバッファを管理するコンテナを初期化する時の値
+		tktkContainer::ResourceContainerInitParam cbufferContainerInitParam;		// 定数バッファを管理するコンテナを初期化する時の値
+		tktkContainer::ResourceContainerInitParam textureBufferStaticNodeNum;		// テクスチャバッファを管理するコンテナを初期化する時の値
+		tktkContainer::ResourceContainerInitParam dsbufferStaticNodeNum;			// 深度ステンシルバッファを管理するコンテナを初期化する時の値
+		tktkContainer::ResourceContainerInitParam rtbufferStaticNodeNum;			// レンダーターゲットバッファを管理するコンテナを初期化する時の値
 	};
 }
 #endif // !BUFFER_RESOURCE_INIT_PARAM_H_

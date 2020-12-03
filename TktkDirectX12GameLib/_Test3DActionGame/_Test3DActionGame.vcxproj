@@ -1,0 +1,335 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{10386641-9b8d-4b65-b35e-eedf6f803636}</ProjectGuid>
+    <RootNamespace>Test3DActionGame</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <IncludePath>$(SolutionDir)TktkFileIoLib\inc;$(SolutionDir)TktkTemplateMetaLib\inc;$(SolutionDir)TktkContainerLib\inc;$(SolutionDir)TktkMathLib\inc;$(SolutionDir)TktkDX12WrappingLib\inc;$(SolutionDir)TktkDX12GameLib\inc;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)lib\x86;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <IncludePath>$(SolutionDir)TktkFileIoLib\inc;$(SolutionDir)TktkTemplateMetaLib\inc;$(SolutionDir)TktkContainerLib\inc;$(SolutionDir)TktkMathLib\inc;$(SolutionDir)TktkDX12WrappingLib\inc;$(SolutionDir)TktkDX12GameLib\inc;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)lib\x86;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="src\GameObject\MainSceneObjects\GamePlayBgmPlayer\Act3D_GamePlayBgmPlayer.cpp" />
+    <ClCompile Include="src\GameObject\ResultSceneObjects\ResultBgmPlayer\Act3D_ResultBgmPlayer.cpp" />
+    <ClCompile Include="src\GameObject\TitleSceneObjects\TitleBgmPlayer\Act3D_TitleBgmPlayer.cpp" />
+    <ClCompile Include="src\GameObject\CameraObjects\DefaultCamera\Act3D_DefaultCamera.cpp" />
+    <ClCompile Include="src\GameObject\MainSceneObjects\EnemyObjects\BossEnemy\Act3D_BossEnemy.cpp" />
+    <ClCompile Include="src\GameObject\MainSceneObjects\EnemyObjects\BossEnemy\Scripts\Act3D_BossEnemyDamager.cpp" />
+    <ClCompile Include="src\GameObject\MainSceneObjects\EnemyObjects\BossEnemy\Scripts\Act3D_BossEnemyEndAttack.cpp" />
+    <ClCompile Include="src\GameObject\MainSceneObjects\EnemyObjects\BossEnemy\Scripts\Act3D_BossEnemyEndDamage.cpp" />
+    <ClCompile Include="src\GameObject\MainSceneObjects\EnemyObjects\BossEnemy\Scripts\Act3D_BossEnemyEndDown.cpp" />
+    <ClCompile Include="src\GameObject\MainSceneObjects\EnemyObjects\BossEnemy\Scripts\Act3D_BossEnemyParam.cpp" />
+    <ClCompile Include="src\GameObject\MainSceneObjects\EnemyObjects\BossEnemy\Scripts\Act3D_BossEnemyStartAttack.cpp" />
+    <ClCompile Include="src\GameObject\MainSceneObjects\EnemyObjects\BossEnemy\Scripts\Act3D_BossEnemyStartChase.cpp" />
+    <ClCompile Include="src\GameObject\MainSceneObjects\EnemyObjects\BossEnemy\Scripts\Act3D_BossEnemyStartDown.cpp" />
+    <ClCompile Include="src\GameObject\MainSceneObjects\EnemyObjects\BossEnemy\Scripts\Act3D_BossEnemyStartStandUp.cpp" />
+    <ClCompile Include="src\GameObject\MainSceneObjects\EnemyObjects\EnemyAttackRange\Act3D_EnemyAttackRange.cpp" />
+    <ClCompile Include="src\GameObject\MainSceneObjects\EnemyObjects\EnemyBullet\ShooterEnemyBullet\Act3D_ShooterEnemyBullet.cpp" />
+    <ClCompile Include="src\GameObject\MainSceneObjects\EnemyObjects\FighterEnemy\Act3D_FighterEnemy.cpp" />
+    <ClCompile Include="src\GameObject\MainSceneObjects\EnemyObjects\FighterEnemy\Scripts\Act3D_FighterEnemyDamager.cpp" />
+    <ClCompile Include="src\GameObject\MainSceneObjects\EnemyObjects\FighterEnemy\Scripts\Act3D_FighterEnemyEndAttack.cpp" />
+    <ClCompile Include="src\GameObject\MainSceneObjects\EnemyObjects\FighterEnemy\Scripts\Act3D_FighterEnemyEndDamage.cpp" />
+    <ClCompile Include="src\GameObject\MainSceneObjects\EnemyObjects\FighterEnemy\Scripts\Act3D_FighterEnemyParam.cpp" />
+    <ClCompile Include="src\GameObject\MainSceneObjects\EnemyObjects\FighterEnemy\Scripts\Act3D_FighterEnemyStartAttack.cpp" />
+    <ClCompile Include="src\GameObject\MainSceneObjects\EnemyObjects\FighterEnemy\Scripts\Act3D_FighterEnemyStartChase.cpp" />
+    <ClCompile Include="src\GameObject\MainSceneObjects\EnemyObjects\FighterEnemy\Scripts\Act3D_FighterEnemyStartComboAttack.cpp" />
+    <ClCompile Include="src\GameObject\MainSceneObjects\EnemyObjects\FighterEnemy\Scripts\Act3D_FighterEnemyStartRun.cpp" />
+    <ClCompile Include="src\GameObject\MainSceneObjects\EnemyObjects\ShooterEnemy\Act3D_ShooterEnemy.cpp" />
+    <ClCompile Include="src\GameObject\MainSceneObjects\EnemyObjects\ShooterEnemy\Scripts\Act3D_ShooterEnemyBulletGenerator.cpp" />
+    <ClCompile Include="src\GameObject\MainSceneObjects\EnemyObjects\ShooterEnemy\Scripts\Act3D_ShooterEnemyDamager.cpp" />
+    <ClCompile Include="src\GameObject\MainSceneObjects\EnemyObjects\ShooterEnemy\Scripts\Act3D_ShooterEnemyEndAttack.cpp" />
+    <ClCompile Include="src\GameObject\MainSceneObjects\EnemyObjects\ShooterEnemy\Scripts\Act3D_ShooterEnemyEndDamage.cpp" />
+    <ClCompile Include="src\GameObject\MainSceneObjects\EnemyObjects\ShooterEnemy\Scripts\Act3D_ShooterEnemyParam.cpp" />
+    <ClCompile Include="src\GameObject\MainSceneObjects\EnemyObjects\ShooterEnemy\Scripts\Act3D_ShooterEnemyStartAttack.cpp" />
+    <ClCompile Include="src\GameObject\MainSceneObjects\EnemyObjects\ShooterEnemy\Scripts\Act3D_ShooterEnemyStartChase.cpp" />
+    <ClCompile Include="src\GameObject\MainSceneObjects\EnemyObjects\_CommonEnemyScripts\Act3D_EnemyAttackRangeGenerator.cpp" />
+    <ClCompile Include="src\GameObject\MainSceneObjects\EnemyObjects\_CommonEnemyScripts\Act3D_EnemyCollisionReaction.cpp" />
+    <ClCompile Include="src\GameObject\MainSceneObjects\EnemyObjects\_CommonEnemyScripts\Act3D_EnemyJampAttackMoving.cpp" />
+    <ClCompile Include="src\GameObject\MainSceneObjects\EnemyObjects\_CommonEnemyScripts\Act3D_MoveForward.cpp" />
+    <ClCompile Include="src\GameObject\MainSceneObjects\EnemyObjects\_CommonEnemyScripts\Act3D_RotateToPlayer.cpp" />
+    <ClCompile Include="src\GameObject\MainSceneObjects\EnemyObjects\_CommonEnemyScripts\Act3D_RotateToPlayerInTime.cpp" />
+    <ClCompile Include="src\GameObject\MainSceneObjects\GameRule\Act3D_GameRule.cpp" />
+    <ClCompile Include="src\GameObject\MainSceneObjects\GameRule\Scripts\Act3D_GameRuleScripts.cpp" />
+    <ClCompile Include="src\GameObject\LightObjects\DefaultLight\Act3D_DefaultLight.cpp" />
+    <ClCompile Include="src\GameObject\MainSceneObjects\MainSceneChanger\Act3D_MainSceneChanger.cpp" />
+    <ClCompile Include="src\GameObject\MainSceneObjects\MainSceneChanger\Scripts\Act3D_MainSceneChangerScript.cpp" />
+    <ClCompile Include="src\GameObject\MainSceneObjects\PlayerObjects\PlayerAttackRange\Act3D_PlayerAttackRange.cpp" />
+    <ClCompile Include="src\GameObject\MainSceneObjects\PlayerObjects\Player\Act3D_Player.cpp" />
+    <ClCompile Include="src\GameObject\MainSceneObjects\PlayerObjects\Player\Scripts\Act3D_InputToStartDodge.cpp" />
+    <ClCompile Include="src\GameObject\MainSceneObjects\PlayerObjects\Player\Scripts\Act3D_PlayerEndAttack.cpp" />
+    <ClCompile Include="src\GameObject\MainSceneObjects\PlayerObjects\Player\Scripts\Act3D_PlayerEndDamage.cpp" />
+    <ClCompile Include="src\GameObject\MainSceneObjects\PlayerObjects\Player\Scripts\Act3D_InputToStartAttack.cpp" />
+    <ClCompile Include="src\GameObject\MainSceneObjects\PlayerObjects\Player\Scripts\Act3D_InputToStartComboAttack.cpp" />
+    <ClCompile Include="src\GameObject\MainSceneObjects\PlayerObjects\Player\Scripts\Act3D_JampAttackMoving.cpp" />
+    <ClCompile Include="src\GameObject\MainSceneObjects\PlayerObjects\Player\Scripts\Act3D_PlayerAttackRangeGenerator.cpp" />
+    <ClCompile Include="src\GameObject\MainSceneObjects\PlayerObjects\Player\Scripts\Act3D_PlayerCollisionReaction.cpp" />
+    <ClCompile Include="src\GameObject\MainSceneObjects\PlayerObjects\Player\Scripts\Act3D_PlayerController.cpp" />
+    <ClCompile Include="src\GameObject\MainSceneObjects\PlayerObjects\Player\Scripts\Act3D_PlayerDamager.cpp" />
+    <ClCompile Include="src\GameObject\MainSceneObjects\PlayerObjects\Player\Scripts\Act3D_PlayerEndDodge.cpp" />
+    <ClCompile Include="src\GameObject\MainSceneObjects\PlayerObjects\Player\Scripts\Act3D_PlayerParam.cpp" />
+    <ClCompile Include="src\GameObject\ResultSceneObjects\ResultCamera\Act3D_ResultCamera.cpp" />
+    <ClCompile Include="src\GameObject\ResultSceneObjects\ResultSceneBackGround\Act3D_ResultSceneBackGround.cpp" />
+    <ClCompile Include="src\GameObject\ResultSceneObjects\ResultSceneBackGround\Scripts\Act3D_ResultSceneBackGroundScript.cpp" />
+    <ClCompile Include="src\GameObject\ResultSceneObjects\ResultSceneChanger\Act3D_ResultSceneChanger.cpp" />
+    <ClCompile Include="src\GameObject\ResultSceneObjects\ResultSceneChanger\Scripts\Act3D_ResultSceneChangerScript.cpp" />
+    <ClCompile Include="src\GameObject\SkyBox\Act3D_SkyBox.cpp" />
+    <ClCompile Include="src\GameObject\StageObjects\BaseGround\Act3D_BaseGround.cpp" />
+    <ClCompile Include="src\GameObject\StageObjects\GrassBlock\Act3D_GrassBlock.cpp" />
+    <ClCompile Include="src\GameObject\TitleSceneObjects\TitleCamera\Act3D_TitleCamera.cpp" />
+    <ClCompile Include="src\GameObject\TitleSceneObjects\TitleCamera\Scripts\Act3D_TitleCameraScript.cpp" />
+    <ClCompile Include="src\GameObject\TitleSceneObjects\TitleSceneBackGround\Act3D_TitleSceneBackGround.cpp" />
+    <ClCompile Include="src\GameObject\TitleSceneObjects\TitleSceneChanger\Act3D_TitleSceneChanger.cpp" />
+    <ClCompile Include="src\GameObject\TitleSceneObjects\TitleSceneChanger\Scripts\Act3D_TitleSceneChangerScript.cpp" />
+    <ClCompile Include="src\GameObject\Ui\PlayerHpBar\Act3D_PlayerHpBar.cpp" />
+    <ClCompile Include="src\GameObject\Ui\PlayerHpBar\Scripts\Act3D_PlayerHpBarContentScript.cpp" />
+    <ClCompile Include="src\GameObject\_CommonScripts\GravityMove\Act3D_GravityMove.cpp" />
+    <ClCompile Include="src\GameObject\_CommonScripts\SelfDeadTimer\Act3D_SelfDeadTimer.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\Scene\Act3D_LoadingScene.cpp" />
+    <ClCompile Include="src\Scene\Act3D_MainScene.cpp" />
+    <ClCompile Include="src\Scene\Act3D_ResultScene.cpp" />
+    <ClCompile Include="src\Scene\Act3D_TitleScene.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\Enums\CollisionGroup\CollisionGroup.h" />
+    <ClInclude Include="src\Enums\CommandId\CommandId.h" />
+    <ClInclude Include="src\Enums\Enums.h" />
+    <ClInclude Include="src\Enums\GameObjectTag\GameObjectTag.h" />
+    <ClInclude Include="src\Enums\Id\ResourceIds.h" />
+    <ClInclude Include="src\Enums\Id\ResourceIds\MeshId.h" />
+    <ClInclude Include="src\Enums\Id\ResourceIds\BillBoardId.h" />
+    <ClInclude Include="src\Enums\Id\ResourceIds\MotionId.h" />
+    <ClInclude Include="src\Enums\Id\ResourceIds\SceneId.h" />
+    <ClInclude Include="src\Enums\Id\ResourceIds\SkeletonId.h" />
+    <ClInclude Include="src\Enums\Id\ResourceIds\SoundId.h" />
+    <ClInclude Include="src\Enums\Id\ResourceIds\SpriteId.h" />
+    <ClInclude Include="src\Enums\MessageType\EventMessageType.h" />
+    <ClInclude Include="src\Enums\StateType\StateTypes.h" />
+    <ClInclude Include="src\Enums\StateType\StateTypes\BossEnemyStateType.h" />
+    <ClInclude Include="src\Enums\StateType\StateTypes\FighterEnemyStateType.h" />
+    <ClInclude Include="src\Enums\StateType\StateTypes\PlayerStateType.h" />
+    <ClInclude Include="src\Enums\StateType\StateTypes\ShooterEnemyStateType.h" />
+    <ClInclude Include="src\GameObject\MainSceneObjects\GamePlayBgmPlayer\Act3D_GamePlayBgmPlayer.h" />
+    <ClInclude Include="src\GameObject\ResultSceneObjects\ResultBgmPlayer\Act3D_ResultBgmPlayer.h" />
+    <ClInclude Include="src\GameObject\TitleSceneObjects\TitleBgmPlayer\Act3D_TitleBgmPlayer.h" />
+    <ClInclude Include="src\GameObject\CameraObjects\DefaultCamera\Act3D_DefaultCamera.h" />
+    <ClInclude Include="src\GameObject\MainSceneObjects\EnemyObjects\BossEnemy\Act3D_BossEnemy.h" />
+    <ClInclude Include="src\GameObject\MainSceneObjects\EnemyObjects\BossEnemy\Scripts\Act3D_BossEnemyDamager.h" />
+    <ClInclude Include="src\GameObject\MainSceneObjects\EnemyObjects\BossEnemy\Scripts\Act3D_BossEnemyEndAttack.h" />
+    <ClInclude Include="src\GameObject\MainSceneObjects\EnemyObjects\BossEnemy\Scripts\Act3D_BossEnemyEndDamage.h" />
+    <ClInclude Include="src\GameObject\MainSceneObjects\EnemyObjects\BossEnemy\Scripts\Act3D_BossEnemyEndDown.h" />
+    <ClInclude Include="src\GameObject\MainSceneObjects\EnemyObjects\BossEnemy\Scripts\Act3D_BossEnemyParam.h" />
+    <ClInclude Include="src\GameObject\MainSceneObjects\EnemyObjects\BossEnemy\Scripts\Act3D_BossEnemyStartAttack.h" />
+    <ClInclude Include="src\GameObject\MainSceneObjects\EnemyObjects\BossEnemy\Scripts\Act3D_BossEnemyStartChase.h" />
+    <ClInclude Include="src\GameObject\MainSceneObjects\EnemyObjects\BossEnemy\Scripts\Act3D_BossEnemyStartDown.h" />
+    <ClInclude Include="src\GameObject\MainSceneObjects\EnemyObjects\BossEnemy\Scripts\Act3D_BossEnemyStartStandUp.h" />
+    <ClInclude Include="src\GameObject\MainSceneObjects\EnemyObjects\EnemyAttackRange\Act3D_EnemyAttackRange.h" />
+    <ClInclude Include="src\GameObject\MainSceneObjects\EnemyObjects\EnemyBullet\ShooterEnemyBullet\Act3D_ShooterEnemyBullet.h" />
+    <ClInclude Include="src\GameObject\MainSceneObjects\EnemyObjects\FighterEnemy\Act3D_FighterEnemy.h" />
+    <ClInclude Include="src\GameObject\MainSceneObjects\EnemyObjects\FighterEnemy\Scripts\Act3D_FighterEnemyDamager.h" />
+    <ClInclude Include="src\GameObject\MainSceneObjects\EnemyObjects\FighterEnemy\Scripts\Act3D_FighterEnemyEndAttack.h" />
+    <ClInclude Include="src\GameObject\MainSceneObjects\EnemyObjects\FighterEnemy\Scripts\Act3D_FighterEnemyEndDamage.h" />
+    <ClInclude Include="src\GameObject\MainSceneObjects\EnemyObjects\FighterEnemy\Scripts\Act3D_FighterEnemyParam.h" />
+    <ClInclude Include="src\GameObject\MainSceneObjects\EnemyObjects\FighterEnemy\Scripts\Act3D_FighterEnemyStartAttack.h" />
+    <ClInclude Include="src\GameObject\MainSceneObjects\EnemyObjects\FighterEnemy\Scripts\Act3D_FighterEnemyStartChase.h" />
+    <ClInclude Include="src\GameObject\MainSceneObjects\EnemyObjects\FighterEnemy\Scripts\Act3D_FighterEnemyStartComboAttack.h" />
+    <ClInclude Include="src\GameObject\MainSceneObjects\EnemyObjects\FighterEnemy\Scripts\Act3D_FighterEnemyStartRun.h" />
+    <ClInclude Include="src\GameObject\MainSceneObjects\EnemyObjects\ShooterEnemy\Act3D_ShooterEnemy.h" />
+    <ClInclude Include="src\GameObject\MainSceneObjects\EnemyObjects\ShooterEnemy\Scripts\Act3D_ShooterEnemyBulletGenerator.h" />
+    <ClInclude Include="src\GameObject\MainSceneObjects\EnemyObjects\ShooterEnemy\Scripts\Act3D_ShooterEnemyDamager.h" />
+    <ClInclude Include="src\GameObject\MainSceneObjects\EnemyObjects\ShooterEnemy\Scripts\Act3D_ShooterEnemyEndAttack.h" />
+    <ClInclude Include="src\GameObject\MainSceneObjects\EnemyObjects\ShooterEnemy\Scripts\Act3D_ShooterEnemyEndDamage.h" />
+    <ClInclude Include="src\GameObject\MainSceneObjects\EnemyObjects\ShooterEnemy\Scripts\Act3D_ShooterEnemyParam.h" />
+    <ClInclude Include="src\GameObject\MainSceneObjects\EnemyObjects\ShooterEnemy\Scripts\Act3D_ShooterEnemyStartAttack.h" />
+    <ClInclude Include="src\GameObject\MainSceneObjects\EnemyObjects\ShooterEnemy\Scripts\Act3D_ShooterEnemyStartChase.h" />
+    <ClInclude Include="src\GameObject\MainSceneObjects\EnemyObjects\_CommonEnemyScripts\Act3D_EnemyAttackRangeGenerator.h" />
+    <ClInclude Include="src\GameObject\MainSceneObjects\EnemyObjects\_CommonEnemyScripts\Act3D_EnemyCollisionReaction.h" />
+    <ClInclude Include="src\GameObject\MainSceneObjects\EnemyObjects\_CommonEnemyScripts\Act3D_EnemyJampAttackMoving.h" />
+    <ClInclude Include="src\GameObject\MainSceneObjects\EnemyObjects\_CommonEnemyScripts\Act3D_MoveForward.h" />
+    <ClInclude Include="src\GameObject\MainSceneObjects\EnemyObjects\_CommonEnemyScripts\Act3D_RotateToPlayer.h" />
+    <ClInclude Include="src\GameObject\MainSceneObjects\EnemyObjects\_CommonEnemyScripts\Act3D_RotateToPlayerInTime.h" />
+    <ClInclude Include="src\GameObject\MainSceneObjects\GameRule\Act3D_GameRule.h" />
+    <ClInclude Include="src\GameObject\MainSceneObjects\GameRule\Scripts\Act3D_GameRuleScripts.h" />
+    <ClInclude Include="src\GameObject\LightObjects\DefaultLight\Act3D_DefaultLight.h" />
+    <ClInclude Include="src\GameObject\MainSceneObjects\MainSceneChanger\Act3D_MainSceneChanger.h" />
+    <ClInclude Include="src\GameObject\MainSceneObjects\MainSceneChanger\Scripts\Act3D_MainSceneChangerScript.h" />
+    <ClInclude Include="src\GameObject\MainSceneObjects\PlayerObjects\PlayerAttackRange\Act3D_PlayerAttackRange.h" />
+    <ClInclude Include="src\GameObject\MainSceneObjects\PlayerObjects\Player\Act3D_Player.h" />
+    <ClInclude Include="src\GameObject\MainSceneObjects\PlayerObjects\Player\Scripts\Act3D_InputToStartDodge.h" />
+    <ClInclude Include="src\GameObject\MainSceneObjects\PlayerObjects\Player\Scripts\Act3D_PlayerEndAttack.h" />
+    <ClInclude Include="src\GameObject\MainSceneObjects\PlayerObjects\Player\Scripts\Act3D_PlayerEndDamage.h" />
+    <ClInclude Include="src\GameObject\MainSceneObjects\PlayerObjects\Player\Scripts\Act3D_InputToStartAttack.h" />
+    <ClInclude Include="src\GameObject\MainSceneObjects\PlayerObjects\Player\Scripts\Act3D_InputToStartComboAttack.h" />
+    <ClInclude Include="src\GameObject\MainSceneObjects\PlayerObjects\Player\Scripts\Act3D_JampAttackMoving.h" />
+    <ClInclude Include="src\GameObject\MainSceneObjects\PlayerObjects\Player\Scripts\Act3D_PlayerAttackRangeGenerator.h" />
+    <ClInclude Include="src\GameObject\MainSceneObjects\PlayerObjects\Player\Scripts\Act3D_PlayerCollisionReaction.h" />
+    <ClInclude Include="src\GameObject\MainSceneObjects\PlayerObjects\Player\Scripts\Act3D_PlayerController.h" />
+    <ClInclude Include="src\GameObject\MainSceneObjects\PlayerObjects\Player\Scripts\Act3D_PlayerDamager.h" />
+    <ClInclude Include="src\GameObject\MainSceneObjects\PlayerObjects\Player\Scripts\Act3D_PlayerEndDodge.h" />
+    <ClInclude Include="src\GameObject\MainSceneObjects\PlayerObjects\Player\Scripts\Act3D_PlayerParam.h" />
+    <ClInclude Include="src\GameObject\ResultSceneObjects\ResultCamera\Act3D_ResultCamera.h" />
+    <ClInclude Include="src\GameObject\ResultSceneObjects\ResultSceneBackGround\Act3D_ResultSceneBackGround.h" />
+    <ClInclude Include="src\GameObject\ResultSceneObjects\ResultSceneBackGround\Scripts\Act3D_ResultSceneBackGroundScript.h" />
+    <ClInclude Include="src\GameObject\ResultSceneObjects\ResultSceneChanger\Act3D_ResultSceneChanger.h" />
+    <ClInclude Include="src\GameObject\ResultSceneObjects\ResultSceneChanger\Scripts\Act3D_ResultSceneChangerScript.h" />
+    <ClInclude Include="src\GameObject\SkyBox\Act3D_SkyBox.h" />
+    <ClInclude Include="src\GameObject\StageObjects\BaseGround\Act3D_BaseGround.h" />
+    <ClInclude Include="src\GameObject\StageObjects\GrassBlock\Act3D_GrassBlock.h" />
+    <ClInclude Include="src\GameObject\TitleSceneObjects\TitleCamera\Act3D_TitleCamera.h" />
+    <ClInclude Include="src\GameObject\TitleSceneObjects\TitleCamera\Scripts\Act3D_TitleCameraScript.h" />
+    <ClInclude Include="src\GameObject\TitleSceneObjects\TitleSceneBackGround\Act3D_TitleSceneBackGround.h" />
+    <ClInclude Include="src\GameObject\TitleSceneObjects\TitleSceneChanger\Act3D_TitleSceneChanger.h" />
+    <ClInclude Include="src\GameObject\TitleSceneObjects\TitleSceneChanger\Scripts\Act3D_TitleSceneChangerScript.h" />
+    <ClInclude Include="src\GameObject\Ui\PlayerHpBar\Act3D_PlayerHpBar.h" />
+    <ClInclude Include="src\GameObject\Ui\PlayerHpBar\Scripts\Act3D_PlayerHpBarContentScript.h" />
+    <ClInclude Include="src\GameObject\_CommonScripts\GravityMove\Act3D_GravityMove.h" />
+    <ClInclude Include="src\GameObject\_CommonScripts\SelfDeadTimer\Act3D_SelfDeadTimer.h" />
+    <ClInclude Include="src\Scene\Act3D_LoadingScene.h" />
+    <ClInclude Include="src\Scene\Act3D_MainScene.h" />
+    <ClInclude Include="src\Scene\Act3D_ResultScene.h" />
+    <ClInclude Include="src\Scene\Act3D_TitleScene.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

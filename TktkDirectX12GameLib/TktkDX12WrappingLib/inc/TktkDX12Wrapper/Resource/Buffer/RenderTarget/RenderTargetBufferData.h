@@ -1,10 +1,17 @@
 #ifndef RENDER_TARGET_BUFFER_DATA_H_
 #define RENDER_TARGET_BUFFER_DATA_H_
 
+/* IDXGISwapChain1 */
 #include <dxgi1_6.h>
+
+/* ID3D12Device, ID3D12GraphicsCommandList, D3D12_CPU_DESCRIPTOR_HANDLE, ID3D12Resource */
+#include <d3d12.h>
+#undef min
+#undef max
+
+/* class member */
 #include <TktkMath/Structs/Color.h>
 #include <TktkMath/Structs/Vector2.h>
-#include "../../../Includer/D3d12Includer.h"
 
 namespace tktk
 {
@@ -20,7 +27,13 @@ namespace tktk
 		RenderTargetBufferData(IDXGISwapChain1* swapChain, unsigned int backBufferIndex);
 		~RenderTargetBufferData();
 
+		// ムーブコンストラクタ
+		RenderTargetBufferData(RenderTargetBufferData&& other) noexcept;
+
 	public:
+
+		// クリアカラーを取得する
+		const tktkMath::Color& getClearColor() const;
 
 		// 自身のリソースバリアをレンダーターゲット状態に変更する
 		void beginWriteBasicRtBuffer(ID3D12GraphicsCommandList* commandList) const;
@@ -43,9 +56,13 @@ namespace tktk
 		// レンダーターゲットバッファ画像の大きさを取得する（ピクセル）
 		const tktkMath::Vector2& getRenderTargetSizePx() const;
 
+		// 自身のバッファのポインタを取得する
+		ID3D12Resource* getBufferPtr() const;
+
 	private:
 
 		tktkMath::Vector2	m_renderTargetSize;
+		tktkMath::Color		m_clearColor;
 		ID3D12Resource*		m_renderTargetBuffer	{ nullptr };
 		bool				m_mustRelease			{ true };
 	};

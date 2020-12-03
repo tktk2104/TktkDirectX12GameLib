@@ -1,9 +1,15 @@
 #ifndef DSV_DESCRIPTOR_HEAP_DATA_H_
 #define DSV_DESCRIPTOR_HEAP_DATA_H_
 
+/* std::vector */
 #include <vector>
+
+/* ID3D12Device, ID3D12GraphicsCommandList, ID3D12DescriptorHeap */
+#include <d3d12.h>
+#undef min
+#undef max
+
 #include <TktkMath/Structs/Color.h>
-#include "../../../Includer/D3d12Includer.h"
 #include "DsvDescriptorHeapInitParam.h"
 
 namespace tktk
@@ -16,13 +22,16 @@ namespace tktk
 		DsvDescriptorHeapData(ID3D12Device* device, const DsvDescriptorHeapInitParam& initParam);
 		~DsvDescriptorHeapData();
 
+		// ムーブコンストラクタ
+		DsvDescriptorHeapData(DsvDescriptorHeapData&& other) noexcept;
+
 	public:
 
 		// 各ビューのCPUアドレスの配列を取得する
 		std::vector<D3D12_CPU_DESCRIPTOR_HANDLE> getCpuHeapHandleArray(ID3D12Device* device) const;
 
 		// 各ビューが参照している深度ステンシルバッファのIDの配列を取得する
-		const std::vector<unsigned int>& getDsBufferIdArray() const;
+		const std::vector<size_t>& getDsBufferHandleArray() const;
 
 		// ディスクリプタヒープをまとめてコマンドリストに登録するためにあるゲッター
 		ID3D12DescriptorHeap* getPtr() const;
@@ -38,9 +47,8 @@ namespace tktk
 
 	private:
 
-		std::vector<unsigned int> m_dsBufferIdArray{};
-
-		ID3D12DescriptorHeap* m_descriptorHeap{ nullptr };
+		std::vector<size_t>		m_dsBufferHandleArray	{};
+		ID3D12DescriptorHeap*	m_descriptorHeap		{ nullptr };
 	};
 }
 #endif // !DSV_DESCRIPTOR_HEAP_DATA_H_

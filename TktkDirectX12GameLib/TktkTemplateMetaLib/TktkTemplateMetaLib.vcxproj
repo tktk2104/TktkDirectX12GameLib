@@ -39,13 +39,13 @@
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -71,19 +71,23 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(SolutionDir)lib\</OutDir>
+    <OutDir>$(SolutionDir)lib\x86\</OutDir>
     <TargetName>$(ProjectName)_mtd</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(SolutionDir)lib\x64\</OutDir>
+    <TargetName>$(ProjectName)_mtd</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(SolutionDir)lib\</OutDir>
+    <OutDir>$(SolutionDir)lib\x86\</OutDir>
     <TargetName>$(ProjectName)_mt</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)lib\x64\</OutDir>
+    <TargetName>$(ProjectName)_mt</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -104,6 +108,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -135,6 +140,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -147,6 +153,7 @@
     <ClInclude Include="inc\TktkTemplateMetaLib\HasFuncCheck\CreatedStruct\HasAfterChangeParentChecker.h" />
     <ClInclude Include="inc\TktkTemplateMetaLib\HasFuncCheck\CreatedStruct\HasAfterCollideChecker.h" />
     <ClInclude Include="inc\TktkTemplateMetaLib\HasFuncCheck\CreatedStruct\HasAwakeChecker.h" />
+    <ClInclude Include="inc\TktkTemplateMetaLib\HasFuncCheck\CreatedStruct\HasBeforeCollideChecker.h" />
     <ClInclude Include="inc\TktkTemplateMetaLib\HasFuncCheck\CreatedStruct\HasDrawChecker.h" />
     <ClInclude Include="inc\TktkTemplateMetaLib\HasFuncCheck\CreatedStruct\HasEndChecker.h" />
     <ClInclude Include="inc\TktkTemplateMetaLib\HasFuncCheck\CreatedStruct\HasHandleMessageChecker.h" />
@@ -162,6 +169,9 @@
     <ClInclude Include="inc\TktkTemplateMetaLib\HasFuncCheck\HasFuncCheckMacro.h" />
     <ClInclude Include="inc\TktkTemplateMetaLib\HasValueCheck\HasValueCheckMacro.h" />
     <ClInclude Include="inc\TktkTemplateMetaLib\IsAllOf\IsAllOf.h" />
+    <ClInclude Include="inc\TktkTemplateMetaLib\TypeCheck\isCastSignedInt32.h" />
+    <ClInclude Include="inc\TktkTemplateMetaLib\TypeCheck\isCastUnsignedInt32.h" />
+    <ClInclude Include="inc\TktkTemplateMetaLib\TypeCheck\isCastUnsignedInt64.h" />
     <ClInclude Include="inc\TktkTemplateMetaLib\TypeCheck\isIdType.h" />
     <ClInclude Include="inc\TktkTemplateMetaLib\TypeCheck\IsNumber.h" />
   </ItemGroup>

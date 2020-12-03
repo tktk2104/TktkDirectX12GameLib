@@ -1,7 +1,10 @@
 #ifndef FENCE_H_
 #define FENCE_H_
 
-#include "../Includer/D3d12Includer.h"
+/* ID3D12Fence, ID3D12CommandQueue */
+#include <d3d12.h>
+#undef min
+#undef max
 
 namespace tktk
 {
