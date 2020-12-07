@@ -1,5 +1,5 @@
-#ifndef MONO_COLOR_CONSTANT_BUFFER_H_
-#define MONO_COLOR_CONSTANT_BUFFER_H_
+#ifndef MONO_COLOR_CBUFFER_DATA_H_
+#define MONO_COLOR_CBUFFER_DATA_H_
 
 /* class member */
 #include <TktkMath/Structs/Color.h>
@@ -7,9 +7,9 @@
 namespace tktk
 {
 	// メッシュの単色塗りつぶし描画の定数バッファ
-	struct MonoColorMeshCbuffer
+	struct MonoColorMeshCBufferData
 	{
 		tktkMath::Color albedoColor;
 	};
 }
-#endif // !MONO_COLOR_CONSTANT_BUFFER_H_
+#endif // !MONO_COLOR_CBUFFER_DATA_H_

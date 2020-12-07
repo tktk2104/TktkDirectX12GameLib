@@ -1,8 +1,8 @@
 #include "TktkDX12Game/DXGameResource/DXGameShaderResouse/Billboard/BillboardMaterialData.h"
 
 #include "TktkDX12Game/_MainManager/DX12GameManager.h"
-#include "TktkDX12Game/DXGameResource/DXGameShaderResouse/Billboard/BillboardMaterialInitParam.h"
-#include "TktkDX12Game/DXGameResource/DXGameShaderResouse/Billboard/BillboardDrawFuncBaseArgs.h"
+#include "TktkDX12Game/DXGameResource/DXGameShaderResouse/Billboard/Structs/BillboardMaterialInitParam.h"
+#include "TktkDX12Game/DXGameResource/DXGameShaderResouse/Billboard/Structs/BillboardDrawFuncBaseArgs.h"
 
 namespace tktk
 {

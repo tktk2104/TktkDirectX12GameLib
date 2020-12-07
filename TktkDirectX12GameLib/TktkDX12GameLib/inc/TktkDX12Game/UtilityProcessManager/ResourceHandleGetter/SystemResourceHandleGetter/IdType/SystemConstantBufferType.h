@@ -6,6 +6,7 @@ namespace tktk
 	// システムで使用している定数バッファの種類
 	enum class SystemCBufferType
 	{
+		DrawGameArea,
 		SpriteTransform,
 		SpriteMaterialManager,
 		Line2D,

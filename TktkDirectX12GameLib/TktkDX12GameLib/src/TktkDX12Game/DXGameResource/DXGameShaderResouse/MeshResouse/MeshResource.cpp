@@ -3,7 +3,7 @@
 #include <TktkDX12Game/_MainManager/DX12GameManager.h>
 #include "TktkDX12Game/DXGameResource/DXGameShaderResouse/MeshResouse/Skeleton/SkeletonManager.h"
 #include "TktkDX12Game/DXGameResource/DXGameShaderResouse/MeshResouse/Motion/MotionManager.h"
-#include "TktkDX12Game/DXGameResource/DXGameShaderResouse/MeshResouse/Motion/MotionBoneParam.h"
+#include "TktkDX12Game/DXGameResource/DXGameShaderResouse/MeshResouse/Motion/Structs/MotionBoneParam.h"
 #include "TktkDX12Game/DXGameResource/DXGameShaderResouse/MeshResouse/Mesh/MeshManager.h"
 #include "TktkDX12Game/DXGameResource/DXGameShaderResouse/MeshResouse/MeshMaterial/MeshMaterialManager.h"
 #include "TktkDX12Game/DXGameResource/DXGameShaderResouse/MeshResouse/Mesh/Loader/MeshPmdLoader.h"
@@ -12,10 +12,10 @@
 #include "TktkDX12Game/DXGameResource/DXGameShaderResouse/MeshResouse/Mesh/Maker/BoxMeshMaker.h"
 #include "TktkDX12Game/DXGameResource/DXGameShaderResouse/MeshResouse/Mesh/Maker/SphereMeshMaker.h"
 
-#include "TktkDX12Game/DXGameResource/DXGameShaderResouse/MeshResouse/Mesh/Structs/CameraCbuffer.h"
-#include "TktkDX12Game/DXGameResource/DXGameShaderResouse/MeshResouse/Mesh/Structs/MeshShadowMapCBuffer.h"
-#include "TktkDX12Game/DXGameResource/DXGameShaderResouse/MeshResouse/MeshMaterial/Structs/MeshMaterialCbuffer.h"
-#include "TktkDX12Game/DXGameResource/DXGameShaderResouse/MeshResouse/MeshMaterial/Structs/MonoColorMeshCbuffer.h"
+#include "TktkDX12Game/DXGameResource/DXGameShaderResouse/MeshResouse/Mesh/Structs/CameraCBufferData.h"
+#include "TktkDX12Game/DXGameResource/DXGameShaderResouse/MeshResouse/Mesh/Structs/MeshShadowMapCBufferData.h"
+#include "TktkDX12Game/DXGameResource/DXGameShaderResouse/MeshResouse/MeshMaterial/Structs/MeshMaterialCBufferData.h"
+#include "TktkDX12Game/DXGameResource/DXGameShaderResouse/MeshResouse/MeshMaterial/Structs/MonoColorMeshCBufferData.h"
 
 namespace tktk
 {
@@ -31,12 +31,12 @@ namespace tktk
 
     MeshResource::MeshResource(const MeshResourceInitParam& initParam)
     {
-		DX12GameManager::setSystemHandle(SystemCBufferType::Camera,			DX12GameManager::createCBuffer(CameraCbuffer()));
-		DX12GameManager::setSystemHandle(SystemCBufferType::ShadowMap,	DX12GameManager::createCBuffer(MeshShadowMapCBuffer()));
+		DX12GameManager::setSystemHandle(SystemCBufferType::Camera,			DX12GameManager::createCBuffer(CameraCBufferData()));
+		DX12GameManager::setSystemHandle(SystemCBufferType::ShadowMap,	DX12GameManager::createCBuffer(MeshShadowMapCBufferData()));
 
 		// メッシュ描画に必要な定数バッファを作る
-		DX12GameManager::setSystemHandle(SystemCBufferType::MeshMaterial,	DX12GameManager::createCBuffer(MeshMaterialCbuffer()));
-		DX12GameManager::setSystemHandle(SystemCBufferType::MonoColorMesh,	DX12GameManager::createCBuffer(MonoColorMeshCbuffer()));
+		DX12GameManager::setSystemHandle(SystemCBufferType::MeshMaterial,	DX12GameManager::createCBuffer(MeshMaterialCBufferData()));
+		DX12GameManager::setSystemHandle(SystemCBufferType::MonoColorMesh,	DX12GameManager::createCBuffer(MonoColorMeshCBufferData()));
 
 		// メッシュ描画に必要なテクスチャバッファを作る
 		TexBufFormatParam formatParam{};
@@ -272,12 +272,28 @@ namespace tktk
 		DX12GameManager::setSystemHandle(SystemRootSignatureType::SimpleMesh, DX12GameManager::createRootSignature(initParam));
 
 		//****************************************************************************************************
+		// 反転したシンプルメッシュのルートシグネチャを作る
+		initParam.samplerDescArray.at(0U).addressU = D3D12_TEXTURE_ADDRESS_MODE_CLAMP;
+		initParam.samplerDescArray.at(0U).addressV = D3D12_TEXTURE_ADDRESS_MODE_CLAMP;
+		initParam.samplerDescArray.at(0U).addressW = D3D12_TEXTURE_ADDRESS_MODE_CLAMP;
+		DX12GameManager::setSystemHandle(SystemRootSignatureType::InvertSimpleMesh, DX12GameManager::createRootSignature(initParam));
+
+		//****************************************************************************************************
 		// スキニングメッシュのルートシグネチャを作る
 		initParam.rootParamArray.resize(4U);
 		initParam.rootParamArray.at(3U).shaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;
 		initParam.rootParamArray.at(3U).descriptorTable = { { 1U, D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 0U } };	// VSテクスチャ用
-		/* サンプラーの設定は“シンプルメッシュのルートシグネチャ”と同じ */
+		initParam.samplerDescArray.at(0U).addressU = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
+		initParam.samplerDescArray.at(0U).addressV = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
+		initParam.samplerDescArray.at(0U).addressW = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
 		DX12GameManager::setSystemHandle(SystemRootSignatureType::SkinningMesh, DX12GameManager::createRootSignature(initParam));
+
+		//****************************************************************************************************
+		// 反転したシンプルメッシュのルートシグネチャを作る
+		initParam.samplerDescArray.at(0U).addressU = D3D12_TEXTURE_ADDRESS_MODE_CLAMP;
+		initParam.samplerDescArray.at(0U).addressV = D3D12_TEXTURE_ADDRESS_MODE_CLAMP;
+		initParam.samplerDescArray.at(0U).addressW = D3D12_TEXTURE_ADDRESS_MODE_CLAMP;
+		DX12GameManager::setSystemHandle(SystemRootSignatureType::InvertSkinningMesh, DX12GameManager::createRootSignature(initParam));
 	}
 
 	void createMeshPipeLineState(const std::string& simpleMeshVS, const std::string& skinningMeshVS, const std::string& basicMeshPS)
@@ -335,7 +351,7 @@ namespace tktk
 		// 反転したシンプルメッシュのパイプラインステートを作る
 		initParam.rasterizerDesc.CullMode = D3D12_CULL_MODE_FRONT;
 		initParam.rasterizerDesc.FillMode = D3D12_FILL_MODE_SOLID;
-		initParam.rootSignatureHandle = DX12GameManager::getSystemHandle(SystemRootSignatureType::SimpleMesh);
+		initParam.rootSignatureHandle = DX12GameManager::getSystemHandle(SystemRootSignatureType::InvertSimpleMesh);
 		shaderFilePaths.vsFilePath = simpleMeshVS;
 		shaderFilePaths.psFilePath = basicMeshPS;
 		DX12GameManager::setSystemHandle(SystemPipeLineStateType::InvertSimpleMesh, DX12GameManager::createPipeLineState(initParam, shaderFilePaths));
@@ -344,7 +360,7 @@ namespace tktk
 		// 反転したスキニングメッシュのパイプラインステートを作る
 		initParam.rasterizerDesc.CullMode = D3D12_CULL_MODE_FRONT;
 		initParam.rasterizerDesc.FillMode = D3D12_FILL_MODE_SOLID;
-		initParam.rootSignatureHandle = DX12GameManager::getSystemHandle(SystemRootSignatureType::SkinningMesh);
+		initParam.rootSignatureHandle = DX12GameManager::getSystemHandle(SystemRootSignatureType::InvertSkinningMesh);
 		shaderFilePaths.vsFilePath = skinningMeshVS;
 		shaderFilePaths.psFilePath = basicMeshPS;
 		DX12GameManager::setSystemHandle(SystemPipeLineStateType::InvertSkinningMesh, DX12GameManager::createPipeLineState(initParam, shaderFilePaths));

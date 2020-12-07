@@ -178,10 +178,10 @@
     <ClInclude Include="inc\TktkDX12BaseComponents\2D\Line2dDrawer\Line2DDrawerMaker.h" />
     <ClInclude Include="inc\TktkDX12BaseComponents\2D\Polygon2dCollider\Polygon2dCollider.h" />
     <ClInclude Include="inc\TktkDX12BaseComponents\2D\Polygon2dCollider\Polygon2dColliderMaker.h" />
+    <ClInclude Include="inc\TktkDX12BaseComponents\2D\PostEffectDrawer\PostEffectDrawFuncRunner.h" />
+    <ClInclude Include="inc\TktkDX12BaseComponents\2D\PostEffectDrawer\PostEffectDrawFuncRunnerInitParam.h" />
     <ClInclude Include="inc\TktkDX12BaseComponents\2D\RectCollider\RectCollider.h" />
     <ClInclude Include="inc\TktkDX12BaseComponents\2D\RectCollider\RectColliderMaker.h" />
-    <ClInclude Include="inc\TktkDX12BaseComponents\2D\SpriteDrawer\SpriteClippingDrawer.h" />
-    <ClInclude Include="inc\TktkDX12BaseComponents\2D\SpriteDrawer\SpriteClippingDrawerMaker.h" />
     <ClInclude Include="inc\TktkDX12BaseComponents\3D\BillboardDrawer\BillboardDrawer.h" />
     <ClInclude Include="inc\TktkDX12BaseComponents\3D\BillboardDrawer\BillboardDrawerMaker.h" />
     <ClInclude Include="inc\TktkDX12BaseComponents\3D\BillboardDrawer\BillboardDrawFuncRunner.h" />
@@ -233,9 +233,13 @@
     <ClInclude Include="inc\TktkDX12GameLibDefinition.h" />
     <ClInclude Include="inc\TktkDX12GameLibInitializer.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameResourceInitParam.h" />
-    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\Billboard\BillboardMaterialInstanceVertData.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\Billboard\Structs\BillboardMaterialInstanceVertData.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\MeshResouse\Mesh\Structs\MonoColorInstanceVertData.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\MeshResouse\Structs\DrawMeshShaderFilePaths.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\PostEffect\PostEffectMaterialAppendParam.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\PostEffect\Structs\DrawGameAreaCBufferData.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\PostEffect\Structs\PostEffectMaterialAppendParamInitParam.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\PostEffect\Structs\PostEffectMaterialAppendParamUpdateFuncArgs.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\GameObjectResouse\Component\ComponentBasePtr.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\GameObjectResouse\Component\ComponentBase.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\GameObjectResouse\Component\ComponentCollisionFunc\CollisionGroupTypeCarrier.h" />
@@ -253,8 +257,6 @@
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\GameObjectResouse\Component\ComponentStartFunc\ComponentStartFuncRunner.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\GameObjectResouse\Component\ComponentVTable.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\GameObjectResouse\Component\PriorityList\ComponentRunFuncPriorityList.h" />
-    <ClInclude Include="inc\TktkDX12BaseComponents\2D\PostEffectDrawer\PostEffectDrawer.h" />
-    <ClInclude Include="inc\TktkDX12BaseComponents\2D\PostEffectDrawer\PostEffectDrawerMaker.h" />
     <ClInclude Include="inc\TktkDX12BaseComponents\2D\SpriteDrawer\SpriteDrawer.h" />
     <ClInclude Include="inc\TktkDX12BaseComponents\2D\SpriteDrawer\SpriteDrawerMaker.h" />
     <ClInclude Include="inc\TktkDX12BaseComponents\2D\Transform2D\TraceParentType.h" />
@@ -267,10 +269,10 @@
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\GameObjectResouse\Component\DefaultComponents\StateMachine\Structs\StateMachineListInitParam.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\GameObjectResouse\Component\DefaultComponents\StateMachine\Structs\StateTypeHierarchy.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\GameObjectResouse\Component\DefaultComponents\StateMachine\Structs\StateTypeCarrier.h" />
-    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\Billboard\BillboardDrawFuncBaseArgs.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\Billboard\Structs\BillboardDrawFuncBaseArgs.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\Billboard\BillboardMaterialManager.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\Billboard\BillboardMaterialData.h" />
-    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\Billboard\BillboardMaterialInitParam.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\Billboard\Structs\BillboardMaterialInitParam.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\Draw3DParameters\Camera\CameraManager.h" />
     <ClInclude Include="inc\TktkDX12BaseComponents\3D\Light\PointLightController.h" />
     <ClInclude Include="inc\TktkDX12BaseComponents\3D\MeshAnimator\MeshAnimator.h" />
@@ -282,35 +284,35 @@
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\GameObjectResouse\Component\ComponentGameObjectFunc\GameObjectComponentList.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\Draw3DParameters\Camera\CameraData.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\Draw3DParameters\Draw3DParameters.h" />
-    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Draw3DParameters\Draw3DParametersInitParam.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Draw3DParameters\Structs\Draw3DParametersInitParam.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameDrawFuncArgs.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameResource.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\Draw3DParameters\Light\LightManager.h" />
-    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Draw3DParameters\Light\LightCBuffer.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\Draw3DParameters\Light\Structs\LightCBufferData.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\Draw3DParameters\Light\LightData.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\Draw3DParameters\Light\LightType.h" />
-    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\Billboard\BillboardMaterialManagerInitParam.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\Billboard\Structs\BillboardMaterialManagerInitParam.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\DXGameShaderResouse.h" />
-    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\DXGameShaderResouseInitParam.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\Structs\DXGameShaderResouseInitParam.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\Line2D\Line2DMaterialManager.h" />
-    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\Line2D\Line2DConstantBufferData.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\Line2D\Structs\Line2DCBufferData.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\Line2D\Line2DMaterialData.h" />
-    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\Line2D\Line2DMaterialDrawFuncArgs.h" />
-    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\Line2D\Line2DMaterialManagerInitParam.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\Line2D\Structs\Line2DMaterialDrawFuncArgs.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\Line2D\Structs\Line2DMaterialManagerInitParam.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\MeshResouse\MeshMaterial\Structs\MeshMaterialAppendParamInitParam.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\MeshResouse\MeshMaterial\Structs\MeshMaterialAppendParamUpdateFuncArgs.h" />
-    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\MeshResouse\Mesh\Loader\MeshLoadPmxArgs.h" />
-    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\MeshResouse\Mesh\Loader\MeshLoadPmxReturnValue.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\MeshResouse\Mesh\Loader\Structs\MeshLoadPmxArgs.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\MeshResouse\Mesh\Loader\Structs\MeshLoadPmxReturnValue.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\MeshResouse\Mesh\Loader\MeshPmxLoader.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\MeshResouse\Mesh\Maker\BoxMeshMaker.h" />
-    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\MeshResouse\MeshMaterial\Structs\MeshMaterialCbuffer.h" />
-    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\MeshResouse\MeshMaterial\Structs\MonoColorMeshCbuffer.h" />
-    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\MeshResouse\Mesh\Loader\MeshLoadPmdReturnValue.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\MeshResouse\MeshMaterial\Structs\MeshMaterialCBufferData.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\MeshResouse\MeshMaterial\Structs\MonoColorMeshCBufferData.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\MeshResouse\Mesh\Loader\Structs\MeshLoadPmdReturnValue.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\MeshResouse\Mesh\Loader\MeshPmdLoader.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\MeshResouse\Mesh\Maker\SphereMeshMaker.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\MeshResouse\MeshMaterial\MeshMaterialAppendParam.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\MeshResouse\Mesh\MeshManager.h" />
-    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\MeshResouse\Mesh\Loader\MeshLoadPmdArgs.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\MeshResouse\Mesh\Loader\Structs\MeshLoadPmdArgs.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\MeshResouse\MeshMaterial\MeshMaterialManager.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\MeshResouse\MeshMaterial\MeshMaterialData.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\MeshResouse\MeshMaterial\Structs\MeshMaterialInitParam.h" />
@@ -319,32 +321,32 @@
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\MeshResouse\Mesh\Structs\Subset.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\MeshResouse\MeshResource.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\MeshResouse\Mesh\Structs\MeshDrawFuncBaseArgs.h" />
-    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\MeshResouse\Mesh\Structs\MeshShadowMapCBuffer.h" />
-    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\MeshResouse\Mesh\Structs\CameraCbuffer.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\MeshResouse\Mesh\Structs\MeshShadowMapCBufferData.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\MeshResouse\Mesh\Structs\CameraCBufferData.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\MeshResouse\Motion\MotionManager.h" />
-    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\MeshResouse\Motion\MotionBoneParam.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\MeshResouse\Motion\Structs\MotionBoneParam.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\MeshResouse\Motion\MotionData.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\MeshResouse\Skeleton\SkeletonManager.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\MeshResouse\Skeleton\SkeletonData.h" />
-    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\MeshResouse\Skeleton\SkeletonInitParam.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\MeshResouse\Skeleton\Structs\SkeletonInitParam.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\MeshResouse\Structs\MeshResourceInitParam.h" />
-    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\PostEffect\PostEffectMaterialManagerInitParam.h" />
-    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\Sprite\SpriteCbufferUpdateFuncArgs.h" />
-    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\Sprite\SpriteMaterialManagerInitParam.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\PostEffect\Structs\PostEffectMaterialManagerInitParam.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\Sprite\Structs\SpriteCBufferUpdateFuncArgs.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\Sprite\Structs\SpriteMaterialManagerInitParam.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\GameObjectResouse\GameObjectResouse.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\OtherResouse\OtherResouse.h" />
-    <ClInclude Include="inc\TktkDX12Game\DXGameResource\OtherResouse\OtherResouseInitParam.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\OtherResouse\Structs\OtherResouseInitParam.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\PostEffect\PostEffectMaterialManager.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\PostEffect\PostEffectMaterialData.h" />
-    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\PostEffect\PostEffectMaterialDrawFuncArgs.h" />
-    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\PostEffect\PostEffectMaterialInitParam.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\PostEffect\Structs\PostEffectMaterialDrawFuncArgs.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\PostEffect\Structs\PostEffectMaterialInitParam.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\OtherResouse\Scene\SceneBase.h" />
-    <ClInclude Include="inc\TktkDX12Game\DXGameResource\OtherResouse\Scene\SceneInitParam.h" />
-    <ClInclude Include="inc\TktkDX12Game\DXGameResource\OtherResouse\Scene\SceneVTable.h" />
-    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\Sprite\SpriteClippingParam.h" />
-    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\Sprite\SpriteMaterialCbufferData.h" />
-    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\Sprite\SpriteMaterialDrawFuncArgs.h" />
-    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\Sprite\SpriteTransformCbuffer.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\OtherResouse\Scene\Structs\SceneInitParam.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\OtherResouse\Scene\Structs\SceneVTable.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\Sprite\Structs\SpriteClippingParam.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\Sprite\Structs\SpriteMaterialCBufferData.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\Sprite\Structs\SpriteMaterialDrawFuncArgs.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\Sprite\Structs\SpriteTransformCBufferData.h" />
     <ClInclude Include="inc\TktkDX12Game\GraphicManager\GraphicManager.h" />
     <ClInclude Include="inc\TktkDX12Game\GraphicManager\Window\Window.h" />
     <ClInclude Include="inc\TktkDX12Game\GraphicManager\Window\WindowInitParam.h" />
@@ -392,7 +394,7 @@
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\OtherResouse\Scene\SceneManager.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\Sprite\SpriteMaterialManager.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\Sprite\SpriteMaterialData.h" />
-    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\Sprite\SpriteMaterialInitParam.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\Sprite\Structs\SpriteMaterialInitParam.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\OtherResouse\Sound\CSoundCallback.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\OtherResouse\Sound\SoundManager.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\OtherResouse\Sound\SoundData.h" />
@@ -419,10 +421,9 @@
     <ClCompile Include="src\TktkDX12BaseComponents\2D\Line2dDrawer\Line2DDrawerMaker.cpp" />
     <ClCompile Include="src\TktkDX12BaseComponents\2D\Polygon2dCollider\Polygon2dCollider.cpp" />
     <ClCompile Include="src\TktkDX12BaseComponents\2D\Polygon2dCollider\Polygon2dColliderMaker.cpp" />
+    <ClCompile Include="src\TktkDX12BaseComponents\2D\PostEffectDrawer\PostEffectDrawFuncRunner.cpp" />
     <ClCompile Include="src\TktkDX12BaseComponents\2D\RectCollider\RectCollider.cpp" />
     <ClCompile Include="src\TktkDX12BaseComponents\2D\RectCollider\RectColliderMaker.cpp" />
-    <ClCompile Include="src\TktkDX12BaseComponents\2D\SpriteDrawer\SpriteClippingDrawer.cpp" />
-    <ClCompile Include="src\TktkDX12BaseComponents\2D\SpriteDrawer\SpriteClippingDrawerMaker.cpp" />
     <ClCompile Include="src\TktkDX12BaseComponents\3D\BillboardDrawer\BillboardDrawer.cpp" />
     <ClCompile Include="src\TktkDX12BaseComponents\3D\BillboardDrawer\BillboardDrawerMaker.cpp" />
     <ClCompile Include="src\TktkDX12BaseComponents\3D\BillboardDrawer\BillboardDrawFuncRunner.cpp" />
@@ -467,6 +468,8 @@
     <ClCompile Include="src\TktkDX12BaseComponents\Other\Sound\SoundPlayerMaker.cpp" />
     <ClCompile Include="src\TktkDX12BaseComponents\Other\Sound\SoundPlayTimer.cpp" />
     <ClCompile Include="src\TktkDX12BaseComponents\Other\Sound\SoundPlayTimerMaker.cpp" />
+    <ClCompile Include="src\TktkDX12BaseComponents\2D\PostEffectDrawer\PostEffectDrawFuncRunnerInitParam.cpp" />
+    <ClCompile Include="src\TktkDX12Game\DXGameResource\DXGameShaderResouse\PostEffect\PostEffectMaterialAppendParam.cpp" />
     <ClCompile Include="src\TktkDX12Game\DXGameResource\GameObjectResouse\Component\ComponentBasePtr.cpp" />
     <ClCompile Include="src\TktkDX12Game\DXGameResource\GameObjectResouse\Component\ComponentBase.cpp" />
     <ClCompile Include="src\TktkDX12Game\DXGameResource\GameObjectResouse\Component\ComponentCollisionFunc\ComponentCollisionFuncRunner.cpp" />
@@ -480,8 +483,6 @@
     <ClCompile Include="src\TktkDX12Game\DXGameResource\GameObjectResouse\Component\ComponentStartFunc\ComponentStartList.cpp" />
     <ClCompile Include="src\TktkDX12Game\DXGameResource\GameObjectResouse\Component\ComponentStartFunc\ComponentStartFuncRunner.cpp" />
     <ClCompile Include="src\TktkDX12Game\DXGameResource\GameObjectResouse\Component\PriorityList\ComponentRunFuncPriorityList.cpp" />
-    <ClCompile Include="src\TktkDX12BaseComponents\2D\PostEffectDrawer\PostEffectDrawer.cpp" />
-    <ClCompile Include="src\TktkDX12BaseComponents\2D\PostEffectDrawer\PostEffectDrawerMaker.cpp" />
     <ClCompile Include="src\TktkDX12BaseComponents\2D\SpriteDrawer\SpriteDrawer.cpp" />
     <ClCompile Include="src\TktkDX12BaseComponents\2D\SpriteDrawer\SpriteDrawerMaker.cpp" />
     <ClCompile Include="src\TktkDX12BaseComponents\2D\Transform2D\Transform2D.cpp" />
@@ -695,6 +696,22 @@
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)compiledShader\x86\%(Filename).cso</ObjectFileOutput>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)compiledShader\x64\%(Filename).cso</ObjectFileOutput>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)compiledShader\x64\%(Filename).cso</ObjectFileOutput>
+    </FxCompile>
+    <FxCompile Include="shader\postEffectShader\drawGameAreaShader\DrawGameAreaPixelShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">5.0</ShaderModel>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)compiledShader\x86\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)compiledShader\x86\%(Filename).cso</ObjectFileOutput>
+    </FxCompile>
+    <FxCompile Include="shader\postEffectShader\drawGameAreaShader\DrawGameAreaVertexShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">5.0</ShaderModel>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)compiledShader\x86\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)compiledShader\x86\%(Filename).cso</ObjectFileOutput>
     </FxCompile>
     <FxCompile Include="shader\postEffectShader\monochromeShader\MonochromePixelShader.hlsl">
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>

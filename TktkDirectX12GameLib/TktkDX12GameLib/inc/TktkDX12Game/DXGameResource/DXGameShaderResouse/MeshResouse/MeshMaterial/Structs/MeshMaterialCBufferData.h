@@ -1,5 +1,5 @@
-#ifndef MESH_MATERIAL_CBUFFER_H_
-#define MESH_MATERIAL_CBUFFER_H_
+#ifndef MESH_MATERIAL_CBUFFER_DATA_H_
+#define MESH_MATERIAL_CBUFFER_DATA_H_
 
 /* class member */
 #include <TktkMath/Structs/Color.h>
@@ -7,7 +7,7 @@
 namespace tktk
 {
 	// 通常メッシュのマテリアルの定数バッファ
-	struct MeshMaterialCbuffer
+	struct MeshMaterialCBufferData
 	{
 		// マテリアルの環境光
 		tktkMath::Color	materialAmbient		{ 0.25f, 1.0f };
@@ -28,4 +28,4 @@ namespace tktk
 		float			materialDataPad[3]	{ 0.0f, 0.0f, 0.0f };
 	};
 }
-#endif // !MESH_MATERIAL_CBUFFER_H_
+#endif // !MESH_MATERIAL_CBUFFER_DATA_H_

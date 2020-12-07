@@ -19,7 +19,7 @@ namespace tktk
 		m_self.m_initCameraHandle = DX12GameManager::getSystemHandle(SystemCameraType::DefaultCamera);
 
 		// カメラアスペクト比のデフォルト値はゲームスクリーンの比率
-		m_self.m_initCameraAspect = DX12GameManager::getWindowSize().x / DX12GameManager::getWindowSize().y;
+		m_self.m_initCameraAspect = DX12GameManager::getDrawGameAreaSize().x / DX12GameManager::getDrawGameAreaSize().y;
 
 		// 自身の参照を返す
 		return m_self;

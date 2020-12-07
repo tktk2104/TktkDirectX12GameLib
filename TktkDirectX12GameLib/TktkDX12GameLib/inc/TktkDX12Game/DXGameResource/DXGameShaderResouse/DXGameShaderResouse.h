@@ -8,8 +8,8 @@
 #include <TktkMath/Structs/Color.h>
 #include <TktkMath/Structs/Matrix3.h>
 #include <TktkMath/Structs/Matrix4.h>
-#include "MeshResouse/Mesh/Loader/MeshLoadPmdReturnValue.h"
-#include "MeshResouse/Mesh/Loader/MeshLoadPmxReturnValue.h"
+#include "MeshResouse/Mesh/Loader/Structs/MeshLoadPmdReturnValue.h"
+#include "MeshResouse/Mesh/Loader/Structs/MeshLoadPmxReturnValue.h"
 
 
 namespace tktk
@@ -23,9 +23,11 @@ namespace tktk
 	struct DXGameShaderResouseInitParam;
 	struct PostEffectMaterialInitParam;
 	struct PostEffectMaterialDrawFuncArgs;
+	struct PostEffectMaterialAppendParamInitParam;
+	struct PostEffectMaterialAppendParamUpdateFuncArgs;
 	struct SpriteMaterialInitParam;
 	struct SpriteMaterialDrawFuncArgs;
-	struct SpriteCbufferUpdateFuncArgs;
+	struct SpriteCBufferUpdateFuncArgs;
 	struct SpriteClippingParam;
 	struct Line2DMaterialDrawFuncArgs;
 	struct BillboardMaterialInitParam;
@@ -53,25 +55,34 @@ namespace tktk
 
 	public: /* ポストエフェクト関係の処理 */
 
-	// ポストエフェクトのマテリアルを作り、そのリソースのハンドルを返す
+		// ポストエフェクトのマテリアルを作り、そのリソースのハンドルを返す
 		size_t createPostEffectMaterial(const PostEffectMaterialInitParam& initParam);
 
 		// 指定のポストエフェクトを描画する
 		void drawPostEffect(size_t handle, const PostEffectMaterialDrawFuncArgs& drawFuncArgs) const;
+
+		// 指定したポストエフェクトマテリアルで追加で管理する定数バッファのハンドルと値を設定する
+		void addPostEffectMaterialAppendParam(size_t handle, const PostEffectMaterialAppendParamInitParam& initParam);
+
+		// 指定したポストエフェクトマテリアルで追加で管理する定数バッファの値を更新する
+		void updatePostEffectMaterialAppendParam(size_t handle, const PostEffectMaterialAppendParamUpdateFuncArgs& updateFuncArgs);
 
 	public: /* スプライト関係の処理 */
 
 		// スプライトマテリアルを作り、そのリソースのハンドルを返す
 		size_t createSpriteMaterial(const SpriteMaterialInitParam& initParam);
 
+		// 指定したスプライトが使用するテクスチャのサイズを取得する
+		const tktkMath::Vector2& getSpriteTextureSize(size_t handle) const;
+
 		// 指定したスプライトを描画する
 		void drawSprite(size_t handle, const SpriteMaterialDrawFuncArgs& drawFuncArgs) const;
 
 		// 引数が表すコピーバッファを使って座標変換情報を管理する定数バッファを更新する
-		void updateSpriteTransformCbuffer(size_t handle, size_t copyBufferHandle, const SpriteCbufferUpdateFuncArgs& cbufferUpdateArgs) const;
+		void updateSpriteTransformCbuffer(size_t handle, size_t copyBufferHandle, const SpriteCBufferUpdateFuncArgs& cbufferUpdateArgs) const;
 
 		// 引数が表すコピーバッファを使って座標変換情報を管理する定数バッファを更新する（切り抜き範囲指定版）
-		void updateSpriteTransformCbufferUseClippingParam(size_t handle, size_t copyBufferHandle, const SpriteCbufferUpdateFuncArgs& cbufferUpdateArgs, const SpriteClippingParam& clippingParam) const;
+		void updateSpriteTransformCbufferUseClippingParam(size_t handle, size_t copyBufferHandle, const SpriteCBufferUpdateFuncArgs& cbufferUpdateArgs, const SpriteClippingParam& clippingParam) const;
 
 	public: /* 2Dライン関係の処理 */
 

@@ -2,8 +2,8 @@
 
 #include "TktkDX12BaseComponents/3D/MeshDrawer/MeshDrawFuncRunnerInitParam.h"
 #include "TktkDX12Game/_MainManager/DX12GameManager.h"
-#include "TktkDX12Game/DXGameResource/DXGameShaderResouse/MeshResouse/Mesh/Structs/CameraCbuffer.h"
-#include "TktkDX12Game/DXGameResource/DXGameShaderResouse/MeshResouse/Mesh/Structs/MeshShadowMapCBuffer.h"
+#include "TktkDX12Game/DXGameResource/DXGameShaderResouse/MeshResouse/Mesh/Structs/CameraCBufferData.h"
+#include "TktkDX12Game/DXGameResource/DXGameShaderResouse/MeshResouse/Mesh/Structs/MeshShadowMapCBufferData.h"
 
 namespace tktk
 {
@@ -21,8 +21,8 @@ namespace tktk
 	void MeshDrawFuncRunner::start()
 	{
 		// アップロード用バッファを作り、そのハンドルを取得する
-		m_createUploadCameraCbufferHandle		= DX12GameManager::createUploadBuffer(UploadBufferInitParam::create(BufferType::constant, DX12GameManager::getSystemHandle(SystemCBufferType::Camera), CameraCbuffer()));
-		m_createUploadShadowMapCbufferHandle	= DX12GameManager::createUploadBuffer(UploadBufferInitParam::create(BufferType::constant, DX12GameManager::getSystemHandle(SystemCBufferType::ShadowMap), MeshShadowMapCBuffer()));
+		m_createUploadCameraCbufferHandle		= DX12GameManager::createUploadBuffer(UploadBufferInitParam::create(BufferType::constant, DX12GameManager::getSystemHandle(SystemCBufferType::Camera), CameraCBufferData()));
+		m_createUploadShadowMapCbufferHandle	= DX12GameManager::createUploadBuffer(UploadBufferInitParam::create(BufferType::constant, DX12GameManager::getSystemHandle(SystemCBufferType::ShadowMap), MeshShadowMapCBufferData()));
 	}
 
 	void MeshDrawFuncRunner::onDestroy()
@@ -78,7 +78,7 @@ namespace tktk
 	void MeshDrawFuncRunner::updateCameraCbuffer() const
 	{
 		// カメラ情報定数バッファ形式
-		CameraCbuffer transformBufferData{};
+		CameraCBufferData transformBufferData{};
 
 		// 使用するカメラのビュー行列
 		transformBufferData.viewMatrix = DX12GameManager::getViewMatrix(m_cameraHandle);
@@ -97,7 +97,7 @@ namespace tktk
 	void MeshDrawFuncRunner::updateShadowMapCbuffer() const
 	{
 		// メッシュのシャドウマップ描画用定数バッファ形式
-		MeshShadowMapCBuffer shadowMapBufferData{};
+		MeshShadowMapCBufferData shadowMapBufferData{};
 
 		// シャドウマップを使用する為に必要なシャドウマップカメラ行列
 		shadowMapBufferData.shadowMapViewProjMat = DX12GameManager::getViewMatrix(m_shadowMapCameraHandle) * DX12GameManager::getProjectionMatrix(m_shadowMapCameraHandle);

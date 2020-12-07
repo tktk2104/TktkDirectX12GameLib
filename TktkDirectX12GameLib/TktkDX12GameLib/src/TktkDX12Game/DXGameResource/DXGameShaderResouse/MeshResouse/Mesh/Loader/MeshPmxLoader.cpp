@@ -3,7 +3,7 @@
 #include <TktkFileIo/lodepmx.h>
 #include "TktkDX12Game/_MainManager/DX12GameManager.h"
 #include "TktkDX12Game/DXGameResource/DXGameShaderResouse/MeshResouse/Mesh/Structs/Subset.h"
-#include "TktkDX12Game/DXGameResource/DXGameShaderResouse/MeshResouse/MeshMaterial/Structs/MeshMaterialCbuffer.h"
+#include "TktkDX12Game/DXGameResource/DXGameShaderResouse/MeshResouse/MeshMaterial/Structs/MeshMaterialCBufferData.h"
 
 #include "TktkDX12BaseComponents/3D/MeshDrawer/MeshDrawFuncRunnerInitParam.h"
 
@@ -115,7 +115,7 @@ namespace tktk
 			size_t meshMaterialHandle = DX12GameManager::createMeshMaterial(materialParam);
 
 			// メッシュマテリアル定数バッファ
-			auto meshMaterialCbufferPtr = std::make_shared<MeshMaterialCbuffer>();
+			auto meshMaterialCbufferPtr = std::make_shared<MeshMaterialCBufferData>();
 
 			// “メッシュマテリアル定数バッファ”の値を初期化する
 			meshMaterialCbufferPtr->materialAmbient		= { 0.3f, 1.0f }; // ※マテリアルの環境光の値は定数値を設定する
@@ -138,9 +138,9 @@ namespace tktk
 		}
 
 		// スケルトンを作る
-		size_t skeletonHandle = craeteSkeleton(args.createSkeletonId, outData.boneData);
+		size_t skeletonHandle = craeteSkeleton(args.createSkeletonId.value, outData.boneData);
 
-		DX12GameManager::createMeshAndAttachId(args.createBasicMeshId, meshInitParam, funcRunnerInitParam);
+		DX12GameManager::createMeshAndAttachId(args.createBasicMeshId.value, meshInitParam, funcRunnerInitParam);
 
 		// TODO : 作成したメッシュの情報を返す予定
 		return { skeletonHandle };

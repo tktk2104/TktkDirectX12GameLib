@@ -1,6 +1,6 @@
 #include "TktkDX12Game/DXGameResource/DXGameShaderResouse/DXGameShaderResouse.h"
 
-#include "TktkDX12Game/DXGameResource/DXGameShaderResouse/DXGameShaderResouseInitParam.h"
+#include "TktkDX12Game/DXGameResource/DXGameShaderResouse/Structs/DXGameShaderResouseInitParam.h"
 #include "TktkDX12Game/DXGameResource/DXGameShaderResouse/PostEffect/PostEffectMaterialManager.h"
 #include "TktkDX12Game/DXGameResource/DXGameShaderResouse/Line2D/Line2DMaterialManager.h"
 #include "TktkDX12Game/DXGameResource/DXGameShaderResouse/Sprite/SpriteMaterialManager.h"
@@ -32,9 +32,24 @@ namespace tktk
 		m_postEffectMaterial->drawPostEffect(handle, drawFuncArgs);
 	}
 
+	void DXGameShaderResouse::addPostEffectMaterialAppendParam(size_t handle, const PostEffectMaterialAppendParamInitParam& initParam)
+	{
+		m_postEffectMaterial->addPostEffectMaterialAppendParam(handle, initParam);
+	}
+
+	void DXGameShaderResouse::updatePostEffectMaterialAppendParam(size_t handle, const PostEffectMaterialAppendParamUpdateFuncArgs& updateFuncArgs)
+	{
+		m_postEffectMaterial->updatePostEffectMaterialAppendParam(handle, updateFuncArgs);
+	}
+
 	size_t DXGameShaderResouse::createSpriteMaterial(const SpriteMaterialInitParam& initParam)
 	{
 		return m_spriteMaterial->create(initParam);
+	}
+
+	const tktkMath::Vector2& DXGameShaderResouse::getSpriteTextureSize(size_t handle) const
+	{
+		return m_spriteMaterial->getSpriteTextureSize(handle);
 	}
 
 	void DXGameShaderResouse::drawSprite(size_t handle, const SpriteMaterialDrawFuncArgs& drawFuncArgs) const
@@ -42,12 +57,12 @@ namespace tktk
 		m_spriteMaterial->drawSprite(handle, drawFuncArgs);
 	}
 
-	void DXGameShaderResouse::updateSpriteTransformCbuffer(size_t handle, size_t copyBufferHandle, const SpriteCbufferUpdateFuncArgs& cbufferUpdateArgs) const
+	void DXGameShaderResouse::updateSpriteTransformCbuffer(size_t handle, size_t copyBufferHandle, const SpriteCBufferUpdateFuncArgs& cbufferUpdateArgs) const
 	{
 		m_spriteMaterial->updateTransformCbuffer(handle, copyBufferHandle, cbufferUpdateArgs);
 	}
 
-	void DXGameShaderResouse::updateSpriteTransformCbufferUseClippingParam(size_t handle, size_t copyBufferHandle, const SpriteCbufferUpdateFuncArgs& cbufferUpdateArgs, const SpriteClippingParam& clippingParam) const
+	void DXGameShaderResouse::updateSpriteTransformCbufferUseClippingParam(size_t handle, size_t copyBufferHandle, const SpriteCBufferUpdateFuncArgs& cbufferUpdateArgs, const SpriteClippingParam& clippingParam) const
 	{
 		m_spriteMaterial->updateTransformCbufferUseClippingParam(handle, copyBufferHandle, cbufferUpdateArgs, clippingParam);
 	}

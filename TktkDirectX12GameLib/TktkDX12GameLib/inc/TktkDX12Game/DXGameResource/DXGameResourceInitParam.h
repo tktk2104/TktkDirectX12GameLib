@@ -1,9 +1,9 @@
 #ifndef DX_GAME_RESOURCE_INIT_PARAM_H_
 #define DX_GAME_RESOURCE_INIT_PARAM_H_
 
-#include "Draw3DParameters/Draw3DParametersInitParam.h"
-#include "DXGameShaderResouse/DXGameShaderResouseInitParam.h"
-#include "OtherResouse/OtherResouseInitParam.h"
+#include "Draw3DParameters/Structs/Draw3DParametersInitParam.h"
+#include "DXGameShaderResouse/Structs/DXGameShaderResouseInitParam.h"
+#include "OtherResouse/Structs/OtherResouseInitParam.h"
 
 namespace tktk
 {

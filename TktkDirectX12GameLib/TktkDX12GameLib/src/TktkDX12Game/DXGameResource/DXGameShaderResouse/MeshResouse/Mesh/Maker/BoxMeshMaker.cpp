@@ -7,8 +7,8 @@
 #include "TktkDX12Game/_MainManager/DX12GameManager.h"
 #include "TktkDX12Game/DXGameResource/DXGameShaderResouse/MeshResouse/Mesh/Structs/Subset.h"
 #include "TktkDX12Game/DXGameResource/DXGameShaderResouse/MeshResouse/Mesh/Structs/MonoColorInstanceVertData.h"
-#include "TktkDX12Game/DXGameResource/DXGameShaderResouse/MeshResouse/MeshMaterial/Structs/MonoColorMeshCbuffer.h"
-#include "TktkDX12Game/DXGameResource/DXGameShaderResouse/MeshResouse/MeshMaterial/Structs/MeshMaterialCbuffer.h"
+#include "TktkDX12Game/DXGameResource/DXGameShaderResouse/MeshResouse/MeshMaterial/Structs/MonoColorMeshCBufferData.h"
+#include "TktkDX12Game/DXGameResource/DXGameShaderResouse/MeshResouse/MeshMaterial/Structs/MeshMaterialCBufferData.h"
 
 namespace tktk
 {
@@ -251,7 +251,7 @@ namespace tktk
 		size_t boxMeshMaterialhandle = DX12GameManager::createMeshMaterial(materialParam);
 
 		// メッシュマテリアル定数バッファ
-		auto boxMeshMaterialCbufferPtr = std::make_shared<MeshMaterialCbuffer>();
+		auto boxMeshMaterialCbufferPtr = std::make_shared<MeshMaterialCBufferData>();
 
 		// “メッシュマテリアル定数バッファ”の値を初期化する
 		boxMeshMaterialCbufferPtr->materialAmbient	= { 0.3f, 1.0f };
@@ -338,7 +338,7 @@ namespace tktk
 		size_t boxMeshMaterialhandle = DX12GameManager::createMeshMaterial(materialParam);
 
 		// メッシュマテリアル定数バッファ
-		auto boxMeshMaterialCbufferPtr = std::make_shared<MeshMaterialCbuffer>();
+		auto boxMeshMaterialCbufferPtr = std::make_shared<MeshMaterialCBufferData>();
 
 		// “メッシュマテリアル定数バッファ”の値を初期化する
 		boxMeshMaterialCbufferPtr->materialAmbient	= tktkMath::Color_v::white;

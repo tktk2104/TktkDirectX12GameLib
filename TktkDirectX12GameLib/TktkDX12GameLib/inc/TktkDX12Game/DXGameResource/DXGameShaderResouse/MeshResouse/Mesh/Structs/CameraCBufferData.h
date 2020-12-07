@@ -1,5 +1,5 @@
-#ifndef CAMERA_CBUFFER_H_
-#define CAMERA_CBUFFER_H_
+#ifndef CAMERA_CBUFFER_DATA_H_
+#define CAMERA_CBUFFER_DATA_H_
 
 /* class member */
 #include <TktkMath/Structs/Matrix4.h>
@@ -7,7 +7,7 @@
 namespace tktk
 {
 	// カメラ情報の定数バッファ
-	struct CameraCbuffer
+	struct CameraCBufferData
 	{
 		// ビュー行列
 		tktkMath::Matrix4	viewMatrix		{ tktkMath::Matrix4_v::identity };
@@ -16,4 +16,4 @@ namespace tktk
 		tktkMath::Matrix4	projectionMatrix{ tktkMath::Matrix4_v::identity };
 	};
 }
-#endif // !CAMERA_CBUFFER_H_
+#endif // !CAMERA_CBUFFER_DATA_H_

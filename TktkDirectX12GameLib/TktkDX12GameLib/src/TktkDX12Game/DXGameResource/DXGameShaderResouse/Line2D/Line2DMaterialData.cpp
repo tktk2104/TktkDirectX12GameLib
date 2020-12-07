@@ -1,15 +1,15 @@
 #include "TktkDX12Game/DXGameResource/DXGameShaderResouse/Line2D/Line2DMaterialData.h"
 
 #include "TktkDX12Game/_MainManager/DX12GameManager.h"
-#include "TktkDX12Game/DXGameResource/DXGameShaderResouse/Line2D/Line2DMaterialDrawFuncArgs.h"
-#include "TktkDX12Game/DXGameResource/DXGameShaderResouse/Line2D/Line2DConstantBufferData.h"
+#include "TktkDX12Game/DXGameResource/DXGameShaderResouse/Line2D/Structs/Line2DMaterialDrawFuncArgs.h"
+#include "TktkDX12Game/DXGameResource/DXGameShaderResouse/Line2D/Structs/Line2DCBufferData.h"
 
 namespace tktk
 {
 	Line2DMaterialData::Line2DMaterialData()
 	{
 		// アップロード用バッファを作り、そのハンドルを取得する
-		m_createUploadCbufferHandle = DX12GameManager::createUploadBuffer(UploadBufferInitParam::create(BufferType::constant, DX12GameManager::getSystemHandle(SystemCBufferType::Line2D), Line2DConstantBufferData()));
+		m_createUploadCbufferHandle = DX12GameManager::createUploadBuffer(UploadBufferInitParam::create(BufferType::constant, DX12GameManager::getSystemHandle(SystemCBufferType::Line2D), Line2DCBufferData()));
 	}
 
 	Line2DMaterialData::~Line2DMaterialData()
@@ -90,14 +90,14 @@ namespace tktk
 	// 定数バッファのアップロード用バッファを更新する
 	void Line2DMaterialData::updateCopyCbuffer(const Line2DMaterialDrawFuncArgs& drawFuncArgs) const
 	{
-		Line2DConstantBufferData cbufferData{};
+		Line2DCBufferData cbufferData{};
 		for (unsigned int i = 0; i < 12; i++)
 		{
 			if (i % 4U == 3) continue;
 			cbufferData.worldMatrix[i] = drawFuncArgs.worldMatrix.m[i / 4U][i % 4U];
 		}
 		cbufferData.lineColor = drawFuncArgs.lineColor;
-		cbufferData.screenSize = DX12GameManager::getWindowSize();
+		cbufferData.screenSize = DX12GameManager::getDrawGameAreaSize();
 
 		DX12GameManager::updateUploadBuffer(m_createUploadCbufferHandle, cbufferData);
 	}

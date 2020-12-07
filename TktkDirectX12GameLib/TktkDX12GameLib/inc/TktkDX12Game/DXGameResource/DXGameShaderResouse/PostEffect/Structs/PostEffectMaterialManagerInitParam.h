@@ -10,6 +10,9 @@ namespace tktk
 	// ポストエフェクトマテリアル管理クラスの初期化に必要な変数
 	struct PostEffectMaterialManagerInitParam
 	{
+		std::string									drawGameAreaVSFilePath;
+		std::string									drawGameAreaPSFilePath;
+
 		std::string									postEffectVSFilePath;
 		std::string									monochromePSFilePath;
 		tktkContainer::ResourceContainerInitParam	containerParam;

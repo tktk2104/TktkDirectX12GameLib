@@ -35,32 +35,34 @@
 #include "../EventMessage/MessageTypeCarrier.h"
 #include "../EventMessage/MessageAttachment.h"
 
-#include "../DXGameResource/DXGameShaderResouse/Sprite/SpriteMaterialInitParam.h"
-#include "../DXGameResource/DXGameShaderResouse/Sprite/SpriteMaterialDrawFuncArgs.h"
-#include "../DXGameResource/DXGameShaderResouse/Sprite/SpriteCbufferUpdateFuncArgs.h"
-#include "../DXGameResource/DXGameShaderResouse/Sprite/SpriteClippingParam.h"
-#include "../DXGameResource/DXGameShaderResouse/Line2D/Line2DMaterialDrawFuncArgs.h"
-#include "../DXGameResource/DXGameShaderResouse/Billboard/BillboardMaterialInitParam.h"
-#include "../DXGameResource/DXGameShaderResouse/Billboard/BillboardDrawFuncBaseArgs.h"
-#include "../DXGameResource/DXGameShaderResouse/Billboard/BillboardMaterialInstanceVertData.h"
+#include "../DXGameResource/DXGameShaderResouse/Sprite/Structs/SpriteMaterialInitParam.h"
+#include "../DXGameResource/DXGameShaderResouse/Sprite/Structs/SpriteMaterialDrawFuncArgs.h"
+#include "../DXGameResource/DXGameShaderResouse/Sprite/Structs/SpriteCBufferUpdateFuncArgs.h"
+#include "../DXGameResource/DXGameShaderResouse/Sprite/Structs/SpriteClippingParam.h"
+#include "../DXGameResource/DXGameShaderResouse/Line2D/Structs/Line2DMaterialDrawFuncArgs.h"
+#include "../DXGameResource/DXGameShaderResouse/Billboard/Structs/BillboardMaterialInitParam.h"
+#include "../DXGameResource/DXGameShaderResouse/Billboard/Structs/BillboardDrawFuncBaseArgs.h"
+#include "../DXGameResource/DXGameShaderResouse/Billboard/Structs/BillboardMaterialInstanceVertData.h"
 #include "../DXGameResource/DXGameShaderResouse/MeshResouse/Mesh/Structs/MeshInitParam.h"
 #include "../DXGameResource/DXGameShaderResouse/MeshResouse/Mesh/Structs/MeshDrawFuncBaseArgs.h"
-#include "../DXGameResource/DXGameShaderResouse/MeshResouse/Mesh/Loader/MeshLoadPmdArgs.h"
-#include "../DXGameResource/DXGameShaderResouse/MeshResouse/Mesh/Loader/MeshLoadPmxArgs.h"
-#include "../DXGameResource/DXGameShaderResouse/MeshResouse/Mesh/Loader/MeshLoadPmdReturnValue.h"
-#include "../DXGameResource/DXGameShaderResouse/MeshResouse/Mesh/Loader/MeshLoadPmxReturnValue.h"
+#include "../DXGameResource/DXGameShaderResouse/MeshResouse/Mesh/Loader/Structs/MeshLoadPmdArgs.h"
+#include "../DXGameResource/DXGameShaderResouse/MeshResouse/Mesh/Loader/Structs/MeshLoadPmxArgs.h"
+#include "../DXGameResource/DXGameShaderResouse/MeshResouse/Mesh/Loader/Structs/MeshLoadPmdReturnValue.h"
+#include "../DXGameResource/DXGameShaderResouse/MeshResouse/Mesh/Loader/Structs/MeshLoadPmxReturnValue.h"
 #include "../DXGameResource/DXGameShaderResouse/MeshResouse/MeshMaterial/Structs/MeshMaterialInitParam.h"
 #include "../DXGameResource/DXGameShaderResouse/MeshResouse/MeshMaterial/Structs/MeshMaterialAppendParamInitParam.h"
 #include "../DXGameResource/DXGameShaderResouse/MeshResouse/MeshMaterial/Structs/MeshMaterialAppendParamUpdateFuncArgs.h"
-#include "../DXGameResource/DXGameShaderResouse/MeshResouse/Skeleton/SkeletonInitParam.h"
-#include "../DXGameResource/DXGameShaderResouse/PostEffect/PostEffectMaterialInitParam.h"
-#include "../DXGameResource/DXGameShaderResouse/PostEffect/PostEffectMaterialDrawFuncArgs.h"
+#include "../DXGameResource/DXGameShaderResouse/MeshResouse/Skeleton/Structs/SkeletonInitParam.h"
+#include "../DXGameResource/DXGameShaderResouse/PostEffect/Structs/PostEffectMaterialInitParam.h"
+#include "../DXGameResource/DXGameShaderResouse/PostEffect/Structs/PostEffectMaterialDrawFuncArgs.h"
+#include "../DXGameResource/DXGameShaderResouse/PostEffect/Structs/PostEffectMaterialAppendParamInitParam.h"
+#include "../DXGameResource/DXGameShaderResouse/PostEffect/Structs/PostEffectMaterialAppendParamUpdateFuncArgs.h"
 #include "../DXGameResource/GameObjectResouse/GameObject/GameObjectPtr.h"
 #include "../DXGameResource/GameObjectResouse/GameObject/GameObjectTagCarrier.h"
 #include "../DXGameResource/GameObjectResouse/Component/ComponentVTable.h"
 #include "../DXGameResource/GameObjectResouse/Component/ComponentMainList/ComponentListVTable.h" // TODO : フォルダ階層
 #include "../DXGameResource/GameObjectResouse/Component/ComponentCollisionFunc/CollisionGroupTypeCarrier.h"
-#include "../DXGameResource/OtherResouse/Scene/SceneInitParam.h"
+#include "../DXGameResource/OtherResouse/Scene/Structs/SceneInitParam.h"
 
 #include "../UtilityProcessManager/InputManager/InputGetter/MouseInputGetter/MouseBtnType.h"
 #include "../UtilityProcessManager/InputManager/InputGetter/DirectInputWrapper/KeyboardInputGetter/KeybordKeyType.h"
@@ -87,8 +89,10 @@
 #include "../UtilityProcessManager/ResourceHandleGetter/SystemResourceHandleGetter/IdType/SystemPostEffectMaterialType.h"
 #include "../UtilityProcessManager/ResourceHandleGetter/ResourceIdConverter/ResourceIdCarrier.h"
 
+#include "../../TktkDX12BaseComponents/2D/PostEffectDrawer/PostEffectDrawFuncRunnerInitParam.h"
 #include "../../TktkDX12BaseComponents/3D/BillboardDrawer/BillboardDrawFuncRunnerInitParam.h"
 #include "../../TktkDX12BaseComponents/3D/MeshDrawer/MeshDrawFuncRunnerInitParam.h"
+
 
 namespace tktk
 {
@@ -118,8 +122,11 @@ namespace tktk
 	/* ウィンドウの処理 */
 	public:
 	
-		// ウィンドウサイズを取得する
-		static const tktkMath::Vector2& getWindowSize();
+		// ゲーム描画エリアサイズを取得する
+		static const tktkMath::Vector2& getDrawGameAreaSize();
+
+		// スクリーンサイズを取得する
+		static const tktkMath::Vector2& getScreenSize();
 	
 	//************************************************************
 	/* シーンの処理 */
@@ -412,14 +419,17 @@ namespace tktk
 		// スプライトマテリアルを作り、そのリソースのハンドルと引数のハンドルを結び付ける
 		static size_t createSpriteMaterialAndAttachId(ResourceIdCarrier id, const SpriteMaterialInitParam& initParam);
 	
+		// 指定したスプライトが使用するテクスチャのサイズを取得する
+		static const tktkMath::Vector2& getSpriteTextureSize(size_t handle);
+
 		// 指定したスプライトを描画する
 		static void drawSprite(size_t handle, const SpriteMaterialDrawFuncArgs& drawFuncArgs);
 	
 		// 引数が表すコピーバッファを使って座標変換情報を管理する定数バッファを更新する
-		static void updateSpriteTransformCbuffer(size_t handle, size_t copyBufferHandle, const SpriteCbufferUpdateFuncArgs& cbufferUpdateArgs);
+		static void updateSpriteTransformCbuffer(size_t handle, size_t copyBufferHandle, const SpriteCBufferUpdateFuncArgs& cbufferUpdateArgs);
 	
 		// 引数が表すコピーバッファを使って座標変換情報を管理する定数バッファを更新する（切り抜き範囲指定版）
-		static void updateSpriteTransformCbufferUseClippingParam(size_t handle, size_t copyBufferHandle, const SpriteCbufferUpdateFuncArgs& cbufferUpdateArgs, const SpriteClippingParam& clippingParam);
+		static void updateSpriteTransformCbufferUseClippingParam(size_t handle, size_t copyBufferHandle, const SpriteCBufferUpdateFuncArgs& cbufferUpdateArgs, const SpriteClippingParam& clippingParam);
 	
 	//************************************************************
 	/* 2Dライン関係の処理 */
@@ -580,14 +590,26 @@ namespace tktk
 	public:
 	
 		// ポストエフェクトのマテリアルを作り、そのリソースのハンドルを返す
-		static size_t createPostEffectMaterial(const PostEffectMaterialInitParam& initParam);
+		static size_t createPostEffectMaterial(const PostEffectMaterialInitParam& initParam, const PostEffectDrawFuncRunnerInitParam& funcRunnerInitParam);
 	
 		// ポストエフェクトのマテリアルを作り、そのリソースのハンドルと引数のハンドルを結び付ける
-		static size_t createPostEffectMaterialAndAttachId(ResourceIdCarrier id, const PostEffectMaterialInitParam& initParam);
+		static size_t createPostEffectMaterialAndAttachId(ResourceIdCarrier id, const PostEffectMaterialInitParam& initParam, const PostEffectDrawFuncRunnerInitParam& funcRunnerInitParam);
 	
 		// 指定のポストエフェクトを描画する
 		static void drawPostEffect(size_t handle, const PostEffectMaterialDrawFuncArgs& drawFuncArgs);
 	
+		// 指定したポストエフェクトマテリアルで追加で管理する定数バッファのハンドルと値を設定する
+		static void addPostEffectMaterialAppendParam(size_t handle, const PostEffectMaterialAppendParamInitParam& initParam);
+
+		// 指定したポストエフェクトマテリアルで追加で管理する定数バッファの値を更新する
+		static void updatePostEffectMaterialAppendParam(size_t handle, const PostEffectMaterialAppendParamUpdateFuncArgs& updateFuncArgs);
+
+		// 指定したポストエフェクトを開始する
+		static void startPostEffect(size_t handle);
+
+		// ポストエフェクトを止める
+		static void stopPostEffect();
+
 	//************************************************************
 	/* カメラ関係の処理 */
 	public:
@@ -834,6 +856,7 @@ namespace tktk
 	private:
 
 		static bool												m_isGameExit;
+		static GameObjectPtr									m_postEffectObject;
 		static std::unique_ptr<GraphicManager>					m_graphicManager;
 		static std::unique_ptr<DXGameResource>					m_dxGameResource;
 		static std::unique_ptr<UtilityProcessManager>			m_utilityProcessManager;

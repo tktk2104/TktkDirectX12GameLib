@@ -1,8 +1,8 @@
 #include "TktkDX12Game/DXGameResource/DXGameShaderResouse/MeshResouse/Skeleton/SkeletonData.h"
 
 #include "TktkDX12Game/_MainManager/DX12GameManager.h"
-#include "TktkDX12Game/DXGameResource/DXGameShaderResouse/MeshResouse/Skeleton/SkeletonInitParam.h"
-#include "TktkDX12Game/DXGameResource/DXGameShaderResouse/MeshResouse/Motion/MotionBoneParam.h"
+#include "TktkDX12Game/DXGameResource/DXGameShaderResouse/MeshResouse/Skeleton/Structs/SkeletonInitParam.h"
+#include "TktkDX12Game/DXGameResource/DXGameShaderResouse/MeshResouse/Motion/Structs/MotionBoneParam.h"
 
 namespace tktk
 {

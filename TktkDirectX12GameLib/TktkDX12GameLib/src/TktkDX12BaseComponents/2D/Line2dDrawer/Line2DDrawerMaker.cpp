@@ -16,7 +16,7 @@ namespace tktk
 		m_self.m_user = user;
 
 		// 使用するレンダーターゲットのディスクリプタヒープハンドルのデフォルト値はバックバッファ
-		m_self.m_useRtvDescriptorHeapHandle = DX12GameManager::getSystemHandle(SystemRtvDescriptorHeapType::BackBuffer);
+		m_self.m_useRtvDescriptorHeapHandle = DX12GameManager::getSystemHandle(SystemRtvDescriptorHeapType::DrawGameArea);
 
 		// 自身の参照を返す
 		return m_self;

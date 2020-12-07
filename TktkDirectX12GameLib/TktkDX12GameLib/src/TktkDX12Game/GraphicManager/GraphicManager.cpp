@@ -25,9 +25,14 @@ namespace tktk
 		return m_window->getHWND();
 	}
 
-	const tktkMath::Vector2& GraphicManager::getWindowSize() const
+	const tktkMath::Vector2& GraphicManager::getDrawGameAreaSize() const
 	{
-		return m_window->getWindowSize();
+		return m_window->getDrawGameAreaSize();
+	}
+
+	const tktkMath::Vector2& GraphicManager::getScreenSize() const
+	{
+		return m_window->getScreenSize();
 	}
 
 	void GraphicManager::beginDraw()

@@ -1,8 +1,11 @@
 #include "TktkDX12Game/DXGameResource/DXGameShaderResouse/PostEffect/PostEffectMaterialData.h"
 
 #include "TktkDX12Game/_MainManager/DX12GameManager.h"
-#include "TktkDX12Game/DXGameResource/DXGameShaderResouse/PostEffect/PostEffectMaterialInitParam.h"
-#include "TktkDX12Game/DXGameResource/DXGameShaderResouse/PostEffect/PostEffectMaterialDrawFuncArgs.h"
+#include "TktkDX12Game/DXGameResource/DXGameShaderResouse/PostEffect/Structs/PostEffectMaterialInitParam.h"
+#include "TktkDX12Game/DXGameResource/DXGameShaderResouse/PostEffect/Structs/PostEffectMaterialDrawFuncArgs.h"
+#include "TktkDX12Game/DXGameResource/DXGameShaderResouse/PostEffect/PostEffectMaterialAppendParam.h"
+#include "TktkDX12Game/DXGameResource/DXGameShaderResouse/PostEffect/Structs/PostEffectMaterialAppendParamInitParam.h"
+#include "TktkDX12Game/DXGameResource/DXGameShaderResouse/PostEffect/Structs/PostEffectMaterialAppendParamUpdateFuncArgs.h"
 
 namespace tktk
 {
@@ -41,6 +44,11 @@ namespace tktk
 		// 描画で使用するパイプラインステートを設定する
 		DX12GameManager::setPipeLineState(m_usePipeLineStateHandle);
 
+		for (const auto& pair : m_appendParamMap)
+		{
+			pair.second.updateCbuffer();
+		}
+
 		// 描画で使用するディスクリプタヒープを設定する
 		DX12GameManager::setDescriptorHeap({ { DescriptorHeapType::basic, m_useDescriptorHeapHandle} });
 
@@ -69,5 +77,19 @@ namespace tktk
 			DX12GameManager::clearRtv(node, 0U);
 			DX12GameManager::unSetRtv(node, 0U, 1U);
 		}
+	}
+
+	void PostEffectMaterialData::addAppendParam(const PostEffectMaterialAppendParamInitParam& initParam)
+	{
+		m_appendParamMap.emplace(
+			std::piecewise_construct,
+			std::forward_as_tuple(initParam.cbufferHandle),
+			std::forward_as_tuple(initParam)
+		);
+	}
+
+	void PostEffectMaterialData::updateAppendParam(const PostEffectMaterialAppendParamUpdateFuncArgs& updateFuncArgs)
+	{
+		m_appendParamMap.at(updateFuncArgs.cbufferHandle).updateParam(updateFuncArgs);
 	}
 }

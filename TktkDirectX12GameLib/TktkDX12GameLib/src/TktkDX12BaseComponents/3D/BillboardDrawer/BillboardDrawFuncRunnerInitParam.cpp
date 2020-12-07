@@ -10,7 +10,7 @@ namespace tktk
 	{
 		m_self = BillboardDrawFuncRunnerInitParam();
 
-		m_self.m_rtvDescriptorHeapHandle = DX12GameManager::getSystemHandle(SystemRtvDescriptorHeapType::BackBuffer);
+		m_self.m_rtvDescriptorHeapHandle = DX12GameManager::getSystemHandle(SystemRtvDescriptorHeapType::DrawGameArea);
 		m_self.m_cameraHandle = DX12GameManager::getSystemHandle(SystemCameraType::DefaultCamera);
 
 		return m_self;

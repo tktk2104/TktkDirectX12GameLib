@@ -142,9 +142,24 @@ namespace tktk
 		m_dxGameShaderResouse->drawPostEffect(handle, drawFuncArgs);
 	}
 
+	void DXGameResource::addPostEffectMaterialAppendParam(size_t handle, const PostEffectMaterialAppendParamInitParam& initParam)
+	{
+		m_dxGameShaderResouse->addPostEffectMaterialAppendParam(handle, initParam);
+	}
+
+	void DXGameResource::updatePostEffectMaterialAppendParam(size_t handle, const PostEffectMaterialAppendParamUpdateFuncArgs& updateFuncArgs)
+	{
+		m_dxGameShaderResouse->updatePostEffectMaterialAppendParam(handle, updateFuncArgs);
+	}
+
 	size_t DXGameResource::createSpriteMaterial(const SpriteMaterialInitParam& initParam)
 	{
 		return m_dxGameShaderResouse->createSpriteMaterial(initParam);
+	}
+
+	const tktkMath::Vector2& DXGameResource::getSpriteTextureSize(size_t handle) const
+	{
+		return m_dxGameShaderResouse->getSpriteTextureSize(handle);
 	}
 
 	void DXGameResource::drawSprite(size_t handle, const SpriteMaterialDrawFuncArgs& drawFuncArgs) const
@@ -152,12 +167,12 @@ namespace tktk
 		m_dxGameShaderResouse->drawSprite(handle, drawFuncArgs);
 	}
 
-	void DXGameResource::updateSpriteTransformCbuffer(size_t handle, size_t copyBufferHandle, const SpriteCbufferUpdateFuncArgs& cbufferUpdateArgs) const
+	void DXGameResource::updateSpriteTransformCbuffer(size_t handle, size_t copyBufferHandle, const SpriteCBufferUpdateFuncArgs& cbufferUpdateArgs) const
 	{
 		m_dxGameShaderResouse->updateSpriteTransformCbuffer(handle, copyBufferHandle, cbufferUpdateArgs);
 	}
 
-	void DXGameResource::updateSpriteTransformCbufferUseClippingParam(size_t handle, size_t copyBufferHandle, const SpriteCbufferUpdateFuncArgs& cbufferUpdateArgs, const SpriteClippingParam& clippingParam) const
+	void DXGameResource::updateSpriteTransformCbufferUseClippingParam(size_t handle, size_t copyBufferHandle, const SpriteCBufferUpdateFuncArgs& cbufferUpdateArgs, const SpriteClippingParam& clippingParam) const
 	{
 		m_dxGameShaderResouse->updateSpriteTransformCbufferUseClippingParam(handle, copyBufferHandle, cbufferUpdateArgs, clippingParam);
 	}

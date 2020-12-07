@@ -1,12 +1,18 @@
 #include "TktkDX12Game/TktkDX12Game.h"
 
+#include <TktkFileIo/FileExtensionGetter.h>
 #include "TktkDX12Game/_MainManager/DX12GameManager.h"
 
 namespace tktk
 {
-	const tktkMath::Vector2& DX12Game::getWindowSize()
+	const tktkMath::Vector2& DX12Game::getDrawGameAreaSize()
 	{
-		return DX12GameManager::getWindowSize();
+		return DX12GameManager::getDrawGameAreaSize();
+	}
+
+	const tktkMath::Vector2& DX12Game::getScreenSize()
+	{
+		return DX12GameManager::getScreenSize();
 	}
 
 	void DX12Game::enableScene(ResourceIdCarrier id)
@@ -147,6 +153,70 @@ namespace tktk
 	float DX12Game::fps()
 	{
 		return DX12GameManager::fps();
+	}
+
+	void DX12Game::loadSound(ResourceIdCarrier soundId, const std::string& filePath)
+	{
+		DX12GameManager::loadSoundAndAttachId(soundId, filePath);
+	}
+
+	void DX12Game::loadSprite(ResourceIdCarrier spriteId, const std::string& filePath)
+	{
+		tktk::SpriteMaterialInitParam initParam{};
+		initParam.srvBufferType		= tktk::BufferType::texture;
+		initParam.useBufferHandle	= tktk::DX12GameManager::cpuPriorityLoadTextureBuffer(filePath);
+
+		tktk::DX12GameManager::createSpriteMaterialAndAttachId(spriteId, initParam);
+	}
+
+	void DX12Game::loadBillboard(ResourceIdCarrier billBoardId, bool isEffect, const std::string& filePath)
+	{
+		tktk::BillboardMaterialInitParam initParam{};
+		initParam.srvBufferType		= tktk::BufferType::texture;
+		initParam.useBufferHandle	= tktk::DX12GameManager::cpuPriorityLoadTextureBuffer(filePath);
+		initParam.maxInstanceCount	= 256U;
+		initParam.isEffect			= isEffect;
+
+		tktk::DX12GameManager::createBillboardMaterialAndAttachId(billBoardId, initParam, tktk::BillboardDrawFuncRunnerInitParam::create());
+	}
+
+	void DX12Game::loadMesh(ResourceIdCarrier meshId, ResourceIdCarrier skeletonId, bool writeShadow, const std::string& filePath)
+	{
+		auto extension = tktkFileIo::FileExtensionGetter::get(filePath);
+
+		if (extension == "pmx")
+		{
+			tktk::MeshLoadPmxArgs loadArgs{};
+			loadArgs.filePath			= filePath;
+			loadArgs.createBasicMeshId	= meshId;
+			loadArgs.createSkeletonId	= skeletonId;
+
+			tktk::DX12GameManager::loadPmx(loadArgs, tktk::MeshDrawFuncRunnerInitParam::create().useBone(true).writeShadowMap(writeShadow));
+		}
+		else if (extension == "pmd")
+		{
+			tktk::MeshLoadPmdArgs loadArgs{};
+			loadArgs.filePath			= filePath;
+			loadArgs.createBasicMeshId	= meshId;
+			loadArgs.createSkeletonId	= skeletonId;
+
+			tktk::DX12GameManager::loadPmd(loadArgs, tktk::MeshDrawFuncRunnerInitParam::create().useBone(true).writeShadowMap(writeShadow));
+		}
+	}
+
+	void DX12Game::loadMotion(ResourceIdCarrier motionId, const std::string& filePath)
+	{
+		tktk::DX12GameManager::loadMotionAndAttachId(motionId, filePath);
+	}
+
+	void DX12Game::loadSkyBox(ResourceIdCarrier meshId, const std::string& filePath)
+	{
+		tktk::DX12GameManager::makeSkyBoxMeshAndAttachId(meshId, tktk::DX12GameManager::cpuPriorityLoadTextureBuffer(filePath), tktk::MeshDrawFuncRunnerInitParam::create());
+	}
+
+	void DX12Game::loadBoxMesh(ResourceIdCarrier meshId, bool writeShadow, const std::string& filePath)
+	{
+		tktk::DX12GameManager::makeBoxMeshAndAttachId(meshId, tktk::DX12GameManager::cpuPriorityLoadTextureBuffer(filePath), tktk::MeshDrawFuncRunnerInitParam::create().writeShadowMap(writeShadow));
 	}
 
 	size_t DX12Game::getSystemHandle(SystemViewportType type)

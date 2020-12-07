@@ -2,7 +2,7 @@
 
 #include "TktkDX12Game/DXGameResource/Draw3DParameters/Light/LightManager.h"
 #include "TktkDX12Game/DXGameResource/Draw3DParameters/Camera/CameraManager.h"
-#include "TktkDX12Game/DXGameResource/Draw3DParameters/Draw3DParametersInitParam.h"
+#include "TktkDX12Game/DXGameResource/Draw3DParameters/Structs/Draw3DParametersInitParam.h"
 
 namespace tktk
 {

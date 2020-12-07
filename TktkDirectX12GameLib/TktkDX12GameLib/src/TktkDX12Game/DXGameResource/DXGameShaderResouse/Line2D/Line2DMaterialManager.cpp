@@ -1,9 +1,9 @@
 #include "TktkDX12Game/DXGameResource/DXGameShaderResouse/Line2D/Line2DMaterialManager.h"
 
 #include "TktkDX12Game/_MainManager/DX12GameManager.h"
-#include "TktkDX12Game/DXGameResource/DXGameShaderResouse/Line2D/Line2DMaterialManagerInitParam.h"
+#include "TktkDX12Game/DXGameResource/DXGameShaderResouse/Line2D/Structs/Line2DMaterialManagerInitParam.h"
 #include "TktkDX12Game/DXGameResource/DXGameShaderResouse/Line2D/Line2DMaterialData.h"
-#include "TktkDX12Game/DXGameResource/DXGameShaderResouse/Line2D/Line2DConstantBufferData.h"
+#include "TktkDX12Game/DXGameResource/DXGameShaderResouse/Line2D/Structs/Line2DCBufferData.h"
 
 namespace tktk
 {
@@ -17,7 +17,7 @@ namespace tktk
 		createGraphicsPipeLineState(initParam.shaderFilePaths);
 
 		// ライン用の定数バッファを作る
-		DX12GameManager::setSystemHandle(SystemCBufferType::Line2D, DX12GameManager::createCBuffer(Line2DConstantBufferData()));
+		DX12GameManager::setSystemHandle(SystemCBufferType::Line2D, DX12GameManager::createCBuffer(Line2DCBufferData()));
 
 		// 2Dライン用のディスクリプタヒープを作る
 		createBasicDescriptorHeap();

@@ -31,16 +31,22 @@ namespace tktk
 		// ウィンドウハンドルを取得する
 		HWND getHWND() const;
 
-		// ウィンドウサイズを取得する
-		const tktkMath::Vector2& getWindowSize() const;
+		// ゲーム描画エリアサイズを取得する
+		const tktkMath::Vector2& getDrawGameAreaSize() const;
+
+		// スクリーンサイズを取得する
+		const tktkMath::Vector2& getScreenSize() const;
 
 	private:
 
 		// ウィンドウハンドル
 		HWND m_hwnd{ nullptr };
 
-		// ウィンドウサイズ
-		tktkMath::Vector2 m_windowSize{ };
+		// ゲーム描画エリアサイズ
+		tktkMath::Vector2 m_drawGameAreaSize;
+
+		// スクリーンサイズ
+		tktkMath::Vector2 m_screenSize;
 	};
 }
 #endif // !WINDOW_H_

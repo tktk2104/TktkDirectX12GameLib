@@ -2,7 +2,7 @@
 
 #include "TktkDX12BaseComponents/3D/BillboardDrawer/BillboardDrawFuncRunnerInitParam.h"
 #include "TktkDX12Game/_MainManager/DX12GameManager.h"
-#include "TktkDX12Game/DXGameResource/DXGameShaderResouse/MeshResouse/Mesh/Structs/CameraCbuffer.h"
+#include "TktkDX12Game/DXGameResource/DXGameShaderResouse/MeshResouse/Mesh/Structs/CameraCBufferData.h"
 
 namespace tktk
 {
@@ -17,7 +17,7 @@ namespace tktk
 	void BillboardDrawFuncRunner::start()
 	{
 		// アップロード用バッファを作り、そのハンドルを取得する
-		m_createUploadCameraCbufferHandle = DX12GameManager::createUploadBuffer(UploadBufferInitParam::create(BufferType::constant, DX12GameManager::getSystemHandle(SystemCBufferType::Camera), CameraCbuffer()));
+		m_createUploadCameraCbufferHandle = DX12GameManager::createUploadBuffer(UploadBufferInitParam::create(BufferType::constant, DX12GameManager::getSystemHandle(SystemCBufferType::Camera), CameraCBufferData()));
 	}
 
 	void BillboardDrawFuncRunner::onDestroy()
@@ -48,7 +48,7 @@ namespace tktk
 	void BillboardDrawFuncRunner::updateCameraCbuffer() const
 	{
 		// カメラ情報定数バッファ形式
-		CameraCbuffer transformBufferData{};
+		CameraCBufferData transformBufferData{};
 
 		// 使用するカメラのビュー行列
 		transformBufferData.viewMatrix = DX12GameManager::getViewMatrix(m_cameraHandle);

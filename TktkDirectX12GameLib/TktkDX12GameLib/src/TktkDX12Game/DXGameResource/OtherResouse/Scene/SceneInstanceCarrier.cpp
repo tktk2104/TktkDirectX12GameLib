@@ -1,8 +1,8 @@
 #include "TktkDX12Game/DXGameResource/OtherResouse/Scene/SceneInstanceCarrier.h"
 
 #include "TktkDX12Game/_MainManager/DX12GameManager.h"
-#include "TktkDX12Game/DXGameResource/OtherResouse/Scene/SceneInitParam.h"
-#include "TktkDX12Game/DXGameResource/OtherResouse/Scene/SceneVTable.h"
+#include "TktkDX12Game/DXGameResource/OtherResouse/Scene/Structs/SceneInitParam.h"
+#include "TktkDX12Game/DXGameResource/OtherResouse/Scene/Structs/SceneVTable.h"
 
 namespace tktk
 {

@@ -2,16 +2,17 @@
 
 #include <TktkDX12Game/_MainManager/DX12GameManager.h>
 #include "TktkDX12BaseComponents/2D/Transform2D/Transform2D.h"
-#include "TktkDX12Game/DXGameResource/DXGameShaderResouse/Sprite/SpriteTransformCbuffer.h"
+#include "TktkDX12Game/DXGameResource/DXGameShaderResouse/Sprite/Structs/SpriteTransformCBufferData.h"
 
 namespace tktk
 {
-	SpriteDrawer::SpriteDrawer(float drawPriority, size_t spriteMaterialHandle, size_t useRtvDescriptorHeapHandle, const tktkMath::Vector2& centerRate, const tktkMath::Color& blendRate)
+	SpriteDrawer::SpriteDrawer(float drawPriority, size_t spriteMaterialHandle, size_t useRtvDescriptorHeapHandle, const tktkMath::Vector2& centerRate, const tktkMath::Color& blendRate, const SpriteClippingParam& clippingParam)
 		: ComponentBase(drawPriority)
 		, m_useRtvDescriptorHeapHandle(useRtvDescriptorHeapHandle)
 		, m_spriteMaterialHandle(spriteMaterialHandle)
 		, m_spriteCenterRate(centerRate)
 		, m_blendRate(blendRate)
+		, m_clippingParam(clippingParam)
 	{
 	}
 
@@ -25,7 +26,7 @@ namespace tktk
 		}
 
 		// アップロード用バッファを作り、そのハンドルを取得する
-		m_createUploadTransformCbufferHandle = DX12GameManager::createUploadBuffer(UploadBufferInitParam::create(BufferType::constant, DX12GameManager::getSystemHandle(SystemCBufferType::SpriteTransform), SpriteTransformCbuffer()));
+		m_createUploadTransformCbufferHandle = DX12GameManager::createUploadBuffer(UploadBufferInitParam::create(BufferType::constant, DX12GameManager::getSystemHandle(SystemCBufferType::SpriteTransform), SpriteTransformCBufferData()));
 	}
 
 	void SpriteDrawer::onDestroy()
@@ -38,10 +39,10 @@ namespace tktk
 	{
 		// 座標変換用の定数バッファの更新
 		// 座標変換用の定数バッファの更新
-		SpriteCbufferUpdateFuncArgs updateFuncArgs{};
+		SpriteCBufferUpdateFuncArgs updateFuncArgs{};
 		updateFuncArgs.worldMatrix = m_transform->calculateWorldMatrix();
 		updateFuncArgs.spriteCenterRate = m_spriteCenterRate;
-		DX12GameManager::updateSpriteTransformCbuffer(m_spriteMaterialHandle, m_createUploadTransformCbufferHandle, updateFuncArgs);
+		DX12GameManager::updateSpriteTransformCbufferUseClippingParam(m_spriteMaterialHandle, m_createUploadTransformCbufferHandle, updateFuncArgs, m_clippingParam);
 
 		SpriteMaterialDrawFuncArgs drawFuncArgs{};
 		drawFuncArgs.viewportHandle				= DX12GameManager::getSystemHandle(SystemViewportType::Basic);
@@ -75,5 +76,15 @@ namespace tktk
 	void SpriteDrawer::setBlendRate(const tktkMath::Color& blendRate)
 	{
 		m_blendRate = blendRate;
+	}
+
+	void SpriteDrawer::setClippingLeftTopPos(const tktkMath::Vector2& leftTopPos)
+	{
+		m_clippingParam.leftTopPos = leftTopPos;
+	}
+
+	void SpriteDrawer::setClippingSize(const tktkMath::Vector2& size)
+	{
+		m_clippingParam.size = size;
 	}
 }

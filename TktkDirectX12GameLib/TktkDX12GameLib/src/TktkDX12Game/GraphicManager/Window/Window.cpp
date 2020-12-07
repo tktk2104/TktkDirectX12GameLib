@@ -14,10 +14,23 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 }
 
 namespace tktk
-{
+{//WS_THICKFRAME
 	Window::Window(const WindowInitParam& initParam)
-		: m_windowSize(initParam.windowSize)
+		: m_drawGameAreaSize(initParam.windowSize)
 	{
+		if (initParam.fullScreen)
+		{
+			m_screenSize = { 
+				static_cast<float>(GetSystemMetrics(SM_CXSCREEN)),
+				static_cast<float>(GetSystemMetrics(SM_CYSCREEN))
+			};
+		}
+		else
+		{
+			m_screenSize = m_drawGameAreaSize;
+		}
+
+
 #ifdef _M_AMD64 /* x64ビルドなら */
 
 		// ワイド文字列に変換
@@ -32,14 +45,16 @@ namespace tktk
 		RegisterClass(&wc);
 
 		// ウィンドウサイズを計算
-		RECT rect{ 0, 0, static_cast<int>(initParam.windowSize.x), static_cast<int>(initParam.windowSize.y) };
+		RECT rect{ 0, 0, static_cast<int>(m_screenSize.x), static_cast<int>(m_screenSize.y) };
 		AdjustWindowRect(&rect, WS_OVERLAPPEDWINDOW, false);
+
+		auto baseDwStyle = (initParam.fullScreen) ? WS_POPUP : WS_OVERLAPPEDWINDOW;
 
 		// ウィンドウを生成
 		m_hwnd = CreateWindow(
 			wstrWindowName.c_str(),
 			wstrWindowName.c_str(),
-			WS_OVERLAPPEDWINDOW,
+			baseDwStyle & ~WS_THICKFRAME & ~WS_MAXIMIZEBOX,
 			CW_USEDEFAULT,
 			CW_USEDEFAULT,
 			rect.right - rect.left,
@@ -59,14 +74,16 @@ namespace tktk
 		RegisterClass(&wc);
 
 		// ウィンドウサイズを計算
-		RECT rect{ 0, 0, static_cast<int>(initParam.windowSize.x), static_cast<int>(initParam.windowSize.y) };
+		RECT rect{ 0, 0, static_cast<int>(m_screenSize.x), static_cast<int>(m_screenSize.y) };
 		AdjustWindowRect(&rect, WS_OVERLAPPEDWINDOW, false);
+
+		auto baseDwStyle = (initParam.fullScreen) ? WS_POPUP : WS_OVERLAPPEDWINDOW;
 
 		// ウィンドウを生成
 		m_hwnd = CreateWindow(
 			initParam.windowName.c_str(),
 			initParam.windowName.c_str(),
-			WS_OVERLAPPEDWINDOW,
+			baseDwStyle & ~WS_THICKFRAME & ~WS_MAXIMIZEBOX,
 			CW_USEDEFAULT,
 			CW_USEDEFAULT,
 			rect.right - rect.left,
@@ -78,10 +95,9 @@ namespace tktk
 		);
 #endif // _M_AMD64
 
-		if (m_hwnd == NULL)
-		{
-			throw std::runtime_error("CreateWindow error");
-		}
+		if (m_hwnd == NULL) throw std::runtime_error("CreateWindow error");
+
+		if (initParam.fullScreen) ShowCursor(false);
 
 		// ウィンドウを開く
 		ShowWindow(m_hwnd, initParam.nCmdShow);
@@ -98,8 +114,13 @@ namespace tktk
 		return m_hwnd;
 	}
 
-	const tktkMath::Vector2& Window::getWindowSize() const
+	const tktkMath::Vector2& Window::getDrawGameAreaSize() const
 	{
-		return m_windowSize;
+		return m_drawGameAreaSize;
+	}
+
+	const tktkMath::Vector2& Window::getScreenSize() const
+	{
+		return m_screenSize;
 	}
 }

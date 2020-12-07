@@ -1,5 +1,5 @@
-#ifndef SPRITE_CONSTANT_BUFFER_DATA_H_
-#define SPRITE_CONSTANT_BUFFER_DATA_H_
+#ifndef SPRITE_CBUFFER_DATA_H_
+#define SPRITE_CBUFFER_DATA_H_
 
 /* class member */
 #include <TktkMath/Structs/Color.h>
@@ -8,7 +8,7 @@
 namespace tktk
 {
 	// スプライト描画に使用する定数バッファ情報
-	struct SpriteMaterialCbufferData
+	struct SpriteMaterialCBufferData
 	{
 		// ブレンドレート
 		tktkMath::Color		blendRate			{ tktkMath::Color_v::white };
@@ -20,4 +20,4 @@ namespace tktk
 		float				pad[2]{};
 	};
 }
-#endif // !SPRITE_CONSTANT_BUFFER_DATA_H_
+#endif // !SPRITE_CBUFFER_DATA_H_

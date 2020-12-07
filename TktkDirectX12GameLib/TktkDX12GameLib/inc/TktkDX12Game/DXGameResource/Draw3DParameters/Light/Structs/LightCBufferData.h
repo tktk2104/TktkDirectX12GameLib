@@ -1,5 +1,5 @@
-#ifndef LIGHT_CBUFFER_H_
-#define LIGHT_CBUFFER_H_
+#ifndef LIGHT_CBUFFER_DATA_H_
+#define LIGHT_CBUFFER_DATA_H_
 
 /* class member */
 #include <TktkMath/Structs/Color.h>
@@ -8,7 +8,7 @@
 namespace tktk
 {
 	// ライト情報の定数バッファ
-	struct LightCBuffer
+	struct LightCBufferData
 	{
 		// ライトの環境光
 		tktkMath::Color		lightAmbient	{ 0.25f, 1.0f };
@@ -26,4 +26,4 @@ namespace tktk
 		float				lightDataPad	{ 0.0f };
 	};
 }
-#endif // !LIGHT_CBUFFER_H_
+#endif // !LIGHT_CBUFFER_DATA_H_

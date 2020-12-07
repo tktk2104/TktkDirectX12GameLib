@@ -1,7 +1,7 @@
 #include "TktkDX12Game/DXGameResource/Draw3DParameters/Light/LightManager.h"
 
 #include "TktkDX12Game/_MainManager/DX12GameManager.h"
-#include "TktkDX12Game/DXGameResource/Draw3DParameters/Light/LightCBuffer.h"
+#include "TktkDX12Game/DXGameResource/Draw3DParameters/Light/Structs/LightCBufferData.h"
 #include "TktkDX12Game/DXGameResource/Draw3DParameters/Light/LightData.h"
 
 namespace tktk
@@ -10,7 +10,7 @@ namespace tktk
 		: m_lightArray(initParam)
 	{
 		// ライト用の定数バッファを作る
-		DX12GameManager::setSystemHandle(SystemCBufferType::Light, DX12GameManager::createCBuffer(LightCBuffer()));
+		DX12GameManager::setSystemHandle(SystemCBufferType::Light, DX12GameManager::createCBuffer(LightCBufferData()));
 	}
 
 	// デストラクタを非インライン化する

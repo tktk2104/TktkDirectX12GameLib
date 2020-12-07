@@ -8,6 +8,8 @@ namespace tktk
 	{
 		BackBuffer_1,
 		BackBuffer_2,
+		DrawGameArea,
+		PostEffectTarget,
 	};
 }
 #endif // !SYSTEM_RENDER_TARGET_BUFFER_TYPE_H_

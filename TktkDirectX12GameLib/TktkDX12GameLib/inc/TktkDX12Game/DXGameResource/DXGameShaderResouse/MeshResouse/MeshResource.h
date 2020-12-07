@@ -10,8 +10,8 @@
 /* funcUseType */
 #include <TktkMath/Structs/Color.h>
 #include <TktkMath/Structs/Matrix4.h>
-#include "Mesh/Loader/MeshLoadPmdReturnValue.h"
-#include "Mesh/Loader/MeshLoadPmxReturnValue.h"
+#include "Mesh/Loader/Structs/MeshLoadPmdReturnValue.h"
+#include "Mesh/Loader/Structs/MeshLoadPmxReturnValue.h"
 
 namespace tktk
 {

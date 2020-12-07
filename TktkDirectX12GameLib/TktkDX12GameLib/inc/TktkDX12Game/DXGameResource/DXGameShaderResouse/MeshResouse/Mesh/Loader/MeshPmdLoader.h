@@ -1,8 +1,8 @@
 #ifndef MESH_PMD_LOADER_H_
 #define MESH_PMD_LOADER_H_
 
-#include "MeshLoadPmdArgs.h"
-#include "MeshLoadPmdReturnValue.h"
+#include "Structs/MeshLoadPmdArgs.h"
+#include "Structs/MeshLoadPmdReturnValue.h"
 
 namespace tktk
 {

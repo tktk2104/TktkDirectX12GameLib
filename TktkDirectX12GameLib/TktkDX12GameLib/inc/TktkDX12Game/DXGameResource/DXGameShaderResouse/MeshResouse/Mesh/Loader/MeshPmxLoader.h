@@ -1,8 +1,8 @@
 #ifndef MESH_PMX_LOADER_H_
 #define MESH_PMX_LOADER_H_
 
-#include "MeshLoadPmxArgs.h"
-#include "MeshLoadPmxReturnValue.h"
+#include "Structs/MeshLoadPmxArgs.h"
+#include "Structs/MeshLoadPmxReturnValue.h"
 
 namespace tktk
 {

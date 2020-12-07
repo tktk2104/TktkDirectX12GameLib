@@ -16,7 +16,7 @@ namespace tktk
 		m_self.m_user = user;
 
 		// 使用するレンダーターゲットのディスクリプタヒープハンドルのデフォルト値はバックバッファ
-		m_self.m_useRtvDescriptorHeapHandle = DX12GameManager::getSystemHandle(SystemRtvDescriptorHeapType::BackBuffer);
+		m_self.m_useRtvDescriptorHeapHandle = DX12GameManager::getSystemHandle(SystemRtvDescriptorHeapType::DrawGameArea);
 
 		// 自身の参照を返す
 		return m_self;
@@ -24,13 +24,20 @@ namespace tktk
 
 	ComponentPtr<SpriteDrawer> SpriteDrawerMaker::create()
 	{
+		const auto& textureSize = DX12GameManager::getSpriteTextureSize(m_spriteMaterialHandle);
+
+		SpriteClippingParam clippingParam{};
+		clippingParam.leftTopPos	= tktkMath::Vector2::scale(textureSize, m_leftTopPosRate);
+		clippingParam.size			= tktkMath::Vector2::scale(textureSize, m_sizeRate);
+
 		// コンポーネントを作成する
 		return m_user->createComponent<SpriteDrawer>(
 			m_drawPriority,
 			m_spriteMaterialHandle,
 			m_useRtvDescriptorHeapHandle,
 			m_centerRate,
-			m_blendRate
+			m_blendRate,
+			clippingParam
 			);
 	}
 
@@ -73,6 +80,20 @@ namespace tktk
 	{
 		// 値を設定して自身の参照を返す
 		m_blendRate = value;
+		return *this;
+	}
+
+	SpriteDrawerMaker& SpriteDrawerMaker::clippingLeftTopPosRate(const tktkMath::Vector2& value)
+	{
+		// 値を設定して自身の参照を返す
+		m_leftTopPosRate = value;
+		return *this;
+	}
+
+	SpriteDrawerMaker& SpriteDrawerMaker::clippingSizeRate(const tktkMath::Vector2& value)
+	{
+		// 値を設定して自身の参照を返す
+		m_sizeRate = value;
 		return *this;
 	}
 }

@@ -45,6 +45,12 @@ namespace tktk
 		// ブレンドレートを設定する
 		SpriteDrawerMaker& blendRate(const tktkMath::Color& value);
 
+		// 切り取る範囲の左上座標を設定する（テクスチャサイズを（1, 1）とした時の割合）
+		SpriteDrawerMaker& clippingLeftTopPosRate(const tktkMath::Vector2& value);
+
+		// 切り取る範囲の大きさを設定する（テクスチャサイズを（1, 1）とした時の割合）
+		SpriteDrawerMaker& clippingSizeRate(const tktkMath::Vector2& value);
+
 	private: /* 自身のインスタンスは静的な存在として扱う */
 
 		static SpriteDrawerMaker m_self;
@@ -57,6 +63,8 @@ namespace tktk
 		size_t				m_spriteMaterialHandle		{ 0U };
 		tktkMath::Vector2	m_centerRate				{ 0.5f, 0.5f };
 		tktkMath::Color		m_blendRate					{ tktkMath::Color_v::white };
+		tktkMath::Vector2	m_leftTopPosRate			{ tktkMath::Vector2_v::zero };
+		tktkMath::Vector2	m_sizeRate					{ tktkMath::Vector2_v::one };
 	};
 }
 #endif // !SPRITE_DRAWER_MAKER_H_

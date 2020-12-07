@@ -115,7 +115,7 @@ namespace tktk
 		
 			for (const auto& basePtr : getComponents(typeid(ComponentType)))
 			{
-				castPtrList.push_front(basePtr.castPtr<ComponentType>);
+				castPtrList.push_front(basePtr.castPtr<ComponentType>());
 			}
 			return castPtrList;
 		}

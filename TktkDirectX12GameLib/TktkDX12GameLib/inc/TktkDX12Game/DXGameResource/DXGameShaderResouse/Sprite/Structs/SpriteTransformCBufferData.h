@@ -1,5 +1,5 @@
-#ifndef SPRITE_TRANSFORM_CBUFFER_H_
-#define SPRITE_TRANSFORM_CBUFFER_H_
+#ifndef SPRITE_TRANSFORM_CBUFFER_DATA_H_
+#define SPRITE_TRANSFORM_CBUFFER_DATA_H_
 
 /* class member */
 #include <TktkMath/Structs/Vector2.h>
@@ -7,7 +7,7 @@
 namespace tktk
 {
 	// スプライトの座標変換の定数バッファの情報
-	struct SpriteTransformCbuffer
+	struct SpriteTransformCBufferData
 	{
 		// ワールド行列（hslsの仕様上、float4x3）
 		float				worldMatrix[12]		{};
@@ -25,4 +25,4 @@ namespace tktk
 		tktkMath::Vector2	spriteCenterRate	{ tktkMath::Vector2_v::zero };
 	};
 }
-#endif // !SPRITE_TRANSFORM_CBUFFER_H_
+#endif // !SPRITE_TRANSFORM_CBUFFER_DATA_H_

@@ -31,7 +31,7 @@ VS_OUTPUT main(VS_INPUT input)
 	VS_OUTPUT output;
 
 	output.position = input.position;
-	output.position.z = 1.0f;
+	output.position.z = 1.0;
 	output.position.xy *= textureSize;
 	output.position.xy -= (spriteCenterRate * textureSize);
 	output.position.xyz = mul(worldMatrix, output.position.xyz);

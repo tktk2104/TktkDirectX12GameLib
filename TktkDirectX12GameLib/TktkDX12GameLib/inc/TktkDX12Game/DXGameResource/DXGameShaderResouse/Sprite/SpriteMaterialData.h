@@ -9,7 +9,7 @@ namespace tktk
 {
 	struct SpriteMaterialInitParam;
 	struct SpriteMaterialDrawFuncArgs;
-	struct SpriteCbufferUpdateFuncArgs;
+	struct SpriteCBufferUpdateFuncArgs;
 	struct SpriteClippingParam;
 
 	// スプライトのマテリアルを管理するクラス
@@ -25,14 +25,17 @@ namespace tktk
 
 	public:
 
+		// スプライトが使用するテクスチャのサイズを取得する
+		const tktkMath::Vector2& getSpriteTextureSize() const;
+
 		// スプライトを描画する
 		void drawSprite(const SpriteMaterialDrawFuncArgs& drawFuncArgs) const;
 
 		// 引数が表すコピーバッファを使って座標変換情報を管理する定数バッファを更新する
-		void updateTransformCbuffer(size_t copyBufferHandle, const SpriteCbufferUpdateFuncArgs& cbufferUpdateArgs) const;
+		void updateTransformCbuffer(size_t copyBufferHandle, const SpriteCBufferUpdateFuncArgs& cbufferUpdateArgs) const;
 
 		// 引数が表すコピーバッファを使って座標変換情報を管理する定数バッファを更新する（切り抜き範囲指定版）
-		void updateTransformCbufferUseClippingParam(size_t copyBufferHandle, const SpriteCbufferUpdateFuncArgs& cbufferUpdateArgs, const SpriteClippingParam& clippingParam) const;
+		void updateTransformCbufferUseClippingParam(size_t copyBufferHandle, const SpriteCBufferUpdateFuncArgs& cbufferUpdateArgs, const SpriteClippingParam& clippingParam) const;
 
 	private:
 

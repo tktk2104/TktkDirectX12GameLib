@@ -4,7 +4,7 @@
 /* class member */
 #include <forward_list>
 #include <TktkMath/Structs/Vector2.h>
-#include "BillboardMaterialInstanceVertData.h"
+#include "Structs/BillboardMaterialInstanceVertData.h"
 
 namespace tktk
 {

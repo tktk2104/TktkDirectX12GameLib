@@ -1,12 +1,12 @@
 #include "TktkDX12Game/DXGameResource/DXGameShaderResouse/Sprite/SpriteMaterialData.h"
 
 #include "TktkDX12Game/_MainManager/DX12GameManager.h"
-#include "TktkDX12Game/DXGameResource/DXGameShaderResouse/Sprite/SpriteMaterialInitParam.h"
-#include "TktkDX12Game/DXGameResource/DXGameShaderResouse/Sprite/SpriteTransformCbuffer.h"
-#include "TktkDX12Game/DXGameResource/DXGameShaderResouse/Sprite/SpriteMaterialCbufferData.h"
-#include "TktkDX12Game/DXGameResource/DXGameShaderResouse/Sprite/SpriteMaterialDrawFuncArgs.h"
-#include "TktkDX12Game/DXGameResource/DXGameShaderResouse/Sprite/SpriteCbufferUpdateFuncArgs.h"
-#include "TktkDX12Game/DXGameResource/DXGameShaderResouse/Sprite/SpriteClippingParam.h"
+#include "TktkDX12Game/DXGameResource/DXGameShaderResouse/Sprite/Structs/SpriteMaterialInitParam.h"
+#include "TktkDX12Game/DXGameResource/DXGameShaderResouse/Sprite/Structs/SpriteTransformCBufferData.h"
+#include "TktkDX12Game/DXGameResource/DXGameShaderResouse/Sprite/Structs/SpriteMaterialCBufferData.h"
+#include "TktkDX12Game/DXGameResource/DXGameShaderResouse/Sprite/Structs/SpriteMaterialDrawFuncArgs.h"
+#include "TktkDX12Game/DXGameResource/DXGameShaderResouse/Sprite/Structs/SpriteCBufferUpdateFuncArgs.h"
+#include "TktkDX12Game/DXGameResource/DXGameShaderResouse/Sprite/Structs/SpriteClippingParam.h"
 
 namespace tktk
 {
@@ -74,7 +74,7 @@ namespace tktk
 		m_createDescriptorHeapHandle = DX12GameManager::createBasicDescriptorHeap(descriptorHeapInitParam);
 
 		// アップロード用バッファを作り、そのハンドルを取得する
-		m_createUploadBufferHandle = DX12GameManager::createUploadBuffer(UploadBufferInitParam::create(BufferType::constant, DX12GameManager::getSystemHandle(SystemCBufferType::SpriteMaterialManager), SpriteMaterialCbufferData()));
+		m_createUploadBufferHandle = DX12GameManager::createUploadBuffer(UploadBufferInitParam::create(BufferType::constant, DX12GameManager::getSystemHandle(SystemCBufferType::SpriteMaterialManager), SpriteMaterialCBufferData()));
 	}
 
 	SpriteMaterialData::~SpriteMaterialData()
@@ -95,6 +95,11 @@ namespace tktk
 	{
 		other.m_createDescriptorHeapHandle = 0U;
 		other.m_createUploadBufferHandle = 0U;
+	}
+
+	const tktkMath::Vector2& SpriteMaterialData::getSpriteTextureSize() const
+	{
+		return m_textureSize;
 	}
 
 	void SpriteMaterialData::drawSprite(const SpriteMaterialDrawFuncArgs& drawFuncArgs) const
@@ -150,10 +155,10 @@ namespace tktk
 		}
 	}
 
-	void SpriteMaterialData::updateTransformCbuffer(size_t copyBufferHandle, const SpriteCbufferUpdateFuncArgs& cbufferUpdateArgs) const
+	void SpriteMaterialData::updateTransformCbuffer(size_t copyBufferHandle, const SpriteCBufferUpdateFuncArgs& cbufferUpdateArgs) const
 	{
 		// スプライトの座標変換用定数バッファ形式
-		SpriteTransformCbuffer transformBufferData{};
+		SpriteTransformCBufferData transformBufferData{};
 
 		for (size_t i = 0; i < 12; i++)
 		{
@@ -173,10 +178,10 @@ namespace tktk
 		DX12GameManager::copyBuffer(copyBufferHandle);
 	}
 
-	void SpriteMaterialData::updateTransformCbufferUseClippingParam(size_t copyBufferHandle, const SpriteCbufferUpdateFuncArgs& cbufferUpdateArgs, const SpriteClippingParam& clippingParam) const
+	void SpriteMaterialData::updateTransformCbufferUseClippingParam(size_t copyBufferHandle, const SpriteCBufferUpdateFuncArgs& cbufferUpdateArgs, const SpriteClippingParam& clippingParam) const
 	{
 		// スプライトの座標変換用定数バッファ形式
-		SpriteTransformCbuffer transformBufferData{};
+		SpriteTransformCBufferData transformBufferData{};
 
 		for (size_t i = 0; i < 12; i++)
 		{
@@ -199,9 +204,9 @@ namespace tktk
 	// 定数バッファのアップロード用バッファを更新する
 	void SpriteMaterialData::updateCopyBuffer(const SpriteMaterialDrawFuncArgs& drawFuncArgs) const
 	{
-		SpriteMaterialCbufferData constantBufferData;
+		SpriteMaterialCBufferData constantBufferData;
 		constantBufferData.blendRate		= drawFuncArgs.blendRate;
-		constantBufferData.screenSize		= DX12GameManager::getWindowSize();
+		constantBufferData.screenSize		= DX12GameManager::getDrawGameAreaSize();
 
 		DX12GameManager::updateUploadBuffer(m_createUploadBufferHandle, constantBufferData);
 	}

@@ -10,8 +10,6 @@
 #include "2D/ColliderWireFrameDrawer2D/ColliderWireFrameDrawer2DMaker.h"
 #include "2D/Line2dDrawer/Line2DDrawerMaker.h"
 #include "2D/SpriteDrawer/SpriteDrawerMaker.h"
-#include "2D/SpriteDrawer/SpriteClippingDrawerMaker.h"
-#include "2D/PostEffectDrawer/PostEffectDrawerMaker.h"
 
 #include "3D/Transform3D/Transform3DMaker.h"
 #include "3D/InertialMovement3D/InertialMovement3DMaker.h"
@@ -72,12 +70,6 @@ namespace tktk
 
 		// スプライト描画コンポーネント
 		using C10 = SpriteDrawer;
-
-		// スプライト切り抜き描画コンポーネント
-		using C11 = SpriteClippingDrawer;
-
-		// ポストエフェクト描画コンポーネント
-		using C12 = PostEffectDrawer;
 	//>
 
 

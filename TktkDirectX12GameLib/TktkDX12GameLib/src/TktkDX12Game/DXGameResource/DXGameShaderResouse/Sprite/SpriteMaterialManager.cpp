@@ -2,10 +2,10 @@
 
 #include <TktkMath/Structs/Vector2.h>
 #include "TktkDX12Game/_MainManager/DX12GameManager.h"
-#include "TktkDX12Game/DXGameResource/DXGameShaderResouse/Sprite/SpriteMaterialManagerInitParam.h"
+#include "TktkDX12Game/DXGameResource/DXGameShaderResouse/Sprite/Structs/SpriteMaterialManagerInitParam.h"
 #include "TktkDX12Game/DXGameResource/DXGameShaderResouse/Sprite/SpriteMaterialData.h"
-#include "TktkDX12Game/DXGameResource/DXGameShaderResouse/Sprite/SpriteTransformCbuffer.h"
-#include "TktkDX12Game/DXGameResource/DXGameShaderResouse/Sprite/SpriteMaterialCbufferData.h"
+#include "TktkDX12Game/DXGameResource/DXGameShaderResouse/Sprite/Structs/SpriteTransformCBufferData.h"
+#include "TktkDX12Game/DXGameResource/DXGameShaderResouse/Sprite/Structs/SpriteMaterialCBufferData.h"
 
 namespace tktk
 {
@@ -25,8 +25,8 @@ namespace tktk
 		DX12GameManager::setSystemHandle(SystemIndexBufferType::Sprite, DX12GameManager::createIndexBuffer({ 0U, 1U, 2U, 3U }));
 
 		// スプライト用の定数バッファを作る
-		DX12GameManager::setSystemHandle(SystemCBufferType::SpriteTransform, DX12GameManager::createCBuffer(SpriteTransformCbuffer()));
-		DX12GameManager::setSystemHandle(SystemCBufferType::SpriteMaterialManager, DX12GameManager::createCBuffer(SpriteMaterialCbufferData()));
+		DX12GameManager::setSystemHandle(SystemCBufferType::SpriteTransform, DX12GameManager::createCBuffer(SpriteTransformCBufferData()));
+		DX12GameManager::setSystemHandle(SystemCBufferType::SpriteMaterialManager, DX12GameManager::createCBuffer(SpriteMaterialCBufferData()));
 	}
 
 	// デストラクタを非インライン化する
@@ -37,17 +37,22 @@ namespace tktk
 		return m_spriteMaterialArray.create(initParam);
 	}
 
+	const tktkMath::Vector2& SpriteMaterialManager::getSpriteTextureSize(size_t handle) const
+	{
+		return m_spriteMaterialArray.getMatchHandlePtr(handle)->getSpriteTextureSize();
+	}
+
 	void SpriteMaterialManager::drawSprite(size_t handle, const SpriteMaterialDrawFuncArgs& drawFuncArgs) const
 	{
 		m_spriteMaterialArray.getMatchHandlePtr(handle)->drawSprite(drawFuncArgs);
 	}
 
-	void SpriteMaterialManager::updateTransformCbuffer(size_t handle, size_t copyBufferHandle, const SpriteCbufferUpdateFuncArgs& cbufferUpdateArgs) const
+	void SpriteMaterialManager::updateTransformCbuffer(size_t handle, size_t copyBufferHandle, const SpriteCBufferUpdateFuncArgs& cbufferUpdateArgs) const
 	{
 		m_spriteMaterialArray.getMatchHandlePtr(handle)->updateTransformCbuffer(copyBufferHandle, cbufferUpdateArgs);
 	}
 
-	void SpriteMaterialManager::updateTransformCbufferUseClippingParam(size_t handle, size_t copyBufferHandle, const SpriteCbufferUpdateFuncArgs& cbufferUpdateArgs, const SpriteClippingParam& clippingParam) const
+	void SpriteMaterialManager::updateTransformCbufferUseClippingParam(size_t handle, size_t copyBufferHandle, const SpriteCBufferUpdateFuncArgs& cbufferUpdateArgs, const SpriteClippingParam& clippingParam) const
 	{
 		m_spriteMaterialArray.getMatchHandlePtr(handle)->updateTransformCbufferUseClippingParam(copyBufferHandle, cbufferUpdateArgs, clippingParam);
 	}

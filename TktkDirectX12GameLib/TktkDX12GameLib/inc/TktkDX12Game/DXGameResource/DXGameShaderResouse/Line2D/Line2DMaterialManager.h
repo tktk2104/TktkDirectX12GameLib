@@ -1,5 +1,5 @@
-#ifndef LINE_2D_H_
-#define LINE_2D_H_
+#ifndef LINE_2D_MATERIAL_MANAGER_H_
+#define LINE_2D_MATERIAL_MANAGER_H_
 
 /* tktkContainer::ResourceContainer */
 #include <TktkContainer/ResourceContainer/ResourceContainer.h>
@@ -48,4 +48,4 @@ namespace tktk
 		tktkContainer::ResourceContainer<Line2DMaterialData> m_line2DMaterialArray;
 	};
 }
-#endif // !LINE_2D_H_
+#endif // !LINE_2D_MATERIAL_MANAGER_H_

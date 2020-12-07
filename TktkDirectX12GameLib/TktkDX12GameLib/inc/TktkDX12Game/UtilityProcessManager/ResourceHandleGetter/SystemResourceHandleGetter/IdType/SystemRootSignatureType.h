@@ -7,6 +7,7 @@ namespace tktk
 	enum class SystemRootSignatureType
 	{
 		/* ポストエフェクト */
+		PostEffectDrawGameArea,
 		PostEffectMonochrome,
 		PostEffectNegative,
 		PostEffectSimpleBlur,
@@ -22,6 +23,8 @@ namespace tktk
 		/* メッシュ描画 */
 		SimpleMesh,
 		SkinningMesh,
+		InvertSimpleMesh,
+		InvertSkinningMesh,
 		MonoColorSimpleMesh,
 		MonoColorSkinningMesh,
 

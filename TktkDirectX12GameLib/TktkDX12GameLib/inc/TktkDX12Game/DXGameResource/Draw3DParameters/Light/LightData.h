@@ -2,7 +2,7 @@
 #define LIGHT_DATA_H_
 
 /* class member */
-#include "LightCBuffer.h"
+#include "Structs/LightCBufferData.h"
 
 namespace tktk
 {
@@ -47,7 +47,7 @@ namespace tktk
 	private:
 
 		size_t				m_createUploadBufferHandle{ 0U };
-		LightCBuffer		m_lightCBuffer;
+		LightCBufferData		m_lightCBuffer;
 	};
 }
 #endif // !LIGHT_DATA_H_

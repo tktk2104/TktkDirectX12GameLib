@@ -7,7 +7,7 @@
 
 namespace tktk
 {
-	struct SpriteCbufferUpdateFuncArgs
+	struct SpriteCBufferUpdateFuncArgs
 	{
 		// ƒ[ƒ‹ƒhs—ñ
 		tktkMath::Matrix3	worldMatrix;

@@ -1,6 +1,6 @@
 #include "TktkDX12Game/DXGameResource/OtherResouse/OtherResouse.h"
 
-#include "TktkDX12Game/DXGameResource/OtherResouse/OtherResouseInitParam.h"
+#include "TktkDX12Game/DXGameResource/OtherResouse/Structs/OtherResouseInitParam.h"
 #include "TktkDX12Game/DXGameResource/OtherResouse/Scene/SceneManager.h"
 #include "TktkDX12Game/DXGameResource/OtherResouse/Sound/SoundManager.h"
 

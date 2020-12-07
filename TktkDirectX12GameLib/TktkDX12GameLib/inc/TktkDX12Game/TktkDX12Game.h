@@ -1,6 +1,9 @@
 #ifndef TKTK_DX12_GAME_H_
 #define TKTK_DX12_GAME_H_
 
+/* std::string */
+#include <string>
+
 /* std::forward_list */
 #include <forward_list>
 
@@ -47,8 +50,11 @@ namespace tktk
 	/* ウィンドウの処理 */
 	public:
 
-		// ウィンドウサイズを取得する
-		static const tktkMath::Vector2& getWindowSize();
+		// ゲーム描画エリアサイズを取得する
+		static const tktkMath::Vector2& getDrawGameAreaSize();
+
+		// スクリーンサイズを取得する
+		static const tktkMath::Vector2& getScreenSize();
 
 	//************************************************************
 	/* シーンの処理 */
@@ -151,7 +157,32 @@ namespace tktk
 		static float fps();
 
 	//************************************************************
-	/* システムのリソースを使うためのハンドルを取得する */
+	/* リソースを読み込むための処理 */
+	public:
+
+		// 音声データを読み込む（対応している音声データ形式はwav）
+		static void loadSound(ResourceIdCarrier soundId, const std::string& filePath);
+
+		// テクスチャを読み込みスプライトマテリアルを作る（対応している画像データ形式はpng）
+		static void loadSprite(ResourceIdCarrier spriteId, const std::string& filePath);
+
+		// テクスチャを読み込みビルボードマテリアルを作る（対応している画像データ形式はpng）
+		static void loadBillboard(ResourceIdCarrier billBoardId, bool isEffect, const std::string& filePath);
+
+		// メッシュを読み込む（対応しているメッシュ形式はpmdとpmx）
+		static void loadMesh(ResourceIdCarrier meshId, ResourceIdCarrier skeletonId, bool writeShadow, const std::string& filePath);
+
+		// モーションを読み込む（対応しているモーション形式はvmd）
+		static void loadMotion(ResourceIdCarrier motionId, const std::string& filePath);
+
+		// テクスチャを読み込みスカイボックスメッシュを作る（対応している画像データ形式はpng）
+		static void loadSkyBox(ResourceIdCarrier meshId, const std::string& filePath);
+
+		// テクスチャを読み込みボックスメッシュを作る（対応している画像データ形式はpng）
+		static void loadBoxMesh(ResourceIdCarrier meshId, bool writeShadow, const std::string& filePath);
+
+	//************************************************************
+	/* システムのリソースを使うためのハンドルを取得するための処理 */
 	public:
 
 		static size_t getSystemHandle(SystemViewportType type);

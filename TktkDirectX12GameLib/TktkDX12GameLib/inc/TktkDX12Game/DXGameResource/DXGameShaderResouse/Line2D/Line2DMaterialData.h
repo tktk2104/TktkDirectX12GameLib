@@ -1,5 +1,5 @@
-#ifndef LINE_2D_DATA_H_
-#define LINE_2D_DATA_H_
+#ifndef LINE_2D_MATERIAL_DATA_H_
+#define LINE_2D_MATERIAL_DATA_H_
 
 namespace tktk
 {
@@ -33,5 +33,4 @@ namespace tktk
 		size_t m_createdVertexBufferHandle{ 0U };
 	};
 }
-
-#endif // !LINE_2D_DATA_H_
+#endif // !LINE_2D_MATERIAL_DATA_H_

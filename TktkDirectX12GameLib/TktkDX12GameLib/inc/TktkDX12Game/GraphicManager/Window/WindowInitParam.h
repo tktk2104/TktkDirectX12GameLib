@@ -17,8 +17,9 @@ namespace tktk
 	{
 		HINSTANCE			hInstance;
 		int					nCmdShow;
-		std::string			windowName;
-		tktkMath::Vector2	windowSize;
+		std::string			windowName = "GameWindow";
+		bool				fullScreen = false;
+		tktkMath::Vector2	windowSize = { 640.0f, 480.0f };
 	};
 }
 #endif // !WINDOW_INIT_PARAM_H_

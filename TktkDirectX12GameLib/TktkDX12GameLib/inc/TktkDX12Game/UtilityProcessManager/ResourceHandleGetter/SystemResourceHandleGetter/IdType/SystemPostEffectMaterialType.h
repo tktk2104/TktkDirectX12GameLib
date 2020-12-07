@@ -6,6 +6,7 @@ namespace tktk
 	// システムで使用している通常のポストエフェクトマテリアルの種類
 	enum class SystemPostEffectMaterialType
 	{
+		DrawGameArea,
 		Monochrome,
 		Negative,
 		SimpleBlur,

@@ -10,6 +10,8 @@ namespace tktk
 	class PostEffectMaterialData;
 	struct PostEffectMaterialInitParam;
 	struct PostEffectMaterialDrawFuncArgs;
+	struct PostEffectMaterialAppendParamInitParam;
+	struct PostEffectMaterialAppendParamUpdateFuncArgs;
 
 	// 「PostEffectMaterialData」を管理するクラス
 	class PostEffectMaterialManager
@@ -26,6 +28,12 @@ namespace tktk
 
 		// 指定したポストエフェクトを描画する
 		void drawPostEffect(size_t handle, const PostEffectMaterialDrawFuncArgs& drawFuncArgs) const;
+
+		// 指定したポストエフェクトマテリアルで追加で管理する定数バッファのハンドルと値を設定する
+		void addPostEffectMaterialAppendParam(size_t handle, const PostEffectMaterialAppendParamInitParam& initParam);
+
+		// 指定したポストエフェクトマテリアルで追加で管理する定数バッファの値を更新する
+		void updatePostEffectMaterialAppendParam(size_t handle, const PostEffectMaterialAppendParamUpdateFuncArgs& updateFuncArgs);
 
 	private:
 

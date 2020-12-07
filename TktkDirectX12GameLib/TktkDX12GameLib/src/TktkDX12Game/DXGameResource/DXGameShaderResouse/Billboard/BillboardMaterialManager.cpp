@@ -2,7 +2,7 @@
 
 #include "TktkDX12Game/_MainManager/DX12GameManager.h"
 #include "TktkDX12Game/DXGameResource/DXGameShaderResouse/Billboard/BillboardMaterialData.h"
-#include "TktkDX12Game/DXGameResource/DXGameShaderResouse/Billboard/BillboardMaterialManagerInitParam.h"
+#include "TktkDX12Game/DXGameResource/DXGameShaderResouse/Billboard/Structs/BillboardMaterialManagerInitParam.h"
 
 namespace tktk
 {

@@ -6,6 +6,8 @@ namespace tktk
 	// システムで使用している通常のディスクリプタヒープの種類
 	enum class SystemBasicDescriptorHeapType
 	{
+		DrawGameArea,
+
 		Line2D,
 		Sphere,
 		Box,

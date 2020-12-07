@@ -3,7 +3,7 @@
 #include <TktkMath/MathHelper.h>
 #include <TktkMath/Structs/Matrix4.h>
 #include "TktkDX12Game/DXGameResource/DXGameShaderResouse/MeshResouse/Motion/MotionData.h"
-#include "TktkDX12Game/DXGameResource/DXGameShaderResouse/MeshResouse/Motion/MotionBoneParam.h"
+#include "TktkDX12Game/DXGameResource/DXGameShaderResouse/MeshResouse/Motion/Structs/MotionBoneParam.h"
 
 namespace tktk
 {

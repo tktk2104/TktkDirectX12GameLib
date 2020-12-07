@@ -7,6 +7,7 @@ namespace tktk
 	enum class SystemPipeLineStateType
 	{
 		/* ポストエフェクト */
+		DrawGameArea,
 		PostEffectMonochrome,
 		PostEffectNegative,
 		PostEffectSimpleBlur,

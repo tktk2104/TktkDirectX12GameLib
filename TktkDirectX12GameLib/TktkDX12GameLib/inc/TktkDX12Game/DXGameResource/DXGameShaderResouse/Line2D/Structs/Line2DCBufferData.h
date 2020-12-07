@@ -1,5 +1,5 @@
-#ifndef LINE_2D_CONSTANT_BUFFER_DATA_H_
-#define LINE_2D_CONSTANT_BUFFER_DATA_H_
+#ifndef LINE_2D_CBUFFER_DATA_H_
+#define LINE_2D_CBUFFER_DATA_H_
 
 /* class member */
 #include <TktkMath/Structs/Color.h>
@@ -8,7 +8,7 @@
 namespace tktk
 {
 	// ２Ｄライン描画用の定数バッファ
-	struct Line2DConstantBufferData
+	struct Line2DCBufferData
 	{
 		// ワールド行列
 		float				worldMatrix[12]{
@@ -27,4 +27,4 @@ namespace tktk
 		float				pad[2]{ 0.0f, 0.0f };
 	};
 }
-#endif // !LINE_2D_CONSTANT_BUFFER_DATA_H_
+#endif // !LINE_2D_CBUFFER_DATA_H_

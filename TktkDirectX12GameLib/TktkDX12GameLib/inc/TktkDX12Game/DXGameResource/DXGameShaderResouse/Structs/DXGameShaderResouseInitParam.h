@@ -1,11 +1,11 @@
 #ifndef DX_GAME_SHADER_RESOUSE_INIT_PARAM_H_
 #define DX_GAME_SHADER_RESOUSE_INIT_PARAM_H_
 
-#include "PostEffect/PostEffectMaterialManagerInitParam.h"
-#include "Line2D/Line2DMaterialManagerInitParam.h"
-#include "Sprite/SpriteMaterialManagerInitParam.h"
-#include "Billboard/BillboardMaterialManagerInitParam.h"
-#include "MeshResouse/Structs/MeshResourceInitParam.h"
+#include "../PostEffect/Structs/PostEffectMaterialManagerInitParam.h"
+#include "../Line2D/Structs/Line2DMaterialManagerInitParam.h"
+#include "../Sprite/Structs/SpriteMaterialManagerInitParam.h"
+#include "../Billboard/Structs/BillboardMaterialManagerInitParam.h"
+#include "../MeshResouse/Structs/MeshResourceInitParam.h"
 
 namespace tktk
 {

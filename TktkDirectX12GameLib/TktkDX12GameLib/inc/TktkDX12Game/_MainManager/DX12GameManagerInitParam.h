@@ -19,7 +19,7 @@ namespace tktk
 		std::string					tktkLibResFolderPath{""};
 
 		// DirectX12のデバックレイヤーを作るかどうか？
-		bool						craeteDebugLayer	{ true };
+		bool						createDebugLayer	{ true };
 
 		// このフレームワークのリソース管理コンテナのメモリ確保関係の設定変数
 		tktkContainer::ResourceContainerInitParam lightContainerParam;
