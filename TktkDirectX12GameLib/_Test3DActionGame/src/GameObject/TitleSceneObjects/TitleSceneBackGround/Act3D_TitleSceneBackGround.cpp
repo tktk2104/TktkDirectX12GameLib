@@ -11,7 +11,7 @@ tktk::GameObjectPtr Act3D_TitleSceneBackGround::create()
 
     // 二次元座標管理コンポーネント
     tktk::Transform2DMaker::makeStart(gameObject)
-        .initPosition(tktk::DX12Game::getWindowSize() / 2.0f)
+        .initPosition(tktk::DX12Game::getDrawGameAreaSize() / 2.0f)
         .create();
 
     // スプライト描画コンポーネント

@@ -12,7 +12,7 @@ tktk::GameObjectPtr Act3D_ResultSceneBackGround::create()
 
     // 二次元座標管理コンポーネント
     tktk::Transform2DMaker::makeStart(gameObject)
-        .initPosition(tktk::DX12Game::getWindowSize() / 2.0f)
+        .initPosition(tktk::DX12Game::getDrawGameAreaSize() / 2.0f)
         .create();
 
     // ゲームの状況により表示内容を変化させるコンポーネント

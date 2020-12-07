@@ -8,12 +8,12 @@ tktk::GameObjectPtr Act3D_TitleSceneChanger::create()
     auto gameObject = tktk::DX12Game::createGameObject();
 
     // ウィンドウサイズを取得
-    const auto& windowSize = tktk::DX12Game::getWindowSize();
+    const auto& drawGameAreaSize = tktk::DX12Game::getDrawGameAreaSize();
 
     // 座標管理コンポーネント
     tktk::Transform2DMaker::makeStart(gameObject)
-        .initPosition(windowSize / 2.0f)
-        .initScaleRate({ windowSize.x / 4.0f, windowSize.y / 4.0f })
+        .initPosition(drawGameAreaSize / 2.0f)
+        .initScaleRate({ drawGameAreaSize.x / 4.0f, drawGameAreaSize.y / 4.0f })
         .create();
 
     // ゲーム開始キー入力音

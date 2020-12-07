@@ -22,10 +22,11 @@ inline void setUpDX12GameManager(HINSTANCE hInstance, int nCmdShow)
 	initParam.windowParam.hInstance		= hInstance;
 	initParam.windowParam.nCmdShow		= nCmdShow;
 	initParam.windowParam.windowName	= "Test3DActionGame";
+	initParam.windowParam.fullScreen	= true;
 	initParam.windowParam.windowSize	= { 1920.0f, 1080.0f };
 
 	// デバックレイヤーを無効にする
-	initParam.craeteDebugLayer = false;
+	initParam.createDebugLayer = false;
 
 	// DX12GameManagerのセットアップ
 	tktk::DX12GameManager::initialize(initParam);
