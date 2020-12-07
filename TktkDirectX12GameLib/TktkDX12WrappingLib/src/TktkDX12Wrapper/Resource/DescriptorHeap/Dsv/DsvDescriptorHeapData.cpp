@@ -5,7 +5,7 @@ namespace tktk
 	DsvDescriptorHeapData::DsvDescriptorHeapData(ID3D12Device* device, const DsvDescriptorHeapInitParam& initParam)
 	{
 		D3D12_DESCRIPTOR_HEAP_DESC descHeapDesc{};
-		descHeapDesc.Flags		= (initParam.shaderVisible) ? D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE : D3D12_DESCRIPTOR_HEAP_FLAG_NONE;
+		descHeapDesc.Flags		= D3D12_DESCRIPTOR_HEAP_FLAG_NONE;
 		descHeapDesc.NodeMask	= 0;
 		descHeapDesc.Type		= D3D12_DESCRIPTOR_HEAP_TYPE_DSV;
 

@@ -18,7 +18,7 @@ namespace tktk
 		DX3DResourceNum		resourceNum;
 		HWND				hwnd;
 		tktkMath::Vector2	windowSize;
-		bool				craeteDebugLayer;
+		bool				createDebugLayer;
 	};
 }
 #endif // !DX3D_BASE_OBJECTS_INIT_PARAM_H_

@@ -22,7 +22,6 @@ namespace tktk
 	// レンダーターゲットビュー用のディスクリプタヒープを作る時に必要な変数
 	struct RtvDescriptorHeapInitParam
 	{
-		bool							shaderVisible{ true };
 		std::vector<RtvDescriptorParam>	descriptorParamArray{ };
 	};
 }

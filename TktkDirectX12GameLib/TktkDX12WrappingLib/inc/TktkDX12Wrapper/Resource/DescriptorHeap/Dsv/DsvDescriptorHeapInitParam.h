@@ -21,7 +21,6 @@ namespace tktk
 	// 深度ステンシルビュー用のディスクリプタヒープを作る時に必要な変数
 	struct DsvDescriptorHeapInitParam
 	{
-		bool							shaderVisible{ true };
 		std::vector<DsvDescriptorParam>	descriptorParamArray{ };
 	};
 }

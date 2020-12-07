@@ -14,7 +14,7 @@ namespace tktk
 		m_dX3DResource	= std::make_unique<DX3DResource>(initParam.resourceNum);
 
 #ifdef _DEBUG
-		if (initParam.craeteDebugLayer)
+		if (initParam.createDebugLayer)
 		{
 			ID3D12Debug* debugLayer{ nullptr };
 			D3D12GetDebugInterface(IID_PPV_ARGS(&debugLayer));
@@ -34,7 +34,7 @@ namespace tktk
 
 		// ファクトリを作る
 #ifdef _DEBUG
-		if (initParam.craeteDebugLayer) CreateDXGIFactory2(DXGI_CREATE_FACTORY_DEBUG, IID_PPV_ARGS(&m_factory));
+		if (initParam.createDebugLayer) CreateDXGIFactory2(DXGI_CREATE_FACTORY_DEBUG, IID_PPV_ARGS(&m_factory));
 		else CreateDXGIFactory1(IID_PPV_ARGS(&m_factory));
 #else
 		CreateDXGIFactory1(IID_PPV_ARGS(&m_factory));
@@ -176,7 +176,6 @@ namespace tktk
 	size_t DX3DBaseObjects::createBackBufferRtvDescriptorHeap(const std::array<size_t, 2U>& backBufferRtBufferHandles)
 	{
 		RtvDescriptorHeapInitParam rtvDescriptorHeapInitParam{};
-		rtvDescriptorHeapInitParam.shaderVisible = false;
 		rtvDescriptorHeapInitParam.descriptorParamArray.resize(2U);
 		rtvDescriptorHeapInitParam.descriptorParamArray.at(0U).type		= RtvDescriptorType::normal;
 		rtvDescriptorHeapInitParam.descriptorParamArray.at(0U).handle	= backBufferRtBufferHandles.at(0U);
