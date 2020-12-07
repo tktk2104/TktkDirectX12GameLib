@@ -271,9 +271,29 @@ namespace tktk
 			auto createdHandle = m_dxGameResource->createPostEffectMaterial(materialInitParam);
 			m_postEffectObject->createComponent<PostEffectDrawFuncRunner>(createdHandle, drawFuncRunnerInitParam);
 
+			const auto& screenSize			= m_graphicManager->getScreenSize();
+			const auto& drawGameAreaSize	= m_graphicManager->getDrawGameAreaSize();
+
+			auto letterBoxSize = tktkMath::Vector2_v::zero;
+
+			if (screenSize.x / drawGameAreaSize.x >= screenSize.y / drawGameAreaSize.y)
+			{
+				letterBoxSize.x = (screenSize.x - (screenSize.y * drawGameAreaSize.x / drawGameAreaSize.y)) / 2;
+			}
+			else
+			{
+				letterBoxSize.y = (screenSize.y - (screenSize.x * drawGameAreaSize.y / drawGameAreaSize.x)) / 2;
+			}
+
+			DrawGameAreaCBufferData drawGameAreaCbufferData{};
+			drawGameAreaCbufferData.drawGameAreaSizeRate = {
+				1.0f - (letterBoxSize.x / screenSize.x * 2.0f),
+				1.0f - (letterBoxSize.y / screenSize.y * 2.0f)
+			};
+
 			addPostEffectMaterialAppendParam(createdHandle, PostEffectMaterialAppendParamInitParam(
 				m_utilityProcessManager->getSystemHandle(SystemCBufferType::DrawGameArea),
-				std::make_shared<DrawGameAreaCBufferData>(DrawGameAreaCBufferData{ m_graphicManager->getDrawGameAreaSize(), m_graphicManager->getScreenSize() })
+				std::make_shared<DrawGameAreaCBufferData>(drawGameAreaCbufferData)
 			));
 		}
 	}

@@ -8,8 +8,7 @@ namespace tktk
 	// ゲームの描画エリア描画用のポストエフェクト定数バッファ
 	struct DrawGameAreaCBufferData
 	{
-		tktkMath::Vector2 drawGameAreaSize;
-		tktkMath::Vector2 screenSize;
+		tktkMath::Vector2 drawGameAreaSizeRate;
 	};
 }
 #endif // !DRAW_GAME_AREA_CBUFFER_DATA_H_
