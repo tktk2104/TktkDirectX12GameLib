@@ -63,6 +63,12 @@ namespace tktk
 		// 切り取る範囲の大きさを設定する（テクセル）
 		void setClippingSize(const tktkMath::Vector2& size);
 
+		// 切り取る範囲の左上座標を設定する（テクスチャサイズを（1, 1）とした時の割合）
+		void setClippingLeftTopPosRate(const tktkMath::Vector2& leftTopPosRate);
+
+		// 切り取る範囲の大きさを設定する（テクスチャサイズを（1, 1）とした時の割合）
+		void setClippingSizeRate(const tktkMath::Vector2& sizeRate);
+
 	private:
 
 		size_t						m_createUploadTransformCbufferHandle{ 0U };

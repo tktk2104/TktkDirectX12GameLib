@@ -65,4 +65,18 @@ namespace tktk
 	{
 		m_clippingSize = size;
 	}
+
+	void BillboardDrawer::setClippingLeftTopPosRate(const tktkMath::Vector2& leftTopPosRate)
+	{
+		const auto& textureSize = DX12GameManager::getBillboardTextureSize(m_billboardMaterialHandle);
+
+		m_clippingLeftTopPos = tktkMath::Vector2::scale(textureSize, leftTopPosRate);
+	}
+
+	void BillboardDrawer::setClippingSizeRate(const tktkMath::Vector2& sizeRate)
+	{
+		const auto& textureSize = DX12GameManager::getBillboardTextureSize(m_billboardMaterialHandle);
+
+		m_clippingSize = tktkMath::Vector2::scale(textureSize, sizeRate);
+	}
 }

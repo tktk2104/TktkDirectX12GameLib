@@ -87,4 +87,18 @@ namespace tktk
 	{
 		m_clippingParam.size = size;
 	}
+
+	void SpriteDrawer::setClippingLeftTopPosRate(const tktkMath::Vector2& leftTopPosRate)
+	{
+		const auto& textureSize = DX12GameManager::getSpriteTextureSize(m_spriteMaterialHandle);
+
+		m_clippingParam.leftTopPos = tktkMath::Vector2::scale(textureSize, leftTopPosRate);
+	}
+
+	void SpriteDrawer::setClippingSizeRate(const tktkMath::Vector2& sizeRate)
+	{
+		const auto& textureSize = DX12GameManager::getSpriteTextureSize(m_spriteMaterialHandle);
+
+		m_clippingParam.size = tktkMath::Vector2::scale(textureSize, sizeRate);
+	}
 }

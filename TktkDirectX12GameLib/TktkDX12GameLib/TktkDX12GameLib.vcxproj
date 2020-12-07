@@ -182,6 +182,10 @@
     <ClInclude Include="inc\TktkDX12BaseComponents\2D\PostEffectDrawer\PostEffectDrawFuncRunnerInitParam.h" />
     <ClInclude Include="inc\TktkDX12BaseComponents\2D\RectCollider\RectCollider.h" />
     <ClInclude Include="inc\TktkDX12BaseComponents\2D\RectCollider\RectColliderMaker.h" />
+    <ClInclude Include="inc\TktkDX12BaseComponents\2D\SpriteAnimator\SpriteAnimator.h" />
+    <ClInclude Include="inc\TktkDX12BaseComponents\2D\SpriteAnimator\SpriteAnimatorMaker.h" />
+    <ClInclude Include="inc\TktkDX12BaseComponents\3D\BillboardAnimator\BillboardAnimator.h" />
+    <ClInclude Include="inc\TktkDX12BaseComponents\3D\BillboardAnimator\BillboardAnimatorMaker.h" />
     <ClInclude Include="inc\TktkDX12BaseComponents\3D\BillboardDrawer\BillboardDrawer.h" />
     <ClInclude Include="inc\TktkDX12BaseComponents\3D\BillboardDrawer\BillboardDrawerMaker.h" />
     <ClInclude Include="inc\TktkDX12BaseComponents\3D\BillboardDrawer\BillboardDrawFuncRunner.h" />
@@ -424,6 +428,10 @@
     <ClCompile Include="src\TktkDX12BaseComponents\2D\PostEffectDrawer\PostEffectDrawFuncRunner.cpp" />
     <ClCompile Include="src\TktkDX12BaseComponents\2D\RectCollider\RectCollider.cpp" />
     <ClCompile Include="src\TktkDX12BaseComponents\2D\RectCollider\RectColliderMaker.cpp" />
+    <ClCompile Include="src\TktkDX12BaseComponents\2D\SpriteAnimator\SpriteAnimator.cpp" />
+    <ClCompile Include="src\TktkDX12BaseComponents\2D\SpriteAnimator\SpriteAnimatorMaker.cpp" />
+    <ClCompile Include="src\TktkDX12BaseComponents\3D\BillboardAnimator\BillboardAnimator.cpp" />
+    <ClCompile Include="src\TktkDX12BaseComponents\3D\BillboardAnimator\BillboardAnimatorMaker.cpp" />
     <ClCompile Include="src\TktkDX12BaseComponents\3D\BillboardDrawer\BillboardDrawer.cpp" />
     <ClCompile Include="src\TktkDX12BaseComponents\3D\BillboardDrawer\BillboardDrawerMaker.cpp" />
     <ClCompile Include="src\TktkDX12BaseComponents\3D\BillboardDrawer\BillboardDrawFuncRunner.cpp" />

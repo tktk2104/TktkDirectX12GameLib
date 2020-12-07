@@ -10,6 +10,7 @@
 #include "2D/ColliderWireFrameDrawer2D/ColliderWireFrameDrawer2DMaker.h"
 #include "2D/Line2dDrawer/Line2DDrawerMaker.h"
 #include "2D/SpriteDrawer/SpriteDrawerMaker.h"
+#include "2D/SpriteAnimator/SpriteAnimatorMaker.h"
 
 #include "3D/Transform3D/Transform3DMaker.h"
 #include "3D/InertialMovement3D/InertialMovement3DMaker.h"
@@ -23,6 +24,7 @@
 #include "3D/Camera/ShadowMapCameraControllerMaker.h"
 #include "3D/Camera/FirstPersonModuleMaker.h"
 #include "3D/BillboardDrawer/BillboardDrawerMaker.h"
+#include "3D/BillboardAnimator/BillboardAnimatorMaker.h"
 #include "3D/MeshDrawer/MeshDrawerMaker.h"
 #include "3D/MeshDrawer/MonoColorMeshDrawerMaker.h"
 #include "3D/MeshAnimator/MeshAnimatorMaker.h"
@@ -70,6 +72,9 @@ namespace tktk
 
 		// スプライト描画コンポーネント
 		using C10 = SpriteDrawer;
+
+		// スプライトアニメーションコンポーネント
+		using C11 = SpriteAnimator;
 	//>
 
 
@@ -109,23 +114,26 @@ namespace tktk
 		// ビルボード描画コンポーネント
 		using C40 = BillboardDrawer;
 
+		// ビルボードアニメーションコンポーネント
+		using C41 = BillboardAnimator;
+
 		// メッシュの描画コンポーネント
-		using C41 = MeshDrawer;
+		using C42 = MeshDrawer;
 
 		// 単色メッシュの描画コンポーネント
-		using C42 = MonoColorMeshDrawer;
+		using C43 = MonoColorMeshDrawer;
 
 		// メッシュのアニメーションコンポーネント
-		using C43 = MeshAnimator;
+		using C44 = MeshAnimator;
 
 		// モーション変更コンポーネント
-		using C44 = MotionChanger;
+		using C45 = MotionChanger;
 
 		// 収縮するビルボードエフェクトコンポーネント
-		using C45 = BillboardShrinkEffectCreator;
+		using C46 = BillboardShrinkEffectCreator;
 
 		// 拡散するビルボードエフェクトコンポーネント
-		using C46 = BillboardSpreadEffectCreator;
+		using C47 = BillboardSpreadEffectCreator;
 	//>
 
 
