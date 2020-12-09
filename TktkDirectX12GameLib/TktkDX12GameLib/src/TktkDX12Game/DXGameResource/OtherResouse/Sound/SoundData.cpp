@@ -141,15 +141,17 @@ namespace tktk
 			// 読み込むデータが存在しなかったら
 			if (loadDataSize == 0U)
 			{
-				// 停止する前のサウンド再生状態を保持する
-				auto preSoundPlayState = m_soundPlayState;
+				if (voiceState.BuffersQueued == 0U)
+				{
+					// 停止する前のサウンド再生状態を保持する
+					auto preSoundPlayState = m_soundPlayState;
 
-				// サウンドを停止する
-				stopSound();
+					// サウンドを停止する
+					stopSound();
 
-				// ループフラグが立っていたら再度再生する
-				if ((preSoundPlayState & SoundPlayState::Loop) != 0) playSound(true);
-
+					// ループフラグが立っていたら再度再生する
+					if ((preSoundPlayState & SoundPlayState::Loop) != 0) playSound(true);
+				}
 				// 読み込みループを抜ける
 				break;
 			}
