@@ -32,10 +32,10 @@ namespace tktk
 		m_curFrame += DX12GameManager::deltaTime() * m_animSpeedRate;
 
 		// アニメーションフレームのリセット（ループフラグによって分岐）
-		if (m_isLoop && m_curFrame > m_animFramePerSec * m_totalAnimFrameSize)
+		if (m_curFrame > m_animFramePerSec * m_totalAnimFrameSize)
 		{
 			if (m_isLoop)	m_curFrame = 0.0f;
-			else			m_curFrame = m_animFramePerSec * m_totalAnimFrameSize;
+			else			m_curFrame = m_animFramePerSec * (m_totalAnimFrameSize - 1);
 		}
 
 		m_spriteDrawer->setClippingSizeRate({ 1.0f / m_totalAnimFrameSize, 1.0f });
