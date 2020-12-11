@@ -95,6 +95,11 @@ namespace tktk
 		return m_systemPostEffectMaterialHandleMap.at(type);
 	}
 
+	size_t SystemResourceHandleGetter::getSystemHandle(SystemPostEffectDrawFuncRunnerType type) const
+	{
+		return m_systemPostEffectDrawFuncRunnerHandleMap.at(type);
+	}
+
 	void SystemResourceHandleGetter::setSystemHandle(SystemViewportType type, size_t handle)
 	{
 		m_systemViewportHandleMap.emplace(type, handle);
@@ -183,5 +188,10 @@ namespace tktk
 	void SystemResourceHandleGetter::setSystemHandle(SystemPostEffectMaterialType type, size_t handle)
 	{
 		m_systemPostEffectMaterialHandleMap.emplace(type, handle);
+	}
+
+	void SystemResourceHandleGetter::setSystemHandle(SystemPostEffectDrawFuncRunnerType type, size_t handle)
+	{
+		m_systemPostEffectDrawFuncRunnerHandleMap.emplace(type, handle);
 	}
 }

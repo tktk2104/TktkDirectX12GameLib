@@ -10,7 +10,7 @@ namespace tktk
 	{
 		m_self = MeshDrawFuncRunnerInitParam();
 
-		m_self.m_rtvDescriptorHeapHandle	= DX12GameManager::getSystemHandle(SystemRtvDescriptorHeapType::DrawGameArea);
+		m_self.m_rtvDescriptorHeapHandle	= DX12GameManager::getSystemHandle(SystemRtvDescriptorHeapType::PostEffectTarget);
 		m_self.m_lightHandle				= DX12GameManager::getSystemHandle(SystemLightType::DefaultLight);
 		m_self.m_cameraHandle				= DX12GameManager::getSystemHandle(SystemCameraType::DefaultCamera);
 		m_self.m_shadowMapCameraHandle		= DX12GameManager::getSystemHandle(SystemCameraType::DefaultShadowMapCamera);

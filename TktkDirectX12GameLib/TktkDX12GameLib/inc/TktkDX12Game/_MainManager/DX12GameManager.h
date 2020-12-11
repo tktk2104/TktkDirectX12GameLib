@@ -87,6 +87,7 @@
 #include "../UtilityProcessManager/ResourceHandleGetter/SystemResourceHandleGetter/IdType/SystemBasicMeshType.h"
 #include "../UtilityProcessManager/ResourceHandleGetter/SystemResourceHandleGetter/IdType/SystemBasicMeshMaterialType.h"
 #include "../UtilityProcessManager/ResourceHandleGetter/SystemResourceHandleGetter/IdType/SystemPostEffectMaterialType.h"
+#include "../UtilityProcessManager/ResourceHandleGetter/SystemResourceHandleGetter/IdType/SystemPostEffectDrawFuncRunnerType.h"
 #include "../UtilityProcessManager/ResourceHandleGetter/ResourceIdConverter/ResourceIdCarrier.h"
 
 #include "../../TktkDX12BaseComponents/2D/PostEffectDrawer/PostEffectDrawFuncRunnerInitParam.h"
@@ -586,14 +587,14 @@ namespace tktk
 		);
 	
 	//************************************************************
-	/* ポストエフェクト関係の処理 */
+	/* ポストエフェクトマテリアル関係の処理 */
 	public:
 	
 		// ポストエフェクトのマテリアルを作り、そのリソースのハンドルを返す
-		static size_t createPostEffectMaterial(const PostEffectMaterialInitParam& initParam, const PostEffectDrawFuncRunnerInitParam& funcRunnerInitParam);
+		static size_t createPostEffectMaterial(const PostEffectMaterialInitParam& initParam);
 	
 		// ポストエフェクトのマテリアルを作り、そのリソースのハンドルと引数のハンドルを結び付ける
-		static size_t createPostEffectMaterialAndAttachId(ResourceIdCarrier id, const PostEffectMaterialInitParam& initParam, const PostEffectDrawFuncRunnerInitParam& funcRunnerInitParam);
+		static size_t createPostEffectMaterialAndAttachId(ResourceIdCarrier id, const PostEffectMaterialInitParam& initParam);
 	
 		// 指定のポストエフェクトを描画する
 		static void drawPostEffect(size_t handle, const PostEffectMaterialDrawFuncArgs& drawFuncArgs);
@@ -604,10 +605,20 @@ namespace tktk
 		// 指定したポストエフェクトマテリアルで追加で管理する定数バッファの値を更新する
 		static void updatePostEffectMaterialAppendParam(size_t handle, const PostEffectMaterialAppendParamUpdateFuncArgs& updateFuncArgs);
 
-		// 指定したポストエフェクトを開始する
+	//************************************************************
+	/* ポストエフェクトの描画関数を呼ぶコンポーネントの処理 */
+	public:
+
+		// 新たなポストエフェクトの描画関数を呼ぶコンポーネントを作り、そのハンドルを返す
+		static size_t createPostEffectDrawFuncRunner(size_t postEffectMaterialHandle, const PostEffectDrawFuncRunnerInitParam& initParam);
+
+		// 新たなポストエフェクトの描画関数を呼ぶコンポーネントを作り、そのリソースのハンドルと引数のハンドルを結び付ける
+		static size_t createPostEffectDrawFuncRunnerAndAttachId(ResourceIdCarrier id, size_t postEffectMaterialHandle, const PostEffectDrawFuncRunnerInitParam& initParam);
+
+		// 指定したポストエフェクトを実行開始する（他のポストエフェクトは停止する）
 		static void startPostEffect(size_t handle);
 
-		// ポストエフェクトを止める
+		// 全てのポストエフェクトを停止する
 		static void stopPostEffect();
 
 	//************************************************************
@@ -812,51 +823,53 @@ namespace tktk
 		static size_t getSystemHandle(SystemMeshType type);
 		static size_t getSystemHandle(SystemMeshMaterialType type);
 		static size_t getSystemHandle(SystemPostEffectMaterialType type);
+		static size_t getSystemHandle(SystemPostEffectDrawFuncRunnerType type);
 	
 	//************************************************************
 	/* システムのリソースを使うためのハンドルとシステムのリソースの種類を結びつける */
 	
-		static void setSystemHandle(SystemViewportType type,			size_t handle);
-		static void setSystemHandle(SystemScissorRectType type,			size_t handle);
-		static void setSystemHandle(SystemVertexBufferType type,		size_t handle);
-		static void setSystemHandle(SystemIndexBufferType type,			size_t handle);
-		static void setSystemHandle(SystemCBufferType type,				size_t handle);
-		static void setSystemHandle(SystemTextureBufferType type,		size_t handle);
-		static void setSystemHandle(SystemRtBufferType type,			size_t handle);
-		static void setSystemHandle(SystemDsBufferType type,			size_t handle);
-		static void setSystemHandle(SystemBasicDescriptorHeapType type,	size_t handle);
-		static void setSystemHandle(SystemRtvDescriptorHeapType type,	size_t handle);
-		static void setSystemHandle(SystemDsvDescriptorHeapType type,	size_t handle);
-		static void setSystemHandle(SystemRootSignatureType type,		size_t handle);
-		static void setSystemHandle(SystemPipeLineStateType type,		size_t handle);
-		static void setSystemHandle(SystemCameraType type,				size_t handle);
-		static void setSystemHandle(SystemLightType type,				size_t handle);
-		static void setSystemHandle(SystemMeshType type,			size_t handle);
-		static void setSystemHandle(SystemMeshMaterialType type,	size_t handle);
-		static void setSystemHandle(SystemPostEffectMaterialType type,	size_t handle);
+		static void setSystemHandle(SystemViewportType type,					size_t handle);
+		static void setSystemHandle(SystemScissorRectType type,					size_t handle);
+		static void setSystemHandle(SystemVertexBufferType type,				size_t handle);
+		static void setSystemHandle(SystemIndexBufferType type,					size_t handle);
+		static void setSystemHandle(SystemCBufferType type,						size_t handle);
+		static void setSystemHandle(SystemTextureBufferType type,				size_t handle);
+		static void setSystemHandle(SystemRtBufferType type,					size_t handle);
+		static void setSystemHandle(SystemDsBufferType type,					size_t handle);
+		static void setSystemHandle(SystemBasicDescriptorHeapType type,			size_t handle);
+		static void setSystemHandle(SystemRtvDescriptorHeapType type,			size_t handle);
+		static void setSystemHandle(SystemDsvDescriptorHeapType type,			size_t handle);
+		static void setSystemHandle(SystemRootSignatureType type,				size_t handle);
+		static void setSystemHandle(SystemPipeLineStateType type,				size_t handle);
+		static void setSystemHandle(SystemCameraType type,						size_t handle);
+		static void setSystemHandle(SystemLightType type,						size_t handle);
+		static void setSystemHandle(SystemMeshType type,						size_t handle);
+		static void setSystemHandle(SystemMeshMaterialType type,				size_t handle);
+		static void setSystemHandle(SystemPostEffectMaterialType type,			size_t handle);
+		static void setSystemHandle(SystemPostEffectDrawFuncRunnerType type,	size_t handle);
 	
 	//************************************************************
 	/* リソースIDからリソースハンドルを取得する */
 	public:
 	
-		static size_t getSceneHandle				(ResourceIdCarrier id);
-		static size_t getSoundHandle				(ResourceIdCarrier id);
-		static size_t getPostEffectMaterialHandle	(ResourceIdCarrier id);
-		static size_t getSpriteMaterialHandle		(ResourceIdCarrier id);
-		static size_t getLine2DMaterialHandle		(ResourceIdCarrier id);
-		static size_t getBillboardMaterialHandle	(ResourceIdCarrier id);
-		static size_t getSkeletonHandle				(ResourceIdCarrier id);
-		static size_t getMotionHandle				(ResourceIdCarrier id);
-		static size_t getBasicMeshHandle			(ResourceIdCarrier id);
-		static size_t getBasicMeshMaterialHandle	(ResourceIdCarrier id);
-		static size_t getCameraHandle				(ResourceIdCarrier id);
-		static size_t getLightHandle				(ResourceIdCarrier id);
+		static size_t getSceneHandle					(ResourceIdCarrier id);
+		static size_t getSoundHandle					(ResourceIdCarrier id);
+		static size_t getPostEffectMaterialHandle		(ResourceIdCarrier id);
+		static size_t getSpriteMaterialHandle			(ResourceIdCarrier id);
+		static size_t getLine2DMaterialHandle			(ResourceIdCarrier id);
+		static size_t getBillboardMaterialHandle		(ResourceIdCarrier id);
+		static size_t getSkeletonHandle					(ResourceIdCarrier id);
+		static size_t getMotionHandle					(ResourceIdCarrier id);
+		static size_t getBasicMeshHandle				(ResourceIdCarrier id);
+		static size_t getBasicMeshMaterialHandle		(ResourceIdCarrier id);
+		static size_t getPostEffectDrawFuncRunnerHandle	(ResourceIdCarrier id);
+		static size_t getCameraHandle					(ResourceIdCarrier id);
+		static size_t getLightHandle					(ResourceIdCarrier id);
 	
 	//************************************************************
 	private:
 
 		static bool												m_isGameExit;
-		static GameObjectPtr									m_postEffectObject;
 		static std::unique_ptr<GraphicManager>					m_graphicManager;
 		static std::unique_ptr<DXGameResource>					m_dxGameResource;
 		static std::unique_ptr<UtilityProcessManager>			m_utilityProcessManager;

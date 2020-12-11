@@ -17,7 +17,7 @@ namespace tktk
 		BillboardDrawFuncRunnerInitParam& drawPriority(float value);
 
 		// 使用するレンダーターゲットのディスクリプタヒープハンドルを設定する
-		// ※初期パラメータはバックバッファー
+		// ※初期パラメータはポストエフェクト適応対象
 		BillboardDrawFuncRunnerInitParam& useRtvDescriptorHeapHandle(size_t value);
 
 		// 使用するカメラハンドルを設定する

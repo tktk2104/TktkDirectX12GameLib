@@ -18,12 +18,9 @@
 #include "TktkDX12BaseComponents/3D/MeshDrawer/MeshDrawFuncRunner.h"
 #include "TktkDX12BaseComponents/3D/ShadowMapWriter/WriteMeshShadowMapFuncRunner.h"
 
-#include "TktkDX12Game/DXGameResource/DXGameShaderResouse/PostEffect/Structs/DrawGameAreaCBufferData.h"
-
 namespace tktk
 {
 	bool												DX12GameManager::m_isGameExit{ false };
-	GameObjectPtr										DX12GameManager::m_postEffectObject;
 	std::unique_ptr<GraphicManager>						DX12GameManager::m_graphicManager;
 	std::unique_ptr<DXGameResource>						DX12GameManager::m_dxGameResource;
 	std::unique_ptr<UtilityProcessManager>				DX12GameManager::m_utilityProcessManager;
@@ -212,7 +209,12 @@ namespace tktk
 		shaderResInit.postEffectMatMgrParam.drawGameAreaVSFilePath			= shaderFolderPath + "DrawGameAreaVertexShader.cso"; 
 		shaderResInit.postEffectMatMgrParam.drawGameAreaPSFilePath			= shaderFolderPath + "DrawGameAreaPixelShader.cso";
 		shaderResInit.postEffectMatMgrParam.postEffectVSFilePath			= shaderFolderPath + "PostEffectVertexShader.cso";
+		shaderResInit.postEffectMatMgrParam.notPostEffectPSFilePath			= shaderFolderPath + "NotPostEffectPixelShader.cso";
 		shaderResInit.postEffectMatMgrParam.monochromePSFilePath			= shaderFolderPath + "MonochromePixelShader.cso";
+		shaderResInit.postEffectMatMgrParam.negativePSFilePath				= shaderFolderPath + "NegativePixelShader.cso";
+		shaderResInit.postEffectMatMgrParam.averagingBlurPSFilePath			= shaderFolderPath + "AveragingBlurPixelShader.cso";
+		shaderResInit.postEffectMatMgrParam.embossPSFilePath				= shaderFolderPath + "EmbossPixelShader.cso";
+		shaderResInit.postEffectMatMgrParam.sharpnessPSFilePath				= shaderFolderPath + "SharpnessPixelShader.cso";
 		shaderResInit.line2DMatMgrParam.shaderFilePaths.vsFilePath			= shaderFolderPath + "Line2DVertexShader.cso";
 		shaderResInit.line2DMatMgrParam.shaderFilePaths.psFilePath			= shaderFolderPath + "Line2DPixelShader.cso";
 		shaderResInit.spriteMatMgrParam.shaderFilePaths.vsFilePath			= shaderFolderPath + "SpriteVertexShader.cso";
@@ -228,14 +230,16 @@ namespace tktk
 		shaderResInit.meshResParam.shaderFilePaths.simpleMeshShadowMapVs	= shaderFolderPath + "SimpleMeshShadowMapVertexShader.cso";
 		shaderResInit.meshResParam.shaderFilePaths.skinningMeshShadowMapVs	= shaderFolderPath + "SkinningMeshShadowMapVertexShader.cso";
 
+		auto& drawFuncRunnerMgr = dxGameResParam.drawFuncRunnerMgrParam;
+		drawFuncRunnerMgr.postEffectDrawFuncRunnerMgrParam	= gameManagerInitParam.postEffectDrawFuncRunnerMgrParam;
+		drawFuncRunnerMgr.billboardDrawFuncRunnerMgrParam	= gameManagerInitParam.billboardDrawFuncRunnerMgrParam;
+		drawFuncRunnerMgr.meshDrawFuncRunnerMgrParam		= gameManagerInitParam.meshDrawFuncRunnerMgrParam;
+
 		auto& otherResInit = dxGameResParam.otherResParam;
 		otherResInit.sceneMgrParam = gameManagerInitParam.sceneContainerParam;
 		otherResInit.soundMgrParam = gameManagerInitParam.soundContainerParam;
 
 		m_dxGameResource = std::make_unique<DXGameResource>(dxGameResParam);
-
-		// ポストエフェクトを描画するコンポーネントを持つオブジェクト
-		m_postEffectObject = m_dxGameResource->createGameObject();
 
 		// デフォルトの通常カメラを作る
 		setSystemHandle(SystemCameraType::DefaultCamera, createCamera());
@@ -258,44 +262,8 @@ namespace tktk
 		// 初期から存在するメッシュを作る
 		m_dxGameResource->createSystemMesh();
 
-		// 描画エリア描画用のポストエフェクトマテリアルを作る
-		{
-			PostEffectMaterialInitParam materialInitParam{};
-			materialInitParam.usePipeLineStateHandle				= m_utilityProcessManager->getSystemHandle(SystemPipeLineStateType::DrawGameArea);
-			materialInitParam.useDescriptorHeapHandle				= m_utilityProcessManager->getSystemHandle(SystemBasicDescriptorHeapType::DrawGameArea);
-			materialInitParam.autoClearRtvDescriptorHeapHandleArray = { m_utilityProcessManager->getSystemHandle(SystemRtvDescriptorHeapType::DrawGameArea) };
-
-			auto drawFuncRunnerInitParam = PostEffectDrawFuncRunnerInitParam::create();
-			drawFuncRunnerInitParam.rtvDescriptorHeapHandle = m_utilityProcessManager->getSystemHandle(SystemRtvDescriptorHeapType::BackBuffer);
-
-			auto createdHandle = m_dxGameResource->createPostEffectMaterial(materialInitParam);
-			m_postEffectObject->createComponent<PostEffectDrawFuncRunner>(createdHandle, drawFuncRunnerInitParam);
-
-			const auto& screenSize			= m_graphicManager->getScreenSize();
-			const auto& drawGameAreaSize	= m_graphicManager->getDrawGameAreaSize();
-
-			auto letterBoxSize = tktkMath::Vector2_v::zero;
-
-			if (screenSize.x / drawGameAreaSize.x >= screenSize.y / drawGameAreaSize.y)
-			{
-				letterBoxSize.x = (screenSize.x - (screenSize.y * drawGameAreaSize.x / drawGameAreaSize.y)) / 2;
-			}
-			else
-			{
-				letterBoxSize.y = (screenSize.y - (screenSize.x * drawGameAreaSize.y / drawGameAreaSize.x)) / 2;
-			}
-
-			DrawGameAreaCBufferData drawGameAreaCbufferData{};
-			drawGameAreaCbufferData.drawGameAreaSizeRate = {
-				1.0f - (letterBoxSize.x / screenSize.x * 2.0f),
-				1.0f - (letterBoxSize.y / screenSize.y * 2.0f)
-			};
-
-			addPostEffectMaterialAppendParam(createdHandle, PostEffectMaterialAppendParamInitParam(
-				m_utilityProcessManager->getSystemHandle(SystemCBufferType::DrawGameArea),
-				std::make_shared<DrawGameAreaCBufferData>(drawGameAreaCbufferData)
-			));
-		}
+		// 初期から存在するポストエフェクトの描画関数を作る
+		m_dxGameResource->createSystemPostEffectDrawFuncRunner();
 	}
 
 	void DX12GameManager::run()
@@ -1073,19 +1041,14 @@ namespace tktk
 		);
 	}
 	
-	size_t DX12GameManager::createPostEffectMaterial(const PostEffectMaterialInitParam& initParam, const PostEffectDrawFuncRunnerInitParam& funcRunnerInitParam)
+	size_t DX12GameManager::createPostEffectMaterial(const PostEffectMaterialInitParam& initParam)
 	{
-		auto createdHandle = m_dxGameResource->createPostEffectMaterial(initParam);
-		auto createdComponent = m_postEffectObject->createComponent<PostEffectDrawFuncRunner>(createdHandle, funcRunnerInitParam);
-		createdComponent->setActive(false);
-		return createdHandle;
+		return m_dxGameResource->createPostEffectMaterial(initParam);
 	}
 	
-	size_t DX12GameManager::createPostEffectMaterialAndAttachId(ResourceIdCarrier id, const PostEffectMaterialInitParam& initParam, const PostEffectDrawFuncRunnerInitParam& funcRunnerInitParam)
+	size_t DX12GameManager::createPostEffectMaterialAndAttachId(ResourceIdCarrier id, const PostEffectMaterialInitParam& initParam)
 	{
 		auto createdHandle = m_dxGameResource->createPostEffectMaterial(initParam);
-		auto createdComponent = m_postEffectObject->createComponent<PostEffectDrawFuncRunner>(createdHandle, funcRunnerInitParam);
-		createdComponent->setActive(false);
 		m_utilityProcessManager->setPostEffectMaterialHandle(id, createdHandle);
 		return createdHandle;
 	}
@@ -1105,26 +1068,26 @@ namespace tktk
 		m_dxGameResource->updatePostEffectMaterialAppendParam(handle, updateFuncArgs);
 	}
 
+	size_t DX12GameManager::createPostEffectDrawFuncRunner(size_t postEffectMaterialHandle, const PostEffectDrawFuncRunnerInitParam& initParam)
+	{
+		return m_dxGameResource->createPostEffectDrawFuncRunner(postEffectMaterialHandle, initParam);
+	}
+
+	size_t DX12GameManager::createPostEffectDrawFuncRunnerAndAttachId(ResourceIdCarrier id, size_t postEffectMaterialHandle, const PostEffectDrawFuncRunnerInitParam& initParam)
+	{
+		auto createdHandle = m_dxGameResource->createPostEffectDrawFuncRunner(postEffectMaterialHandle, initParam);
+		m_utilityProcessManager->setPostEffectDrawFuncRunnerHandle(id, createdHandle);
+		return createdHandle;
+	}
+
 	void DX12GameManager::startPostEffect(size_t handle)
 	{
-		auto postEffectDrawFuncRunnerList = m_postEffectObject->getComponents<PostEffectDrawFuncRunner>();
-
-		for (const auto& drawFuncRunner : postEffectDrawFuncRunnerList)
-		{
-			if (drawFuncRunner->getPostEffectMaterialHandle() == handle) drawFuncRunner->setActive(true);
-			else drawFuncRunner->setActive(false);
-		}
+		m_dxGameResource->startPostEffect(handle);
 	}
 
 	void DX12GameManager::stopPostEffect()
 	{
-		auto postEffectDrawFuncRunnerList = m_postEffectObject->getComponents<PostEffectDrawFuncRunner>();
-
-		for (const auto& drawFuncRunner : postEffectDrawFuncRunnerList)
-		{
-			if (drawFuncRunner->getPostEffectMaterialHandle() == getSystemHandle(SystemPostEffectMaterialType::DrawGameArea)) drawFuncRunner->setActive(true);
-			else drawFuncRunner->setActive(false);
-		}
+		m_dxGameResource->stopPostEffect();
 	}
 	
 	size_t DX12GameManager::createCamera()
@@ -1462,6 +1425,11 @@ namespace tktk
 	{
 		return m_utilityProcessManager->getSystemHandle(type);
 	}
+
+	size_t DX12GameManager::getSystemHandle(SystemPostEffectDrawFuncRunnerType type)
+	{
+		return m_utilityProcessManager->getSystemHandle(type);
+	}
 	
 	void DX12GameManager::setSystemHandle(SystemViewportType type, size_t handle)
 	{
@@ -1552,6 +1520,11 @@ namespace tktk
 	{
 		m_utilityProcessManager->setSystemHandle(type, handle);
 	}
+
+	void DX12GameManager::setSystemHandle(SystemPostEffectDrawFuncRunnerType type, size_t handle)
+	{
+		m_utilityProcessManager->setSystemHandle(type, handle);
+	}
 	
 	size_t DX12GameManager::getSceneHandle(ResourceIdCarrier id)
 	{
@@ -1601,6 +1574,11 @@ namespace tktk
 	size_t DX12GameManager::getBasicMeshMaterialHandle(ResourceIdCarrier id)
 	{
 		return m_utilityProcessManager->getBasicMeshMaterialHandle(id);
+	}
+
+	size_t DX12GameManager::getPostEffectDrawFuncRunnerHandle(ResourceIdCarrier id)
+	{
+		return m_utilityProcessManager->getPostEffectDrawFuncRunnerHandle(id);
 	}
 	
 	size_t DX12GameManager::getCameraHandle(ResourceIdCarrier id)

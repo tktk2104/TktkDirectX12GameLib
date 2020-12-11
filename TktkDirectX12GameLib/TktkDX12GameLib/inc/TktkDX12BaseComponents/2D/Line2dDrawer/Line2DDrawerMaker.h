@@ -52,7 +52,7 @@ namespace tktk
 		// 作成用変数達
 		GameObjectPtr					m_user						{ };
 		float							m_drawPriority				{ 0.0f };
-		size_t							m_useRtvDescriptorHeapHandle{  }; // ※初期パラメータはバックバッファー
+		size_t							m_useRtvDescriptorHeapHandle{  }; // ※初期パラメータはポストエフェクト適応対象
 		std::vector<tktkMath::Vector2>	m_lineVertexArray			{ };
 		tktkMath::Color					m_lineColor					{ tktkMath::Color_v::white };
 		tktkMath::Color					m_blendRate					{ 1.0f, 1.0f, 1.0f, 1.0f };

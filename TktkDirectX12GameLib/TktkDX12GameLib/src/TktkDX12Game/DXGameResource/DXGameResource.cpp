@@ -4,6 +4,7 @@
 #include "TktkDX12Game/DXGameResource/Draw3DParameters/Draw3DParameters.h"
 #include "TktkDX12Game/DXGameResource/DXGameShaderResouse/DXGameShaderResouse.h"
 #include "TktkDX12Game/DXGameResource/GameObjectResouse/GameObjectResouse.h"
+#include "TktkDX12Game/DXGameResource/DrawFuncRunnerManager/DrawFuncRunnerManager.h"
 #include "TktkDX12Game/DXGameResource/OtherResouse/OtherResouse.h"
 
 #include "TktkDX12Game/_MainManager/DX12GameManager.h"
@@ -16,6 +17,7 @@ namespace tktk
 		m_draw3DParameters		= std::make_unique<Draw3DParameters>(initParam.draw3DParam);
 		m_dxGameShaderResouse	= std::make_unique<DXGameShaderResouse>(initParam.dxGameShaderResParam);
 		m_gameObjectResouse		= std::make_unique<GameObjectResouse>();
+		m_drawFuncRunnerManager = std::make_unique<DrawFuncRunnerManager>(initParam.drawFuncRunnerMgrParam);
 		m_otherResouse			= std::make_unique<OtherResouse>(initParam.otherResParam);
 	}
 
@@ -150,6 +152,26 @@ namespace tktk
 	void DXGameResource::updatePostEffectMaterialAppendParam(size_t handle, const PostEffectMaterialAppendParamUpdateFuncArgs& updateFuncArgs)
 	{
 		m_dxGameShaderResouse->updatePostEffectMaterialAppendParam(handle, updateFuncArgs);
+	}
+
+	void DXGameResource::createSystemPostEffectDrawFuncRunner()
+	{
+		m_drawFuncRunnerManager->createSystemPostEffectDrawFuncRunner();
+	}
+
+	size_t DXGameResource::createPostEffectDrawFuncRunner(size_t postEffectMaterialHandle, const PostEffectDrawFuncRunnerInitParam& initParam)
+	{
+		return m_drawFuncRunnerManager->createPostEffectDrawFuncRunner(postEffectMaterialHandle, initParam);
+	}
+
+	void DXGameResource::startPostEffect(size_t handle)
+	{
+		m_drawFuncRunnerManager->startPostEffect(handle);
+	}
+
+	void DXGameResource::stopPostEffect()
+	{
+		m_drawFuncRunnerManager->stopPostEffect();
 	}
 
 	size_t DXGameResource::createSpriteMaterial(const SpriteMaterialInitParam& initParam)

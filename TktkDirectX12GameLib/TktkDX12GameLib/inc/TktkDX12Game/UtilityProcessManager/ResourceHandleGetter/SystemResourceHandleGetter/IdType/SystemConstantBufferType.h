@@ -7,6 +7,8 @@ namespace tktk
 	enum class SystemCBufferType
 	{
 		DrawGameArea,
+		BasicPostEffect,
+
 		SpriteTransform,
 		SpriteMaterialManager,
 		Line2D,

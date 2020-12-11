@@ -38,6 +38,7 @@
 #include "UtilityProcessManager/ResourceHandleGetter/SystemResourceHandleGetter/IdType/SystemBasicMeshType.h"
 #include "UtilityProcessManager/ResourceHandleGetter/SystemResourceHandleGetter/IdType/SystemBasicMeshMaterialType.h"
 #include "UtilityProcessManager/ResourceHandleGetter/SystemResourceHandleGetter/IdType/SystemPostEffectMaterialType.h"
+#include "UtilityProcessManager/ResourceHandleGetter/SystemResourceHandleGetter/IdType/SystemPostEffectDrawFuncRunnerType.h"
 #include "UtilityProcessManager/ResourceHandleGetter/ResourceIdConverter/ResourceIdCarrier.h"
 
 namespace tktk
@@ -157,6 +158,38 @@ namespace tktk
 		static float fps();
 
 	//************************************************************
+	/* ポストエフェクト関係の処理 */
+	public:
+
+		// モノクロ描画のポストエフェクトを開始する（引数で効果割合を設定する：0.0f～1.0f）
+		static void startMonochromePostEffect(float effectRate);
+		// モノクロ描画のポストエフェクトの効果割合を設定する：0.0f～1.0f
+		static void setMonochromePostEffectRate(float effectRate);
+
+		// 色反転描画のポストエフェクトを開始する（引数で効果割合を設定する：0.0f～1.0f）
+		static void startNegativePostEffect(float effectRate);
+		// 色反転描画のポストエフェクトの効果割合を設定する：0.0f～1.0f
+		static void setNegativePostEffectRate(float effectRate);
+
+		// 平均ぼかし描画のポストエフェクトを開始する（引数で効果割合を設定する：0.0f～1.0f）
+		static void startAveragingBlurPostEffect(float effectRate);
+		// 平均ぼかし描画のポストエフェクトの効果割合を設定する：0.0f～1.0f
+		static void setAveragingBlurPostEffectRate(float effectRate);
+
+		// エンボス描画のポストエフェクトを開始する（引数で効果割合を設定する：0.0f～1.0f）
+		static void startEmbossingPostEffect(float effectRate);
+		// エンボス描画のポストエフェクトの効果割合を設定する：0.0f～1.0f
+		static void setEmbossingPostEffectRate(float effectRate);
+
+		// シャープネス描画のポストエフェクトを開始する（引数で効果割合を設定する：0.0f～1.0f）
+		static void startSharpnessPostEffect(float effectRate);
+		// シャープネス描画のポストエフェクトの効果割合を設定する：0.0f～1.0f
+		static void setSharpnessPostEffectRate(float effectRate);
+
+		// ポストエフェクトを停止する
+		static void stopPostEffect();
+
+	//************************************************************
 	/* リソースを読み込むための処理 */
 	public:
 
@@ -203,6 +236,7 @@ namespace tktk
 		static size_t getSystemHandle(SystemMeshType type);
 		static size_t getSystemHandle(SystemMeshMaterialType type);
 		static size_t getSystemHandle(SystemPostEffectMaterialType type);
+		static size_t getSystemHandle(SystemPostEffectDrawFuncRunnerType type);
 	};
 }
 #endif // !TKTK_DX12_GAME_H_

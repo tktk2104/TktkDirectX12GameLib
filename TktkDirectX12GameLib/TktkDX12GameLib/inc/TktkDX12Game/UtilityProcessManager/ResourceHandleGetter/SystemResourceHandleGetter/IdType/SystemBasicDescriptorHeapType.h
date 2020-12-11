@@ -7,6 +7,8 @@ namespace tktk
 	enum class SystemBasicDescriptorHeapType
 	{
 		DrawGameArea,
+		NotPostEffect,
+		BasicPostEffect,
 
 		Line2D,
 		Sphere,

@@ -750,6 +750,21 @@
     <ClInclude Include="inc\TktkDX12BaseComponents\3D\BillboardAnimator\BillboardAnimatorMaker.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\PostEffect\Structs\BasicPostEffectCBufferData.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DrawFuncRunnerManager\PostEffect\PostEffectDrawFuncRunnerManager.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DrawFuncRunnerManager\Structs\DrawFuncRunnerManagerInitParam.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DrawFuncRunnerManager\DrawFuncRunnerManager.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\TktkDX12Game\UtilityProcessManager\ResourceHandleGetter\SystemResourceHandleGetter\IdType\SystemPostEffectDrawFuncRunnerType.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\TktkDX12Game\_MainManager\DX12GameManager.cpp">
@@ -1187,9 +1202,6 @@
     <ClCompile Include="src\TktkDX12BaseComponents\2D\PostEffectDrawer\PostEffectDrawFuncRunner.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
-    <ClCompile Include="src\TktkDX12BaseComponents\2D\PostEffectDrawer\PostEffectDrawFuncRunnerInitParam.cpp">
-      <Filter>ソース ファイル</Filter>
-    </ClCompile>
     <ClCompile Include="src\TktkDX12BaseComponents\2D\SpriteAnimator\SpriteAnimator.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
@@ -1200,6 +1212,12 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="src\TktkDX12BaseComponents\3D\BillboardAnimator\BillboardAnimatorMaker.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TktkDX12Game\DXGameResource\DrawFuncRunnerManager\PostEffect\PostEffectDrawFuncRunnerManager.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TktkDX12Game\DXGameResource\DrawFuncRunnerManager\DrawFuncRunnerManager.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1222,5 +1240,10 @@
     <FxCompile Include="shader\monoColorMeshShader\MonoColorMeshPixelShader.hlsl" />
     <FxCompile Include="shader\postEffectShader\drawGameAreaShader\DrawGameAreaPixelShader.hlsl" />
     <FxCompile Include="shader\postEffectShader\drawGameAreaShader\DrawGameAreaVertexShader.hlsl" />
+    <FxCompile Include="shader\postEffectShader\negativeShader\NegativePixelShader.hlsl" />
+    <FxCompile Include="shader\postEffectShader\averagingBlurShader\AveragingBlurPixelShader.hlsl" />
+    <FxCompile Include="shader\postEffectShader\embossShader\EmbossPixelShader.hlsl" />
+    <FxCompile Include="shader\postEffectShader\sharpnessShader\SharpnessPixelShader.hlsl" />
+    <FxCompile Include="shader\postEffectShader\notPostEffectShader\NotPostEffectPixelShader.hlsl" />
   </ItemGroup>
 </Project>

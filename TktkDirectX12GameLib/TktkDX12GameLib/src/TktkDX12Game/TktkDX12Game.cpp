@@ -3,6 +3,8 @@
 #include <TktkFileIo/FileExtensionGetter.h>
 #include "TktkDX12Game/_MainManager/DX12GameManager.h"
 
+#include "TktkDX12Game/DXGameResource/DXGameShaderResouse/PostEffect/Structs/BasicPostEffectCBufferData.h"
+
 namespace tktk
 {
 	const tktkMath::Vector2& DX12Game::getDrawGameAreaSize()
@@ -155,6 +157,131 @@ namespace tktk
 		return DX12GameManager::fps();
 	}
 
+	void DX12Game::startMonochromePostEffect(float effectRate)
+	{
+		DX12GameManager::startPostEffect(DX12GameManager::getSystemHandle(SystemPostEffectDrawFuncRunnerType::Monochrome));
+
+		BasicPostEffectCBufferData basicPostEffectCBufferData{};
+		basicPostEffectCBufferData.effectRate = effectRate;
+
+		DX12GameManager::updatePostEffectMaterialAppendParam(
+			DX12GameManager::getSystemHandle(SystemPostEffectMaterialType::Monochrome),
+			PostEffectMaterialAppendParamUpdateFuncArgs(DX12GameManager::getSystemHandle(SystemCBufferType::BasicPostEffect), basicPostEffectCBufferData)
+		);
+	}
+
+	void DX12Game::setMonochromePostEffectRate(float effectRate)
+	{
+		BasicPostEffectCBufferData basicPostEffectCBufferData{};
+		basicPostEffectCBufferData.effectRate = effectRate;
+
+		DX12GameManager::updatePostEffectMaterialAppendParam(
+			DX12GameManager::getSystemHandle(SystemPostEffectMaterialType::Monochrome),
+			PostEffectMaterialAppendParamUpdateFuncArgs(DX12GameManager::getSystemHandle(SystemCBufferType::BasicPostEffect), basicPostEffectCBufferData)
+		);
+	}
+
+	void DX12Game::startNegativePostEffect(float effectRate)
+	{
+		DX12GameManager::startPostEffect(DX12GameManager::getSystemHandle(SystemPostEffectDrawFuncRunnerType::Negative));
+
+		BasicPostEffectCBufferData basicPostEffectCBufferData{};
+		basicPostEffectCBufferData.effectRate = effectRate;
+
+		DX12GameManager::updatePostEffectMaterialAppendParam(
+			DX12GameManager::getSystemHandle(SystemPostEffectMaterialType::Negative),
+			PostEffectMaterialAppendParamUpdateFuncArgs(DX12GameManager::getSystemHandle(SystemCBufferType::BasicPostEffect), basicPostEffectCBufferData)
+		);
+	}
+
+	void DX12Game::setNegativePostEffectRate(float effectRate)
+	{
+		BasicPostEffectCBufferData basicPostEffectCBufferData{};
+		basicPostEffectCBufferData.effectRate = effectRate;
+
+		DX12GameManager::updatePostEffectMaterialAppendParam(
+			DX12GameManager::getSystemHandle(SystemPostEffectMaterialType::Negative),
+			PostEffectMaterialAppendParamUpdateFuncArgs(DX12GameManager::getSystemHandle(SystemCBufferType::BasicPostEffect), basicPostEffectCBufferData)
+		);
+	}
+
+	void DX12Game::startAveragingBlurPostEffect(float effectRate)
+	{
+		DX12GameManager::startPostEffect(DX12GameManager::getSystemHandle(SystemPostEffectDrawFuncRunnerType::AveragingBlur));
+
+		BasicPostEffectCBufferData basicPostEffectCBufferData{};
+		basicPostEffectCBufferData.effectRate = effectRate;
+
+		DX12GameManager::updatePostEffectMaterialAppendParam(
+			DX12GameManager::getSystemHandle(SystemPostEffectMaterialType::AveragingBlur),
+			PostEffectMaterialAppendParamUpdateFuncArgs(DX12GameManager::getSystemHandle(SystemCBufferType::BasicPostEffect), basicPostEffectCBufferData)
+		);
+	}
+
+	void DX12Game::setAveragingBlurPostEffectRate(float effectRate)
+	{
+		BasicPostEffectCBufferData basicPostEffectCBufferData{};
+		basicPostEffectCBufferData.effectRate = effectRate;
+
+		DX12GameManager::updatePostEffectMaterialAppendParam(
+			DX12GameManager::getSystemHandle(SystemPostEffectMaterialType::AveragingBlur),
+			PostEffectMaterialAppendParamUpdateFuncArgs(DX12GameManager::getSystemHandle(SystemCBufferType::BasicPostEffect), basicPostEffectCBufferData)
+		);
+	}
+
+	void DX12Game::startEmbossingPostEffect(float effectRate)
+	{
+		DX12GameManager::startPostEffect(DX12GameManager::getSystemHandle(SystemPostEffectDrawFuncRunnerType::Embossing));
+
+		BasicPostEffectCBufferData basicPostEffectCBufferData{};
+		basicPostEffectCBufferData.effectRate = effectRate;
+
+		DX12GameManager::updatePostEffectMaterialAppendParam(
+			DX12GameManager::getSystemHandle(SystemPostEffectMaterialType::Embossing),
+			PostEffectMaterialAppendParamUpdateFuncArgs(DX12GameManager::getSystemHandle(SystemCBufferType::BasicPostEffect), basicPostEffectCBufferData)
+		);
+	}
+
+	void DX12Game::setEmbossingPostEffectRate(float effectRate)
+	{
+		BasicPostEffectCBufferData basicPostEffectCBufferData{};
+		basicPostEffectCBufferData.effectRate = effectRate;
+
+		DX12GameManager::updatePostEffectMaterialAppendParam(
+			DX12GameManager::getSystemHandle(SystemPostEffectMaterialType::Embossing),
+			PostEffectMaterialAppendParamUpdateFuncArgs(DX12GameManager::getSystemHandle(SystemCBufferType::BasicPostEffect), basicPostEffectCBufferData)
+		);
+	}
+
+	void DX12Game::startSharpnessPostEffect(float effectRate)
+	{
+		DX12GameManager::startPostEffect(DX12GameManager::getSystemHandle(SystemPostEffectDrawFuncRunnerType::Sharpness));
+
+		BasicPostEffectCBufferData basicPostEffectCBufferData{};
+		basicPostEffectCBufferData.effectRate = effectRate;
+
+		DX12GameManager::updatePostEffectMaterialAppendParam(
+			DX12GameManager::getSystemHandle(SystemPostEffectMaterialType::Sharpness),
+			PostEffectMaterialAppendParamUpdateFuncArgs(DX12GameManager::getSystemHandle(SystemCBufferType::BasicPostEffect), basicPostEffectCBufferData)
+		);
+	}
+
+	void DX12Game::setSharpnessPostEffectRate(float effectRate)
+	{
+		BasicPostEffectCBufferData basicPostEffectCBufferData{};
+		basicPostEffectCBufferData.effectRate = effectRate;
+
+		DX12GameManager::updatePostEffectMaterialAppendParam(
+			DX12GameManager::getSystemHandle(SystemPostEffectMaterialType::Sharpness),
+			PostEffectMaterialAppendParamUpdateFuncArgs(DX12GameManager::getSystemHandle(SystemCBufferType::BasicPostEffect), basicPostEffectCBufferData)
+		);
+	}
+
+	void DX12Game::stopPostEffect()
+	{
+		DX12GameManager::stopPostEffect();
+	}
+
 	void DX12Game::loadSound(ResourceIdCarrier soundId, const std::string& filePath)
 	{
 		DX12GameManager::loadSoundAndAttachId(soundId, filePath);
@@ -305,6 +432,11 @@ namespace tktk
 	}
 
 	size_t DX12Game::getSystemHandle(SystemPostEffectMaterialType type)
+	{
+		return DX12GameManager::getSystemHandle(type);
+	}
+
+	size_t DX12Game::getSystemHandle(SystemPostEffectDrawFuncRunnerType type)
 	{
 		return DX12GameManager::getSystemHandle(type);
 	}

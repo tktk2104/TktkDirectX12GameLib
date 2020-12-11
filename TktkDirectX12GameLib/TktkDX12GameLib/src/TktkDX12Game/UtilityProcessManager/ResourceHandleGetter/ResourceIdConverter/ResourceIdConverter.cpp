@@ -55,6 +55,11 @@ namespace tktk
         return m_basicMeshMaterialHandleMap.at(id);
     }
 
+    size_t ResourceIdConverter::getPostEffectDrawFuncRunnerHandle(ResourceIdCarrier id) const
+    {
+        return m_postEffectDrawFuncRunnerMap.at(id);
+    }
+
     size_t ResourceIdConverter::getCameraHandle(ResourceIdCarrier id) const
     {
         return m_cameraMap.at(id);
@@ -113,6 +118,11 @@ namespace tktk
     void ResourceIdConverter::setMeshMaterialHandle(ResourceIdCarrier id, size_t handle)
     {
         m_basicMeshMaterialHandleMap.emplace(id, handle);
+    }
+
+    void ResourceIdConverter::setPostEffectDrawFuncRunnerHandle(ResourceIdCarrier id, size_t handle)
+    {
+        m_postEffectDrawFuncRunnerMap.emplace(id, handle);
     }
 
     void ResourceIdConverter::setCameraHandle(ResourceIdCarrier id, size_t handle)

@@ -7,9 +7,10 @@ namespace tktk
 	enum class SystemPostEffectMaterialType
 	{
 		DrawGameArea,
+		NotPostEffect,
 		Monochrome,
 		Negative,
-		SimpleBlur,
+		AveragingBlur,
 		Embossing,
 		Sharpness,
 		GlassFilter 

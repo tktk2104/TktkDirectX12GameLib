@@ -32,6 +32,9 @@ namespace tktk
 		tktkContainer::ResourceContainerInitParam meshMatContainerParam;
 		tktkContainer::ResourceContainerInitParam skeletonContainerParam;
 		tktkContainer::ResourceContainerInitParam motionContainerParam;
+		tktkContainer::ResourceContainerInitParam postEffectDrawFuncRunnerMgrParam;
+		tktkContainer::ResourceContainerInitParam billboardDrawFuncRunnerMgrParam;
+		tktkContainer::ResourceContainerInitParam meshDrawFuncRunnerMgrParam;
 		tktkContainer::ResourceContainerInitParam sceneContainerParam;
 		tktkContainer::ResourceContainerInitParam soundContainerParam;
 	};

@@ -257,6 +257,11 @@ namespace tktk
 		return m_resourceHandleGetter->getSystemHandle(type);
 	}
 
+	size_t UtilityProcessManager::getSystemHandle(SystemPostEffectDrawFuncRunnerType type) const
+	{
+		return m_resourceHandleGetter->getSystemHandle(type);
+	}
+
 	void UtilityProcessManager::setSystemHandle(SystemViewportType type, size_t handle)
 	{
 		m_resourceHandleGetter->setSystemHandle(type, handle);
@@ -347,6 +352,11 @@ namespace tktk
 		m_resourceHandleGetter->setSystemHandle(type, handle);
 	}
 
+	void UtilityProcessManager::setSystemHandle(SystemPostEffectDrawFuncRunnerType type, size_t handle)
+	{
+		m_resourceHandleGetter->setSystemHandle(type, handle);
+	}
+
 	size_t UtilityProcessManager::getSceneHandle(ResourceIdCarrier id) const
 	{
 		return m_resourceHandleGetter->getSceneHandle(id);
@@ -395,6 +405,11 @@ namespace tktk
 	size_t UtilityProcessManager::getBasicMeshMaterialHandle(ResourceIdCarrier id) const
 	{
 		return m_resourceHandleGetter->getBasicMeshMaterialHandle(id);
+	}
+
+	size_t UtilityProcessManager::getPostEffectDrawFuncRunnerHandle(ResourceIdCarrier id) const
+	{
+		return m_resourceHandleGetter->getPostEffectDrawFuncRunnerHandle(id);
 	}
 
 	size_t UtilityProcessManager::getCameraHandle(ResourceIdCarrier id) const
@@ -455,6 +470,11 @@ namespace tktk
 	void UtilityProcessManager::setMeshMaterialHandle(ResourceIdCarrier id, size_t handle)
 	{
 		m_resourceHandleGetter->setMeshMaterialHandle(id, handle);
+	}
+
+	void UtilityProcessManager::setPostEffectDrawFuncRunnerHandle(ResourceIdCarrier id, size_t handle)
+	{
+		m_resourceHandleGetter->setPostEffectDrawFuncRunnerHandle(id, handle);
 	}
 
 	void UtilityProcessManager::setCameraHandle(ResourceIdCarrier id, size_t handle)

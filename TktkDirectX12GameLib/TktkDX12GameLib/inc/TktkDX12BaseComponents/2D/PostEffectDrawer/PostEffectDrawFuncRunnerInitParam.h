@@ -5,25 +5,10 @@ namespace tktk
 {
 	struct PostEffectDrawFuncRunnerInitParam
 	{
-	public:
-
-		static PostEffectDrawFuncRunnerInitParam& create();
-
-	public:
-
-		static PostEffectDrawFuncRunnerInitParam m_self;
-
-	private:
-
-		PostEffectDrawFuncRunnerInitParam() = default;
-
-	public:
-
 		// 描画優先度
 		float	drawPriority				{ 1000.0f };
 
-		// 使用するレンダーターゲットのディスクリプタヒープハンドル
-		// ※初期パラメータはゲーム描画エリア
+		// 描画先のレンダーターゲットのディスクリプタヒープハンドル
 		size_t	rtvDescriptorHeapHandle		{ 0U };
 	};
 }

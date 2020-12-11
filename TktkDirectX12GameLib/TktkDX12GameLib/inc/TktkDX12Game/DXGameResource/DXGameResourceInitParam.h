@@ -3,6 +3,7 @@
 
 #include "Draw3DParameters/Structs/Draw3DParametersInitParam.h"
 #include "DXGameShaderResouse/Structs/DXGameShaderResouseInitParam.h"
+#include "DrawFuncRunnerManager/Structs/DrawFuncRunnerManagerInitParam.h"
 #include "OtherResouse/Structs/OtherResouseInitParam.h"
 
 namespace tktk
@@ -11,6 +12,7 @@ namespace tktk
 	{
 		Draw3DParametersInitParam		draw3DParam;
 		DXGameShaderResouseInitParam	dxGameShaderResParam;
+		DrawFuncRunnerManagerInitParam	drawFuncRunnerMgrParam;
 		OtherResouseInitParam			otherResParam;
 	};
 }

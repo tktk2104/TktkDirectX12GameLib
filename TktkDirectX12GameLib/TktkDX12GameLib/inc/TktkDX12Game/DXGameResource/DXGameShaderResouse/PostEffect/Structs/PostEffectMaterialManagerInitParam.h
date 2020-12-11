@@ -14,7 +14,14 @@ namespace tktk
 		std::string									drawGameAreaPSFilePath;
 
 		std::string									postEffectVSFilePath;
+		std::string									notPostEffectPSFilePath;
 		std::string									monochromePSFilePath;
+
+		std::string									negativePSFilePath;
+		std::string									averagingBlurPSFilePath;
+		std::string									embossPSFilePath;
+		std::string									sharpnessPSFilePath;
+
 		tktkContainer::ResourceContainerInitParam	containerParam;
 	};
 }

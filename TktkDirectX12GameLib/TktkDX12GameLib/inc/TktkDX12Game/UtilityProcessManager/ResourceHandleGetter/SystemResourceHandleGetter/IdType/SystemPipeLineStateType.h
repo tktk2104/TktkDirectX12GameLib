@@ -8,9 +8,10 @@ namespace tktk
 	{
 		/* ポストエフェクト */
 		DrawGameArea,
+		NotPostEffect,
 		PostEffectMonochrome,
 		PostEffectNegative,
-		PostEffectSimpleBlur,
+		PostEffectAveragingBlur,
 		PostEffectEmbossing,
 		PostEffectSharpness,
 		PostEffectGlassFilter,

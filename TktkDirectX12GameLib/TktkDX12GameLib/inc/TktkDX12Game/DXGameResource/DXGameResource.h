@@ -35,8 +35,9 @@ namespace tktk
 	class Draw3DParameters;
 	class DXGameShaderResouse;
 	class GameObjectResouse;
+	class DrawFuncRunnerManager;
 	class OtherResouse;
-
+	
 	/* funcUseType */
 	class MessageAttachment;
 	struct ComponentVTableBundle;
@@ -64,6 +65,8 @@ namespace tktk
 	struct MeshLoadPmxArgs;
 	struct MeshDrawFuncRunnerInitParam;
 	struct CopySourceDataCarrier;
+	struct DrawFuncRunnerManagerInitParam;
+	struct PostEffectDrawFuncRunnerInitParam;
 	struct SceneInitParam;
 
 	// ゲームで使用するリソースを管理するクラス
@@ -163,6 +166,20 @@ namespace tktk
 
 		// 指定したポストエフェクトマテリアルで追加で管理する定数バッファの値を更新する
 		void updatePostEffectMaterialAppendParam(size_t handle, const PostEffectMaterialAppendParamUpdateFuncArgs& updateFuncArgs);
+
+	public: /* ポストエフェクトの描画関数を呼ぶコンポーネントの処理 */
+
+		// 初期から存在するポストエフェクトの描画関数を作る
+		void createSystemPostEffectDrawFuncRunner();
+
+		// 新たなポストエフェクトの描画関数を呼ぶコンポーネントを作り、そのハンドルを返す
+		size_t createPostEffectDrawFuncRunner(size_t postEffectMaterialHandle, const PostEffectDrawFuncRunnerInitParam& initParam);
+
+		// 指定したポストエフェクトを実行開始する（他のポストエフェクトは停止する）
+		void startPostEffect(size_t handle);
+
+		// 全てのポストエフェクトを停止する
+		void stopPostEffect();
 
 	public: /* スプライト関係の処理 */
 
@@ -346,6 +363,7 @@ namespace tktk
 		std::unique_ptr<Draw3DParameters>		m_draw3DParameters;
 		std::unique_ptr<DXGameShaderResouse>	m_dxGameShaderResouse;
 		std::unique_ptr<GameObjectResouse>		m_gameObjectResouse;
+		std::unique_ptr<DrawFuncRunnerManager>	m_drawFuncRunnerManager;
 		std::unique_ptr<OtherResouse>			m_otherResouse;
 	};
 }

@@ -10,8 +10,11 @@
 
 namespace tktk
 {
+	/* class member */
 	class SceneManager;
 	class SoundManager;
+
+	/* funcUseType */
 	struct OtherResouseInitParam;
 	struct SceneInitParam;
 
@@ -29,7 +32,7 @@ namespace tktk
 
 	public: /* シーン関係の処理 */
 
-	// シーンを作り、そのリソースのハンドルを返す
+		// シーンを作り、そのリソースのハンドルを返す
 		size_t createScene(const SceneInitParam& initParam);
 
 		// シーンの終了時に削除するゲームオブジェクトタグを設定する

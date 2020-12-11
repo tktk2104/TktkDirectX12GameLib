@@ -80,7 +80,7 @@ namespace tktk
 					vertexArray,
 					m_lineColor,
 					tktkMath::Color_v::white,
-					DX12GameManager::getSystemHandle(SystemRtvDescriptorHeapType::DrawGameArea)
+					DX12GameManager::getSystemHandle(SystemRtvDescriptorHeapType::PostEffectTarget)
 					)
 			);
 		}
@@ -105,7 +105,7 @@ namespace tktk
 					vertexArray,
 					m_lineColor,
 					tktkMath::Color_v::white,
-					DX12GameManager::getSystemHandle(SystemRtvDescriptorHeapType::DrawGameArea)
+					DX12GameManager::getSystemHandle(SystemRtvDescriptorHeapType::PostEffectTarget)
 					)
 			);
 		}
@@ -130,7 +130,7 @@ namespace tktk
 					vertexArray,
 					m_lineColor,
 					tktkMath::Color_v::white,
-					DX12GameManager::getSystemHandle(SystemRtvDescriptorHeapType::DrawGameArea)
+					DX12GameManager::getSystemHandle(SystemRtvDescriptorHeapType::PostEffectTarget)
 					)
 			);
 		}

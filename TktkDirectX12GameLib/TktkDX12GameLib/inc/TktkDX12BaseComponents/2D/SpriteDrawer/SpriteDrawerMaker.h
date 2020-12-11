@@ -30,7 +30,7 @@ namespace tktk
 		SpriteDrawerMaker& drawPriority(float value);
 
 		// 使用するレンダーターゲットのディスクリプタヒープハンドルを設定する
-		// ※初期パラメータはバックバッファー
+		// ※初期パラメータはポストエフェクト適応対象
 		SpriteDrawerMaker& useRtvDescriptorHeapHandle(size_t value);
 
 		// 使用するスプライトマテリアルハンドルを設定する

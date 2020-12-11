@@ -236,11 +236,15 @@
     <ClInclude Include="inc\TktkDX12GameLib.h" />
     <ClInclude Include="inc\TktkDX12GameLibDefinition.h" />
     <ClInclude Include="inc\TktkDX12GameLibInitializer.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DrawFuncRunnerManager\DrawFuncRunnerManager.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DrawFuncRunnerManager\PostEffect\PostEffectDrawFuncRunnerManager.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DrawFuncRunnerManager\Structs\DrawFuncRunnerManagerInitParam.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameResourceInitParam.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\Billboard\Structs\BillboardMaterialInstanceVertData.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\MeshResouse\Mesh\Structs\MonoColorInstanceVertData.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\MeshResouse\Structs\DrawMeshShaderFilePaths.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\PostEffect\PostEffectMaterialAppendParam.h" />
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\PostEffect\Structs\BasicPostEffectCBufferData.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\PostEffect\Structs\DrawGameAreaCBufferData.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\PostEffect\Structs\PostEffectMaterialAppendParamInitParam.h" />
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\PostEffect\Structs\PostEffectMaterialAppendParamUpdateFuncArgs.h" />
@@ -366,6 +370,7 @@
     <ClInclude Include="inc\TktkDX12Game\UtilityProcessManager\ResourceHandleGetter\SystemResourceHandleGetter\IdType\SystemIndexBufferType.h" />
     <ClInclude Include="inc\TktkDX12Game\UtilityProcessManager\ResourceHandleGetter\SystemResourceHandleGetter\IdType\SystemLightType.h" />
     <ClInclude Include="inc\TktkDX12Game\UtilityProcessManager\ResourceHandleGetter\SystemResourceHandleGetter\IdType\SystemPipeLineStateType.h" />
+    <ClInclude Include="inc\TktkDX12Game\UtilityProcessManager\ResourceHandleGetter\SystemResourceHandleGetter\IdType\SystemPostEffectDrawFuncRunnerType.h" />
     <ClInclude Include="inc\TktkDX12Game\UtilityProcessManager\ResourceHandleGetter\SystemResourceHandleGetter\IdType\SystemPostEffectMaterialType.h" />
     <ClInclude Include="inc\TktkDX12Game\UtilityProcessManager\ResourceHandleGetter\ResourceIdConverter\ResourceIdCarrier.h" />
     <ClInclude Include="inc\TktkDX12Game\UtilityProcessManager\ResourceHandleGetter\SystemResourceHandleGetter\IdType\SystemRenderTargetBufferType.h" />
@@ -476,7 +481,8 @@
     <ClCompile Include="src\TktkDX12BaseComponents\Other\Sound\SoundPlayerMaker.cpp" />
     <ClCompile Include="src\TktkDX12BaseComponents\Other\Sound\SoundPlayTimer.cpp" />
     <ClCompile Include="src\TktkDX12BaseComponents\Other\Sound\SoundPlayTimerMaker.cpp" />
-    <ClCompile Include="src\TktkDX12BaseComponents\2D\PostEffectDrawer\PostEffectDrawFuncRunnerInitParam.cpp" />
+    <ClCompile Include="src\TktkDX12Game\DXGameResource\DrawFuncRunnerManager\DrawFuncRunnerManager.cpp" />
+    <ClCompile Include="src\TktkDX12Game\DXGameResource\DrawFuncRunnerManager\PostEffect\PostEffectDrawFuncRunnerManager.cpp" />
     <ClCompile Include="src\TktkDX12Game\DXGameResource\DXGameShaderResouse\PostEffect\PostEffectMaterialAppendParam.cpp" />
     <ClCompile Include="src\TktkDX12Game\DXGameResource\GameObjectResouse\Component\ComponentBasePtr.cpp" />
     <ClCompile Include="src\TktkDX12Game\DXGameResource\GameObjectResouse\Component\ComponentBase.cpp" />
@@ -705,6 +711,14 @@
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)compiledShader\x64\%(Filename).cso</ObjectFileOutput>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)compiledShader\x64\%(Filename).cso</ObjectFileOutput>
     </FxCompile>
+    <FxCompile Include="shader\postEffectShader\averagingBlurShader\AveragingBlurPixelShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">5.0</ShaderModel>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)compiledShader\x86\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)compiledShader\x86\%(Filename).cso</ObjectFileOutput>
+    </FxCompile>
     <FxCompile Include="shader\postEffectShader\drawGameAreaShader\DrawGameAreaPixelShader.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
@@ -717,6 +731,14 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">5.0</ShaderModel>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)compiledShader\x86\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)compiledShader\x86\%(Filename).cso</ObjectFileOutput>
+    </FxCompile>
+    <FxCompile Include="shader\postEffectShader\embossShader\EmbossPixelShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">5.0</ShaderModel>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)compiledShader\x86\%(Filename).cso</ObjectFileOutput>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)compiledShader\x86\%(Filename).cso</ObjectFileOutput>
@@ -735,6 +757,22 @@
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
     </FxCompile>
+    <FxCompile Include="shader\postEffectShader\negativeShader\NegativePixelShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">5.0</ShaderModel>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)compiledShader\x86\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)compiledShader\x86\%(Filename).cso</ObjectFileOutput>
+    </FxCompile>
+    <FxCompile Include="shader\postEffectShader\notPostEffectShader\NotPostEffectPixelShader.hlsl">
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)compiledShader\x86\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)compiledShader\x86\%(Filename).cso</ObjectFileOutput>
+    </FxCompile>
     <FxCompile Include="shader\postEffectShader\PostEffectVertexShader.hlsl">
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">5.0</ShaderModel>
@@ -748,6 +786,14 @@
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="shader\postEffectShader\sharpnessShader\SharpnessPixelShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">5.0</ShaderModel>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)compiledShader\x86\%(Filename).cso</ObjectFileOutput>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)compiledShader\x86\%(Filename).cso</ObjectFileOutput>
     </FxCompile>
     <FxCompile Include="shader\shadowMapShader\SimpleMeshShadowMapVertexShader.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
