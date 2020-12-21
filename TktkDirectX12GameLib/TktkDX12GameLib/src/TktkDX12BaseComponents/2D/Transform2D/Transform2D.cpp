@@ -140,7 +140,7 @@ namespace tktk
 		auto parentTransform = findParentTransform2D();
 		tktkMath::Matrix3 parentTraceUseInvMat = tktkMath::Matrix3::calculateInvert(calculateTraceUseMat(parentTransform, m_traceType));
 		tktkMath::Vector2 parentTraceUseInvScale = calculateTraceUseInvScale(parentTransform, m_traceType);
-		updateWorldTransform(calculateWorldMatrix() * parentTraceUseInvMat, tktkMath::Vector2::scale(getWorldScaleRate(), parentTraceUseInvScale));
+		updateWorldTransform(calculateLocalMatrix() * parentTraceUseInvMat, tktkMath::Vector2::scale(getLocalScaleRate(), parentTraceUseInvScale));
 		findAndUpdateRootTransform(this);
 	}
 
@@ -151,7 +151,7 @@ namespace tktk
 		auto parentTransform = findParentTransform2D();
 		tktkMath::Matrix3 parentTraceUseInvMat = tktkMath::Matrix3::calculateInvert(calculateTraceUseMat(parentTransform, m_traceType));
 		tktkMath::Vector2 parentTraceUseInvScale = calculateTraceUseInvScale(parentTransform, m_traceType);
-		updateWorldTransform(calculateWorldMatrix() * parentTraceUseInvMat, tktkMath::Vector2::scale(getWorldScaleRate(), parentTraceUseInvScale));
+		updateWorldTransform(calculateLocalMatrix() * parentTraceUseInvMat, tktkMath::Vector2::scale(getLocalScaleRate(), parentTraceUseInvScale));
 		findAndUpdateRootTransform(this);
 	}
 
@@ -162,7 +162,7 @@ namespace tktk
 		auto parentTransform = findParentTransform2D();
 		tktkMath::Matrix3 parentTraceUseInvMat = tktkMath::Matrix3::calculateInvert(calculateTraceUseMat(parentTransform, m_traceType));
 		tktkMath::Vector2 parentTraceUseInvScale = calculateTraceUseInvScale(parentTransform, m_traceType);
-		updateWorldTransform(calculateWorldMatrix() * parentTraceUseInvMat, tktkMath::Vector2::scale(getWorldScaleRate(), parentTraceUseInvScale));
+		updateWorldTransform(calculateLocalMatrix() * parentTraceUseInvMat, tktkMath::Vector2::scale(getLocalScaleRate(), parentTraceUseInvScale));
 		findAndUpdateRootTransform(this);
 	}
 
