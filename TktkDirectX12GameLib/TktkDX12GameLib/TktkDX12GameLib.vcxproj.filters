@@ -234,12 +234,6 @@
     <ClInclude Include="inc\TktkDX12Game\UtilityProcessManager\ResourceHandleGetter\SystemResourceHandleGetter\IdType\SystemBasicDescriptorHeapType.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="inc\TktkDX12Game\UtilityProcessManager\ResourceHandleGetter\SystemResourceHandleGetter\IdType\SystemBasicMeshMaterialType.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\TktkDX12Game\UtilityProcessManager\ResourceHandleGetter\SystemResourceHandleGetter\IdType\SystemBasicMeshType.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="inc\TktkDX12Game\UtilityProcessManager\ResourceHandleGetter\SystemResourceHandleGetter\IdType\SystemCameraType.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -765,6 +759,27 @@
     <ClInclude Include="inc\TktkDX12Game\UtilityProcessManager\ResourceHandleGetter\SystemResourceHandleGetter\IdType\SystemPostEffectDrawFuncRunnerType.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="inc\TktkDX12BaseComponents\2D\TextDrawer2D\TextDrawer2D.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\OtherResouse\Font\FontManager.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\OtherResouse\Font\FontData.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\TktkDX12Game\UtilityProcessManager\ResourceHandleGetter\SystemResourceHandleGetter\IdType\SystemMeshMaterialType.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\TktkDX12Game\UtilityProcessManager\ResourceHandleGetter\SystemResourceHandleGetter\IdType\SystemMeshType.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\TktkDX12Game\UtilityProcessManager\ResourceHandleGetter\SystemResourceHandleGetter\IdType\SystemSpriteType.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\TktkDX12BaseComponents\2D\TextDrawer2D\TextDrawer2DMaker.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\TktkDX12Game\_MainManager\DX12GameManager.cpp">
@@ -1218,6 +1233,18 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="src\TktkDX12Game\DXGameResource\DrawFuncRunnerManager\DrawFuncRunnerManager.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TktkDX12BaseComponents\2D\TextDrawer2D\TextDrawer2D.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TktkDX12Game\DXGameResource\OtherResouse\Font\FontData.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TktkDX12Game\DXGameResource\OtherResouse\Font\FontManager.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TktkDX12BaseComponents\2D\TextDrawer2D\TextDrawer2DMaker.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>

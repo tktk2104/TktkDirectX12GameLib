@@ -15,6 +15,11 @@ namespace tktk
         return m_soundHandleMap.at(id);
     }
 
+    size_t ResourceIdConverter::getFontHandle(ResourceIdCarrier id) const
+    {
+        return m_fontHandleMap.at(id);
+    }
+
     size_t ResourceIdConverter::getPostEffectMaterialHandle(ResourceIdCarrier id) const
     {
         return m_postEffectMaterialHandleMap.at(id);
@@ -78,6 +83,11 @@ namespace tktk
     void ResourceIdConverter::setSoundHandle(ResourceIdCarrier id, size_t handle)
     {
         m_soundHandleMap.emplace(id, handle);
+    }
+
+    void ResourceIdConverter::setFontHandle(ResourceIdCarrier id, size_t handle)
+    {
+        m_fontHandleMap.emplace(id, handle);
     }
 
     void ResourceIdConverter::setPostEffectMaterialHandle(ResourceIdCarrier id, size_t handle)

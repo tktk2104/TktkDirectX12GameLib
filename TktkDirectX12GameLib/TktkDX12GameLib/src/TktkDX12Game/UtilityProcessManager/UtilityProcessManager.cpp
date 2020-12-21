@@ -32,14 +32,14 @@ namespace tktk
 		return m_inputManager->isTrigger(commandId);
 	}
 
-	const tktkMath::Vector2& UtilityProcessManager::moveVec() const
+	const tktkMath::Vector2& UtilityProcessManager::getMoveInput() const
 	{
-		return m_inputManager->moveVec();
+		return m_inputManager->getMoveInput();
 	}
 
-	const tktkMath::Vector2& UtilityProcessManager::lookVec() const
+	const tktkMath::Vector2& UtilityProcessManager::getLookInput() const
 	{
-		return m_inputManager->lookVec();
+		return m_inputManager->getLookInput();
 	}
 
 	bool UtilityProcessManager::isPush(MouseBtnType btnType) const
@@ -232,6 +232,11 @@ namespace tktk
 		return m_resourceHandleGetter->getSystemHandle(type);
 	}
 
+	size_t UtilityProcessManager::getSystemHandle(SystemSpriteType type) const
+	{
+		return m_resourceHandleGetter->getSystemHandle(type);
+	}
+
 	size_t UtilityProcessManager::getSystemHandle(SystemCameraType type) const
 	{
 		return m_resourceHandleGetter->getSystemHandle(type);
@@ -327,6 +332,11 @@ namespace tktk
 		m_resourceHandleGetter->setSystemHandle(type, handle);
 	}
 
+	void UtilityProcessManager::setSystemHandle(SystemSpriteType type, size_t handle)
+	{
+		m_resourceHandleGetter->setSystemHandle(type, handle);
+	}
+
 	void UtilityProcessManager::setSystemHandle(SystemCameraType type, size_t handle)
 	{
 		m_resourceHandleGetter->setSystemHandle(type, handle);
@@ -365,6 +375,11 @@ namespace tktk
 	size_t UtilityProcessManager::getSoundHandle(ResourceIdCarrier id) const
 	{
 		return m_resourceHandleGetter->getSoundHandle(id);
+	}
+
+	size_t UtilityProcessManager::getFontHandle(ResourceIdCarrier id) const
+	{
+		return m_resourceHandleGetter->getFontHandle(id);
 	}
 
 	size_t UtilityProcessManager::getPostEffectMaterialHandle(ResourceIdCarrier id) const
@@ -430,6 +445,11 @@ namespace tktk
 	void UtilityProcessManager::setSoundHandle(ResourceIdCarrier id, size_t handle)
 	{
 		m_resourceHandleGetter->setSoundHandle(id, handle);
+	}
+
+	void UtilityProcessManager::setFontHandle(ResourceIdCarrier id, size_t handle)
+	{
+		m_resourceHandleGetter->setFontHandle(id, handle);
 	}
 
 	void UtilityProcessManager::setPostEffectMaterialHandle(ResourceIdCarrier id, size_t handle)

@@ -29,10 +29,11 @@
 #include "ResourceHandleGetter/SystemResourceHandleGetter/IdType/SystemDsvDescriptorHeapType.h"
 #include "ResourceHandleGetter/SystemResourceHandleGetter/IdType/SystemRootSignatureType.h"
 #include "ResourceHandleGetter/SystemResourceHandleGetter/IdType/SystemPipeLineStateType.h"
+#include "ResourceHandleGetter/SystemResourceHandleGetter/IdType/SystemSpriteType.h"
 #include "ResourceHandleGetter/SystemResourceHandleGetter/IdType/SystemCameraType.h"
 #include "ResourceHandleGetter/SystemResourceHandleGetter/IdType/SystemLightType.h"
-#include "ResourceHandleGetter/SystemResourceHandleGetter/IdType/SystemBasicMeshType.h"
-#include "ResourceHandleGetter/SystemResourceHandleGetter/IdType/SystemBasicMeshMaterialType.h"
+#include "ResourceHandleGetter/SystemResourceHandleGetter/IdType/SystemMeshType.h"
+#include "ResourceHandleGetter/SystemResourceHandleGetter/IdType/SystemMeshMaterialType.h"
 #include "ResourceHandleGetter/SystemResourceHandleGetter/IdType/SystemPostEffectMaterialType.h"
 #include "ResourceHandleGetter/SystemResourceHandleGetter/IdType/SystemPostEffectDrawFuncRunnerType.h"
 #include "ResourceHandleGetter/ResourceIdConverter/ResourceIdCarrier.h"
@@ -64,10 +65,10 @@ namespace tktk
 		bool isTrigger(CommandIdCarrier commandId) const;
 
 		// 移動方向を取得
-		const tktkMath::Vector2& moveVec()const;
+		const tktkMath::Vector2& getMoveInput()const;
 
 		// 視点移動方向を取得
-		const tktkMath::Vector2& lookVec()const;
+		const tktkMath::Vector2& getLookInput()const;
 
 	//************************************************************
 	public: /* マウス関連の処理 */
@@ -166,6 +167,7 @@ namespace tktk
 		size_t getSystemHandle(SystemDsvDescriptorHeapType type)		const;
 		size_t getSystemHandle(SystemRootSignatureType type)			const;
 		size_t getSystemHandle(SystemPipeLineStateType type)			const;
+		size_t getSystemHandle(SystemSpriteType type)					const;
 		size_t getSystemHandle(SystemCameraType type)					const;
 		size_t getSystemHandle(SystemLightType type)					const;
 		size_t getSystemHandle(SystemMeshType type)						const;
@@ -188,6 +190,7 @@ namespace tktk
 		void setSystemHandle(SystemDsvDescriptorHeapType type,			size_t handle);
 		void setSystemHandle(SystemRootSignatureType type,				size_t handle);
 		void setSystemHandle(SystemPipeLineStateType type,				size_t handle);
+		void setSystemHandle(SystemSpriteType type,						size_t handle);
 		void setSystemHandle(SystemCameraType type,						size_t handle);
 		void setSystemHandle(SystemLightType type,						size_t handle);
 		void setSystemHandle(SystemMeshType type,						size_t handle);
@@ -199,6 +202,7 @@ namespace tktk
 
 		size_t getSceneHandle					(ResourceIdCarrier id) const;
 		size_t getSoundHandle					(ResourceIdCarrier id) const;
+		size_t getFontHandle					(ResourceIdCarrier id) const;
 		size_t getPostEffectMaterialHandle		(ResourceIdCarrier id) const;
 		size_t getSpriteMaterialHandle			(ResourceIdCarrier id) const;
 		size_t getLine2DMaterialHandle			(ResourceIdCarrier id) const;
@@ -215,6 +219,7 @@ namespace tktk
 
 		void setSceneHandle						(ResourceIdCarrier id, size_t handle);
 		void setSoundHandle						(ResourceIdCarrier id, size_t handle);
+		void setFontHandle						(ResourceIdCarrier id, size_t handle);
 		void setPostEffectMaterialHandle		(ResourceIdCarrier id, size_t handle);
 		void setSpriteMaterialHandle			(ResourceIdCarrier id, size_t handle);
 		void setLine2DMaterialHandle			(ResourceIdCarrier id, size_t handle);

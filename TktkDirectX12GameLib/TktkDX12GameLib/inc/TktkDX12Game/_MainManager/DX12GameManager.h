@@ -82,10 +82,11 @@
 #include "../UtilityProcessManager/ResourceHandleGetter/SystemResourceHandleGetter/IdType/SystemDsvDescriptorHeapType.h"
 #include "../UtilityProcessManager/ResourceHandleGetter/SystemResourceHandleGetter/IdType/SystemRootSignatureType.h"
 #include "../UtilityProcessManager/ResourceHandleGetter/SystemResourceHandleGetter/IdType/SystemPipeLineStateType.h"
+#include "../UtilityProcessManager/ResourceHandleGetter/SystemResourceHandleGetter/IdType/SystemSpriteType.h"
 #include "../UtilityProcessManager/ResourceHandleGetter/SystemResourceHandleGetter/IdType/SystemCameraType.h"
 #include "../UtilityProcessManager/ResourceHandleGetter/SystemResourceHandleGetter/IdType/SystemLightType.h"
-#include "../UtilityProcessManager/ResourceHandleGetter/SystemResourceHandleGetter/IdType/SystemBasicMeshType.h"
-#include "../UtilityProcessManager/ResourceHandleGetter/SystemResourceHandleGetter/IdType/SystemBasicMeshMaterialType.h"
+#include "../UtilityProcessManager/ResourceHandleGetter/SystemResourceHandleGetter/IdType/SystemMeshType.h"
+#include "../UtilityProcessManager/ResourceHandleGetter/SystemResourceHandleGetter/IdType/SystemMeshMaterialType.h"
 #include "../UtilityProcessManager/ResourceHandleGetter/SystemResourceHandleGetter/IdType/SystemPostEffectMaterialType.h"
 #include "../UtilityProcessManager/ResourceHandleGetter/SystemResourceHandleGetter/IdType/SystemPostEffectDrawFuncRunnerType.h"
 #include "../UtilityProcessManager/ResourceHandleGetter/ResourceIdConverter/ResourceIdCarrier.h"
@@ -465,7 +466,10 @@ namespace tktk
 		static void clearBillboardInstanceParam(size_t handle);
 
 		// 指定したビルボードをインスタンス描画する時に使用する値を追加する
-		static void addBillboardInstanceVertParam(size_t handle, const BillboardMaterialInstanceVertData& instanceParam);
+		static void addBillboardInstanceParam(size_t handle, const BillboardMaterialInstanceVertData& instanceParam);
+
+		// 指定したビルボードをインスタンス描画する時に使用する値をｚソートして頂点バッファに書き込む
+		static void updateBillboardInstanceParam(size_t handle, const tktkMath::Matrix4& viewProjMatrix);
 
 		// 指定したビルボードを描画する
 		static void drawBillboard(size_t handle, const BillboardDrawFuncBaseArgs& drawFuncArgs);
@@ -701,6 +705,28 @@ namespace tktk
 	
 		// 大元の音量を変更する（0.0f～1.0f）
 		static void setMasterVolume(float volume);
+
+	//************************************************************
+	/* フォント関係の処理 */
+	public:
+
+		// システムフォントを使う準備をして、そのリソースのハンドルを返す
+		static size_t createFont(const std::string& systemFontName, int fontSize, float fontThicknessRate);
+
+		// フォントファイルを読み込み、そのフォントを使う準備をして、そのリソースのハンドルを返す
+		static size_t createFont(const std::string& fontFilePath, const std::string& fontName, int fontSize, float fontThicknessRate);
+
+		// システムフォントを使う準備をして、そのリソースのハンドルと引数のハンドルを結び付ける
+		static size_t createFontAndAttachId(ResourceIdCarrier id, const std::string& systemFontName, int fontSize, float fontThicknessRate);
+
+		// フォントファイルを読み込み、そのフォントを使う準備をして、そのリソースのハンドルと引数のハンドルを結び付ける
+		static size_t createFontAndAttachId(ResourceIdCarrier id, const std::string& fontFilePath, const std::string& fontName, int fontSize, float fontThicknessRate);
+
+		// 指定のアップロードバッファに引数の文字列のテクスチャデータを書き込み、書き込んだバッファの最大ｘ座標を返す
+		static size_t updateTextTextureUploadBuffData(size_t handle, size_t uploadBufferHandle, const std::string& text);
+
+		// テキスト書き込み用のアップロードバッファを作り、そのハンドルを返す
+		static size_t createTextTextureUploadBuffer();
 	
 	//************************************************************
 	/* インプットマネージャーの処理 */
@@ -713,10 +739,10 @@ namespace tktk
 		static bool isTrigger(CommandIdCarrier commandId);
 	
 		// 移動方向を取得
-		static const tktkMath::Vector2& moveVec();
+		static const tktkMath::Vector2& getMoveInput();
 	
 		// 視点移動方向を取得
-		static const tktkMath::Vector2& lookVec();
+		static const tktkMath::Vector2& getLookInput();
 	
 		// 各種入力とIDを結びつける
 		static void addCommand(CommandIdCarrier commandId, KeybordKeyType keyType);
@@ -818,6 +844,7 @@ namespace tktk
 		static size_t getSystemHandle(SystemDsvDescriptorHeapType type);
 		static size_t getSystemHandle(SystemRootSignatureType type);
 		static size_t getSystemHandle(SystemPipeLineStateType type);
+		static size_t getSystemHandle(SystemSpriteType type);
 		static size_t getSystemHandle(SystemCameraType type);
 		static size_t getSystemHandle(SystemLightType type);
 		static size_t getSystemHandle(SystemMeshType type);
@@ -841,6 +868,7 @@ namespace tktk
 		static void setSystemHandle(SystemDsvDescriptorHeapType type,			size_t handle);
 		static void setSystemHandle(SystemRootSignatureType type,				size_t handle);
 		static void setSystemHandle(SystemPipeLineStateType type,				size_t handle);
+		static void setSystemHandle(SystemSpriteType type,						size_t handle);
 		static void setSystemHandle(SystemCameraType type,						size_t handle);
 		static void setSystemHandle(SystemLightType type,						size_t handle);
 		static void setSystemHandle(SystemMeshType type,						size_t handle);
@@ -854,6 +882,7 @@ namespace tktk
 	
 		static size_t getSceneHandle					(ResourceIdCarrier id);
 		static size_t getSoundHandle					(ResourceIdCarrier id);
+		static size_t getFontHandle						(ResourceIdCarrier id);
 		static size_t getPostEffectMaterialHandle		(ResourceIdCarrier id);
 		static size_t getSpriteMaterialHandle			(ResourceIdCarrier id);
 		static size_t getLine2DMaterialHandle			(ResourceIdCarrier id);

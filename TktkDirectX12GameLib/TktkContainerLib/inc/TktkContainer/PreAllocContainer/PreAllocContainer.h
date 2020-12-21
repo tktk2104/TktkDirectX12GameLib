@@ -47,7 +47,7 @@ namespace tktkContainer
 		// 確保したメモリの先頭から使用可能なメモリが存在するか探し、見つけたら引数の参照をムーブする
 		IndexPtrPair create(NodeType&& node);
 
-		// 確保したメモリの特定位置（先頭アドレス + (index * sizeof(NodeType))）のメモリが未使用ならば見つけたら引数の参照をムーブする
+		// 確保したメモリの特定位置（先頭アドレス + (index * sizeof(NodeType))）のメモリが未使用ならば見つけた引数の参照をムーブする
 		NodeType* createAt(size_t index, NodeType&& node);
 
 		// 確保したメモリの先頭から使用可能なメモリが存在するか探し、見つけたら引数を使ってインスタンスを作った上でそのアドレスのポインタとインデックスを返し、見つからなかったらnullptrと０を返す

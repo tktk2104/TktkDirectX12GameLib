@@ -79,6 +79,11 @@ namespace tktk
         return m_systemResouseHandleGetter->getSystemHandle(type);
     }
 
+    size_t ResourceHandleGetter::getSystemHandle(SystemSpriteType type) const
+    {
+        return m_systemResouseHandleGetter->getSystemHandle(type);
+    }
+
     size_t ResourceHandleGetter::getSystemHandle(SystemCameraType type) const
     {
         return m_systemResouseHandleGetter->getSystemHandle(type);
@@ -174,6 +179,11 @@ namespace tktk
         m_systemResouseHandleGetter->setSystemHandle(type, handle);
     }
 
+    void ResourceHandleGetter::setSystemHandle(SystemSpriteType type, size_t handle)
+    {
+        m_systemResouseHandleGetter->setSystemHandle(type, handle);
+    }
+
     void ResourceHandleGetter::setSystemHandle(SystemCameraType type, size_t handle)
     {
         m_systemResouseHandleGetter->setSystemHandle(type, handle);
@@ -212,6 +222,11 @@ namespace tktk
     size_t ResourceHandleGetter::getSoundHandle(ResourceIdCarrier id) const
     {
         return m_resourceIdConverter->getSoundHandle(id);
+    }
+
+    size_t ResourceHandleGetter::getFontHandle(ResourceIdCarrier id) const
+    {
+        return m_resourceIdConverter->getFontHandle(id);
     }
 
     size_t ResourceHandleGetter::getPostEffectMaterialHandle(ResourceIdCarrier id) const
@@ -277,6 +292,11 @@ namespace tktk
     void ResourceHandleGetter::setSoundHandle(ResourceIdCarrier id, size_t handle)
     {
         m_resourceIdConverter->setSoundHandle(id, handle);
+    }
+
+    void ResourceHandleGetter::setFontHandle(ResourceIdCarrier id, size_t handle)
+    {
+        m_resourceIdConverter->setFontHandle(id, handle);
     }
 
     void ResourceHandleGetter::setPostEffectMaterialHandle(ResourceIdCarrier id, size_t handle)

@@ -1,5 +1,5 @@
-#ifndef SYSTEM_BASIC_MESH_MATERIAL_TYPE_H_
-#define SYSTEM_BASIC_MESH_MATERIAL_TYPE_H_
+#ifndef SYSTEM_MESH_MATERIAL_TYPE_H_
+#define SYSTEM_MESH_MATERIAL_TYPE_H_
 
 namespace tktk
 {
@@ -12,4 +12,4 @@ namespace tktk
 		BoxWireFrame
 	};
 }
-#endif // !SYSTEM_BASIC_MESH_MATERIAL_TYPE_H_
+#endif // !SYSTEM_MESH_MATERIAL_TYPE_H_

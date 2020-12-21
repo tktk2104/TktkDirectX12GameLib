@@ -36,6 +36,9 @@ namespace tktk
 		// カメラ情報定数バッファの更新
 		updateCameraCbuffer();
 
+		// 指定したビルボードをインスタンス描画する時に使用する値をｚソートして頂点バッファに書き込む
+		DX12GameManager::updateBillboardInstanceParam(m_billboardHandle, DX12GameManager::getViewMatrix(m_cameraHandle) * DX12GameManager::getProjectionMatrix(m_cameraHandle));
+
 		BillboardDrawFuncBaseArgs baseArgs{};
 		baseArgs.viewportHandle				= DX12GameManager::getSystemHandle(SystemViewportType::Basic);
 		baseArgs.scissorRectHandle			= DX12GameManager::getSystemHandle(SystemScissorRectType::Basic);

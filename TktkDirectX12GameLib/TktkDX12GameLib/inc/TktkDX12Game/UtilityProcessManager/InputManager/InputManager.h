@@ -43,10 +43,10 @@ namespace tktk
 		bool isTrigger(CommandIdCarrier commandId) const;
 
 		// 移動方向を取得
-		const tktkMath::Vector2& moveVec()const;
+		const tktkMath::Vector2& getMoveInput()const;
 
 		// 視点移動方向を取得
-		const tktkMath::Vector2& lookVec()const;
+		const tktkMath::Vector2& getLookInput()const;
 
 	public: /* マウス関連の処理 */
 

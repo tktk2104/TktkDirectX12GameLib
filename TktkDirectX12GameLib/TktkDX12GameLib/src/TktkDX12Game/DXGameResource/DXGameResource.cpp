@@ -94,6 +94,31 @@ namespace tktk
 		m_otherResouse->setMasterVolume(volume);
 	}
 
+	void DXGameResource::createFontBaseResource()
+	{
+		m_otherResouse->createFontBaseResource();
+	}
+
+	size_t DXGameResource::createFont(const std::string& systemFontName, int fontSize, float fontThicknessRate)
+	{
+		return m_otherResouse->createFont(systemFontName, fontSize, fontThicknessRate);
+	}
+
+	size_t DXGameResource::createFont(const std::string& fontFilePath, const std::string& fontName, int fontSize, float fontThicknessRate)
+	{
+		return m_otherResouse->createFont(fontFilePath, fontName, fontSize, fontThicknessRate);
+	}
+
+	size_t DXGameResource::updateTextTextureUploadBuffData(size_t handle, size_t uploadBufferHandle, const std::string& text)
+	{
+		return m_otherResouse->updateTextTextureUploadBuffData(handle, uploadBufferHandle, text);
+	}
+
+	size_t DXGameResource::createTextTextureUploadBuffer()
+	{
+		return m_otherResouse->createTextTextureUploadBuffer();
+	}
+
 	void DXGameResource::runHandleMessageAll(MessageTypeCarrier type, const MessageAttachment& attachment)
 	{
 		m_gameObjectResouse->runHandleMessageAll(type, attachment);
@@ -229,9 +254,14 @@ namespace tktk
 		m_dxGameShaderResouse->clearBillboardInstanceParam(handle);
 	}
 
-	void DXGameResource::addBillboardInstanceVertParam(size_t handle, const BillboardMaterialInstanceVertData& instanceParam)
+	void DXGameResource::addBillboardInstanceParam(size_t handle, const BillboardMaterialInstanceVertData& instanceParam)
 	{
-		m_dxGameShaderResouse->addBillboardInstanceVertParam(handle, instanceParam);
+		m_dxGameShaderResouse->addBillboardInstanceParam(handle, instanceParam);
+	}
+
+	void DXGameResource::updateBillboardInstanceParam(size_t handle, const tktkMath::Matrix4& viewProjMatrix)
+	{
+		m_dxGameShaderResouse->updateBillboardInstanceParam(handle, viewProjMatrix);
 	}
 
 	void DXGameResource::drawBillboard(size_t handle, const BillboardDrawFuncBaseArgs& drawFuncArgs) const

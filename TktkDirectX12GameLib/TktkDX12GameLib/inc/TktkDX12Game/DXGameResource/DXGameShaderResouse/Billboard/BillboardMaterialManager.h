@@ -3,6 +3,7 @@
 
 /* tktkContainer::ResourceContainer */
 #include <TktkMath/Structs/Vector2.h>
+#include <TktkMath/Structs/Matrix4.h>
 #include <TktkContainer/ResourceContainer/ResourceContainer.h>
 
 namespace tktk
@@ -34,7 +35,10 @@ namespace tktk
 		void clearInstanceParam(size_t handle);
 
 		// 指定したビルボードをインスタンス描画する時に使用する値を追加する
-		void addInstanceVertParam(size_t handle, const BillboardMaterialInstanceVertData& instanceParam);
+		void addInstanceParam(size_t handle, const BillboardMaterialInstanceVertData& instanceParam);
+
+		// 指定したビルボードをインスタンス描画する時に使用する値をｚソートして頂点バッファに書き込む
+		void updateInstanceParam(size_t handle, const tktkMath::Matrix4& viewProjMatrix);
 
 		// 指定したビルボードを描画する
 		void draw(size_t handle, const BillboardDrawFuncBaseArgs& drawFuncArgs) const;

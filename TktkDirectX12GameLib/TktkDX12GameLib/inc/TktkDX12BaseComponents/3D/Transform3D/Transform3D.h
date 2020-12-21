@@ -30,6 +30,7 @@ namespace tktk
 	public:
 
 		// <PolymorphismFunc>
+		void awake();
 		void start();
 		void afterChangeParent(const GameObjectPtr& beforParent);
 

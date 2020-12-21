@@ -1,9 +1,9 @@
 #include "TktkDX12Game/DXGameResource/GameObjectResouse/GameObjectResouse.h"
 
-#include <TktkTemplateMetaLib/HasFuncCheck/CreatedStruct/HasAwakeChecker.h>
 #include "TktkDX12Game/DXGameResource/GameObjectResouse/GameObject/GameObjectManager.h"
 #include "TktkDX12Game/DXGameResource/GameObjectResouse/Component/ComponentManager.h"
 #include "TktkDX12Game/DXGameResource/GameObjectResouse/Component/ComponentBase.h"
+#include "TktkDX12Game/DXGameResource/GameObjectResouse/Component/ComponentVTable.h"
 
 namespace tktk
 {
@@ -84,7 +84,7 @@ namespace tktk
 		if (!user.expired()) createdComponent->setUser(user);
 
 		// 「awake」 関数を呼ぶ
-		awake_runner<void>::checkAndRun(createdComponent);
+		vtablePtrBundle->awakeFuncVTable->awake(createdComponent);
 
 		// 作ったコンポーネントのポインタを返す
 		return createdComponent;

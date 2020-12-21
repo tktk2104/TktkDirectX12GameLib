@@ -97,9 +97,14 @@ namespace tktk
 		m_billboardMaterial->clearInstanceParam(handle);
 	}
 
-	void DXGameShaderResouse::addBillboardInstanceVertParam(size_t handle, const BillboardMaterialInstanceVertData& instanceParam)
+	void DXGameShaderResouse::addBillboardInstanceParam(size_t handle, const BillboardMaterialInstanceVertData& instanceParam)
 	{
-		m_billboardMaterial->addInstanceVertParam(handle, instanceParam);
+		m_billboardMaterial->addInstanceParam(handle, instanceParam);
+	}
+
+	void DXGameShaderResouse::updateBillboardInstanceParam(size_t handle, const tktkMath::Matrix4& viewProjMatrix)
+	{
+		m_billboardMaterial->updateInstanceParam(handle, viewProjMatrix);
 	}
 
 	void DXGameShaderResouse::drawBillboard(size_t handle, const BillboardDrawFuncBaseArgs& drawFuncArgs) const

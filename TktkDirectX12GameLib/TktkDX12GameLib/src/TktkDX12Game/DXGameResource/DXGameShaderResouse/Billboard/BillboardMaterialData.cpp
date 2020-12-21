@@ -81,13 +81,13 @@ namespace tktk
 	void BillboardMaterialData::clearInstanceParam()
 	{
 		// インスタンス情報のリストをクリアする
-		m_instanceVertParamList.clear();
+		m_instanceParamList.clear();
 
 		// インスタンス数を初期化する
 		m_instanceCount = 0U;
 	}
 
-	void BillboardMaterialData::addInstanceVertParam(const BillboardMaterialInstanceVertData& instanceParam)
+	void BillboardMaterialData::addInstanceParam(const BillboardMaterialInstanceVertData& instanceParam)
 	{
 		// インスタンス数の上限に達していた場合、強制終了
 		if (m_instanceCount == m_maxInstanceCount) return;
@@ -98,19 +98,25 @@ namespace tktk
 		tempInstanceParam.textureUvMulRate = { tempInstanceParam.textureUvMulRate.x / m_textureSize.x,	tempInstanceParam.textureUvMulRate.y / m_textureSize.y };
 		
 		// インスタンス描画用の頂点バッファをリストに追加する
-		m_instanceVertParamList.push_front(tempInstanceParam);
+		m_instanceParamList.push_front(tempInstanceParam);
 
 		// インスタンス数をインクリメント
 		m_instanceCount++;
 	}
 
-	void BillboardMaterialData::updateInstanceParamVertBuffer() const
+	void BillboardMaterialData::updateInstanceParam(const tktkMath::Matrix4& viewProjMatrix)
 	{
+		// もし、インスタンス描画用の値が設定されていなければ何もしない
+		if (m_instanceCount == 0U) return;
+
+		// インスタンス毎のｚソート
+		m_instanceParamList.sort([viewProjMatrix](const auto& a, const auto& b) { return (a.billboardPosition * viewProjMatrix).z < (b.billboardPosition * viewProjMatrix).z; });
+
 		auto vertBufferData = std::vector<BillboardMaterialInstanceVertData>(m_maxInstanceCount);
 	
 		size_t curIndex = m_instanceCount - 1U;
 
-		for (const auto& instanceVertParam : m_instanceVertParamList)
+		for (const auto& instanceVertParam : m_instanceParamList)
 		{
 			// インデックスがオーバーフローしたら強制終了
 			if (curIndex == std::numeric_limits<size_t>::max()) return;
@@ -133,9 +139,6 @@ namespace tktk
 	{
 		// もし、インスタンス描画用の値が設定されていなければ何もしない
 		if (m_instanceCount == 0U) return;
-
-		// インスタンス描画情報を扱う頂点バッファを更新する
-		updateInstanceParamVertBuffer();
 
 		// ビューポートを設定する
 		DX12GameManager::setViewport(drawFuncArgs.viewportHandle);

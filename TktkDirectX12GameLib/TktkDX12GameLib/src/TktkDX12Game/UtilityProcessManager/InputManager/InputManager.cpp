@@ -126,12 +126,12 @@ namespace tktk
 		return false;
 	}
 
-	const tktkMath::Vector2& InputManager::moveVec() const
+	const tktkMath::Vector2& InputManager::getMoveInput() const
 	{
 		return m_curMoveVec;
 	}
 
-	const tktkMath::Vector2& InputManager::lookVec() const
+	const tktkMath::Vector2& InputManager::getLookInput() const
 	{
 		return m_curLookVec;
 	}

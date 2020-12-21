@@ -38,7 +38,6 @@ namespace tktk
 	void SpriteDrawer::draw() const
 	{
 		// 座標変換用の定数バッファの更新
-		// 座標変換用の定数バッファの更新
 		SpriteCBufferUpdateFuncArgs updateFuncArgs{};
 		updateFuncArgs.worldMatrix = m_transform->calculateWorldMatrix();
 		updateFuncArgs.spriteCenterRate = m_spriteCenterRate;

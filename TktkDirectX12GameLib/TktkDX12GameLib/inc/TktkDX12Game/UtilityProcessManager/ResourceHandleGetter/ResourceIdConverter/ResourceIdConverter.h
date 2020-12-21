@@ -21,6 +21,7 @@ namespace tktk
 
 		size_t getSceneHandle					(ResourceIdCarrier id) const;
 		size_t getSoundHandle					(ResourceIdCarrier id) const;
+		size_t getFontHandle					(ResourceIdCarrier id) const;
 		size_t getPostEffectMaterialHandle		(ResourceIdCarrier id) const;
 		size_t getSpriteMaterialHandle			(ResourceIdCarrier id) const;
 		size_t getLine2DMaterialHandle			(ResourceIdCarrier id) const;
@@ -37,6 +38,7 @@ namespace tktk
 
 		void setSceneHandle						(ResourceIdCarrier id, size_t handle);
 		void setSoundHandle						(ResourceIdCarrier id, size_t handle);
+		void setFontHandle						(ResourceIdCarrier id, size_t handle);
 		void setPostEffectMaterialHandle		(ResourceIdCarrier id, size_t handle);
 		void setSpriteMaterialHandle			(ResourceIdCarrier id, size_t handle);
 		void setLine2DMaterialHandle			(ResourceIdCarrier id, size_t handle);
@@ -53,6 +55,7 @@ namespace tktk
 
 		std::unordered_map<ResourceIdCarrier, size_t>	m_sceneHandleMap;
 		std::unordered_map<ResourceIdCarrier, size_t>	m_soundHandleMap;
+		std::unordered_map<ResourceIdCarrier, size_t>	m_fontHandleMap;
 		std::unordered_map<ResourceIdCarrier, size_t>	m_postEffectMaterialHandleMap;
 		std::unordered_map<ResourceIdCarrier, size_t>	m_spriteMaterialHandleMap;
 		std::unordered_map<ResourceIdCarrier, size_t>	m_line2DMaterialHandleMap;

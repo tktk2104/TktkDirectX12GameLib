@@ -1,6 +1,9 @@
 #ifndef COMPONENT_V_TABLE_H_
 #define COMPONENT_V_TABLE_H_
 
+/* awake_runner<> */
+#include <TktkTemplateMetaLib/HasFuncCheck/CreatedStruct/HasAwakeChecker.h>
+
 /* start_runner<> */
 #include <TktkTemplateMetaLib/HasFuncCheck/CreatedStruct/HasStartChecker.h>
 
@@ -34,6 +37,12 @@ namespace tktk
 	class MessageAttachment;
 	class GameObjectPtr;
 
+	// コンポーネントクラスの「awake」関数実行クラス
+	struct ComponentAwakeFuncVTable
+	{
+		void(*awake)(const ComponentBasePtr&);
+	};
+
 	// コンポーネントクラスの「start」関数実行クラス
 	struct ComponentStartFuncVTable
 	{
@@ -65,6 +74,9 @@ namespace tktk
 	// コンポーネントの関数実行クラスの集合体
 	struct ComponentVTableBundle
 	{
+		// テンプレートクラスが「awake」関数を持っていたら実行する関数のポインタを保持する構造体
+		ComponentAwakeFuncVTable*		awakeFuncVTable;
+
 		// テンプレートクラスが「start」関数を持っていたら実行する関数のポインタを保持する構造体
 		ComponentStartFuncVTable*		startFuncVTable;
 
@@ -82,6 +94,9 @@ namespace tktk
 	template <class ComponentType>
 	struct ComponentVTableInitializer
 	{
+		// テンプレートクラスが「awake」関数を持っていたら実行する関数のポインタを保持する構造体
+		static ComponentAwakeFuncVTable		m_awakeFuncVTable;
+
 		// テンプレートクラスが「start」関数を持っていたら実行する関数のポインタを保持する構造体
 		static ComponentStartFuncVTable		m_startFuncVTable;
 		
@@ -96,6 +111,9 @@ namespace tktk
 
 		// コンポーネントの関数実行クラスの集合体
 		static ComponentVTableBundle		m_componentVTableBundle;
+
+		// 引数のポインタの指す実態が「awake」関数を持っていたら実行する
+		static void awake(const ComponentBasePtr& runPtr)																		{ awake_runner<void>::checkAndRun(runPtr.castPtr<ComponentType>()); }
 
 		// 引数のポインタの指す実態が「start」関数を持っていたら実行する
 		static void start(const ComponentBasePtr& runPtr)																		{ start_runner<void>::checkAndRun(runPtr.castPtr<ComponentType>()); }
@@ -120,6 +138,13 @@ namespace tktk
 
 		// 引数のポインタの指す実態が「onCollisionExit」を持っていたら実行する
 		static void onCollisionExit(const ComponentBasePtr& self, const GameObjectPtr& other)									{ onCollisionExit_runner<void, const GameObjectPtr&>::checkAndRun(self.castPtr<ComponentType>(), other); }
+	};
+
+	// テンプレートクラスが「start」関数を持っていたら実行する関数のポインタを保持する構造体
+	template<class ComponentType>
+	ComponentAwakeFuncVTable ComponentVTableInitializer<ComponentType>::m_awakeFuncVTable =
+	{
+		 &ComponentVTableInitializer<ComponentType>::awake
 	};
 
 	// テンプレートクラスが「start」関数を持っていたら実行する関数のポインタを保持する構造体
@@ -158,6 +183,7 @@ namespace tktk
 	template<class ComponentType>
 	ComponentVTableBundle ComponentVTableInitializer<ComponentType>::m_componentVTableBundle =
 	{
+		&ComponentVTableInitializer<ComponentType>::m_awakeFuncVTable,
 		&ComponentVTableInitializer<ComponentType>::m_startFuncVTable,
 		&ComponentVTableInitializer<ComponentType>::m_drawFuncVTable,
 		&ComponentVTableInitializer<ComponentType>::m_collisionFuncVTable,

@@ -18,10 +18,11 @@
 #include "SystemResourceHandleGetter/IdType/SystemDsvDescriptorHeapType.h"
 #include "SystemResourceHandleGetter/IdType/SystemRootSignatureType.h"
 #include "SystemResourceHandleGetter/IdType/SystemPipeLineStateType.h"
+#include "SystemResourceHandleGetter/IdType/SystemSpriteType.h"
 #include "SystemResourceHandleGetter/IdType/SystemCameraType.h"
 #include "SystemResourceHandleGetter/IdType/SystemLightType.h"
-#include "SystemResourceHandleGetter/IdType/SystemBasicMeshType.h"
-#include "SystemResourceHandleGetter/IdType/SystemBasicMeshMaterialType.h"
+#include "SystemResourceHandleGetter/IdType/SystemMeshType.h"
+#include "SystemResourceHandleGetter/IdType/SystemMeshMaterialType.h"
 #include "SystemResourceHandleGetter/IdType/SystemPostEffectMaterialType.h"
 #include "SystemResourceHandleGetter/IdType/SystemPostEffectDrawFuncRunnerType.h"
 #include "ResourceIdConverter/ResourceIdCarrier.h"
@@ -54,6 +55,7 @@ namespace tktk
 		size_t getSystemHandle(SystemDsvDescriptorHeapType type)		const;
 		size_t getSystemHandle(SystemRootSignatureType type)			const;
 		size_t getSystemHandle(SystemPipeLineStateType type)			const;
+		size_t getSystemHandle(SystemSpriteType type)					const;
 		size_t getSystemHandle(SystemCameraType type)					const;
 		size_t getSystemHandle(SystemLightType type)					const;
 		size_t getSystemHandle(SystemMeshType type)						const;
@@ -76,6 +78,7 @@ namespace tktk
 		void setSystemHandle(SystemDsvDescriptorHeapType type,			size_t handle);
 		void setSystemHandle(SystemRootSignatureType type,				size_t handle);
 		void setSystemHandle(SystemPipeLineStateType type,				size_t handle);
+		void setSystemHandle(SystemSpriteType type,						size_t handle);
 		void setSystemHandle(SystemCameraType type,						size_t handle);
 		void setSystemHandle(SystemLightType type,						size_t handle);
 		void setSystemHandle(SystemMeshType type,						size_t handle);
@@ -87,6 +90,7 @@ namespace tktk
 
 		size_t getSceneHandle					(ResourceIdCarrier id) const;
 		size_t getSoundHandle					(ResourceIdCarrier id) const;
+		size_t getFontHandle					(ResourceIdCarrier id) const;
 		size_t getPostEffectMaterialHandle		(ResourceIdCarrier id) const;
 		size_t getSpriteMaterialHandle			(ResourceIdCarrier id) const;
 		size_t getLine2DMaterialHandle			(ResourceIdCarrier id) const;
@@ -103,6 +107,7 @@ namespace tktk
 
 		void setSceneHandle						(ResourceIdCarrier id, size_t handle);
 		void setSoundHandle						(ResourceIdCarrier id, size_t handle);
+		void setFontHandle						(ResourceIdCarrier id, size_t handle);
 		void setPostEffectMaterialHandle		(ResourceIdCarrier id, size_t handle);
 		void setSpriteMaterialHandle			(ResourceIdCarrier id, size_t handle);
 		void setLine2DMaterialHandle			(ResourceIdCarrier id, size_t handle);

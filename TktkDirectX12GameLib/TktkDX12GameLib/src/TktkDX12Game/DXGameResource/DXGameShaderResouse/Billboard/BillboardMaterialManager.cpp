@@ -40,9 +40,14 @@ namespace tktk
 		m_billboardMaterialArray.getMatchHandlePtr(handle)->clearInstanceParam();
 	}
 
-	void BillboardMaterialManager::addInstanceVertParam(size_t handle, const BillboardMaterialInstanceVertData& instanceParam)
+	void BillboardMaterialManager::addInstanceParam(size_t handle, const BillboardMaterialInstanceVertData& instanceParam)
 	{
-		m_billboardMaterialArray.getMatchHandlePtr(handle)->addInstanceVertParam(instanceParam);
+		m_billboardMaterialArray.getMatchHandlePtr(handle)->addInstanceParam(instanceParam);
+	}
+
+	void BillboardMaterialManager::updateInstanceParam(size_t handle, const tktkMath::Matrix4& viewProjMatrix)
+	{
+		m_billboardMaterialArray.getMatchHandlePtr(handle)->updateInstanceParam(viewProjMatrix);
 	}
 
 	void BillboardMaterialManager::draw(size_t handle, const BillboardDrawFuncBaseArgs& drawFuncArgs) const
@@ -122,11 +127,11 @@ namespace tktk
 
 		DX12GameManager::setSystemHandle(SystemPipeLineStateType::Billboard, DX12GameManager::createPipeLineState(initParam, shaderFilePaths));
 
-		renderTargetBlendDesc.SrcBlend				= D3D12_BLEND_ONE;
+		renderTargetBlendDesc.SrcBlend				= D3D12_BLEND_SRC_ALPHA;
 		renderTargetBlendDesc.DestBlend				= D3D12_BLEND_ONE;
 		renderTargetBlendDesc.BlendOp				= D3D12_BLEND_OP_ADD;
 		renderTargetBlendDesc.SrcBlendAlpha			= D3D12_BLEND_ONE;
-		renderTargetBlendDesc.DestBlendAlpha		= D3D12_BLEND_ONE;
+		renderTargetBlendDesc.DestBlendAlpha		= D3D12_BLEND_ZERO;
 		renderTargetBlendDesc.BlendOpAlpha			= D3D12_BLEND_OP_ADD;
 		renderTargetBlendDesc.LogicOpEnable			= false;
 		renderTargetBlendDesc.RenderTargetWriteMask = D3D12_COLOR_WRITE_ENABLE_ALL;

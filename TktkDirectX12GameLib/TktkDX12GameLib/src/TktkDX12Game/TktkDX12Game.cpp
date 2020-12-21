@@ -92,14 +92,14 @@ namespace tktk
 		return DX12GameManager::isTrigger(btnType);
 	}
 
-	const tktkMath::Vector2& DX12Game::moveVec()
+	const tktkMath::Vector2& DX12Game::getMoveInput()
 	{
-		return DX12GameManager::moveVec();
+		return DX12GameManager::getMoveInput();
 	}
 
-	const tktkMath::Vector2& DX12Game::lookVec()
+	const tktkMath::Vector2& DX12Game::getLookInput()
 	{
-		return DX12GameManager::lookVec();
+		return DX12GameManager::getLookInput();
 	}
 
 	tktkMath::Vector2 DX12Game::mousePos()
@@ -287,6 +287,16 @@ namespace tktk
 		DX12GameManager::loadSoundAndAttachId(soundId, filePath);
 	}
 
+	void DX12Game::createFont(ResourceIdCarrier fontId, const std::string& systemFontName, int fontSize, float fontThicknessRate)
+	{
+		DX12GameManager::createFontAndAttachId(fontId, systemFontName, fontSize, fontThicknessRate);
+	}
+
+	void DX12Game::createFont(ResourceIdCarrier fontId, const std::string& fontFilePath, const std::string& fontName, int fontSize, float fontThicknessRate)
+	{
+		DX12GameManager::createFontAndAttachId(fontId, fontFilePath, fontName, fontSize, fontThicknessRate);
+	}
+
 	void DX12Game::loadSprite(ResourceIdCarrier spriteId, const std::string& filePath)
 	{
 		tktk::SpriteMaterialInitParam initParam{};
@@ -346,98 +356,98 @@ namespace tktk
 		tktk::DX12GameManager::makeBoxMeshAndAttachId(meshId, tktk::DX12GameManager::cpuPriorityLoadTextureBuffer(filePath), tktk::MeshDrawFuncRunnerInitParam::create().writeShadowMap(writeShadow));
 	}
 
-	size_t DX12Game::getSystemHandle(SystemViewportType type)
-	{
-		return DX12GameManager::getSystemHandle(type);
-	}
-
-	size_t DX12Game::getSystemHandle(SystemScissorRectType type)
-	{
-		return DX12GameManager::getSystemHandle(type);
-	}
-
-	size_t DX12Game::getSystemHandle(SystemVertexBufferType type)
-	{
-		return DX12GameManager::getSystemHandle(type);
-	}
-
-	size_t DX12Game::getSystemHandle(SystemIndexBufferType type)
-	{
-		return DX12GameManager::getSystemHandle(type);
-	}
-
-	size_t DX12Game::getSystemHandle(SystemCBufferType type)
-	{
-		return DX12GameManager::getSystemHandle(type);
-	}
-
-	size_t DX12Game::getSystemHandle(SystemTextureBufferType type)
-	{
-		return DX12GameManager::getSystemHandle(type);
-	}
-
-	size_t DX12Game::getSystemHandle(SystemRtBufferType type)
-	{
-		return DX12GameManager::getSystemHandle(type);
-	}
-
-	size_t DX12Game::getSystemHandle(SystemDsBufferType type)
-	{
-		return DX12GameManager::getSystemHandle(type);
-	}
-
-	size_t DX12Game::getSystemHandle(SystemBasicDescriptorHeapType type)
-	{
-		return DX12GameManager::getSystemHandle(type);
-	}
-
-	size_t DX12Game::getSystemHandle(SystemRtvDescriptorHeapType type)
-	{
-		return DX12GameManager::getSystemHandle(type);
-	}
-
-	size_t DX12Game::getSystemHandle(SystemDsvDescriptorHeapType type)
-	{
-		return DX12GameManager::getSystemHandle(type);
-	}
-
-	size_t DX12Game::getSystemHandle(SystemRootSignatureType type)
-	{
-		return DX12GameManager::getSystemHandle(type);
-	}
-
-	size_t DX12Game::getSystemHandle(SystemPipeLineStateType type)
-	{
-		return DX12GameManager::getSystemHandle(type);
-	}
-
-	size_t DX12Game::getSystemHandle(SystemCameraType type)
-	{
-		return DX12GameManager::getSystemHandle(type);
-	}
-
-	size_t DX12Game::getSystemHandle(SystemLightType type)
-	{
-		return DX12GameManager::getSystemHandle(type);
-	}
-
-	size_t DX12Game::getSystemHandle(SystemMeshType type)
-	{
-		return DX12GameManager::getSystemHandle(type);
-	}
-
-	size_t DX12Game::getSystemHandle(SystemMeshMaterialType type)
-	{
-		return DX12GameManager::getSystemHandle(type);
-	}
-
-	size_t DX12Game::getSystemHandle(SystemPostEffectMaterialType type)
-	{
-		return DX12GameManager::getSystemHandle(type);
-	}
-
-	size_t DX12Game::getSystemHandle(SystemPostEffectDrawFuncRunnerType type)
-	{
-		return DX12GameManager::getSystemHandle(type);
-	}
+	//size_t DX12Game::getSystemHandle(SystemViewportType type)
+	//{
+	//	return DX12GameManager::getSystemHandle(type);
+	//}
+	//
+	//size_t DX12Game::getSystemHandle(SystemScissorRectType type)
+	//{
+	//	return DX12GameManager::getSystemHandle(type);
+	//}
+	//
+	//size_t DX12Game::getSystemHandle(SystemVertexBufferType type)
+	//{
+	//	return DX12GameManager::getSystemHandle(type);
+	//}
+	//
+	//size_t DX12Game::getSystemHandle(SystemIndexBufferType type)
+	//{
+	//	return DX12GameManager::getSystemHandle(type);
+	//}
+	//
+	//size_t DX12Game::getSystemHandle(SystemCBufferType type)
+	//{
+	//	return DX12GameManager::getSystemHandle(type);
+	//}
+	//
+	//size_t DX12Game::getSystemHandle(SystemTextureBufferType type)
+	//{
+	//	return DX12GameManager::getSystemHandle(type);
+	//}
+	//
+	//size_t DX12Game::getSystemHandle(SystemRtBufferType type)
+	//{
+	//	return DX12GameManager::getSystemHandle(type);
+	//}
+	//
+	//size_t DX12Game::getSystemHandle(SystemDsBufferType type)
+	//{
+	//	return DX12GameManager::getSystemHandle(type);
+	//}
+	//
+	//size_t DX12Game::getSystemHandle(SystemBasicDescriptorHeapType type)
+	//{
+	//	return DX12GameManager::getSystemHandle(type);
+	//}
+	//
+	//size_t DX12Game::getSystemHandle(SystemRtvDescriptorHeapType type)
+	//{
+	//	return DX12GameManager::getSystemHandle(type);
+	//}
+	//
+	//size_t DX12Game::getSystemHandle(SystemDsvDescriptorHeapType type)
+	//{
+	//	return DX12GameManager::getSystemHandle(type);
+	//}
+	//
+	//size_t DX12Game::getSystemHandle(SystemRootSignatureType type)
+	//{
+	//	return DX12GameManager::getSystemHandle(type);
+	//}
+	//
+	//size_t DX12Game::getSystemHandle(SystemPipeLineStateType type)
+	//{
+	//	return DX12GameManager::getSystemHandle(type);
+	//}
+	//
+	//size_t DX12Game::getSystemHandle(SystemCameraType type)
+	//{
+	//	return DX12GameManager::getSystemHandle(type);
+	//}
+	//
+	//size_t DX12Game::getSystemHandle(SystemLightType type)
+	//{
+	//	return DX12GameManager::getSystemHandle(type);
+	//}
+	//
+	//size_t DX12Game::getSystemHandle(SystemMeshType type)
+	//{
+	//	return DX12GameManager::getSystemHandle(type);
+	//}
+	//
+	//size_t DX12Game::getSystemHandle(SystemMeshMaterialType type)
+	//{
+	//	return DX12GameManager::getSystemHandle(type);
+	//}
+	//
+	//size_t DX12Game::getSystemHandle(SystemPostEffectMaterialType type)
+	//{
+	//	return DX12GameManager::getSystemHandle(type);
+	//}
+	//
+	//size_t DX12Game::getSystemHandle(SystemPostEffectDrawFuncRunnerType type)
+	//{
+	//	return DX12GameManager::getSystemHandle(type);
+	//}
 }

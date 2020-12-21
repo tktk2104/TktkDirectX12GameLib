@@ -20,25 +20,6 @@
 #include "UtilityProcessManager/InputManager/InputGetter/DirectInputWrapper/GamePadInputGetter/GamePadBtnType.h"
 #include "UtilityProcessManager/InputManager/CommandTypeManager/CommandIdCarrier.h"
 #include "UtilityProcessManager/InputManager/CommandTypeManager/DirectionCommandId.h"
-#include "UtilityProcessManager/ResourceHandleGetter/SystemResourceHandleGetter/IdType/SystemViewportType.h"
-#include "UtilityProcessManager/ResourceHandleGetter/SystemResourceHandleGetter/IdType/SystemScissorRectType.h"
-#include "UtilityProcessManager/ResourceHandleGetter/SystemResourceHandleGetter/IdType/SystemVertexBufferType.h"
-#include "UtilityProcessManager/ResourceHandleGetter/SystemResourceHandleGetter/IdType/SystemIndexBufferType.h"
-#include "UtilityProcessManager/ResourceHandleGetter/SystemResourceHandleGetter/IdType/SystemConstantBufferType.h"
-#include "UtilityProcessManager/ResourceHandleGetter/SystemResourceHandleGetter/IdType/SystemTextureBufferType.h"
-#include "UtilityProcessManager/ResourceHandleGetter/SystemResourceHandleGetter/IdType/SystemRenderTargetBufferType.h"
-#include "UtilityProcessManager/ResourceHandleGetter/SystemResourceHandleGetter/IdType/SystemDepthStencilBufferType.h"
-#include "UtilityProcessManager/ResourceHandleGetter/SystemResourceHandleGetter/IdType/SystemBasicDescriptorHeapType.h"
-#include "UtilityProcessManager/ResourceHandleGetter/SystemResourceHandleGetter/IdType/SystemRtvDescriptorHeapType.h"
-#include "UtilityProcessManager/ResourceHandleGetter/SystemResourceHandleGetter/IdType/SystemDsvDescriptorHeapType.h"
-#include "UtilityProcessManager/ResourceHandleGetter/SystemResourceHandleGetter/IdType/SystemRootSignatureType.h"
-#include "UtilityProcessManager/ResourceHandleGetter/SystemResourceHandleGetter/IdType/SystemPipeLineStateType.h"
-#include "UtilityProcessManager/ResourceHandleGetter/SystemResourceHandleGetter/IdType/SystemCameraType.h"
-#include "UtilityProcessManager/ResourceHandleGetter/SystemResourceHandleGetter/IdType/SystemLightType.h"
-#include "UtilityProcessManager/ResourceHandleGetter/SystemResourceHandleGetter/IdType/SystemBasicMeshType.h"
-#include "UtilityProcessManager/ResourceHandleGetter/SystemResourceHandleGetter/IdType/SystemBasicMeshMaterialType.h"
-#include "UtilityProcessManager/ResourceHandleGetter/SystemResourceHandleGetter/IdType/SystemPostEffectMaterialType.h"
-#include "UtilityProcessManager/ResourceHandleGetter/SystemResourceHandleGetter/IdType/SystemPostEffectDrawFuncRunnerType.h"
 #include "UtilityProcessManager/ResourceHandleGetter/ResourceIdConverter/ResourceIdCarrier.h"
 
 namespace tktk
@@ -115,10 +96,10 @@ namespace tktk
 		static bool isTrigger(GamePadBtnType btnType);
 
 		// 移動方向を取得
-		static const tktkMath::Vector2& moveVec();
+		static const tktkMath::Vector2& getMoveInput();
 
 		// 視点移動方向を取得
-		static const tktkMath::Vector2& lookVec();
+		static const tktkMath::Vector2& getLookInput();
 
 		// マウスカーソルの座標を取得する
 		static tktkMath::Vector2 mousePos();
@@ -196,6 +177,12 @@ namespace tktk
 		// 音声データを読み込む（対応している音声データ形式はwav）
 		static void loadSound(ResourceIdCarrier soundId, const std::string& filePath);
 
+		// システムフォントを使う準備をする
+		static void createFont(ResourceIdCarrier fontId, const std::string& systemFontName, int fontSize = 64, float fontThicknessRate = 1.0f);
+
+		// フォントファイルを読み込み、そのフォントを使う準備をする
+		static void createFont(ResourceIdCarrier fontId, const std::string& fontFilePath, const std::string& fontName, int fontSize = 64, float fontThicknessRate = 1.0f);
+
 		// テクスチャを読み込みスプライトマテリアルを作る（対応している画像データ形式はpng）
 		static void loadSprite(ResourceIdCarrier spriteId, const std::string& filePath);
 
@@ -213,30 +200,6 @@ namespace tktk
 
 		// テクスチャを読み込みボックスメッシュを作る（対応している画像データ形式はpng）
 		static void loadBoxMesh(ResourceIdCarrier meshId, bool writeShadow, const std::string& filePath);
-
-	//************************************************************
-	/* システムのリソースを使うためのハンドルを取得するための処理 */
-	public:
-
-		static size_t getSystemHandle(SystemViewportType type);
-		static size_t getSystemHandle(SystemScissorRectType type);
-		static size_t getSystemHandle(SystemVertexBufferType type);
-		static size_t getSystemHandle(SystemIndexBufferType type);
-		static size_t getSystemHandle(SystemCBufferType type);
-		static size_t getSystemHandle(SystemTextureBufferType type);
-		static size_t getSystemHandle(SystemRtBufferType type);
-		static size_t getSystemHandle(SystemDsBufferType type);
-		static size_t getSystemHandle(SystemBasicDescriptorHeapType type);
-		static size_t getSystemHandle(SystemRtvDescriptorHeapType type);
-		static size_t getSystemHandle(SystemDsvDescriptorHeapType type);
-		static size_t getSystemHandle(SystemRootSignatureType type);
-		static size_t getSystemHandle(SystemPipeLineStateType type);
-		static size_t getSystemHandle(SystemCameraType type);
-		static size_t getSystemHandle(SystemLightType type);
-		static size_t getSystemHandle(SystemMeshType type);
-		static size_t getSystemHandle(SystemMeshMaterialType type);
-		static size_t getSystemHandle(SystemPostEffectMaterialType type);
-		static size_t getSystemHandle(SystemPostEffectDrawFuncRunnerType type);
 	};
 }
 #endif // !TKTK_DX12_GAME_H_

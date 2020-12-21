@@ -29,8 +29,9 @@ namespace tktk
 	public:
 
 		// <PolymorphismFunc>
+		void awake();
 		void start();
-		void update();
+		void afterChangeParent(const GameObjectPtr& beforParent);
 
 	public:
 
@@ -55,8 +56,6 @@ namespace tktk
 
 		// ワールド座標を指定分だけ増加
 		void addWorldPosition(const tktkMath::Vector2& position);
-		// ワールドスケールを指定分だけ増加
-		void addWorldScaleRate(const tktkMath::Vector2& scaleRate);
 		// ワールド回転を指定分だけ増加
 		void addWorldRotationDeg(float rotationDeg);
 
@@ -69,8 +68,6 @@ namespace tktk
 
 		// ワールド座標を設定
 		void setWorldPosition(const tktkMath::Vector2& position);
-		// ワールドスケールを設定
-		void setWorldScaleRate(const tktkMath::Vector2& scaleRate);
 		// ワールド回転を設定
 		void setWorldRotationDeg(float rotationDeg);
 
@@ -83,14 +80,22 @@ namespace tktk
 
 	private:
 
+		// 引数のTransform2Dを追従するのに使用するワールド行列を計算
+		static tktkMath::Matrix3 calculateTraceUseMat(const ComponentPtr<Transform2D>& target, TraceParentType traceType);
+
+		// 引数のTransform2Dを追従するのに使用するスケール値を計算
+		static tktkMath::Vector2 calculateTraceUseScale(const ComponentPtr<Transform2D>& target, TraceParentType traceType);
+
+		// 引数のTransform2Dを追従するのに使用する逆スケール値を計算
+		static tktkMath::Vector2 calculateTraceUseInvScale(const ComponentPtr<Transform2D>& target, TraceParentType traceType);
+
+	private:
+
 		// 新しいローカル行列を指定して自身のローカルのトランスフォームを更新する
-		void updateLocalTransform(const tktkMath::Matrix3& newLocalMat);
+		void updateLocalTransform(const tktkMath::Matrix3& newLocalMat, const tktkMath::Vector2 newLocalScale);
 
 		// 新しいワールド行列を指定して自身のワールドのトランスフォームを更新する
-		void updateWorldTransform(const tktkMath::Matrix3& newWorldMat);
-
-		// 親のTransform2Dを追従するのに使用するワールド行列を取得
-		tktkMath::Matrix3 calculateParentTraceUseMat();
+		void updateWorldTransform(const tktkMath::Matrix3& newWorldMat, const tktkMath::Vector2 newWorldScale);
 
 		// 親のTransform2Dを取得
 		ComponentPtr<Transform2D> findParentTransform2D() const;
@@ -101,14 +106,14 @@ namespace tktk
 		// 指定した子供のTransform2Dを更新する
 		void updateChildTransform(const GameObjectPtr& child);
 
-		// 親のTransform2Dを追従するかを判定する
-		bool isTransformParentCheck(const ComponentPtr<Transform2D>& parentTransform2D);
+		//// 親のTransform2Dを追従するかを判定する
+		//bool isTransformParentCheck(const ComponentPtr<Transform2D>& parentTransform2D);
 
 		// 親のTransform2Dの追従を開始
-		void enableParentTransform();
+		void enableParentTransform(const GameObjectPtr& curParent);
 
 		// 親のTransform2Dの追従を終了
-		void disableParentTransform();
+		void disableParentTransform(const GameObjectPtr& beforParent);
 
 		// 大元のTransformから全ての子供を更新する（生ポインタ版）
 		void findAndUpdateRootTransform(Transform2D* curTransform);
@@ -117,9 +122,6 @@ namespace tktk
 		void findAndUpdateRootTransform(const ComponentPtr<Transform2D>& curTransform);
 
 	private:
-
-		// 親のTransformを追従しているか？
-		bool m_isTransformParent			{ false };
 
 		// ローカルの座標
 		tktkMath::Vector2 m_localPosition	{ tktkMath::Vector2_v::zero };

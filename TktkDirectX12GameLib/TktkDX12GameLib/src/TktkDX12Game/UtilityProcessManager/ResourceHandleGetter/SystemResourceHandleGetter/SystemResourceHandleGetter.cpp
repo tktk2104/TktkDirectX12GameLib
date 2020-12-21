@@ -70,6 +70,11 @@ namespace tktk
 		return m_systemPipeLineStateHandleMap.at(type);
 	}
 
+	size_t SystemResourceHandleGetter::getSystemHandle(SystemSpriteType type) const
+	{
+		return m_systemSpriteHandleMap.at(type);
+	}
+
 	size_t SystemResourceHandleGetter::getSystemHandle(SystemCameraType type) const
 	{
 		return m_systemCameraHandleMap.at(type);
@@ -163,6 +168,11 @@ namespace tktk
 	void SystemResourceHandleGetter::setSystemHandle(SystemPipeLineStateType type, size_t handle)
 	{
 		m_systemPipeLineStateHandleMap.emplace(type, handle);
+	}
+
+	void SystemResourceHandleGetter::setSystemHandle(SystemSpriteType type, size_t handle)
+	{
+		m_systemSpriteHandleMap.emplace(type, handle);
 	}
 
 	void SystemResourceHandleGetter::setSystemHandle(SystemCameraType type, size_t handle)

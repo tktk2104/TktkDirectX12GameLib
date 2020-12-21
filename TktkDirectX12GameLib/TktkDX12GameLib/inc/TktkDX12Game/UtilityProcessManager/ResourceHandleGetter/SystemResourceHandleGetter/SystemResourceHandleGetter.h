@@ -18,10 +18,11 @@
 #include "IdType/SystemDsvDescriptorHeapType.h"
 #include "IdType/SystemRootSignatureType.h"
 #include "IdType/SystemPipeLineStateType.h"
+#include "IdType/SystemSpriteType.h"
 #include "IdType/SystemCameraType.h"
 #include "IdType/SystemLightType.h"
-#include "IdType/SystemBasicMeshType.h"
-#include "IdType/SystemBasicMeshMaterialType.h"
+#include "IdType/SystemMeshType.h"
+#include "IdType/SystemMeshMaterialType.h"
 #include "IdType/SystemPostEffectMaterialType.h"
 #include "IdType/SystemPostEffectDrawFuncRunnerType.h"
 
@@ -50,6 +51,7 @@ namespace tktk
 		size_t getSystemHandle(SystemDsvDescriptorHeapType type)		const;
 		size_t getSystemHandle(SystemRootSignatureType type)			const;
 		size_t getSystemHandle(SystemPipeLineStateType type)			const;
+		size_t getSystemHandle(SystemSpriteType type)					const;
 		size_t getSystemHandle(SystemCameraType type)					const;
 		size_t getSystemHandle(SystemLightType type)					const;
 		size_t getSystemHandle(SystemMeshType type)						const;
@@ -72,6 +74,7 @@ namespace tktk
 		void setSystemHandle(SystemDsvDescriptorHeapType type,			size_t handle);
 		void setSystemHandle(SystemRootSignatureType type,				size_t handle);
 		void setSystemHandle(SystemPipeLineStateType type,				size_t handle);
+		void setSystemHandle(SystemSpriteType type,						size_t handle);
 		void setSystemHandle(SystemCameraType type,						size_t handle);
 		void setSystemHandle(SystemLightType type,						size_t handle);
 		void setSystemHandle(SystemMeshType type,						size_t handle);
@@ -94,6 +97,7 @@ namespace tktk
 		std::unordered_map<SystemDsvDescriptorHeapType,			size_t>	m_systemDsvDescriptorHeapHandleMap;
 		std::unordered_map<SystemRootSignatureType,				size_t>	m_systemRootSignatureHandleMap;
 		std::unordered_map<SystemPipeLineStateType,				size_t>	m_systemPipeLineStateHandleMap;
+		std::unordered_map<SystemSpriteType,					size_t>	m_systemSpriteHandleMap;
 		std::unordered_map<SystemCameraType,					size_t>	m_systemCameraHandleMap;
 		std::unordered_map<SystemLightType,						size_t>	m_systemLightHandleMap;
 		std::unordered_map<SystemMeshType,						size_t>	m_systemBasicMeshHandleMap;

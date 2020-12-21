@@ -13,15 +13,27 @@ namespace tktk
 	{
 	}
 
-	void Transform2D::start()
+	void Transform2D::awake()
 	{
-		if (!getGameObject()->getParent().expired()) m_isTransformParent = true;
-		updateWorldTransform(calculateLocalMatrix() * calculateParentTraceUseMat());
+		auto parentTransform = findParentTransform2D();
+		tktkMath::Matrix3 parentTraceUseMat = calculateTraceUseMat(parentTransform, m_traceType);
+		tktkMath::Vector2 parentTraceUseScale = calculateTraceUseScale(parentTransform, m_traceType);
+		updateWorldTransform(calculateLocalMatrix() * parentTraceUseMat, tktkMath::Vector2::scale(getLocalScaleRate(), parentTraceUseScale));
 	}
 
-	void Transform2D::update()
+	void Transform2D::start()
 	{
-		isTransformParentCheck(findParentTransform2D());
+		auto parentTransform = findParentTransform2D();
+		tktkMath::Matrix3 parentTraceUseMat = calculateTraceUseMat(parentTransform, m_traceType);
+		tktkMath::Vector2 parentTraceUseScale = calculateTraceUseScale(parentTransform, m_traceType);
+		updateWorldTransform(calculateLocalMatrix() * parentTraceUseMat, tktkMath::Vector2::scale(getLocalScaleRate(), parentTraceUseScale));
+	}
+
+	void Transform2D::afterChangeParent(const GameObjectPtr& beforParent)
+	{
+		auto curParent = getGameObject()->getParent();
+		if (beforParent.expired() && !curParent.expired()) enableParentTransform(curParent);
+		if (!beforParent.expired() && curParent.expired()) disableParentTransform(beforParent);
 	}
 
 	const tktkMath::Vector2& Transform2D::getWorldPosition() const
@@ -79,11 +91,6 @@ namespace tktk
 		setWorldPosition(m_worldPosition + position);
 	}
 
-	void Transform2D::addWorldScaleRate(const tktkMath::Vector2& scaleRate)
-	{
-		setWorldScaleRate(m_worldScaleRate + scaleRate);
-	}
-
 	void Transform2D::addWorldRotationDeg(float rotationDeg)
 	{
 		setWorldRotationDeg(m_localRotationDeg + rotationDeg);
@@ -107,82 +114,116 @@ namespace tktk
 	void Transform2D::setWorldPosition(const tktkMath::Vector2& position)
 	{
 		m_worldPosition = position;
-		updateLocalTransform(calculateWorldMatrix() * tktkMath::Matrix3::calculateInvert(calculateParentTraceUseMat()));
-		findAndUpdateRootTransform(this);
-	}
 
-	void Transform2D::setWorldScaleRate(const tktkMath::Vector2& scaleRate)
-	{
-		m_worldScaleRate = scaleRate;
-		updateLocalTransform(calculateWorldMatrix() * tktkMath::Matrix3::calculateInvert(calculateParentTraceUseMat()));
+		auto parentTransform = findParentTransform2D();
+		tktkMath::Matrix3 parentTraceUseInvMat = tktkMath::Matrix3::calculateInvert(calculateTraceUseMat(parentTransform, m_traceType));
+		tktkMath::Vector2 parentTraceUseInvScale = calculateTraceUseInvScale(parentTransform, m_traceType);
+		updateLocalTransform(calculateWorldMatrix() * parentTraceUseInvMat, tktkMath::Vector2::scale(getWorldScaleRate(), parentTraceUseInvScale));
 		findAndUpdateRootTransform(this);
 	}
 
 	void Transform2D::setWorldRotationDeg(float rotationDeg)
 	{
 		m_worldRotationDeg = rotationDeg;
-		updateLocalTransform(calculateWorldMatrix() * tktkMath::Matrix3::calculateInvert(calculateParentTraceUseMat()));
+
+		auto parentTransform = findParentTransform2D();
+		tktkMath::Matrix3 parentTraceUseInvMat = tktkMath::Matrix3::calculateInvert(calculateTraceUseMat(parentTransform, m_traceType));
+		tktkMath::Vector2 parentTraceUseInvScale = calculateTraceUseInvScale(parentTransform, m_traceType);
+		updateLocalTransform(calculateWorldMatrix() * parentTraceUseInvMat, tktkMath::Vector2::scale(getWorldScaleRate(), parentTraceUseInvScale));
 		findAndUpdateRootTransform(this);
 	}
 
 	void Transform2D::setLocalPosition(const tktkMath::Vector2& position)
 	{
 		m_localPosition = position;
-		updateWorldTransform(calculateLocalMatrix() * calculateParentTraceUseMat());
+
+		auto parentTransform = findParentTransform2D();
+		tktkMath::Matrix3 parentTraceUseInvMat = tktkMath::Matrix3::calculateInvert(calculateTraceUseMat(parentTransform, m_traceType));
+		tktkMath::Vector2 parentTraceUseInvScale = calculateTraceUseInvScale(parentTransform, m_traceType);
+		updateLocalTransform(calculateWorldMatrix() * parentTraceUseInvMat, tktkMath::Vector2::scale(getWorldScaleRate(), parentTraceUseInvScale));
 		findAndUpdateRootTransform(this);
 	}
 
 	void Transform2D::setLocalScaleRate(const tktkMath::Vector2& scaleRate)
 	{
 		m_localScaleRate = scaleRate;
-		updateWorldTransform(calculateLocalMatrix() * calculateParentTraceUseMat());
+
+		auto parentTransform = findParentTransform2D();
+		tktkMath::Matrix3 parentTraceUseInvMat = tktkMath::Matrix3::calculateInvert(calculateTraceUseMat(parentTransform, m_traceType));
+		tktkMath::Vector2 parentTraceUseInvScale = calculateTraceUseInvScale(parentTransform, m_traceType);
+		updateLocalTransform(calculateWorldMatrix() * parentTraceUseInvMat, tktkMath::Vector2::scale(getWorldScaleRate(), parentTraceUseInvScale));
 		findAndUpdateRootTransform(this);
 	}
 
 	void Transform2D::setLocalRotationDeg(float rotationDeg)
 	{
 		m_localRotationDeg = rotationDeg;
-		updateWorldTransform(calculateLocalMatrix() * calculateParentTraceUseMat());
+		
+		auto parentTransform = findParentTransform2D();
+		tktkMath::Matrix3 parentTraceUseInvMat = tktkMath::Matrix3::calculateInvert(calculateTraceUseMat(parentTransform, m_traceType));
+		tktkMath::Vector2 parentTraceUseInvScale = calculateTraceUseInvScale(parentTransform, m_traceType);
+		updateLocalTransform(calculateWorldMatrix() * parentTraceUseInvMat, tktkMath::Vector2::scale(getWorldScaleRate(), parentTraceUseInvScale));
 		findAndUpdateRootTransform(this);
 	}
 
-	void Transform2D::updateLocalTransform(const tktkMath::Matrix3& newLocalMat)
+	tktkMath::Matrix3 Transform2D::calculateTraceUseMat(const ComponentPtr<Transform2D>& target, TraceParentType traceType)
 	{
-		m_localPosition = newLocalMat.calculateTranslation();
-		m_localScaleRate = newLocalMat.calculateScale();
-		m_localRotationDeg = newLocalMat.calculateRotation();
-	}
-
-	void Transform2D::updateWorldTransform(const tktkMath::Matrix3& newWorldMat)
-	{
-		m_worldPosition = newWorldMat.calculateTranslation();
-		m_worldScaleRate = newWorldMat.calculateScale();
-		m_worldRotationDeg = newWorldMat.calculateRotation();
-	}
-
-	tktkMath::Matrix3 Transform2D::calculateParentTraceUseMat()
-	{
-		auto parentTransform2D = findParentTransform2D();
-
-		if (!isTransformParentCheck(parentTransform2D)) return tktkMath::Matrix3_v::identity;
+		if (target.expired()) return tktkMath::Matrix3_v::identity;
 
 		tktkMath::Matrix3 traceUseMatrix = tktkMath::Matrix3_v::identity;
 
-		if ((static_cast<unsigned int>(m_traceType) & static_cast<unsigned int>(TraceParentType::traceScale)) != 0)
+		if ((static_cast<unsigned int>(traceType) & static_cast<unsigned int>(TraceParentType::traceScale)) != 0)
 		{
-			traceUseMatrix *= tktkMath::Matrix3::createScale(parentTransform2D->getWorldScaleRate());
+			traceUseMatrix *= tktkMath::Matrix3::createScale(target->getWorldScaleRate());
 		}
 
-		if ((static_cast<unsigned int>(m_traceType) & static_cast<unsigned int>(TraceParentType::traceRotation)) != 0)
+		if ((static_cast<unsigned int>(traceType) & static_cast<unsigned int>(TraceParentType::traceRotation)) != 0)
 		{
-			traceUseMatrix *= tktkMath::Matrix3::createRotation(parentTransform2D->getWorldRotationDeg());
+			traceUseMatrix *= tktkMath::Matrix3::createRotation(target->getWorldRotationDeg());
 		}
 
-		if ((static_cast<unsigned int>(m_traceType) & static_cast<unsigned int>(TraceParentType::tracePos)) != 0)
+		if ((static_cast<unsigned int>(traceType) & static_cast<unsigned int>(TraceParentType::tracePos)) != 0)
 		{
-			traceUseMatrix *= tktkMath::Matrix3::createTranslation(parentTransform2D->getWorldPosition());
+			traceUseMatrix *= tktkMath::Matrix3::createTranslation(target->getWorldPosition());
 		}
 		return traceUseMatrix;
+	}
+
+	tktkMath::Vector2 Transform2D::calculateTraceUseScale(const ComponentPtr<Transform2D>& target, TraceParentType traceType)
+	{
+		if (target.expired()) return tktkMath::Vector2_v::one;
+
+		tktkMath::Vector2 traceUseScale = tktkMath::Vector2_v::one;
+
+		if ((static_cast<unsigned int>(traceType) & static_cast<unsigned int>(TraceParentType::traceScale)) != 0)
+		{
+			traceUseScale = target->getWorldScaleRate();
+		}
+		return traceUseScale;
+	}
+
+	tktkMath::Vector2 Transform2D::calculateTraceUseInvScale(const ComponentPtr<Transform2D>& target, TraceParentType traceType)
+	{
+		tktkMath::Vector2 traceUseInvScale = calculateTraceUseScale(target, traceType);
+
+		return tktkMath::Vector2(
+			1.0f / traceUseInvScale.x,
+			1.0f / traceUseInvScale.y
+		);
+	}
+
+	void Transform2D::updateLocalTransform(const tktkMath::Matrix3& newLocalMat, const tktkMath::Vector2 newLocalScale)
+	{
+		m_localPosition		= newLocalMat.calculateTranslation();
+		m_localRotationDeg	= newLocalMat.calculateRotation();
+		m_localScaleRate	= newLocalScale;
+	}
+
+	void Transform2D::updateWorldTransform(const tktkMath::Matrix3& newWorldMat, const tktkMath::Vector2 newWorldScale)
+	{
+		m_worldPosition		= newWorldMat.calculateTranslation();
+		m_worldRotationDeg	= newWorldMat.calculateRotation();
+		m_worldScaleRate	= newWorldScale;
 	}
 
 	ComponentPtr<Transform2D> Transform2D::findParentTransform2D() const
@@ -207,38 +248,53 @@ namespace tktk
 	{
 		auto childTransform = child->getComponent<Transform2D>();
 		if (childTransform.expired()) return;
+
+		auto parentTransform = childTransform->findParentTransform2D();
+		tktkMath::Matrix3 parentTraceUseMat = calculateTraceUseMat(parentTransform, childTransform->m_traceType);
+		tktkMath::Vector2 parentTraceUseScale = calculateTraceUseScale(parentTransform, childTransform->m_traceType);
 		childTransform->updateWorldTransform(
-			childTransform->calculateLocalMatrix() * childTransform->calculateParentTraceUseMat()
+			childTransform->calculateLocalMatrix() * parentTraceUseMat,
+			tktkMath::Vector2::scale(childTransform->getLocalScaleRate(), parentTraceUseScale)
 		);
+
 		childTransform->updateAllChildTransform();
 	}
 
-	bool Transform2D::isTransformParentCheck(const ComponentPtr<Transform2D>& parentTransform2D)
-	{
-		if (parentTransform2D.expired())
-		{
-			if (m_isTransformParent) disableParentTransform();
-			return false;
-		}
-		if (!m_isTransformParent) enableParentTransform();
-		return true;
-	}
+	//bool Transform2D::isTransformParentCheck(const ComponentPtr<Transform2D>& parentTransform2D)
+	//{
+	//	if (parentTransform2D.expired())
+	//	{
+	//		if (m_isTransformParent) disableParentTransform();
+	//		return false;
+	//	}
+	//	if (!m_isTransformParent) enableParentTransform();
+	//	return true;
+	//}
 
-	void Transform2D::enableParentTransform()
+	void Transform2D::enableParentTransform(const GameObjectPtr& curParent)
 	{
-		m_isTransformParent = true;
-		auto parentTraceUseMat = calculateParentTraceUseMat();
-		updateLocalTransform(calculateLocalMatrix() * tktkMath::Matrix3::calculateInvert(parentTraceUseMat));
-		updateWorldTransform(calculateLocalMatrix() * parentTraceUseMat);
+		auto parentTransform = findParentTransform2D();
+		tktkMath::Matrix3 parentTraceUseMat = calculateTraceUseMat(parentTransform, m_traceType);
+		tktkMath::Matrix3 parentTraceUseInvMat = tktkMath::Matrix3::calculateInvert(calculateTraceUseMat(parentTransform, m_traceType));
+		tktkMath::Vector2 parentTraceUseScale = calculateTraceUseScale(parentTransform, m_traceType);
+		tktkMath::Vector2 parentTraceUseInvScale = calculateTraceUseInvScale(parentTransform, m_traceType);
+		updateLocalTransform(calculateWorldMatrix() * parentTraceUseInvMat, tktkMath::Vector2::scale(getWorldScaleRate(), parentTraceUseInvScale));
+		updateWorldTransform(calculateLocalMatrix() * parentTraceUseMat, tktkMath::Vector2::scale(getLocalScaleRate(), parentTraceUseScale));
 
 		findAndUpdateRootTransform(this);
 	}
 
-	void Transform2D::disableParentTransform()
+	void Transform2D::disableParentTransform(const GameObjectPtr& beforParent)
 	{
-		m_isTransformParent = false;
-		updateLocalTransform(calculateWorldMatrix());
-		updateAllChildTransform();
+		auto parentTransform = findParentTransform2D();
+		tktkMath::Matrix3 parentTraceUseMat = calculateTraceUseMat(parentTransform, m_traceType);
+		tktkMath::Matrix3 parentTraceUseInvMat = tktkMath::Matrix3::calculateInvert(calculateTraceUseMat(parentTransform, m_traceType));
+		tktkMath::Vector2 parentTraceUseScale = calculateTraceUseScale(parentTransform, m_traceType);
+		tktkMath::Vector2 parentTraceUseInvScale = calculateTraceUseInvScale(parentTransform, m_traceType);
+		updateLocalTransform(calculateWorldMatrix() * parentTraceUseMat, tktkMath::Vector2::scale(getWorldScaleRate(), parentTraceUseScale));
+		updateWorldTransform(calculateLocalMatrix() * parentTraceUseInvMat, tktkMath::Vector2::scale(getLocalScaleRate(), parentTraceUseInvScale));
+
+		findAndUpdateRootTransform(this);
 	}
 
 	void Transform2D::findAndUpdateRootTransform(Transform2D* curTransform)

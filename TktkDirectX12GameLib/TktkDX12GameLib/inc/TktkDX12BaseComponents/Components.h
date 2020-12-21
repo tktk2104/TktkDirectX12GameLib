@@ -11,6 +11,7 @@
 #include "2D/Line2dDrawer/Line2DDrawerMaker.h"
 #include "2D/SpriteDrawer/SpriteDrawerMaker.h"
 #include "2D/SpriteAnimator/SpriteAnimatorMaker.h"
+#include "2D/TextDrawer2D/TextDrawer2DMaker.h"
 
 #include "3D/Transform3D/Transform3DMaker.h"
 #include "3D/InertialMovement3D/InertialMovement3DMaker.h"
@@ -75,6 +76,9 @@ namespace tktk
 
 		// スプライトアニメーションコンポーネント
 		using C11 = SpriteAnimator;
+
+		// テキスト描画コンポーネント
+		using C12 = TextDrawer2D;
 	//>
 
 

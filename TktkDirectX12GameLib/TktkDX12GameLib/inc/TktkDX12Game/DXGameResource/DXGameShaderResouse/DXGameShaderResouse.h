@@ -108,7 +108,10 @@ namespace tktk
 		void clearBillboardInstanceParam(size_t handle);
 
 		// 指定したビルボードをインスタンス描画する時に使用する値を追加する
-		void addBillboardInstanceVertParam(size_t handle, const BillboardMaterialInstanceVertData& instanceParam);
+		void addBillboardInstanceParam(size_t handle, const BillboardMaterialInstanceVertData& instanceParam);
+
+		// 指定したビルボードをインスタンス描画する時に使用する値をｚソートして頂点バッファに書き込む
+		void updateBillboardInstanceParam(size_t handle, const tktkMath::Matrix4& viewProjMatrix);
 
 		// 指定したビルボードを描画する
 		void drawBillboard(size_t handle, const BillboardDrawFuncBaseArgs& drawFuncArgs) const;

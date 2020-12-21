@@ -14,6 +14,14 @@ namespace tktk
 	{
 	}
 
+	void Transform3D::awake()
+	{
+		auto parentTransform = findParentTransform3D();
+		tktkMath::Matrix4 parentTraceUseMat = calculateTraceUseMat(parentTransform, m_traceType);
+		tktkMath::Vector3 parentTraceUseScale = calculateTraceUseScale(parentTransform, m_traceType);
+		updateWorldTransform(calculateLocalMatrix() * parentTraceUseMat, tktkMath::Vector3::scale(getLocalScaleRate(), parentTraceUseScale));
+	}
+
 	void Transform3D::start()
 	{
 		auto parentTransform = findParentTransform3D();
@@ -358,7 +366,7 @@ namespace tktk
 
 	void Transform3D::updateLocalTransform(const tktkMath::Matrix4& newLocalMat, const tktkMath::Vector3 newLocalScale)
 	{
-		m_localPosition = newLocalMat.calculateTranslation();
+		m_localPosition	= newLocalMat.calculateTranslation();
 		m_localRotation = newLocalMat.calculateRotation();
 		m_localScaleRate = newLocalScale;
 	}

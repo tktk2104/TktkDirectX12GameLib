@@ -38,7 +38,7 @@ namespace tktk
 		instanceVertData.blendRate			= m_blendRate;
 
 		// 指定のビルボードをインスタンス描画する時に使用する値を追加する
-		DX12GameManager::addBillboardInstanceVertParam(m_billboardMaterialHandle, instanceVertData);
+		DX12GameManager::addBillboardInstanceParam(m_billboardMaterialHandle, instanceVertData);
 	}
 
 	void BillboardDrawer::setBillboardMaterialHandle(size_t handle)
