@@ -64,10 +64,12 @@ namespace tktk
 		uploadHeapProp.CreationNodeMask		= 0;
 		uploadHeapProp.VisibleNodeMask		= 0;
 
+		auto tempDessc = other.m_uploadBuffer->GetDesc();
+
 		device->CreateCommittedResource(
 			&uploadHeapProp,
 			D3D12_HEAP_FLAG_NONE,
-			&other.m_uploadBuffer->GetDesc(),
+			&tempDessc,
 			D3D12_RESOURCE_STATE_GENERIC_READ,
 			nullptr,
 			IID_PPV_ARGS(&m_uploadBuffer)
