@@ -113,22 +113,22 @@ namespace tktkMath
 
 	float Matrix3::calculateRotation() const
 	{
-		return MathHelper::acos(m[0][0] / calculateRight().length()) * MathHelper::sign(m[0][1]);
+		return MathHelper::acos(m[0][0] / Vector2(m[0][0], m[0][1]).length()) * MathHelper::sign(m[0][1]);
 	}
 
 	Vector2 Matrix3::calculateScale() const
 	{
-		return Vector2(calculateRight().length(), calculateUp().length());
+		return Vector2(Vector2(m[0][0], m[0][1]).length(), Vector2(-m[1][0], -m[1][1]).length());
 	}
 
 	Vector2 Matrix3::calculateUp() const
 	{
-		return Vector2(-m[1][0], -m[1][1]);
+		return Vector2::normalize(Vector2(-m[1][0], -m[1][1]));
 	}
 
 	Vector2 Matrix3::calculateRight() const
 	{
-		return Vector2(m[0][0], m[0][1]);
+		return Vector2::normalize(Vector2(m[0][0], m[0][1]));
 	}
 
 	std::string Matrix3::toString() const
