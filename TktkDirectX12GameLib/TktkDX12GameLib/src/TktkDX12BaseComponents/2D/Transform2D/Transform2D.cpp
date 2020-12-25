@@ -166,6 +166,26 @@ namespace tktk
 		findAndUpdateRootTransform(this);
 	}
 
+	tktkMath::Vector2 Transform2D::calculateWorldUp() const
+	{
+		return calculateWorldMatrix().calculateUp();
+	}
+
+	tktkMath::Vector2 Transform2D::calculateWorldRight() const
+	{
+		return calculateWorldMatrix().calculateRight();
+	}
+
+	tktkMath::Vector2 Transform2D::calculateLocalUp() const
+	{
+		return calculateLocalMatrix().calculateUp();
+	}
+
+	tktkMath::Vector2 Transform2D::calculateLocalRight() const
+	{
+		return calculateLocalMatrix().calculateRight();
+	}
+
 	tktkMath::Matrix3 Transform2D::calculateTraceUseMat(const ComponentPtr<Transform2D>& target, TraceParentType traceType)
 	{
 		if (target.expired()) return tktkMath::Matrix3_v::identity;

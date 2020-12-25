@@ -78,6 +78,18 @@ namespace tktk
 		// ローカル回転を設定
 		void setLocalRotationDeg(float rotationDeg);
 
+	public:
+
+		// ワールド空間の上方ベクトルを計算
+		tktkMath::Vector2 calculateWorldUp() const;
+		// ワールド空間の右方ベクトルを計算
+		tktkMath::Vector2 calculateWorldRight() const;
+
+		// ローカル空間の上方ベクトルを計算
+		tktkMath::Vector2 calculateLocalUp() const;
+		// ローカル空間の右方ベクトルを計算
+		tktkMath::Vector2 calculateLocalRight() const;
+
 	private:
 
 		// 引数のTransform2Dを追従するのに使用するワールド行列を計算

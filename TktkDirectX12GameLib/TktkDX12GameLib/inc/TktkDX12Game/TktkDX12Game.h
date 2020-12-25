@@ -29,6 +29,13 @@ namespace tktk
 	class DX12Game
 	{
 	//************************************************************
+	/* ゲームプログラムの処理 */
+	public:
+
+		// ゲームを終了する
+		static void gameExit();
+
+	//************************************************************
 	/* ウィンドウの処理 */
 	public:
 
@@ -95,10 +102,10 @@ namespace tktk
 		// 指定のボタンが押され始めたかを判定
 		static bool isTrigger(GamePadBtnType btnType);
 
-		// 移動方向を取得
+		// 移動入力方向を取得
 		static const tktkMath::Vector2& getMoveInput();
 
-		// 視点移動方向を取得
+		// 視点移動入力方向を取得
 		static const tktkMath::Vector2& getLookInput();
 
 		// マウスカーソルの座標を取得する

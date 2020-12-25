@@ -7,6 +7,11 @@
 
 namespace tktk
 {
+	void DX12Game::gameExit()
+	{
+		DX12GameManager::exit();
+	}
+
 	const tktkMath::Vector2& DX12Game::getDrawGameAreaSize()
 	{
 		return DX12GameManager::getDrawGameAreaSize();
