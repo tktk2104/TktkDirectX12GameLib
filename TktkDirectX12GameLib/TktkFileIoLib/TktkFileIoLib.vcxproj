@@ -167,6 +167,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="inc\TktkFileIo\BinaryFileReader.h" />
+    <ClInclude Include="inc\TktkFileIo\CsvFileReader.h" />
     <ClInclude Include="inc\TktkFileIo\FileExtensionGetter.h" />
     <ClInclude Include="inc\TktkFileIo\lodebmp.h" />
     <ClInclude Include="inc\TktkFileIo\lodedds.h" />
@@ -177,6 +178,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\TktkFileIo\BinaryFileReader.cpp" />
+    <ClCompile Include="src\TktkFileIo\CsvFileReader.cpp" />
     <ClCompile Include="src\TktkFileIo\FileExtensionGetter.cpp" />
     <ClCompile Include="src\TktkFileIo\lodebmp.cpp" />
     <ClCompile Include="src\TktkFileIo\lodedds.cpp" />
