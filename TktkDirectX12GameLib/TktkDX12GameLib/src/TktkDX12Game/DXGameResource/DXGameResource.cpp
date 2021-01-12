@@ -99,24 +99,24 @@ namespace tktk
 		m_otherResouse->createFontBaseResource();
 	}
 
-	size_t DXGameResource::createFont(const std::string& systemFontName, int fontSize, float fontThicknessRate)
+	size_t DXGameResource::createFont(const std::string& systemFontName, float fontThicknessRate)
 	{
-		return m_otherResouse->createFont(systemFontName, fontSize, fontThicknessRate);
+		return m_otherResouse->createFont(systemFontName, fontThicknessRate);
 	}
 
-	size_t DXGameResource::createFont(const std::string& fontFilePath, const std::string& fontName, int fontSize, float fontThicknessRate)
+	size_t DXGameResource::createFont(const std::string& fontFilePath, const std::string& fontName, float fontThicknessRate)
 	{
-		return m_otherResouse->createFont(fontFilePath, fontName, fontSize, fontThicknessRate);
+		return m_otherResouse->createFont(fontFilePath, fontName, fontThicknessRate);
 	}
 
-	size_t DXGameResource::updateTextTextureUploadBuffData(size_t handle, size_t uploadBufferHandle, const std::string& text)
+	size_t DXGameResource::updateTextTextureUploadBuffData(size_t handle, const std::string& text)
 	{
-		return m_otherResouse->updateTextTextureUploadBuffData(handle, uploadBufferHandle, text);
+		return m_otherResouse->updateTextTextureUploadBuffData(handle, text);
 	}
 
-	size_t DXGameResource::createTextTextureUploadBuffer()
+	void DXGameResource::copyTextTextureUploadBuffer()
 	{
-		return m_otherResouse->createTextTextureUploadBuffer();
+		m_otherResouse->copyTextTextureUploadBuffer();
 	}
 
 	void DXGameResource::runHandleMessageAll(MessageTypeCarrier type, const MessageAttachment& attachment)
@@ -209,19 +209,34 @@ namespace tktk
 		return m_dxGameShaderResouse->getSpriteTextureSize(handle);
 	}
 
+	size_t DXGameResource::getMaxSpriteInstanceCount(size_t handle) const
+	{
+		return m_dxGameShaderResouse->getMaxSpriteInstanceCount(handle);
+	}
+
+	size_t DXGameResource::getCurSpriteInstanceCount(size_t handle) const
+	{
+		return m_dxGameShaderResouse->getCurSpriteInstanceCount(handle);
+	}
+
+	void DXGameResource::clearSpriteInstanceParam(size_t handle)
+	{
+		m_dxGameShaderResouse->clearSpriteInstanceParam(handle);
+	}
+
+	void DXGameResource::addSpriteInstanceParam(size_t handle, float drawPriority, const TempSpriteMaterialInstanceData& instanceParam)
+	{
+		m_dxGameShaderResouse->addSpriteInstanceParam(handle, drawPriority, instanceParam);
+	}
+
+	void DXGameResource::updateSpriteInstanceParam(size_t handle)
+	{
+		m_dxGameShaderResouse->updateSpriteInstanceParam(handle);
+	}
+
 	void DXGameResource::drawSprite(size_t handle, const SpriteMaterialDrawFuncArgs& drawFuncArgs) const
 	{
 		m_dxGameShaderResouse->drawSprite(handle, drawFuncArgs);
-	}
-
-	void DXGameResource::updateSpriteTransformCbuffer(size_t handle, size_t copyBufferHandle, const SpriteCBufferUpdateFuncArgs& cbufferUpdateArgs) const
-	{
-		m_dxGameShaderResouse->updateSpriteTransformCbuffer(handle, copyBufferHandle, cbufferUpdateArgs);
-	}
-
-	void DXGameResource::updateSpriteTransformCbufferUseClippingParam(size_t handle, size_t copyBufferHandle, const SpriteCBufferUpdateFuncArgs& cbufferUpdateArgs, const SpriteClippingParam& clippingParam) const
-	{
-		m_dxGameShaderResouse->updateSpriteTransformCbufferUseClippingParam(handle, copyBufferHandle, cbufferUpdateArgs, clippingParam);
 	}
 
 	size_t DXGameResource::createLine()
@@ -254,7 +269,7 @@ namespace tktk
 		m_dxGameShaderResouse->clearBillboardInstanceParam(handle);
 	}
 
-	void DXGameResource::addBillboardInstanceParam(size_t handle, const BillboardMaterialInstanceVertData& instanceParam)
+	void DXGameResource::addBillboardInstanceParam(size_t handle, const BillboardMaterialInstanceData& instanceParam)
 	{
 		m_dxGameShaderResouse->addBillboardInstanceParam(handle, instanceParam);
 	}

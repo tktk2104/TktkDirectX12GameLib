@@ -55,7 +55,7 @@ namespace tktk
 			if (outData.materialData.at(i).textureFilePath != "")
 			{
 				// テクスチャを読み込む
-				createdTextureBufferHandle = DX12GameManager::cpuPriorityLoadTextureBuffer(outData.materialData.at(i).textureFilePath);
+				createdTextureBufferHandle = DX12GameManager::loadTextureBuffer(outData.materialData.at(i).textureFilePath);
 			}
 			// テクスチャが設定されていなかったら
 			else
@@ -84,7 +84,7 @@ namespace tktk
 				dataParam.height = 4U;
 
 				// テクスチャが小さすぎるのでコマンドリスト
-				createdTextureBufferHandle = DX12GameManager::cpuPriorityCreateTextureBuffer(formatParam, dataParam);
+				createdTextureBufferHandle = DX12GameManager::createTextureBuffer(formatParam, dataParam);
 			}
 
 			// ディスクリプタヒープを作る

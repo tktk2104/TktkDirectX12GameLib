@@ -7,11 +7,11 @@
 
 namespace tktk
 {
-	ConstantBufferData::ConstantBufferData(ID3D12Device* device, const CopySourceDataCarrier& constantBufferData)
+	ConstantBufferData::ConstantBufferData(ID3D12Device* device, size_t dataSize)
 	{
 		// GPUアクセスに特化したヒープを作る（シェーダーが使用する）
 		D3D12_HEAP_PROPERTIES constBuffHeapProp{};
-		constBuffHeapProp.Type					= D3D12_HEAP_TYPE_DEFAULT;//D3D12_HEAP_TYPE_UPLOAD;
+		constBuffHeapProp.Type					= D3D12_HEAP_TYPE_DEFAULT;
 		constBuffHeapProp.CPUPageProperty		= D3D12_CPU_PAGE_PROPERTY_UNKNOWN;
 		constBuffHeapProp.MemoryPoolPreference	= D3D12_MEMORY_POOL_UNKNOWN;
 		constBuffHeapProp.CreationNodeMask		= 0U;
@@ -20,7 +20,7 @@ namespace tktk
 		D3D12_RESOURCE_DESC resDesc{};
 		resDesc.Dimension			= D3D12_RESOURCE_DIMENSION_BUFFER;
 		resDesc.Format				= DXGI_FORMAT_UNKNOWN;
-		resDesc.Width				= static_cast<UINT64>((constantBufferData.dataSize + 0xff) & ~0xff);
+		resDesc.Width				= static_cast<UINT64>((dataSize + 0xff) & ~0xff);
 		resDesc.Height				= 1;
 		resDesc.DepthOrArraySize	= 1;
 		resDesc.MipLevels			= 1;

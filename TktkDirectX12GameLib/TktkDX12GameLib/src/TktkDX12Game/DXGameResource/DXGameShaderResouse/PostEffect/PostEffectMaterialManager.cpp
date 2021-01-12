@@ -43,10 +43,10 @@ namespace tktk
 		: m_postEffectMaterialArray(initParam.containerParam)
 	{
 		// ゲームの描画エリア描画用のポストエフェクト定数バッファを作る
-		DX12GameManager::setSystemHandle(SystemCBufferType::DrawGameArea, DX12GameManager::createCBuffer(DrawGameAreaCBufferData()));
+		DX12GameManager::setSystemHandle(SystemCBufferType::DrawGameArea, DX12GameManager::createCBuffer(CopySourceDataCarrier(DrawGameAreaCBufferData(), 0U)));
 
 		// ポストエフェクト適応割合定数バッファを作る
-		DX12GameManager::setSystemHandle(SystemCBufferType::BasicPostEffect, DX12GameManager::createCBuffer(BasicPostEffectCBufferData()));
+		DX12GameManager::setSystemHandle(SystemCBufferType::BasicPostEffect, DX12GameManager::createCBuffer(CopySourceDataCarrier(BasicPostEffectCBufferData(), 0U)));
 
 		// ゲームの描画エリア描画用のポストエフェクトパイプラインを作る
 		createDrawGameAreaPipeLine(initParam.drawGameAreaVSFilePath, initParam.drawGameAreaPSFilePath);

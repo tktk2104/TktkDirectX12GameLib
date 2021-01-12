@@ -1,7 +1,7 @@
 #ifndef SPRITE_MATERIAL_H_
 #define SPRITE_MATERIAL_H_
 
-/* class member */
+/* use func type */
 #include <TktkMath/Structs/Vector2.h>
 
 /* tktkContainer::ResourceContainer */
@@ -9,20 +9,19 @@
 
 namespace tktk
 {
-	struct SpriteMaterialManagerInitParam;
-	struct ShaderFilePaths;
 	class SpriteMaterialData;
+
+	struct SpriteMaterialManagerInitParam;
 	struct SpriteMaterialInitParam;
 	struct SpriteMaterialDrawFuncArgs;
-	struct SpriteCBufferUpdateFuncArgs;
-	struct SpriteClippingParam;
+	struct TempSpriteMaterialInstanceData;
 
 	// 「SpriteMaterialData」を管理するクラス
 	class SpriteMaterialManager
 	{
 	public:
 
-		SpriteMaterialManager(const SpriteMaterialManagerInitParam& initParam);
+		explicit SpriteMaterialManager(const SpriteMaterialManagerInitParam& initParam);
 		~SpriteMaterialManager();
 
 	public:
@@ -33,22 +32,23 @@ namespace tktk
 		// 指定したスプライトが使用するテクスチャのサイズを取得する
 		const tktkMath::Vector2& getSpriteTextureSize(size_t handle) const;
 
+		// 指定したスプライトの最大のインスタンス数を取得する
+		size_t getMaxInstanceCount(size_t handle) const;
+
+		// 指定したスプライトの現在のインスタンス数を取得する
+		size_t getCurInstanceCount(size_t handle) const;
+
+		// 指定したスプライトをインスタンス描画する時に使用する値を削除する
+		void clearInstanceParam(size_t handle);
+
+		// 指定したスプライトをインスタンス描画する時に使用する値を追加する
+		void addInstanceParam(size_t handle, float drawPriority, const TempSpriteMaterialInstanceData& instanceParam);
+
+		// 指定しスプライトをインスタンス描画する時に使用する値を頂点バッファに書き込む
+		void updateInstanceParam(size_t handle);
+
 		// 指定したスプライトを描画する
-		void drawSprite(size_t handle, const SpriteMaterialDrawFuncArgs& drawFuncArgs) const;
-
-		// 引数が表すコピーバッファを使って座標変換情報を管理する定数バッファを更新する
-		void updateTransformCbuffer(size_t handle, size_t copyBufferHandle, const SpriteCBufferUpdateFuncArgs& cbufferUpdateArgs) const;
-
-		// 引数が表すコピーバッファを使って座標変換情報を管理する定数バッファを更新する（切り抜き範囲指定版）
-		void updateTransformCbufferUseClippingParam(size_t handle, size_t copyBufferHandle, const SpriteCBufferUpdateFuncArgs& cbufferUpdateArgs, const SpriteClippingParam& clippingParam) const;
-
-	private:
-
-		// スプライト描画用のルートシグネチャを作る
-		void createRootSignature() const;
-
-		// スプライト描画用のパイプラインステートを作る
-		void createGraphicsPipeLineState(const ShaderFilePaths& shaderFilePaths) const;
+		void draw(size_t handle, const SpriteMaterialDrawFuncArgs& drawFuncArgs) const;
 
 	private:
 

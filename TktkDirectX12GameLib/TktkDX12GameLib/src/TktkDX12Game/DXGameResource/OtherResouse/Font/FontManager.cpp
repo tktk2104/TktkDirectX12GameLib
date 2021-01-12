@@ -1,13 +1,16 @@
 #include "TktkDX12Game/DXGameResource/OtherResouse/Font/FontManager.h"
 
 #include "TktkDX12Game/DXGameResource/OtherResouse/Font/FontData.h"
+#include "TktkDX12Game/DXGameResource/OtherResouse/Font/Structs/FontManagerInitParam.h"
 #include "TktkDX12Game/_MainManager/DX12GameManager.h"
 
 namespace tktk
 {
-	FontManager::FontManager(const tktkContainer::ResourceContainerInitParam& initParam, const tktkMath::Vector2& textTextureSize)
-		: m_fontDataContainer(initParam)
-		, m_textTextureSize(textTextureSize)
+	FontManager::FontManager(const FontManagerInitParam& initParam)
+		: m_fontDataContainer(initParam.containerInitParam)
+		, m_fontHeight(initParam.fontHeight)
+		, m_textTextureWidth(initParam.textTextureWidth)
+		, m_textSpriteMaxInstanceCount(initParam.textSpriteMaxInstanceCount)
 	{
 	}
 
@@ -25,44 +28,45 @@ namespace tktk
 		formatParam.sampleDescQuality	= 0U;
 
 		TexBuffData dataParam{};
-		dataParam.textureData	= std::vector<unsigned char>(static_cast<size_t>(m_textTextureSize.x * m_textTextureSize.y * 4U));
-		dataParam.width			= static_cast<unsigned int>(m_textTextureSize.x);
-		dataParam.height		= static_cast<unsigned int>(m_textTextureSize.y);
+		dataParam.textureData	= std::vector<unsigned char>(static_cast<size_t>(m_textTextureWidth * m_fontHeight * m_textSpriteMaxInstanceCount * 4U));
+		dataParam.width			= static_cast<unsigned int>(m_textTextureWidth);
+		dataParam.height		= static_cast<unsigned int>(m_fontHeight * m_textSpriteMaxInstanceCount);
 		dataParam.depth			= 1;
 
 		// テキスト描画用のテクスチャバッファを作る
-		auto textureBufferHandle = DX12GameManager::cpuPriorityCreateTextureBuffer(formatParam, dataParam);
+		auto textureBufferHandle = DX12GameManager::createTextureBuffer(formatParam, dataParam);
 
 		DX12GameManager::setSystemHandle(SystemTextureBufferType::Text, textureBufferHandle);
 
 		SpriteMaterialInitParam spriteMaterialInitParam{};
-		spriteMaterialInitParam.srvBufferType	= BufferType::texture;
-		spriteMaterialInitParam.useBufferHandle = textureBufferHandle;
+		spriteMaterialInitParam.srvBufferType		= BufferType::texture;
+		spriteMaterialInitParam.useBufferHandle		= textureBufferHandle;
+		spriteMaterialInitParam.maxInstanceCount	= m_textSpriteMaxInstanceCount;
 
-		DX12GameManager::setSystemHandle(SystemSpriteType::Text, DX12GameManager::createSpriteMaterial(spriteMaterialInitParam));
+		// テキスト描画用のスプライトマテリアルを作る
+		DX12GameManager::setSystemHandle(SystemSpriteType::Text, DX12GameManager::createSpriteMaterial(spriteMaterialInitParam, SpriteDrawFuncRunnerInitParam::create().drawPriority(1000.0f)));
+	
+		// テキスト描画用のテクスチャバッファのアップロードバッファを作る
+		DX12GameManager::setSystemHandle(SystemUploadBufferType::TextTexture, DX12GameManager::createUploadBuffer(UploadBufferInitParam::create(BufferType::texture, textureBufferHandle, dataParam.textureData)));
 	}
 
-	size_t FontManager::create(const std::string& systemFontName, int fontSize, float fontThicknessRate)
+	size_t FontManager::create(const std::string& systemFontName, float fontThicknessRate)
 	{
-		return m_fontDataContainer.create(systemFontName, fontSize, fontThicknessRate);
+		return m_fontDataContainer.create(systemFontName, m_fontHeight, fontThicknessRate);
 	}
 
-	size_t FontManager::create(const std::string& fontFilePath, const std::string& fontName, int fontSize, float fontThicknessRate)
+	size_t FontManager::create(const std::string& fontFilePath, const std::string& fontName, float fontThicknessRate)
 	{
-		return m_fontDataContainer.create(fontFilePath, fontName, fontSize, fontThicknessRate);
+		return m_fontDataContainer.create(fontFilePath, fontName, m_fontHeight, fontThicknessRate);
 	}
 
-	size_t FontManager::updateTextTextureUploadBuffData(size_t handle, size_t uploadBufferHandle, const std::string& text)
+	size_t FontManager::updateTextTextureUploadBuffData(size_t handle, const std::string& text)
 	{
-		return m_fontDataContainer.getMatchHandlePtr(handle)->updateTextTextureUploadBuffData(uploadBufferHandle, text, m_textTextureSize);
+		return m_fontDataContainer.getMatchHandlePtr(handle)->updateTextTextureUploadBuffData(text, m_fontHeight, m_textTextureWidth);
 	}
 
-	size_t FontManager::createUploadBuffer()
+	void FontManager::copyTextTextureUploadBuffer()
 	{
-		auto uploadTextureData = std::vector<unsigned char>(static_cast<size_t>(m_textTextureSize.x * m_textTextureSize.y * 4U));
-
-		return DX12GameManager::createUploadBuffer(
-			UploadBufferInitParam::create(BufferType::texture, DX12GameManager::getSystemHandle(SystemTextureBufferType::Text), uploadTextureData)
-		);
+		DX12GameManager::copyBuffer(DX12GameManager::getSystemHandle(SystemUploadBufferType::TextTexture));
 	}
 }

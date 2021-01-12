@@ -73,6 +73,9 @@ namespace tktk
 		// アップロードバッファを作り、そのリソースのハンドルを返す
 		size_t createUploadBuffer(const UploadBufferInitParam& initParam);
 
+		// 一時的なアップロードバッファを作る（次のフレームでは消滅する想定の為、ハンドルは返さない）
+		void createTempUploadBuffer(const UploadBufferInitParam& initParam);
+
 		// アップロードバッファのコピーを作り、そのリソースのハンドルを返す
 		size_t duplicateUploadBuffer(size_t originalHandle);
 
@@ -106,17 +109,11 @@ namespace tktk
 		// 深度ステンシルビューのディスクリプタヒープを作り、そのリソースのハンドルを返す
 		size_t createDsvDescriptorHeap(const DsvDescriptorHeapInitParam& initParam);
 
-		// コマンドリストを使わずにテクスチャを作り、そのリソースのハンドルを返す
-		size_t cpuPriorityCreateTextureBuffer(const TexBufFormatParam& formatParam, const TexBuffData& dataParam);
+		// テクスチャを作り、そのリソースのハンドルを返す（※GPU命令なので「executeCommandList()」を呼ばないとロードが完了しません）
+		size_t createTextureBuffer(const TexBufFormatParam& formatParam, const TexBuffData& dataParam);
 
-		// コマンドリストを使ってテクスチャを作り、そのリソースのハンドルを返す（※GPU命令なので「executeCommandList()」を呼ばないとロードが完了しません）
-		size_t gpuPriorityCreateTextureBuffer(const TexBufFormatParam& formatParam, const TexBuffData& dataParam);
-
-		// コマンドリストを使わずにテクスチャをロードし、そのリソースのハンドルを返す
-		size_t cpuPriorityLoadTextureBuffer(const std::string& texDataPath);
-
-		// コマンドリストを使ってテクスチャをロードし、そのリソースのハンドルを返す（※GPU命令なので「executeCommandList()」を呼ばないとロードが完了しません）
-		size_t gpuPriorityLoadTextureBuffer(const std::string& texDataPath);
+		// テクスチャをロードし、そのリソースのハンドルを返す（※GPU命令なので「executeCommandList()」を呼ばないとロードが完了しません）
+		size_t loadTextureBuffer(const std::string& texDataPath);
 
 	public: /* リソース削除処理 */
 

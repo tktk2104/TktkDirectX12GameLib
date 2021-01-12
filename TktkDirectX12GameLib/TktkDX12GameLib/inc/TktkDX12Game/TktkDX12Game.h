@@ -185,13 +185,13 @@ namespace tktk
 		static void loadSound(ResourceIdCarrier soundId, const std::string& filePath);
 
 		// システムフォントを使う準備をする
-		static void createFont(ResourceIdCarrier fontId, const std::string& systemFontName, int fontSize = 64, float fontThicknessRate = 1.0f);
+		static void createFont(ResourceIdCarrier fontId, const std::string& systemFontName, float fontThicknessRate = 1.0f);
 
 		// フォントファイルを読み込み、そのフォントを使う準備をする
-		static void createFont(ResourceIdCarrier fontId, const std::string& fontFilePath, const std::string& fontName, int fontSize = 64, float fontThicknessRate = 1.0f);
+		static void createFont(ResourceIdCarrier fontId, const std::string& fontFilePath, const std::string& fontName, float fontThicknessRate = 1.0f);
 
 		// テクスチャを読み込みスプライトマテリアルを作る（対応している画像データ形式はpng）
-		static void loadSprite(ResourceIdCarrier spriteId, const std::string& filePath);
+		static void loadSprite(ResourceIdCarrier spriteId, float drawPriority, const std::string& filePath);
 
 		// テクスチャを読み込みビルボードマテリアルを作る（対応している画像データ形式はpng）
 		static void loadBillboard(ResourceIdCarrier billBoardId, bool isEffect, const std::string& filePath);

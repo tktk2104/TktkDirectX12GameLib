@@ -2,15 +2,15 @@
 #define SPRITE_MATERIAL_DATA_H_
 
 /* class member */
-#include <TktkMath/Structs/Color.h>
+#include <map>
 #include <TktkMath/Structs/Vector2.h>
+#include "Structs/TempSpriteMaterialInstanceData.h"
+#include "Structs/SpriteMaterialInstanceData.h"
 
 namespace tktk
 {
 	struct SpriteMaterialInitParam;
 	struct SpriteMaterialDrawFuncArgs;
-	struct SpriteCBufferUpdateFuncArgs;
-	struct SpriteClippingParam;
 
 	// スプライトのマテリアルを管理するクラス
 	class SpriteMaterialData
@@ -28,27 +28,43 @@ namespace tktk
 		// スプライトが使用するテクスチャのサイズを取得する
 		const tktkMath::Vector2& getSpriteTextureSize() const;
 
+		// 最大のインスタンス数を取得する
+		size_t getMaxInstanceCount() const;
+
+		// 現在のインスタンス数を取得する
+		size_t getCurInstanceCount() const;
+
+		// スプライトをインスタンス描画する時に使用する値を削除する
+		void clearInstanceParam();
+
+		// スプライトをインスタンス描画する時に使用する値を追加する
+		void addInstanceParam(float drawPriority, const TempSpriteMaterialInstanceData& instanceParam);
+
+		// スプライトをインスタンス描画する時に使用する値を頂点バッファに書き込む
+		void updateInstanceParam();
+
 		// スプライトを描画する
-		void drawSprite(const SpriteMaterialDrawFuncArgs& drawFuncArgs) const;
-
-		// 引数が表すコピーバッファを使って座標変換情報を管理する定数バッファを更新する
-		void updateTransformCbuffer(size_t copyBufferHandle, const SpriteCBufferUpdateFuncArgs& cbufferUpdateArgs) const;
-
-		// 引数が表すコピーバッファを使って座標変換情報を管理する定数バッファを更新する（切り抜き範囲指定版）
-		void updateTransformCbufferUseClippingParam(size_t copyBufferHandle, const SpriteCBufferUpdateFuncArgs& cbufferUpdateArgs, const SpriteClippingParam& clippingParam) const;
+		void draw(const SpriteMaterialDrawFuncArgs& drawFuncArgs) const;
 
 	private:
 
-		// 定数バッファのコピー用バッファを更新する
-		void updateCopyBuffer(const SpriteMaterialDrawFuncArgs& drawFuncArgs) const;
+		// 作ったスプライトのディスクリプタヒープのハンドル
+		size_t m_createDescriptorHeapHandle			{ 0U };
 
-	private:
+		// インスタンス情報を扱う頂点バッファのハンドル
+		size_t m_instanceParamVertexBufferHandle	{ 0U };
 
-		size_t				m_createDescriptorHeapHandle { 0U };
-		size_t				m_createUploadBufferHandle{ 0U };
-		tktkMath::Vector2	m_textureUvOffset;
-		tktkMath::Vector2	m_textureUvMulRate;
-		tktkMath::Vector2	m_textureSize;
+		// テクスチャサイズ
+		tktkMath::Vector2 m_textureSize;
+
+		// インスタンス描画する時の最大インスタンス数
+		size_t m_maxInstanceCount;
+
+		// 一度に描画するインスタンス数
+		size_t m_instanceCount{ 0U };
+
+		// インスタンス情報の連想配列
+		std::multimap<float, SpriteMaterialInstanceData>	m_instanceParamList;
 	};
 }
 #endif // !SPRITE_MATERIAL_DATA_H_

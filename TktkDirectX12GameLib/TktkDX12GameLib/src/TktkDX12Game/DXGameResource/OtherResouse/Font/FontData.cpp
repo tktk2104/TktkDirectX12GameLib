@@ -89,10 +89,10 @@ namespace tktk
 		DeleteObject(m_fontHandle);
 	}
 
-	size_t FontData::updateTextTextureUploadBuffData(size_t uploadBufferHandle, const std::string& text, const tktkMath::Vector2& textTextureSize)
+	size_t FontData::updateTextTextureUploadBuffData(const std::string& text, unsigned int fontHeight, unsigned int textTextureWidth)
 	{
 		// テクスチャバッファの情報
-		std::vector<unsigned char>	textureData = std::vector<unsigned char>(static_cast<unsigned int>(textTextureSize.x * textTextureSize.y) * 4U, 0U);
+		std::vector<unsigned char>	textureData = std::vector<unsigned char>(static_cast<size_t>(textTextureWidth * fontHeight * 4U), 0U);
 
 		// 文字数によるｘ方向のオフセット
 		size_t xOffset = 0U;
@@ -115,7 +115,7 @@ namespace tktk
 				memcpy(c, &text.at(i), 1U);
 
 				// 文字数分ｘ方向に座標をずらしてテクスチャバッファを更新する
-				auto charSize = getCharSizeAndWriteFontData(hdc, c, xOffset, textTextureSize, &textureData);
+				auto charSize = getCharSizeAndWriteFontData(hdc, c, xOffset, { static_cast<float>(textTextureWidth), static_cast<float>(fontHeight) }, &textureData);
 				xOffset += static_cast<size_t>(charSize.x);
 			}
 			else
@@ -128,14 +128,16 @@ namespace tktk
 				memcpy(c, &text.at(i), 2U);
 
 				// 文字数分ｘ方向に座標をずらしてテクスチャバッファを更新する
-				auto charSize = getCharSizeAndWriteFontData(hdc, c, xOffset, textTextureSize, &textureData);
+				auto charSize = getCharSizeAndWriteFontData(hdc, c, xOffset, { static_cast<float>(textTextureWidth), static_cast<float>(fontHeight) }, &textureData);
 				xOffset += static_cast<size_t>(charSize.x);
 
 				++i;
 			}
 		}
 
-		DX12GameManager::updateUploadBuffer(uploadBufferHandle, CopySourceDataCarrier(textureData.size(), textureData.data()));
+		size_t curInstanceCount = DX12GameManager::getCurSpriteInstanceCount(DX12GameManager::getSystemHandle(SystemSpriteType::Text));
+
+		DX12GameManager::updateUploadBuffer(DX12GameManager::getSystemHandle(SystemUploadBufferType::TextTexture), CopySourceDataCarrier(textureData.size(), textureData.data(), textTextureWidth * fontHeight * curInstanceCount * 4U));
 
 		return xOffset;
 	}

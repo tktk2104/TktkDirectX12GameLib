@@ -29,10 +29,6 @@ namespace tktk
 		// 描画優先度を設定する
 		TextDrawer2DMaker& drawPriority(float value);
 
-		// 使用するレンダーターゲットのディスクリプタヒープハンドルを設定する
-		// ※初期パラメータはポストエフェクト適応対象
-		TextDrawer2DMaker& useRtvDescriptorHeapHandle(size_t value);
-
 		// 使用するフォントハンドルを設定する
 		TextDrawer2DMaker& fontHandle(size_t value);
 
@@ -56,7 +52,6 @@ namespace tktk
 
 		GameObjectPtr		m_user						{  };
 		float				m_drawPriority				{ 0.0f };
-		size_t				m_useRtvDescriptorHeapHandle{  };
 		size_t				m_fontHandle				{ 0U };
 		std::string			m_initText					{  };
 		tktkMath::Vector2	m_centerRate				{ tktkMath::Vector2_v::zero };

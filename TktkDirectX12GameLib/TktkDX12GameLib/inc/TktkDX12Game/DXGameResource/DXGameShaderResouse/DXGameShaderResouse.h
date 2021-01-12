@@ -11,7 +11,6 @@
 #include "MeshResouse/Mesh/Loader/Structs/MeshLoadPmdReturnValue.h"
 #include "MeshResouse/Mesh/Loader/Structs/MeshLoadPmxReturnValue.h"
 
-
 namespace tktk
 {
 	class PostEffectMaterialManager;
@@ -27,12 +26,11 @@ namespace tktk
 	struct PostEffectMaterialAppendParamUpdateFuncArgs;
 	struct SpriteMaterialInitParam;
 	struct SpriteMaterialDrawFuncArgs;
-	struct SpriteCBufferUpdateFuncArgs;
-	struct SpriteClippingParam;
+	struct TempSpriteMaterialInstanceData;
 	struct Line2DMaterialDrawFuncArgs;
 	struct BillboardMaterialInitParam;
 	struct BillboardDrawFuncBaseArgs;
-	struct BillboardMaterialInstanceVertData;
+	struct BillboardMaterialInstanceData;
 	struct MeshResourceInitParam;
 	struct SkeletonInitParam;
 	struct MeshInitParam;
@@ -75,14 +73,23 @@ namespace tktk
 		// 指定したスプライトが使用するテクスチャのサイズを取得する
 		const tktkMath::Vector2& getSpriteTextureSize(size_t handle) const;
 
+		// 指定したスプライトの最大のインスタンス数を取得する
+		size_t getMaxSpriteInstanceCount(size_t handle) const;
+
+		// 指定したスプライトの現在のインスタンス数を取得する
+		size_t getCurSpriteInstanceCount(size_t handle) const;
+
+		// 指定したスプライトをインスタンス描画する時に使用する値を削除する
+		void clearSpriteInstanceParam(size_t handle);
+
+		// 指定したスプライトをインスタンス描画する時に使用する値を追加する
+		void addSpriteInstanceParam(size_t handle, float drawPriority, const TempSpriteMaterialInstanceData& instanceParam);
+
+		// 指定しスプライトをインスタンス描画する時に使用する値を頂点バッファに書き込む
+		void updateSpriteInstanceParam(size_t handle);
+
 		// 指定したスプライトを描画する
 		void drawSprite(size_t handle, const SpriteMaterialDrawFuncArgs& drawFuncArgs) const;
-
-		// 引数が表すコピーバッファを使って座標変換情報を管理する定数バッファを更新する
-		void updateSpriteTransformCbuffer(size_t handle, size_t copyBufferHandle, const SpriteCBufferUpdateFuncArgs& cbufferUpdateArgs) const;
-
-		// 引数が表すコピーバッファを使って座標変換情報を管理する定数バッファを更新する（切り抜き範囲指定版）
-		void updateSpriteTransformCbufferUseClippingParam(size_t handle, size_t copyBufferHandle, const SpriteCBufferUpdateFuncArgs& cbufferUpdateArgs, const SpriteClippingParam& clippingParam) const;
 
 	public: /* 2Dライン関係の処理 */
 
@@ -108,7 +115,7 @@ namespace tktk
 		void clearBillboardInstanceParam(size_t handle);
 
 		// 指定したビルボードをインスタンス描画する時に使用する値を追加する
-		void addBillboardInstanceParam(size_t handle, const BillboardMaterialInstanceVertData& instanceParam);
+		void addBillboardInstanceParam(size_t handle, const BillboardMaterialInstanceData& instanceParam);
 
 		// 指定したビルボードをインスタンス描画する時に使用する値をｚソートして頂点バッファに書き込む
 		void updateBillboardInstanceParam(size_t handle, const tktkMath::Matrix4& viewProjMatrix);

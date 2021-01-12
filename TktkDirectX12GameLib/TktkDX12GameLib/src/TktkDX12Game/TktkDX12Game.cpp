@@ -292,30 +292,31 @@ namespace tktk
 		DX12GameManager::loadSoundAndAttachId(soundId, filePath);
 	}
 
-	void DX12Game::createFont(ResourceIdCarrier fontId, const std::string& systemFontName, int fontSize, float fontThicknessRate)
+	void DX12Game::createFont(ResourceIdCarrier fontId, const std::string& systemFontName, float fontThicknessRate)
 	{
-		DX12GameManager::createFontAndAttachId(fontId, systemFontName, fontSize, fontThicknessRate);
+		DX12GameManager::createFontAndAttachId(fontId, systemFontName, fontThicknessRate);
 	}
 
-	void DX12Game::createFont(ResourceIdCarrier fontId, const std::string& fontFilePath, const std::string& fontName, int fontSize, float fontThicknessRate)
+	void DX12Game::createFont(ResourceIdCarrier fontId, const std::string& fontFilePath, const std::string& fontName, float fontThicknessRate)
 	{
-		DX12GameManager::createFontAndAttachId(fontId, fontFilePath, fontName, fontSize, fontThicknessRate);
+		DX12GameManager::createFontAndAttachId(fontId, fontFilePath, fontName, fontThicknessRate);
 	}
 
-	void DX12Game::loadSprite(ResourceIdCarrier spriteId, const std::string& filePath)
+	void DX12Game::loadSprite(ResourceIdCarrier spriteId, float drawPriority, const std::string& filePath)
 	{
 		tktk::SpriteMaterialInitParam initParam{};
-		initParam.srvBufferType		= tktk::BufferType::texture;
-		initParam.useBufferHandle	= tktk::DX12GameManager::cpuPriorityLoadTextureBuffer(filePath);
+		initParam.srvBufferType			= tktk::BufferType::texture;
+		initParam.useBufferHandle		= tktk::DX12GameManager::loadTextureBuffer(filePath);
+		initParam.maxInstanceCount		= 256U;
 
-		tktk::DX12GameManager::createSpriteMaterialAndAttachId(spriteId, initParam);
+		tktk::DX12GameManager::createSpriteMaterialAndAttachId(spriteId, initParam, SpriteDrawFuncRunnerInitParam::create().drawPriority(drawPriority));
 	}
 
 	void DX12Game::loadBillboard(ResourceIdCarrier billBoardId, bool isEffect, const std::string& filePath)
 	{
 		tktk::BillboardMaterialInitParam initParam{};
 		initParam.srvBufferType		= tktk::BufferType::texture;
-		initParam.useBufferHandle	= tktk::DX12GameManager::cpuPriorityLoadTextureBuffer(filePath);
+		initParam.useBufferHandle	= tktk::DX12GameManager::loadTextureBuffer(filePath);
 		initParam.maxInstanceCount	= 256U;
 		initParam.isEffect			= isEffect;
 
@@ -353,12 +354,12 @@ namespace tktk
 
 	void DX12Game::loadSkyBox(ResourceIdCarrier meshId, const std::string& filePath)
 	{
-		tktk::DX12GameManager::makeSkyBoxMeshAndAttachId(meshId, tktk::DX12GameManager::cpuPriorityLoadTextureBuffer(filePath), tktk::MeshDrawFuncRunnerInitParam::create());
+		tktk::DX12GameManager::makeSkyBoxMeshAndAttachId(meshId, tktk::DX12GameManager::loadTextureBuffer(filePath), tktk::MeshDrawFuncRunnerInitParam::create());
 	}
 
 	void DX12Game::loadBoxMesh(ResourceIdCarrier meshId, bool writeShadow, const std::string& filePath)
 	{
-		tktk::DX12GameManager::makeBoxMeshAndAttachId(meshId, tktk::DX12GameManager::cpuPriorityLoadTextureBuffer(filePath), tktk::MeshDrawFuncRunnerInitParam::create().writeShadowMap(writeShadow));
+		tktk::DX12GameManager::makeBoxMeshAndAttachId(meshId, tktk::DX12GameManager::loadTextureBuffer(filePath), tktk::MeshDrawFuncRunnerInitParam::create().writeShadowMap(writeShadow));
 	}
 
 	//size_t DX12Game::getSystemHandle(SystemViewportType type)

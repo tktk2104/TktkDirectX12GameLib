@@ -10,7 +10,7 @@ namespace tktk
 		: m_lightArray(initParam)
 	{
 		// ライト用の定数バッファを作る
-		DX12GameManager::setSystemHandle(SystemCBufferType::Light, DX12GameManager::createCBuffer(LightCBufferData()));
+		DX12GameManager::setSystemHandle(SystemCBufferType::Light, DX12GameManager::createCBuffer(CopySourceDataCarrier(LightCBufferData(), 0U)));
 	}
 
 	// デストラクタを非インライン化する

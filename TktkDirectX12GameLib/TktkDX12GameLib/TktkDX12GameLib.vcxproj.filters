@@ -636,9 +636,6 @@
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\Billboard\Structs\BillboardMaterialInitParam.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\Billboard\Structs\BillboardMaterialInstanceVertData.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\Billboard\Structs\BillboardMaterialManagerInitParam.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -675,15 +672,6 @@
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\PostEffect\Structs\PostEffectMaterialManagerInitParam.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
-    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\Sprite\Structs\SpriteCBufferUpdateFuncArgs.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\Sprite\Structs\SpriteClippingParam.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\Sprite\Structs\SpriteMaterialCBufferData.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\Sprite\Structs\SpriteMaterialDrawFuncArgs.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
@@ -691,9 +679,6 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\Sprite\Structs\SpriteMaterialManagerInitParam.h">
-      <Filter>ヘッダー ファイル</Filter>
-    </ClInclude>
-    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\Sprite\Structs\SpriteTransformCBufferData.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="inc\TktkDX12Game\DXGameResource\OtherResouse\Structs\OtherResouseInitParam.h">
@@ -778,6 +763,30 @@
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
     <ClInclude Include="inc\TktkDX12BaseComponents\2D\TextDrawer2D\TextDrawer2DMaker.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\Billboard\Structs\BillboardMaterialInstanceData.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\Sprite\Structs\SpriteMaterialInstanceData.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\Structs\ScreenSizeCBufferData.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\TktkDX12BaseComponents\2D\SpriteDrawer\SpriteDrawFuncRunner.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\TktkDX12BaseComponents\2D\SpriteDrawer\SpriteDrawFuncRunnerInitParam.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\TktkDX12Game\UtilityProcessManager\ResourceHandleGetter\SystemResourceHandleGetter\IdType\SystemUploadBufferType.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\OtherResouse\Font\Structs\FontManagerInitParam.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="inc\TktkDX12Game\DXGameResource\DXGameShaderResouse\Sprite\Structs\TempSpriteMaterialInstanceData.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
   </ItemGroup>
@@ -1245,6 +1254,12 @@
       <Filter>ソース ファイル</Filter>
     </ClCompile>
     <ClCompile Include="src\TktkDX12BaseComponents\2D\TextDrawer2D\TextDrawer2DMaker.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TktkDX12BaseComponents\2D\SpriteDrawer\SpriteDrawFuncRunner.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\TktkDX12BaseComponents\2D\SpriteDrawer\SpriteDrawFuncRunnerInitParam.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
   </ItemGroup>

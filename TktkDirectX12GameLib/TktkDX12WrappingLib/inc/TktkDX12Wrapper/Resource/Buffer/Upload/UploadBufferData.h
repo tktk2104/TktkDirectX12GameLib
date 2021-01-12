@@ -17,7 +17,13 @@ namespace tktk
 	{
 	public:
 
+		// テクスチャバッファ以外にアップロードする場合のコンストラクタ
 		UploadBufferData(ID3D12Device* device, const UploadBufferInitParam& initParam);
+
+		// テクスチャバッファにアップロードする場合のコンストラクタ
+		UploadBufferData(ID3D12Device* device, const UploadBufferInitParam& initParam, size_t rowPitch, size_t textureWidthByte, size_t textureHeightPix);
+
+		// デストラクタ
 		~UploadBufferData();
 
 		// コピー用コンストラクタ

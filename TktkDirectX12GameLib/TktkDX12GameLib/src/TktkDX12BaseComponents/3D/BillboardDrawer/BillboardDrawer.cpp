@@ -28,7 +28,7 @@ namespace tktk
 	{
 		const auto& selfScale = m_transform->getWorldScaleRate();
 
-		BillboardMaterialInstanceVertData instanceVertData{};
+		BillboardMaterialInstanceData instanceVertData{};
 		instanceVertData.billboardPosition	= m_transform->getWorldPosition();
 		instanceVertData.billboardAngle		= m_transform->calculateWorldEulerAngles().z;
 		instanceVertData.billboardScale		= { selfScale.x, selfScale.y };;

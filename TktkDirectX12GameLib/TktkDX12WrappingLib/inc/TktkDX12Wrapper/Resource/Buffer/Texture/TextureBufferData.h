@@ -11,6 +11,8 @@
 
 namespace tktk
 {
+	struct CopySourceDataCarrier;
+
 	// テクスチャバッファを管理するクラス
 	class TextureBufferData
 	{
@@ -30,11 +32,7 @@ namespace tktk
 
 	public:
 
-		// コマンドリストを使わずに作るコンストラクタ
 		TextureBufferData(ID3D12Device* device, const TexBufFormatParam& formatParam, const TexBuffData& dataParam);
-
-		// コマンドリストを使って作るコンストラクタ
-		TextureBufferData(ID3D12Device* device, ID3D12GraphicsCommandList* commandList, const TexBufFormatParam& formatParam, const TexBuffData& dataParam);
 		~TextureBufferData();
 
 		// ムーブコンストラクタ
@@ -51,6 +49,9 @@ namespace tktk
 		// 自身のバッファのポインタを取得する
 		ID3D12Resource* getBufferPtr() const;
 
+		// １ピクセルのデータのバイトサイズを取得する
+		size_t getPixDataSizeByte() const;
+
 		// テクスチャバッファのコピーに使用するフットプリント指定の設定情報構造体を作る
 		D3D12_TEXTURE_COPY_LOCATION createSrcCopyLoaction() const;
 
@@ -59,7 +60,6 @@ namespace tktk
 		tktkMath::Vector3	m_textureSize	{ 1.0f, 1.0f, 1.0f };
 		SrvInitParam		m_srvInitParam	{};
 		ID3D12Resource*		m_textureBuffer	{ nullptr };
-		ID3D12Resource*		m_uploadBuff	{ nullptr };
 	};
 }
 #endif // !TEXTURE_BUFFER_DATA_H_

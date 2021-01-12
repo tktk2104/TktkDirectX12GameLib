@@ -24,6 +24,11 @@ namespace tktk
         return m_systemResouseHandleGetter->getSystemHandle(type);
     }
 
+    size_t ResourceHandleGetter::getSystemHandle(SystemUploadBufferType type) const
+    {
+        return m_systemResouseHandleGetter->getSystemHandle(type);
+    }
+
     size_t ResourceHandleGetter::getSystemHandle(SystemVertexBufferType type) const
     {
         return m_systemResouseHandleGetter->getSystemHandle(type);
@@ -120,6 +125,11 @@ namespace tktk
     }
 
     void ResourceHandleGetter::setSystemHandle(SystemScissorRectType type, size_t handle)
+    {
+        m_systemResouseHandleGetter->setSystemHandle(type, handle);
+    }
+
+    void ResourceHandleGetter::setSystemHandle(SystemUploadBufferType type, size_t handle)
     {
         m_systemResouseHandleGetter->setSystemHandle(type, handle);
     }

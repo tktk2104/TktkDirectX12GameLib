@@ -41,8 +41,14 @@ namespace tktk
 		// アップロードバッファを作り、そのリソースのハンドルを返す
 		size_t createUploadBuffer(ID3D12Device* device, const UploadBufferInitParam& initParam);
 
+		// 一時的なアップロードバッファを作る（次のフレームでは消滅する想定の為、ハンドルは返さない）
+		void createTempUploadBuffer(ID3D12Device* device, ID3D12GraphicsCommandList* commandList, const UploadBufferInitParam& initParam);
+
 		// アップロードバッファのコピーを作り、そのリソースのハンドルを返す
 		size_t duplicateUploadBuffer(ID3D12Device* device, size_t originalHandle);
+
+		// 一時的なアップロードバッファを全て削除する
+		void clearTempUploadBuffer();
 
 		// 指定のアップロードバッファを削除する
 		// ※引数のハンドルに対応するリソースが無かったら何もしない
@@ -87,7 +93,7 @@ namespace tktk
 	public: /* 定数バッファの処理 */
 
 		// 定数バッファを作り、そのリソースのハンドルを返す
-		size_t createCBuffer(ID3D12Device* device, const CopySourceDataCarrier& constantBufferData);
+		size_t createCBuffer(ID3D12Device* device, ID3D12GraphicsCommandList* commandList, const CopySourceDataCarrier& constantBufferData);
 
 		// 指定の定数バッファを削除する
 		// ※引数のハンドルに対応するリソースが無かったら何もしない
@@ -98,17 +104,11 @@ namespace tktk
 
 	public: /* テクスチャバッファの処理 */
 
-		// コマンドリストを使わずにテクスチャバッファを作り、そのリソースのハンドルを返す
-		size_t cpuPriorityCreateTextureBuffer(ID3D12Device* device, const TexBufFormatParam& formatParam, const TexBuffData& dataParam);
-		
-		// コマンドリストを使ってテクスチャバッファを作り、そのリソースのハンドルを返す
-		size_t gpuPriorityCreateTextureBuffer(ID3D12Device* device, ID3D12GraphicsCommandList* commandList, const TexBufFormatParam& formatParam, const TexBuffData& dataParam);
+		// テクスチャバッファを作り、そのリソースのハンドルを返す
+		size_t createTextureBuffer(ID3D12Device* device, ID3D12GraphicsCommandList* commandList, const TexBufFormatParam& formatParam, const TexBuffData& dataParam);
 
-		// 引数のファイルから画像情報をロードし、コマンドリストを使わずにテクスチャバッファを作り、そのリソースのハンドルを返す
-		size_t cpuPriorityLoadTextureBuffer(ID3D12Device* device, const std::string& texDataPath);
-		
-		// 引数のファイルから画像情報をロードし、コマンドリストを使ってテクスチャバッファを作り、そのリソースのハンドルを返す
-		size_t gpuPriorityLoadTextureBuffer(ID3D12Device* device, ID3D12GraphicsCommandList* commandList, const std::string& texDataPath);
+		// 引数のファイルから画像情報をロードし、テクスチャバッファを作り、そのリソースのハンドルを返す
+		size_t loadTextureBuffer(ID3D12Device* device, ID3D12GraphicsCommandList* commandList, const std::string& texDataPath);
 
 		// 指定のテクスチャバッファを削除する
 		// ※引数のハンドルに対応するリソースが無かったら何もしない

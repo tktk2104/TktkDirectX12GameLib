@@ -49,6 +49,11 @@ namespace tktk
 		return m_bufferResource->createUploadBuffer(device, initParam);
 	}
 
+	void DX3DResource::createTempUploadBuffer(ID3D12Device* device, ID3D12GraphicsCommandList* commandList, const UploadBufferInitParam& initParam)
+	{
+		m_bufferResource->createTempUploadBuffer(device, commandList, initParam);
+	}
+
 	size_t DX3DResource::duplicateUploadBuffer(ID3D12Device* device, size_t originalHandle)
 	{
 		return m_bufferResource->duplicateUploadBuffer(device, originalHandle);
@@ -64,9 +69,9 @@ namespace tktk
 		return m_bufferResource->createIndexBuffer(device, indices);
 	}
 
-	size_t DX3DResource::createCBuffer(ID3D12Device* device, const CopySourceDataCarrier& constantBufferData)
+	size_t DX3DResource::createCBuffer(ID3D12Device* device, ID3D12GraphicsCommandList* commandList, const CopySourceDataCarrier& constantBufferData)
 	{
-		return m_bufferResource->createCBuffer(device, constantBufferData);
+		return m_bufferResource->createCBuffer(device, commandList, constantBufferData);
 	}
 
 	size_t DX3DResource::createRtBuffer(ID3D12Device* device, const tktkMath::Vector2& renderTargetSize, const tktkMath::Color& clearColor)
@@ -84,24 +89,14 @@ namespace tktk
 		return m_bufferResource->createDsBuffer(device, initParam);
 	}
 
-	size_t DX3DResource::cpuPriorityCreateTextureBuffer(ID3D12Device* device, const TexBufFormatParam& formatParam, const TexBuffData& dataParam)
+	size_t DX3DResource::createTextureBuffer(ID3D12Device* device, ID3D12GraphicsCommandList* commandList, const TexBufFormatParam& formatParam, const TexBuffData& dataParam)
 	{
-		return m_bufferResource->cpuPriorityCreateTextureBuffer(device, formatParam, dataParam);
+		return m_bufferResource->createTextureBuffer(device, commandList, formatParam, dataParam);
 	}
 
-	size_t DX3DResource::gpuPriorityCreateTextureBuffer(ID3D12Device* device, ID3D12GraphicsCommandList* commandList, const TexBufFormatParam& formatParam, const TexBuffData& dataParam)
+	size_t DX3DResource::loadTextureBuffer(ID3D12Device* device, ID3D12GraphicsCommandList* commandList, const std::string& texDataPath)
 	{
-		return m_bufferResource->gpuPriorityCreateTextureBuffer(device, commandList, formatParam, dataParam);
-	}
-
-	size_t DX3DResource::cpuPriorityLoadTextureBuffer(ID3D12Device* device, const std::string& texDataPath)
-	{
-		return m_bufferResource->cpuPriorityLoadTextureBuffer(device, texDataPath);
-	}
-
-	size_t DX3DResource::gpuPriorityLoadTextureBuffer(ID3D12Device* device, ID3D12GraphicsCommandList* commandList, const std::string& texDataPath)
-	{
-		return m_bufferResource->gpuPriorityLoadTextureBuffer(device, commandList, texDataPath);
+		return m_bufferResource->loadTextureBuffer(device, commandList, texDataPath);
 	}
 
 	size_t DX3DResource::createBasicDescriptorHeap(ID3D12Device* device, const BasicDescriptorHeapInitParam& initParam)
@@ -246,6 +241,11 @@ namespace tktk
 	void DX3DResource::eraseDsvDescriptorHeap(size_t handle)
 	{
 		m_descriptorHeap->eraseDsvDescriptorHeap(handle);
+	}
+
+	void DX3DResource::clearTempUploadBuffer()
+	{
+		m_bufferResource->clearTempUploadBuffer();
 	}
 
 	void DX3DResource::updateUploadBuffer(size_t handle, const CopySourceDataCarrier& bufferData)

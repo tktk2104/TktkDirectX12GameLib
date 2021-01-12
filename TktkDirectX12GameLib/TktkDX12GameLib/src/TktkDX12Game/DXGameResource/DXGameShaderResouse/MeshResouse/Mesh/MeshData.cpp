@@ -169,7 +169,7 @@ namespace tktk
 		// ³‚µ‚­‘S‚Ä‚Ìî•ñ‚ğ‘ã“ü‚Å‚«‚Ä‚¢‚È‚¯‚ê‚Î‹­§I—¹
 		if (curIndex != std::numeric_limits<size_t>::max()) return;
 
-		DX12GameManager::updateUploadBuffer(m_boneMatrixTextureBufferHandle, CopySourceDataCarrier(boneMatData.size(), boneMatData.data()));
+		DX12GameManager::updateUploadBuffer(m_boneMatrixTextureBufferHandle, CopySourceDataCarrier(boneMatData.size(), boneMatData.data(), 0U));
 	}
 
 	void MeshData::writeShadowMap() const

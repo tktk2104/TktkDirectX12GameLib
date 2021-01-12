@@ -18,6 +18,7 @@
 #include "InputManager/CommandTypeManager/DirectionCommandId.h"
 #include "ResourceHandleGetter/SystemResourceHandleGetter/IdType/SystemViewportType.h"
 #include "ResourceHandleGetter/SystemResourceHandleGetter/IdType/SystemScissorRectType.h"
+#include "ResourceHandleGetter/SystemResourceHandleGetter/IdType/SystemUploadBufferType.h"
 #include "ResourceHandleGetter/SystemResourceHandleGetter/IdType/SystemVertexBufferType.h"
 #include "ResourceHandleGetter/SystemResourceHandleGetter/IdType/SystemIndexBufferType.h"
 #include "ResourceHandleGetter/SystemResourceHandleGetter/IdType/SystemConstantBufferType.h"
@@ -156,6 +157,7 @@ namespace tktk
 
 		size_t getSystemHandle(SystemViewportType type)					const;
 		size_t getSystemHandle(SystemScissorRectType type)				const;
+		size_t getSystemHandle(SystemUploadBufferType type)				const;
 		size_t getSystemHandle(SystemVertexBufferType type)				const;
 		size_t getSystemHandle(SystemIndexBufferType type)				const;
 		size_t getSystemHandle(SystemCBufferType type)					const;
@@ -179,6 +181,7 @@ namespace tktk
 
 		void setSystemHandle(SystemViewportType type,					size_t handle);
 		void setSystemHandle(SystemScissorRectType type,				size_t handle);
+		void setSystemHandle(SystemUploadBufferType type,				size_t handle);
 		void setSystemHandle(SystemVertexBufferType type,				size_t handle);
 		void setSystemHandle(SystemIndexBufferType type,				size_t handle);
 		void setSystemHandle(SystemCBufferType type,					size_t handle);

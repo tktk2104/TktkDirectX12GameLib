@@ -42,7 +42,7 @@ namespace tktk
 		// 読み込んだテクスチャファイルパスを巡回
 		for (const auto& textureFilePath : outData.textureFilePaths)
 		{
-			loadTextureBufferHandle.push_back(DX12GameManager::cpuPriorityLoadTextureBuffer(textureFilePath));
+			loadTextureBufferHandle.push_back(DX12GameManager::loadTextureBuffer(textureFilePath));
 		}
 
 		// 現在のインデックス（インデックスバッファの位置）

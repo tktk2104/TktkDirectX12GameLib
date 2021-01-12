@@ -31,12 +31,12 @@ namespace tktk
 
     MeshResource::MeshResource(const MeshResourceInitParam& initParam)
     {
-		DX12GameManager::setSystemHandle(SystemCBufferType::Camera,			DX12GameManager::createCBuffer(CameraCBufferData()));
-		DX12GameManager::setSystemHandle(SystemCBufferType::ShadowMap,	DX12GameManager::createCBuffer(MeshShadowMapCBufferData()));
+		DX12GameManager::setSystemHandle(SystemCBufferType::Camera,		DX12GameManager::createCBuffer(CopySourceDataCarrier(CameraCBufferData(), 0U)));
+		DX12GameManager::setSystemHandle(SystemCBufferType::ShadowMap,	DX12GameManager::createCBuffer(CopySourceDataCarrier(MeshShadowMapCBufferData(), 0U)));
 
 		// メッシュ描画に必要な定数バッファを作る
-		DX12GameManager::setSystemHandle(SystemCBufferType::MeshMaterial,	DX12GameManager::createCBuffer(MeshMaterialCBufferData()));
-		DX12GameManager::setSystemHandle(SystemCBufferType::MonoColorMesh,	DX12GameManager::createCBuffer(MonoColorMeshCBufferData()));
+		DX12GameManager::setSystemHandle(SystemCBufferType::MeshMaterial,	DX12GameManager::createCBuffer(CopySourceDataCarrier(MeshMaterialCBufferData(), 0U)));
+		DX12GameManager::setSystemHandle(SystemCBufferType::MonoColorMesh,	DX12GameManager::createCBuffer(CopySourceDataCarrier(MonoColorMeshCBufferData(), 0U)));
 
 		// メッシュ描画に必要なテクスチャバッファを作る
 		TexBufFormatParam formatParam{};
@@ -50,7 +50,7 @@ namespace tktk
 		buffdata.textureData	= std::vector<unsigned char>(sizeof(tktkMath::Matrix4) * 128U * 128U);
 		buffdata.width			= (sizeof(tktkMath::Matrix4) * 128U) / 16U;
 		buffdata.height			= 128U;
-		DX12GameManager::setSystemHandle(SystemTextureBufferType::MeshBoneMatrix, DX12GameManager::gpuPriorityCreateTextureBuffer(formatParam, buffdata));
+		DX12GameManager::setSystemHandle(SystemTextureBufferType::MeshBoneMatrix, DX12GameManager::createTextureBuffer(formatParam, buffdata));
 
         // 各種リソースクラスを作る
         m_skeleton              = std::make_unique<SkeletonManager>(initParam.skeletonMgrParam);

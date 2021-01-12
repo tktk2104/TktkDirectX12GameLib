@@ -52,6 +52,9 @@ namespace tktk
 		// アップロードバッファを作り、そのリソースのハンドルを返す
 		size_t createUploadBuffer(ID3D12Device* device, const UploadBufferInitParam& initParam);
 
+		// 一時的なアップロードバッファを作る（次のフレームでは消滅する想定の為、ハンドルは返さない）
+		void createTempUploadBuffer(ID3D12Device* device, ID3D12GraphicsCommandList* commandList, const UploadBufferInitParam& initParam);
+
 		// アップロードバッファのコピーを作り、そのリソースのハンドルを返す
 		size_t duplicateUploadBuffer(ID3D12Device* device, size_t originalHandle);
 
@@ -62,7 +65,7 @@ namespace tktk
 		size_t createIndexBuffer(ID3D12Device* device, const std::vector<unsigned short>& indices);
 
 		// 定数バッファを作り、そのリソースのハンドルを返す
-		size_t createCBuffer(ID3D12Device* device, const CopySourceDataCarrier& constantBufferData);
+		size_t createCBuffer(ID3D12Device* device, ID3D12GraphicsCommandList* commandList, const CopySourceDataCarrier& constantBufferData);
 
 		// レンダーターゲットバッファを作り、そのリソースのハンドルを返す
 		size_t createRtBuffer(ID3D12Device* device, const tktkMath::Vector2& renderTargetSize, const tktkMath::Color& clearColor);
@@ -73,17 +76,11 @@ namespace tktk
 		// 深度ステンシルバッファを作り、そのリソースのハンドルを返す
 		size_t createDsBuffer(ID3D12Device* device, const DepthStencilBufferInitParam& initParam);
 
-		// コマンドリストを使わずにテクスチャバッファを作り、そのリソースのハンドルを返す
-		size_t cpuPriorityCreateTextureBuffer(ID3D12Device* device, const TexBufFormatParam& formatParam, const TexBuffData& dataParam);
+		// テクスチャバッファを作り、そのリソースのハンドルを返す（※GPU命令なので「executeCommandList()」を呼ばないとロードが完了しません）
+		size_t createTextureBuffer(ID3D12Device* device, ID3D12GraphicsCommandList* commandList, const TexBufFormatParam& formatParam, const TexBuffData& dataParam);
 
-		// コマンドリストを使ってテクスチャバッファを作り、そのリソースのハンドルを返す（※GPU命令なので「executeCommandList()」を呼ばないとロードが完了しません）
-		size_t gpuPriorityCreateTextureBuffer(ID3D12Device* device, ID3D12GraphicsCommandList* commandList, const TexBufFormatParam& formatParam, const TexBuffData& dataParam);
-
-		// コマンドリストを使わずにテクスチャをロードしてバッファを作り、そのリソースのハンドルを返す
-		size_t cpuPriorityLoadTextureBuffer(ID3D12Device* device, const std::string& texDataPath);
-
-		// コマンドリストを使ってテクスチャをロードしてバッファを作り、そのリソースのハンドルを返す（※GPU命令なので「executeCommandList()」を呼ばないとロードが完了しません）
-		size_t gpuPriorityLoadTextureBuffer(ID3D12Device* device, ID3D12GraphicsCommandList* commandList, const std::string& texDataPath);
+		// テクスチャをロードしてバッファを作り、そのリソースのハンドルを返す（※GPU命令なので「executeCommandList()」を呼ばないとロードが完了しません）
+		size_t loadTextureBuffer(ID3D12Device* device, ID3D12GraphicsCommandList* commandList, const std::string& texDataPath);
 
 		// 定数、テクスチャのディスクリプタヒープを作り、そのリソースのハンドルを返す
 		size_t createBasicDescriptorHeap(ID3D12Device* device, const BasicDescriptorHeapInitParam& initParam);
@@ -153,6 +150,9 @@ namespace tktk
 		void eraseDsvDescriptorHeap(size_t handle);
 
 	public: /* リソース更新系処理 */
+
+		// 一時的なアップロードバッファを全て削除する
+		void clearTempUploadBuffer();
 
 		// 引数のポインタのデータを指定のアップロードバッファにコピーする
 		void updateUploadBuffer(size_t handle, const CopySourceDataCarrier& bufferData);

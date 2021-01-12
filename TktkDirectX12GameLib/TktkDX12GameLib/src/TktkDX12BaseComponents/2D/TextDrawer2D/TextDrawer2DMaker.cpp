@@ -15,9 +15,6 @@ namespace tktk
         // 引数のユーザーを設定
         m_self.m_user = user;
 
-        // 使用するレンダーターゲットのディスクリプタヒープハンドルのデフォルト値はポストエフェクト適応対象
-        m_self.m_useRtvDescriptorHeapHandle = DX12GameManager::getSystemHandle(SystemRtvDescriptorHeapType::PostEffectTarget);
-
         // 自身の参照を返す
         return m_self;
     }
@@ -29,7 +26,6 @@ namespace tktk
             m_drawPriority,
             m_fontHandle,
             m_initText,
-            m_useRtvDescriptorHeapHandle,
             m_centerRate,
             m_blendRate
             );
@@ -39,13 +35,6 @@ namespace tktk
     {
         // 値を設定して自身の参照を返す
         m_drawPriority = value;
-        return *this;
-    }
-
-    TextDrawer2DMaker& TextDrawer2DMaker::useRtvDescriptorHeapHandle(size_t value)
-    {
-        // 値を設定して自身の参照を返す
-        m_useRtvDescriptorHeapHandle = value;
         return *this;
     }
 

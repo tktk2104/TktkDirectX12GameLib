@@ -17,18 +17,9 @@ namespace tktk
 
 	public:
 		
-		// コマンドリストを使わずに「TextureBufferData」のインスタンスを作り、そのリソースのハンドルを返す
-		size_t cpuPriorityCreate(ID3D12Device* device, const TexBufFormatParam& formatParam, const TexBuffData& dataParam);
-		
-		// コマンドリストを使って「TextureBufferData」のインスタンスを作り、そのリソースのハンドルを返す
-		size_t gpuPriorityCreate(ID3D12Device* device, ID3D12GraphicsCommandList* commandList, const TexBufFormatParam& formatParam, const TexBuffData& dataParam);
+		// 「TextureBufferData」のインスタンスを作り、そのリソースのハンドルを返す
+		size_t create(ID3D12Device* device, const TexBufFormatParam& formatParam, const TexBuffData& dataParam);
 
-		// 引数のファイルから画像情報をロードし、コマンドリストを使わずに「TextureBufferData」のインスタンスを作り、そのリソースのハンドルを返す
-		size_t cpuPriorityLoad(ID3D12Device* device, const std::string& texDataPath);
-
-		// 引数のファイルから画像情報をロードし、コマンドリストを使って「TextureBufferData」のインスタンスを作り、そのリソースのハンドルを返す
-		size_t gpuPriorityLoad(ID3D12Device* device, ID3D12GraphicsCommandList* commandList, const std::string& texDataPath);
-	
 		// 指定のテクスチャバッファを削除する
 		// ※引数のハンドルに対応するリソースが無かったら何もしない
 		void erase(size_t handle);
@@ -41,6 +32,9 @@ namespace tktk
 
 		// 指定のテクスチャバッファのポインタを取得する
 		ID3D12Resource* getBufferPtr(size_t handle) const;
+
+		// 指定のテクスチャバッファの１ピクセルのデータのバイトサイズを取得する
+		size_t getPixDataSizeByte(size_t handle) const;
 
 		// 指定のテクスチャバッファのコピーに使用するフットプリント指定の設定情報構造体を作る
 		D3D12_TEXTURE_COPY_LOCATION createSrcCopyLoaction(size_t handle) const;

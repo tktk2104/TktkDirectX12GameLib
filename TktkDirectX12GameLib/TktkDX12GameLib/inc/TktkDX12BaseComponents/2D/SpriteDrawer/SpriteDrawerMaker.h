@@ -29,10 +29,6 @@ namespace tktk
 		// 描画優先度を設定する
 		SpriteDrawerMaker& drawPriority(float value);
 
-		// 使用するレンダーターゲットのディスクリプタヒープハンドルを設定する
-		// ※初期パラメータはポストエフェクト適応対象
-		SpriteDrawerMaker& useRtvDescriptorHeapHandle(size_t value);
-
 		// 使用するスプライトマテリアルハンドルを設定する
 		SpriteDrawerMaker& spriteMaterialHandle(size_t value);
 
@@ -59,7 +55,6 @@ namespace tktk
 
 		GameObjectPtr		m_user						{  };
 		float				m_drawPriority				{ 0.0f };
-		size_t				m_useRtvDescriptorHeapHandle{  };
 		size_t				m_spriteMaterialHandle		{ 0U };
 		tktkMath::Vector2	m_centerRate				{ 0.5f, 0.5f };
 		tktkMath::Color		m_blendRate					{ tktkMath::Color_v::white };

@@ -4,16 +4,15 @@
 /* class member */
 #include <TktkMath/Structs/Vector2.h>
 #include <TktkContainer/ResourceContainer/ResourceContainerInitParam.h>
+#include "../Font/Structs/FontManagerInitParam.h"
 
 namespace tktk
 {
 	struct OtherResouseInitParam
 	{
-		tktkContainer::ResourceContainerInitParam sceneMgrParam;
-		tktkContainer::ResourceContainerInitParam soundMgrParam;
-		tktkContainer::ResourceContainerInitParam fontMgrParam;
-
-		tktkMath::Vector2 textTextureSize{ 4096.0f, 256.0f };
+		tktkContainer::ResourceContainerInitParam	sceneMgrParam;
+		tktkContainer::ResourceContainerInitParam	soundMgrParam;
+		FontManagerInitParam						fontMgrParam;
 	};
 }
 #endif // !OTHER_RESOUSE_INIT_PARAM_H_

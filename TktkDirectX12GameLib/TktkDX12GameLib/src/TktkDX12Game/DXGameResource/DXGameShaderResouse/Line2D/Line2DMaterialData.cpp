@@ -99,6 +99,6 @@ namespace tktk
 		cbufferData.lineColor = drawFuncArgs.lineColor;
 		cbufferData.screenSize = DX12GameManager::getDrawGameAreaSize();
 
-		DX12GameManager::updateUploadBuffer(m_createUploadCbufferHandle, cbufferData);
+		DX12GameManager::updateUploadBuffer(m_createUploadCbufferHandle, CopySourceDataCarrier(cbufferData, 0U));
 	}
 }

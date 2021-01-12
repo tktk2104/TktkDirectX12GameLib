@@ -4,7 +4,6 @@
 /* class member */
 #include <TktkMath/Structs/Color.h>
 #include <TktkMath/Structs/Vector2.h>
-#include "../../../TktkDX12Game/DXGameResource/DXGameShaderResouse/Sprite/Structs/SpriteClippingParam.h"
 
 /* funcUseType */
 #include "../../../TktkDX12Game/UtilityProcessManager/ResourceHandleGetter/ResourceIdConverter/ResourceIdCarrier.h"
@@ -27,17 +26,16 @@ namespace tktk
 		SpriteDrawer(
 			float drawPriority,
 			size_t spriteMaterialHandle,
-			size_t useRtvDescriptorHeapHandle,
 			const tktkMath::Vector2& centerRate,
 			const tktkMath::Color& blendRate,
-			const SpriteClippingParam& clippingParam
+			const tktkMath::Vector2& clippingLeftTopPos,
+			const tktkMath::Vector2& clippingSize
 		);
 
 	public:
 
 		void start();
-		void onDestroy();
-		void draw() const;
+		void afterCollide();
 
 	public:
 
@@ -71,12 +69,12 @@ namespace tktk
 
 	private:
 
-		size_t						m_createUploadTransformCbufferHandle{ 0U };
-		size_t						m_useRtvDescriptorHeapHandle;
 		size_t						m_spriteMaterialHandle;
-		tktkMath::Vector2			m_spriteCenterRate;
+		float						m_drawPriority;
+		tktkMath::Vector2			m_centerRate;
 		tktkMath::Color				m_blendRate;
-		SpriteClippingParam			m_clippingParam;
+		tktkMath::Vector2			m_clippingLeftTopPos;
+		tktkMath::Vector2			m_clippingSize;
 		ComponentPtr<Transform2D>	m_transform;
 	};
 }

@@ -53,9 +53,8 @@ namespace tktk
 		}
 		m_createDescriptorHeapHandle = DX12GameManager::createBasicDescriptorHeap(descriptorHeapInitParam);
 
-
 		// インスタンス描画用の頂点バッファを作る
-		m_instanceParamVertexBufferHandle = DX12GameManager::createVertexBuffer(std::vector<BillboardMaterialInstanceVertData>(m_maxInstanceCount));
+		m_instanceParamVertexBufferHandle = DX12GameManager::createVertexBuffer(std::vector<BillboardMaterialInstanceData>(m_maxInstanceCount));
 	}
 
 	BillboardMaterialData::~BillboardMaterialData()
@@ -87,15 +86,15 @@ namespace tktk
 		m_instanceCount = 0U;
 	}
 
-	void BillboardMaterialData::addInstanceParam(const BillboardMaterialInstanceVertData& instanceParam)
+	void BillboardMaterialData::addInstanceParam(const BillboardMaterialInstanceData& instanceParam)
 	{
 		// インスタンス数の上限に達していた場合、強制終了
 		if (m_instanceCount == m_maxInstanceCount) return;
 
 		auto tempInstanceParam = instanceParam;
-		tempInstanceParam.textureSize = m_textureSize;
-		tempInstanceParam.textureUvOffset = { tempInstanceParam.textureUvOffset.x / m_textureSize.x,	tempInstanceParam.textureUvOffset.y / m_textureSize.y };
-		tempInstanceParam.textureUvMulRate = { tempInstanceParam.textureUvMulRate.x / m_textureSize.x,	tempInstanceParam.textureUvMulRate.y / m_textureSize.y };
+		tempInstanceParam.textureSize		= m_textureSize;
+		tempInstanceParam.textureUvOffset	= { tempInstanceParam.textureUvOffset.x		/ m_textureSize.x,	tempInstanceParam.textureUvOffset.y		/ m_textureSize.y };
+		tempInstanceParam.textureUvMulRate	= { tempInstanceParam.textureUvMulRate.x	/ m_textureSize.x,	tempInstanceParam.textureUvMulRate.y	/ m_textureSize.y };
 		
 		// インスタンス描画用の頂点バッファをリストに追加する
 		m_instanceParamList.push_front(tempInstanceParam);
@@ -112,7 +111,7 @@ namespace tktk
 		// インスタンス毎のｚソート
 		m_instanceParamList.sort([viewProjMatrix](const auto& a, const auto& b) { return (a.billboardPosition * viewProjMatrix).z < (b.billboardPosition * viewProjMatrix).z; });
 
-		auto vertBufferData = std::vector<BillboardMaterialInstanceVertData>(m_maxInstanceCount);
+		auto vertBufferData = std::vector<BillboardMaterialInstanceData>(m_maxInstanceCount);
 	
 		size_t curIndex = m_instanceCount - 1U;
 

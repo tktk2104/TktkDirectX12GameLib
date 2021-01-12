@@ -52,6 +52,6 @@ namespace tktk
 
 	void LightData::updateCopyBuffer() const
 	{
-		tktk::DX12GameManager::updateUploadBuffer(m_createUploadBufferHandle, m_lightCBuffer);
+		tktk::DX12GameManager::updateUploadBuffer(m_createUploadBufferHandle, CopySourceDataCarrier(m_lightCBuffer, 0U));
 	}
 }

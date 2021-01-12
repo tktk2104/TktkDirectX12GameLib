@@ -15,9 +15,6 @@ namespace tktk
 		// 引数のユーザーを設定
 		m_self.m_user = user;
 
-		// 使用するレンダーターゲットのディスクリプタヒープハンドルのデフォルト値はポストエフェクト適応対象
-		m_self.m_useRtvDescriptorHeapHandle = DX12GameManager::getSystemHandle(SystemRtvDescriptorHeapType::PostEffectTarget);
-
 		// 自身の参照を返す
 		return m_self;
 	}
@@ -26,18 +23,14 @@ namespace tktk
 	{
 		const auto& textureSize = DX12GameManager::getSpriteTextureSize(m_spriteMaterialHandle);
 
-		SpriteClippingParam clippingParam{};
-		clippingParam.leftTopPos	= tktkMath::Vector2::scale(textureSize, m_leftTopPosRate);
-		clippingParam.size			= tktkMath::Vector2::scale(textureSize, m_sizeRate);
-
 		// コンポーネントを作成する
 		return m_user->createComponent<SpriteDrawer>(
 			m_drawPriority,
 			m_spriteMaterialHandle,
-			m_useRtvDescriptorHeapHandle,
 			m_centerRate,
 			m_blendRate,
-			clippingParam
+			tktkMath::Vector2::scale(textureSize, m_leftTopPosRate),
+			tktkMath::Vector2::scale(textureSize, m_sizeRate)
 			);
 	}
 
@@ -45,13 +38,6 @@ namespace tktk
 	{
 		// 値を設定して自身の参照を返す
 		m_drawPriority = value;
-		return *this;
-	}
-
-	SpriteDrawerMaker& SpriteDrawerMaker::useRtvDescriptorHeapHandle(size_t value)
-	{
-		// 値を設定して自身の参照を返す
-		m_useRtvDescriptorHeapHandle = value;
 		return *this;
 	}
 

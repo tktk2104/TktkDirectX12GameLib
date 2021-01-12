@@ -5,7 +5,7 @@
 #include <forward_list>
 #include <TktkMath/Structs/Vector2.h>
 #include <TktkMath/Structs/Matrix4.h>
-#include "Structs/BillboardMaterialInstanceVertData.h"
+#include "Structs/BillboardMaterialInstanceData.h"
 
 namespace tktk
 {
@@ -33,7 +33,7 @@ namespace tktk
 		void clearInstanceParam();
 
 		// ビルボードをインスタンス描画する時に使用する値を追加する
-		void addInstanceParam(const BillboardMaterialInstanceVertData& instanceParam);
+		void addInstanceParam(const BillboardMaterialInstanceData& instanceParam);
 
 		// ビルボードをインスタンス描画する時に使用する値をｚソートして頂点バッファに書き込む
 		void updateInstanceParam(const tktkMath::Matrix4& viewProjMatrix);
@@ -44,7 +44,7 @@ namespace tktk
 	private:
 
 		// 作ったビルボードのディスクリプタヒープのハンドル
-		size_t m_createDescriptorHeapHandle	{ 0U };
+		size_t m_createDescriptorHeapHandle		{ 0U };
 		
 		// インスタンス情報を扱う頂点バッファのハンドル
 		size_t m_instanceParamVertexBufferHandle{ 0U };
@@ -61,8 +61,8 @@ namespace tktk
 		// 加算ブレンドを行うか？
 		bool m_isEffect;
 
-		// インスタンス情報の配列
-		std::forward_list<BillboardMaterialInstanceVertData>	m_instanceParamList;
+		// インスタンス情報のリスト
+		std::forward_list<BillboardMaterialInstanceData>	m_instanceParamList;
 	};
 }
 #endif // !BILLBOARD_MATERIAL_DATA_H_

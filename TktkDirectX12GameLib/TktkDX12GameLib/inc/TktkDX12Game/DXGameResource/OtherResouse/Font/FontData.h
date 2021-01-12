@@ -31,8 +31,8 @@ namespace tktk
 
 	public:
 
-		// 指定のアップロードバッファに引数の文字列のテクスチャデータを書き込み、書き込んだバッファの最大ｘ座標を返す
-		size_t updateTextTextureUploadBuffData(size_t uploadBufferHandle, const std::string& text, const tktkMath::Vector2& textTextureSize);
+		// テキストテクスチャのアップロードバッファに引数の文字列のテクスチャデータを書き込み、書き込んだバッファの最大ｘ座標を返す
+		size_t updateTextTextureUploadBuffData(const std::string& text, unsigned int fontHeight, unsigned int textTextureWidth);
 
 	private:
 

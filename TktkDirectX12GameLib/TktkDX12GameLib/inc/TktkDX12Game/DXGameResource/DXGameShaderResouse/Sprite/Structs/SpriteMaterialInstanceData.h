@@ -1,23 +1,17 @@
-#ifndef BILLBOARD_MATERIAL_INSTANCE_VERT_DATA_H_
-#define BILLBOARD_MATERIAL_INSTANCE_VERT_DATA_H_
+#ifndef SPRITE_MATERIAL_INSTANCE_DATA_H_
+#define SPRITE_MATERIAL_INSTANCE_DATA_H_
 
 /* class member */
 #include <TktkMath/Structs/Color.h>
 #include <TktkMath/Structs/Vector2.h>
-#include <TktkMath/Structs/Vector3.h>
+//#include <TktkMath/Structs/Matrix3.h>
 
 namespace tktk
 {
-	struct BillboardMaterialInstanceVertData
+	struct SpriteMaterialInstanceData
 	{
-		// ビルビードの座標
-		tktkMath::Vector3	billboardPosition	{ tktkMath::Vector3_v::zero };
-
-		// ビルボードの回転角度
-		float				billboardAngle		{ 0.0f };
-
-		// ビルボードのスケール
-		tktkMath::Vector2	billboardScale		{ tktkMath::Vector2_v::one };
+		// ワールド行列（hslsの仕様上、float4x3）
+		float				worldMatrix[12]		{};
 
 		// テクスチャUVのオフセット値
 		tktkMath::Vector2	textureUvOffset		{ tktkMath::Vector2_v::zero };
@@ -31,11 +25,8 @@ namespace tktk
 		// スプライトの中心点（割合）
 		tktkMath::Vector2	textureCenterRate	{ tktkMath::Vector2_v::zero };
 
-		// パディング
-		float				pad[2]{  };
-
 		// ブレンドレート
 		tktkMath::Color		blendRate			{ tktkMath::Color_v::white };
 	};
 }
-#endif // !BILLBOARD_MATERIAL_INSTANCE_VERT_DATA_H_
+#endif // !SPRITE_MATERIAL_INSTANCE_DATA_H_

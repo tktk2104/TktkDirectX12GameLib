@@ -37,12 +37,11 @@
 
 #include "../DXGameResource/DXGameShaderResouse/Sprite/Structs/SpriteMaterialInitParam.h"
 #include "../DXGameResource/DXGameShaderResouse/Sprite/Structs/SpriteMaterialDrawFuncArgs.h"
-#include "../DXGameResource/DXGameShaderResouse/Sprite/Structs/SpriteCBufferUpdateFuncArgs.h"
-#include "../DXGameResource/DXGameShaderResouse/Sprite/Structs/SpriteClippingParam.h"
+#include "../DXGameResource/DXGameShaderResouse/Sprite/Structs/TempSpriteMaterialInstanceData.h"
 #include "../DXGameResource/DXGameShaderResouse/Line2D/Structs/Line2DMaterialDrawFuncArgs.h"
 #include "../DXGameResource/DXGameShaderResouse/Billboard/Structs/BillboardMaterialInitParam.h"
 #include "../DXGameResource/DXGameShaderResouse/Billboard/Structs/BillboardDrawFuncBaseArgs.h"
-#include "../DXGameResource/DXGameShaderResouse/Billboard/Structs/BillboardMaterialInstanceVertData.h"
+#include "../DXGameResource/DXGameShaderResouse/Billboard/Structs/BillboardMaterialInstanceData.h"
 #include "../DXGameResource/DXGameShaderResouse/MeshResouse/Mesh/Structs/MeshInitParam.h"
 #include "../DXGameResource/DXGameShaderResouse/MeshResouse/Mesh/Structs/MeshDrawFuncBaseArgs.h"
 #include "../DXGameResource/DXGameShaderResouse/MeshResouse/Mesh/Loader/Structs/MeshLoadPmdArgs.h"
@@ -71,6 +70,7 @@
 #include "../UtilityProcessManager/InputManager/CommandTypeManager/DirectionCommandId.h"
 #include "../UtilityProcessManager/ResourceHandleGetter/SystemResourceHandleGetter/IdType/SystemViewportType.h"
 #include "../UtilityProcessManager/ResourceHandleGetter/SystemResourceHandleGetter/IdType/SystemScissorRectType.h"
+#include "../UtilityProcessManager/ResourceHandleGetter/SystemResourceHandleGetter/IdType/SystemUploadBufferType.h"
 #include "../UtilityProcessManager/ResourceHandleGetter/SystemResourceHandleGetter/IdType/SystemVertexBufferType.h"
 #include "../UtilityProcessManager/ResourceHandleGetter/SystemResourceHandleGetter/IdType/SystemIndexBufferType.h"
 #include "../UtilityProcessManager/ResourceHandleGetter/SystemResourceHandleGetter/IdType/SystemConstantBufferType.h"
@@ -92,6 +92,7 @@
 #include "../UtilityProcessManager/ResourceHandleGetter/ResourceIdConverter/ResourceIdCarrier.h"
 
 #include "../../TktkDX12BaseComponents/2D/PostEffectDrawer/PostEffectDrawFuncRunnerInitParam.h"
+#include "../../TktkDX12BaseComponents/2D/SpriteDrawer/SpriteDrawFuncRunnerInitParam.h"
 #include "../../TktkDX12BaseComponents/3D/BillboardDrawer/BillboardDrawFuncRunnerInitParam.h"
 #include "../../TktkDX12BaseComponents/3D/MeshDrawer/MeshDrawFuncRunnerInitParam.h"
 
@@ -291,6 +292,9 @@ namespace tktk
 		// アップロードバッファを作り、そのリソースのハンドルを返す
 		static size_t createUploadBuffer(const UploadBufferInitParam& initParam);
 		
+		// 一時的なアップロードバッファを作る（次のフレームでは消滅する想定の為、ハンドルは返さない）
+		static void createTempUploadBuffer(const UploadBufferInitParam& initParam);
+
 		// アップロードバッファのコピーを作り、そのリソースのハンドルを返す
 		static size_t duplicateUploadBuffer(size_t originalHandle);
 	
@@ -318,17 +322,11 @@ namespace tktk
 		// 深度ステンシルディスクリプタヒープを作り、そのリソースのハンドルを返す
 		static size_t createDsvDescriptorHeap(const DsvDescriptorHeapInitParam& initParam);
 	
-		// コマンドリストを使わずにテクスチャを作り、そのリソースのハンドルを返す
-		static size_t cpuPriorityCreateTextureBuffer(const TexBufFormatParam& formatParam, const TexBuffData& dataParam);
+		// テクスチャを作り、そのリソースのハンドルを返す（※GPU命令なので「executeCommandList()」を呼ばないとロードが完了しません）
+		static size_t createTextureBuffer(const TexBufFormatParam& formatParam, const TexBuffData& dataParam);
 	
-		// コマンドリストを使ってテクスチャを作り、そのリソースのハンドルを返す（※GPU命令なので「executeCommandList()」を呼ばないとロードが完了しません）
-		static size_t gpuPriorityCreateTextureBuffer(const TexBufFormatParam& formatParam, const TexBuffData& dataParam);
-	
-		// コマンドリストを使わずにテクスチャをロードし、そのリソースのハンドルを返す
-		static size_t cpuPriorityLoadTextureBuffer(const std::string& texDataPath);
-	
-		// コマンドリストを使ってテクスチャをロードし、そのリソースのハンドルを返す（※GPU命令なので「executeCommandList()」を呼ばないとロードが完了しません）
-		static size_t gpuPriorityLoadTextureBuffer(const std::string& texDataPath);
+		// テクスチャをロードし、そのリソースのハンドルを返す（※GPU命令なので「executeCommandList()」を呼ばないとロードが完了しません）
+		static size_t loadTextureBuffer(const std::string& texDataPath);
 		
 	//************************************************************
 	/* 直接DX12のリソースを削除する */
@@ -416,22 +414,31 @@ namespace tktk
 	public:
 	
 		// スプライトマテリアルを作り、そのリソースのハンドルを返す
-		static size_t createSpriteMaterial(const SpriteMaterialInitParam& initParam);
+		static size_t createSpriteMaterial(const SpriteMaterialInitParam& initParam, const SpriteDrawFuncRunnerInitParam& funcRunnerInitParam);
 	
 		// スプライトマテリアルを作り、そのリソースのハンドルと引数のハンドルを結び付ける
-		static size_t createSpriteMaterialAndAttachId(ResourceIdCarrier id, const SpriteMaterialInitParam& initParam);
+		static size_t createSpriteMaterialAndAttachId(ResourceIdCarrier id, const SpriteMaterialInitParam& initParam, const SpriteDrawFuncRunnerInitParam& funcRunnerInitParam);
 	
 		// 指定したスプライトが使用するテクスチャのサイズを取得する
 		static const tktkMath::Vector2& getSpriteTextureSize(size_t handle);
 
+		// 指定したスプライトの最大のインスタンス数を取得する
+		static size_t getMaxSpriteInstanceCount(size_t handle);
+
+		// 指定したスプライトの現在のインスタンス数を取得する
+		static size_t getCurSpriteInstanceCount(size_t handle);
+
+		// 指定したスプライトをインスタンス描画する時に使用する値を削除する
+		static void clearSpriteInstanceParam(size_t handle);
+
+		// 指定したスプライトをインスタンス描画する時に使用する値を追加する
+		static void addSpriteInstanceParam(size_t handle, float drawPriority, const TempSpriteMaterialInstanceData& instanceParam);
+
+		// 指定しスプライトをインスタンス描画する時に使用する値を頂点バッファに書き込む
+		static void updateSpriteInstanceParam(size_t handle);
+
 		// 指定したスプライトを描画する
 		static void drawSprite(size_t handle, const SpriteMaterialDrawFuncArgs& drawFuncArgs);
-	
-		// 引数が表すコピーバッファを使って座標変換情報を管理する定数バッファを更新する
-		static void updateSpriteTransformCbuffer(size_t handle, size_t copyBufferHandle, const SpriteCBufferUpdateFuncArgs& cbufferUpdateArgs);
-	
-		// 引数が表すコピーバッファを使って座標変換情報を管理する定数バッファを更新する（切り抜き範囲指定版）
-		static void updateSpriteTransformCbufferUseClippingParam(size_t handle, size_t copyBufferHandle, const SpriteCBufferUpdateFuncArgs& cbufferUpdateArgs, const SpriteClippingParam& clippingParam);
 	
 	//************************************************************
 	/* 2Dライン関係の処理 */
@@ -466,7 +473,7 @@ namespace tktk
 		static void clearBillboardInstanceParam(size_t handle);
 
 		// 指定したビルボードをインスタンス描画する時に使用する値を追加する
-		static void addBillboardInstanceParam(size_t handle, const BillboardMaterialInstanceVertData& instanceParam);
+		static void addBillboardInstanceParam(size_t handle, const BillboardMaterialInstanceData& instanceParam);
 
 		// 指定したビルボードをインスタンス描画する時に使用する値をｚソートして頂点バッファに書き込む
 		static void updateBillboardInstanceParam(size_t handle, const tktkMath::Matrix4& viewProjMatrix);
@@ -711,23 +718,23 @@ namespace tktk
 	public:
 
 		// システムフォントを使う準備をして、そのリソースのハンドルを返す
-		static size_t createFont(const std::string& systemFontName, int fontSize, float fontThicknessRate);
+		static size_t createFont(const std::string& systemFontName, float fontThicknessRate);
 
 		// フォントファイルを読み込み、そのフォントを使う準備をして、そのリソースのハンドルを返す
-		static size_t createFont(const std::string& fontFilePath, const std::string& fontName, int fontSize, float fontThicknessRate);
+		static size_t createFont(const std::string& fontFilePath, const std::string& fontName, float fontThicknessRate);
 
 		// システムフォントを使う準備をして、そのリソースのハンドルと引数のハンドルを結び付ける
-		static size_t createFontAndAttachId(ResourceIdCarrier id, const std::string& systemFontName, int fontSize, float fontThicknessRate);
+		static size_t createFontAndAttachId(ResourceIdCarrier id, const std::string& systemFontName, float fontThicknessRate);
 
 		// フォントファイルを読み込み、そのフォントを使う準備をして、そのリソースのハンドルと引数のハンドルを結び付ける
-		static size_t createFontAndAttachId(ResourceIdCarrier id, const std::string& fontFilePath, const std::string& fontName, int fontSize, float fontThicknessRate);
+		static size_t createFontAndAttachId(ResourceIdCarrier id, const std::string& fontFilePath, const std::string& fontName, float fontThicknessRate);
 
 		// 指定のアップロードバッファに引数の文字列のテクスチャデータを書き込み、書き込んだバッファの最大ｘ座標を返す
-		static size_t updateTextTextureUploadBuffData(size_t handle, size_t uploadBufferHandle, const std::string& text);
-
-		// テキスト書き込み用のアップロードバッファを作り、そのハンドルを返す
-		static size_t createTextTextureUploadBuffer();
+		static size_t updateTextTextureUploadBuffData(size_t handle, const std::string& text);
 	
+		// テキストテクスチャのアップロードバッファを実際のテクスチャバッファにコピーする
+		static void copyTextTextureUploadBuffer();
+
 	//************************************************************
 	/* インプットマネージャーの処理 */
 	public:
@@ -833,6 +840,7 @@ namespace tktk
 	
 		static size_t getSystemHandle(SystemViewportType type);
 		static size_t getSystemHandle(SystemScissorRectType type);
+		static size_t getSystemHandle(SystemUploadBufferType type);
 		static size_t getSystemHandle(SystemVertexBufferType type);
 		static size_t getSystemHandle(SystemIndexBufferType type);
 		static size_t getSystemHandle(SystemCBufferType type);
@@ -857,6 +865,7 @@ namespace tktk
 	
 		static void setSystemHandle(SystemViewportType type,					size_t handle);
 		static void setSystemHandle(SystemScissorRectType type,					size_t handle);
+		static void setSystemHandle(SystemUploadBufferType type,				size_t handle);
 		static void setSystemHandle(SystemVertexBufferType type,				size_t handle);
 		static void setSystemHandle(SystemIndexBufferType type,					size_t handle);
 		static void setSystemHandle(SystemCBufferType type,						size_t handle);

@@ -15,6 +15,11 @@ namespace tktk
 		return m_systemScissorRectHandleMap.at(type);
 	}
 
+	size_t SystemResourceHandleGetter::getSystemHandle(SystemUploadBufferType type) const
+	{
+		return m_systemUploadBufferHandleMap.at(type);
+	}
+
 	size_t SystemResourceHandleGetter::getSystemHandle(SystemVertexBufferType type) const
 	{
 		return m_systemVertexBufferHandleMap.at(type);
@@ -113,6 +118,11 @@ namespace tktk
 	void SystemResourceHandleGetter::setSystemHandle(SystemScissorRectType type, size_t handle)
 	{
 		m_systemScissorRectHandleMap.emplace(type, handle);
+	}
+
+	void SystemResourceHandleGetter::setSystemHandle(SystemUploadBufferType type, size_t handle)
+	{
+		m_systemUploadBufferHandleMap.emplace(type, handle);
 	}
 
 	void SystemResourceHandleGetter::setSystemHandle(SystemVertexBufferType type, size_t handle)

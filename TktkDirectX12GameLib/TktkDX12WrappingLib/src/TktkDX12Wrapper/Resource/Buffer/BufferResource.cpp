@@ -1,5 +1,7 @@
 #include "TktkDX12Wrapper/Resource/Buffer/BufferResource.h"
 
+#include <TktkFileIo/lodepng.h>
+#include <TktkFileIo/lodebmp.h>
 #include "TktkDX12Wrapper/Resource/Buffer/Upload/UploadBuffer.h"
 #include "TktkDX12Wrapper/Resource/Buffer/Vertex/VertexBuffer.h"
 #include "TktkDX12Wrapper/Resource/Buffer/Index/IndexBuffer.h"
@@ -29,9 +31,54 @@ namespace tktk
 		return m_uploadBuffer->create(device, initParam);
 	}
 
+	void BufferResource::createTempUploadBuffer(ID3D12Device* device, ID3D12GraphicsCommandList* commandList, const UploadBufferInitParam& initParam)
+	{
+		ID3D12Resource* targetBuffer = nullptr;
+
+		switch (initParam.targetBufferType)
+		{
+		case BufferType::renderTarget:
+
+			m_renderTargetBuffer->getBufferPtr(m_uploadBuffer->getTargetBufferHandle(initParam.targetBufferHandle));
+			break;
+
+		case BufferType::depthStencil:
+
+			m_depthStencilBuffer->getBufferPtr(m_uploadBuffer->getTargetBufferHandle(initParam.targetBufferHandle));
+			break;
+
+		case BufferType::vertex:
+
+			m_vertexBuffer->getBufferPtr(m_uploadBuffer->getTargetBufferHandle(initParam.targetBufferHandle));
+			break;
+
+		case BufferType::index:
+
+			m_indexBuffer->getBufferPtr(m_uploadBuffer->getTargetBufferHandle(initParam.targetBufferHandle));
+			break;
+
+		case BufferType::constant:
+
+			m_constantBuffer->getBufferPtr(m_uploadBuffer->getTargetBufferHandle(initParam.targetBufferHandle));
+			break;
+
+		case BufferType::texture:
+
+			m_textureBuffer->getBufferPtr(m_uploadBuffer->getTargetBufferHandle(initParam.targetBufferHandle));
+			break;
+		}
+
+		m_uploadBuffer->createTempBuffer(device, commandList, initParam, targetBuffer);
+	}
+
 	size_t BufferResource::duplicateUploadBuffer(ID3D12Device* device, size_t originalHandle)
 	{
 		return m_uploadBuffer->duplicate(device, originalHandle);
+	}
+
+	void BufferResource::clearTempUploadBuffer()
+	{
+		m_uploadBuffer->clearTempBuffer();
 	}
 
 	void BufferResource::eraseUploadBuffer(size_t handle)
@@ -125,9 +172,20 @@ namespace tktk
 		m_indexBuffer->set(handle, commandList);
 	}
 
-	size_t BufferResource::createCBuffer(ID3D12Device* device, const CopySourceDataCarrier& constantBufferData)
+	size_t BufferResource::createCBuffer(ID3D12Device* device, ID3D12GraphicsCommandList* commandList, const CopySourceDataCarrier& constantBufferData)
 	{
-		return m_constantBuffer->create(device, constantBufferData);
+		size_t createdHandle = m_constantBuffer->create(device, constantBufferData.dataSize);
+
+		auto initParam = UploadBufferInitParam(BufferType::constant, createdHandle, constantBufferData.dataSize, constantBufferData.dataTopPos);
+
+		m_uploadBuffer->createTempBuffer(
+			device,
+			commandList,
+			initParam,
+			m_constantBuffer->getBufferPtr(createdHandle)
+		);
+
+		return createdHandle;
 	}
 
 	void BufferResource::eraseCBuffer(size_t handle)
@@ -140,24 +198,87 @@ namespace tktk
 		m_constantBuffer->createCbv(handle, device, heapHandle);
 	}
 
-	size_t BufferResource::cpuPriorityCreateTextureBuffer(ID3D12Device* device, const TexBufFormatParam& formatParam, const TexBuffData& dataParam)
+	size_t BufferResource::createTextureBuffer(ID3D12Device* device, ID3D12GraphicsCommandList* commandList, const TexBufFormatParam& formatParam, const TexBuffData& dataParam)
 	{
-		return m_textureBuffer->cpuPriorityCreate(device, formatParam, dataParam);
+		size_t createdHandle = m_textureBuffer->create(device, formatParam, dataParam);
+
+		UploadBufferInitParam initParam = UploadBufferInitParam::create(BufferType::texture, createdHandle, dataParam.textureData);
+
+		auto srcCopyLoaction = m_textureBuffer->createSrcCopyLoaction(createdHandle);
+
+		m_uploadBuffer->createTempBuffer(
+			device,
+			commandList,
+			initParam,
+			srcCopyLoaction.PlacedFootprint.Footprint.RowPitch,
+			srcCopyLoaction.PlacedFootprint.Footprint.Width * m_textureBuffer->getPixDataSizeByte(createdHandle),
+			srcCopyLoaction.PlacedFootprint.Footprint.Height,
+			m_textureBuffer->getBufferPtr(createdHandle),
+			srcCopyLoaction
+		);
+
+		return createdHandle;
 	}
 
-	size_t BufferResource::gpuPriorityCreateTextureBuffer(ID3D12Device* device, ID3D12GraphicsCommandList* commandList, const TexBufFormatParam& formatParam, const TexBuffData& dataParam)
+	size_t BufferResource::loadTextureBuffer(ID3D12Device* device, ID3D12GraphicsCommandList* commandList, const std::string& texDataPath)
 	{
-		return m_textureBuffer->gpuPriorityCreate(device, commandList, formatParam, dataParam);
-	}
+		TexBufFormatParam formatParam{};
+		TexBuffData dataParam{};
 
-	size_t BufferResource::cpuPriorityLoadTextureBuffer(ID3D12Device* device, const std::string& texDataPath)
-	{
-		return m_textureBuffer->cpuPriorityLoad(device, texDataPath);
-	}
+		auto extension = texDataPath.substr(texDataPath.size() - 3U, 3U);
 
-	size_t BufferResource::gpuPriorityLoadTextureBuffer(ID3D12Device* device, ID3D12GraphicsCommandList* commandList, const std::string& texDataPath)
-	{
-		return m_textureBuffer->gpuPriorityLoad(device, commandList, texDataPath);
+		if (extension == "bmp")
+		{
+			formatParam.resourceDimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
+			formatParam.format = DXGI_FORMAT_R8G8B8A8_UNORM;
+			formatParam.arraySize = 1U;
+			formatParam.mipLevels = 1U;
+			formatParam.sampleDescCount = 1U;
+			formatParam.sampleDescQuality = 0U;
+
+			tktkFileIo::lodebmp::loadData outData{};
+			tktkFileIo::lodebmp::load(&outData, texDataPath);
+			dataParam.width = outData.width;
+			dataParam.height = outData.height;
+			dataParam.textureData.resize(outData.data.size());
+			std::copy(std::begin(outData.data), std::end(outData.data), std::begin(dataParam.textureData));
+		}
+		else if (extension == "png")
+		{
+			formatParam.resourceDimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D;
+			formatParam.format = DXGI_FORMAT_R8G8B8A8_UNORM;
+			formatParam.arraySize = 1U;
+			formatParam.mipLevels = 1U;
+			formatParam.sampleDescCount = 1U;
+			formatParam.sampleDescQuality = 0U;
+
+			auto error = lodepng::decode(dataParam.textureData, dataParam.width, dataParam.height, texDataPath.c_str());
+#ifdef _DEBUG
+			if (error != 0)
+			{
+				throw std::runtime_error("can not open " + texDataPath);
+			}
+#endif // _DEBUG
+		}
+
+		size_t createdHandle = m_textureBuffer->create(device, formatParam, dataParam);
+
+		UploadBufferInitParam initParam = UploadBufferInitParam::create(BufferType::texture, createdHandle, dataParam.textureData);
+
+		auto srcCopyLoaction = m_textureBuffer->createSrcCopyLoaction(createdHandle);
+
+		m_uploadBuffer->createTempBuffer(
+			device,
+			commandList,
+			initParam,
+			srcCopyLoaction.PlacedFootprint.Footprint.RowPitch,
+			srcCopyLoaction.PlacedFootprint.Footprint.Width * m_textureBuffer->getPixDataSizeByte(createdHandle),
+			srcCopyLoaction.PlacedFootprint.Footprint.Height,
+			m_textureBuffer->getBufferPtr(createdHandle),
+			srcCopyLoaction
+		);
+
+		return createdHandle;
 	}
 
 	void BufferResource::eraseTextureBuffer(size_t handle)

@@ -7,19 +7,19 @@
 namespace tktk
 {
 	// ビルボード描画用のルートシグネチャを作る
-	inline void createRootSignature();
+	inline void createBillboardRootSignature();
 
 	// ビルボード描画用のパイプラインステートを作る
-	inline void createGraphicsPipeLineState(const ShaderFilePaths& shaderFilePaths);
+	inline void createBillboardGraphicsPipeLineState(const ShaderFilePaths& shaderFilePaths);
 
 	BillboardMaterialManager::BillboardMaterialManager(const BillboardMaterialManagerInitParam& initParam)
 		: m_billboardMaterialArray(initParam.containerParam)
 	{
 		// ビルボード用のルートシグネチャを作る
-		createRootSignature();
+		createBillboardRootSignature();
 
 		// ビルボード用のグラフィックパイプラインステートを作る
-		createGraphicsPipeLineState(initParam.shaderFilePaths);
+		createBillboardGraphicsPipeLineState(initParam.shaderFilePaths);
 	}
 
 	// デストラクタを非インライン化する
@@ -40,7 +40,7 @@ namespace tktk
 		m_billboardMaterialArray.getMatchHandlePtr(handle)->clearInstanceParam();
 	}
 
-	void BillboardMaterialManager::addInstanceParam(size_t handle, const BillboardMaterialInstanceVertData& instanceParam)
+	void BillboardMaterialManager::addInstanceParam(size_t handle, const BillboardMaterialInstanceData& instanceParam)
 	{
 		m_billboardMaterialArray.getMatchHandlePtr(handle)->addInstanceParam(instanceParam);
 	}
@@ -55,18 +55,18 @@ namespace tktk
 		m_billboardMaterialArray.getMatchHandlePtr(handle)->draw(drawFuncArgs);
 	}
 
-	void createRootSignature()
+	void createBillboardRootSignature()
 	{
 		RootSignatureInitParam initParam{};
 		initParam.flag = D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT;
 		initParam.rootParamArray.resize(2U);
 		{/* テクスチャ用のルートパラメータ */
-			initParam.rootParamArray.at(0U).shaderVisibility = D3D12_SHADER_VISIBILITY_PIXEL;
-			initParam.rootParamArray.at(0U).descriptorTable = { { 1U, D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 0U } };
+			initParam.rootParamArray.at(0U).shaderVisibility	= D3D12_SHADER_VISIBILITY_PIXEL;
+			initParam.rootParamArray.at(0U).descriptorTable		= { { 1U, D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 0U } };
 		}
 		{/* 定数バッファ用のルートパラメータ */
-			initParam.rootParamArray.at(1U).shaderVisibility = D3D12_SHADER_VISIBILITY_VERTEX;
-			initParam.rootParamArray.at(1U).descriptorTable = { { 1U, D3D12_DESCRIPTOR_RANGE_TYPE_CBV, 0U } };
+			initParam.rootParamArray.at(1U).shaderVisibility	= D3D12_SHADER_VISIBILITY_VERTEX;
+			initParam.rootParamArray.at(1U).descriptorTable		= { { 1U, D3D12_DESCRIPTOR_RANGE_TYPE_CBV, 0U } };
 		}
 		initParam.samplerDescArray.resize(1U);
 		{/* サンプラーの設定 */
@@ -83,7 +83,7 @@ namespace tktk
 		DX12GameManager::setSystemHandle(SystemRootSignatureType::Billboard, DX12GameManager::createRootSignature(initParam));
 	}
 
-	void createGraphicsPipeLineState(const ShaderFilePaths& shaderFilePaths)
+	void createBillboardGraphicsPipeLineState(const ShaderFilePaths& shaderFilePaths)
 	{
 		D3D12_RENDER_TARGET_BLEND_DESC renderTargetBlendDesc{};
 		renderTargetBlendDesc.BlendEnable			= true;

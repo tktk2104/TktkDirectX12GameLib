@@ -12,9 +12,33 @@ namespace tktk
 		return m_uploadBufferDataArray.create(device, initParam);
 	}
 
+	size_t UploadBuffer::create(ID3D12Device* device, const UploadBufferInitParam& initParam, size_t rowPitch, size_t textureWidthByte, size_t textureHeightPix)
+	{
+		return m_uploadBufferDataArray.create(device, initParam, rowPitch, textureWidthByte, textureHeightPix);
+	}
+
+	void UploadBuffer::createTempBuffer(ID3D12Device* device, ID3D12GraphicsCommandList* commandList, const UploadBufferInitParam& initParam, ID3D12Resource* targetBuffer)
+	{
+		const auto& createdBufferdata = m_tempUploadBufferDataList.emplace_front(device, initParam);
+
+		createdBufferdata.copyBuffer(commandList, targetBuffer);
+	}
+
+	void UploadBuffer::createTempBuffer(ID3D12Device* device, ID3D12GraphicsCommandList* commandList, const UploadBufferInitParam& initParam, size_t rowPitch, size_t textureWidthByte, size_t textureHeightPix, ID3D12Resource* targetBuffer, const D3D12_TEXTURE_COPY_LOCATION& srcCopyLoaction)
+	{
+		const auto& createdBufferdata = m_tempUploadBufferDataList.emplace_front(device, initParam, rowPitch, textureWidthByte, textureHeightPix);
+	
+		createdBufferdata.copyTexture(commandList, targetBuffer, srcCopyLoaction);
+	}
+
 	size_t UploadBuffer::duplicate(ID3D12Device* device, size_t originalHandle)
 	{
 		return m_uploadBufferDataArray.create(device, *(m_uploadBufferDataArray.getMatchHandlePtr(originalHandle)));
+	}
+
+	void UploadBuffer::clearTempBuffer()
+	{
+		m_tempUploadBufferDataList.clear();
 	}
 
 	void UploadBuffer::erase(size_t handle)

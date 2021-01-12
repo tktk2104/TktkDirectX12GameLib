@@ -1,9 +1,11 @@
 #ifndef BILLBOARD_MATERIAL_H_
 #define BILLBOARD_MATERIAL_H_
 
-/* tktkContainer::ResourceContainer */
+/* use func type */
 #include <TktkMath/Structs/Vector2.h>
 #include <TktkMath/Structs/Matrix4.h>
+
+/* tktkContainer::ResourceContainer */
 #include <TktkContainer/ResourceContainer/ResourceContainer.h>
 
 namespace tktk
@@ -13,14 +15,14 @@ namespace tktk
 	struct BillboardMaterialManagerInitParam;
 	struct BillboardMaterialInitParam;
 	struct BillboardDrawFuncBaseArgs;
-	struct BillboardMaterialInstanceVertData;
+	struct BillboardMaterialInstanceData;
 
 	// 「BillboardMaterialData」を管理するクラス
 	class BillboardMaterialManager
 	{
 	public:
 
-		BillboardMaterialManager(const BillboardMaterialManagerInitParam& initParam);
+		explicit BillboardMaterialManager(const BillboardMaterialManagerInitParam& initParam);
 		~BillboardMaterialManager();
 
 	public:
@@ -35,7 +37,7 @@ namespace tktk
 		void clearInstanceParam(size_t handle);
 
 		// 指定したビルボードをインスタンス描画する時に使用する値を追加する
-		void addInstanceParam(size_t handle, const BillboardMaterialInstanceVertData& instanceParam);
+		void addInstanceParam(size_t handle, const BillboardMaterialInstanceData& instanceParam);
 
 		// 指定したビルボードをインスタンス描画する時に使用する値をｚソートして頂点バッファに書き込む
 		void updateInstanceParam(size_t handle, const tktkMath::Matrix4& viewProjMatrix);

@@ -9,7 +9,7 @@ namespace tktk
 		DrawGameArea,
 		BasicPostEffect,
 
-		SpriteTransform,
+		DrawGameAreaSize,
 		SpriteMaterialManager,
 		Line2D,
 		Billboard,

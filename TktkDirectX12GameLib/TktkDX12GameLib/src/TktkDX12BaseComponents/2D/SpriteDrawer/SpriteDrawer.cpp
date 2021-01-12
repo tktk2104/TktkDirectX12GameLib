@@ -2,17 +2,16 @@
 
 #include <TktkDX12Game/_MainManager/DX12GameManager.h>
 #include "TktkDX12BaseComponents/2D/Transform2D/Transform2D.h"
-#include "TktkDX12Game/DXGameResource/DXGameShaderResouse/Sprite/Structs/SpriteTransformCBufferData.h"
 
 namespace tktk
 {
-	SpriteDrawer::SpriteDrawer(float drawPriority, size_t spriteMaterialHandle, size_t useRtvDescriptorHeapHandle, const tktkMath::Vector2& centerRate, const tktkMath::Color& blendRate, const SpriteClippingParam& clippingParam)
+	SpriteDrawer::SpriteDrawer(float drawPriority, size_t spriteMaterialHandle, const tktkMath::Vector2& centerRate, const tktkMath::Color& blendRate, const tktkMath::Vector2& clippingLeftTopPos, const tktkMath::Vector2& clippingSize)
 		: ComponentBase(drawPriority)
-		, m_useRtvDescriptorHeapHandle(useRtvDescriptorHeapHandle)
 		, m_spriteMaterialHandle(spriteMaterialHandle)
-		, m_spriteCenterRate(centerRate)
+		, m_centerRate(centerRate)
 		, m_blendRate(blendRate)
-		, m_clippingParam(clippingParam)
+		, m_clippingLeftTopPos(clippingLeftTopPos)
+		, m_clippingSize(clippingSize)
 	{
 	}
 
@@ -24,32 +23,25 @@ namespace tktk
 		{
 			throw std::runtime_error("SpriteDrawer not found Transform2D");
 		}
-
-		// アップロード用バッファを作り、そのハンドルを取得する
-		m_createUploadTransformCbufferHandle = DX12GameManager::createUploadBuffer(UploadBufferInitParam::create(BufferType::constant, DX12GameManager::getSystemHandle(SystemCBufferType::SpriteTransform), SpriteTransformCBufferData()));
 	}
 
-	void SpriteDrawer::onDestroy()
+	void SpriteDrawer::afterCollide()
 	{
-		// アップロード用バッファを削除する
-		DX12GameManager::eraseUploadBuffer(m_createUploadTransformCbufferHandle);
-	}
+		const auto& selfScale = m_transform->getWorldScaleRate();
 
-	void SpriteDrawer::draw() const
-	{
-		// 座標変換用の定数バッファの更新
-		SpriteCBufferUpdateFuncArgs updateFuncArgs{};
-		updateFuncArgs.worldMatrix = m_transform->calculateWorldMatrix();
-		updateFuncArgs.spriteCenterRate = m_spriteCenterRate;
-		DX12GameManager::updateSpriteTransformCbufferUseClippingParam(m_spriteMaterialHandle, m_createUploadTransformCbufferHandle, updateFuncArgs, m_clippingParam);
+		TempSpriteMaterialInstanceData instanceVertData{};
 
-		SpriteMaterialDrawFuncArgs drawFuncArgs{};
-		drawFuncArgs.viewportHandle				= DX12GameManager::getSystemHandle(SystemViewportType::Basic);
-		drawFuncArgs.scissorRectHandle			= DX12GameManager::getSystemHandle(SystemScissorRectType::Basic);
-		drawFuncArgs.rtvDescriptorHeapHandle	= m_useRtvDescriptorHeapHandle;
-		drawFuncArgs.blendRate					= m_blendRate;
+		auto worldMatrix = m_transform->calculateWorldMatrix();
 
-		DX12GameManager::drawSprite(m_spriteMaterialHandle, drawFuncArgs);
+		instanceVertData.worldMatrix		= worldMatrix;
+		instanceVertData.texturePixelOffset = tktkMath::Vector2(m_clippingLeftTopPos.x, m_clippingLeftTopPos.y);
+		instanceVertData.texturePixelCount	= tktkMath::Vector2(m_clippingSize.x, m_clippingSize.y);
+		instanceVertData.textureUvMulRate	= tktkMath::Vector2_v::one;
+		instanceVertData.textureCenterRate	= m_centerRate;
+		instanceVertData.blendRate			= m_blendRate;
+
+		// 指定のスプライトをインスタンス描画する時に使用する値を追加する
+		DX12GameManager::addSpriteInstanceParam(m_spriteMaterialHandle, m_drawPriority, instanceVertData);
 	}
 
 	void SpriteDrawer::setSpriteMaterialHandle(size_t handle)
@@ -64,7 +56,7 @@ namespace tktk
 
 	void SpriteDrawer::setCenterRate(const tktkMath::Vector2& centerRate)
 	{
-		m_spriteCenterRate = centerRate;
+		m_centerRate = centerRate;
 	}
 
 	const tktkMath::Color& SpriteDrawer::getBlendRate() const
@@ -79,25 +71,25 @@ namespace tktk
 
 	void SpriteDrawer::setClippingLeftTopPos(const tktkMath::Vector2& leftTopPos)
 	{
-		m_clippingParam.leftTopPos = leftTopPos;
+		m_clippingLeftTopPos = leftTopPos;
 	}
 
 	void SpriteDrawer::setClippingSize(const tktkMath::Vector2& size)
 	{
-		m_clippingParam.size = size;
+		m_clippingSize = size;
 	}
 
 	void SpriteDrawer::setClippingLeftTopPosRate(const tktkMath::Vector2& leftTopPosRate)
 	{
 		const auto& textureSize = DX12GameManager::getSpriteTextureSize(m_spriteMaterialHandle);
 
-		m_clippingParam.leftTopPos = tktkMath::Vector2::scale(textureSize, leftTopPosRate);
+		m_clippingLeftTopPos = tktkMath::Vector2::scale(textureSize, leftTopPosRate);
 	}
 
 	void SpriteDrawer::setClippingSizeRate(const tktkMath::Vector2& sizeRate)
 	{
 		const auto& textureSize = DX12GameManager::getSpriteTextureSize(m_spriteMaterialHandle);
 
-		m_clippingParam.size = tktkMath::Vector2::scale(textureSize, sizeRate);
+		m_clippingSize = tktkMath::Vector2::scale(textureSize, sizeRate);
 	}
 }

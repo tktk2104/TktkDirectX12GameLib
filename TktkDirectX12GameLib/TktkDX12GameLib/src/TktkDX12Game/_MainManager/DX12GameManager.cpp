@@ -12,6 +12,8 @@
 #include "TktkDX12Game/DXGameResource/GameObjectResouse/GameObject/GameObject.h"
 #include "TktkDX12Game/DXGameResource/GameObjectResouse/Component/DefaultComponents/StateMachine/StateMachine.h"
 #include "TktkDX12BaseComponents/2D/PostEffectDrawer/PostEffectDrawFuncRunner.h"
+#include "TktkDX12BaseComponents/2D/SpriteDrawer/SpriteDrawer.h"
+#include "TktkDX12BaseComponents/2D/SpriteDrawer/SpriteDrawFuncRunner.h"
 #include "TktkDX12BaseComponents/3D/BillboardDrawer/BillboardDrawer.h"
 #include "TktkDX12BaseComponents/3D/BillboardDrawer/BillboardDrawFuncRunner.h"
 #include "TktkDX12BaseComponents/3D/MeshDrawer/MeshDrawer.h"
@@ -100,7 +102,7 @@ namespace tktk
 			dataParam.width = 4U;
 			dataParam.height = 4U;
 
-			setSystemHandle(SystemTextureBufferType::White4x4, cpuPriorityCreateTextureBuffer(formatParam, dataParam));
+			setSystemHandle(SystemTextureBufferType::White4x4, createTextureBuffer(formatParam, dataParam));
 		}
 
 		// 黒テクスチャを作る
@@ -125,7 +127,7 @@ namespace tktk
 			dataParam.width		= 4U;
 			dataParam.height	= 4U;
 
-			setSystemHandle(SystemTextureBufferType::Black4x4, cpuPriorityCreateTextureBuffer(formatParam, dataParam));
+			setSystemHandle(SystemTextureBufferType::Black4x4, createTextureBuffer(formatParam, dataParam));
 		}
 
 		// 平らな法線テクスチャを作る
@@ -148,7 +150,7 @@ namespace tktk
 			dataParam.width = 4U;
 			dataParam.height = 4U;
 
-			setSystemHandle(SystemTextureBufferType::FlatNormal4x4, cpuPriorityCreateTextureBuffer(formatParam, dataParam));
+			setSystemHandle(SystemTextureBufferType::FlatNormal4x4, createTextureBuffer(formatParam, dataParam));
 		}
 
 		// デフォルトの深度バッファーを作る
@@ -238,8 +240,12 @@ namespace tktk
 		drawFuncRunnerMgr.meshDrawFuncRunnerMgrParam		= gameManagerInitParam.meshDrawFuncRunnerMgrParam;
 
 		auto& otherResInit = dxGameResParam.otherResParam;
-		otherResInit.sceneMgrParam = gameManagerInitParam.sceneContainerParam;
-		otherResInit.soundMgrParam = gameManagerInitParam.soundContainerParam;
+		otherResInit.sceneMgrParam								= gameManagerInitParam.sceneContainerParam;
+		otherResInit.soundMgrParam								= gameManagerInitParam.soundContainerParam;
+		otherResInit.fontMgrParam.containerInitParam			;
+		otherResInit.fontMgrParam.fontHeight					= 64U;
+		otherResInit.fontMgrParam.textTextureWidth				= 1024U;
+		otherResInit.fontMgrParam.textSpriteMaxInstanceCount	= 256U;
 
 		m_dxGameResource = std::make_unique<DXGameResource>(dxGameResParam);
 
@@ -254,6 +260,9 @@ namespace tktk
 
 		// ステートマシンの実行タイミングを設定する
 		addRunFuncPriority<StateMachine>(1100.0f);
+
+		// スプライトのインスタンス描画に使用する頂点バッファを設定するコンポーネントの実行タイミングを設定する
+		addRunFuncPriority<SpriteDrawer>(1200.0f);
 
 		// メッシュのインスタンス描画に使用する頂点バッファを設定するコンポーネントの実行タイミングを設定する
 		addRunFuncPriority<MeshDrawer>(1200.0f);
@@ -344,6 +353,10 @@ namespace tktk
 
 				// 描画処理
 				m_graphicManager->beginDraw();
+
+				// 応急的
+				m_dxGameResource->copyTextTextureUploadBuffer();
+
 				m_dxGameResource->draw();
 				m_graphicManager->endDraw();
 
@@ -555,6 +568,11 @@ namespace tktk
 	{
 		return m_graphicManager->createUploadBuffer(initParam);
 	}
+
+	void DX12GameManager::createTempUploadBuffer(const UploadBufferInitParam& initParam)
+	{
+		m_graphicManager->createTempUploadBuffer(initParam);
+	}
 	
 	size_t DX12GameManager::duplicateUploadBuffer(size_t originalHandle)
 	{
@@ -601,24 +619,14 @@ namespace tktk
 		return m_graphicManager->createDsvDescriptorHeap(initParam);
 	}
 	
-	size_t DX12GameManager::cpuPriorityCreateTextureBuffer(const TexBufFormatParam& formatParam, const TexBuffData& dataParam)
+	size_t DX12GameManager::createTextureBuffer(const TexBufFormatParam& formatParam, const TexBuffData& dataParam)
 	{
-		return m_graphicManager->cpuPriorityCreateTextureBuffer(formatParam, dataParam);
+		return m_graphicManager->createTextureBuffer(formatParam, dataParam);
 	}
 	
-	size_t DX12GameManager::gpuPriorityCreateTextureBuffer(const TexBufFormatParam& formatParam, const TexBuffData& dataParam)
+	size_t DX12GameManager::loadTextureBuffer(const std::string& texDataPath)
 	{
-		return m_graphicManager->gpuPriorityCreateTextureBuffer(formatParam, dataParam);
-	}
-	
-	size_t DX12GameManager::cpuPriorityLoadTextureBuffer(const std::string& texDataPath)
-	{
-		return m_graphicManager->cpuPriorityLoadTextureBuffer(texDataPath);
-	}
-	
-	size_t DX12GameManager::gpuPriorityLoadTextureBuffer(const std::string& texDataPath)
-	{
-		return m_graphicManager->gpuPriorityLoadTextureBuffer(texDataPath);
+		return m_graphicManager->loadTextureBuffer(texDataPath);
 	}
 	
 	void DX12GameManager::eraseViewport(size_t handle)
@@ -726,15 +734,22 @@ namespace tktk
 		return m_graphicManager->getRtBufferSizePx(handle);
 	}
 	
-	size_t DX12GameManager::createSpriteMaterial(const SpriteMaterialInitParam& initParam)
-	{
-		return m_dxGameResource->createSpriteMaterial(initParam);
-	}
-	
-	size_t DX12GameManager::createSpriteMaterialAndAttachId(ResourceIdCarrier id, const SpriteMaterialInitParam& initParam)
+	size_t DX12GameManager::createSpriteMaterial(const SpriteMaterialInitParam& initParam, const SpriteDrawFuncRunnerInitParam& funcRunnerInitParam)
 	{
 		auto createdHandle = m_dxGameResource->createSpriteMaterial(initParam);
+
+		createComponent<SpriteDrawFuncRunner>(GameObjectPtr(), createdHandle, funcRunnerInitParam);
+
+		return createdHandle;
+	}
+	
+	size_t DX12GameManager::createSpriteMaterialAndAttachId(ResourceIdCarrier id, const SpriteMaterialInitParam& initParam, const SpriteDrawFuncRunnerInitParam& funcRunnerInitParam)
+	{
+		auto createdHandle = m_dxGameResource->createSpriteMaterial(initParam);
+
+		createComponent<SpriteDrawFuncRunner>(GameObjectPtr(), createdHandle, funcRunnerInitParam);
 		m_utilityProcessManager->setSpriteMaterialHandle(id, createdHandle);
+
 		return createdHandle;
 	}
 
@@ -742,20 +757,35 @@ namespace tktk
 	{
 		return m_dxGameResource->getSpriteTextureSize(handle);
 	}
+
+	size_t DX12GameManager::getMaxSpriteInstanceCount(size_t handle)
+	{
+		return m_dxGameResource->getMaxSpriteInstanceCount(handle);
+	}
+
+	size_t DX12GameManager::getCurSpriteInstanceCount(size_t handle)
+	{
+		return m_dxGameResource->getCurSpriteInstanceCount(handle);
+	}
+
+	void DX12GameManager::clearSpriteInstanceParam(size_t handle)
+	{
+		m_dxGameResource->clearSpriteInstanceParam(handle);
+	}
+
+	void DX12GameManager::addSpriteInstanceParam(size_t handle, float drawPriority, const TempSpriteMaterialInstanceData& instanceParam)
+	{
+		m_dxGameResource->addSpriteInstanceParam(handle, drawPriority, instanceParam);
+	}
+
+	void DX12GameManager::updateSpriteInstanceParam(size_t handle)
+	{
+		m_dxGameResource->updateSpriteInstanceParam(handle);
+	}
 	
 	void DX12GameManager::drawSprite(size_t handle, const SpriteMaterialDrawFuncArgs& drawFuncArgs)
 	{
 		m_dxGameResource->drawSprite(handle, drawFuncArgs);
-	}
-	
-	void DX12GameManager::updateSpriteTransformCbuffer(size_t handle, size_t copyBufferHandle, const SpriteCBufferUpdateFuncArgs& cbufferUpdateArgs)
-	{
-		m_dxGameResource->updateSpriteTransformCbuffer(handle, copyBufferHandle, cbufferUpdateArgs);
-	}
-	
-	void DX12GameManager::updateSpriteTransformCbufferUseClippingParam(size_t handle, size_t copyBufferHandle, const SpriteCBufferUpdateFuncArgs& cbufferUpdateArgs, const SpriteClippingParam& clippingParam)
-	{
-		m_dxGameResource->updateSpriteTransformCbufferUseClippingParam(handle, copyBufferHandle, cbufferUpdateArgs, clippingParam);
 	}
 	
 	size_t DX12GameManager::createLine2DMaterial()
@@ -810,7 +840,7 @@ namespace tktk
 		m_dxGameResource->clearBillboardInstanceParam(handle);
 	}
 
-	void DX12GameManager::addBillboardInstanceParam(size_t handle, const BillboardMaterialInstanceVertData& instanceParam)
+	void DX12GameManager::addBillboardInstanceParam(size_t handle, const BillboardMaterialInstanceData& instanceParam)
 	{
 		m_dxGameResource->addBillboardInstanceParam(handle, instanceParam);
 	}
@@ -1201,38 +1231,38 @@ namespace tktk
 		m_dxGameResource->setMasterVolume(volume);
 	}
 
-	size_t DX12GameManager::createFont(const std::string& systemFontName, int fontSize, float fontThicknessRate)
+	size_t DX12GameManager::createFont(const std::string& systemFontName, float fontThicknessRate)
 	{
-		return m_dxGameResource->createFont(systemFontName, fontSize, fontThicknessRate);
+		return m_dxGameResource->createFont(systemFontName, fontThicknessRate);
 	}
 
-	size_t DX12GameManager::createFont(const std::string& fontFilePath, const std::string& fontName, int fontSize, float fontThicknessRate)
+	size_t DX12GameManager::createFont(const std::string& fontFilePath, const std::string& fontName, float fontThicknessRate)
 	{
-		return m_dxGameResource->createFont(fontFilePath, fontName, fontSize, fontThicknessRate);
+		return m_dxGameResource->createFont(fontFilePath, fontName, fontThicknessRate);
 	}
 
-	size_t DX12GameManager::createFontAndAttachId(ResourceIdCarrier id, const std::string& systemFontName, int fontSize, float fontThicknessRate)
+	size_t DX12GameManager::createFontAndAttachId(ResourceIdCarrier id, const std::string& systemFontName, float fontThicknessRate)
 	{
-		auto createdHandle = m_dxGameResource->createFont(systemFontName, fontSize, fontThicknessRate);
+		auto createdHandle = m_dxGameResource->createFont(systemFontName, fontThicknessRate);
 		m_utilityProcessManager->setFontHandle(id, createdHandle);
 		return createdHandle;
 	}
 
-	size_t DX12GameManager::createFontAndAttachId(ResourceIdCarrier id, const std::string& fontFilePath, const std::string& fontName, int fontSize, float fontThicknessRate)
+	size_t DX12GameManager::createFontAndAttachId(ResourceIdCarrier id, const std::string& fontFilePath, const std::string& fontName, float fontThicknessRate)
 	{
-		auto createdHandle = m_dxGameResource->createFont(fontFilePath, fontName, fontSize, fontThicknessRate);
+		auto createdHandle = m_dxGameResource->createFont(fontFilePath, fontName, fontThicknessRate);
 		m_utilityProcessManager->setFontHandle(id, createdHandle);
 		return createdHandle;
 	}
 
-	size_t DX12GameManager::updateTextTextureUploadBuffData(size_t handle, size_t uploadBufferHandle, const std::string& text)
+	size_t DX12GameManager::updateTextTextureUploadBuffData(size_t handle, const std::string& text)
 	{
-		return m_dxGameResource->updateTextTextureUploadBuffData(handle, uploadBufferHandle, text);
+		return m_dxGameResource->updateTextTextureUploadBuffData(handle, text);
 	}
 
-	size_t DX12GameManager::createTextTextureUploadBuffer()
+	void DX12GameManager::copyTextTextureUploadBuffer()
 	{
-		return m_dxGameResource->createTextTextureUploadBuffer();
+		m_dxGameResource->copyTextTextureUploadBuffer();
 	}
 	
 	bool DX12GameManager::isPush(CommandIdCarrier commandId)
@@ -1389,6 +1419,11 @@ namespace tktk
 	{
 		return m_utilityProcessManager->getSystemHandle(type);
 	}
+
+	size_t DX12GameManager::getSystemHandle(SystemUploadBufferType type)
+	{
+		return m_utilityProcessManager->getSystemHandle(type);
+	}
 	
 	size_t DX12GameManager::getSystemHandle(SystemVertexBufferType type)
 	{
@@ -1486,6 +1521,11 @@ namespace tktk
 	}
 	
 	void DX12GameManager::setSystemHandle(SystemScissorRectType type, size_t handle)
+	{
+		m_utilityProcessManager->setSystemHandle(type, handle);
+	}
+
+	void DX12GameManager::setSystemHandle(SystemUploadBufferType type, size_t handle)
 	{
 		m_utilityProcessManager->setSystemHandle(type, handle);
 	}

@@ -36,10 +36,59 @@ namespace tktk
 			IID_PPV_ARGS(&m_uploadBuffer)
 		);
 
-		// 定数バッファをCPUアクセス特化ヒープにコピーする
+		// バッファ情報をCPUアクセス特化ヒープにコピーする
 		void* mappedBuffer{ nullptr };
 		m_uploadBuffer->Map(0, nullptr, &mappedBuffer);
 		memcpy(mappedBuffer, initParam.dataTopPos, initParam.bufferWidth);
+		m_uploadBuffer->Unmap(0, nullptr);
+	}
+
+	UploadBufferData::UploadBufferData(ID3D12Device* device, const UploadBufferInitParam& initParam, size_t rowPitch, size_t textureWidthByte, size_t textureHeightPix)
+		: m_targetBufferType(initParam.targetBufferType)
+		, m_targetBufferHandle(initParam.targetBufferHandle)
+		, m_uploadBufferSize(initParam.bufferWidth)
+	{
+		D3D12_HEAP_PROPERTIES uploadHeapProp{};
+		uploadHeapProp.Type					= D3D12_HEAP_TYPE_UPLOAD;
+		uploadHeapProp.CPUPageProperty		= D3D12_CPU_PAGE_PROPERTY_UNKNOWN;
+		uploadHeapProp.MemoryPoolPreference = D3D12_MEMORY_POOL_UNKNOWN;
+		uploadHeapProp.CreationNodeMask		= 0;
+		uploadHeapProp.VisibleNodeMask		= 0;
+
+		// 中間バッファなのでバッファはただのバイナリデータの塊として解釈させる
+		D3D12_RESOURCE_DESC resDesc{};
+		resDesc.Dimension			= D3D12_RESOURCE_DIMENSION_BUFFER;
+		resDesc.Format				= DXGI_FORMAT_UNKNOWN;
+		resDesc.Width				= static_cast<unsigned long long>(rowPitch) * textureHeightPix;
+		resDesc.Height				= 1;
+		resDesc.DepthOrArraySize	= 1;
+		resDesc.MipLevels			= 1;
+		resDesc.SampleDesc.Count	= 1;
+		resDesc.SampleDesc.Quality	= 0;
+		resDesc.Flags				= D3D12_RESOURCE_FLAG_NONE;
+		resDesc.Layout				= D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
+
+		device->CreateCommittedResource(
+			&uploadHeapProp,
+			D3D12_HEAP_FLAG_NONE,
+			&resDesc,
+			D3D12_RESOURCE_STATE_GENERIC_READ,
+			nullptr,
+			IID_PPV_ARGS(&m_uploadBuffer)
+		);
+
+		// テクスチャをCPUアクセス特化ヒープにコピーする（テクスチャの横幅が256の倍数ではない場合は正しくデータをずらす）
+		size_t srcAddress = reinterpret_cast<const size_t>(initParam.dataTopPos);
+		unsigned char* mapForImg { nullptr };
+
+		m_uploadBuffer->Map(0, nullptr, (void**)&mapForImg);
+		for (unsigned int i = 0; i < textureHeightPix; i++)
+		{
+			std::copy_n(reinterpret_cast<unsigned char*>(srcAddress), rowPitch, mapForImg);
+
+			srcAddress	+= textureWidthByte;
+			mapForImg	+= rowPitch;
+		}
 		m_uploadBuffer->Unmap(0, nullptr);
 	}
 
@@ -99,7 +148,9 @@ namespace tktk
 		// 定数バッファをCPUアクセス特化ヒープにコピーする
 		void* mappedBuffer{ nullptr };
 		m_uploadBuffer->Map(0, nullptr, &mappedBuffer);
-		memcpy(mappedBuffer, bufferData.dataTopPos, bufferData.dataSize);
+
+		void* dstPtr = reinterpret_cast<void*>(reinterpret_cast<size_t>(mappedBuffer) + bufferData.dataOffset);
+		memcpy(dstPtr, bufferData.dataTopPos, bufferData.dataSize);
 		m_uploadBuffer->Unmap(0, nullptr);
 	}
 

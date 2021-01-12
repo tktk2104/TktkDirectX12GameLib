@@ -1,5 +1,6 @@
 #include "TktkDX12Game/DXGameResource/DXGameShaderResouse/DXGameShaderResouse.h"
 
+#include "TktkDX12Game/_MainManager/DX12GameManager.h"
 #include "TktkDX12Game/DXGameResource/DXGameShaderResouse/Structs/DXGameShaderResouseInitParam.h"
 #include "TktkDX12Game/DXGameResource/DXGameShaderResouse/PostEffect/PostEffectMaterialManager.h"
 #include "TktkDX12Game/DXGameResource/DXGameShaderResouse/Line2D/Line2DMaterialManager.h"
@@ -7,10 +8,17 @@
 #include "TktkDX12Game/DXGameResource/DXGameShaderResouse/Billboard/BillboardMaterialManager.h"
 #include "TktkDX12Game/DXGameResource/DXGameShaderResouse/MeshResouse/MeshResource.h"
 
+#include "TktkDX12Game/DXGameResource/DXGameShaderResouse/Structs/ScreenSizeCBufferData.h"
+
 namespace tktk
 {
 	DXGameShaderResouse::DXGameShaderResouse(const DXGameShaderResouseInitParam& initParam)
 	{
+		// ゲーム描画エリアの定数バッファを作る
+		DrawGameAreaSizeCBufferData drawGameAreaSizeCBufferData{};
+		drawGameAreaSizeCBufferData.drawGameAreaSize = DX12GameManager::getDrawGameAreaSize();
+		DX12GameManager::setSystemHandle(SystemCBufferType::DrawGameAreaSize, DX12GameManager::createCBuffer(CopySourceDataCarrier(drawGameAreaSizeCBufferData, 0U)));
+
 		m_postEffectMaterial	= std::make_unique<PostEffectMaterialManager>(initParam.postEffectMatMgrParam);
 		m_line2DMaterial		= std::make_unique<Line2DMaterialManager>(initParam.line2DMatMgrParam);
 		m_spriteMaterial		= std::make_unique<SpriteMaterialManager>(initParam.spriteMatMgrParam);
@@ -52,19 +60,34 @@ namespace tktk
 		return m_spriteMaterial->getSpriteTextureSize(handle);
 	}
 
+	size_t DXGameShaderResouse::getMaxSpriteInstanceCount(size_t handle) const
+	{
+		return m_spriteMaterial->getMaxInstanceCount(handle);
+	}
+
+	size_t DXGameShaderResouse::getCurSpriteInstanceCount(size_t handle) const
+	{
+		return m_spriteMaterial->getCurInstanceCount(handle);
+	}
+
+	void DXGameShaderResouse::clearSpriteInstanceParam(size_t handle)
+	{
+		m_spriteMaterial->clearInstanceParam(handle);
+	}
+
+	void DXGameShaderResouse::addSpriteInstanceParam(size_t handle, float drawPriority, const TempSpriteMaterialInstanceData& instanceParam)
+	{
+		m_spriteMaterial->addInstanceParam(handle, drawPriority, instanceParam);
+	}
+
+	void DXGameShaderResouse::updateSpriteInstanceParam(size_t handle)
+	{
+		m_spriteMaterial->updateInstanceParam(handle);
+	}
+
 	void DXGameShaderResouse::drawSprite(size_t handle, const SpriteMaterialDrawFuncArgs& drawFuncArgs) const
 	{
-		m_spriteMaterial->drawSprite(handle, drawFuncArgs);
-	}
-
-	void DXGameShaderResouse::updateSpriteTransformCbuffer(size_t handle, size_t copyBufferHandle, const SpriteCBufferUpdateFuncArgs& cbufferUpdateArgs) const
-	{
-		m_spriteMaterial->updateTransformCbuffer(handle, copyBufferHandle, cbufferUpdateArgs);
-	}
-
-	void DXGameShaderResouse::updateSpriteTransformCbufferUseClippingParam(size_t handle, size_t copyBufferHandle, const SpriteCBufferUpdateFuncArgs& cbufferUpdateArgs, const SpriteClippingParam& clippingParam) const
-	{
-		m_spriteMaterial->updateTransformCbufferUseClippingParam(handle, copyBufferHandle, cbufferUpdateArgs, clippingParam);
+		m_spriteMaterial->draw(handle, drawFuncArgs);
 	}
 
 	size_t DXGameShaderResouse::createLine()
@@ -97,7 +120,7 @@ namespace tktk
 		m_billboardMaterial->clearInstanceParam(handle);
 	}
 
-	void DXGameShaderResouse::addBillboardInstanceParam(size_t handle, const BillboardMaterialInstanceVertData& instanceParam)
+	void DXGameShaderResouse::addBillboardInstanceParam(size_t handle, const BillboardMaterialInstanceData& instanceParam)
 	{
 		m_billboardMaterial->addInstanceParam(handle, instanceParam);
 	}

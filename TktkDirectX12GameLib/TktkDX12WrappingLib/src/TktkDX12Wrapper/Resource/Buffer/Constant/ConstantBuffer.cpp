@@ -7,9 +7,9 @@ namespace tktk
 	{
 	}
 
-	size_t ConstantBuffer::create(ID3D12Device* device, const CopySourceDataCarrier& constantBufferData)
+	size_t ConstantBuffer::create(ID3D12Device* device, size_t dataSize)
 	{
-		return m_constantBufferDataArray.create(device, constantBufferData);
+		return m_constantBufferDataArray.create(device, dataSize);
 	}
 
 	void ConstantBuffer::erase(size_t handle)

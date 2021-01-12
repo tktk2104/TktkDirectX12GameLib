@@ -11,7 +11,7 @@ namespace tktk
 	{
 		m_sceneManager	= std::make_unique<SceneManager>(initParam.sceneMgrParam);
 		m_soundManager	= std::make_unique<SoundManager>(initParam.soundMgrParam);
-		m_fontManager	= std::make_unique<FontManager>(initParam.fontMgrParam, initParam.textTextureSize);
+		m_fontManager	= std::make_unique<FontManager>(initParam.fontMgrParam);
 	}
 
 	// デストラクタを非インライン化する
@@ -78,23 +78,23 @@ namespace tktk
 		m_fontManager->createFontBaseResource();
 	}
 
-	size_t OtherResouse::createFont(const std::string& systemFontName, int fontSize, float fontThicknessRate)
+	size_t OtherResouse::createFont(const std::string& systemFontName, float fontThicknessRate)
 	{
-		return m_fontManager->create(systemFontName, fontSize, fontThicknessRate);
+		return m_fontManager->create(systemFontName, fontThicknessRate);
 	}
 
-	size_t OtherResouse::createFont(const std::string& fontFilePath, const std::string& fontName, int fontSize, float fontThicknessRate)
+	size_t OtherResouse::createFont(const std::string& fontFilePath, const std::string& fontName, float fontThicknessRate)
 	{
-		return m_fontManager->create(fontFilePath, fontName, fontSize, fontThicknessRate);
+		return m_fontManager->create(fontFilePath, fontName, fontThicknessRate);
 	}
 
-	size_t OtherResouse::updateTextTextureUploadBuffData(size_t handle, size_t uploadBufferHandle, const std::string& text)
+	size_t OtherResouse::updateTextTextureUploadBuffData(size_t handle, const std::string& text)
 	{
-		return m_fontManager->updateTextTextureUploadBuffData(handle, uploadBufferHandle, text);
+		return m_fontManager->updateTextTextureUploadBuffData(handle, text);
 	}
 
-	size_t OtherResouse::createTextTextureUploadBuffer()
+	void OtherResouse::copyTextTextureUploadBuffer()
 	{
-		return m_fontManager->createUploadBuffer();
+		m_fontManager->copyTextTextureUploadBuffer();
 	}
 }

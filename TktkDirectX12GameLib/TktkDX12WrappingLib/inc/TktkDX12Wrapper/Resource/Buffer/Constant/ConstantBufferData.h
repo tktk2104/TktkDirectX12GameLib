@@ -15,7 +15,7 @@ namespace tktk
 	{
 	public:
 
-		ConstantBufferData(ID3D12Device* device, const CopySourceDataCarrier& constantBufferData);
+		ConstantBufferData(ID3D12Device* device, size_t dataSize);
 		~ConstantBufferData();
 
 		// ムーブコンストラクタ

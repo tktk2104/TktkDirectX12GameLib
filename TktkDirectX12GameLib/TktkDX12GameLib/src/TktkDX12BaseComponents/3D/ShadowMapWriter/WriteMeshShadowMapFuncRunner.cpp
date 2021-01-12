@@ -54,7 +54,7 @@ namespace tktk
 
 		// 定数バッファのアップロード用バッファを更新する
 		// TODO : 前フレームと定数バッファに変化がない場合、更新しない処理を作る
-		DX12GameManager::updateUploadBuffer(m_createUploadCameraCbufferHandle, transformBufferData);
+		DX12GameManager::updateUploadBuffer(m_createUploadCameraCbufferHandle, CopySourceDataCarrier(transformBufferData, 0U));
 
 		// 座標変換用の定数バッファにアップロードバッファの情報をコピーする
 		DX12GameManager::copyBuffer(m_createUploadCameraCbufferHandle);

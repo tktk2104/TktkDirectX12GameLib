@@ -114,7 +114,7 @@ namespace tktk
 	{
 		size_t handle = m_dX3DResource->createPipeLineState(m_device, initParam, shaderFilePath);
 
-		// 初回セット（※最初にセットした時のみ重たい処理となるので、作成直後に先行でセットする）
+		// 初回セット（※最初にセットした時のみ重たい処理となるので、作成直後に先行で１度セットする）
 		m_dX3DResource->setPipeLineState(handle, m_commandList);
 
 		return handle;
@@ -123,6 +123,11 @@ namespace tktk
 	size_t DX3DBaseObjects::createUploadBuffer(const UploadBufferInitParam& initParam)
 	{
 		return m_dX3DResource->createUploadBuffer(m_device, initParam);
+	}
+
+	void DX3DBaseObjects::createTempUploadBuffer(const UploadBufferInitParam& initParam)
+	{
+		m_dX3DResource->createTempUploadBuffer(m_device, m_commandList, initParam);
 	}
 
 	size_t DX3DBaseObjects::duplicateUploadBuffer(size_t originalHandle)
@@ -142,7 +147,7 @@ namespace tktk
 
 	size_t DX3DBaseObjects::createCBuffer(const CopySourceDataCarrier& constantBufferData)
 	{
-		return m_dX3DResource->createCBuffer(m_device, constantBufferData);
+		return m_dX3DResource->createCBuffer(m_device, m_commandList, constantBufferData);
 	}
 
 	size_t DX3DBaseObjects::createRtBuffer(const tktkMath::Vector2& renderTargetSize, const tktkMath::Color& clearColor)
@@ -189,24 +194,14 @@ namespace tktk
 		return m_dX3DResource->createDsvDescriptorHeap(m_device, initParam);
 	}
 
-	size_t DX3DBaseObjects::cpuPriorityCreateTextureBuffer(const TexBufFormatParam& formatParam, const TexBuffData& dataParam)
+	size_t DX3DBaseObjects::createTextureBuffer(const TexBufFormatParam& formatParam, const TexBuffData& dataParam)
 	{
-		return m_dX3DResource->cpuPriorityCreateTextureBuffer(m_device, formatParam, dataParam);
+		return m_dX3DResource->createTextureBuffer(m_device, m_commandList, formatParam, dataParam);
 	}
 
-	size_t DX3DBaseObjects::gpuPriorityCreateTextureBuffer(const TexBufFormatParam& formatParam, const TexBuffData& dataParam)
+	size_t DX3DBaseObjects::loadTextureBuffer(const std::string& texDataPath)
 	{
-		return m_dX3DResource->gpuPriorityCreateTextureBuffer(m_device, m_commandList, formatParam, dataParam);
-	}
-
-	size_t DX3DBaseObjects::cpuPriorityLoadTextureBuffer(const std::string& texDataPath)
-	{
-		return m_dX3DResource->cpuPriorityLoadTextureBuffer(m_device, texDataPath);
-	}
-
-	size_t DX3DBaseObjects::gpuPriorityLoadTextureBuffer(const std::string& texDataPath)
-	{
-		return m_dX3DResource->gpuPriorityLoadTextureBuffer(m_device, m_commandList, texDataPath);
+		return m_dX3DResource->loadTextureBuffer(m_device, m_commandList, texDataPath);
 	}
 
 	void DX3DBaseObjects::eraseViewport(size_t handle)
@@ -454,6 +449,9 @@ namespace tktk
 
 		// コマンドリストをリセットする
 		m_commandList->Reset(m_commandAllocator, nullptr);
+
+		// 一時的なアップロードバッファを全て削除する
+		m_dX3DResource->clearTempUploadBuffer();
 	}
 
 	void DX3DBaseObjects::flipScreen() const

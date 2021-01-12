@@ -7,6 +7,7 @@
 /* class member */
 #include "IdType/SystemViewportType.h"
 #include "IdType/SystemScissorRectType.h"
+#include "IdType/SystemUploadBufferType.h"
 #include "IdType/SystemVertexBufferType.h"
 #include "IdType/SystemIndexBufferType.h"
 #include "IdType/SystemConstantBufferType.h"
@@ -40,6 +41,7 @@ namespace tktk
 
 		size_t getSystemHandle(SystemViewportType type)					const;
 		size_t getSystemHandle(SystemScissorRectType type)				const;
+		size_t getSystemHandle(SystemUploadBufferType type)				const;
 		size_t getSystemHandle(SystemVertexBufferType type)				const;
 		size_t getSystemHandle(SystemIndexBufferType type)				const;
 		size_t getSystemHandle(SystemCBufferType type)					const;
@@ -63,6 +65,7 @@ namespace tktk
 
 		void setSystemHandle(SystemViewportType type,					size_t handle);
 		void setSystemHandle(SystemScissorRectType type,				size_t handle);
+		void setSystemHandle(SystemUploadBufferType type,				size_t handle);
 		void setSystemHandle(SystemVertexBufferType type,				size_t handle);
 		void setSystemHandle(SystemIndexBufferType type,				size_t handle);
 		void setSystemHandle(SystemCBufferType type,					size_t handle);
@@ -86,6 +89,7 @@ namespace tktk
 
 		std::unordered_map<SystemViewportType,					size_t>	m_systemViewportHandleMap;
 		std::unordered_map<SystemScissorRectType,				size_t>	m_systemScissorRectHandleMap;
+		std::unordered_map<SystemUploadBufferType,				size_t>	m_systemUploadBufferHandleMap;
 		std::unordered_map<SystemVertexBufferType,				size_t>	m_systemVertexBufferHandleMap;
 		std::unordered_map<SystemIndexBufferType,				size_t>	m_systemIndexBufferHandleMap;
 		std::unordered_map<SystemCBufferType,					size_t>	m_systemCBufferHandleMap;

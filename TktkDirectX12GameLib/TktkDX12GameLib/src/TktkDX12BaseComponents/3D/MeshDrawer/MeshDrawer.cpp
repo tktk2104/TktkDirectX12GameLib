@@ -39,7 +39,7 @@ namespace tktk
 		);
 
 		// 指定のメッシュをインスタンス描画する時に使用する値を追加する
-		DX12GameManager::addMeshInstanceVertParam(m_meshHandle, worldMatrix);
+		DX12GameManager::addMeshInstanceVertParam(m_meshHandle, CopySourceDataCarrier(worldMatrix, 0U));
 
 		// もしスケルトンが設定されていたら
 		if (m_skeletonHandle != 0U)

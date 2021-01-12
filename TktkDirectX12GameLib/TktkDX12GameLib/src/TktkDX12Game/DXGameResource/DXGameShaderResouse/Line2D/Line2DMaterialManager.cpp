@@ -17,7 +17,7 @@ namespace tktk
 		createGraphicsPipeLineState(initParam.shaderFilePaths);
 
 		// ライン用の定数バッファを作る
-		DX12GameManager::setSystemHandle(SystemCBufferType::Line2D, DX12GameManager::createCBuffer(Line2DCBufferData()));
+		DX12GameManager::setSystemHandle(SystemCBufferType::Line2D, DX12GameManager::createCBuffer(CopySourceDataCarrier(Line2DCBufferData(), 0U)));
 
 		// 2Dライン用のディスクリプタヒープを作る
 		createBasicDescriptorHeap();

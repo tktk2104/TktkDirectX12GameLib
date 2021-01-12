@@ -46,6 +46,6 @@ namespace tktk
 
 	void MeshMaterialAppendParam::updateCopyBuffer() const
 	{
-		DX12GameManager::updateUploadBuffer(m_createUploadBufferHandle, CopySourceDataCarrier(m_dataSize, m_dataTopPos.get()));
+		DX12GameManager::updateUploadBuffer(m_createUploadBufferHandle, CopySourceDataCarrier(m_dataSize, m_dataTopPos.get(), 0U));
 	}
 }

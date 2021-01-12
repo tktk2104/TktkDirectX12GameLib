@@ -48,12 +48,11 @@ namespace tktk
 	struct PostEffectMaterialAppendParamUpdateFuncArgs;
 	struct SpriteMaterialInitParam;
 	struct SpriteMaterialDrawFuncArgs;
-	struct SpriteCBufferUpdateFuncArgs;
-	struct SpriteClippingParam;
+	struct TempSpriteMaterialInstanceData;
 	struct Line2DMaterialDrawFuncArgs;
 	struct BillboardMaterialInitParam;
 	struct BillboardDrawFuncBaseArgs;
-	struct BillboardMaterialInstanceVertData;
+	struct BillboardMaterialInstanceData;
 	struct MeshResourceInitParam;
 	struct SkeletonInitParam;
 	struct MeshInitParam;
@@ -129,16 +128,16 @@ namespace tktk
 		void createFontBaseResource();
 
 		// システムフォントを使う準備をして、そのリソースのハンドルを返す
-		size_t createFont(const std::string& systemFontName, int fontSize, float fontThicknessRate);
+		size_t createFont(const std::string& systemFontName, float fontThicknessRate);
 
 		// フォントファイルを読み込み、そのフォントを使う準備をして、そのリソースのハンドルを返す
-		size_t createFont(const std::string& fontFilePath, const std::string& fontName, int fontSize, float fontThicknessRate);
+		size_t createFont(const std::string& fontFilePath, const std::string& fontName, float fontThicknessRate);
 
 		// 指定のアップロードバッファに引数の文字列のテクスチャデータを書き込み、書き込んだバッファの最大ｘ座標を返す
-		size_t updateTextTextureUploadBuffData(size_t handle, size_t uploadBufferHandle, const std::string& text);
+		size_t updateTextTextureUploadBuffData(size_t handle, const std::string& text);
 
-		// テキスト書き込み用のアップロードバッファを作り、そのハンドルを返す
-		size_t createTextTextureUploadBuffer();
+		// テキストテクスチャのアップロードバッファを実際のテクスチャバッファにコピーする
+		void copyTextTextureUploadBuffer();
 
 	public: /* ゲームオブジェクト関係の処理 */
 
@@ -206,15 +205,24 @@ namespace tktk
 		// 指定したスプライトが使用するテクスチャのサイズを取得する
 		const tktkMath::Vector2& getSpriteTextureSize(size_t handle) const;
 
+		// 指定したスプライトの最大のインスタンス数を取得する
+		size_t getMaxSpriteInstanceCount(size_t handle) const;
+
+		// 指定したスプライトの現在のインスタンス数を取得する
+		size_t getCurSpriteInstanceCount(size_t handle) const;
+
+		// 指定したスプライトをインスタンス描画する時に使用する値を削除する
+		void clearSpriteInstanceParam(size_t handle);
+
+		// 指定したスプライトをインスタンス描画する時に使用する値を追加する
+		void addSpriteInstanceParam(size_t handle, float drawPriority, const TempSpriteMaterialInstanceData& instanceParam);
+
+		// 指定しスプライトをインスタンス描画する時に使用する値を頂点バッファに書き込む
+		void updateSpriteInstanceParam(size_t handle);
+
 		// 指定したスプライトを描画する
 		void drawSprite(size_t handle, const SpriteMaterialDrawFuncArgs& drawFuncArgs) const;
-
-		// 引数が表すコピーバッファを使って座標変換情報を管理する定数バッファを更新する
-		void updateSpriteTransformCbuffer(size_t handle, size_t copyBufferHandle, const SpriteCBufferUpdateFuncArgs& cbufferUpdateArgs) const;
-
-		// 引数が表すコピーバッファを使って座標変換情報を管理する定数バッファを更新する（切り抜き範囲指定版）
-		void updateSpriteTransformCbufferUseClippingParam(size_t handle, size_t copyBufferHandle, const SpriteCBufferUpdateFuncArgs& cbufferUpdateArgs, const SpriteClippingParam& clippingParam) const;
-
+		
 	public: /* 2Dライン関係の処理 */
 
 		// ２Ｄラインを作り、そのリソースのハンドルを返す
@@ -239,7 +247,7 @@ namespace tktk
 		void clearBillboardInstanceParam(size_t handle);
 
 		// 指定したビルボードをインスタンス描画する時に使用する値を追加する
-		void addBillboardInstanceParam(size_t handle, const BillboardMaterialInstanceVertData& instanceParam);
+		void addBillboardInstanceParam(size_t handle, const BillboardMaterialInstanceData& instanceParam);
 
 		// 指定したビルボードをインスタンス描画する時に使用する値をｚソートして頂点バッファに書き込む
 		void updateBillboardInstanceParam(size_t handle, const tktkMath::Matrix4& viewProjMatrix);

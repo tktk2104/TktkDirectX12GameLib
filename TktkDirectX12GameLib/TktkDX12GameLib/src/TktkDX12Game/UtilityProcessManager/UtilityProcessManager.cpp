@@ -177,6 +177,11 @@ namespace tktk
 		return m_resourceHandleGetter->getSystemHandle(type);
 	}
 
+	size_t UtilityProcessManager::getSystemHandle(SystemUploadBufferType type) const
+	{
+		return m_resourceHandleGetter->getSystemHandle(type);
+	}
+
 	size_t UtilityProcessManager::getSystemHandle(SystemVertexBufferType type) const
 	{
 		return m_resourceHandleGetter->getSystemHandle(type);
@@ -273,6 +278,11 @@ namespace tktk
 	}
 
 	void UtilityProcessManager::setSystemHandle(SystemScissorRectType type, size_t handle)
+	{
+		m_resourceHandleGetter->setSystemHandle(type, handle);
+	}
+
+	void UtilityProcessManager::setSystemHandle(SystemUploadBufferType type, size_t handle)
 	{
 		m_resourceHandleGetter->setSystemHandle(type, handle);
 	}

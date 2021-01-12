@@ -99,6 +99,11 @@ namespace tktk
 		return m_dx3dBaseObjects->createUploadBuffer(initParam);
 	}
 
+	void GraphicManager::createTempUploadBuffer(const UploadBufferInitParam& initParam)
+	{
+		m_dx3dBaseObjects->createTempUploadBuffer(initParam);
+	}
+
 	size_t GraphicManager::duplicateUploadBuffer(size_t originalHandle)
 	{
 		return m_dx3dBaseObjects->duplicateUploadBuffer(originalHandle);
@@ -154,24 +159,14 @@ namespace tktk
 		return m_dx3dBaseObjects->createDsvDescriptorHeap(initParam);
 	}
 
-	size_t GraphicManager::cpuPriorityCreateTextureBuffer(const TexBufFormatParam& formatParam, const TexBuffData& dataParam)
+	size_t GraphicManager::createTextureBuffer(const TexBufFormatParam& formatParam, const TexBuffData& dataParam)
 	{
-		return m_dx3dBaseObjects->cpuPriorityCreateTextureBuffer(formatParam, dataParam);
+		return m_dx3dBaseObjects->createTextureBuffer(formatParam, dataParam);
 	}
 
-	size_t GraphicManager::gpuPriorityCreateTextureBuffer(const TexBufFormatParam& formatParam, const TexBuffData& dataParam)
+	size_t GraphicManager::loadTextureBuffer(const std::string& texDataPath)
 	{
-		return m_dx3dBaseObjects->gpuPriorityCreateTextureBuffer(formatParam, dataParam);
-	}
-
-	size_t GraphicManager::cpuPriorityLoadTextureBuffer(const std::string& texDataPath)
-	{
-		return m_dx3dBaseObjects->cpuPriorityLoadTextureBuffer(texDataPath);
-	}
-
-	size_t GraphicManager::gpuPriorityLoadTextureBuffer(const std::string& texDataPath)
-	{
-		return m_dx3dBaseObjects->gpuPriorityLoadTextureBuffer(texDataPath);
+		return m_dx3dBaseObjects->loadTextureBuffer(texDataPath);
 	}
 
 	void GraphicManager::eraseViewport(size_t handle)

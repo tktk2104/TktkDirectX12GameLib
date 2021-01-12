@@ -17,7 +17,7 @@ namespace tktk
 	public:
 
 		// 「ConstantBufferData」のインスタンスを作り、そのリソースのハンドルを返す
-		size_t create(ID3D12Device* device, const CopySourceDataCarrier& constantBufferData);
+		size_t create(ID3D12Device* device, size_t dataSize);
 
 		// 指定の定数バッファを削除する
 		// ※引数のハンドルに対応するリソースが無かったら何もしない
