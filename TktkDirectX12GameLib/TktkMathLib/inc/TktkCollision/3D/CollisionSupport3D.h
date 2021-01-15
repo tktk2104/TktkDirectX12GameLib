@@ -9,9 +9,6 @@
 
 namespace tktkCollision
 {
-	class BoundingSphere;
-	class BoundingMesh;
-
 	class CollisionSupport3D
 	{
 	public:

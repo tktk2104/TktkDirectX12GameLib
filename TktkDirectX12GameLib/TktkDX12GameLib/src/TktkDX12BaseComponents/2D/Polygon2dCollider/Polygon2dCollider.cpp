@@ -35,6 +35,11 @@ namespace tktk
 		m_inertialMovement2D = getComponent<InertialMovement2D>();
 	}
 
+	void Polygon2dCollider::beforeCollide()
+	{
+		m_boundingPolygon2d.transform(m_transform2D->calculateWorldMatrix());
+	}
+
 	bool Polygon2dCollider::isCollide(const ComponentBasePtr& other)
 	{
 		// 衝突相手のコンポーネントが「RectCollider」だったら
@@ -42,7 +47,7 @@ namespace tktk
 		{
 			// 二次元ポリゴンと二次元ポリゴンで衝突判定を呼ぶ
 			auto otherCollider = other.castPtr<RectCollider>();
-			auto hitInfo = m_boundingPolygon2d.isCollide(otherCollider->getBoundingPolygon2d(), m_transform2D->calculateWorldMatrix(), otherCollider->getTransform()->calculateWorldMatrix());
+			auto hitInfo = m_boundingPolygon2d.isCollide(otherCollider->getBoundingPolygon2d());
 
 			// 衝突相手情報と衝突結果をリストに追加する
 			m_hitInfo2dPairList.push_front({ other->getGameObject(), otherCollider->isExtrud(), otherCollider->getExtrudedRate(), hitInfo });
@@ -54,7 +59,7 @@ namespace tktk
 		{
 			// 二次元ポリゴンと円で衝突判定を呼ぶ
 			auto otherCollider = other.castPtr<CircleCollider>();
-			auto hitInfo = m_boundingPolygon2d.isCollide(otherCollider->getBoundingCircle(), m_transform2D->calculateWorldMatrix(), otherCollider->getTransform()->calculateWorldMatrix());
+			auto hitInfo = m_boundingPolygon2d.isCollide(otherCollider->getBoundingCircle());
 
 			// 衝突相手情報と衝突結果をリストに追加する
 			m_hitInfo2dPairList.push_front({ other->getGameObject(), otherCollider->isExtrud(), otherCollider->getExtrudedRate(), hitInfo });
@@ -66,7 +71,7 @@ namespace tktk
 		{
 			// 二次元ポリゴンと二次元ポリゴンで衝突判定を呼ぶ
 			auto otherCollider = other.castPtr<Polygon2dCollider>();
-			auto hitInfo = m_boundingPolygon2d.isCollide(otherCollider->getBoundingPolygon2d(), m_transform2D->calculateWorldMatrix(), otherCollider->getTransform()->calculateWorldMatrix());
+			auto hitInfo = m_boundingPolygon2d.isCollide(otherCollider->getBoundingPolygon2d());
 
 			// 衝突相手情報と衝突結果をリストに追加する
 			m_hitInfo2dPairList.push_front({ other->getGameObject(), otherCollider->isExtrud(), otherCollider->getExtrudedRate(), hitInfo });

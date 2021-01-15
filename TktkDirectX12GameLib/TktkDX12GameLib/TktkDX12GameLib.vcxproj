@@ -170,6 +170,14 @@
     <ClInclude Include="inc\TktkDX12BaseComponents\2D\CircleCollider\CircleColliderMaker.h" />
     <ClInclude Include="inc\TktkDX12BaseComponents\2D\ColliderWireFrameDrawer2D\ColliderWireFrameDrawer2D.h" />
     <ClInclude Include="inc\TktkDX12BaseComponents\2D\ColliderWireFrameDrawer2D\ColliderWireFrameDrawer2DMaker.h" />
+    <ClInclude Include="inc\TktkDX12BaseComponents\2D\Effects\SpriteShrinkEffect\Particle\SpriteShrinkEffectParticle.h" />
+    <ClInclude Include="inc\TktkDX12BaseComponents\2D\Effects\SpriteShrinkEffect\SpriteShrinkEffectCreator.h" />
+    <ClInclude Include="inc\TktkDX12BaseComponents\2D\Effects\SpriteShrinkEffect\SpriteShrinkEffectCreatorMaker.h" />
+    <ClInclude Include="inc\TktkDX12BaseComponents\2D\Effects\SpriteShrinkEffect\SpriteShrinkEffectParam.h" />
+    <ClInclude Include="inc\TktkDX12BaseComponents\2D\Effects\SpriteSpreadEffect\Particle\SpriteSpreadEffectParticle.h" />
+    <ClInclude Include="inc\TktkDX12BaseComponents\2D\Effects\SpriteSpreadEffect\SpriteSpreadEffectCreator.h" />
+    <ClInclude Include="inc\TktkDX12BaseComponents\2D\Effects\SpriteSpreadEffect\SpriteSpreadEffectCreatorMaker.h" />
+    <ClInclude Include="inc\TktkDX12BaseComponents\2D\Effects\SpriteSpreadEffect\SpriteSpreadEffectParam.h" />
     <ClInclude Include="inc\TktkDX12BaseComponents\2D\InertialMovement2D\InertialMovement2D.h" />
     <ClInclude Include="inc\TktkDX12BaseComponents\2D\InertialMovement2D\InertialMovement2DMaker.h" />
     <ClInclude Include="inc\TktkDX12BaseComponents\2D\InertialRotatement2D\InertialRotatement2D.h" />
@@ -430,6 +438,12 @@
     <ClCompile Include="src\TktkDX12BaseComponents\2D\CircleCollider\CircleColliderMaker.cpp" />
     <ClCompile Include="src\TktkDX12BaseComponents\2D\ColliderWireFrameDrawer2D\ColliderWireFrameDrawer2D.cpp" />
     <ClCompile Include="src\TktkDX12BaseComponents\2D\ColliderWireFrameDrawer2D\ColliderWireFrameDrawer2DMaker.cpp" />
+    <ClCompile Include="src\TktkDX12BaseComponents\2D\Effects\SpriteShrinkEffect\Particle\SpriteShrinkEffectParticle.cpp" />
+    <ClCompile Include="src\TktkDX12BaseComponents\2D\Effects\SpriteShrinkEffect\SpriteShrinkEffectCreator.cpp" />
+    <ClCompile Include="src\TktkDX12BaseComponents\2D\Effects\SpriteShrinkEffect\SpriteShrinkEffectCreatorMaker.cpp" />
+    <ClCompile Include="src\TktkDX12BaseComponents\2D\Effects\SpriteSpreadEffect\Particle\SpriteSpreadEffectParticle.cpp" />
+    <ClCompile Include="src\TktkDX12BaseComponents\2D\Effects\SpriteSpreadEffect\SpriteSpreadEffectCreator.cpp" />
+    <ClCompile Include="src\TktkDX12BaseComponents\2D\Effects\SpriteSpreadEffect\SpriteSpreadEffectCreatorMaker.cpp" />
     <ClCompile Include="src\TktkDX12BaseComponents\2D\InertialMovement2D\InertialMovement2D.cpp" />
     <ClCompile Include="src\TktkDX12BaseComponents\2D\InertialMovement2D\InertialMovement2DMaker.cpp" />
     <ClCompile Include="src\TktkDX12BaseComponents\2D\InertialRotatement2D\InertialRotatement2D.cpp" />

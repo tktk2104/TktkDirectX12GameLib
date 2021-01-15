@@ -15,7 +15,7 @@ namespace tktk
 	{
 	public:
 
-		BillboardSpreadEffectCreator(const BillboardSpreadEffectParam& param);
+		explicit BillboardSpreadEffectCreator(const BillboardSpreadEffectParam& param);
 
 	public:
 

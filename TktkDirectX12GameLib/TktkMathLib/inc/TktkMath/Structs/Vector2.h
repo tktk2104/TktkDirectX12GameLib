@@ -96,6 +96,8 @@ namespace tktkMath
 		static constexpr Vector2 down				{  0.0f, -1.0f };
 		static constexpr Vector2 left				{ -1.0f,  0.0f };
 		static constexpr Vector2 right				{  1.0f,  0.0f };
+		static constexpr Vector2 min				{ -1.84467430e+19f / 2.0f };	// length() 計算可能な最大値
+		static constexpr Vector2 max				{ -1.84467430e+19f / 2.0f };	// length() 計算可能な最大値
 		static constexpr Vector2 negativeInfinity	{ -std::numeric_limits<float>::infinity() };
 		static constexpr Vector2 positiveInfinity	{  std::numeric_limits<float>::infinity() };
 	};

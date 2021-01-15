@@ -14,7 +14,7 @@ namespace tktk
 	{
 	public:
 
-		BillboardShrinkEffectCreator(const BillboardShrinkEffectParam& param);
+		explicit BillboardShrinkEffectCreator(const BillboardShrinkEffectParam& param);
 
 	public:
 

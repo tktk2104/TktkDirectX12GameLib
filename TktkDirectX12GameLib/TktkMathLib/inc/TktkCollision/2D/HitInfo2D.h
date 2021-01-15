@@ -15,5 +15,7 @@ namespace tktkCollision
 		// ※相手を押し出す時のベクトルはこのベクトルを反転する
 		tktkMath::Vector2	selfExtrudeVec	{ tktkMath::Vector2_v::zero };
 	};
+
+
 }
 #endif // !HIT_INFO_2D_H_

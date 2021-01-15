@@ -1,9 +1,6 @@
 #include "TktkCollision/3D/CollisionSupport3D.h"
 
 #include "TktkMath/MathHelper.h"
-#include "TktkCollision/2D/CollisionSupport2D.h"
-#include "TktkCollision/3D/BoundingSphere.h"
-#include "TktkCollision/3D/BoundingMesh.h"
 
 namespace tktkCollision
 {
@@ -324,10 +321,10 @@ namespace tktkCollision
 			// 相手のポリゴンを構成する頂点を巡回する
 			for (size_t vertIndex = 0; vertIndex < otherPoly.size(); vertIndex++)
 			{
-				// 自身のポリゴンの辺と相手のメッシュで衝突判定を行う
+				// 相手のポリゴンの辺と自身のメッシュで衝突判定を行う
 				auto lineCollisionMeshResult = lineCollisionWithMesh(otherPoly.at(vertIndex), otherPoly.at((vertIndex + 1U) % otherPoly.size()), selfMesh);
 
-				// もし“自身のポリゴンの辺と相手のメッシュ”が衝突していたら
+				// もし“相手のポリゴンの辺と自身のメッシュ”が衝突していたら
 				if (lineCollisionMeshResult.isHit) findInclusionLine = true;
 			}
 
@@ -410,10 +407,10 @@ namespace tktkCollision
 			// 第一頂点から第三頂点へのベクトルを計算する
 			auto firstVertexToThird = otherPoly.at(2U) - otherPoly.at(0U);
 
-			// ポリゴンの法線等を計算する
+			// ポリゴンの法線を計算する
 			tktkMath::Vector3 normal = tktkMath::Vector3::cross(firstVertexToSecond, firstVertexToThird).normalized();
 
-			// ポリゴンの逆方向に半径分だけ移動したz表
+			// ポリゴンの逆方向に半径分だけ移動した座標
 			auto sphereMostFarSurface = (selfCenterPos + normal * selfRadius);
 
 			// 第一頂点から点へのベクトルを計算する
