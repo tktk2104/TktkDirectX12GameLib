@@ -7,6 +7,7 @@
 
 #include "TktkDX12BaseComponents/2D/Transform2D/Transform2DMaker.h"
 #include "TktkDX12BaseComponents/2D/SpriteDrawer/SpriteDrawerMaker.h"
+#include "TktkDX12BaseComponents/2D/SpriteAnimator/SpriteAnimatorMaker.h"
 #include "TktkDX12BaseComponents/2D/Effects/SpriteSpreadEffect/Particle/SpriteSpreadEffectParticle.h"
 
 namespace tktk
@@ -83,6 +84,18 @@ namespace tktk
 					.spriteMaterialHandle(m_param.useSpriteHandle)
 					.blendRate(m_param.spriteBlendRate)
 					.create();
+
+				// アニメーションを使用する設定だったら
+				if (m_param.useAnimation)
+				{
+					SpriteAnimatorMaker::makeStart(particleObject)
+						.isLoop(m_param.isLoop)
+						.initFrame(m_param.initFrame)
+						.animSpeedRate(m_param.animSpeedRate)
+						.animFramePerSec(m_param.animFramePerSec)
+						.totalAnimFrameSize(m_param.totalAnimFrameSize)
+						.create();
+				}
 
 				// スプライトパーティクル用のコンポーネントを作る
 				auto moveSpeedPerSecRandomRange = tktkMath::Random::getRandF(-m_param.moveSpeedPerSecRandomRange, m_param.moveSpeedPerSecRandomRange);

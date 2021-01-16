@@ -26,6 +26,9 @@ namespace tktk
 
 	public:  /* パラメータ設定関数 */
 
+		//************************************************************
+		/* 生成情報 */
+
 		// 収縮点座標を設定する
 		SpriteShrinkEffectCreatorMaker& shrinkTargetPos(const tktkMath::Vector2 & value);
 
@@ -52,6 +55,9 @@ namespace tktk
 
 		// アクティブフラグ変更時に状態をリセットするかを設定する
 		SpriteShrinkEffectCreatorMaker& changeAvtiveToReset(bool value);
+
+		//************************************************************
+		/* パーティクル情報 */
 
 		// 使用するスプライトマテリアルハンドルを設定する
 		SpriteShrinkEffectCreatorMaker& spriteMaterialHandle(size_t value);
@@ -82,6 +88,27 @@ namespace tktk
 
 		// 移動速度のぶれを設定する
 		SpriteShrinkEffectCreatorMaker& moveSpeedPerSecRandomRange(float value);
+
+		//************************************************************
+		/* パーティクルアニメーション情報 */
+
+		// アニメーションを使用するかを設定する
+		SpriteShrinkEffectCreatorMaker& useAnimation(bool value);
+
+		// アニメーションがループするかを設定する
+		SpriteShrinkEffectCreatorMaker& isLoop(bool value);
+
+		// アニメーションの初期フレームを設定する
+		SpriteShrinkEffectCreatorMaker& initFrame(float value);
+
+		// アニメーションの再生速度割合を設定する
+		SpriteShrinkEffectCreatorMaker& animSpeedRate(float value);
+
+		// アニメーション１フレームあたりにかける時間を設定する
+		SpriteShrinkEffectCreatorMaker& animFramePerSec(float value);
+
+		// アニメーションの総フレーム数を設定する
+		SpriteShrinkEffectCreatorMaker& totalAnimFrameSize(unsigned int value);
 
 	private: /* 自身のインスタンスは静的な存在として扱う */
 

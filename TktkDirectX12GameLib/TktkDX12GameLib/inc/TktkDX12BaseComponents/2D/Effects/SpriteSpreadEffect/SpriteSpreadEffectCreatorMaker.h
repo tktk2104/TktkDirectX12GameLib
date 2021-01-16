@@ -26,6 +26,9 @@ namespace tktk
 
 	public:  /* パラメータ設定関数 */
 
+		//************************************************************
+		/* 生成情報 */
+
 		// 生成ローカル座標を設定する
 		SpriteSpreadEffectCreatorMaker& generateLocalPos(const tktkMath::Vector2 & value);
 
@@ -59,6 +62,9 @@ namespace tktk
 		// アクティブフラグ変更時に状態をリセットするかを設定する
 		SpriteSpreadEffectCreatorMaker& changeAvtiveToReset(bool value);
 
+		//************************************************************
+		/* パーティクル情報 */
+
 		// 使用するスプライトマテリアルハンドルを設定する
 		SpriteSpreadEffectCreatorMaker& spriteMaterialHandle(size_t value);
 
@@ -88,6 +94,27 @@ namespace tktk
 
 		// 移動速度のぶれを設定する
 		SpriteSpreadEffectCreatorMaker& moveSpeedPerSecRandomRange(float value);
+
+		//************************************************************
+		/* パーティクルアニメーション情報 */
+
+		// アニメーションを使用するかを設定する
+		SpriteSpreadEffectCreatorMaker& useAnimation(bool value);
+
+		// アニメーションがループするかを設定する
+		SpriteSpreadEffectCreatorMaker& isLoop(bool value);
+
+		// アニメーションの初期フレームを設定する
+		SpriteSpreadEffectCreatorMaker& initFrame(float value);
+
+		// アニメーションの再生速度割合を設定する
+		SpriteSpreadEffectCreatorMaker& animSpeedRate(float value);
+
+		// アニメーション１フレームあたりにかける時間を設定する
+		SpriteSpreadEffectCreatorMaker& animFramePerSec(float value);
+
+		// アニメーションの総フレーム数を設定する
+		SpriteSpreadEffectCreatorMaker& totalAnimFrameSize(unsigned int value);
 
 	private: /* 自身のインスタンスは静的な存在として扱う */
 

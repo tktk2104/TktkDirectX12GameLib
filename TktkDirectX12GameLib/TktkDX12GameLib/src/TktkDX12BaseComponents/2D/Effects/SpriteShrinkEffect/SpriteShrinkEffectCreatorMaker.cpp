@@ -156,4 +156,46 @@ namespace tktk
 		m_param.moveSpeedPerSecRandomRange = value;
 		return *this;
 	}
+
+	SpriteShrinkEffectCreatorMaker& SpriteShrinkEffectCreatorMaker::useAnimation(bool value)
+	{
+		// 値を設定して自身の参照を返す
+		m_param.useAnimation = value;
+		return *this;
+	}
+
+	SpriteShrinkEffectCreatorMaker& SpriteShrinkEffectCreatorMaker::isLoop(bool value)
+	{
+		// 値を設定して自身の参照を返す
+		m_param.isLoop = value;
+		return *this;
+	}
+
+	SpriteShrinkEffectCreatorMaker& SpriteShrinkEffectCreatorMaker::initFrame(float value)
+	{
+		// 値を設定して自身の参照を返す
+		m_param.initFrame = value;
+		return *this;
+	}
+
+	SpriteShrinkEffectCreatorMaker& SpriteShrinkEffectCreatorMaker::animSpeedRate(float value)
+	{
+		// 値を設定して自身の参照を返す
+		m_param.animSpeedRate = value;
+		return *this;
+	}
+
+	SpriteShrinkEffectCreatorMaker& SpriteShrinkEffectCreatorMaker::animFramePerSec(float value)
+	{
+		// 値を設定して自身の参照を返す
+		m_param.animFramePerSec = value;
+		return *this;
+	}
+
+	SpriteShrinkEffectCreatorMaker& SpriteShrinkEffectCreatorMaker::totalAnimFrameSize(unsigned int value)
+	{
+		// 値を設定して自身の参照を返す
+		m_param.totalAnimFrameSize = value;
+		return *this;
+	}
 }

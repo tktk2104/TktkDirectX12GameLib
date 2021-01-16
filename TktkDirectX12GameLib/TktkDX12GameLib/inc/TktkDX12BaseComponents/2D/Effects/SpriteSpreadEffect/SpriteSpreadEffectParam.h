@@ -66,6 +66,27 @@ namespace tktk
 		float	moveSpeedPerSec							{ 256.0f };
 		// 移動速度のぶれ
 		float	moveSpeedPerSecRandomRange				{ 0.0f };
+
+		//************************************************************
+		/* パーティクルアニメーション情報 */
+
+		// アニメーションを使用するか？
+		bool				useAnimation				{ false };
+
+		// アニメーションがループするか？
+		bool				isLoop						{ false };
+
+		// アニメーションの初期フレーム
+		float				initFrame					{ 0.0f };
+
+		// アニメーションの再生速度割合
+		float				animSpeedRate				{ 1.0f };
+
+		// アニメーション１フレームあたりにかける時間（秒）
+		float				animFramePerSec				{ 0.1f };
+		
+		// アニメーションの総フレーム数
+		unsigned int		totalAnimFrameSize			{ 1U };
 	};
 }
 #endif // !SPRITE_SPREAD_EFFECT_PARAM_H_
