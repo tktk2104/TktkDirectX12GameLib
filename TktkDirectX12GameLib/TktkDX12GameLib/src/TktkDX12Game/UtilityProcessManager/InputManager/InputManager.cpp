@@ -28,8 +28,8 @@ namespace tktk
 	{
 		m_inputGetter->update();
 
-		m_curMoveVec = m_inputGetter->getLstick();
-		m_curLookVec = m_inputGetter->getRstick();
+		m_curMoveVec = tktkMath::Vector2::scale(m_inputGetter->getLstick(), { 1.0f, -1.0f});
+		m_curLookVec = tktkMath::Vector2::scale(m_inputGetter->getRstick(), { 1.0f, -1.0f});
 
 		for (size_t directionCommandId = 0U; directionCommandId < MoveCommandIdCount; directionCommandId++)
 		{
