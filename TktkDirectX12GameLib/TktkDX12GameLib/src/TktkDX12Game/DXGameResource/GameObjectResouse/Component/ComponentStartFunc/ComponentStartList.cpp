@@ -1,6 +1,7 @@
 #include "TktkDX12Game/DXGameResource/GameObjectResouse/Component/ComponentStartFunc/ComponentStartList.h"
 
 #include "TktkDX12Game/DXGameResource/GameObjectResouse/Component/ComponentStartFunc/ComponentStartFuncRunner.h"
+#include "TktkDX12Game/DXGameResource/GameObjectResouse/Component/ComponentVTable.h"
 
 namespace tktk
 {
@@ -12,7 +13,10 @@ namespace tktk
 
 	void ComponentStartList::add(const ComponentBasePtr& componentPtr, ComponentStartFuncVTable* vtablePtr)
 	{
-		m_nextFrameAddNodeList.emplace_front(componentPtr, vtablePtr);
+		if (vtablePtr->hasStartFunc())
+		{
+			m_nextFrameAddNodeList.emplace_front(componentPtr, vtablePtr);
+		}
 	}
 
 	void ComponentStartList::runStartFunc()

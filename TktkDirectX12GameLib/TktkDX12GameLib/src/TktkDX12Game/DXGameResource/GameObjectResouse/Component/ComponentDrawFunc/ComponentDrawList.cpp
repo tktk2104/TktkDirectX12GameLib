@@ -2,6 +2,7 @@
 
 #include "TktkDX12Game/DXGameResource/GameObjectResouse/Component/ComponentDrawFunc/ComponentDrawFuncRunner.h"
 #include "TktkDX12Game/DXGameResource/GameObjectResouse/Component/ComponentBase.h"
+#include "TktkDX12Game/DXGameResource/GameObjectResouse/Component/ComponentVTable.h"
 
 namespace tktk
 {
@@ -13,7 +14,10 @@ namespace tktk
 
 	void ComponentDrawList::add(const ComponentBasePtr& componentPtr, ComponentDrawFuncVTable* vtablePtr)
 	{
-		m_nextFrameAddNodeList.emplace_front(componentPtr->getDrawPriority(), ComponentDrawFuncRunner(componentPtr, vtablePtr));
+		if (vtablePtr->hasDrawFunc())
+		{
+			m_nextFrameAddNodeList.emplace_front(componentPtr->getDrawPriority(), ComponentDrawFuncRunner(componentPtr, vtablePtr));
+		}
 	}
 
 	void ComponentDrawList::runDrawFunc() const

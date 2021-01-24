@@ -2,6 +2,7 @@
 
 #include "TktkDX12Game/DXGameResource/GameObjectResouse/Component/ComponentBase.h"
 #include "TktkDX12Game/DXGameResource/GameObjectResouse/Component/ComponentCollisionFunc/ComponentCollisionFuncRunner.h"
+#include "TktkDX12Game/DXGameResource/GameObjectResouse/Component/ComponentVTable.h"
 
 namespace tktk
 {
@@ -80,10 +81,12 @@ namespace tktk
 
 	void ComponentCollisionList::add(const ComponentBasePtr& componentPtr, ComponentCollisionFuncVTable* vtablePtr)
 	{
-		m_nextFrameAddNodeList.emplace_front(std::make_pair(
-			componentPtr->getCollisionGroup(),
-			ComponentCollisionFuncRunner(componentPtr, vtablePtr)
-		));
+		if (vtablePtr->hasCollideFunc())
+		{
+			m_nextFrameAddNodeList.emplace_front(std::make_pair(
+				componentPtr->getCollisionGroup(),
+				ComponentCollisionFuncRunner(componentPtr, vtablePtr)
+			));
+		}
 	}
-	
 }

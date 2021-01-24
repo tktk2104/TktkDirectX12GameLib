@@ -46,18 +46,24 @@ namespace tktk
 	// コンポーネントクラスの「start」関数実行クラス
 	struct ComponentStartFuncVTable
 	{
+		bool(*hasStartFunc)();
+
 		void(*start)(const ComponentBasePtr&);
 	};
 
 	// コンポーネントクラスの「draw」関数実行クラス
 	struct ComponentDrawFuncVTable
 	{
+		bool(*hasDrawFunc)();
+
 		void(*draw)(const ComponentBasePtr&);
 	};
 
 	// コンポーネントクラスの衝突関数実行クラス
 	struct ComponentCollisionFuncVTable
 	{
+		bool(*hasCollideFunc)();
+
 		bool(*isCollide)(const ComponentBasePtr&, const ComponentBasePtr&);
 	};
 
@@ -112,6 +118,15 @@ namespace tktk
 		// コンポーネントの関数実行クラスの集合体
 		static ComponentVTableBundle		m_componentVTableBundle;
 
+		// 引数のポインタの指す実態が「start」を持っているか？
+		static bool hasStartFunc()		{ return has_start_checker<ComponentType*, void>::value; }
+
+		// 引数のポインタの指す実態が「draw」を持っているか？
+		static bool hasDrawFunc()		{ return has_draw_checker<ComponentType*, void>::value; }
+
+		// 引数のポインタの指す実態が「isCollide」を持っているか？
+		static bool hasCollideFunc()	{ return has_isCollide_checker<ComponentType*, bool, const ComponentBasePtr&>::value; }
+
 		// 引数のポインタの指す実態が「awake」関数を持っていたら実行する
 		static void awake(const ComponentBasePtr& runPtr)																		{ awake_runner<void>::checkAndRun(runPtr.castPtr<ComponentType>()); }
 
@@ -151,13 +166,15 @@ namespace tktk
 	template<class ComponentType>
 	ComponentStartFuncVTable ComponentVTableInitializer<ComponentType>::m_startFuncVTable =
 	{
-		 &ComponentVTableInitializer<ComponentType>::start
+		&ComponentVTableInitializer<ComponentType>::hasStartFunc,
+		&ComponentVTableInitializer<ComponentType>::start
 	};
 
 	// テンプレートクラスが「draw」関数を持っていたら実行する関数のポインタを保持する構造体
 	template<class ComponentType>
 	ComponentDrawFuncVTable ComponentVTableInitializer<ComponentType>::m_drawFuncVTable =
 	{
+		&ComponentVTableInitializer<ComponentType>::hasDrawFunc,
 		&ComponentVTableInitializer<ComponentType>::draw
 	};
 
@@ -165,6 +182,7 @@ namespace tktk
 	template<class ComponentType>
 	ComponentCollisionFuncVTable ComponentVTableInitializer<ComponentType>::m_collisionFuncVTable =
 	{
+		&ComponentVTableInitializer<ComponentType>::hasCollideFunc,
 		&ComponentVTableInitializer<ComponentType>::isCollide
 	};
 
