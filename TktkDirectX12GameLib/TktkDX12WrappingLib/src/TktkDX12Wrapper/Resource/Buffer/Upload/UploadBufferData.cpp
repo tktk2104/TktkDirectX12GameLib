@@ -84,7 +84,7 @@ namespace tktk
 		m_uploadBuffer->Map(0, nullptr, (void**)&mapForImg);
 		for (unsigned int i = 0; i < textureHeightPix; i++)
 		{
-			std::copy_n(reinterpret_cast<unsigned char*>(srcAddress), rowPitch, mapForImg);
+			std::copy_n(reinterpret_cast<unsigned char*>(srcAddress), textureWidthByte, mapForImg);
 
 			srcAddress	+= textureWidthByte;
 			mapForImg	+= rowPitch;
