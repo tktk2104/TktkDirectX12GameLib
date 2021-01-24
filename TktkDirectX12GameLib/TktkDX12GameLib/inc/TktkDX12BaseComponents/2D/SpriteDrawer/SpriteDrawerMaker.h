@@ -35,6 +35,15 @@ namespace tktk
 		// 使用するスプライトマテリアルIDを設定する（列挙型を含む整数型のidが渡された場合のみビルド可で、関数内で対応するリソースハンドルに変換される）
 		SpriteDrawerMaker& spriteMaterialId(ResourceIdCarrier value);
 
+		// スプライトのローカル座標を設定する
+		SpriteDrawerMaker& localPosition(const tktkMath::Vector2& value);
+
+		// スプライトのローカルスケールを設定する
+		SpriteDrawerMaker& localScaleRate(const tktkMath::Vector2& value);
+
+		// スプライトのローカル回転を設定する（度数法）
+		SpriteDrawerMaker& localRotationDeg(float value);
+
 		// スプライトの中心位置の割合を設定する
 		SpriteDrawerMaker& centerRate(const tktkMath::Vector2& value);
 
@@ -56,6 +65,9 @@ namespace tktk
 		GameObjectPtr		m_user						{  };
 		float				m_drawPriority				{ 0.0f };
 		size_t				m_spriteMaterialHandle		{ 0U };
+		tktkMath::Vector2	m_localPosition				{ tktkMath::Vector2_v::zero };
+		tktkMath::Vector2	m_localScaleRate			{ tktkMath::Vector2_v::one };
+		float				m_localRotationDeg			{ 0.0f };
 		tktkMath::Vector2	m_centerRate				{ 0.5f, 0.5f };
 		tktkMath::Color		m_blendRate					{ tktkMath::Color_v::white };
 		tktkMath::Vector2	m_leftTopPosRate			{ tktkMath::Vector2_v::zero };

@@ -39,28 +39,36 @@ namespace tktk
 		/* パーティクル情報 */
 
 		// 使用するスプライトのハンドル
-		size_t	useSpriteHandle						{ 0U };
+		size_t	useSpriteHandle							{ 0U };
 
 		// スプライトのスケール
-		tktkMath::Vector2 spriteScale				{ tktkMath::Vector2_v::one };
+		tktkMath::Vector2 spriteScale					{ tktkMath::Vector2_v::one };
 		// スプライトのスケールのぶれ
-		tktkMath::Vector2 spriteScaleRandomRange	{ tktkMath::Vector2_v::zero };
+		tktkMath::Vector2 spriteScaleRandomRange		{ tktkMath::Vector2_v::zero };
 
 		// スプライトのブレンドレート
-		tktkMath::Color spriteBlendRate				{ tktkMath::Color_v::white };
+		tktkMath::Color spriteBlendRate					{ tktkMath::Color_v::white };
 
 		// 子要素として扱うか？
-		bool	setChild							{ false };
+		bool	setChild								{ false };
 
 		// 生存時間（秒）
-		float	lifeTimeSec							{ 0.5f };
+		float	lifeTimeSec								{ 0.5f };
 		// 生存時間のぶれ
-		float	lifeTimeSecRandomRange				{ 0.0f };
+		float	lifeTimeSecRandomRange					{ 0.0f };
 
 		// 移動速度（毎秒）
-		float	moveSpeedPerSec						{ 256.0f };
+		float	moveSpeedPerSec							{ 256.0f };
 		// 移動速度のぶれ
-		float	moveSpeedPerSecRandomRange			{ 0.0f };
+		float	moveSpeedPerSecRandomRange				{ 0.0f };
+
+		// スケール増加速度（毎秒）
+		tktkMath::Vector2 scalingSizePerSec				{ tktkMath::Vector2_v::zero };
+		// スケール増加速度のぶれ
+		tktkMath::Vector2 scalingSizePerSecRandomRange	{ tktkMath::Vector2_v::zero };
+
+		// スプライトのブレンドレート増加幅（毎秒）
+		tktkMath::Color blendRateChangeWidthPerSec		{ 0.0f, 0.0f, 0.0f, 0.0f };
 
 		//************************************************************
 		/* パーティクルアニメーション情報 */

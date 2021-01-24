@@ -394,9 +394,6 @@ namespace tktk
 	
 		// 引数のポインタのデータを指定のアップロードバッファにコピーする
 		static void updateUploadBuffer(size_t handle, const CopySourceDataCarrier& bufferData);
-		
-		// 指定の頂点バッファをコマンドリストを使わずに更新する
-		static void updateVertexBuffer(size_t handle, const VertexDataCarrier& vertexData);
 
 		// 指定のアップロードバッファの内容を設定したバッファにコピーするGPU命令を設定する
 		static void copyBuffer(size_t handle);
@@ -729,8 +726,14 @@ namespace tktk
 		// フォントファイルを読み込み、そのフォントを使う準備をして、そのリソースのハンドルと引数のハンドルを結び付ける
 		static size_t createFontAndAttachId(ResourceIdCarrier id, const std::string& fontFilePath, const std::string& fontName, float fontThicknessRate);
 
-		// 指定のアップロードバッファに引数の文字列のテクスチャデータを書き込み、書き込んだバッファの最大ｘ座標を返す
-		static size_t updateTextTextureUploadBuffData(size_t handle, const std::string& text);
+		// テキストテクスチャデータに引数の文字列のテクスチャデータを書き込み、書き込んだバッファの最大ｘ座標を返す
+		static size_t updateTextTextureData(size_t handle, const std::string& text, std::vector<unsigned char>* data);
+
+		// テキスト用テクスチャ１行分のデータサイズを計算
+		static unsigned int getTextTextureLineDataSize();
+
+		//// 指定のアップロードバッファに引数の文字列のテクスチャデータを書き込み、書き込んだバッファの最大ｘ座標を返す
+		//static size_t updateTextTextureUploadBuffData(size_t handle, const std::string& text);
 	
 		// テキストテクスチャのアップロードバッファを実際のテクスチャバッファにコピーする
 		static void copyTextTextureUploadBuffer();

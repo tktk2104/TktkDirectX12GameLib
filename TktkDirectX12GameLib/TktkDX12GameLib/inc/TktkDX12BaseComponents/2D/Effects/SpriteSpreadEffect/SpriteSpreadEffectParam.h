@@ -67,6 +67,14 @@ namespace tktk
 		// 移動速度のぶれ
 		float	moveSpeedPerSecRandomRange				{ 0.0f };
 
+		// スケール増加速度（毎秒）
+		tktkMath::Vector2 scalingSizePerSec				{ tktkMath::Vector2_v::zero };
+		// スケール増加速度のぶれ
+		tktkMath::Vector2 scalingSizePerSecRandomRange	{ tktkMath::Vector2_v::zero };
+
+		// スプライトのブレンドレート増加幅（毎秒）
+		tktkMath::Color blendRateChangeWidthPerSec		{ 0.0f, 0.0f, 0.0f, 0.0f };
+
 		//************************************************************
 		/* パーティクルアニメーション情報 */
 

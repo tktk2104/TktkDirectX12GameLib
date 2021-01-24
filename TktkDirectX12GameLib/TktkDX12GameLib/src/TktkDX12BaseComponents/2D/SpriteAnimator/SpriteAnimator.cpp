@@ -7,8 +7,9 @@
 
 namespace tktk
 {
-	SpriteAnimator::SpriteAnimator(float initFrame, bool isLoop, float animSpeedRate, float animFramePerSec, unsigned int totalAnimFrameSize)
-		: m_isLoop(isLoop)
+	SpriteAnimator::SpriteAnimator(const ComponentPtr<SpriteDrawer>& targetDrawer, float initFrame, bool isLoop, float animSpeedRate, float animFramePerSec, unsigned int totalAnimFrameSize)
+		: m_spriteDrawer(targetDrawer)
+		, m_isLoop(isLoop)
 		, m_curFrame(initFrame)
 		, m_animSpeedRate(animSpeedRate)
 		, m_animFramePerSec(animFramePerSec)
@@ -18,16 +19,27 @@ namespace tktk
 
 	void SpriteAnimator::start()
 	{
-		m_spriteDrawer = getComponent<SpriteDrawer>();
-
 		if (m_spriteDrawer.expired())
 		{
-			throw std::runtime_error("SpriteAnimator not found SpriteDrawer");
+			m_spriteDrawer = getComponent<SpriteDrawer>();
+
+			if (m_spriteDrawer.expired())
+			{
+				throw std::runtime_error("SpriteAnimator not found SpriteDrawer");
+			}
 		}
 	}
 
 	void SpriteAnimator::update()
 	{
+		// アニメーション対象が存在しなくなったら
+		if (m_spriteDrawer.expired())
+		{
+			// 自身を殺す
+			destroy();
+			return;
+		}
+
 		// アニメーションフレームをカウントアップ
 		m_curFrame += DX12GameManager::deltaTime() * m_animSpeedRate;
 

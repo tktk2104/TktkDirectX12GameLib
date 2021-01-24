@@ -26,6 +26,9 @@ namespace tktk
 
 	public:  /* パラメータ設定関数 */
 
+		// アニメーション対象のスプライト描画コンポーネントを事前に設定する（※設定しなかった場合、自動で共通のGameObjectが所持しているスプライト描画コンポーネントが対象になる）
+		SpriteAnimatorMaker& targetDrawer(const ComponentPtr<SpriteDrawer>& value);
+
 		// アニメーションがループするかを設定する
 		SpriteAnimatorMaker& isLoop(bool value);
 
@@ -48,12 +51,13 @@ namespace tktk
 
 	private: /* 変数達 */
 
-		GameObjectPtr		m_user					{  };
-		bool				m_isLoop				{ true };
-		float				m_initFrame				{ 0.0f };
-		float				m_animSpeedRate			{ 1.0f };
-		float				m_animFramePerSec		{ 0.1f };
-		unsigned int		m_totalAnimFrameSize	{ 1U };
+		GameObjectPtr				m_user					{  };
+		ComponentPtr<SpriteDrawer>	m_targetDrawer			{ ComponentPtr<SpriteDrawer>() };
+		bool						m_isLoop				{ true };
+		float						m_initFrame				{ 0.0f };
+		float						m_animSpeedRate			{ 1.0f };
+		float						m_animFramePerSec		{ 0.1f };
+		unsigned int				m_totalAnimFrameSize	{ 1U };
 	};
 }
 #endif // !SPRITE_ANIMATOR_MAKER_H_

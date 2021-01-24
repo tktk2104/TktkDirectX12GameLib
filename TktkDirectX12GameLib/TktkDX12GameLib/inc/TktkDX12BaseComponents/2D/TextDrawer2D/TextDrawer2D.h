@@ -3,6 +3,7 @@
 
 /* class member */
 #include <string>
+#include <vector>
 #include <TktkMath/Structs/Color.h>
 #include <TktkMath/Structs/Vector2.h>
 
@@ -27,6 +28,8 @@ namespace tktk
 			float drawPriority,
 			size_t fontHandle,
 			const std::string& initText,
+			const tktkMath::Vector2& localPosition,
+			const tktkMath::Vector2& localScale,
 			const tktkMath::Vector2& centerRate,
 			const tktkMath::Color& blendRate
 		);
@@ -41,6 +44,10 @@ namespace tktk
 		float						m_drawPriority;
 		size_t						m_fontHandle;
 		std::string					m_tempText;
+		std::vector<unsigned char>	m_textureData;
+		float						m_useTextureDataWidth{ 0.0f };
+		tktkMath::Vector2			m_localPosition;
+		tktkMath::Vector2			m_localScale;
 		tktkMath::Vector2			m_centerRate;
 		tktkMath::Color				m_blendRate;
 		ComponentPtr<Transform2D>	m_transform;

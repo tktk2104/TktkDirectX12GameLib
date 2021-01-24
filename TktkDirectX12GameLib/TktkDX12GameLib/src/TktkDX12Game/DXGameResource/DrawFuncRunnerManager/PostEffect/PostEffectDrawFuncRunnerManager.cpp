@@ -115,7 +115,7 @@ namespace tktk
 
 		// ポストエフェクト描画コンポーネントを作る為の初期化構造体を作る
 		PostEffectDrawFuncRunnerInitParam drawFuncRunnerInitParam{};
-		drawFuncRunnerInitParam.drawPriority			= 10000.0f;
+		drawFuncRunnerInitParam.drawPriority			= 11000.0f;
 		drawFuncRunnerInitParam.rtvDescriptorHeapHandle = DX12GameManager::getSystemHandle(SystemRtvDescriptorHeapType::BackBuffer);
 
 		// ポストエフェクト描画コンポーネントを作る

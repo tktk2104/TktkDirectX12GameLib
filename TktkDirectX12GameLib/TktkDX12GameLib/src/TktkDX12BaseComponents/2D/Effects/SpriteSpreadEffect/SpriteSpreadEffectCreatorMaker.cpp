@@ -171,6 +171,27 @@ namespace tktk
 		return *this;
 	}
 
+	SpriteSpreadEffectCreatorMaker& SpriteSpreadEffectCreatorMaker::scalingSizePerSec(const tktkMath::Vector2& value)
+	{
+		// 値を設定して自身の参照を返す
+		m_param.scalingSizePerSec = value;
+		return *this;
+	}
+
+	SpriteSpreadEffectCreatorMaker& SpriteSpreadEffectCreatorMaker::scalingSizePerSecRandomRange(const tktkMath::Vector2& value)
+	{
+		// 値を設定して自身の参照を返す
+		m_param.scalingSizePerSecRandomRange = value;
+		return *this;
+	}
+
+	SpriteSpreadEffectCreatorMaker& SpriteSpreadEffectCreatorMaker::blendRateChangeWidthPerSec(const tktkMath::Color& value)
+	{
+		// 値を設定して自身の参照を返す
+		m_param.blendRateChangeWidthPerSec = value;
+		return *this;
+	}
+
 	SpriteSpreadEffectCreatorMaker& SpriteSpreadEffectCreatorMaker::useAnimation(bool value)
 	{
 		// 値を設定して自身の参照を返す

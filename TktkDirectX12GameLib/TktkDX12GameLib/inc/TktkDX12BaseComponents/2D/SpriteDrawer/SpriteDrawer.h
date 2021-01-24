@@ -26,6 +26,9 @@ namespace tktk
 		SpriteDrawer(
 			float drawPriority,
 			size_t spriteMaterialHandle,
+			const tktkMath::Vector2& localPosition,
+			const tktkMath::Vector2& localScale,
+			float localRotationDeg,
 			const tktkMath::Vector2& centerRate,
 			const tktkMath::Color& blendRate,
 			const tktkMath::Vector2& clippingLeftTopPos,
@@ -46,6 +49,27 @@ namespace tktk
 		// ※内部で対応するリソースハンドルに変換される
 		void setSpriteMaterialId(ResourceIdCarrier id);
 		
+		// スプライトのローカル取得を設定する
+		const tktkMath::Vector2& getLocalPosition() const;
+		// スプライトのローカルスケールを取得する
+		const tktkMath::Vector2& getLocalScaleRate() const;
+		// スプライトのローカル回転を取得する（度数法）
+		float getLocalRotationDeg() const;
+
+		// スプライトのローカル座標を設定する
+		void setLocalPosition(const tktkMath::Vector2& localPosition);
+		// スプライトのローカルスケールを設定する
+		void setLocalScaleRate(const tktkMath::Vector2& localScaleRate);
+		// スプライトのローカル回転を設定する（度数法）
+		void setLocalRotationDeg(float localRotationDeg);
+
+		// スプライトのローカル座標を増加する
+		void addLocalPosition(const tktkMath::Vector2& position);
+		// スプライトのローカルスケールを増加する
+		void addLocalScaleRate(const tktkMath::Vector2& scaleRate);
+		// スプライトのローカル回転を増加する（度数法）
+		void addLocalRotationDeg(float rotationDeg);
+
 		// スプライトの中心位置の割合を設定する
 		void setCenterRate(const tktkMath::Vector2& centerRate);
 
@@ -71,6 +95,9 @@ namespace tktk
 
 		size_t						m_spriteMaterialHandle;
 		float						m_drawPriority;
+		tktkMath::Vector2			m_localPosition;
+		tktkMath::Vector2			m_localScaleRate;
+		float						m_localRotationDeg;
 		tktkMath::Vector2			m_centerRate;
 		tktkMath::Color				m_blendRate;
 		tktkMath::Vector2			m_clippingLeftTopPos;

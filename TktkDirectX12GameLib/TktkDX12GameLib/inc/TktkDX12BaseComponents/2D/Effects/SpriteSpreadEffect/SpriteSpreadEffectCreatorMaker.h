@@ -95,6 +95,15 @@ namespace tktk
 		// 移動速度のぶれを設定する
 		SpriteSpreadEffectCreatorMaker& moveSpeedPerSecRandomRange(float value);
 
+		// スケール増加速度（毎秒）
+		SpriteSpreadEffectCreatorMaker& scalingSizePerSec(const tktkMath::Vector2& value);
+
+		// スケール増加速度のぶれ
+		SpriteSpreadEffectCreatorMaker& scalingSizePerSecRandomRange(const tktkMath::Vector2& value);
+
+		// スプライトのブレンドレート増加幅（毎秒）
+		SpriteSpreadEffectCreatorMaker& blendRateChangeWidthPerSec(const tktkMath::Color& value);
+
 		//************************************************************
 		/* パーティクルアニメーション情報 */
 

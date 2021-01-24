@@ -26,6 +26,8 @@ namespace tktk
             m_drawPriority,
             m_fontHandle,
             m_initText,
+            m_localPosition,
+            m_localScale,
             m_centerRate,
             m_blendRate
             );
@@ -56,6 +58,20 @@ namespace tktk
     {
         // 値を設定して自身の参照を返す
         m_initText = value;
+        return *this;
+    }
+
+    TextDrawer2DMaker& TextDrawer2DMaker::localPosition(const tktkMath::Vector2& value)
+    {
+        // 値を設定して自身の参照を返す
+        m_localPosition = value;
+        return *this;
+    }
+
+    TextDrawer2DMaker& TextDrawer2DMaker::localScale(const tktkMath::Vector2& value)
+    {
+        // 値を設定して自身の参照を返す
+        m_localScale = value;
         return *this;
     }
 

@@ -21,6 +21,15 @@ namespace tktk
 		// インスタンス描画用の頂点バッファを作る
 		m_instanceParamVertexBufferHandle = DX12GameManager::createVertexBuffer(initParam.instanceVertParam);
 
+		// インスタンス情報を扱う頂点バッファを更新するバッファを作る
+		UploadBufferInitParam uploadBufferInitParam = UploadBufferInitParam(
+			BufferType::vertex,
+			m_instanceParamVertexBufferHandle,
+			initParam.instanceVertParam.typeSize * initParam.instanceVertParam.dataCount,
+			initParam.instanceVertParam.dataTopPos
+		);
+		m_instanceParamUplaodBufferHandle = DX12GameManager::createUploadBuffer(uploadBufferInitParam);
+
 		// 骨情報テクスチャ更新用のアップロードバッファを作る
 		m_boneMatrixTextureBufferHandle = DX12GameManager::createUploadBuffer(UploadBufferInitParam::create(
 			BufferType::texture,
@@ -47,6 +56,10 @@ namespace tktk
 		// インスタンス描画用の頂点バッファを作る
 		m_instanceParamVertexBufferHandle = DX12GameManager::createVertexBuffer(vertBufferData);
 
+		// インスタンス情報を扱う頂点バッファを更新するバッファを作る
+		UploadBufferInitParam uploadBufferInitParam = UploadBufferInitParam::create(BufferType::vertex, m_instanceParamVertexBufferHandle, rawVertBufferData);
+		m_instanceParamUplaodBufferHandle = DX12GameManager::createUploadBuffer(uploadBufferInitParam);
+
 		// 骨情報テクスチャ更新用のアップロードバッファを作る
 		m_boneMatrixTextureBufferHandle = DX12GameManager::createUploadBuffer(UploadBufferInitParam::create(
 			BufferType::texture,
@@ -59,6 +72,7 @@ namespace tktk
 		: m_useVertexBufferHandle(other.m_useVertexBufferHandle)
 		, m_useIndexBufferHandle(other.m_useIndexBufferHandle)
 		, m_instanceParamVertexBufferHandle(other.m_instanceParamVertexBufferHandle)
+		, m_instanceParamUplaodBufferHandle(other.m_instanceParamUplaodBufferHandle)
 		, m_boneMatrixTextureBufferHandle(other.m_boneMatrixTextureBufferHandle)
 		, m_indexNum(other.m_indexNum)
 		, m_primitiveTopology(other.m_primitiveTopology)
@@ -67,7 +81,18 @@ namespace tktk
 		, m_maxInstanceCount(other.m_maxInstanceCount)
 	{
 		other.m_instanceParamVertexBufferHandle = 0U;
+		other.m_instanceParamUplaodBufferHandle = 0U;
 		other.m_boneMatrixTextureBufferHandle	= 0U;
+	}
+
+	MeshData::~MeshData()
+	{
+		// 作った頂点バッファを削除する
+		DX12GameManager::eraseVertexBuffer(m_instanceParamVertexBufferHandle);
+
+		// 作ったアップロードバッファを削除する
+		DX12GameManager::eraseUploadBuffer(m_instanceParamUplaodBufferHandle);
+		DX12GameManager::eraseUploadBuffer(m_boneMatrixTextureBufferHandle);
 	}
 
 	void MeshData::setMaterialHandle(size_t materialSlot, size_t materialHandle)
@@ -144,8 +169,11 @@ namespace tktk
 		// 頂点バッファの入れ物を作る
 		auto vertBufferData = VertexDataCarrier(m_instanceVertParamTypeSize, m_maxInstanceCount, rawVertBufferData.data());
 
+		// インスタンス情報を扱う頂点バッファを更新するバッファを更新する
+		DX12GameManager::updateUploadBuffer(m_instanceParamUplaodBufferHandle, CopySourceDataCarrier(rawVertBufferData.size(), rawVertBufferData.data(), 0U));
+
 		// インスタンス描画用の頂点バッファを更新する
-		DX12GameManager::updateVertexBuffer(m_instanceParamVertexBufferHandle, vertBufferData);
+		DX12GameManager::copyBuffer(m_instanceParamUplaodBufferHandle);
 	}
 
 	void MeshData::updateBoneMatrixTextureBuffer() const

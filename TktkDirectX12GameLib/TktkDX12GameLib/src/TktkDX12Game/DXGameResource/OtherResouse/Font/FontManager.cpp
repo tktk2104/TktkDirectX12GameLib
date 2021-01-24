@@ -44,7 +44,7 @@ namespace tktk
 		spriteMaterialInitParam.maxInstanceCount	= m_textSpriteMaxInstanceCount;
 
 		// テキスト描画用のスプライトマテリアルを作る
-		DX12GameManager::setSystemHandle(SystemSpriteType::Text, DX12GameManager::createSpriteMaterial(spriteMaterialInitParam, SpriteDrawFuncRunnerInitParam::create().drawPriority(1000.0f)));
+		DX12GameManager::setSystemHandle(SystemSpriteType::Text, DX12GameManager::createSpriteMaterial(spriteMaterialInitParam, SpriteDrawFuncRunnerInitParam::create().drawPriority(9000.0f)));
 	
 		// テキスト描画用のテクスチャバッファのアップロードバッファを作る
 		DX12GameManager::setSystemHandle(SystemUploadBufferType::TextTexture, DX12GameManager::createUploadBuffer(UploadBufferInitParam::create(BufferType::texture, textureBufferHandle, dataParam.textureData)));
@@ -60,10 +60,20 @@ namespace tktk
 		return m_fontDataContainer.create(fontFilePath, fontName, m_fontHeight, fontThicknessRate);
 	}
 
-	size_t FontManager::updateTextTextureUploadBuffData(size_t handle, const std::string& text)
+	size_t FontManager::updateTextTextureData(size_t handle, const std::string& text, std::vector<unsigned char>* data)
 	{
-		return m_fontDataContainer.getMatchHandlePtr(handle)->updateTextTextureUploadBuffData(text, m_fontHeight, m_textTextureWidth);
+		return m_fontDataContainer.getMatchHandlePtr(handle)->updateTextTextureData(text, m_fontHeight, m_textTextureWidth, data);
 	}
+
+	unsigned int FontManager::getTextTextureLineDataSize() const
+	{
+		return m_textTextureWidth * m_fontHeight * 4U;
+	}
+
+	//size_t FontManager::updateTextTextureUploadBuffData(size_t handle, const std::string& text)
+	//{
+	//	return m_fontDataContainer.getMatchHandlePtr(handle)->updateTextTextureUploadBuffData(text, m_fontHeight, m_textTextureWidth);
+	//}
 
 	void FontManager::copyTextTextureUploadBuffer()
 	{

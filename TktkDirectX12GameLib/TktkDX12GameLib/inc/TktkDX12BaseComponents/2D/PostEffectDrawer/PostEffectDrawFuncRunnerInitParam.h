@@ -6,7 +6,7 @@ namespace tktk
 	struct PostEffectDrawFuncRunnerInitParam
 	{
 		// 描画優先度
-		float	drawPriority				{ 1000.0f };
+		float	drawPriority				{ 10000.0f };
 
 		// 描画先のレンダーターゲットのディスクリプタヒープハンドル
 		size_t	rtvDescriptorHeapHandle		{ 0U };

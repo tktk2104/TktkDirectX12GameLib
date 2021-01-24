@@ -9,42 +9,48 @@ namespace tktk
 	Line2DMaterialData::Line2DMaterialData()
 	{
 		// アップロード用バッファを作り、そのハンドルを取得する
-		m_createUploadCbufferHandle = DX12GameManager::createUploadBuffer(UploadBufferInitParam::create(BufferType::constant, DX12GameManager::getSystemHandle(SystemCBufferType::Line2D), Line2DCBufferData()));
+		m_createUploadCbufferHandle			= DX12GameManager::createUploadBuffer(UploadBufferInitParam::create(BufferType::constant, DX12GameManager::getSystemHandle(SystemCBufferType::Line2D), Line2DCBufferData()));
+		m_createdUploadVertexBufferHandle	= DX12GameManager::createUploadBuffer(UploadBufferInitParam::create(BufferType::vertex, DX12GameManager::getSystemHandle(SystemVertexBufferType::Line2D), std::vector<tktkMath::Vector2>(256U)));
 	}
 
 	Line2DMaterialData::~Line2DMaterialData()
 	{
-		// 作成した頂点バッファを削除する
-		// ※１度も描画処理が呼ばれなかった場合は何もしない
-		DX12GameManager::eraseVertexBuffer(m_createdVertexBufferHandle);
-
 		// アップロード用バッファを削除する
 		DX12GameManager::eraseUploadBuffer(m_createUploadCbufferHandle);
+		DX12GameManager::eraseUploadBuffer(m_createdUploadVertexBufferHandle);
 	}
 
 	Line2DMaterialData::Line2DMaterialData(Line2DMaterialData&& other) noexcept
-		: m_createdVertexBufferHandle(other.m_createdVertexBufferHandle)
-		, m_createUploadCbufferHandle(other.m_createUploadCbufferHandle)
+		: m_createUploadCbufferHandle(other.m_createUploadCbufferHandle)
+		, m_createdUploadVertexBufferHandle(other.m_createdUploadVertexBufferHandle)
 	{
-		other.m_createdVertexBufferHandle	= 0U;
-		other.m_createUploadCbufferHandle	= 0U;
+		other.m_createUploadCbufferHandle		= 0U;
+		other.m_createdUploadVertexBufferHandle = 0U;
 	}
 
 	void Line2DMaterialData::drawLine(const Line2DMaterialDrawFuncArgs& drawFuncArgs)
 	{
-		// 前フレームで作成した頂点バッファを削除する
-		// ※初回実行時は何もしない
-		DX12GameManager::eraseVertexBuffer(m_createdVertexBufferHandle);
-
-		// 自身の頂点バッファを作る
-		m_createdVertexBufferHandle = DX12GameManager::createVertexBuffer(drawFuncArgs.lineVertexArray);
-
 		// 定数バッファのコピー用バッファを更新する
 		// TODO : 前フレームと定数バッファに変化がない場合、更新しない処理を作る
-		updateCopyCbuffer(drawFuncArgs);
+		Line2DCBufferData cbufferData{};
+		for (unsigned int i = 0; i < 12; i++)
+		{
+			if (i % 4U == 3) continue;
+			cbufferData.worldMatrix[i] = drawFuncArgs.worldMatrix.m[i / 4U][i % 4U];
+		}
+		cbufferData.lineColor = drawFuncArgs.lineColor;
+		cbufferData.screenSize = DX12GameManager::getDrawGameAreaSize();
+		DX12GameManager::updateUploadBuffer(m_createUploadCbufferHandle, CopySourceDataCarrier(cbufferData, 0U));
+
+		// 頂点バッファのコピー用バッファを更新する
+		// TODO : 前フレームと頂点バッファに変化がない場合、更新しない処理を作る
+		DX12GameManager::updateUploadBuffer(m_createdUploadVertexBufferHandle, CopySourceDataCarrier(sizeof(tktkMath::Vector2) * drawFuncArgs.lineVertexArray.size(), drawFuncArgs.lineVertexArray.data(), 0U));
 
 		// ライン用の定数バッファにアップロードバッファの情報をコピーする
 		DX12GameManager::copyBuffer(m_createUploadCbufferHandle);
+
+		// ライン用の頂点バッファにアップロードバッファの情報をコピーする
+		DX12GameManager::copyBuffer(m_createdUploadVertexBufferHandle);
 
 		// ビューポートを設定する
 		DX12GameManager::setViewport(drawFuncArgs.viewportHandle);
@@ -75,7 +81,7 @@ namespace tktk
 		DX12GameManager::setPrimitiveTopology(PrimitiveTopology::LineStrip);
 
 		// 自身の頂点バッファを設定する
-		DX12GameManager::setVertexBuffer(m_createdVertexBufferHandle);
+		DX12GameManager::setVertexBuffer(DX12GameManager::getSystemHandle(SystemVertexBufferType::Line2D));
 		
 		// ドローコール
 		DX12GameManager::drawInstanced(drawFuncArgs.lineVertexArray.size(), 1U, 0U, 0U);
@@ -85,20 +91,5 @@ namespace tktk
 		{
 			DX12GameManager::unSetRtv(drawFuncArgs.rtvDescriptorHeapHandle, 0U, 1U);
 		}
-	}
-
-	// 定数バッファのアップロード用バッファを更新する
-	void Line2DMaterialData::updateCopyCbuffer(const Line2DMaterialDrawFuncArgs& drawFuncArgs) const
-	{
-		Line2DCBufferData cbufferData{};
-		for (unsigned int i = 0; i < 12; i++)
-		{
-			if (i % 4U == 3) continue;
-			cbufferData.worldMatrix[i] = drawFuncArgs.worldMatrix.m[i / 4U][i % 4U];
-		}
-		cbufferData.lineColor = drawFuncArgs.lineColor;
-		cbufferData.screenSize = DX12GameManager::getDrawGameAreaSize();
-
-		DX12GameManager::updateUploadBuffer(m_createUploadCbufferHandle, CopySourceDataCarrier(cbufferData, 0U));
 	}
 }

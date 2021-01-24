@@ -13,6 +13,9 @@
 /* std::forward_list */
 #include <forward_list>
 
+/* std::vector */
+#include <vector>
+
 /* funcUseType */
 #include <TktkMath/Structs/Color.h>
 #include <TktkMath/Structs/Vector2.h>
@@ -133,8 +136,14 @@ namespace tktk
 		// フォントファイルを読み込み、そのフォントを使う準備をして、そのリソースのハンドルを返す
 		size_t createFont(const std::string& fontFilePath, const std::string& fontName, float fontThicknessRate);
 
-		// 指定のアップロードバッファに引数の文字列のテクスチャデータを書き込み、書き込んだバッファの最大ｘ座標を返す
-		size_t updateTextTextureUploadBuffData(size_t handle, const std::string& text);
+		// テキストテクスチャデータに引数の文字列のテクスチャデータを書き込み、書き込んだバッファの最大ｘ座標を返す
+		size_t updateTextTextureData(size_t handle, const std::string& text, std::vector<unsigned char>* data);
+
+		// テキスト用テクスチャ１行分のデータサイズを計算
+		unsigned int getTextTextureLineDataSize() const;
+
+		//// 指定のアップロードバッファに引数の文字列のテクスチャデータを書き込み、書き込んだバッファの最大ｘ座標を返す
+		//size_t updateTextTextureUploadBuffData(size_t handle, const std::string& text);
 
 		// テキストテクスチャのアップロードバッファを実際のテクスチャバッファにコピーする
 		void copyTextTextureUploadBuffer();

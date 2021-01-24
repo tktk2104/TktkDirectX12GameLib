@@ -38,6 +38,12 @@ namespace tktk
 		// 初期テキストを設定する
 		TextDrawer2DMaker& initText(const std::string& value);
 
+		// テキストのローカル座標を設定する
+		TextDrawer2DMaker& localPosition(const tktkMath::Vector2& value);
+
+		// テキストのローカルスケールを設定する
+		TextDrawer2DMaker& localScale(const tktkMath::Vector2& value);
+
 		// テキストの中心位置の割合を設定する
 		TextDrawer2DMaker& centerRate(const tktkMath::Vector2 & value);
 
@@ -50,12 +56,14 @@ namespace tktk
 
 	private: /* 変数達 */
 
-		GameObjectPtr		m_user						{  };
-		float				m_drawPriority				{ 0.0f };
-		size_t				m_fontHandle				{ 0U };
-		std::string			m_initText					{  };
-		tktkMath::Vector2	m_centerRate				{ tktkMath::Vector2_v::zero };
-		tktkMath::Color		m_blendRate					{ tktkMath::Color_v::white };
+		GameObjectPtr		m_user			{  };
+		float				m_drawPriority	{ 0.0f };
+		size_t				m_fontHandle	{ 0U };
+		std::string			m_initText		{  };
+		tktkMath::Vector2	m_localPosition	{ tktkMath::Vector2_v::zero };
+		tktkMath::Vector2	m_localScale	{ tktkMath::Vector2_v::one };
+		tktkMath::Vector2	m_centerRate	{ tktkMath::Vector2_v::zero };
+		tktkMath::Color		m_blendRate		{ tktkMath::Color_v::white };
 	};
 }
 #endif // !TEXT_DRAWER_2D_MAKER_H_

@@ -28,7 +28,7 @@ namespace tktk
 		// ムーブコンストラクタ
 		MeshData(MeshData&& other) noexcept;
 
-		~MeshData() = default;
+		~MeshData();
 
 	public:
 
@@ -72,6 +72,9 @@ namespace tktk
 
 		// インスタンス情報を扱う頂点バッファのハンドル
 		size_t m_instanceParamVertexBufferHandle{ 0U };
+
+		// インスタンス情報を扱う頂点バッファを更新するバッファのハンドル
+		size_t m_instanceParamUplaodBufferHandle{ 0U };
 
 		// 骨情報を扱うテクスチャバッファのハンドル
 		size_t m_boneMatrixTextureBufferHandle	{ 0U };

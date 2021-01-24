@@ -27,6 +27,9 @@ namespace tktk
 		return m_user->createComponent<SpriteDrawer>(
 			m_drawPriority,
 			m_spriteMaterialHandle,
+			m_localPosition,
+			m_localScaleRate,
+			m_localRotationDeg,
 			m_centerRate,
 			m_blendRate,
 			tktkMath::Vector2::scale(textureSize, m_leftTopPosRate),
@@ -52,6 +55,27 @@ namespace tktk
 	{
 		// 値を設定して自身の参照を返す
 		m_spriteMaterialHandle = DX12GameManager::getSpriteMaterialHandle(value);
+		return *this;
+	}
+
+	SpriteDrawerMaker& SpriteDrawerMaker::localPosition(const tktkMath::Vector2& value)
+	{
+		// 値を設定して自身の参照を返す
+		m_localPosition = value;
+		return *this;
+	}
+
+	SpriteDrawerMaker& SpriteDrawerMaker::localScaleRate(const tktkMath::Vector2& value)
+	{
+		// 値を設定して自身の参照を返す
+		m_localScaleRate = value;
+		return *this;
+	}
+
+	SpriteDrawerMaker& SpriteDrawerMaker::localRotationDeg(float value)
+	{
+		// 値を設定して自身の参照を返す
+		m_localRotationDeg = value;
 		return *this;
 	}
 

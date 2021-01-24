@@ -109,10 +109,20 @@ namespace tktk
 		return m_otherResouse->createFont(fontFilePath, fontName, fontThicknessRate);
 	}
 
-	size_t DXGameResource::updateTextTextureUploadBuffData(size_t handle, const std::string& text)
+	size_t DXGameResource::updateTextTextureData(size_t handle, const std::string& text, std::vector<unsigned char>* data)
 	{
-		return m_otherResouse->updateTextTextureUploadBuffData(handle, text);
+		return m_otherResouse->updateTextTextureData(handle, text, data);
 	}
+
+	unsigned int DXGameResource::getTextTextureLineDataSize() const
+	{
+		return m_otherResouse->getTextTextureLineDataSize();
+	}
+
+	//size_t DXGameResource::updateTextTextureUploadBuffData(size_t handle, const std::string& text)
+	//{
+	//	return m_otherResouse->updateTextTextureUploadBuffData(handle, text);
+	//}
 
 	void DXGameResource::copyTextTextureUploadBuffer()
 	{

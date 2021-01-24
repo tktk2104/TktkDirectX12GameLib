@@ -35,6 +35,9 @@ namespace tktk
 
 		// 座標管理コンポーネント
 		ComponentPtr<Transform2D> m_transform;
+
+		// パーティクルを描画するオブジェクト
+		tktk::GameObjectPtr m_particleObject;
 	};
 }
 #endif // !SPRITE_SHRINK_EFFECT_CREATOR_H_

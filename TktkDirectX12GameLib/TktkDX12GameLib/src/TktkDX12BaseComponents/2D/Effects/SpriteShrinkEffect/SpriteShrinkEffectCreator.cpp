@@ -26,6 +26,16 @@ namespace tktk
 		{
 			throw std::runtime_error("SpriteShrinkEffectCreator not found Transform2D");
 		}
+
+		// パーティクルオブジェクトを作る
+		m_particleObject = DX12GameManager::createGameObject();
+
+		// 座標管理コンポーネントを作る
+		Transform2DMaker::makeStart(m_particleObject)
+			.create();
+
+		// 子要素追加フラグが立っていたら子要素に追加する
+		if (m_param.setChild) getGameObject()->addChild(m_particleObject);
 	}
 
 	void SpriteShrinkEffectCreator::onEnable()
@@ -50,22 +60,11 @@ namespace tktk
 			auto generateNumRandomRange = tktkMath::Random::getRandI(-m_param.generateNumPerOnceRandomRange, m_param.generateNumPerOnceRandomRange);
 			for (int i = 0; i < (m_param.generateNumPerOnce + generateNumRandomRange); i++)
 			{
-				// パーティクルオブジェクトを作る
-				auto particleObject = DX12GameManager::createGameObject();
-
-				// スプライトパーティクル用のコンポーネントを作る
-				auto moveSpeedPerSecRandomRange = tktkMath::Random::getRandF(-m_param.moveSpeedPerSecRandomRange, m_param.moveSpeedPerSecRandomRange);
-				auto lifeTimeSecRandomRange = tktkMath::Random::getRandF(-m_param.lifeTimeSecRandomRange, m_param.lifeTimeSecRandomRange);
-				particleObject->createComponent<SpriteShrinkEffectParticle>(
-					m_param.moveSpeedPerSec + moveSpeedPerSecRandomRange,
-					m_param.lifeTimeSec + lifeTimeSecRandomRange
-					);
-
 				// 回転情報を作る
 				auto rotate = tktkMath::Random::getRandF(0.0f, 360.0f);
 
 				// スケールを計算する
-				auto billboardScaleRandomRange = tktkMath::Vector2(
+				auto spriteScaleRandomRange = tktkMath::Vector2(
 					tktkMath::Random::getRandF(-m_param.spriteScaleRandomRange.x, m_param.spriteScaleRandomRange.x),
 					tktkMath::Random::getRandF(-m_param.spriteScaleRandomRange.y, m_param.spriteScaleRandomRange.y)
 				);
@@ -80,26 +79,26 @@ namespace tktk
 				//  子要素追加フラグが立っていなかったらワールド空間での座標になるように修正する
 				if (!m_param.setChild) shrinkTargetPos = shrinkTargetPos * m_transform->calculateWorldMatrix();
 
+				auto moveSpeedPerSecRandomRange = tktkMath::Random::getRandF(-m_param.moveSpeedPerSecRandomRange, m_param.moveSpeedPerSecRandomRange);
+				auto lifeTimeSecRandomRange = tktkMath::Random::getRandF(-m_param.lifeTimeSecRandomRange, m_param.lifeTimeSecRandomRange);
+
 				// 生成座標を計算する
 				auto generatePos = shrinkTargetPos - (tktkMath::Matrix3::createRotation(rotate).calculateUp() * (m_param.moveSpeedPerSec + moveSpeedPerSecRandomRange) * (m_param.lifeTimeSec + lifeTimeSecRandomRange));
 
-				// 座標管理コンポーネントを作る
-				Transform2DMaker::makeStart(particleObject)
-					.initPosition(generatePos)
-					.initRotationDeg(rotate)
-					.initScaleRate(m_param.spriteScale + billboardScaleRandomRange)
-					.create();
-
 				// スプライト描画コンポーネントを作る
-				SpriteDrawerMaker::makeStart(particleObject)
+				auto spriteDrawer = SpriteDrawerMaker::makeStart(m_particleObject)
 					.spriteMaterialHandle(m_param.useSpriteHandle)
 					.blendRate(m_param.spriteBlendRate)
+					.localPosition(generatePos)
+					.localRotationDeg(rotate)
+					.localScaleRate(m_param.spriteScale + spriteScaleRandomRange)
 					.create();
 
 				// アニメーションを使用する設定だったら
 				if (m_param.useAnimation)
 				{
-					SpriteAnimatorMaker::makeStart(particleObject)
+					SpriteAnimatorMaker::makeStart(m_particleObject)
+						.targetDrawer(spriteDrawer)
 						.isLoop(m_param.isLoop)
 						.initFrame(m_param.initFrame)
 						.animSpeedRate(m_param.animSpeedRate)
@@ -108,8 +107,18 @@ namespace tktk
 						.create();
 				}
 
-				// 子要素追加フラグが立っていたら子要素に追加する
-				if (m_param.setChild) getGameObject()->addChild(particleObject);
+				// スプライトパーティクル用のコンポーネントを作る
+				auto scalingSizePerSecRandomRange = tktkMath::Vector2(
+					tktkMath::Random::getRandF(-m_param.scalingSizePerSecRandomRange.x, m_param.scalingSizePerSecRandomRange.x),
+					tktkMath::Random::getRandF(-m_param.scalingSizePerSecRandomRange.y, m_param.scalingSizePerSecRandomRange.y)
+				);
+				m_particleObject->createComponent<SpriteShrinkEffectParticle>(
+					spriteDrawer,
+					m_param.moveSpeedPerSec + moveSpeedPerSecRandomRange,
+					m_param.scalingSizePerSec + scalingSizePerSecRandomRange,
+					m_param.blendRateChangeWidthPerSec,
+					m_param.lifeTimeSec + lifeTimeSecRandomRange
+					);
 
 				// 生成数カウンタをインクリメントする
 				++m_totalGenerateCounter;

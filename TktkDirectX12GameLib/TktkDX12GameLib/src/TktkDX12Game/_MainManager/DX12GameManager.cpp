@@ -354,10 +354,10 @@ namespace tktk
 				// •`‰æˆ—
 				m_graphicManager->beginDraw();
 
-				// ‰ž‹}“I
 				m_dxGameResource->copyTextTextureUploadBuffer();
 
 				m_dxGameResource->draw();
+
 				m_graphicManager->endDraw();
 
 				// Ž€–S‚µ‚Ä‚¢‚é—v‘f‚ðƒƒCƒ“ƒŠƒXƒg‚©‚çíœ‚·‚é
@@ -702,11 +702,6 @@ namespace tktk
 	void DX12GameManager::updateUploadBuffer(size_t handle, const CopySourceDataCarrier& bufferData)
 	{
 		m_graphicManager->updateUploadBuffer(handle, bufferData);
-	}
-
-	void DX12GameManager::updateVertexBuffer(size_t handle, const VertexDataCarrier& vertexData)
-	{
-		m_graphicManager->updateVertexBuffer(handle, vertexData);
 	}
 	
 	void DX12GameManager::copyBuffer(size_t handle)
@@ -1255,10 +1250,20 @@ namespace tktk
 		return createdHandle;
 	}
 
-	size_t DX12GameManager::updateTextTextureUploadBuffData(size_t handle, const std::string& text)
+	size_t DX12GameManager::updateTextTextureData(size_t handle, const std::string& text, std::vector<unsigned char>* data)
 	{
-		return m_dxGameResource->updateTextTextureUploadBuffData(handle, text);
+		return m_dxGameResource->updateTextTextureData(handle, text, data);
 	}
+
+	unsigned int DX12GameManager::getTextTextureLineDataSize()
+	{
+		return m_dxGameResource->getTextTextureLineDataSize();
+	}
+
+	//size_t DX12GameManager::updateTextTextureUploadBuffData(size_t handle, const std::string& text)
+	//{
+	//	return m_dxGameResource->updateTextTextureUploadBuffData(handle, text);
+	//}
 
 	void DX12GameManager::copyTextTextureUploadBuffer()
 	{

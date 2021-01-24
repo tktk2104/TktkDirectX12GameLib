@@ -21,12 +21,19 @@ namespace tktk
 	ComponentPtr<SpriteAnimator> SpriteAnimatorMaker::create()
 	{
 		return m_user->createComponent<SpriteAnimator>(
+			m_targetDrawer,
 			m_initFrame,
 			m_isLoop,
 			m_animSpeedRate,
 			m_animFramePerSec,
 			m_totalAnimFrameSize
 			);
+	}
+
+	SpriteAnimatorMaker& SpriteAnimatorMaker::targetDrawer(const ComponentPtr<SpriteDrawer>& value)
+	{
+		m_targetDrawer = value;
+		return *this;
 	}
 
 	SpriteAnimatorMaker& SpriteAnimatorMaker::isLoop(bool value)

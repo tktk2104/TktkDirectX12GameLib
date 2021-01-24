@@ -24,13 +24,8 @@ namespace tktk
 
 	private:
 
-		// 定数バッファのコピー用バッファを更新する
-		void updateCopyCbuffer(const Line2DMaterialDrawFuncArgs& drawFuncArgs) const;
-
-	private:
-
-		size_t m_createUploadCbufferHandle{ 0U };
-		size_t m_createdVertexBufferHandle{ 0U };
+		size_t m_createUploadCbufferHandle		{ 0U };
+		size_t m_createdUploadVertexBufferHandle{ 0U };
 	};
 }
 #endif // !LINE_2D_MATERIAL_DATA_H_

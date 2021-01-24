@@ -43,11 +43,14 @@ namespace tktk
 
 	private:
 
-		// 作ったビルボードのディスクリプタヒープのハンドル
+		// ビルボードのディスクリプタヒープのハンドル
 		size_t m_createDescriptorHeapHandle		{ 0U };
 		
 		// インスタンス情報を扱う頂点バッファのハンドル
 		size_t m_instanceParamVertexBufferHandle{ 0U };
+
+		// インスタンス情報を扱う頂点バッファを更新するバッファのハンドル
+		size_t m_instanceParamUplaodBufferHandle{ 0U };
 
 		// テクスチャサイズ
 		tktkMath::Vector2 m_textureSize;

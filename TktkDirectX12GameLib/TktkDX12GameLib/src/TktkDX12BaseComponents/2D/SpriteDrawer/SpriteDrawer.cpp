@@ -5,9 +5,22 @@
 
 namespace tktk
 {
-	SpriteDrawer::SpriteDrawer(float drawPriority, size_t spriteMaterialHandle, const tktkMath::Vector2& centerRate, const tktkMath::Color& blendRate, const tktkMath::Vector2& clippingLeftTopPos, const tktkMath::Vector2& clippingSize)
-		: ComponentBase(drawPriority)
+	SpriteDrawer::SpriteDrawer(
+		float drawPriority,
+		size_t spriteMaterialHandle,
+		const tktkMath::Vector2& localPosition,
+		const tktkMath::Vector2& localScale,
+		float localRotationDeg,
+		const tktkMath::Vector2& centerRate,
+		const tktkMath::Color& blendRate,
+		const tktkMath::Vector2& clippingLeftTopPos,
+		const tktkMath::Vector2& clippingSize
+	)
+		: m_drawPriority(drawPriority)
 		, m_spriteMaterialHandle(spriteMaterialHandle)
+		, m_localPosition(localPosition)
+		, m_localScaleRate(localScale)
+		, m_localRotationDeg(localRotationDeg)
 		, m_centerRate(centerRate)
 		, m_blendRate(blendRate)
 		, m_clippingLeftTopPos(clippingLeftTopPos)
@@ -33,7 +46,7 @@ namespace tktk
 
 		auto worldMatrix = m_transform->calculateWorldMatrix();
 
-		instanceVertData.worldMatrix		= worldMatrix;
+		instanceVertData.worldMatrix		= tktkMath::Matrix3::createTRS(m_localPosition, m_localRotationDeg, m_localScaleRate) * worldMatrix;
 		instanceVertData.texturePixelOffset = tktkMath::Vector2(m_clippingLeftTopPos.x, m_clippingLeftTopPos.y);
 		instanceVertData.texturePixelCount	= tktkMath::Vector2(m_clippingSize.x, m_clippingSize.y);
 		instanceVertData.textureUvMulRate	= tktkMath::Vector2_v::one;
@@ -52,6 +65,51 @@ namespace tktk
 	void SpriteDrawer::setSpriteMaterialId(ResourceIdCarrier id)
 	{
 		m_spriteMaterialHandle = DX12GameManager::getSpriteMaterialHandle(id);
+	}
+
+	const tktkMath::Vector2& SpriteDrawer::getLocalPosition() const
+	{
+		return m_localPosition;
+	}
+
+	const tktkMath::Vector2& SpriteDrawer::getLocalScaleRate() const
+	{
+		return m_localScaleRate;
+	}
+
+	float SpriteDrawer::getLocalRotationDeg() const
+	{
+		return m_localRotationDeg;
+	}
+
+	void SpriteDrawer::setLocalPosition(const tktkMath::Vector2& localPosition)
+	{
+		m_localPosition = localPosition;
+	}
+
+	void SpriteDrawer::setLocalScaleRate(const tktkMath::Vector2& localScaleRate)
+	{
+		m_localScaleRate = localScaleRate;
+	}
+
+	void SpriteDrawer::setLocalRotationDeg(float localRotationDeg)
+	{
+		m_localRotationDeg = localRotationDeg;
+	}
+
+	void SpriteDrawer::addLocalPosition(const tktkMath::Vector2& position)
+	{
+		m_localPosition += position;
+	}
+
+	void SpriteDrawer::addLocalScaleRate(const tktkMath::Vector2& scaleRate)
+	{
+		m_localScaleRate += scaleRate;
+	}
+
+	void SpriteDrawer::addLocalRotationDeg(float rotationDeg)
+	{
+		m_localRotationDeg += rotationDeg;
 	}
 
 	void SpriteDrawer::setCenterRate(const tktkMath::Vector2& centerRate)

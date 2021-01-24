@@ -244,11 +244,6 @@ namespace tktk
 		m_dx3dBaseObjects->updateUploadBuffer(handle, bufferData);
 	}
 
-	void GraphicManager::updateVertexBuffer(size_t handle, const VertexDataCarrier& vertexData)
-	{
-		m_dx3dBaseObjects->updateVertexBuffer(handle, vertexData);
-	}
-
 	void GraphicManager::copyBuffer(size_t handle) const
 	{
 		m_dx3dBaseObjects->copyBuffer(handle);

@@ -54,21 +54,36 @@ namespace tktk
 		m_createDescriptorHeapHandle = DX12GameManager::createBasicDescriptorHeap(descriptorHeapInitParam);
 
 		// インスタンス描画用の頂点バッファを作る
-		m_instanceParamVertexBufferHandle = DX12GameManager::createVertexBuffer(std::vector<SpriteMaterialInstanceData>(m_maxInstanceCount));
+		auto initVertexData = std::vector<SpriteMaterialInstanceData>(m_maxInstanceCount);
+		m_instanceParamVertexBufferHandle = DX12GameManager::createVertexBuffer(initVertexData);
+	
+		// インスタンス情報を扱う頂点バッファを更新するバッファを作る
+		UploadBufferInitParam uploadBufferInitParam = UploadBufferInitParam::create(BufferType::vertex, m_instanceParamVertexBufferHandle, initVertexData);
+		m_instanceParamUplaodBufferHandle = DX12GameManager::createUploadBuffer(uploadBufferInitParam);
 	}
 
 	SpriteMaterialData::~SpriteMaterialData()
 	{
 		// 作ったディスクリプタヒープを削除する
 		DX12GameManager::eraseBasicDescriptorHeap(m_createDescriptorHeapHandle);
+
+		// 作った頂点バッファを削除する
+		DX12GameManager::eraseVertexBuffer(m_instanceParamVertexBufferHandle);
+
+		// 作ったアップロードバッファを削除する
+		DX12GameManager::eraseUploadBuffer(m_instanceParamUplaodBufferHandle);
 	}
 
 	SpriteMaterialData::SpriteMaterialData(SpriteMaterialData&& other) noexcept
 		: m_createDescriptorHeapHandle(other.m_createDescriptorHeapHandle)
+		, m_instanceParamVertexBufferHandle(other.m_instanceParamVertexBufferHandle)
+		, m_instanceParamUplaodBufferHandle(other.m_instanceParamUplaodBufferHandle)
 		, m_maxInstanceCount(other.m_maxInstanceCount)
 		, m_textureSize(other.m_textureSize)
 	{
 		other.m_createDescriptorHeapHandle = 0U;
+		other.m_instanceParamVertexBufferHandle = 0U;
+		other.m_instanceParamUplaodBufferHandle = 0U;
 	}
 
 	const tktkMath::Vector2& SpriteMaterialData::getSpriteTextureSize() const
@@ -146,8 +161,11 @@ namespace tktk
 		// 正しく全ての情報を代入できていなければ強制終了
 		if (curIndex != std::numeric_limits<size_t>::max()) return;
 
+		// インスタンス情報を扱う頂点バッファを更新するバッファを更新する
+		DX12GameManager::updateUploadBuffer(m_instanceParamUplaodBufferHandle, CopySourceDataCarrier(sizeof(SpriteMaterialInstanceData) * vertBufferData.size(), vertBufferData.data(), 0U));
+
 		// インスタンス描画用の頂点バッファを更新する
-		DX12GameManager::updateVertexBuffer(m_instanceParamVertexBufferHandle, vertBufferData);
+		DX12GameManager::copyBuffer(m_instanceParamUplaodBufferHandle);
 	}
 
 	void SpriteMaterialData::draw(const SpriteMaterialDrawFuncArgs& drawFuncArgs) const

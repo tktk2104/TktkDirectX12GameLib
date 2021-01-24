@@ -34,17 +34,6 @@ namespace tktk
 
 	private:
 
-		// ２Ｄライン描画用のルートシグネチャを作る
-		void createBasicDescriptorHeap() const;
-
-		// ２Ｄライン描画用のルートシグネチャを作る
-		void createRootSignature() const;
-
-		// ２Ｄライン描画用のパイプラインステートを作る
-		void createGraphicsPipeLineState(const ShaderFilePaths& shaderFilePaths) const;
-
-	private:
-
 		tktkContainer::ResourceContainer<Line2DMaterialData> m_line2DMaterialArray;
 	};
 }

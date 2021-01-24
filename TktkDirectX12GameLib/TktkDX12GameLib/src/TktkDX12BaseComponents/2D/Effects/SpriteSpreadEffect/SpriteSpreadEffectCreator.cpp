@@ -26,6 +26,16 @@ namespace tktk
 		{
 			throw std::runtime_error("SpriteSpreadEffectCreator not found Transform2D");
 		}
+
+		// パーティクルオブジェクトを作る
+		m_particleObject = DX12GameManager::createGameObject();
+
+		// 座標管理コンポーネントを作る
+		Transform2DMaker::makeStart(m_particleObject)
+			.create();
+
+		// 子要素追加フラグが立っていたら子要素に追加する
+		if (m_param.setChild) getGameObject()->addChild(m_particleObject);
 	}
 
 	void SpriteSpreadEffectCreator::onEnable()
@@ -50,9 +60,6 @@ namespace tktk
 			auto generateNumRandomRange = tktkMath::Random::getRandI(-m_param.generateNumPerOnceRandomRange, m_param.generateNumPerOnceRandomRange);
 			for (int i = 0; i < (m_param.generateNumPerOnce + generateNumRandomRange); i++)
 			{
-				// パーティクルオブジェクトを作る
-				auto particleObject = DX12GameManager::createGameObject();
-
 				// 生成座標を計算する
 				auto generateLocalPosRandomRange = tktkMath::Vector2(
 					tktkMath::Random::getRandF(-m_param.generateLocalPosRandomRange.x, m_param.generateLocalPosRandomRange.x),
@@ -72,23 +79,20 @@ namespace tktk
 					tktkMath::Random::getRandF(-m_param.spriteScaleRandomRange.y, m_param.spriteScaleRandomRange.y)
 				);
 
-				// 座標管理コンポーネントを作る
-				Transform2DMaker::makeStart(particleObject)
-					.initPosition(generatePos)
-					.initRotationDeg(rotate)
-					.initScaleRate(m_param.spriteScale + spriteScaleRandomRange)
-					.create();
-
 				// スプライト描画コンポーネントを作る
-				SpriteDrawerMaker::makeStart(particleObject)
+				auto spriteDrawer = SpriteDrawerMaker::makeStart(m_particleObject)
 					.spriteMaterialHandle(m_param.useSpriteHandle)
 					.blendRate(m_param.spriteBlendRate)
+					.localPosition(generatePos)
+					.localRotationDeg(rotate)
+					.localScaleRate(m_param.spriteScale + spriteScaleRandomRange)
 					.create();
 
 				// アニメーションを使用する設定だったら
 				if (m_param.useAnimation)
 				{
-					SpriteAnimatorMaker::makeStart(particleObject)
+					SpriteAnimatorMaker::makeStart(m_particleObject)
+						.targetDrawer(spriteDrawer)
 						.isLoop(m_param.isLoop)
 						.initFrame(m_param.initFrame)
 						.animSpeedRate(m_param.animSpeedRate)
@@ -98,15 +102,19 @@ namespace tktk
 				}
 
 				// スプライトパーティクル用のコンポーネントを作る
-				auto moveSpeedPerSecRandomRange = tktkMath::Random::getRandF(-m_param.moveSpeedPerSecRandomRange, m_param.moveSpeedPerSecRandomRange);
-				auto lifeTimeSecRandomRange		= tktkMath::Random::getRandF(-m_param.lifeTimeSecRandomRange, m_param.lifeTimeSecRandomRange);
-				particleObject->createComponent<SpriteSpreadEffectParticle>(
+				auto moveSpeedPerSecRandomRange		= tktkMath::Random::getRandF(-m_param.moveSpeedPerSecRandomRange, m_param.moveSpeedPerSecRandomRange);
+				auto scalingSizePerSecRandomRange	= tktkMath::Vector2(
+					tktkMath::Random::getRandF(-m_param.scalingSizePerSecRandomRange.x, m_param.scalingSizePerSecRandomRange.x),
+					tktkMath::Random::getRandF(-m_param.scalingSizePerSecRandomRange.y, m_param.scalingSizePerSecRandomRange.y)
+				);
+				auto lifeTimeSecRandomRange			= tktkMath::Random::getRandF(-m_param.lifeTimeSecRandomRange, m_param.lifeTimeSecRandomRange);
+				m_particleObject->createComponent<SpriteSpreadEffectParticle>(
+					spriteDrawer,
 					m_param.moveSpeedPerSec + moveSpeedPerSecRandomRange,
+					m_param.scalingSizePerSec + scalingSizePerSecRandomRange,
+					m_param.blendRateChangeWidthPerSec,
 					m_param.lifeTimeSec + lifeTimeSecRandomRange
 					);
-
-				// 子要素追加フラグが立っていたら子要素に追加する
-				if (m_param.setChild) getGameObject()->addChild(particleObject);
 
 				// 生成数カウンタをインクリメントする
 				++m_totalGenerateCounter;

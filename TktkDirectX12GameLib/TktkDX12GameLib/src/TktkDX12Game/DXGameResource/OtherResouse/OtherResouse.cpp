@@ -88,10 +88,20 @@ namespace tktk
 		return m_fontManager->create(fontFilePath, fontName, fontThicknessRate);
 	}
 
-	size_t OtherResouse::updateTextTextureUploadBuffData(size_t handle, const std::string& text)
+	size_t OtherResouse::updateTextTextureData(size_t handle, const std::string& text, std::vector<unsigned char>* data)
 	{
-		return m_fontManager->updateTextTextureUploadBuffData(handle, text);
+		return m_fontManager->updateTextTextureData(handle, text, data);
 	}
+
+	unsigned int OtherResouse::getTextTextureLineDataSize() const
+	{
+		return m_fontManager->getTextTextureLineDataSize();
+	}
+
+	//size_t OtherResouse::updateTextTextureUploadBuffData(size_t handle, const std::string& text)
+	//{
+	//	return m_fontManager->updateTextTextureUploadBuffData(handle, text);
+	//}
 
 	void OtherResouse::copyTextTextureUploadBuffer()
 	{

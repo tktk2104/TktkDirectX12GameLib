@@ -16,8 +16,7 @@
 namespace tktk
 {
 	FontData::FontData(const std::string& systemFontName, int fontSize, float fontThicknessRate)
-		: m_fontSize(fontSize)
-		, m_fontThicknessRate(fontThicknessRate)
+		: m_fontThicknessRate(fontThicknessRate)
 	{
 		// フォントの太さ
 		int fontWeight = static_cast<int>(1000 * fontThicknessRate);
@@ -37,8 +36,7 @@ namespace tktk
 	}
 
 	FontData::FontData(const std::string& fontFilePath, const std::string& fontName, int fontSize, float fontThicknessRate)
-		: m_fontSize(fontSize)
-		, m_fontThicknessRate(fontThicknessRate)
+		: m_fontThicknessRate(fontThicknessRate)
 	{
 		// フォントファイルからフォントを作る
 		int result = AddFontResourceEx(fontFilePath.c_str(), FR_PRIVATE, NULL);
@@ -47,12 +45,6 @@ namespace tktk
 		{
 			throw std::runtime_error("load font error");
 		}
-
-		//// ワイド文字列変換後のフォント名
-		//wchar_t afterCastFontName[32];
-		//
-		//// フォント名をワイド文字列に変換する
-		//MultiByteToWideChar(CP_ACP, MB_PRECOMPOSED, fontName.c_str(), -1, afterCastFontName, 32);
 
 		// フォントの太さ
 		int fontWeight = static_cast<int>(1000 * fontThicknessRate);
@@ -64,18 +56,6 @@ namespace tktk
 			DEFAULT_QUALITY, VARIABLE_PITCH | FF_DONTCARE,
 			fontName.c_str()
 		);
-
-		//// フォントを作成するためのデータ
-		//LOGFONTW lf =
-		//{
-		//	fontSize, 0, 0, 0, fontWeight, 0, 0, 0,
-		//	SHIFTJIS_CHARSET, OUT_TT_ONLY_PRECIS, CLIP_DEFAULT_PRECIS,
-		//	PROOF_QUALITY, DEFAULT_PITCH | FF_MODERN,
-		//	*afterCastFontName
-		//};
-		//
-		//// フォントを作成する
-		//m_fontHandle = CreateFontIndirectW(&lf);
 
 		if (m_fontHandle == nullptr)
 		{
@@ -89,10 +69,13 @@ namespace tktk
 		DeleteObject(m_fontHandle);
 	}
 
-	size_t FontData::updateTextTextureUploadBuffData(const std::string& text, unsigned int fontHeight, unsigned int textTextureWidth)
+	size_t FontData::updateTextTextureData(const std::string& text, unsigned int fontHeight, unsigned int textTextureWidth, std::vector<unsigned char>* data)
 	{
-		// テクスチャバッファの情報
-		std::vector<unsigned char>	textureData = std::vector<unsigned char>(static_cast<size_t>(textTextureWidth * fontHeight * 4U), 0U);
+		// テキスト用テクスチャ１行分のデータサイズを計算
+		unsigned int textTextureDataSize = textTextureWidth * fontHeight * 4U;
+
+		// テキスト用テクスチャデータサイズが必要な大きさで確保されていなければ確保する
+		if (data->size() != static_cast<size_t>(textTextureDataSize)) (*data) = std::vector<unsigned char>(static_cast<size_t>(textTextureDataSize), 0U);;
 
 		// 文字数によるｘ方向のオフセット
 		size_t xOffset = 0U;
@@ -115,7 +98,7 @@ namespace tktk
 				memcpy(c, &text.at(i), 1U);
 
 				// 文字数分ｘ方向に座標をずらしてテクスチャバッファを更新する
-				auto charSize = getCharSizeAndWriteFontData(hdc, c, xOffset, { static_cast<float>(textTextureWidth), static_cast<float>(fontHeight) }, &textureData);
+				auto charSize = getCharSizeAndWriteFontData(hdc, c, xOffset, { static_cast<float>(textTextureWidth), static_cast<float>(fontHeight) }, data);
 				xOffset += static_cast<size_t>(charSize.x);
 			}
 			else
@@ -128,19 +111,67 @@ namespace tktk
 				memcpy(c, &text.at(i), 2U);
 
 				// 文字数分ｘ方向に座標をずらしてテクスチャバッファを更新する
-				auto charSize = getCharSizeAndWriteFontData(hdc, c, xOffset, { static_cast<float>(textTextureWidth), static_cast<float>(fontHeight) }, &textureData);
+				auto charSize = getCharSizeAndWriteFontData(hdc, c, xOffset, { static_cast<float>(textTextureWidth), static_cast<float>(fontHeight) }, data);
 				xOffset += static_cast<size_t>(charSize.x);
 
 				++i;
 			}
 		}
-
-		size_t curInstanceCount = DX12GameManager::getCurSpriteInstanceCount(DX12GameManager::getSystemHandle(SystemSpriteType::Text));
-
-		DX12GameManager::updateUploadBuffer(DX12GameManager::getSystemHandle(SystemUploadBufferType::TextTexture), CopySourceDataCarrier(textureData.size(), textureData.data(), textTextureWidth * fontHeight * curInstanceCount * 4U));
-
 		return xOffset;
 	}
+
+	//size_t FontData::updateTextTextureUploadBuffData(const std::string& text, unsigned int fontHeight, unsigned int textTextureWidth)
+	//{
+	//	// テクスチャバッファの情報
+	//	std::vector<unsigned char>	textureData = std::vector<unsigned char>(static_cast<size_t>(textTextureWidth * fontHeight * 4U), 0U);
+	//
+	//	// 文字数によるｘ方向のオフセット
+	//	size_t xOffset = 0U;
+	//
+	//	// デバイスコンテキストを取得
+	//	HDC hdc = GetDC(NULL);
+	//
+	//	// フォントを適応する（戻り値：古いフォント）
+	//	HFONT oldFont = (HFONT)SelectObject(hdc, m_fontHandle);
+	//
+	//	if (setlocale(LC_CTYPE, "") == NULL) return 0U;
+	//
+	//	for (size_t i = 0U; i < text.size(); ++i)
+	//	{
+	//		int len = mblen(&text.at(i), 1);
+	//
+	//		if (len == 1)
+	//		{
+	//			char c[1];
+	//			memcpy(c, &text.at(i), 1U);
+	//
+	//			// 文字数分ｘ方向に座標をずらしてテクスチャバッファを更新する
+	//			auto charSize = getCharSizeAndWriteFontData(hdc, c, xOffset, { static_cast<float>(textTextureWidth), static_cast<float>(fontHeight) }, &textureData);
+	//			xOffset += static_cast<size_t>(charSize.x);
+	//		}
+	//		else
+	//		{
+	//			len = mblen(&text.at(i), 2);
+	//
+	//			if (len < 0) continue;
+	//
+	//			char c[2];
+	//			memcpy(c, &text.at(i), 2U);
+	//
+	//			// 文字数分ｘ方向に座標をずらしてテクスチャバッファを更新する
+	//			auto charSize = getCharSizeAndWriteFontData(hdc, c, xOffset, { static_cast<float>(textTextureWidth), static_cast<float>(fontHeight) }, &textureData);
+	//			xOffset += static_cast<size_t>(charSize.x);
+	//
+	//			++i;
+	//		}
+	//	}
+	//
+	//	size_t curInstanceCount = DX12GameManager::getCurSpriteInstanceCount(DX12GameManager::getSystemHandle(SystemSpriteType::Text));
+	//
+	//	DX12GameManager::updateUploadBuffer(DX12GameManager::getSystemHandle(SystemUploadBufferType::TextTexture), CopySourceDataCarrier(textureData.size(), textureData.data(), textTextureWidth * fontHeight * curInstanceCount * 4U));
+	//
+	//	return xOffset;
+	//}
 
 	tktkMath::Vector2 FontData::getCharSizeAndWriteFontData(HDC hdc, const char c[], size_t xOffset, const tktkMath::Vector2& textTextureSize, std::vector<unsigned char>* data)
 	{
@@ -172,8 +203,6 @@ namespace tktk
 		// 書き込み先を設定せずに、グリフ（字体データ）のサイズのみを取得する処理
 		DWORD size = GetGlyphOutlineW(hdc, code, gradFlag, &glyphMetrics, 0, NULL, &mat);
 
-		if (size == 0U) return tktkMath::Vector2_v::zero;
-
 		// 書き込み先のメモリをグリフ（字体データ）のサイズ分確保する
 		std::vector<BYTE> mono = std::vector<BYTE>(size);
 
@@ -186,6 +215,9 @@ namespace tktk
 
 		// テキスト描画用テキストバッファのサイズを超過していたら書き込みをしない
 		if (fontSizeY > textTextureSize.y || fontSizeX + xOffset > textTextureSize.x) return tktkMath::Vector2_v::zero;
+
+		// グリフ（字体データ）のサイズがゼロ（空白文字）だったら、書き込みを行わずにフォントデータの縦横の大きさを返す
+		if (size == 0U) return { static_cast<float>(fontSizeX),  static_cast<float>(fontSizeY) };
 
 		// フォントデータ内のグリフ（字体データ）のオフセット値
 		size_t glyphOffsetX = glyphMetrics.gmptGlyphOrigin.x;

@@ -31,8 +31,11 @@ namespace tktk
 
 	public:
 
-		// テキストテクスチャのアップロードバッファに引数の文字列のテクスチャデータを書き込み、書き込んだバッファの最大ｘ座標を返す
-		size_t updateTextTextureUploadBuffData(const std::string& text, unsigned int fontHeight, unsigned int textTextureWidth);
+		// テキストテクスチャデータに引数の文字列のテクスチャデータを書き込み、書き込んだバッファの最大ｘ座標を返す
+		size_t updateTextTextureData(const std::string& text, unsigned int fontHeight, unsigned int textTextureWidth, std::vector<unsigned char>* data);
+
+		//// テキストテクスチャのアップロードバッファに引数の文字列のテクスチャデータを書き込み、書き込んだバッファの最大ｘ座標を返す
+		//size_t updateTextTextureUploadBuffData(const std::string& text, unsigned int fontHeight, unsigned int textTextureWidth);
 
 	private:
 
@@ -42,8 +45,6 @@ namespace tktk
 	private:
 
 		HFONT m_fontHandle;
-
-		int m_fontSize;
 
 		float m_fontThicknessRate;
 	};

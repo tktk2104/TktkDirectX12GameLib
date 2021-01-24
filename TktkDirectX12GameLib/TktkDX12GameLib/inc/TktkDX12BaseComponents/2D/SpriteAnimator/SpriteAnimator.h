@@ -15,7 +15,7 @@ namespace tktk
 	{
 	public:
 
-		SpriteAnimator(float initFrame, bool isLoop, float animSpeedRate, float animFramePerSec, unsigned int totalAnimFrameSize);
+		SpriteAnimator(const ComponentPtr<SpriteDrawer>& targetDrawer, float initFrame, bool isLoop, float animSpeedRate, float animFramePerSec, unsigned int totalAnimFrameSize);
 
 	public:
 
