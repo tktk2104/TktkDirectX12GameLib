@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{6b201f8d-fec1-490c-b2d6-5eda56f27391}</ProjectGuid>
+    <RootNamespace>Test2DShootingGame</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <IncludePath>$(SolutionDir)TktkFileIoLib\inc;$(SolutionDir)TktkTemplateMetaLib\inc;$(SolutionDir)TktkContainerLib\inc;$(SolutionDir)TktkMathLib\inc;$(SolutionDir)TktkDX12WrappingLib\inc;$(SolutionDir)TktkDX12GameLib\inc;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)lib\x86;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <IncludePath>$(SolutionDir)TktkFileIoLib\inc;$(SolutionDir)TktkTemplateMetaLib\inc;$(SolutionDir)TktkContainerLib\inc;$(SolutionDir)TktkMathLib\inc;$(SolutionDir)TktkDX12WrappingLib\inc;$(SolutionDir)TktkDX12GameLib\inc;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)lib\x86;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\BackGround\Base\Scripts\Sht2D_BaseBackGroundSpawnerScript.cpp" />
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\BackGround\Base\Scripts\Sht2D_BaseBackGroundSpawnStopperScript.cpp" />
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\BackGround\Base\Sht2D_BaseBackGroundSpawner.cpp" />
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\BackGround\Base\Sht2D_BaseBackGroundSpawnStopper.cpp" />
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\BackGround\StreamingLine\Scripts\Sht2D_StreamingLineSpawnerScript.cpp" />
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\BackGround\StreamingLine\Sht2D_StreamingLineSpawner.cpp" />
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\BackGround\_Scripts\Sht2D_BackGroundScript.cpp" />
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\Effects\Flame\Scripts\Sht2D_FlameScript.cpp" />
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\Effects\Flame\Sht2D_Flame.cpp" />
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\EnemyBullets\EnemyNormalBullet\Scripts\Sht2D_EnemyNormalBulletCollisionReaction.cpp" />
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\EnemyBullets\EnemyNormalBullet\Sht2D_EnemyNormalBullet.cpp" />
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\Enemy\SpreadBulletEnemy\Scripts\Sht2D_DoubleSideMove.cpp" />
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\Enemy\SpreadBulletEnemy\Scripts\Sht2D_SpreadBulletEnemyBulletCreator.cpp" />
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\Enemy\SpreadBulletEnemy\Scripts\Sht2D_SpreadBulletEnemyCombatStarter.cpp" />
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\Enemy\SpreadBulletEnemy\Scripts\Sht2D_SpreadBulletEnemyDamager.cpp" />
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\Enemy\SpreadBulletEnemy\Sht2D_SpreadBulletEnemy.cpp" />
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\Enemy\TankEnemy\Scripts\Sht2D_TankEnemyDamager.cpp" />
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\Enemy\TankEnemy\Scripts\Sht2D_TankEnemyNormalBulletCreator.cpp" />
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\Enemy\TankEnemy\Scripts\Sht2D_TankEnemyTopRotator.cpp" />
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\Enemy\TankEnemy\Sht2D_TankEnemy.cpp" />
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\Effects\Explosion\Sht2D_Explosion.cpp" />
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\Effects\Explosion\Script\Sht2D_ExplosionScript.cpp" />
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\Enemy\_CommonEnemyScripts\CollisionReaction\Sht2D_EnemyCollisionReaction.cpp" />
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\ObjectSpawner\Scripts\Sht2D_ObjectSpawnerScript.cpp" />
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\ObjectSpawner\Sht2D_ObjectSpawner.cpp" />
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\PlayerBullets\PlayerBomb\Scripts\Sht2D_PlayerBombActiveTimer.cpp" />
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\PlayerBullets\PlayerBomb\Scripts\Sht2D_PlayerBombCollisionReaction.cpp" />
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\PlayerBullets\PlayerBomb\Scripts\Sht2D_PlayerBombExplode.cpp" />
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\PlayerBullets\PlayerBomb\Sht2D_PlayerBomb.cpp" />
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\PlayerBullets\PlayerExplosionDamageRange\Scripts\Sht2D_PlayerExplosionDamageRangeScript.cpp" />
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\PlayerBullets\PlayerExplosionDamageRange\Sht2D_PlayerExplosionDamageRange.cpp" />
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\PlayerBullets\PlayerMissile\Scrits\Sht2D_PlayerMissileActiveTimer.cpp" />
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\PlayerBullets\PlayerMissile\Scrits\Sht2D_PlayerMissileCollisionReaction.cpp" />
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\PlayerBullets\PlayerMissile\Scrits\Sht2D_PlayerMissileExplode.cpp" />
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\PlayerBullets\PlayerMissile\Sht2D_PlayerMissile.cpp" />
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\PlayerBullets\PlayerNormalBullet\Scripts\Sht2D_PlayerNormalBulletCollisionReaction.cpp" />
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\PlayerBullets\PlayerNormalBullet\Sht2D_PlayerNormalBullet.cpp" />
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\Player\Scripts\Sht2D_PlayerBombCreator.cpp" />
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\Player\Scripts\Sht2D_PlayerCollisionReaction.cpp" />
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\Player\Scripts\Sht2D_PlayerDamager.cpp" />
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\Player\Scripts\Sht2D_PlayerMissileCreator.cpp" />
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\Player\Scripts\Sht2D_PlayerMoveScript.cpp" />
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\Player\Scripts\Sht2D_PlayerNormalBulletCreator.cpp" />
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\Player\Scripts\Sht2D_PlayerBulletCount.cpp" />
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\Player\Sht2D_Player.cpp" />
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\Ui\GameClearText\Scripts\Sht2D_GameClearTextScript.cpp" />
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\Ui\GameClearText\Sht2D_GameClearText.cpp" />
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\Ui\GameOverText\Scripts\Sht2D_GameOverTextScript.cpp" />
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\Ui\GameOverText\Sht2D_GameOverText.cpp" />
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\Ui\LockOnIcon\Sht2D_LockOnIcon.cpp" />
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\Ui\PlayerBombCounter\Scripts\Sht2D_PlayerBombCounterScript.cpp" />
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\Ui\PlayerBombCounter\Sht2D_PlayerBombCounter.cpp" />
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\Ui\PlayerHpBar\Scripts\Sht2D_PlayerHpBarScript.cpp" />
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\Ui\PlayerHpBar\Sht2D_PlayerHpBar.cpp" />
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\Ui\PlayerMissileCounter\Scripts\Sht2D_PlayerMissileCounterScript.cpp" />
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\Ui\PlayerMissileCounter\Sht2D_PlayerMissileCounter.cpp" />
+    <ClCompile Include="src\GameObject\GameRuleObject\Scripts\Sht2D_GameRuleScript.cpp" />
+    <ClCompile Include="src\GameObject\GameRuleObject\Sht2D_GameRuleObject.cpp" />
+    <ClCompile Include="src\GameObject\ResultSceneObjects\ResultSceneLogo\Sht2D_ResultSceneLogo.cpp" />
+    <ClCompile Include="src\GameObject\ResultSceneObjects\ResultSceneMenu\Scripts\Sht2D_ResultSceneMenuScript.cpp" />
+    <ClCompile Include="src\GameObject\ResultSceneObjects\ResultSceneMenu\Sht2D_ResultSceneMenu.cpp" />
+    <ClCompile Include="src\GameObject\StageSelectSceneObjects\StageSelectSceneLogo\Sht2D_StageSelectSceneLogo.cpp" />
+    <ClCompile Include="src\GameObject\StageSelectSceneObjects\StageSelectSceneMenu\Scripts\Sht2D_StageSelectSceneMenuScript.cpp" />
+    <ClCompile Include="src\GameObject\StageSelectSceneObjects\StageSelectSceneMenu\Sht2D_StageSelectSceneMenu.cpp" />
+    <ClCompile Include="src\GameObject\TitleSceneObjects\TitleSceneLogo\Sht2D_TitleSceneLogo.cpp" />
+    <ClCompile Include="src\GameObject\TitleSceneObjects\TitleSceneMenu\Scripts\Sht2D_TitleSceneMenuScript.cpp" />
+    <ClCompile Include="src\GameObject\TitleSceneObjects\TitleSceneMenu\Sht2D_TitleSceneMenu.cpp" />
+    <ClCompile Include="src\GameObject\_CommonScripts\AutoRotater\Sht2D_AutoRotater.cpp" />
+    <ClCompile Include="src\GameObject\_CommonScripts\GameClearMessageSender\Sht2D_GameClearMessageSender.cpp" />
+    <ClCompile Include="src\GameObject\_CommonScripts\Parameter\DamagePower\Sht2D_DamagePower.cpp" />
+    <ClCompile Include="src\GameObject\_CommonScripts\MoveForward\Sht2D_MoveForward.cpp" />
+    <ClCompile Include="src\GameObject\_CommonScripts\OutGameAreaObjectDeleter\Sht2D_OutGameAreaObjectDeleter.cpp" />
+    <ClCompile Include="src\GameObject\_CommonScripts\Parameter\HealthPoint\Sht2D_HealthPoint.cpp" />
+    <ClCompile Include="src\GameObject\_CommonScripts\RoteteToObject\Sht2D_RoteteToObject.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\Scene\Sht2D_GamePlayScene.cpp" />
+    <ClCompile Include="src\Scene\Sht2D_LoadingScene.cpp" />
+    <ClCompile Include="src\Scene\Sht2D_ResultScene.cpp" />
+    <ClCompile Include="src\Scene\Sht2D_StageSelectScene.cpp" />
+    <ClCompile Include="src\Scene\Sht2D_TitleScene.cpp" />
+    <ClCompile Include="src\Scene\StageScene\Sht2D_Stage1Scene.cpp" />
+    <ClCompile Include="src\Scene\StageScene\Sht2D_Stage2Scene.cpp" />
+    <ClCompile Include="src\Scene\StageScene\Sht2D_Stage3Scene.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\Enums\CollisionGroup\CollisionGroup.h" />
+    <ClInclude Include="src\Enums\CommandId\CommandId.h" />
+    <ClInclude Include="src\Enums\Enums.h" />
+    <ClInclude Include="src\Enums\GameObjectTag\GameObjectTag.h" />
+    <ClInclude Include="src\Enums\Id\ResourceIds.h" />
+    <ClInclude Include="src\Enums\Id\ResourceIds\FontId.h" />
+    <ClInclude Include="src\Enums\Id\ResourceIds\SceneId.h" />
+    <ClInclude Include="src\Enums\Id\ResourceIds\SoundId.h" />
+    <ClInclude Include="src\Enums\Id\ResourceIds\SpriteId.h" />
+    <ClInclude Include="src\Enums\MessageType\EventMessageType.h" />
+    <ClInclude Include="src\Enums\StateType\StateTypes.h" />
+    <ClInclude Include="src\Enums\StateType\StateTypes\PlayerBombStateType.h" />
+    <ClInclude Include="src\Enums\StateType\StateTypes\PlayerMissileStateType.h" />
+    <ClInclude Include="src\Enums\StateType\StateTypes\PlayerStateType.h" />
+    <ClInclude Include="src\Enums\StateType\StateTypes\SpreadBulletEnemyState.h" />
+    <ClInclude Include="src\Enums\StateType\StateTypes\TankEnemyStateTypes.h" />
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\BackGround\Base\Scripts\Sht2D_BaseBackGroundSpawnerScript.h" />
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\BackGround\Base\Scripts\Sht2D_BaseBackGroundSpawnStopperScript.h" />
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\BackGround\Base\Sht2D_BaseBackGroundSpawner.h" />
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\BackGround\Base\Sht2D_BaseBackGroundSpawnStopper.h" />
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\BackGround\StreamingLine\Scripts\Sht2D_StreamingLineSpawnerScript.h" />
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\BackGround\StreamingLine\Sht2D_StreamingLineSpawner.h" />
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\BackGround\_Scripts\Sht2D_BackGroundScript.h" />
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\Effects\Flame\Scripts\Sht2D_FlameScript.h" />
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\Effects\Flame\Sht2D_Flame.h" />
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\EnemyBullets\EnemyNormalBullet\Scripts\Sht2D_EnemyNormalBulletCollisionReaction.h" />
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\EnemyBullets\EnemyNormalBullet\Sht2D_EnemyNormalBullet.h" />
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\Enemy\SpreadBulletEnemy\Scripts\Sht2D_DoubleSideMove.h" />
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\Enemy\SpreadBulletEnemy\Scripts\Sht2D_SpreadBulletEnemyBulletCreator.h" />
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\Enemy\SpreadBulletEnemy\Scripts\Sht2D_SpreadBulletEnemyCombatStarter.h" />
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\Enemy\SpreadBulletEnemy\Scripts\Sht2D_SpreadBulletEnemyDamager.h" />
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\Enemy\SpreadBulletEnemy\Sht2D_SpreadBulletEnemy.h" />
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\Enemy\TankEnemy\Scripts\Sht2D_TankEnemyDamager.h" />
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\Enemy\TankEnemy\Scripts\Sht2D_TankEnemyNormalBulletCreator.h" />
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\Enemy\TankEnemy\Scripts\Sht2D_TankEnemyTopRotator.h" />
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\Enemy\TankEnemy\Sht2D_TankEnemy.h" />
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\Effects\Explosion\Sht2D_Explosion.h" />
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\Effects\Explosion\Script\Sht2D_ExplosionScript.h" />
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\Enemy\_CommonEnemyScripts\CollisionReaction\Sht2D_EnemyCollisionReaction.h" />
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\ObjectSpawner\Scripts\Sht2D_ObjectSpawnerScript.h" />
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\ObjectSpawner\Sht2D_ObjectSpawner.h" />
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\PlayerBullets\PlayerBomb\Scripts\Sht2D_PlayerBombActiveTimer.h" />
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\PlayerBullets\PlayerBomb\Scripts\Sht2D_PlayerBombCollisionReaction.h" />
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\PlayerBullets\PlayerBomb\Scripts\Sht2D_PlayerBombExplode.h" />
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\PlayerBullets\PlayerBomb\Sht2D_PlayerBomb.h" />
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\PlayerBullets\PlayerExplosionDamageRange\Scripts\Sht2D_PlayerExplosionDamageRangeScript.h" />
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\PlayerBullets\PlayerExplosionDamageRange\Sht2D_PlayerExplosionDamageRange.h" />
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\PlayerBullets\PlayerMissile\Scrits\Sht2D_PlayerMissileActiveTimer.h" />
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\PlayerBullets\PlayerMissile\Scrits\Sht2D_PlayerMissileCollisionReaction.h" />
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\PlayerBullets\PlayerMissile\Scrits\Sht2D_PlayerMissileExplode.h" />
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\PlayerBullets\PlayerMissile\Sht2D_PlayerMissile.h" />
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\PlayerBullets\PlayerNormalBullet\Scripts\Sht2D_PlayerNormalBulletCollisionReaction.h" />
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\PlayerBullets\PlayerNormalBullet\Sht2D_PlayerNormalBullet.h" />
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\Player\Scripts\Sht2D_PlayerBombCreator.h" />
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\Player\Scripts\Sht2D_PlayerCollisionReaction.h" />
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\Player\Scripts\Sht2D_PlayerDamager.h" />
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\Player\Scripts\Sht2D_PlayerMissileCreator.h" />
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\Player\Scripts\Sht2D_PlayerMoveScript.h" />
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\Player\Scripts\Sht2D_PlayerNormalBulletCreator.h" />
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\Player\Scripts\Sht2D_PlayerBulletCount.h" />
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\Player\Sht2D_Player.h" />
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\Ui\GameClearText\Scripts\Sht2D_GameClearTextScript.h" />
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\Ui\GameClearText\Sht2D_GameClearText.h" />
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\Ui\GameOverText\Scripts\Sht2D_GameOverTextScript.h" />
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\Ui\GameOverText\Sht2D_GameOverText.h" />
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\Ui\LockOnIcon\Sht2D_LockOnIcon.h" />
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\Ui\PlayerBombCounter\Scripts\Sht2D_PlayerBombCounterScript.h" />
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\Ui\PlayerBombCounter\Sht2D_PlayerBombCounter.h" />
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\Ui\PlayerHpBar\Scripts\Sht2D_PlayerHpBarScript.h" />
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\Ui\PlayerHpBar\Sht2D_PlayerHpBar.h" />
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\Ui\PlayerMissileCounter\Scripts\Sht2D_PlayerMissileCounterScript.h" />
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\Ui\PlayerMissileCounter\Sht2D_PlayerMissileCounter.h" />
+    <ClInclude Include="src\GameObject\GameRuleObject\Scripts\Sht2D_GameRuleScript.h" />
+    <ClInclude Include="src\GameObject\GameRuleObject\Sht2D_GameRuleObject.h" />
+    <ClInclude Include="src\GameObject\ResultSceneObjects\ResultSceneLogo\Sht2D_ResultSceneLogo.h" />
+    <ClInclude Include="src\GameObject\ResultSceneObjects\ResultSceneMenu\Scripts\Sht2D_ResultSceneMenuScript.h" />
+    <ClInclude Include="src\GameObject\ResultSceneObjects\ResultSceneMenu\Sht2D_ResultSceneMenu.h" />
+    <ClInclude Include="src\GameObject\StageSelectSceneObjects\StageSelectSceneLogo\Sht2D_StageSelectSceneLogo.h" />
+    <ClInclude Include="src\GameObject\StageSelectSceneObjects\StageSelectSceneMenu\Scripts\Sht2D_StageSelectSceneMenuScript.h" />
+    <ClInclude Include="src\GameObject\StageSelectSceneObjects\StageSelectSceneMenu\Sht2D_StageSelectSceneMenu.h" />
+    <ClInclude Include="src\GameObject\TitleSceneObjects\TitleSceneLogo\Sht2D_TitleSceneLogo.h" />
+    <ClInclude Include="src\GameObject\TitleSceneObjects\TitleSceneMenu\Scripts\Sht2D_TitleSceneMenuScript.h" />
+    <ClInclude Include="src\GameObject\TitleSceneObjects\TitleSceneMenu\Sht2D_TitleSceneMenu.h" />
+    <ClInclude Include="src\GameObject\_CommonScripts\AutoRotater\Sht2D_AutoRotater.h" />
+    <ClInclude Include="src\GameObject\_CommonScripts\GameClearMessageSender\Sht2D_GameClearMessageSender.h" />
+    <ClInclude Include="src\GameObject\_CommonScripts\Parameter\DamagePower\Sht2D_DamagePower.h" />
+    <ClInclude Include="src\GameObject\_CommonScripts\MoveForward\Sht2D_MoveForward.h" />
+    <ClInclude Include="src\GameObject\_CommonScripts\OutGameAreaObjectDeleter\Sht2D_OutGameAreaObjectDeleter.h" />
+    <ClInclude Include="src\GameObject\_CommonScripts\Parameter\HealthPoint\Sht2D_HealthPoint.h" />
+    <ClInclude Include="src\GameObject\_CommonScripts\RoteteToObject\Sht2D_RoteteToObject.h" />
+    <ClInclude Include="src\Scene\Sht2D_GamePlayScene.h" />
+    <ClInclude Include="src\Scene\Sht2D_LoadingScene.h" />
+    <ClInclude Include="src\Scene\Sht2D_ResultScene.h" />
+    <ClInclude Include="src\Scene\Sht2D_StageSelectScene.h" />
+    <ClInclude Include="src\Scene\Sht2D_TitleScene.h" />
+    <ClInclude Include="src\Scene\StageScene\Sht2D_Stage1Scene.h" />
+    <ClInclude Include="src\Scene\StageScene\Sht2D_Stage2Scene.h" />
+    <ClInclude Include="src\Scene\StageScene\Sht2D_Stage3Scene.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

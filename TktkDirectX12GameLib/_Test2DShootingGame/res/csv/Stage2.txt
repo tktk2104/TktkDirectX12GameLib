@@ -1,0 +1,1 @@
+1.0f,SpreadBulletEnemy,960.0,-100,180.0

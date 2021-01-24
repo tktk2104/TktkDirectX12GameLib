@@ -1,0 +1,564 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="ソース ファイル">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="ヘッダー ファイル">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="リソース ファイル">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\main.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Scene\Sht2D_LoadingScene.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Scene\Sht2D_TitleScene.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Scene\StageScene\Sht2D_Stage3Scene.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Scene\StageScene\Sht2D_Stage2Scene.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Scene\StageScene\Sht2D_Stage1Scene.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Scene\Sht2D_ResultScene.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\TitleSceneObjects\TitleSceneLogo\Sht2D_TitleSceneLogo.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Scene\Sht2D_GamePlayScene.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\TitleSceneObjects\TitleSceneMenu\Sht2D_TitleSceneMenu.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\TitleSceneObjects\TitleSceneMenu\Scripts\Sht2D_TitleSceneMenuScript.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Scene\Sht2D_StageSelectScene.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\StageSelectSceneObjects\StageSelectSceneLogo\Sht2D_StageSelectSceneLogo.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\StageSelectSceneObjects\StageSelectSceneMenu\Sht2D_StageSelectSceneMenu.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\StageSelectSceneObjects\StageSelectSceneMenu\Scripts\Sht2D_StageSelectSceneMenuScript.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\Player\Sht2D_Player.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\Player\Scripts\Sht2D_PlayerMoveScript.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\PlayerBullets\PlayerNormalBullet\Sht2D_PlayerNormalBullet.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\Player\Scripts\Sht2D_PlayerNormalBulletCreator.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\_CommonScripts\OutGameAreaObjectDeleter\Sht2D_OutGameAreaObjectDeleter.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\Enemy\TankEnemy\Sht2D_TankEnemy.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\ObjectSpawner\Sht2D_ObjectSpawner.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\ObjectSpawner\Scripts\Sht2D_ObjectSpawnerScript.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\Enemy\TankEnemy\Scripts\Sht2D_TankEnemyDamager.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\Enemy\TankEnemy\Scripts\Sht2D_TankEnemyTopRotator.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\PlayerBullets\PlayerNormalBullet\Scripts\Sht2D_PlayerNormalBulletCollisionReaction.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\Effects\Flame\Sht2D_Flame.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\Effects\Flame\Scripts\Sht2D_FlameScript.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\PlayerBullets\PlayerMissile\Sht2D_PlayerMissile.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\PlayerBullets\PlayerMissile\Scrits\Sht2D_PlayerMissileCollisionReaction.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\PlayerBullets\PlayerMissile\Scrits\Sht2D_PlayerMissileActiveTimer.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\Player\Scripts\Sht2D_PlayerMissileCreator.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\PlayerBullets\PlayerBomb\Sht2D_PlayerBomb.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\PlayerBullets\PlayerBomb\Scripts\Sht2D_PlayerBombActiveTimer.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\PlayerBullets\PlayerBomb\Scripts\Sht2D_PlayerBombCollisionReaction.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\Player\Scripts\Sht2D_PlayerBombCreator.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\Effects\Explosion\Script\Sht2D_ExplosionScript.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\Effects\Explosion\Sht2D_Explosion.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\PlayerBullets\PlayerExplosionDamageRange\Sht2D_PlayerExplosionDamageRange.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\PlayerBullets\PlayerExplosionDamageRange\Scripts\Sht2D_PlayerExplosionDamageRangeScript.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\PlayerBullets\PlayerBomb\Scripts\Sht2D_PlayerBombExplode.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\PlayerBullets\PlayerMissile\Scrits\Sht2D_PlayerMissileExplode.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\Ui\PlayerBombCounter\Scripts\Sht2D_PlayerBombCounterScript.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\Ui\PlayerBombCounter\Sht2D_PlayerBombCounter.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\Ui\PlayerMissileCounter\Sht2D_PlayerMissileCounter.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\Ui\PlayerMissileCounter\Scripts\Sht2D_PlayerMissileCounterScript.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\Ui\PlayerHpBar\Scripts\Sht2D_PlayerHpBarScript.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\Ui\PlayerHpBar\Sht2D_PlayerHpBar.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\Player\Scripts\Sht2D_PlayerCollisionReaction.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\Player\Scripts\Sht2D_PlayerDamager.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\EnemyBullets\EnemyNormalBullet\Sht2D_EnemyNormalBullet.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\EnemyBullets\EnemyNormalBullet\Scripts\Sht2D_EnemyNormalBulletCollisionReaction.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\Enemy\TankEnemy\Scripts\Sht2D_TankEnemyNormalBulletCreator.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\_CommonScripts\AutoRotater\Sht2D_AutoRotater.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\BackGround\Base\Sht2D_BaseBackGroundSpawner.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\BackGround\Base\Scripts\Sht2D_BaseBackGroundSpawnerScript.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\BackGround\_Scripts\Sht2D_BackGroundScript.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\BackGround\StreamingLine\Scripts\Sht2D_StreamingLineSpawnerScript.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\BackGround\StreamingLine\Sht2D_StreamingLineSpawner.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\Enemy\SpreadBulletEnemy\Sht2D_SpreadBulletEnemy.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\_CommonScripts\MoveForward\Sht2D_MoveForward.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\_CommonScripts\Parameter\DamagePower\Sht2D_DamagePower.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\_CommonScripts\Parameter\HealthPoint\Sht2D_HealthPoint.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\Player\Scripts\Sht2D_PlayerBulletCount.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\Enemy\_CommonEnemyScripts\CollisionReaction\Sht2D_EnemyCollisionReaction.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\Enemy\SpreadBulletEnemy\Scripts\Sht2D_DoubleSideMove.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\Enemy\SpreadBulletEnemy\Scripts\Sht2D_SpreadBulletEnemyCombatStarter.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\Enemy\SpreadBulletEnemy\Scripts\Sht2D_SpreadBulletEnemyDamager.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\Enemy\SpreadBulletEnemy\Scripts\Sht2D_SpreadBulletEnemyBulletCreator.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\Ui\LockOnIcon\Sht2D_LockOnIcon.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\_CommonScripts\RoteteToObject\Sht2D_RoteteToObject.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\Ui\GameOverText\Sht2D_GameOverText.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\Ui\GameOverText\Scripts\Sht2D_GameOverTextScript.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\GameRuleObject\Sht2D_GameRuleObject.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\GameRuleObject\Scripts\Sht2D_GameRuleScript.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\Ui\GameClearText\Sht2D_GameClearText.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\Ui\GameClearText\Scripts\Sht2D_GameClearTextScript.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\_CommonScripts\GameClearMessageSender\Sht2D_GameClearMessageSender.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\BackGround\Base\Scripts\Sht2D_BaseBackGroundSpawnStopperScript.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\GamePlaySceneObjects\BackGround\Base\Sht2D_BaseBackGroundSpawnStopper.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\ResultSceneObjects\ResultSceneLogo\Sht2D_ResultSceneLogo.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\ResultSceneObjects\ResultSceneMenu\Sht2D_ResultSceneMenu.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameObject\ResultSceneObjects\ResultSceneMenu\Scripts\Sht2D_ResultSceneMenuScript.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\Scene\Sht2D_LoadingScene.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Enums\CollisionGroup\CollisionGroup.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Enums\CommandId\CommandId.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Enums\GameObjectTag\GameObjectTag.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Enums\Id\ResourceIds\FontId.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Enums\Id\ResourceIds\SceneId.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Enums\Id\ResourceIds\SoundId.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Enums\Id\ResourceIds\SpriteId.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Enums\Id\ResourceIds.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Enums\MessageType\EventMessageType.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Enums\StateType\StateTypes\PlayerStateType.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Enums\StateType\StateTypes.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Enums\Enums.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Scene\Sht2D_TitleScene.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Scene\Sht2D_GamePlayScene.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Scene\StageScene\Sht2D_Stage1Scene.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Scene\StageScene\Sht2D_Stage2Scene.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Scene\StageScene\Sht2D_Stage3Scene.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Scene\Sht2D_ResultScene.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\TitleSceneObjects\TitleSceneLogo\Sht2D_TitleSceneLogo.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\TitleSceneObjects\TitleSceneMenu\Sht2D_TitleSceneMenu.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\TitleSceneObjects\TitleSceneMenu\Scripts\Sht2D_TitleSceneMenuScript.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Scene\Sht2D_StageSelectScene.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\StageSelectSceneObjects\StageSelectSceneLogo\Sht2D_StageSelectSceneLogo.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\StageSelectSceneObjects\StageSelectSceneMenu\Sht2D_StageSelectSceneMenu.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\StageSelectSceneObjects\StageSelectSceneMenu\Scripts\Sht2D_StageSelectSceneMenuScript.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\Player\Sht2D_Player.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\Player\Scripts\Sht2D_PlayerMoveScript.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\PlayerBullets\PlayerNormalBullet\Sht2D_PlayerNormalBullet.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\Player\Scripts\Sht2D_PlayerNormalBulletCreator.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\_CommonScripts\OutGameAreaObjectDeleter\Sht2D_OutGameAreaObjectDeleter.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\Enemy\TankEnemy\Sht2D_TankEnemy.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\ObjectSpawner\Sht2D_ObjectSpawner.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\ObjectSpawner\Scripts\Sht2D_ObjectSpawnerScript.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\Enemy\TankEnemy\Scripts\Sht2D_TankEnemyDamager.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\Enemy\TankEnemy\Scripts\Sht2D_TankEnemyTopRotator.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Enums\StateType\StateTypes\TankEnemyStateTypes.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\PlayerBullets\PlayerNormalBullet\Scripts\Sht2D_PlayerNormalBulletCollisionReaction.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\Effects\Flame\Sht2D_Flame.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\Effects\Flame\Scripts\Sht2D_FlameScript.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\PlayerBullets\PlayerMissile\Sht2D_PlayerMissile.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\PlayerBullets\PlayerBomb\Sht2D_PlayerBomb.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Enums\StateType\StateTypes\PlayerMissileStateType.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\PlayerBullets\PlayerMissile\Scrits\Sht2D_PlayerMissileCollisionReaction.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\PlayerBullets\PlayerMissile\Scrits\Sht2D_PlayerMissileActiveTimer.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\Player\Scripts\Sht2D_PlayerMissileCreator.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Enums\StateType\StateTypes\PlayerBombStateType.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\PlayerBullets\PlayerBomb\Scripts\Sht2D_PlayerBombActiveTimer.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\PlayerBullets\PlayerBomb\Scripts\Sht2D_PlayerBombCollisionReaction.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\Player\Scripts\Sht2D_PlayerBombCreator.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\Effects\Explosion\Script\Sht2D_ExplosionScript.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\Effects\Explosion\Sht2D_Explosion.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\PlayerBullets\PlayerExplosionDamageRange\Sht2D_PlayerExplosionDamageRange.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\PlayerBullets\PlayerExplosionDamageRange\Scripts\Sht2D_PlayerExplosionDamageRangeScript.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\PlayerBullets\PlayerBomb\Scripts\Sht2D_PlayerBombExplode.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\PlayerBullets\PlayerMissile\Scrits\Sht2D_PlayerMissileExplode.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\Ui\PlayerBombCounter\Scripts\Sht2D_PlayerBombCounterScript.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\Ui\PlayerBombCounter\Sht2D_PlayerBombCounter.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\Ui\PlayerMissileCounter\Sht2D_PlayerMissileCounter.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\Ui\PlayerMissileCounter\Scripts\Sht2D_PlayerMissileCounterScript.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\Ui\PlayerHpBar\Sht2D_PlayerHpBar.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\Ui\PlayerHpBar\Scripts\Sht2D_PlayerHpBarScript.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\Player\Scripts\Sht2D_PlayerCollisionReaction.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\Player\Scripts\Sht2D_PlayerDamager.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\EnemyBullets\EnemyNormalBullet\Sht2D_EnemyNormalBullet.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\EnemyBullets\EnemyNormalBullet\Scripts\Sht2D_EnemyNormalBulletCollisionReaction.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\Enemy\TankEnemy\Scripts\Sht2D_TankEnemyNormalBulletCreator.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\_CommonScripts\AutoRotater\Sht2D_AutoRotater.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\BackGround\Base\Sht2D_BaseBackGroundSpawner.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\BackGround\Base\Scripts\Sht2D_BaseBackGroundSpawnerScript.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\BackGround\_Scripts\Sht2D_BackGroundScript.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\BackGround\StreamingLine\Sht2D_StreamingLineSpawner.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\BackGround\StreamingLine\Scripts\Sht2D_StreamingLineSpawnerScript.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\Enemy\SpreadBulletEnemy\Sht2D_SpreadBulletEnemy.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Enums\StateType\StateTypes\SpreadBulletEnemyState.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\_CommonScripts\MoveForward\Sht2D_MoveForward.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\_CommonScripts\Parameter\DamagePower\Sht2D_DamagePower.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\_CommonScripts\Parameter\HealthPoint\Sht2D_HealthPoint.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\Player\Scripts\Sht2D_PlayerBulletCount.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\Enemy\_CommonEnemyScripts\CollisionReaction\Sht2D_EnemyCollisionReaction.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\Enemy\SpreadBulletEnemy\Scripts\Sht2D_DoubleSideMove.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\Enemy\SpreadBulletEnemy\Scripts\Sht2D_SpreadBulletEnemyCombatStarter.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\Enemy\SpreadBulletEnemy\Scripts\Sht2D_SpreadBulletEnemyDamager.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\Enemy\SpreadBulletEnemy\Scripts\Sht2D_SpreadBulletEnemyBulletCreator.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\Ui\LockOnIcon\Sht2D_LockOnIcon.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\_CommonScripts\RoteteToObject\Sht2D_RoteteToObject.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\Ui\GameOverText\Sht2D_GameOverText.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\Ui\GameOverText\Scripts\Sht2D_GameOverTextScript.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\GameRuleObject\Sht2D_GameRuleObject.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\GameRuleObject\Scripts\Sht2D_GameRuleScript.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\Ui\GameClearText\Sht2D_GameClearText.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\Ui\GameClearText\Scripts\Sht2D_GameClearTextScript.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\_CommonScripts\GameClearMessageSender\Sht2D_GameClearMessageSender.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\BackGround\Base\Sht2D_BaseBackGroundSpawnStopper.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\GamePlaySceneObjects\BackGround\Base\Scripts\Sht2D_BaseBackGroundSpawnStopperScript.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\ResultSceneObjects\ResultSceneLogo\Sht2D_ResultSceneLogo.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\ResultSceneObjects\ResultSceneMenu\Sht2D_ResultSceneMenu.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameObject\ResultSceneObjects\ResultSceneMenu\Scripts\Sht2D_ResultSceneMenuScript.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
