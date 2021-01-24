@@ -10,12 +10,12 @@ namespace tktk
 	ConstantBufferData::ConstantBufferData(ID3D12Device* device, size_t dataSize)
 	{
 		// GPUアクセスに特化したヒープを作る（シェーダーが使用する）
-		D3D12_HEAP_PROPERTIES constBuffHeapProp{};
-		constBuffHeapProp.Type					= D3D12_HEAP_TYPE_DEFAULT;
-		constBuffHeapProp.CPUPageProperty		= D3D12_CPU_PAGE_PROPERTY_UNKNOWN;
-		constBuffHeapProp.MemoryPoolPreference	= D3D12_MEMORY_POOL_UNKNOWN;
-		constBuffHeapProp.CreationNodeMask		= 0U;
-		constBuffHeapProp.VisibleNodeMask		= 0U;
+		D3D12_HEAP_PROPERTIES heapProp{};
+		heapProp.Type					= D3D12_HEAP_TYPE_DEFAULT;
+		heapProp.CPUPageProperty		= D3D12_CPU_PAGE_PROPERTY_UNKNOWN;
+		heapProp.MemoryPoolPreference	= D3D12_MEMORY_POOL_UNKNOWN;
+		heapProp.CreationNodeMask		= 0U;
+		heapProp.VisibleNodeMask		= 0U;
 
 		D3D12_RESOURCE_DESC resDesc{};
 		resDesc.Dimension			= D3D12_RESOURCE_DIMENSION_BUFFER;
@@ -30,7 +30,7 @@ namespace tktk
 		resDesc.Layout				= D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
 
 		device->CreateCommittedResource(
-			&constBuffHeapProp,
+			&heapProp,
 			D3D12_HEAP_FLAG_NONE,
 			&resDesc,
 			D3D12_RESOURCE_STATE_GENERIC_READ,

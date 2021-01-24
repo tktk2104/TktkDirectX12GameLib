@@ -17,7 +17,7 @@ namespace tktk
 	public:
 
 		// 「IndexBufferData」のインスタンスを作り、そのリソースのハンドルを返す
-		size_t create(ID3D12Device* device, const std::vector<unsigned short>& indexDataArray);
+		size_t create(ID3D12Device* device, size_t dataSize);
 
 		// 指定のインデックスバッファを削除する
 		// ※引数のハンドルに対応するリソースが無かったら何もしない

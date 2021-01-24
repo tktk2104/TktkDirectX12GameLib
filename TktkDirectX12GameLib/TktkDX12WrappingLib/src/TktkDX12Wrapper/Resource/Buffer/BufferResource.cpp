@@ -132,19 +132,25 @@ namespace tktk
 		}
 	}
 
-	size_t BufferResource::createVertexBuffer(ID3D12Device* device, const VertexDataCarrier& vertexData)
+	size_t BufferResource::createVertexBuffer(ID3D12Device* device, ID3D12GraphicsCommandList* commandList, const VertexDataCarrier& vertexData)
 	{
-		return m_vertexBuffer->create(device, vertexData);
+		size_t createdHandle = m_vertexBuffer->create(device, vertexData.typeSize, (vertexData.typeSize * vertexData.dataCount));
+
+		auto initParam = UploadBufferInitParam(BufferType::vertex, createdHandle, (vertexData.typeSize * vertexData.dataCount), vertexData.dataTopPos);
+
+		m_uploadBuffer->createTempBuffer(
+			device,
+			commandList,
+			initParam,
+			m_vertexBuffer->getBufferPtr(createdHandle)
+		);
+
+		return createdHandle;
 	}
 
 	void BufferResource::eraseVertexBuffer(size_t handle)
 	{
 		m_vertexBuffer->erase(handle);
-	}
-
-	void BufferResource::updateVertexBuffer(size_t handle, const VertexDataCarrier& vertexData)
-	{
-		m_vertexBuffer->update(handle, vertexData);
 	}
 
 	void BufferResource::setVertexBuffer(size_t handle, ID3D12GraphicsCommandList* commandList) const
@@ -157,9 +163,20 @@ namespace tktk
 		m_vertexBuffer->set(meshVertHandle, instancingVertHandle, commandList);
 	}
 
-	size_t BufferResource::createIndexBuffer(ID3D12Device* device, const std::vector<unsigned short>& indexDataArray)
+	size_t BufferResource::createIndexBuffer(ID3D12Device* device, ID3D12GraphicsCommandList* commandList, const std::vector<unsigned short>& indexDataArray)
 	{
-		return m_indexBuffer->create(device, indexDataArray);
+		size_t createdHandle = m_indexBuffer->create(device, sizeof(unsigned short) * indexDataArray.size());
+
+		auto initParam = UploadBufferInitParam(BufferType::index, createdHandle, (sizeof(unsigned short) * indexDataArray.size()), indexDataArray.data());
+	
+		m_uploadBuffer->createTempBuffer(
+			device,
+			commandList,
+			initParam,
+			m_indexBuffer->getBufferPtr(createdHandle)
+		);
+
+		return createdHandle;
 	}
 
 	void BufferResource::eraseIndexBuffer(size_t handle)

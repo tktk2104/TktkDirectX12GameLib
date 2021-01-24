@@ -16,7 +16,7 @@ namespace tktk
 	{
 	public:
 
-		IndexBufferData(ID3D12Device* device, const std::vector<unsigned short>& indexDataArray);
+		IndexBufferData(ID3D12Device* device, size_t dataSize);
 		~IndexBufferData();
 
 		// ムーブコンストラクタ

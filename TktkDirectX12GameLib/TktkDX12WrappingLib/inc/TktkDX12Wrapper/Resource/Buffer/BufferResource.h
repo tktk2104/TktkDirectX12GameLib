@@ -63,14 +63,11 @@ namespace tktk
 	public: /* 頂点バッファの処理 */
 
 		// 頂点バッファを作り、そのリソースのハンドルを返す
-		size_t createVertexBuffer(ID3D12Device* device, const VertexDataCarrier& vertexData);
+		size_t createVertexBuffer(ID3D12Device* device, ID3D12GraphicsCommandList* commandList, const VertexDataCarrier& vertexData);
 
 		// 指定の頂点バッファを削除する
 		// ※引数のハンドルに対応するリソースが無かったら何もしない
 		void eraseVertexBuffer(size_t handle);
-
-		// 指定の頂点バッファをコマンドリストを使わずに更新する
-		void updateVertexBuffer(size_t handle, const VertexDataCarrier& vertexData);
 
 		// コマンドリストに指定の頂点バッファを登録する
 		void setVertexBuffer(size_t handle, ID3D12GraphicsCommandList* commandList) const;
@@ -81,7 +78,7 @@ namespace tktk
 	public: /* インデックスバッファの処理 */
 
 		// インデックスバッファを作り、そのリソースのハンドルを返す
-		size_t createIndexBuffer(ID3D12Device* device, const std::vector<unsigned short>& indexDataArray);
+		size_t createIndexBuffer(ID3D12Device* device, ID3D12GraphicsCommandList* commandList, const std::vector<unsigned short>& indexDataArray);
 
 		// 指定のインデックスバッファを削除する
 		// ※引数のハンドルに対応するリソースが無かったら何もしない

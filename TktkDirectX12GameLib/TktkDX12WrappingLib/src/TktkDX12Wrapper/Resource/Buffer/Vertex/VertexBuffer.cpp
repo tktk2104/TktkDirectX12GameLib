@@ -7,19 +7,14 @@ namespace tktk
 	{
 	}
 
-	size_t VertexBuffer::create(ID3D12Device* device, const VertexDataCarrier& vertexData)
+	size_t VertexBuffer::create(ID3D12Device* device, size_t strideDataSize, size_t allDataSize)
 	{
-		return m_vertexBufferDataArray.create(device, vertexData);
+		return m_vertexBufferDataArray.create(device, strideDataSize, allDataSize);
 	}
 
 	void VertexBuffer::erase(size_t handle)
 	{
 		m_vertexBufferDataArray.erase(handle);
-	}
-
-	void VertexBuffer::update(size_t handle, const VertexDataCarrier& vertexData)
-	{
-		m_vertexBufferDataArray.getMatchHandlePtr(handle)->update(vertexData);
 	}
 
 	void VertexBuffer::set(size_t handle, ID3D12GraphicsCommandList* commandList) const

@@ -59,10 +59,10 @@ namespace tktk
 		size_t duplicateUploadBuffer(ID3D12Device* device, size_t originalHandle);
 
 		// 頂点バッファを作り、そのリソースのハンドルを返す
-		size_t createVertexBuffer(ID3D12Device* device, const VertexDataCarrier& vertexData);
+		size_t createVertexBuffer(ID3D12Device* device, ID3D12GraphicsCommandList* commandList, const VertexDataCarrier& vertexData);
 
 		// インデックスバッファを作り、そのリソースのハンドルを返す
-		size_t createIndexBuffer(ID3D12Device* device, const std::vector<unsigned short>& indices);
+		size_t createIndexBuffer(ID3D12Device* device, ID3D12GraphicsCommandList* commandList, const std::vector<unsigned short>& indices);
 
 		// 定数バッファを作り、そのリソースのハンドルを返す
 		size_t createCBuffer(ID3D12Device* device, ID3D12GraphicsCommandList* commandList, const CopySourceDataCarrier& constantBufferData);
@@ -156,9 +156,6 @@ namespace tktk
 
 		// 引数のポインタのデータを指定のアップロードバッファにコピーする
 		void updateUploadBuffer(size_t handle, const CopySourceDataCarrier& bufferData);
-
-		// 指定の頂点バッファをコマンドリストを使わずに更新する
-		void updateVertexBuffer(size_t handle, const VertexDataCarrier& vertexData);
 
 		// 指定のアップロードバッファの内容を設定したバッファにアップロードするGPU命令を行う
 		void copyBuffer(size_t handle, ID3D12GraphicsCommandList* commandList) const;

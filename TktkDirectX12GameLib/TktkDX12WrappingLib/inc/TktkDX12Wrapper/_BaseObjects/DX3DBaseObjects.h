@@ -165,9 +165,6 @@ namespace tktk
 		// 引数のポインタのデータを指定のアップロードバッファにコピーする
 		void updateUploadBuffer(size_t handle, const CopySourceDataCarrier& bufferData);
 
-		// 指定の頂点バッファをコマンドリストを使わずに更新する
-		void updateVertexBuffer(size_t handle, const VertexDataCarrier& vertexData);
-
 		// 指定のアップロードバッファの内容を設定したバッファにアップロードするGPU命令を行う
 		void copyBuffer(size_t handle) const;
 

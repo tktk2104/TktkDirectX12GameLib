@@ -15,16 +15,13 @@ namespace tktk
 	{
 	public:
 
-		VertexBufferData(ID3D12Device* device, const VertexDataCarrier& vertexData);
+		VertexBufferData(ID3D12Device* device, size_t strideDataSize, size_t allDataSize);
 		~VertexBufferData();
 
 		// ムーブコンストラクタ
 		VertexBufferData(VertexBufferData&& other) noexcept;
 
 	public:
-
-		// 頂点バッファをコマンドリストを使わずに更新する
-		void update(const VertexDataCarrier& vertexData);
 
 		// コマンドリストに頂点バッファを登録する
 		void set(ID3D12GraphicsCommandList* commandList) const;

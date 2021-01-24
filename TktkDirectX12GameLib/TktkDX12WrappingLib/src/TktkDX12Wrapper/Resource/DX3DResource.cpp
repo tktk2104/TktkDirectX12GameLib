@@ -59,14 +59,14 @@ namespace tktk
 		return m_bufferResource->duplicateUploadBuffer(device, originalHandle);
 	}
 
-	size_t DX3DResource::createVertexBuffer(ID3D12Device* device, const VertexDataCarrier& vertexData)
+	size_t DX3DResource::createVertexBuffer(ID3D12Device* device, ID3D12GraphicsCommandList* commandList, const VertexDataCarrier& vertexData)
 	{
-		return m_bufferResource->createVertexBuffer(device, vertexData);
+		return m_bufferResource->createVertexBuffer(device, commandList, vertexData);
 	}
 
-	size_t DX3DResource::createIndexBuffer(ID3D12Device* device, const std::vector<unsigned short>& indices)
+	size_t DX3DResource::createIndexBuffer(ID3D12Device* device, ID3D12GraphicsCommandList* commandList, const std::vector<unsigned short>& indices)
 	{
-		return m_bufferResource->createIndexBuffer(device, indices);
+		return m_bufferResource->createIndexBuffer(device, commandList, indices);
 	}
 
 	size_t DX3DResource::createCBuffer(ID3D12Device* device, ID3D12GraphicsCommandList* commandList, const CopySourceDataCarrier& constantBufferData)
@@ -251,11 +251,6 @@ namespace tktk
 	void DX3DResource::updateUploadBuffer(size_t handle, const CopySourceDataCarrier& bufferData)
 	{
 		m_bufferResource->updateUploadBuffer(handle, bufferData);
-	}
-
-	void DX3DResource::updateVertexBuffer(size_t handle, const VertexDataCarrier& vertexData)
-	{
-		m_bufferResource->updateVertexBuffer(handle, vertexData);
 	}
 
 	void DX3DResource::copyBuffer(size_t handle, ID3D12GraphicsCommandList* commandList) const

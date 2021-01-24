@@ -137,12 +137,12 @@ namespace tktk
 
 	size_t DX3DBaseObjects::createVertexBuffer(const VertexDataCarrier& vertexData)
 	{
-		return m_dX3DResource->createVertexBuffer(m_device, vertexData);
+		return m_dX3DResource->createVertexBuffer(m_device, m_commandList, vertexData);
 	}
 
 	size_t DX3DBaseObjects::createIndexBuffer(const std::vector<unsigned short>& indices)
 	{
-		return m_dX3DResource->createIndexBuffer(m_device, indices);
+		return m_dX3DResource->createIndexBuffer(m_device, m_commandList, indices);
 	}
 
 	size_t DX3DBaseObjects::createCBuffer(const CopySourceDataCarrier& constantBufferData)
@@ -277,11 +277,6 @@ namespace tktk
 	void DX3DBaseObjects::updateUploadBuffer(size_t handle, const CopySourceDataCarrier& bufferData)
 	{
 		m_dX3DResource->updateUploadBuffer(handle, bufferData);
-	}
-
-	void DX3DBaseObjects::updateVertexBuffer(size_t handle, const VertexDataCarrier& vertexData)
-	{
-		m_dX3DResource->updateVertexBuffer(handle, vertexData);
 	}
 
 	void DX3DBaseObjects::copyBuffer(size_t handle) const

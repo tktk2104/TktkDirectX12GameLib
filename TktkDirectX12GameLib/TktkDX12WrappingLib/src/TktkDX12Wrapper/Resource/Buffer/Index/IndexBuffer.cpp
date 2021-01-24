@@ -7,9 +7,9 @@ namespace tktk
 	{
 	}
 
-	size_t IndexBuffer::create(ID3D12Device* device, const std::vector<unsigned short>& indexDataArray)
+	size_t IndexBuffer::create(ID3D12Device* device, size_t dataSize)
 	{
-		return m_indexBufferDataArray.create(device, indexDataArray);
+		return m_indexBufferDataArray.create(device, dataSize);
 	}
 
 	void IndexBuffer::erase(size_t handle)
