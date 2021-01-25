@@ -87,9 +87,9 @@ namespace tktk
 		}
 		initParam.samplerDescArray.resize(1U);
 		{/* ÉTÉìÉvÉâÅ[ÇÃê›íË */
-			initParam.samplerDescArray.at(0).addressU			= D3D12_TEXTURE_ADDRESS_MODE_WRAP;
-			initParam.samplerDescArray.at(0).addressV			= D3D12_TEXTURE_ADDRESS_MODE_WRAP;
-			initParam.samplerDescArray.at(0).addressW			= D3D12_TEXTURE_ADDRESS_MODE_WRAP;
+			initParam.samplerDescArray.at(0).addressU			= D3D12_TEXTURE_ADDRESS_MODE_CLAMP;
+			initParam.samplerDescArray.at(0).addressV			= D3D12_TEXTURE_ADDRESS_MODE_CLAMP;
+			initParam.samplerDescArray.at(0).addressW			= D3D12_TEXTURE_ADDRESS_MODE_CLAMP;
 			initParam.samplerDescArray.at(0).bordercolor		= D3D12_STATIC_BORDER_COLOR_TRANSPARENT_BLACK;
 			initParam.samplerDescArray.at(0).filter				= D3D12_FILTER_MIN_MAG_MIP_LINEAR;
 			initParam.samplerDescArray.at(0).maxLod				= D3D12_FLOAT32_MAX;

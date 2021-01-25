@@ -39,6 +39,26 @@ namespace tktk
 		void start();
 		void afterCollide();
 
+	public:
+
+		// 使用するフォントIDを再設定する
+		void setFontId(ResourceIdCarrier fontId);
+
+		// 描画するテキストを更新する
+		void updateText(const std::string& text);
+
+		// テキストのローカル座標を再設定する
+		void setLocalPosition(const tktkMath::Vector2& localPosition);
+
+		// テキストのローカルスケールを再設定する
+		void setLocalScale(const tktkMath::Vector2& localScale);
+
+		// テキストの中心位置の割合を再設定する
+		void setCenterRate(const tktkMath::Vector2& centerRate);
+
+		// ブレンドレートを再設定する
+		void setBlendRate(const tktkMath::Color& blendRate);
+
 	private:
 
 		float						m_drawPriority;

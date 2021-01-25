@@ -54,4 +54,34 @@ namespace tktk
 		// テキストスプライトをインスタンス描画する時に使用する値を追加する
 		DX12GameManager::addSpriteInstanceParam(DX12GameManager::getSystemHandle(SystemSpriteType::Text), m_drawPriority, instanceVertData);
 	}
+
+	void TextDrawer2D::setFontId(ResourceIdCarrier fontId)
+	{
+		m_fontHandle = DX12GameManager::getFontHandle(fontId);
+	}
+
+	void TextDrawer2D::updateText(const std::string& text)
+	{
+		m_tempText = text;
+	}
+
+	void TextDrawer2D::setLocalPosition(const tktkMath::Vector2& localPosition)
+	{
+		m_localPosition = localPosition;
+	}
+
+	void TextDrawer2D::setLocalScale(const tktkMath::Vector2& localScale)
+	{
+		m_localScale = localScale;
+	}
+
+	void TextDrawer2D::setCenterRate(const tktkMath::Vector2& centerRate)
+	{
+		m_centerRate = centerRate;
+	}
+
+	void TextDrawer2D::setBlendRate(const tktkMath::Color& blendRate)
+	{
+		m_blendRate = blendRate;
+	}
 }
