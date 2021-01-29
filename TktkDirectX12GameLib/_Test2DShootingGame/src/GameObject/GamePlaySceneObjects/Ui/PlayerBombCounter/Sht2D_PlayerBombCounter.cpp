@@ -6,7 +6,8 @@
 
 tktk::GameObjectPtr Sht2D_PlayerBombCounter::create(const tktkMath::Vector2& position)
 {
-    auto gameObject = tktk::DX12Game::createGameObject();
+    // ゲームオブジェクトを作る
+    tktk::GameObjectPtr gameObject = tktk::DX12Game::createGameObject();
 
     // ゲームプレイシーンが終わると消えるオブジェクトを表すタグ
     gameObject->addGameObjectTag(GameObjectTag::GamePlaySceneObject);
@@ -14,9 +15,10 @@ tktk::GameObjectPtr Sht2D_PlayerBombCounter::create(const tktkMath::Vector2& pos
     // 二次元座標管理コンポーネント
     tktk::Transform2DMaker::makeStart(gameObject)
         .initPosition(position)
-        .initScaleRate(0.75f)
+        .initScaleRate(tktkMath::Vector2(0.75f, 0.75f))
         .create();
 
+    // プレイヤーボムの残弾数だけアイコンを表示するコンポーネント
     gameObject->createComponent<Sht2D_PlayerBombCounterScript>();
 
     return gameObject;

@@ -3,6 +3,7 @@
 
 #include <TktkDX12GameLib.h>
 
+// ｘ軸での反復移動コンポーネント
 class Sht2D_DoubleSideMove
 	: public tktk::ComponentBase
 {
@@ -17,12 +18,19 @@ public:
 
 private:
 
+	// 毎秒の移動速度
 	float m_moveSpeedPerSec;
+
+	// 毎秒の加速速度
 	float m_accelerationPerSec;
 
+	// 左側の折り返しｘ座標
 	float m_minXPos;
+
+	// 右側の折り返しｘ座標
 	float m_maxXPos;
 
+	// 移動横行が反転しているかのフラグ
 	bool m_isInversion{ false };
 
 	tktk::ComponentPtr<tktk::Transform2D>			m_transform;

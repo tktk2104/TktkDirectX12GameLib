@@ -560,5 +560,8 @@
     <ClInclude Include="src\GameObject\ResultSceneObjects\ResultSceneMenu\Scripts\Sht2D_ResultSceneMenuScript.h">
       <Filter>ヘッダー ファイル</Filter>
     </ClInclude>
+    <ClInclude Include="tutorialText\tutorialText.h">
+      <Filter>ヘッダー ファイル</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

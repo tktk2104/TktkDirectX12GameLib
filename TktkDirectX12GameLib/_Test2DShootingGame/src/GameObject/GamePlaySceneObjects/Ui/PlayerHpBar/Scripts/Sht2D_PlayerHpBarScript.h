@@ -4,6 +4,7 @@
 #include <TktkDX12GameLib.h>
 #include "../../../../_CommonScripts/Parameter/HealthPoint/Sht2D_HealthPoint.h"
 
+// Hpバーを伸縮させるコンポーネント
 class Sht2D_PlayerHpBarScript
 	: public tktk::ComponentBase
 {

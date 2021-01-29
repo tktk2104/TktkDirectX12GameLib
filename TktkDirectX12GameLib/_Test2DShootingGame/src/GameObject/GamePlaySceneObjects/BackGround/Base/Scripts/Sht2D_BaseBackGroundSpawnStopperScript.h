@@ -3,6 +3,7 @@
 
 #include <TktkDX12GameLib.h>
 
+// 基地の背景生成停止コンポーネント
 class Sht2D_BaseBackGroundSpawnStopperScript
 	: public tktk::ComponentBase
 {

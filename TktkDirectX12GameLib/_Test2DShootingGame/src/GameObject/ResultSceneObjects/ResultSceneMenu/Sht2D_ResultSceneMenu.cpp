@@ -5,7 +5,8 @@
 
 tktk::GameObjectPtr Sht2D_ResultSceneMenu::create()
 {
-    auto gameObject = tktk::DX12Game::createGameObject();
+    // ゲームオブジェクトを作る
+    tktk::GameObjectPtr gameObject = tktk::DX12Game::createGameObject();
 
     // リザルトシーンが終わると消えるオブジェクトを表すタグ
     gameObject->addGameObjectTag(GameObjectTag::ResultSceneObject);

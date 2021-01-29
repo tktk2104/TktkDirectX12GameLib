@@ -4,6 +4,12 @@
 #include <array>
 #include <TktkDX12GameLib.h>
 
+  /*┌────────────────────────────────────────────────────────────────────────────────────────
+	│自作のコンポーネントを作る際は「tktk::ComponentBase」を継承して下さい。
+	│　シーンと同じように複数の関数がダックタイピング的に呼ばれます。
+	│　どのような関数があるかは「ComponentBase.h」を参照して下さい。（「tktk::ComponentBase」をシングルクリック＆F12キーを入力）
+	└────────────────────────────────────────────────────────────────────────────────────────*/
+
 // タイトルメニュースクリプト
 class Sht2D_TitleSceneMenuScript
 	: public tktk::ComponentBase
@@ -13,6 +19,10 @@ public:
 	Sht2D_TitleSceneMenuScript() = default;
 
 public:
+
+  /*┌────────────────────────────────────────────────────────────────────────────────────────
+	│下の２つの関数はフレームワーク側で自動で呼ばれる関数です。関数名を間違えると呼ばれないので注意しましょう。
+	└────────────────────────────────────────────────────────────────────────────────────────*/
 
 	void start();
 	void update();
@@ -38,7 +48,7 @@ private:
 private:
 
 	// メニュー項目の選択肢を変更する間隔のタイマー（秒）
-	float m_changeMenuIntervalSecTimer{ 0.0f };
+	float m_changeMenuIntervalSecTimer	{ 0.0f };
 
 	// 現在選択されているメニューの種類
 	MenuContantType		m_curMenuState	{ MenuContantType::GameStart };

@@ -3,6 +3,7 @@
 
 #include <TktkDX12GameLib.h>
 
+// 拡散弾エネミーの戦闘開始コンポーネント
 class Sht2D_SpreadBulletEnemyCombatStarter
 	: public tktk::ComponentBase
 {
@@ -17,6 +18,7 @@ public:
 
 private:
 
+	// 戦闘を開始するｙ座標
 	constexpr static float StartCombatYPos	{ 128.0f };
 
 private:

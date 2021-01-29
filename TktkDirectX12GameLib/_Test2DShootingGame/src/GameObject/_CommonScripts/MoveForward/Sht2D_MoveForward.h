@@ -3,6 +3,7 @@
 
 #include <TktkDX12GameLib.h>
 
+// 前方に移動するコンポーネント
 class Sht2D_MoveForward
 	: public tktk::ComponentBase
 {
@@ -22,7 +23,10 @@ public:
 
 private:
 
+	// 毎秒の移動速度
 	float m_moveSpeedPerSec;
+
+	// 毎秒の加速速度
 	float m_accelerationPerSec;
 
 	tktk::ComponentPtr<tktk::Transform2D>			m_transform;

@@ -5,7 +5,8 @@
 
 tktk::GameObjectPtr Sht2D_Flame::create(const tktkMath::Vector2& position, float rotate)
 {
-    auto gameObject = tktk::DX12Game::createGameObject();
+    // ゲームオブジェクトを作る
+    tktk::GameObjectPtr gameObject = tktk::DX12Game::createGameObject();
 
     // 二次元座標管理コンポーネント
     tktk::Transform2DMaker::makeStart(gameObject)
@@ -16,7 +17,7 @@ tktk::GameObjectPtr Sht2D_Flame::create(const tktkMath::Vector2& position, float
     // スプライト描画コンポーネント
     tktk::SpriteDrawerMaker::makeStart(gameObject)
         .spriteMaterialId(SpriteId::Flame)
-        .centerRate({ 0.5f, 1.0f })
+        .centerRate(tktkMath::Vector2(0.5f, 1.0f))
         .create();
 
     // 炎エフェクトのアニメーションコンポーネント

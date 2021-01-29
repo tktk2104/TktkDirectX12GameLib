@@ -30,9 +30,10 @@ void Sht2D_PlayerDamager::handleMessage(tktk::MessageTypeCarrier type, const tkt
 		// ƒ_ƒ[ƒW‚ð—^‚¦‚é
 		m_healthPoint->damage(*attachment.getValuePtr<float>().lock());
 
-		// Ž€‚ñ‚¾‚ç
+		// ƒvƒŒƒCƒ„[‚Ì‘Ï‹v—Í‚ª‚OˆÈ‰º‚É‚È‚Á‚½‚ç
 		if (m_healthPoint->outOfHp())
 		{
+			// Ž©g‚Ìó‘Ô‚ð¶‘¶ó‘Ô‚©‚çŽ€–Só‘Ô‚Ö‘JˆÚ‚³‚¹‚é
 			getGameObject()->stateDisable(PlayerStateType::Alive);
 			getGameObject()->stateEnable(PlayerStateType::Dead);
 		}

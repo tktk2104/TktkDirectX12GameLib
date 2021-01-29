@@ -18,7 +18,7 @@ void Sht2D_PlayerHpBarScript::update()
 	if (m_healthPoint.expired())
 	{
 		// プレイヤーオブジェクトを取得する
-		auto playerObject = tktk::DX12Game::findGameObjectWithTag(GameObjectTag::Player);
+		tktk::GameObjectPtr playerObject = tktk::DX12Game::findGameObjectWithTag(GameObjectTag::Player);
 
 		// プレイヤーオブジェクトを取得できなければ処理を終える
 		if (playerObject.expired()) return;
@@ -31,5 +31,5 @@ void Sht2D_PlayerHpBarScript::update()
 	}
 
 	// 現在のHpの割合を参照して自身のスケールを辺かさせる
-	m_transform->setLocalScaleRate({ static_cast<float>(m_healthPoint->getCurHp()) / m_healthPoint->getMaxHp(), m_transform->getLocalScaleRate().y });
+	m_transform->setLocalScaleRate(tktkMath::Vector2(static_cast<float>(m_healthPoint->getCurHp()) / m_healthPoint->getMaxHp(), m_transform->getLocalScaleRate().y));
 }

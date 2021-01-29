@@ -17,7 +17,8 @@ namespace
     // 描画用オブジェクト
     inline tktk::GameObjectPtr createSpriteObject()
     {
-        auto gameObject = tktk::DX12Game::createGameObject();
+        // ゲームオブジェクトを作る
+        tktk::GameObjectPtr gameObject = tktk::DX12Game::createGameObject();
 
         // 二次元座標管理コンポーネント
         tktk::Transform2DMaker::makeStart(gameObject)
@@ -43,6 +44,7 @@ namespace
             // 前方に移動するコンポーネント（毎秒移動速度, 毎秒加速速度）
             gameObject->createComponent<Sht2D_MoveForward>(150.0f, 4096.0f);
         
+            // 拡散弾エネミーの戦闘開始コンポーネント
             gameObject->createComponent<Sht2D_SpreadBulletEnemyCombatStarter>();
         }
         // 特定の状態に追加する設定を解除する
@@ -55,8 +57,10 @@ namespace
         //  生存ステートに追加する設定を行う
         gameObject->setTargetHierarchy({ SpreadBulletEnemyState::Alive, SpreadBulletEnemyState::Combat });
         {
+            // 拡散弾エネミーの弾生成コンポーネント
             gameObject->createComponent<Sht2D_SpreadBulletEnemyBulletCreator>();
 
+            // ｘ軸での反復移動コンポーネント（毎秒の移動速度、毎秒の加速速度、左側の折り返しｘ座標、右側の折り返しｘ座標）
             gameObject->createComponent<Sht2D_DoubleSideMove>(
                 100.0f, 2048.0f,
                 512.0f, tktk::DX12Game::getScreenSize().x - 512.0f
@@ -72,11 +76,13 @@ namespace
         //  生存ステートに追加する設定を行う
         gameObject->setTargetHierarchy({ SpreadBulletEnemyState::Alive });
         {
+            // 円の衝突判定コンポーネント
             tktk::CircleColliderMaker::makeStart(gameObject)
                 .radius(32.0f)
                 .collisionGroupType(CollisionGroup::Enemy)
                 .create();
 
+            // 拡散弾エネミーのダメージ処理コンポーネント
             gameObject->createComponent<Sht2D_SpreadBulletEnemyDamager>();
         }
         // 特定の状態に追加する設定を解除する
@@ -104,27 +110,26 @@ namespace
             // 被撃墜の煙のコンポーネント
             tktk::SpriteSpreadEffectCreatorMaker::makeStart(gameObject)
                 .spriteMaterialId(SpriteId::Spark)
-                .generateLocalPosRandomRange({ 48.0f, 48.0f })
+                .generateLocalPosRandomRange(tktkMath::Vector2(48.0f, 48.0f))
                 .generateIntervalTimeSec(0.1f)
                 .generateNumPerOnce(1)
                 .totalGenerateNum(-1)
-                .spriteBlendRate({ 1.0f, 0.5f })
+                .spriteBlendRate(tktkMath::Color(0.2f, 0.6f))
                 .setChild(false)
                 .lifeTimeSec(1.0f)
                 .moveSpeedPerSec(1024.0f)
-                .spriteScale(0.6f)
-                .spriteBlendRate({ 0.2f, 0.6f })
+                .spriteScale(tktkMath::Vector2(0.6f, 0.6f))
                 .minGenerateAngleDeg(170.0f)
                 .maxGenerateAngleDeg(190.0f)
-                .blendRateChangeWidthPerSec({ 0.0f, -1.0f })
+                .blendRateChangeWidthPerSec(tktkMath::Color(0.0f, -1.0f))
                 .create();
 
             // 爆発のスプライトアニメーションを複数生成するコンポーネント
             tktk::SpriteSpreadEffectCreatorMaker::makeStart(gameObject)
-                .generateLocalPosRandomRange({ 128.0f, 128.0f })
+                .generateLocalPosRandomRange(tktkMath::Vector2(128.0f, 128.0f))
                 .generateIntervalTimeSec(0.2f)
                 .generateNumPerOnce(1)
-                .totalGenerateNum(10U)
+                .totalGenerateNum(10)
                 .spriteMaterialId(SpriteId::Explosion)
                 .lifeTimeSec(1.0f)
                 .moveSpeedPerSec(0.0f)
@@ -142,7 +147,8 @@ namespace
 
 tktk::GameObjectPtr Sht2D_SpreadBulletEnemy::create(const tktkMath::Vector2& position, float rotate)
 {
-    auto gameObject = tktk::DX12Game::createGameObject();
+    // ゲームオブジェクトを作る
+    tktk::GameObjectPtr gameObject = tktk::DX12Game::createGameObject();
 
     // ゲームプレイシーンが終わると消えるオブジェクトを表すタグ
     gameObject->addGameObjectTag(GameObjectTag::GamePlaySceneObject);
@@ -182,12 +188,13 @@ tktk::GameObjectPtr Sht2D_SpreadBulletEnemy::create(const tktkMath::Vector2& pos
         .decelerationPerSec(1024.0f)
         .create();
 
+    // スプライト描画用オブジェクトを自身の子要素にする
     gameObject->addChild(createSpriteObject());
 
-    // 接触時のダメージ
+    // 接触時のダメージ（接触開始時ダメージ、毎秒の接触中ダメージ）
     gameObject->createComponent<Sht2D_DamagePower>(0.0f, 10.0f);
 
-    // 拡散弾エネミー耐久力のコンポーネント
+    // 拡散弾エネミー耐久力のコンポーネント（最大耐久力）
     gameObject->createComponent<Sht2D_HealthPoint>(1000.0f);
 
     // エネミーの衝突判定リアクションコンポーネント

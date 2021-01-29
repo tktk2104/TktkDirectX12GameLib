@@ -5,6 +5,9 @@
 
 void Sht2D_StageSelectScene::start()
 {
+	// ステージセレクトシーンのロゴオブジェクトを作る
 	Sht2D_StageSelectSceneLogo::create();
+
+	// ステージセレクトシーンのメニューオブジェクト
 	Sht2D_StageSelectSceneMenu::create();
 }

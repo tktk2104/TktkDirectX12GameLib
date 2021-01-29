@@ -30,9 +30,10 @@ void Sht2D_SpreadBulletEnemyDamager::handleMessage(tktk::MessageTypeCarrier type
 		// ƒ_ƒ[ƒW‚ð—^‚¦‚é
 		m_healthPoint->damage(*attachment.getValuePtr<float>().lock());
 
-		// Ž€‚ñ‚¾‚ç
+		// ‘Ï‹v—Í‚ª‚OˆÈ‰º‚¾‚Á‚½‚ç
 		if (m_healthPoint->outOfHp())
 		{
+			// Ž©g‚Ìó‘Ô‚ð¶‘¶ó‘Ô‚©‚çŽ€–Só‘Ô‚É‘JˆÚ‚·‚é
 			getGameObject()->stateDisable(SpreadBulletEnemyState::Alive);
 			getGameObject()->stateEnable(SpreadBulletEnemyState::Dead);
 		}

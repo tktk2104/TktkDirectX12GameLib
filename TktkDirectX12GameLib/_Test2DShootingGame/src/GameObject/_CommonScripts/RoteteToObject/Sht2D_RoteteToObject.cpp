@@ -5,8 +5,10 @@
 Sht2D_RoteteToObject::Sht2D_RoteteToObject(float rotateSpeedPerSecDeg, const tktk::GameObjectPtr& rotateTarget)
 	: m_rotateSpeedPerSecDeg(rotateSpeedPerSecDeg)
 {
+	// 回転対象オブジェクトが存在しなかったら関数を終える
 	if (rotateTarget.expired()) return;
 
+	// 回転対象オブジェクトから座標管理コンポーネントを取得する
 	m_roteteTargetTransform			= rotateTarget->getComponent<tktk::Transform2D>();
 }
 
@@ -22,6 +24,7 @@ void Sht2D_RoteteToObject::start()
 
 void Sht2D_RoteteToObject::update()
 {
+	// 回転対象の座標管理コンポーネントが存在しなかったら関数を終える
 	if (m_roteteTargetTransform.expired()) return;
 
 	// 自身->ターゲットのベクトルを計算

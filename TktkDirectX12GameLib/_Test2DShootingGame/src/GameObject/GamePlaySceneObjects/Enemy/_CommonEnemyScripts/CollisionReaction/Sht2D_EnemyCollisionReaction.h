@@ -19,10 +19,12 @@ public:
 
 private:
 
+	// 爆発エフェクトの出現間隔（秒）
 	constexpr static float CreateExplosionIntervalTimeSec{ 0.5f };
 
 private:
 
+	// 爆発エフェクトの出現間隔タイマー（秒）
 	float m_createExplosionIntervalSecTimer{ 0.0f };
 };
 #endif // !SHT_2D_ENEMY_COLLISION_REACTION_H_

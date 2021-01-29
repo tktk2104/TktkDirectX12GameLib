@@ -15,13 +15,17 @@ void Sht2D_TankEnemyNormalBulletCreator::start()
 
 void Sht2D_TankEnemyNormalBulletCreator::update()
 {
+	// 弾の発射間隔タイマーが０以上だったら
 	if (m_shotIntervalSecTimer > 0.0f)
 	{
+		// 発射間隔タイマーをカウントダウン
 		m_shotIntervalSecTimer -= tktk::DX12Game::deltaTime();
 		return;
 	}
 
+	// 敵の通常弾を生成する
 	Sht2D_EnemyNormalBullet::create(tktkMath::Vector2(0.0f, -64.0f) * m_transform->calculateWorldMatrix(), m_transform->getWorldRotationDeg(), m_transform->calculateWorldUp() * BulletSpeedPerSec);
 
+	// 弾の発射間隔タイマーをリセットする
 	m_shotIntervalSecTimer = ShotIntervalTimeSec;
 }

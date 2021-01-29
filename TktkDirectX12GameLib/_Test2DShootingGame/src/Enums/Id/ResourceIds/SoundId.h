@@ -11,5 +11,6 @@ enum class SoundId
 
 	/* SE */
 	ShotSE,			// ’e”­ŽËSE
+	ExplosionSE,	// ”š”­‰¹SE
 };
 #endif // !SOUND_ID_H_

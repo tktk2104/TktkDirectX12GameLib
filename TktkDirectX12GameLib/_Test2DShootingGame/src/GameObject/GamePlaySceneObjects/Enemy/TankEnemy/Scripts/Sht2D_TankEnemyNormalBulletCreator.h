@@ -3,6 +3,7 @@
 
 #include <TktkDX12GameLib.h>
 
+// 戦車エネミーの弾発射コンポーネント
 class Sht2D_TankEnemyNormalBulletCreator
 	: public tktk::ComponentBase
 {
@@ -17,12 +18,15 @@ public:
 
 private:
 
+	// 毎秒の弾の移動速度
 	constexpr static float BulletSpeedPerSec	{ 512.0f };
 
+	// 弾の発射間隔（秒）
 	constexpr static float ShotIntervalTimeSec	{ 1.0f };
 
 private:
 
+	// 弾の発射間隔タイマー
 	float m_shotIntervalSecTimer{ 0.0f };
 
 	tktk::ComponentPtr<tktk::Transform2D> m_transform;

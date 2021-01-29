@@ -3,6 +3,7 @@
 
 #include <TktkDX12GameLib.h>
 
+// 拡散弾エネミーの弾生成コンポーネント
 class Sht2D_SpreadBulletEnemyBulletCreator
 	: public tktk::ComponentBase
 {
@@ -17,19 +18,25 @@ public:
 
 private:
 
+	// 毎秒の弾の移動速度
 	constexpr static float	BulletSpeedPerSec			{ 512.0f };
 
+	// 一度に何発の弾を生成するか？
 	constexpr static size_t CreateBulletCountPerOnce	{ 3U };
 
+	// 弾の発射間隔タイマー（秒）
 	constexpr static float	ShotIntervalTimeSec			{ 0.1f };
 
-	constexpr static float	ShotBulletAngleDist			{ 22.0f };
+	// 発射ごとの弾の発射角の差（度数法）
+	constexpr static float	ShotBulletAngleDistDeg		{ 66.0f };
 
 private:
 
-	float m_curBaseShotAngle		{ 0.0f };
+	// 現在の弾の発射角の基準値（度数法）
+	float m_curBaseShotAngleDeg		{ 0.0f };
 
-	float m_shotIntervalSecTimer{ 0.0f };
+	// 弾の発射間隔タイマー（秒）
+	float m_shotIntervalSecTimer	{ 0.0f };
 
 	tktk::ComponentPtr<tktk::Transform2D> m_transform;
 

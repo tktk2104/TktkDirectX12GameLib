@@ -4,5 +4,6 @@
 
 void Sht2D_GameClearMessageSender::onEnable()
 {
+	// メッセージ送信！
 	tktk::DX12Game::sendMessageAll(EventMessageType::GameClear);
 }

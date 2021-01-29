@@ -18,8 +18,10 @@ public:
 
 private:
 
+	// 回転先座標のオフセット値（なんちゃって偏差射撃）
 	constexpr static tktkMath::Vector2 TargetOffset	{ 0.0f, -64.0f };
 
+	// 毎秒の最大回転幅（度数法）
 	constexpr static float RotateSpeedPerSecDeg		{ 30.0f };
 
 private:

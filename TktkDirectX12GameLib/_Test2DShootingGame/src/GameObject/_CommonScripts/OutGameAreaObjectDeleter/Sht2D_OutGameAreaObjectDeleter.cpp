@@ -18,9 +18,11 @@ void Sht2D_OutGameAreaObjectDeleter::start()
 
 void Sht2D_OutGameAreaObjectDeleter::update()
 {
+	// 自身のオブジェクトが画面外に出ていたら
 	if (m_transform->getWorldPosition().x < m_gameAreaLeftTopPos.x || m_transform->getWorldPosition().y < m_gameAreaLeftTopPos.y ||
 		m_transform->getWorldPosition().x > m_gameAreaRightBottomPos.x || m_transform->getWorldPosition().y > m_gameAreaRightBottomPos.y)
 	{
+		// 自身のオブジェクトを削除する
 		getGameObject()->destroy();
 	}
 }

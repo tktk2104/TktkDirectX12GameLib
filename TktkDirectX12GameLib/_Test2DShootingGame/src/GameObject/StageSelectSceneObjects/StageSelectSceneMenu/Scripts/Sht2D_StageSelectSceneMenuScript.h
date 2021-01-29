@@ -40,10 +40,10 @@ private:
 private:
 
 	// メニュー項目の選択肢を変更する間隔のタイマー（秒）
-	float m_changeMenuIntervalSecTimer{ 0.0f };
+	float m_changeMenuIntervalSecTimer	{ 0.0f };
 
 	// 現在選択されているメニューの種類
-	MenuContantType		m_curMenuState{ MenuContantType::Stage1 };
+	MenuContantType		m_curMenuState	{ MenuContantType::Stage1 };
 
 	// メニューの項目オブジェクトのポインタを管理する配列
 	std::array<tktk::GameObjectPtr, 4U> m_menuContantObjectArray;

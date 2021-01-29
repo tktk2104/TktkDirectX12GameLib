@@ -17,7 +17,7 @@ public:
 
 private:
 
-	float m_activeTimeSec;
-	float m_activeSecTimer{ 0.0f };
+	// アクティブタイマー（秒）
+	float m_activeSecTimer;
 };
 #endif // !SHT_2D_PLAYER_MISSILE_ACTIVE_TIMER_H_

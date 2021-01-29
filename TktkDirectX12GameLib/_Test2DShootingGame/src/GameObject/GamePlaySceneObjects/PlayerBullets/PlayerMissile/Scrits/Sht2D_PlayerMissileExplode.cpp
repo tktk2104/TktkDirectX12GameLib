@@ -23,7 +23,7 @@ void Sht2D_PlayerMissileExplode::explode()
 	// ƒvƒŒƒCƒ„[‚Ì”š”­UŒ‚”ÍˆÍ‚ð¶¬
 	Sht2D_PlayerExplosionDamageRange::create(
 		m_transform->getWorldPosition(),
-		{ 2.0f, 2.0f },
+		tktkMath::Vector2(2.0f, 2.0f),
 		0.1f,
 		0.5f,
 		m_startHitPower,

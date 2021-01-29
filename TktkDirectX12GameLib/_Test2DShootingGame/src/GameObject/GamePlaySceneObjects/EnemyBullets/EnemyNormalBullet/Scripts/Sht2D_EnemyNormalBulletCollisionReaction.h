@@ -3,6 +3,7 @@
 
 #include <TktkDX12GameLib.h>
 
+// エネミー通常弾の衝突判定リアクションコンポーネント
 class Sht2D_EnemyNormalBulletCollisionReaction
 	: public tktk::ComponentBase
 {

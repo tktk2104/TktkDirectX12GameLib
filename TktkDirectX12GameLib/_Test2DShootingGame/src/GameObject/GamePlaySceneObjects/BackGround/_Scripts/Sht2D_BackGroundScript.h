@@ -3,6 +3,7 @@
 
 #include <TktkDX12GameLib.h>
 
+// 背景画像のスクロールコンポーネント
 class Sht2D_BackGroundScript
 	: public tktk::ComponentBase
 {
@@ -17,6 +18,7 @@ public:
 
 private:
 
+	// 毎秒の移動速度
 	tktkMath::Vector2 m_velocityPerSec;
 
 	tktk::ComponentPtr<tktk::Transform2D> m_transform;

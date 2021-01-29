@@ -3,12 +3,13 @@
 
 #include <TktkDX12GameLib.h>
 
+// 自動回転コンポーネント
 class Sht2D_AutoRotater
 	: public tktk::ComponentBase
 {
 public:
 
-	explicit Sht2D_AutoRotater(float rotateSpeedPerSec);
+	explicit Sht2D_AutoRotater(float rotateSpeedPerSecDeg);
 
 public:
 
@@ -17,7 +18,8 @@ public:
 
 private:
 
-	float m_rotateSpeedPerSec;
+	// 毎秒の回転角度（度数法）
+	float m_rotateSpeedPerSecDeg;
 
 	tktk::ComponentPtr<tktk::Transform2D>			m_transform;
 };

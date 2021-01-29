@@ -3,7 +3,7 @@
 
 #include <TktkDX12GameLib.h>
 
-// プレイヤーが発生させた爆発攻撃範囲
+// プレイヤーが発生させた爆発攻撃範囲オブジェクト
 struct Sht2D_PlayerExplosionDamageRange
 {
 	static tktk::GameObjectPtr create(const tktkMath::Vector2& position, const tktkMath::Vector2& scale, float effectIntervalTimeSec, float deleteTime, float startHitPower, float stayHitPowerPerSec);

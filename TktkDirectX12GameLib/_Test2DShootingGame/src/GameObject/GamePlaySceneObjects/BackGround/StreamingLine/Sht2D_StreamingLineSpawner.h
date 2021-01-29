@@ -3,6 +3,7 @@
 
 #include <TktkDX12GameLib.h>
 
+// 流れる線オブジェクトスポナー
 struct Sht2D_StreamingLineSpawner
 {
 	static tktk::GameObjectPtr create();

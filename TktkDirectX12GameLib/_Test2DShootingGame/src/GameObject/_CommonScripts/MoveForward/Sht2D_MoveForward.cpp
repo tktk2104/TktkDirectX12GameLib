@@ -25,6 +25,7 @@ void Sht2D_MoveForward::start()
 
 void Sht2D_MoveForward::update()
 {
+	// オブジェクトが向いている方向に継続的な加速を行う
 	m_inertialMovement->addContinuousForce(m_transform->calculateLocalUp() * m_moveSpeedPerSec, m_accelerationPerSec);
 }
 

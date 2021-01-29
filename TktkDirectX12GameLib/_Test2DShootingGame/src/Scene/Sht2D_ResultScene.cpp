@@ -5,6 +5,9 @@
 
 void Sht2D_ResultScene::start()
 {
+	// リザルトシーンのロゴオブジェクトを作る
 	Sht2D_ResultSceneLogo::create();
+
+	// リザルトシーンのメニューオブジェクト
 	Sht2D_ResultSceneMenu::create();
 }

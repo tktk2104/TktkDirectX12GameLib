@@ -3,6 +3,7 @@
 
 #include <TktkDX12GameLib.h>
 
+// ゲームオーバー時のシーン遷移コンポーネント
 class Sht2D_GameOverTextScript
 	: public tktk::ComponentBase
 {

@@ -3,6 +3,7 @@
 
 #include <TktkDX12GameLib.h>
 
+// ゲームルールコンポーネント
 class Sht2D_GameRuleScript
 	: public tktk::ComponentBase
 {

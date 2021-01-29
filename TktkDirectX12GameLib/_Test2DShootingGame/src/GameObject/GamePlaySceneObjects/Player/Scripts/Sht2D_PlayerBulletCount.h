@@ -3,7 +3,7 @@
 
 #include <TktkDX12GameLib.h>
 
-// プレイヤーの能力値のコンポーネント
+// プレイヤー弾数コンポーネント
 class Sht2D_PlayerBulletCount
 	: public tktk::ComponentBase
 {

@@ -27,9 +27,12 @@ void Sht2D_DoubleSideMove::start()
 
 void Sht2D_DoubleSideMove::update()
 {
+	// 現在のｘ座標が左側の折り返し地点を過ぎていたら、反転移動フラグを折る
 	if (m_transform->getWorldPosition().x < m_minXPos) m_isInversion = false;
 
+	// 現在のｘ座標が右側の折り返し地点を過ぎていたら、反転移動フラグを立てる
 	if (m_transform->getWorldPosition().x > m_maxXPos) m_isInversion = true;
 
+	// 移動方向に継続的に加速する
 	m_inertialMovement->addContinuousForce(tktkMath::Vector2_v::right * m_moveSpeedPerSec * (m_isInversion ? -1.0f : 1.0f), m_accelerationPerSec);
 }

@@ -6,7 +6,8 @@
 
 tktk::GameObjectPtr Sht2D_PlayerExplosionDamageRange::create(const tktkMath::Vector2& position, const tktkMath::Vector2& scale, float effectIntervalTimeSec, float deleteTime, float startHitPower, float stayHitPowerPerSec)
 {
-    auto gameObject = tktk::DX12Game::createGameObject();
+    // ゲームオブジェクトを作る
+    tktk::GameObjectPtr gameObject = tktk::DX12Game::createGameObject();
 
     // ゲームプレイシーンが終わると消えるオブジェクトを表すタグ
     gameObject->addGameObjectTag(GameObjectTag::GamePlaySceneObject);
@@ -26,10 +27,12 @@ tktk::GameObjectPtr Sht2D_PlayerExplosionDamageRange::create(const tktkMath::Vec
         .collisionGroupType(CollisionGroup::PlayerBullet)
         .create();
 
+    // スプライト描画コンポーネント
     tktk::SpriteDrawerMaker::makeStart(gameObject)
         .spriteMaterialId(SpriteId::Explosion)
         .create();
 
+    // スプライトアニメーションコンポーネント
     tktk::SpriteAnimatorMaker::makeStart(gameObject)
         .totalAnimFrameSize(15U)
         .isLoop(false)
@@ -37,7 +40,7 @@ tktk::GameObjectPtr Sht2D_PlayerExplosionDamageRange::create(const tktkMath::Vec
 
     // 爆発のスプライトアニメーションを複数生成するコンポーネント
     tktk::SpriteSpreadEffectCreatorMaker::makeStart(gameObject)
-        .generateLocalPosRandomRange({ 24.0f, 24.0f })
+        .generateLocalPosRandomRange(tktkMath::Vector2(24.0f, 24.0f))
         .generateIntervalTimeSec(effectIntervalTimeSec)
         .generateNumPerOnce(1)
         .spriteMaterialId(SpriteId::Explosion)

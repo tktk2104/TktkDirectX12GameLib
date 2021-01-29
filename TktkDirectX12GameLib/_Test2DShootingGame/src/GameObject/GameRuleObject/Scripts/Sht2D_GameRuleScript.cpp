@@ -7,33 +7,47 @@
 
 void Sht2D_GameRuleScript::start()
 {
+	// プレイヤーオブジェクトを取得する
 	m_playerObject = tktk::DX12Game::findGameObjectWithTag(GameObjectTag::Player);
 }
 
 void Sht2D_GameRuleScript::update()
 {
+	// プレイヤーオブジェクトが取得できなければ関数を終える
 	if (m_playerObject.expired()) return;
 
-	auto playerHp = m_playerObject->getComponent<Sht2D_HealthPoint>();
+	// プレイヤーオブジェクトから耐久力コンポーネントを取得する
+	tktk::ComponentPtr<Sht2D_HealthPoint> playerHp = m_playerObject->getComponent<Sht2D_HealthPoint>();
 
+	// プレイヤーの耐久力が０以下だったら
 	if (playerHp->outOfHp())
 	{
+		// ゲームオーバーテキストを生成する
 		Sht2D_GameOverText::create();
 
-		auto objectSpawner = tktk::DX12Game::findGameObjectWithTag(GameObjectTag::ObjectSpawner);
+		// 全てのオブジェクトスポナーを削除する
+		for (const auto& objectSpawner : tktk::DX12Game::findGameObjectsWithTag(GameObjectTag::ObjectSpawner))
+		{
+			objectSpawner->setActive(false);
+		}
 
-		if (!objectSpawner.expired()) objectSpawner->setActive(false);
-
+		// プレイヤーオブジェクトポインタを初期化する
 		m_playerObject = tktk::GameObjectPtr();
 	}
 }
 
 void Sht2D_GameRuleScript::handleMessage(tktk::MessageTypeCarrier type, const tktk::MessageAttachment& attachment)
 {
+	// プレイヤーオブジェクトが取得できなければ関数を終える
+	if (m_playerObject.expired()) return;
+
+	// ゲームクリアメッセージを取得したら
 	if (type.isSame(EventMessageType::GameClear))
 	{
+		// ゲームクリアテキストを生成する
 		Sht2D_GameClearText::create();
 
+		// プレイヤーオブジェクトポインタを初期化する
 		m_playerObject = tktk::GameObjectPtr();
 	}
 }

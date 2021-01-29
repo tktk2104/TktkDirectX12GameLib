@@ -3,18 +3,21 @@
 #include "../../../../../Enums/Enums.h"
 
 Sht2D_PlayerMissileActiveTimer::Sht2D_PlayerMissileActiveTimer(float activeTimeSec)
-	: m_activeTimeSec(activeTimeSec)
+	: m_activeSecTimer(activeTimeSec)
 {
 }
 
 void Sht2D_PlayerMissileActiveTimer::update()
 {
-	if (m_activeSecTimer > m_activeTimeSec)
+	// アクティブタイマーカウントが０だったら
+	if (m_activeSecTimer < 0.0f)
 	{
+		// ミサイルのステートを待機状態からアクティブ状態に遷移して関数を終える
 		getGameObject()->stateEnable(PlayerMissileStateType::Active);
 		getGameObject()->stateDisable(PlayerMissileStateType::Idle);
 		return;
 	}
 
-	m_activeSecTimer += tktk::DX12Game::deltaTime();
+	// アクティブタイマーをカウントダウン
+	m_activeSecTimer -= tktk::DX12Game::deltaTime();
 }

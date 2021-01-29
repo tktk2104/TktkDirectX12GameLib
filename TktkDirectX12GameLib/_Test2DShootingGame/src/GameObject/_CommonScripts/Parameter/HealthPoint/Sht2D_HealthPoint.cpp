@@ -10,7 +10,7 @@ void Sht2D_HealthPoint::damage(float damage)
 {
     m_curHp -= damage;
 
-    // HPがマイナスの値にならないための処理
+    // 耐久力がマイナスの値にならないための処理
     if (m_curHp < 0.0f) m_curHp = 0.0f;
 }
 

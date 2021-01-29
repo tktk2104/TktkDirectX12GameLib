@@ -30,9 +30,10 @@ void Sht2D_TankEnemyDamager::handleMessage(tktk::MessageTypeCarrier type, const 
 		// ƒ_ƒ[ƒW‚ð—^‚¦‚é
 		m_healthPoint->damage(*attachment.getValuePtr<float>().lock());
 
-		// Ž€‚ñ‚¾‚ç
+		// Ž©g‚Ì‘Ì—Í‚ª‚OˆÈ‰º‚¾‚Á‚½‚ç
 		if (m_healthPoint->outOfHp())
 		{
+			// Ž©g‚Ìó‘Ô‚ð¶‘¶ó‘Ô‚©‚çŽ€–Só‘Ô‚É‘JˆÚ‚³‚¹‚é
 			getGameObject()->stateDisable(TankEnemyStateTypes::Alive);
 			getGameObject()->stateEnable(TankEnemyStateTypes::Dead);
 		}

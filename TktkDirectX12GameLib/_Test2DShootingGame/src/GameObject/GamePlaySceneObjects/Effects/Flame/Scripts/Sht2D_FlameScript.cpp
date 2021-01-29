@@ -12,11 +12,18 @@ void Sht2D_FlameScript::start()
 
 void Sht2D_FlameScript::update()
 {
-	if (m_scalingSecTimer > ScalingMaxTimeSec) m_scalingSecTimer = 0.0f;
-
+	// スケーリングタイマーをカウントアップする
 	m_scalingSecTimer += tktk::DX12Game::deltaTime();
 
-	const auto& curScale = m_transform->getLocalScaleRate();
+	// スケーリングタイマーが最大値に達していたら値をリセットする
+	if (m_scalingSecTimer > ScalingMaxTimeSec) m_scalingSecTimer = 0.0f;
 
-	m_transform->setLocalScaleRate({ curScale.x, 1.0f + (std::abs(m_scalingSecTimer - ScalingMaxTimeSec / 2.0f) / (ScalingMaxTimeSec / 2.0f) * (MaxYScaleRate - 1.0f)) });
+	// スケーリングタイマーの値を使ってスケールを計算する
+	const tktkMath::Vector2& calculateScale = tktkMath::Vector2(
+		m_transform->getLocalScaleRate().x,
+		1.0f + (std::abs(m_scalingSecTimer - ScalingMaxTimeSec / 2.0f) / (ScalingMaxTimeSec / 2.0f) * (MaxYScaleRate - 1.0f))
+	);
+
+	// 計算した値で更新する
+	m_transform->setLocalScaleRate(calculateScale);
 }

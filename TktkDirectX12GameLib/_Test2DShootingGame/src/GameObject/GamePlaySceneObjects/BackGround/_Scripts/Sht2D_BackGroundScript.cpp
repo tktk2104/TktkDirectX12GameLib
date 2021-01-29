@@ -17,5 +17,6 @@ void Sht2D_BackGroundScript::start()
 
 void Sht2D_BackGroundScript::update()
 {
+	// ˆÚ“®‘¬“x•ªŽ©g‚ðˆÚ“®‚³‚¹‚é
 	m_transform->addLocalPosition(m_velocityPerSec * tktk::DX12Game::deltaTime());
 }

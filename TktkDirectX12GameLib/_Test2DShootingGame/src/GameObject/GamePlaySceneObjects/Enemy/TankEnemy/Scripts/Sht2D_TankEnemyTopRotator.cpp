@@ -15,25 +15,29 @@ void Sht2D_TankEnemyTopRotator::start()
 
 void Sht2D_TankEnemyTopRotator::update()
 {
-	auto player = tktk::DX12Game::findGameObjectWithTag(GameObjectTag::Player);
+	// プレイヤーオブジェクトを取得
+	tktk::GameObjectPtr player = tktk::DX12Game::findGameObjectWithTag(GameObjectTag::Player);
 
+	// プレイヤーオブジェクトが取得できなければ関数を終える
  	if (player.expired()) return;
 
-	auto playerTransform = player->getComponent<tktk::Transform2D>();
+	// プレイヤーの座標管理コンポーネントを取得
+	tktk::ComponentPtr<tktk::Transform2D> playerTransform = player->getComponent<tktk::Transform2D>();
 
+	// プレイヤーの座標管理コンポーネントが取得できなければ関数を終える
 	if (playerTransform.expired()) return;
 
 	// 自身->プレイヤーのベクトルを計算
-	auto selfToPlayer = playerTransform->getWorldPosition() + TargetOffset - m_transform->getWorldPosition();
+	tktkMath::Vector2 selfToPlayer = playerTransform->getWorldPosition() + TargetOffset - m_transform->getWorldPosition();
 
 	// 回転する角度の最大値
-	auto rotateMaxDist = tktkMath::Vector2::signedAngle(tktkMath::Vector2_v::down, selfToPlayer) - m_transform->getWorldRotationDeg();
+	float rotateMaxDist = tktkMath::Vector2::signedAngle(tktkMath::Vector2_v::down, selfToPlayer) - m_transform->getWorldRotationDeg();
 
 	// 逆回り補正
 	if (std::abs(rotateMaxDist) > 180.0f) rotateMaxDist -= tktkMath::MathHelper::sign(rotateMaxDist) * 360.0f;
 
 	// 回転する角度
-	auto rotateDist = tktkMath::MathHelper::sign(rotateMaxDist) * RotateSpeedPerSecDeg;
+	float rotateDist = tktkMath::MathHelper::sign(rotateMaxDist) * RotateSpeedPerSecDeg;
 
 	// フレーム毎の移動量に補正
 	rotateDist *= tktk::DX12Game::deltaTime();

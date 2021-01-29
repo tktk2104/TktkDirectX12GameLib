@@ -15,7 +15,8 @@ namespace
     // 砲台のオブジェクト
     inline tktk::GameObjectPtr createTop()
     {
-        auto gameObject = tktk::DX12Game::createGameObject();
+        // ゲームオブジェクトを作る
+        tktk::GameObjectPtr gameObject = tktk::DX12Game::createGameObject();
 
         // 二次元座標管理コンポーネント
         tktk::Transform2DMaker::makeStart(gameObject)
@@ -29,7 +30,7 @@ namespace
         // 戦車エネミーの砲塔の回転コンポーネント
         gameObject->createComponent<Sht2D_TankEnemyTopRotator>();
 
-        //  戦車エネミーの弾発射コンポーネント
+        // 戦車エネミーの弾発射コンポーネント
         gameObject->createComponent<Sht2D_TankEnemyNormalBulletCreator>();
 
         return gameObject;
@@ -43,7 +44,7 @@ namespace
         {
             // 長方形の衝突判定コンポーネント
             tktk::RectColliderMaker::makeStart(gameObject)
-                .rectSize({ 96.0f, 128.0f })
+                .rectSize(tktkMath::Vector2(96.0f, 128.0f))
                 .collisionGroupType(CollisionGroup::Enemy)
                 .create();
 
@@ -79,27 +80,27 @@ namespace
             // 被撃墜の煙のコンポーネント
             tktk::SpriteSpreadEffectCreatorMaker::makeStart(gameObject)
                 .spriteMaterialId(SpriteId::Spark)
-                .generateLocalPosRandomRange({ 48.0f, 48.0f })
+                .generateLocalPosRandomRange(tktkMath::Vector2(48.0f, 48.0f))
                 .generateIntervalTimeSec(0.1f)
                 .generateNumPerOnce(1)
                 .totalGenerateNum(-1)
-                .spriteBlendRate({ 1.0f, 0.5f })
+                .spriteBlendRate(tktkMath::Color(1.0f, 0.5f))
                 .setChild(false)
                 .lifeTimeSec(1.0f)
                 .moveSpeedPerSec(1024.0f)
-                .spriteScale(0.6f)
-                .spriteBlendRate({ 0.2f, 0.6f })
+                .spriteScale(tktkMath::Vector2(0.6f, 0.6f))
+                .spriteBlendRate(tktkMath::Color(0.2f, 0.6f))
                 .minGenerateAngleDeg(170.0f)
                 .maxGenerateAngleDeg(190.0f)
-                .blendRateChangeWidthPerSec({ 0.0f, -1.0f })
+                .blendRateChangeWidthPerSec(tktkMath::Color(0.0f, -1.0f))
                 .create();
 
             // 爆発のスプライトアニメーションを複数生成するコンポーネント
             tktk::SpriteSpreadEffectCreatorMaker::makeStart(gameObject)
-                .generateLocalPosRandomRange({ 128.0f, 128.0f })
+                .generateLocalPosRandomRange(tktkMath::Vector2(128.0f, 128.0f))
                 .generateIntervalTimeSec(0.2f)
                 .generateNumPerOnce(1)
-                .totalGenerateNum(10U)
+                .totalGenerateNum(10)
                 .spriteMaterialId(SpriteId::Explosion)
                 .lifeTimeSec(1.0f)
                 .moveSpeedPerSec(0.0f)
@@ -117,7 +118,8 @@ namespace
 
 tktk::GameObjectPtr Sht2D_TankEnemy::create(const tktkMath::Vector2& position, float rotate)
 {
-    auto gameObject = tktk::DX12Game::createGameObject();
+    // ゲームオブジェクトを作る
+    tktk::GameObjectPtr gameObject = tktk::DX12Game::createGameObject();
 
     // ゲームプレイシーンが終わると消えるオブジェクトを表すタグ
     gameObject->addGameObjectTag(GameObjectTag::GamePlaySceneObject);
@@ -159,50 +161,50 @@ tktk::GameObjectPtr Sht2D_TankEnemy::create(const tktkMath::Vector2& position, f
     // キャタピラから出る煙のコンポーネント（左）
     tktk::SpriteSpreadEffectCreatorMaker::makeStart(gameObject)
         .spriteMaterialId(SpriteId::Spark)
-        .generateLocalPos({ 48.0f, -48.0f })
+        .generateLocalPos(tktkMath::Vector2(48.0f, -48.0f))
         .generateIntervalTimeSec(0.1f)
         .generateNumPerOnce(1)
         .totalGenerateNum(-1)
         .setChild(false)
         .lifeTimeSec(4.0f)
         .moveSpeedPerSec(1024.0f)
-        .spriteScale(0.4f)
-        .spriteBlendRate({ 1.0f, 0.1f })
+        .spriteScale(tktkMath::Vector2(0.4f, 0.4f))
+        .spriteBlendRate(tktkMath::Color(1.0f, 0.1f))
         .minGenerateAngleDeg(170.0f)
         .maxGenerateAngleDeg(190.0f)
-        .blendRateChangeWidthPerSec({ 0.0f, -0.1f })
+        .blendRateChangeWidthPerSec(tktkMath::Color(0.0f, -0.1f))
         .create();
 
     // キャタピラから出る煙のコンポーネント（右）
     tktk::SpriteSpreadEffectCreatorMaker::makeStart(gameObject)
         .spriteMaterialId(SpriteId::Spark)
-        .generateLocalPos({ -48.0f, -48.0f })
+        .generateLocalPos(tktkMath::Vector2(-48.0f, -48.0f))
         .generateIntervalTimeSec(0.1f)
         .generateNumPerOnce(1)
         .totalGenerateNum(-1)
         .setChild(false)
         .lifeTimeSec(4.0f)
         .moveSpeedPerSec(1024.0f)
-        .spriteScale(0.4f)
-        .spriteBlendRate({ 1.0f, 0.1f })
+        .spriteScale(tktkMath::Vector2(0.4f, 0.4f))
+        .spriteBlendRate(tktkMath::Color(1.0f, 0.1f))
         .minGenerateAngleDeg(170.0f)
         .maxGenerateAngleDeg(190.0f)
-        .blendRateChangeWidthPerSec({ 0.0f, -0.1f })
+        .blendRateChangeWidthPerSec(tktkMath::Color(0.0f, -0.1f))
         .create();
 
-    // 接触時のダメージ
+    // 接触時のダメージ（接触開始時ダメージ、毎秒の接触中ダメージ）
     gameObject->createComponent<Sht2D_DamagePower>(0.0f, 10.0f);
 
-    // 戦車エネミー耐久力のコンポーネント
+    // 戦車エネミー耐久力のコンポーネント（最大耐久力）
     gameObject->createComponent<Sht2D_HealthPoint>(90.0f);
 
     // エネミーの衝突判定リアクションコンポーネント
     gameObject->createComponent<Sht2D_EnemyCollisionReaction>();
 
-    // 画面外に出たら自身を殺すコンポーネント
+    // 画面外に出たら自身を殺すコンポーネント（画面範囲の左上座標、画面範囲の右下座標）
     gameObject->createComponent<Sht2D_OutGameAreaObjectDeleter>(
-        tktkMath::Vector2(-256.0f),
-        tktk::DX12Game::getScreenSize() + tktkMath::Vector2(256.0f)
+        tktkMath::Vector2(-256.0f, -256.0f),
+        tktk::DX12Game::getScreenSize() + tktkMath::Vector2(256.0f, 256.0f)
         );
 
     // 生存ステートの準備をする

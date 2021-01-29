@@ -3,6 +3,7 @@
 
 #include <TktkDX12GameLib.h>
 
+// ゲームをクリアしたメッセージを送信するコンポーネント
 class Sht2D_GameClearMessageSender
 	: public tktk::ComponentBase
 {

@@ -3,6 +3,7 @@
 
 #include <TktkDX12GameLib.h>
 
+// ゲームクリア時のシーン遷移コンポーネント
 class Sht2D_GameClearTextScript
 	: public tktk::ComponentBase
 {

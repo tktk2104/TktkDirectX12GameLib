@@ -1,7 +1,7 @@
 #include "Sht2D_AutoRotater.h"
 
-Sht2D_AutoRotater::Sht2D_AutoRotater(float rotateSpeedPerSec)
-	: m_rotateSpeedPerSec(rotateSpeedPerSec)
+Sht2D_AutoRotater::Sht2D_AutoRotater(float rotateSpeedPerSecDeg)
+	: m_rotateSpeedPerSecDeg(rotateSpeedPerSecDeg)
 {
 }
 
@@ -17,5 +17,6 @@ void Sht2D_AutoRotater::start()
 
 void Sht2D_AutoRotater::update()
 {
-	m_transform->addLocalRotationDeg(m_rotateSpeedPerSec * tktk::DX12Game::deltaTime());
+	// –ˆ•b‚Ì‰ñ“]Šp“x•ª‚¾‚¯‰ñ“]‚³‚¹‚é
+	m_transform->addLocalRotationDeg(m_rotateSpeedPerSecDeg * tktk::DX12Game::deltaTime());
 }

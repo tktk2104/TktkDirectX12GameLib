@@ -3,6 +3,7 @@
 
 #include <TktkDX12GameLib.h>
 
+// ‘Ï‹v—Í‚ÌƒRƒ“ƒ|[ƒlƒ“ƒg
 class Sht2D_HealthPoint
 	: public tktk::ComponentBase
 {
@@ -12,22 +13,24 @@ public:
 
 public:
 
-	// ˆø”‚Ì’l‚¾‚¯HP‚ğŒ¸‚ç‚·
+	// ˆø”‚Ì’l‚¾‚¯‘Ï‹v—Í‚ğŒ¸‚ç‚·
 	void damage(float damage);
 
-	// HP‚ªƒ[ƒˆÈ‰º‚©”»’è‚·‚é
+	// ‘Ï‹v—Í‚ªƒ[ƒˆÈ‰º‚©”»’è‚·‚é
 	bool outOfHp() const;
 
-	// Œ»İ‚ÌHP‚ğæ“¾‚·‚é
+	// Œ»İ‚Ì‘Ï‹v—Í‚ğæ“¾‚·‚é
 	float getCurHp() const;
 
-	// Å‘å‚ÌHP‚ğæ“¾‚·‚é
+	// Å‘å‚Ì‘Ï‹v—Í‚ğæ“¾‚·‚é
 	float getMaxHp() const;
 
 private:
 
+	// Å‘å‘Ï‹v—Í
 	float m_maxHp;
 
+	// Œ»İ‚Ì‘Ï‹v—Í
 	float m_curHp;
 };
 #endif // !SHT_2D_HEALTH_POINT_H_

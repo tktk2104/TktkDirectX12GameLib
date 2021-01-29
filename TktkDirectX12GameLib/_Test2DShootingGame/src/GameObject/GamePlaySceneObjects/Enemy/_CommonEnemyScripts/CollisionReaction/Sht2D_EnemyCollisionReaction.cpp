@@ -6,9 +6,11 @@
 
 void Sht2D_EnemyCollisionReaction::update()
 {
-	if (m_createExplosionIntervalSecTimer < CreateExplosionIntervalTimeSec)
+	// 爆発エフェクトの出現間隔タイマーが０より大きければ
+	if (m_createExplosionIntervalSecTimer > 0.0f)
 	{
-		m_createExplosionIntervalSecTimer += tktk::DX12Game::deltaTime();
+		// カウントダウンする
+		m_createExplosionIntervalSecTimer -= tktk::DX12Game::deltaTime();
 	}
 }
 
@@ -17,20 +19,22 @@ void Sht2D_EnemyCollisionReaction::onCollisionEnter(const tktk::GameObjectPtr& o
 	// 衝突相手がプレイヤーの攻撃範囲だったら
 	if (other->containGameobjectTag(GameObjectTag::PlayerAttackRange))
 	{
-		auto otherTransform = other->getComponent<tktk::Transform2D>();
-
-		if (m_createExplosionIntervalSecTimer >= CreateExplosionIntervalTimeSec)
+		// 爆発エフェクトの出現間隔タイマーカウントが終わっていたら
+		if (m_createExplosionIntervalSecTimer <= 0.0f)
 		{
+			tktk::ComponentPtr<tktk::Transform2D> otherTransform = other->getComponent<tktk::Transform2D>();
+
 			// 爆発を生成する
 			Sht2D_Explosion::create(
-				otherTransform->getWorldPosition(),
-				tktkMath::Vector2_v::zero,
-				0.0f,
-				1U,
-				1.0f
+				otherTransform->getWorldPosition(),	// 生成座標
+				tktkMath::Vector2_v::zero,			// 生成座標のズレ幅
+				0.0f,								// 出現間隔
+				1U,									// 出現数
+				1.0f								// 爆発オブジェクトが消えるまでの時間（秒）
 			);
 
-			m_createExplosionIntervalSecTimer = 0.0f;
+			// 爆発エフェクトの出現間隔タイマーをリセット
+			m_createExplosionIntervalSecTimer = CreateExplosionIntervalTimeSec;
 		}
 
 		// 自身に被ダメージメッセージを送る
@@ -43,20 +47,23 @@ void Sht2D_EnemyCollisionReaction::onCollisionStay(const tktk::GameObjectPtr& ot
 	// 衝突相手がプレイヤーの攻撃範囲だったら
 	if (other->containGameobjectTag(GameObjectTag::PlayerAttackRange))
 	{
-		auto otherTransform = other->getComponent<tktk::Transform2D>();
-
-		if (m_createExplosionIntervalSecTimer >= CreateExplosionIntervalTimeSec)
+		// 爆発エフェクトの出現間隔タイマーカウントが終わっていたら
+		if (m_createExplosionIntervalSecTimer <= 0.0f)
 		{
+			// 衝突相手の座標管理コンポーネントを取得する
+			tktk::ComponentPtr<tktk::Transform2D> otherTransform = other->getComponent<tktk::Transform2D>();
+
 			// 爆発を生成する
 			Sht2D_Explosion::create(
-				otherTransform->getWorldPosition(),
-				tktkMath::Vector2_v::zero,
-				0.0f,
-				1U,
-				1.0f
+				otherTransform->getWorldPosition(),	// 生成座標
+				tktkMath::Vector2_v::zero,			// 生成座標のズレ幅
+				0.0f,								// 出現間隔
+				1U,									// 出現数
+				1.0f								// 爆発オブジェクトが消えるまでの時間（秒）
 			);
 
-			m_createExplosionIntervalSecTimer = 0.0f;
+			// 爆発エフェクトの出現間隔タイマーをリセット
+			m_createExplosionIntervalSecTimer = CreateExplosionIntervalTimeSec;
 		}
 
 		// 自身に被ダメージメッセージを送る

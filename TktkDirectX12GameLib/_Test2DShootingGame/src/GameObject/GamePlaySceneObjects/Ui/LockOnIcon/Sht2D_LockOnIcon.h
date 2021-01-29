@@ -3,6 +3,7 @@
 
 #include <TktkDX12GameLib.h>
 
+// ロックオンアイコンオブジェクト
 struct Sht2D_LockOnIcon
 {
 	static tktk::GameObjectPtr create();

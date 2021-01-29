@@ -3,6 +3,7 @@
 
 #include <TktkDX12GameLib.h>
 
+// 時間経過でオブジェクトを出現させるコンポーネント
 class Sht2D_ObjectSpawnerScript
 	: public tktk::ComponentBase
 {
@@ -16,6 +17,7 @@ public:
 
 private:
 
+	// 出現させるオブジェクトの種類
 	enum class SpawnObjectType
 	{
 		StreamingLine,
@@ -27,23 +29,31 @@ private:
 
 private:
 
+	// 出現させるオブジェクトの情報
 	struct SpawnObjectData
 	{
-		float				spawnTime;
+		// 出現時間（秒）
+		float				spawnTimeSec{};
 
-		SpawnObjectType		objectType;
+		// 出現するオブジェクトの種類
+		SpawnObjectType		objectType{};
 
-		tktkMath::Vector2	spawnPos;
+		// 出現座標
+		tktkMath::Vector2	spawnPos{};
 
-		float				spawnRotate;
+		// 出現時回転（度数法）
+		float				spawnRotateDeg{};
 	};
 
 private:
 
+	// 現在の経過時間
 	float m_curTime{ 0.0f };
 
+	// 現在の総出現数
 	size_t m_curSpawnObjectCount{ 0U };
 
+	// 出現データの配列
 	std::vector<std::unique_ptr<SpawnObjectData>> m_spawnObjectDataArray;
 };
 #endif // !SHT_2D_OBJECT_SPAWNER_SCRIPT_H_

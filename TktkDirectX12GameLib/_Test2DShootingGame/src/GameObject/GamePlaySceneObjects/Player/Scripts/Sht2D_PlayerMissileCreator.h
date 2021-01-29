@@ -5,6 +5,7 @@
 #include <TktkMath/Structs/Vector2.h>
 #include "Sht2D_PlayerBulletCount.h"
 
+// プレイヤーミサイル発射コンポーネント
 class Sht2D_PlayerMissileCreator
 	: public tktk::ComponentBase
 {
@@ -19,8 +20,10 @@ public:
 
 private:
 
+	// ロックオン対象の配列を取得する（ロックオン範囲内で最もプレイヤーから近い敵から順に要素数“maxFindNum”の配列、取得できなければ空のオブジェクトポインタが返る）
 	std::vector<tktk::GameObjectPtr> findForwardLockOnEnemy(size_t maxFindNum) const;
 
+	// ミサイルを発射する
 	void shotMissile();
 
 private:
@@ -57,6 +60,7 @@ private:
 	// 発射間隔タイマー
 	float m_shotIntervalSecTimer{ 0.0f };
 
+	// ロックオンアイコンオブジェクトの配列
 	std::array<tktk::GameObjectPtr, 2U>			m_lockOnIconObjectArray;
 
 	tktk::ComponentPtr<tktk::Transform2D>		m_transform;

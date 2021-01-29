@@ -3,6 +3,7 @@
 
 #include <TktkDX12GameLib.h>
 
+// 拡散弾エネミーオブジェクト
 struct Sht2D_SpreadBulletEnemy
 {
 	static tktk::GameObjectPtr create(const tktkMath::Vector2& position, float rotate);

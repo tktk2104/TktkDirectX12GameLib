@@ -1,6 +1,7 @@
 #ifndef SPREAD_BULLET_ENEMY_STATE_H_
 #define SPREAD_BULLET_ENEMY_STATE_H_
 
+// 拡散弾エネミーの状態の種類
 enum class SpreadBulletEnemyState
 {
 	/* 基本ステート */

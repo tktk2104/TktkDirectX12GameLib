@@ -331,6 +331,7 @@
     <ClInclude Include="src\Scene\StageScene\Sht2D_Stage1Scene.h" />
     <ClInclude Include="src\Scene\StageScene\Sht2D_Stage2Scene.h" />
     <ClInclude Include="src\Scene\StageScene\Sht2D_Stage3Scene.h" />
+    <ClInclude Include="tutorialText\tutorialText.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -3,6 +3,7 @@
 
 #include <TktkDX12GameLib.h>
 
+// 基地の背景生成停止オブジェクト
 struct Sht2D_BaseBackGroundSpawnStopper
 {
 	static tktk::GameObjectPtr create();

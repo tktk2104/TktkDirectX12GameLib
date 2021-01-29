@@ -10,7 +10,7 @@
 
 namespace
 {
-    // 待機ステートの準備をする
+    // 待機ステートの準備をする（プレイヤーボムオブジェクト、ボム起動時間）
     inline void setupIdleState(tktk::GameObjectPtr gameObject, float activeTimeSec)
     {
         //  待機ステートに追加する設定を行う
@@ -22,6 +22,7 @@ namespace
                 .blendRate(tktkMath::Color_v::red)
                 .create();
 
+            // プレイヤーボムのアクティブタイマーコンポーネント（ボム起動時間）
             gameObject->createComponent<Sht2D_PlayerBombActiveTimer>(activeTimeSec);
         }
         // 特定の状態に追加する設定を解除する
@@ -65,7 +66,8 @@ namespace
 
 tktk::GameObjectPtr Sht2D_PlayerBomb::create(const tktkMath::Vector2& position, float rotate, float moveSpeedPerSec, float activeTimeSec)
 {
-    auto gameObject = tktk::DX12Game::createGameObject();
+    // ゲームオブジェクトを作る
+    tktk::GameObjectPtr gameObject = tktk::DX12Game::createGameObject();
 
     // ゲームプレイシーンが終わると消えるオブジェクトを表すタグ
     gameObject->addGameObjectTag(GameObjectTag::GamePlaySceneObject);
@@ -89,7 +91,7 @@ tktk::GameObjectPtr Sht2D_PlayerBomb::create(const tktkMath::Vector2& position, 
     tktk::Transform2DMaker::makeStart(gameObject)
         .initPosition(position)
         .initRotationDeg(rotate)
-        .initScaleRate(0.5f)
+        .initScaleRate(tktkMath::Vector2(0.5f, 0.5f))
         .create();
 
     // 二次元慣性移動コンポーネント
@@ -102,7 +104,7 @@ tktk::GameObjectPtr Sht2D_PlayerBomb::create(const tktkMath::Vector2& position, 
         .spriteMaterialId(SpriteId::BompFrame)
         .create();
 
-    // 接触時のダメージ
+    // 接触時のダメージ（接触開始時ダメージ、毎秒の接触中ダメージ）
     gameObject->createComponent<Sht2D_DamagePower>(30.0f, 0.0f);
 
     // 前方に移動するコンポーネント（毎秒移動速度, 毎秒加速速度）
@@ -110,14 +112,14 @@ tktk::GameObjectPtr Sht2D_PlayerBomb::create(const tktkMath::Vector2& position, 
 
     // 画面外に出たら自身を殺すコンポーネント
     gameObject->createComponent<Sht2D_OutGameAreaObjectDeleter>(
-        tktkMath::Vector2(-256.0f),
-        tktk::DX12Game::getScreenSize() + tktkMath::Vector2(256.0f)
+        tktkMath::Vector2(-256.0f, -256.0f),
+        tktk::DX12Game::getScreenSize() + tktkMath::Vector2(256.0f, 256.0f)
         );
 
-    // 起爆用コンポーネント
+    // 起爆用コンポーネント（接触開始時ダメージ、毎秒の接触中ダメージ）
     gameObject->createComponent<Sht2D_PlayerBombExplode>(200.0f, 500.0f);
 
-    // 待機ステートの準備をする
+    // 待機ステートの準備をする（プレイヤーボムオブジェクト、ボム起動時間）
     setupIdleState(gameObject, activeTimeSec);
 
     // アクティブステートの準備をする

@@ -3,6 +3,7 @@
 
 #include <TktkDX12GameLib.h>
 
+// 起爆用コンポーネント
 class Sht2D_PlayerBombExplode
 	: public tktk::ComponentBase
 {
@@ -20,9 +21,12 @@ public:
 
 private:
 
-	tktk::ComponentPtr<tktk::Transform2D> m_transform;
-
+	// 接触開始時ダメージ
 	float m_startHitPower;
+
+	// 毎秒の接触中ダメージ
 	float m_stayHitPowerPerSec;
+
+	tktk::ComponentPtr<tktk::Transform2D> m_transform;
 };
 #endif // !SHT_2D_PLAYER_BOMB_EXPLODE_H_

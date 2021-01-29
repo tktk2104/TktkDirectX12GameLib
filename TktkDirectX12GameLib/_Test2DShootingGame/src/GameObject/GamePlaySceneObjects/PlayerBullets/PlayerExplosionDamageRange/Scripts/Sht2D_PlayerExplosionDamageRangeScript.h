@@ -3,6 +3,7 @@
 
 #include <TktkDX12GameLib.h>
 
+// 一定時間後に自身を殺すコンポーネント
 class Sht2D_PlayerExplosionDamageRangeScript
 	: public tktk::ComponentBase
 {
@@ -18,7 +19,7 @@ public:
 
 private:
 
-	float m_deadTimeSec;
-	float m_deadSecTimer{ 0.0f };
+	// 攻撃範囲消滅タイマー（秒）
+	float m_deadSecTimer;
 };
 #endif // !SHT_2D_PLAYER_EXPLOSION_DAMAGE_RANGE_SCRIPT_H_

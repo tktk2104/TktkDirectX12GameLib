@@ -5,8 +5,10 @@
 
 tktk::GameObjectPtr Sht2D_BaseBackGroundSpawnStopper::create()
 {
-    auto gameObject = tktk::DX12Game::createGameObject();
+    // ゲームオブジェクトを作る
+    tktk::GameObjectPtr gameObject = tktk::DX12Game::createGameObject();
 
+    // 基地の背景生成停止コンポーネント
     gameObject->createComponent<Sht2D_BaseBackGroundSpawnStopperScript>();
 
     return gameObject;

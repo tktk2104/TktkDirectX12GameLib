@@ -12,8 +12,10 @@ tktk::GameObjectPtr Sht2D_Explosion::create(
     float effectEndTimeSec
     )
 {
-    auto gameObject = tktk::DX12Game::createGameObject();
+    // ゲームオブジェクトを作る
+    tktk::GameObjectPtr gameObject = tktk::DX12Game::createGameObject();
 
+    // 二次元座標管理コンポーネント
     tktk::Transform2DMaker::makeStart(gameObject)
         .initPosition(position)
         .create();

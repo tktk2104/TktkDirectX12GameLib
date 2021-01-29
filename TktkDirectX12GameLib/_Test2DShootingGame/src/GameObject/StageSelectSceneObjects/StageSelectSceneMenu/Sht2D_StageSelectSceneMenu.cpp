@@ -5,7 +5,8 @@
 
 tktk::GameObjectPtr Sht2D_StageSelectSceneMenu::create()
 {
-    auto gameObject = tktk::DX12Game::createGameObject();
+    // ゲームオブジェクトを作る
+    tktk::GameObjectPtr gameObject = tktk::DX12Game::createGameObject();
 
     // ステージセレクトシーンが終わると消えるオブジェクトを表すタグ
     gameObject->addGameObjectTag(GameObjectTag::StageSelectSceneObject);

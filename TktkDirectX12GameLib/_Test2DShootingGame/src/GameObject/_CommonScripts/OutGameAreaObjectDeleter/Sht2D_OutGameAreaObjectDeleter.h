@@ -3,6 +3,7 @@
 
 #include <TktkDX12GameLib.h>
 
+// 画面外に出たら自身を殺すコンポーネント
 class Sht2D_OutGameAreaObjectDeleter
 	: public tktk::ComponentBase
 {
@@ -17,8 +18,11 @@ public:
 
 private:
 
-	tktkMath::Vector2 m_gameAreaLeftTopPos		{         - 128.0f,         - 128.0f };
-	tktkMath::Vector2 m_gameAreaRightBottomPos	{ 1920.0f + 128.0f, 1080.0f + 128.0f };
+	// 画面範囲の左上座標
+	tktkMath::Vector2 m_gameAreaLeftTopPos;
+
+	// 画面範囲の右下座標
+	tktkMath::Vector2 m_gameAreaRightBottomPos;
 
 	tktk::ComponentPtr<tktk::Transform2D> m_transform;
 };

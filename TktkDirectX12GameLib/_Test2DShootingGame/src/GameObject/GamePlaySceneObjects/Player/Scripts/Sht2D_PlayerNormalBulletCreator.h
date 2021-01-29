@@ -3,6 +3,7 @@
 
 #include <TktkDX12GameLib.h>
 
+// プレイヤー通常弾発射コンポーネント
 class Sht2D_PlayerNormalBulletCreator
 	: public tktk::ComponentBase
 {
@@ -17,12 +18,15 @@ public:
 
 private:
 
-	constexpr static float BulletSpeedPerSec{ 1024.0f };
+	// 弾の発射速度
+	constexpr static float BulletSpeedPerSec	{ 1024.0f };
 
-	constexpr static float ShotIntervalTimeSec{ 0.1f };
+	// 弾の発射間隔（秒）
+	constexpr static float ShotIntervalTimeSec	{ 0.1f };
 
 private:
 
+	// 弾の発射間隔タイマー（秒）
 	float m_shotIntervalSecTimer{ 0.0f };
 
 	tktk::ComponentPtr<tktk::Transform2D> m_transform;

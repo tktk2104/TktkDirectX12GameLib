@@ -14,10 +14,11 @@ void Sht2D_SpreadBulletEnemyCombatStarter::start()
 
 void Sht2D_SpreadBulletEnemyCombatStarter::update()
 {
+	// 自身のｙ座標が指定以上になったら
 	if (m_transform->getWorldPosition().y > StartCombatYPos)
 	{
+		// 自身の状態を入場状態から戦闘状態に遷移させる
 		getGameObject()->stateDisable(SpreadBulletEnemyState::Entry);
-
 		getGameObject()->stateEnable(SpreadBulletEnemyState::Combat);
 	}
 }

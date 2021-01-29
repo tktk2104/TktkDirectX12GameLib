@@ -77,27 +77,36 @@ void Sht2D_PlayerMissileCreator::update()
 		// 入力時間タイマーをカウントアップ
 		m_pushingSecTimer += tktk::DX12Game::deltaTime();
 
-		// ロックオンが終わっていなければ
+		// ロックオン完了時間に達していなければ
 		if (m_pushingSecTimer < MissileLockOnTimeSec)
 		{
-			// ロックオンアイコンを収縮させる
+			// ロックオンアイコンオブジェクトの配列をループする
 			for (tktk::GameObjectPtr& lockOnIconObject : m_lockOnIconObjectArray)
 			{
+				// ロックオンアイコンが存在しなかったら次の要素へ
 				if (lockOnIconObject.expired()) continue;
 
-				lockOnIconObject->getComponent<tktk::Transform2D>()->setLocalScaleRate({ 1.0f - (m_pushingSecTimer / MissileLockOnTimeSec) });
+				// ロックオンアイコンを収縮する
+				lockOnIconObject->getComponent<tktk::Transform2D>()->setLocalScaleRate(tktkMath::Vector2(1.0f - (m_pushingSecTimer / MissileLockOnTimeSec)));
 			}
 		}
+		// ロックオン完了フラグが立っていなければ
 		else if (!m_lockOnReady)
 		{
+			// ロックオンアイコンオブジェクトの配列をループする
 			for (tktk::GameObjectPtr& lockOnIconObject : m_lockOnIconObjectArray)
 			{
+				// ロックオンアイコンが存在しなかったら次の要素へ
 				if (lockOnIconObject.expired()) continue;
 
+				// ロックオンアイコンのスケールを元に戻す
 				lockOnIconObject->getComponent<tktk::Transform2D>()->setLocalScaleRate(tktkMath::Vector2_v::one);
+
+				// ロックオンアイコンの描画スプライトを“ロック完了画像”に変更する
 				lockOnIconObject->getComponent<tktk::SpriteDrawer>()->setSpriteMaterialId(SpriteId::LockOnReady);
 			}
 
+			// ロックオン完了フラグを立てる
 			m_lockOnReady = true;
 		}
 	}
@@ -111,8 +120,10 @@ void Sht2D_PlayerMissileCreator::update()
 		// 入力時間タイマーをリセットする
 		m_pushingSecTimer = 0.0f;
 
+		// ロックオンアイコンオブジェクトの配列をループする
 		for (tktk::GameObjectPtr& lockOnIconObject : m_lockOnIconObjectArray)
 		{
+			// ロックオンアイコンが存在したらそれを削除する
 			if (!lockOnIconObject.expired()) lockOnIconObject->destroy();
 		}
 	}
@@ -120,6 +131,7 @@ void Sht2D_PlayerMissileCreator::update()
 
 std::vector<tktk::GameObjectPtr> Sht2D_PlayerMissileCreator::findForwardLockOnEnemy(size_t maxFindNum) const
 {
+	// 見つけた敵の情報
 	struct FindEnemyParam
 	{
 		tktk::GameObjectPtr object;
@@ -151,9 +163,10 @@ std::vector<tktk::GameObjectPtr> Sht2D_PlayerMissileCreator::findForwardLockOnEn
 		// 敵との距離を計算する
 		float selfEnemyPosDist = tktkMath::Vector2::distance(m_transform->getWorldPosition(), enemyTransform->getWorldPosition());
 
-		// 検索結果最大数に達していなければ問答無用で追加する
+		// 検索結果最大数に達していなければ
 		if (refEnemyCount++ < maxFindNum)
 		{
+			// 問答無用で追加する
 			findEnemyParamList.push_front({ enemy, selfEnemyPosDist, enemyTransform->getWorldPosition() });
 		}
 		else

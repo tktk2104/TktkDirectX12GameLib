@@ -3,6 +3,7 @@
 
 #include <TktkDX12GameLib.h>
 
+// 基地の背景オブジェクトスポナー
 struct Sht2D_BaseBackGroundSpawner
 {
 	static tktk::GameObjectPtr create();
